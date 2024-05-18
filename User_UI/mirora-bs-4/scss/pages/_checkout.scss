@@ -1,0 +1,120 @@
+/*****************************
+44. Checkout CSS
+*****************************/
+
+.user-actions{
+	&__form{
+		background: $bg-color-2;
+	}
+	&__single{
+		h3{
+			background-color: $bg-color-2;
+			border-top: 3px solid $primary-color;
+			padding: 2rem 1.5rem;
+			font-weight: 400;
+			color: $heading-color;
+			font-size: 1.5rem;
+			margin-bottom: 2rem;
+
+			span{
+				color: $body-color;
+				cursor: pointer;
+			}
+			i{
+				padding-right: 1rem;
+				color: $primary-color;
+			}
+		}
+	}
+
+	&__form{
+		border: 1px solid $border-color;
+		border-radius: 3px;
+		padding: 2rem 1.5rem 1.5rem;
+		margin-bottom: 2rem;
+	}
+	&--coupon{
+		padding: 2rem;
+		@include border-radius(5px);
+	}
+}
+
+
+
+.checkout{
+	&-wrapper{
+		padding: 1.5rem;
+	}
+	&-title{
+		h2{
+		    border-bottom: 1px solid $border-color;
+		    font-size: 2rem;
+		    margin: 0 0 2rem;
+		    padding-bottom: 1rem;
+		}
+	}
+}
+.new-account{
+	padding-top: 2rem;
+}
+.order-details{
+	background-color: $color-dark-3;
+	padding: 3rem 4rem;
+	.heading-tertiary{
+	    margin: 0 0 2rem;
+	    padding-bottom: 1rem;
+	    border-bottom: 1px solid $border-color;
+	}
+}
+.payment{
+	&-form{
+
+	}
+	&-group{
+		margin-bottom: 2rem;
+	}
+	&-label{
+		color: $body-color;
+		img{
+			max-height: 5.2rem;
+			margin: 0 1rem;
+		}
+		a{
+			font-size: 1.2rem;
+			color: $color-red;
+		}
+	}
+	&-radio{
+		input{
+			margin-right: 1.6rem;
+		}
+		label{
+
+		}
+	}
+	&-info{
+		padding-top: .8rem;
+		padding-left: 3.3rem;
+		p{
+			font-size: 1.4rem;
+		}
+	}
+}
+.terms-condition-label{
+	a{
+		font-size: 1.8rem;
+		font-weight: 500;
+		font-family: $heading-font;
+		&:hover{
+			text-decoration: underline;
+		}
+	}
+}
+.shipping-method{
+	@include flexbox;
+	@include flex-direction(column);
+	@include align-items(center);
+	.custom-radio{
+		width: 15rem; 
+	}
+}

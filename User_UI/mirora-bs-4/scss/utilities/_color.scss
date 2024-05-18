@@ -1,0 +1,148 @@
+/*****************************
+03. Color CSS
+*****************************/
+
+%primary-color{
+	color: $primary-color;
+}
+%primary-bg-color{
+	background-color: $primary-color;
+}
+%primary-border-color{
+	border-color: $primary-color;
+}
+%white-color{
+	color: $color-white;
+}
+%white-bg-color{
+	background-color: $color-white;
+}
+%white-border-color{
+	border-color: $color-white;
+}
+%body-color{
+	color: $body-color;
+}
+%body-bg{
+	background-color: $bg-color;
+}
+%brand-color{
+	color: $brand-color;
+}
+%brand-bg-color{
+	background-color: $brand-color;
+}
+%brand-border-color{
+	border-color: $brand-color;
+}
+
+// Color
+.color--primary{
+	color: $primary-color !important;
+}
+.color--light{
+	color: $color-light !important;
+}
+.color--black{
+	color: $color-black !important;
+}
+.color--white{
+	color: $color-white !important;
+}
+.color--dark{
+	color: $color-dark !important;
+}
+.color--dark-1{
+	color: $color-dark-1 !important;
+}
+.color--dark-2{
+	color: $color-dark-2 !important;
+}
+.color--dark-3{
+	color: $color-dark-3 !important;
+}
+.color--dark-4{
+	color: $color-dark-4 !important;
+}
+
+
+// Background
+.bg--1{
+	background-color: $bg-color;
+}
+.bg--2{
+	background-color: $bg-color-2;
+}
+.bg--white{
+	background-color: $color-white;
+}
+.bg--white-dark{
+	background-color: $color-white-dark;
+}
+.bg--light{
+	background-color: $color-light;
+}
+.bg--dark{
+	background-color: $color-dark;
+}
+.bg--dark-2{
+	background-color: $color-dark-2;
+}
+.bg--dark-3{
+	background-color: $color-dark-3;
+}
+.bg--dark-4{
+	background-color: $color-dark-4;
+}
+.bg--dark-5{
+	background-color: $color-dark-5;
+}
+.bg--black{
+	background-color: $color-black;
+}
+.bg--shaft{
+	background-color: $bg-color;
+}
+.bg--blue{
+	background-color: $color-blue;
+}
+.bg--gray{
+	background-color: $color-gray;
+}
+.bg--gray-2{
+	background-color: $color-gray-2;
+}
+.bg--gray-3{
+	background-color: $color-gray-3;
+}
+.bg--gray-4{
+	background-color: $color-gray-4;
+}
+.bg--dark{
+	background-color: $color-dark;
+}
+.bg--dark-2{
+	background-color: $color-dark-2;
+}
+.bg--dark-3{
+	background-color: $color-dark-3;
+}
+.bg--dark-4{
+	background-color: $color-dark-4;
+}
+.bg--zircon-light{
+	background-color: $color-white-light-1;
+}
+.yellow-dark-bg{
+	background-color: $color-yellow-dark;
+}
+.green-dark-bg{
+	background-color: $color-green-dark;
+}
+.primary-bg{
+	@extend %primary-bg-color
+}
+.brand-bg{
+	@extend %brand-bg-color
+}
+

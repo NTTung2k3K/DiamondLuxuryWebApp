@@ -1,0 +1,146 @@
+/*****************************
+29. Tabs CSS
+*****************************/
+
+/****************************
+Product tab
+****************************/
+.product-tab{
+	&__head{
+		margin-bottom: 3rem;
+		@include justify-content(center);
+		border-bottom: none;
+		@extend %posrelative;
+		background: $bg-color;
+		@include breakpoint(medium) {
+			margin-bottom: 2.3rem;
+		}
+		@include breakpoint(xsmall){
+			@include flex-direction(column);
+		}
+		&:before{
+			@extend %pseudo;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			background: url(../img/others/line_title.png) no-repeat center;
+			@include breakpoint(xsmall){
+				display: none;
+			}
+		}
+	}
+	&__item{
+	    position: relative;
+	    margin: 0 -1px;
+	    z-index: 1;
+	    &.active{
+	    	z-index: 2;
+	    }
+    	&:not(:last-child){	
+		    @include breakpoint(xsmall){
+				margin-bottom: 1.5rem;
+		    }
+    	}
+	}
+	&__link{
+		&.nav-link{
+		    font-size: 1.8rem;
+		    @extend %white-color;
+		    line-height: 4.6rem;
+		    text-transform: capitalize;
+		    font-weight: 400;
+		    cursor: pointer;
+		    display: inline-block;
+		    height: 5rem;
+		    font-family: $heading-font;
+		    padding: 0 3rem;
+		    background: $bg-color;
+		    border: 2px solid $border-color;
+		    border-radius: 2px;
+		    @include breakpoint(small){
+		    	padding: 0 2rem;
+		    	font-size: 1.6rem;
+		    	height: 4.5rem;
+		    	line-height: 3.9rem;
+		    }
+		    &:hover{
+		    	@extend %primary-color;
+		    	border-color: $border-color;
+		    }
+		    &.active{
+		    	background-color: $bg-color;
+		    	@extend %primary-border-color;
+		    	@extend %primary-color;
+		    }
+		}
+	}
+}
+
+.tab-pane.active{
+	.mirora-product{
+		animation: zoomIn .3s;
+	}
+}
+
+/****************************
+User Dashboard tab
+****************************/
+
+.user-dashboard-tab{
+	&__head{
+
+		border: 1px solid $border-color;
+		background-color: $bg-color-2;
+		padding: 2rem 3rem;
+		.nav-link{
+			&:not(:last-child){
+				border-bottom: 1px solid $border-color;
+			}
+			padding: 1.5rem 0;
+			font-size: 1.5rem;
+			color: $heading-color;
+			position: relative;
+			text-align: left;
+			background-color: transparent;
+			border: none;
+			&.active{
+				@extend %primary-color;
+			}
+		}
+	}
+
+	&__content{
+		p{
+			line-height: 1.6;
+			font-size: 1.5rem;
+			a{
+				color: $color-red-light;
+			}
+		}
+		h3{
+			border-bottom: 1px solid $color-light-3;
+			font-size: 2.4rem;
+			margin-bottom: 2rem;
+			padding-bottom: 1.5rem;
+			text-transform: capitalize;
+		}
+		table{
+			width: 100%;
+			th{
+				font-weight: 700;
+				font-size: 1.4rem;
+				border-bottom: 1px solid $color-light-3;
+				padding: 1rem;
+			}
+			td{
+				padding: 1rem;
+				vertical-align: middle;
+			}
+		}
+		h4{
+			font-size: 1.8rem;
+			margin: 2rem 0;
+		}
+	}
+}

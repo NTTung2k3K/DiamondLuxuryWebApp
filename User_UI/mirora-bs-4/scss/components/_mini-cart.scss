@@ -1,0 +1,188 @@
+/*****************************
+21. Mini Cart CSS
+*****************************/
+
+.mini-cart{
+	position: relative;
+ 
+	&__dropdown-toggle:not([href]):not([tabindex]){
+	    cursor: pointer;
+	    position: relative;
+	    @include flexbox;
+	    @include align-items(center);
+	    line-height: 4.5rem;
+	}
+	&__icon{
+	    font-size: 2rem;
+	    color: #fff;
+	    display: inline-block;
+	    line-height: 1.2;
+	    border-right: 1px solid #323232;
+	    padding: 0 1rem 0 1.7rem;
+	}
+	&__count{
+	    position: absolute;
+	    left: -1.3rem;
+	    font-size: 1.2rem;
+	    top: 50%;
+	    @include textBoxCenter(26);
+	    margin-top: -13px;
+	    padding: 0;
+	    background: $primary-color;
+	    border-radius: 50%;
+	    color: #fff;
+	}
+	&__ammount{
+		padding: 0 1.3rem 0 1rem;
+		i{
+			@extend %primary-color;
+		}
+	}
+	&__dropdown-menu{
+		min-width: 34rem;
+		width: 100%;
+		top: 5.6rem !important;
+		@extend %dropdowncommon;
+		position: absolute;
+		background-color: $bg-color-2;
+		z-index: 9999999;
+		display: none;	
+    	color: #fff;
+    	padding: 0;
+		@include box-shadow(0 0 50px 0 rgba(0,0,0,0.1));
+
+		&:before{
+			@extend %pseudo;
+			right: 1.5rem;
+			top: -1.4rem;
+			border: 7px solid;
+			border-color: transparent transparent #343434 transparent;
+		}
+		.slimScrollDiv{
+			height: 100% !important;
+			max-height: 56rem;
+			@include breakpoint(xsmall){
+				height: 30rem !important;
+			}
+		}
+
+		@include breakpoint(medium){
+			top: 5.3rem !important;
+		}		
+		@include breakpoint(xsmall){
+			top: 5.6rem !important;
+		}	
+		@include breakpoint(xxsmall){
+			min-width: 28rem;
+		}		
+	}
+	&__content{
+    	padding: 1rem 3.5rem 0 3.5rem;
+    	height: 100% !important;
+    	max-height: 56rem;
+    	@include breakpoint(xsmall){
+    		height: 30rem !important;
+    		padding: 1rem 2rem 0 2rem;
+    	}
+	}
+	&__item{
+		&--single{
+			@include flexbox;
+			@include align-items(flex-start);
+			@include justify-content(space-between);
+			background: url(../img/others/line2.png) bottom center no-repeat;
+			padding-bottom: 2rem;
+			padding-top: 2rem;
+		}
+		&--image{
+			@include flex-basis(8rem);
+			max-width: 8rem;
+			height: 8rem;
+			@include breakpoint(xsmall){
+				@include flex-basis(5rem);
+				max-width: 7rem;
+				height: auto;
+			}
+		}
+		&--content{
+			@include flex-basis(calc(100% - 8rem));
+			text-align: left;
+			padding-left: 1rem;
+			padding-right: 1.5rem; 
+			@include breakpoint(xsmall){
+				@include flex-basis(calc(100% - 7rem));
+			}	
+			p{
+				margin: 0;
+			}
+		}
+		&--name{
+			margin-bottom: .5rem;
+			font-size: 1.4rem;
+			line-height: 1.6;
+			font-weight: 400;
+			text-transform: capitalize;
+			margin: 0;
+			a{
+				color: #fff;
+			}	
+		}
+		&--quantity{
+		    color: $body-color;
+		    padding: 5px 0;
+		    font-size: 1.2rem;
+		}
+		&--price{
+		    font-size: 1.4rem;
+		    font-weight: 500;
+		    color: $primary-color;
+		    padding-top: 2px;
+		}
+		&--remove{
+			color: $body-color;
+			font-size: 1.7rem;
+		}
+	}
+	&__calculation{
+		margin: 2rem 0;
+		p{
+			margin: 0;
+			@include flexbox;
+			@include justify-content(space-between);
+			line-height: 1.4;
+		}
+		&--item{
+			text-align: left;
+			color: #fff;
+			text-transform: capitalize;
+			font-size: $body-font-size;
+			font-family: $heading-font;
+		}
+		&--ammount{
+			text-align: right;
+			color: $primary-color;
+			font-size: $body-font-size;
+			font-weight: 500;
+		}
+	}
+	&__btn{
+		margin: 0 -3.5rem;
+		padding: 2.5rem 3.5rem;
+		background-color: $bg-color;
+		@include breakpoint(xxsmall){
+			margin: 0 -2rem;
+			padding: 2rem;
+		}
+		a{
+			&:not(:last-child){
+				margin-bottom: 1.5rem;
+			}
+		}
+	}
+
+	&--2{
+		.mini-cart__dropdown-menu{
+			top: 5.8rem !important;			
+		}
+	}
+}

@@ -1,0 +1,873 @@
+/*****************************
+02. Helper CSS
+*****************************/
+
+
+
+// Layout
+
+.container{
+	@include breakpoint(xlargeonly){
+		max-width: 120rem;		
+	}
+}
+.container-full{
+	max-width: auto;
+	padding: 0 3rem;
+}
+.logo-box{
+	display: block;
+}
+.section-padding{
+	padding: 4rem 0;
+}
+.section-md-padding{
+	@include breakpoint(medium){
+		padding: 3rem 0;
+	}
+}
+
+.line{
+	border-color: $border-color;
+	margin: 0;
+	&-black{
+		border-color: rgba(0,0,0,.1);
+	}
+}
+.text-block {
+	p{
+		&:last-child{
+			margin-bottom: 0;
+		} 
+	}
+}
+
+.scroll-to-top{
+	@extend %primary-bg-color;
+    position: fixed;
+    right: 3rem;
+    bottom: 3rem;
+    overflow: hidden;
+    z-index: 999;
+    @extend %white-color;   
+    width: 6.5rem;
+    height: 65px;
+    line-height: 6.5rem;
+    border-radius: 3px;
+    display: block;
+    text-align: center;
+    font-size: 3rem;
+    @include transform(rotate(45deg));
+    @include transition(all .5s ease-in-out);
+    &:hover{
+    	color: #fff !important;
+    }
+    i{
+    	@include transform(rotate(-45deg));	
+    }
+}
+.login-register-area{
+	padding-top: 7.5rem;
+	padding-bottom: 8rem;
+}
+.custom-row{
+	margin-left: -5px;
+	margin-right: -5px;
+	> [class*="col"]{
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+}
+.hide-in-default{
+	display: none;
+}
+.hide-in-default-md{
+	@include breakpoint(medium){
+		display: none;
+	}
+}
+.ov-hidden{
+	overflow: hidden;
+}
+.in-stock{
+	color: $color-green;
+}
+.out-stock{
+	color: $color-red;
+}
+.regular-price{
+	text-decoration: line-through;
+}
+.regular-price, .sale-price{
+	display: inline-block;
+}
+.no-radius{
+	@include border-radius(0);
+}
+
+// Breadcumb
+
+.breadcrumb-area{
+	padding-top: 4rem;
+	padding-bottom: 3.7rem;
+	@include breakpoint(medium){
+		padding-top: 3rem;
+		padding-bottom: 2.7rem;		
+	}
+	.page-title{
+		font-size: 4.8rem;
+		text-transform: capitalize;
+		@include breakpoint(small){
+			font-size: 4rem;
+		}
+		@include breakpoint(xsmall){
+			font-size: 3rem;
+		}
+	}
+	.breadcrumb{
+		margin-bottom: 0;
+		background-color: transparent;
+		padding: 0;
+		li{
+			@extend %posrelative;
+			display: inline-block;
+			&:not(:last-child){
+				padding-right: 1.2rem;
+				margin-right: .5rem;
+				&:after{
+					@extend %posabsolute;
+					content: '/';
+					right: 0;
+					top: 1px; 
+					@extend %body-color;
+				}
+			}
+			&.current{
+				a{
+					@extend %primary-color;
+				}
+			}
+			a{
+				@extend %body-color;
+				font-size: 1.5rem;
+				&:hover{
+					@extend %primary-color;
+				}
+			}
+		}
+	}	
+}
+
+// tooltip
+
+.tooltip{
+	@include breakpoint(small){
+		display: none;
+	}
+	&-inner{
+		@extend %primary-bg-color;
+		padding: 5px 10px;
+		font-size: 1.4rem;
+	}
+	.arrow{
+		&:before, 
+		&:after{
+			border-left-color: transparent;
+			border-right-color: transparent;
+			border-top-color: $primary-color;
+		}
+	}
+}
+.google-map{
+	height: 45rem;
+}
+.pagination{
+	&-wrap{
+		@include flexbox;
+		@include align-items(center);
+		@include justify-content(space-between);
+		padding: 1rem 3rem;
+		border: 1px solid $border-color;
+		@include breakpoint(small){
+			padding: 1rem 2rem;
+		}
+		@include breakpoint(xsmall){
+			@include flex-direction(column);
+			@include justify-content(center);
+		}
+
+		.page-ammount{
+			margin-bottom: 0;
+			@include breakpoint(xsmall){
+				margin-bottom: 1rem;
+			}
+		}
+	}
+	background: transparent;
+	@include justify-content(flex-end);
+	li{
+		&:not(:last-child){
+			margin-right: 1rem;
+		}
+		a{
+			@include borderIconCenter(32,0);
+			@extend %body-color;
+			@include border-radius(5px);
+			display: inline-block;
+			background-color: $bg-color-2;
+			&:hover,
+			&.current{
+				@extend %primary-bg-color;
+				color: #fff !important;
+			}
+		}
+	}
+}
+.gallery-row{
+    margin-right: -10px;
+    margin-left: -10px;
+	
+	[class^="col-"]{
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+}
+/**********************
+Quantity
+***********************/
+.quantity{
+	position: relative;
+	margin-right: 1.5rem;
+	width: 11rem;
+	@include box-shadow(0 0 0 rgba(0,0,0,0));
+	span{
+		display: inline-block;
+		padding-right: 1rem;
+	}
+	&-input{
+		background-color: $color-dark-3;
+		width: 5rem;
+		height: 5rem;
+		font-size: 1.6rem;
+		color: $body-color;
+		border: 1px solid $border-color;
+		border-right: none;
+		padding: 0 2rem;
+		@include border-radius(5px 0px 0px 5px);
+		@include appearance(none);
+	}
+	.qtybutton {
+		position: absolute;
+		right: 0;
+	    width: 1.8rem;
+	    height: 2.5rem;
+	    line-height: 2.5rem;
+		border: 1px solid $border-color;
+		text-align: center;
+		cursor: pointer;
+		@include transition(all .3s ease-in);
+	    &:hover, &:focus{
+	    	background-color: transparent;
+	    }
+	    &.inc{
+			top: 0;
+			border-bottom: none;
+			@include border-radius(0px 5px 0px 0px);	  
+	    }
+	    &.dec{
+			bottom: 0;	  
+			@include border-radius(0px 0px 5px 0px);  	
+	    }
+	}
+}
+
+/*-- Tab Content & Pane Fix --*/
+.tab-content {
+    width: 100%;
+    & .tab-pane {
+        display: block;
+        height: 0;
+        max-width: 100%;
+        visibility: hidden;
+        overflow: hidden;
+        opacity: 0;
+        &.active {
+            height: auto;
+            visibility: visible;
+            opacity: 1;
+            overflow: visible;
+        }
+    }
+}
+
+.bordered-icon{
+	border: 1px solid $border-color;
+}
+.tweet{
+	i, a{
+		@extend %primary-color;
+	}
+	@extend %white-color;
+	margin-bottom: 0;
+}
+.slick-item-gutter{
+	.slick-list{
+		margin: 0 -15px;
+	}
+	.slick-slide{
+		padding: 0 15px;
+	}
+}
+.border{
+	&-top,
+	&-bottom, 
+	&-left, 
+	&-right{
+		border-color: $border-color !important;
+	}
+}
+.tweet{
+	line-height: 1.3;
+}
+
+.maintenance-section{
+    background: url(../img/banner/img-middle-mirora3.jpg) no-repeat scroll center/cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.site-maintenance{
+	text-align: center;
+	h2{
+		color: $primary-color;
+		font-weight: 700;
+		font-size: 35px;
+		margin-bottom: 20px;
+		@include breakpoint(medium){
+			font-size: 25px;
+		}
+	}
+	h1{
+		font-weight: 700;
+		letter-spacing: 2px;
+		font-size: 45px;
+		@include breakpoint(medium){
+			font-size: 35px;
+		}
+	}
+	p{
+		max-width: 650px;
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 50px; 
+		@include breakpoint(small){
+			margin-top: 30px;
+		}
+	}
+	figure{
+		margin-top: 100px;
+		@include breakpoint(medium){
+			margin-top: 80px;
+		}
+		@include breakpoint(small){
+			margin-top: 50px;
+		}
+	}
+}
+
+
+
+
+
+/****************
+Bootstrap Dropdown
+****************/
+
+%dropdowncommon{
+	border-radius: 4px;	
+	padding: 0 2rem;
+	margin: 0;
+	border: none;
+	@include box-shadow(0 0 50px 0 rgba(0, 0, 0, 0.1));	
+    right: 0 !important;
+    left: auto !important;
+	min-width: 16rem;
+	z-index: 99999999;
+	background: $color-dark-7;
+}
+
+.dropdown-toggle{
+	cursor: pointer;
+	margin-right: 2px;
+	font-size: 1.2rem;
+	color: $heading-color;
+	&:not([href]):not([tabindex]){
+		color: $heading-color;
+	}
+	&:after{
+		display: none;
+	}
+	span{
+		margin-right: .9rem;
+		@include breakpoint(large){
+			display: none;
+		}
+	}
+	i{
+		font-size: 14px;
+		font-weight: 700;
+		padding-left: 3px;
+	}
+}
+
+.dropdown-menu{
+	@extend %dropdowncommon;
+	top: 1.5rem !important;
+	right: -2rem !important;
+	@include breakpoint(medium) {
+		top: 1rem !important;
+	}
+	@include breakpoint(xsmall){
+		right: 50% !important;
+		margin-right: -70px;
+	}																		
+}
+
+.dropdown-item{
+	font-size: 1.3rem;
+	line-height: 2;
+	padding: .8rem 0;
+	display: block;
+	white-space: unset;
+	width: inherit;
+    color: $heading-color;
+    &:not(:last-child){
+    	background: url(../img/others/line2.png) bottom center no-repeat;
+    }
+	img{
+		margin-right: .5rem;
+	}
+    &:hover{
+		background-color: transparent;
+		@extend %primary-color;
+    }
+}
+
+
+/****************
+Corporate
+****************/
+
+.corporate{
+    background: $color-dark-5;
+    border-radius: 3px;
+    padding: 2.1rem 1.5rem;
+	h3{
+	    @extend %white-color;
+	    text-transform: capitalize;
+	    font-size: 1.4rem;
+	    margin: 0;
+	}
+	p{
+		font-size: 1.3rem;
+		margin-bottom: 0;
+	}
+}
+.corporate-2{
+	i{
+		@include borderIconCenter(60, 2);
+	    border: 2px solid $color-dark-8;
+	    @extend %body-color;
+	    border-radius: 50%;
+	    font-size: 2rem;
+	    margin-bottom: 2rem;
+	    @extend %basetransition;
+	}
+	h3{
+		font-size: 1.4rem;
+		@extend %white-color;
+		margin-bottom: 0;
+	}
+	&:hover{
+		i{
+			@extend %primary-color;
+			@extend %primary-border-color;
+		}
+	}
+}
+
+%imagezommin{
+	@include transform(scale3d(1.05, 1.05, 1.05));
+}
+%posabsolute{
+	position: absolute;
+}
+%pseudo{
+	position: absolute;
+	content: "";
+}
+%posrelative{
+	position: relative;
+}
+%absCenter{
+	left: 50%;
+	top: 50%;
+	@include transform(translate(-50%, -50%));
+}
+%basetransition{
+	@include transition(all .3s ease-in);
+}
+%invisible{
+	visibility: hidden;
+	opacity: 0;
+}
+%visible{
+	visibility: visible;
+	opacity: 1;
+}
+
+%brand-color{
+	color: $brand-color;
+}
+%brand-bg-color{
+	background-color: $brand-color;
+}
+%brand-bord-color{
+	bord-color: $brand-color;
+}
+%roundicon{
+	border-radius: 50%;
+	border: 1px solid $color-light-3;
+	text-align: center;
+	display: inline-block;
+}
+
+%tableborder{
+	border-left: 1px solid $border-color;
+	border-bottom: 1px solid $border-color; 
+}
+%tablecolborder{
+	border-right: 1px solid $border-color;
+	border-top: 1px solid $border-color;
+}
+
+%fontAwesome{
+	position: absolute;
+	font-family: fontAwesome;
+	line-height: 1;
+}
+
+%regular-price{
+	text-decoration: line-through;
+}
+%sale-price-common{
+	font-weight: 500;
+	margin-right: .5rem;
+}
+%sale-price-1{
+	font-size: 1.8rem;
+}
+%sale-price-2{
+	font-size: 1.4rem;
+}
+%sale-price-3{
+	font-size: 2.4rem;
+}
+%regular-price-common{
+	font-weight: 400;
+	color: $body-color;
+}
+%regular-price-1{
+	font-size: 1.4rem;
+}
+%regular-price-2{
+	font-size: 1.8rem;
+}
+
+/*Padding Top and Bottom*/ 
+
+@for $i from 3 through 17{
+	.ptb--#{$i * 10}{
+		padding: #{($i * 10)*.1}rem 0 !important;
+	}
+}
+
+/*Padding Top and Bottom for large*/ 
+@for $i from 1 through 17{
+	@include breakpoint(large){
+		.ptb-lg--#{$i * 10}{
+			padding: #{($i * 10)*.1}rem 0 !important;
+		}
+	}
+}
+/*Padding Top and Bottom for medium*/ 
+@for $i from 1 through 17{
+	@include breakpoint(medium){
+		.ptb-md--#{$i * 10}{
+			padding: #{($i * 10)*.1}rem 0 !important;
+		}
+	}
+}
+/*Padding Top and Bottom for small*/ 
+@for $i from 1 through 17{
+	@include breakpoint(small){
+		.ptb-sm--#{$i * 10}{
+			padding: #{($i * 10)*.1}rem 0 !important;
+		}
+	}
+}
+
+// Padding Bottom
+ 
+@for $i from 1 through 17{
+	.pb--#{$i * 10}{
+		padding-bottom: #{($i * 10)*.1}rem !important;
+	}
+} 
+// Padding Bottom Medium
+ 
+@for $i from 1 through 20{
+	@include breakpoint(medium){
+		.pb-md--#{$i * 5}{
+			padding-bottom: #{($i * 5)*.1}rem !important;
+		}
+	}
+} 
+// Padding Bottom Small
+ 
+@for $i from 1 through 17{
+	@include breakpoint(small){
+		.pb-sm--#{$i * 10}{
+			padding-bottom: #{($i * 10)*.1}rem !important;
+		}
+	}
+} 
+ 
+// Padding Bottom Extra Small
+ 
+@for $i from 1 through 17{
+	@include breakpoint(xsmall){
+		.pb-xs--#{$i * 10}{
+			padding-bottom: #{($i * 10)*.1}rem !important;
+		}
+	}
+} 
+ 
+// Padding top
+ 
+@for $i from 1 through 10{
+	.pt--#{$i * 10}{
+		padding-top: #{($i * 10)*.1}rem !important;
+	}
+}
+ 
+// Padding top for medium device
+ 
+@for $i from 1 through 20{
+	@include breakpoint(medium){
+		.pt-md--#{$i * 5}{
+			padding-top: #{($i * 5)*.1}rem !important;
+		}
+	}
+}
+// Padding top
+ 
+@for $i from 1 through 10{
+	@include breakpoint(small){
+		.pt-sm--#{$i * 10}{
+			padding-top: #{($i * 10)*.1}rem !important;
+		}
+	}
+}
+ 
+
+// Margin Top and Bottom
+
+@for $i from 2 through 10{
+	.mtb--#{$i * 10}{
+		margin: #{($i * 10)*.1}rem 0 !important;
+	}
+}
+
+
+// Margin Bottom
+
+@for $i from 1 through 20{
+	.mb--#{$i * 5}{
+		margin-bottom: #{($i * 5)*.1}rem !important;
+	}
+}
+// Margin Bottom large only
+
+@for $i from 2 through 10{
+	@include breakpoint(largeonly){
+		.mb-lgo--#{$i * 10}{
+			margin-bottom: #{($i * 10)*.1}rem !important;
+		}
+	}
+}
+
+// Margin Bottom from medium to large
+
+@for $i from 1 through 10{
+	@include breakpoint(mediumtoxlarge){
+		.mb-mdlg--#{$i * 10}{
+			margin-bottom: #{($i * 10)*.1}rem !important;
+		}
+	}
+}
+
+// Margin Bottom from medium to large
+
+@for $i from 1 through 10{
+	@include breakpoint(smalltoxlarge){
+		.mb-mdsm--#{$i * 10}{
+			margin-bottom: #{($i * 10)*.1}rem !important;
+		}
+	}
+}
+
+// Margin Bottom large
+
+@for $i from 1 through 10{
+	@include breakpoint(large){
+		.mb-lg--#{$i * 10}{
+			margin-bottom: #{($i * 10)*.1}rem !important;
+		}
+	}
+}
+// Margin Bottom medium
+
+@for $i from 1 through 10{
+	@include breakpoint(medium){
+		.mb-md--#{$i * 10}{
+			margin-bottom: #{($i * 10)*.1}rem !important;
+		}
+	}
+}
+
+// Margin Bottom small
+
+@for $i from 1 through 10{
+	@include breakpoint(small){
+		.mb-sm--#{$i * 10}{
+			margin-bottom: #{($i * 10)*.1}rem !important;
+		}
+	}
+}
+
+// Margin Bottom small
+
+@for $i from 1 through 10{
+	@include breakpoint(xsmall){
+		.mb-xsm--#{$i * 10}{
+			margin-bottom: #{($i * 10)*.1}rem !important;
+		}
+	}
+}
+
+// Margin Bottom small to large
+
+@for $i from 1 through 10{
+	@include breakpoint(smalltoxlarge){
+		.mb-smlg--#{$i * 10}{
+			margin-bottom: #{($i * 10)*.1}rem !important;
+		}
+	}
+}
+
+// Margin top
+
+@for $i from 1 through 20{
+	.mt--#{$i * 5}{
+		margin-top: #{($i * 5)*.1}rem !important;
+	}
+}
+
+// Margin top for medium device
+
+@for $i from 2 through 20{
+	@include breakpoint(medium){
+		.mt-md--#{$i * 5}{
+			margin-top: #{($i * 5)*.1}rem !important;
+		}
+	}
+}
+// Margin top for small device
+
+@for $i from 2 through 10{
+	@include breakpoint(small){
+		.mt-sm--#{$i * 10}{
+			margin-top: #{($i * 10)*.1}rem !important;
+		}
+	}
+}
+// Margin top for xsmall device
+
+@for $i from 2 through 10{
+	@include breakpoint(xsmall){
+		.mt-xs--#{$i * 10}{
+			margin-top: #{($i * 10)*.1}rem !important;
+		}
+	}
+}
+
+// Margin Left
+
+@for $i from 1 through 10{
+	.ml--#{$i * 10}{
+		margin-left: #{($i * 10)*.1}rem !important;
+	}
+}
+// Margin right
+
+@for $i from 1 through 10{
+	.mr--#{$i * 10}{
+		margin-right: #{($i * 10)*.1}rem !important;
+	}
+}
+
+// Margin Bottom for medium device
+
+@for $i from 2 through 10{
+	@include breakpoint(medium){
+		.mb-md--#{$i * 10}{
+			margin-bottom: #{($i * 10)*.1}rem !important;
+		}
+	}
+}
+
+// Margin Bottom for small device
+
+@for $i from 2 through 10{
+	@include breakpoint(small){
+		.mb-sm--#{$i * 10}{
+			margin-bottom: #{($i * 10)*.1}rem !important;
+		}
+	}
+}
+// Margin Bottom for extra small device
+
+@for $i from 2 through 10{
+	@include breakpoint(xsmall){
+		.mb-xsm--#{$i * 10}{
+			margin-bottom: #{($i * 10)*.1}rem !important;
+		}
+	}
+}
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,78 @@
+/*****************************
+31. Accordion CSS
+*****************************/
+
+.accordion{
+	&__single{
+		&.card{
+			border: 1px solid $border-color !important;
+			margin-bottom: 1rem;
+			background-color: $bg-color-2;
+			@include border-radius(0);	
+			&:first-child{
+				.accordion__header{
+					@include border-radius(0);
+				}
+			}
+			&.open{
+				border-color: $primary-color !important;
+			}	
+		}
+	}
+	&__header{
+		border: 0;
+		@include border-radius(0);
+		background: transparent;
+		padding: 0;
+	}
+	&__link{
+		background-color: transparent;
+		text-transform: capitalize;
+		font-weight: 400;
+		padding: 1.5rem 1rem 1.5rem 2.5rem;
+		border-bottom: 1px solid $border-color;
+		@extend %body-color;
+		display: block;
+		text-align: left;
+		line-height: 2;
+		@extend %posrelative;
+		overflow-wrap: break-word;
+	    @include white-space(normal);
+		@include breakpoint(xsmall){
+			padding: 1rem;
+		}
+		&:not([href]):not([tabindex]){
+			@extend %body-color;
+		}
+		&:hover{
+			border-bottom: 1px solid $border-color;
+			@extend %primary-color;	
+		}
+		&:after{
+			@extend %fontAwesome;
+			right: 1rem;
+			top: 50%;
+			content: '\f067';
+			color: $body-color;
+			font-size: 1.6rem;
+			@include transform(translateY(-50%));
+			@include breakpoint(xsmall){
+				display: none;
+			}
+		}
+		&.collapsed{
+			border-bottom-width: 0;
+			&:after{
+				content: '\f068';
+			}
+		}
+	}
+	&__body{
+		background: transparent;
+		padding: 2rem 2.5rem; 
+		@extend %body-color;
+		@include breakpoint(xsmall){
+			padding: 1rem 1.5rem;
+		}
+	}
+}

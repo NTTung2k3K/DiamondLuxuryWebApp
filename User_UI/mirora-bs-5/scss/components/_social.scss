@@ -1,0 +1,116 @@
+/*****************************
+28. Social Icon
+*****************************/
+
+
+.social{
+	&-round{
+		.social__item{
+			&:not(:last-child){
+				margin-right: .2rem;
+			}
+		}
+		.social__link{
+			@include textBoxCenter(30);
+			@include border-radius(50%);
+			background-color: $color-shaft-light;
+			color: $body-color;
+			font-size: 1.2rem;
+			@include transition(color .4s ease);
+			&:hover{
+				color: #fff !important;
+			}
+		}
+	}
+	&__item{
+		display: inline-block;
+		&:not(:last-child){
+			margin-right: 3rem;
+		}
+	}
+	&__link{
+		display: block;
+		color: $color-light-2;
+		font-size: 1.8rem;
+		&.facebook{
+			&:hover{
+				background: $facebook-color;
+			}
+		}
+		&.twitter{
+			&:hover{
+				background: $twitter-color;
+			}
+		}
+		&.linkedin{
+			&:hover{
+				background: $linkedin-color;
+			}
+		}
+		&.google-plus{
+			&:hover{
+				background: $google-plus-color;
+			}
+		}
+		&.pinterest{
+			&:hover{
+				background: $pinterest-color;
+			}
+		}
+		&.instagram{
+			&:hover{
+				background: $instagram-color;
+			}
+		}
+		&.skype{
+			&:hover{
+				background: $skype-color;
+			}
+		}
+	}
+} 
+
+
+.social-share{
+	a{
+		color: #fff;
+	    padding: .2rem .8rem;
+	    font-size: 1.2rem;
+	    margin-right: .5rem;
+		i{
+			color: #fff;
+			font-size: 1.3rem;
+		}
+		&:hover{
+			color: #fff !important;
+			i{
+				color: #fff !important;
+			}
+		}
+		@include border-radius(4px);
+		&.facebook{
+			background-color: $facebook-color;
+			border-color: $facebook-color;
+			&:hover{
+				background-color: rgba($facebook-color, .8);
+			}
+		}
+		&.twitter{
+			background-color: $twitter-color;
+			border-color: $twitter-color;
+			&:hover{
+				background-color: rgba($twitter-color, .8);
+			}
+		}
+		&.share{
+			background-color: $share-color;
+			border-color: $share-color;
+			&:hover{
+				background-color: rgba($share-color, .8);
+			}
+		}
+	}
+}
+
+
+

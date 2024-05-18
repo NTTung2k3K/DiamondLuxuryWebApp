@@ -1,0 +1,435 @@
+/*****************************
+24. Form CSS
+*****************************/
+
+/**********************
+Form
+**********************/
+.form{
+	&-row{
+		margin-left: -1rem;
+		margin-right: -1rem;
+		[class*="col-"]{
+			padding-left: 1rem;
+			padding-right: 1rem;
+		}
+	}
+	&__label{
+		color: $body-color;
+		sup{
+			color: red;
+		}
+	}
+	&__input{
+		background-color: $bg-color;
+		color: $body-color;
+		padding-left: 1.5rem;
+		width: 100%;
+		height: 4rem;
+		@include border-radius(5px);
+		border: 1px solid transparent;
+		&--2{
+			height: 4.5rem
+		}
+		&--3{
+			background-color: $color-dark;
+		}
+		&:focus{
+			border-color: #555;
+		}
+		&--textarea{
+			height: 10rem;
+			padding-top: 1rem;
+		}
+		&--w285{
+			width: 28.5rem;
+			@include breakpoint(small){
+				width: 100%;
+			}
+		}
+		&.nice-select{
+			.list{
+				width: 100%;
+			    width: 100%;
+			    height: 400px;
+			    overflow-y: auto;
+			}
+		}
+	}
+	&__submit{
+		@include border-radius(4px);
+		background-color: $color-dark-3;
+		color: $body-color;
+		padding: 1.2rem 1.8rem;
+		font-size: 1.4rem;
+		text-transform: uppercase;
+		border: none;
+		font-weight: 500;
+		&:hover{
+			color: #fff;
+			@extend %primary-bg-color;
+		}
+		&--2{
+			padding: 1.5rem 3rem;
+			font-size: 1.6rem;
+		}
+	}
+	&__output{
+		text-align: right;
+		margin-top: .5rem;
+		&.success{
+			color: $color-green;
+		}
+		&.error{
+			color: $color-red;
+		}
+	}
+	.help-block{
+		font-size: 1.4rem;
+		span{
+			color: $color-red-light
+		}
+	}
+	&.cart-form{
+		.form__group{
+			@include flex-wrap(wrap);
+		}
+		.form__input{
+			color: $heading-color;
+		    padding: .6rem 1rem .5rem;
+		    width: 26rem;
+		    @include breakpoint(xsmall){
+		    	width: 31rem;
+		    	margin-bottom: 2rem;
+		    }
+		}
+	}
+	&.shipping-form{
+		background: $color-gray-6;
+		padding: 2rem 1rem;
+		.form__input{
+			margin-bottom: 1rem;
+			border: none;
+		}
+	}
+	&.quick-login-form{
+		.form__label{
+			display: block;
+			color: $heading-color;
+		}
+		.form__input{
+			margin-bottom: 1.5rem;
+			height: 3.6rem;
+			width: 37rem;
+		}
+	}
+	.forgot-pass{
+		margin: .8rem 0;
+		color: $color-red;
+		display: inline-block;
+		&:hover{
+			color: $color-red-dark !important;
+		}
+	}
+	.nice-select{
+		.nice-select-search-box{
+			background-color: $color-dark-4;
+			input{
+				background-color: $bg-color;
+				@extend %body-color;
+			}
+		}
+		.list{
+			background-color: $color-dark-4;
+		}
+	}
+}
+.account-form{
+	padding: 2rem;
+	h4{
+		@extend %primary-color;
+		font-weight: 400;
+		margin-bottom: 2rem;
+		font-size: 1.4rem;
+		line-height: 1;
+		text-transform: uppercase;
+	}
+}
+.address-form{
+	padding: 2rem;
+}
+.login-reg-box{
+	
+}
+/**********************
+Nice Select
+**********************/
+
+.nice-select{
+	float: none;
+}
+
+// Rating 
+
+.rating {
+    border: none;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    & > input{
+    	display: none;
+    }
+
+    & > label{
+    	&:before{
+			margin: 1px;
+			font-size: 1.4rem;
+			font-family: FontAwesome;
+			display: inline-block;
+			content: "\f005";
+    	}
+    }
+
+    & > .half{
+    	&:before{
+		  content: "\f089";
+		  position: absolute;
+    	}
+    }
+
+    & > label{
+    	color: #ddd; 
+    	margin-bottom: 0;
+    }
+
+    & > input{
+    	&:checked ~ label,
+    	&:not(:checked) > label:hover,
+    	&:not(:checked) > label:hover ~ label{
+			color: $primary-color; 
+    	}
+
+    	&:checked + label:hover,
+    	&:checked ~ label:hover,
+    	&:checked ~ label:hover ~ label {
+    		color: $primary-color;
+    	}
+    }
+    & > label{
+    	&:hover ~ input:checked ~ label{
+    		color: $primary-color; 
+    	}
+    }
+}
+
+// Custom Radio Button
+
+.custom-radio{
+	input[type="radio"]{
+		display: none;
+		&:checked{
+			& + label{
+				&:before{
+					background-color: $brand-color;
+					box-shadow: inset 0 0 0 2px #f4f4f4;
+				}
+			}
+		}
+	}
+	label{
+		@extend %posrelative;
+		@include flexbox;
+		@include align-items(center);
+		&:before{
+		    content: '';
+		    background: #f4f4f4;
+		    border-radius: 100%;
+		    border: 1px solid $color-dark;
+		    display: inline-block;
+		    @include circle(16);
+		    position: relative;
+		    top: 0;
+		    margin-right: 1.6rem;
+		    vertical-align: top;
+		    cursor: pointer;
+		    text-align: center;
+		    transition: all 250ms ease;
+		}
+	}
+}
+
+// Custom Checkbox
+
+.custom-checkbox{
+	@include flexbox;
+	@include align-items(center);
+	input[type="checkbox"]{
+		display: none;
+		&:checked{
+			& + label{
+				&:before{
+					content: '\4e';
+				}
+			}
+		}
+	}
+	.checkmark{
+
+
+	}
+	label{
+		margin-bottom: 0;
+		@extend %posrelative;
+		padding-left: 3.2rem;
+		line-height: 1.1;
+		&:before{
+			@extend %posabsolute;
+			content: '';
+			font-family: 'ElegantIcons';
+			width: 1.6rem;
+			height: 1.6rem;
+			line-height: 1.4rem;
+			border: 1px solid $body-color;
+			border-radius: 3px;
+			display: inline-block;
+			font-size: 1.3rem;
+			color: $body-color;
+			left:0;
+			top:2px;
+			@include transition(all 250ms ease);
+		}
+		a{
+			color: $body-color;
+		}
+	}
+}
+
+// Search Form
+
+.search-form{
+	@include flexbox;
+	@include align-items(center);
+	&__input{
+		height: 4.5rem;
+		width: 100%;
+		font-size: 1.2rem;
+		border: 1px solid $border-color;
+		background-color: $bg-color;
+		padding-left: 1rem;
+		@include border-radius(4px 0 0 4px);
+		border-right: 0;
+		@extend %body-color;
+	}
+	&__submit{
+		min-width: 4.5rem;
+		height: 4.5rem;
+		line-height: 4.3rem;
+		text-align: center;
+		@include flexbox;
+		@include justify-content(center);
+		@include align-items(center);
+		color: $heading-color;
+		@include border-radius(0 4px 4px 0px);
+		background-color: $bg-color;
+		border: 1px solid $border-color;
+		&:hover{
+			@extend %primary-color;
+		}
+	}
+	&-2{
+		.search-form__submit{
+			border-left: 0;
+		}
+	}
+	&-3{
+		.search-form__input{
+			height: 5rem;
+			@include border-radius(0);
+			border: 0;
+			width: 100%;
+		}
+		.search-form__submit{
+			border: none;
+			@include border-radius(0);
+			height: 5rem;
+			i{
+				color: $body-color;
+			}
+		}
+	}
+}
+
+
+
+// Newsletter Form
+
+.newsletter-form{
+	&__input{
+		padding: 1rem 2rem;
+		height: 5rem;
+		@include border-radius(4px);
+		border: 2px solid #292929;
+		font-size: 1.2rem;
+		font-weight: 400;
+		width: 50rem;
+		background: transparent;
+		margin-right: 1rem;
+		@extend %body-color;
+		@include breakpoint(medium){
+			width: 46rem;
+		}
+		@include breakpoint(small){
+			width: 100%;
+			margin-bottom: 2rem;
+		}
+	}
+}
+.newsletter-form-2{
+	@extend %posrelative;
+	input{
+		&[type="email"]{
+			border: none;
+			border-bottom: 1px solid $border-color;
+		    padding: 0 20px 0 0;
+		    line-height: 30px;
+		    height: 30px;
+		    @extend %body-color;
+		    font-size: 1.2rem;
+		    font-weight: 400;
+		    width: 100%;
+		    background: transparent;
+		}
+	}
+	button{
+		background: none;
+		border: none;
+		@extend %body-color;
+		@extend %posabsolute;
+		right: 0;
+	    top: 5px;
+	    margin: 0;
+	    padding: 0;
+	}
+}
+
+
+
+.popup-subscribe-form{
+	max-width: 50rem;
+	margin: 0 auto;
+	text-align: center;
+	input{
+		&[type="email"]{
+			background: #EBEBEB;
+			border: none;
+			height: 40px;
+			width: 100%;
+			margin: 20px 0;
+			padding: 0 15px;
+			@extend %body-color;
+		}
+	}
+	label{
+		color: $color-light-5;
+	}
+}
