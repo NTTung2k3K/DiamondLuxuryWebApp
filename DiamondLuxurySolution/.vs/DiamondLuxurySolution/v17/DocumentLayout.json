@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|d:\\learning\\cn5\\swp391\\projectbackend\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.backendapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|solutionrelative:diamondluxurysolution.backendapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\learning\\cn5\\swp391\\projectbackend\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\ef\\mydbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|solutionrelative:diamondluxurysolution.data\\ef\\mydbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|d:\\learning\\cn5\\swp391\\projectbackend\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.backendapi\\diamondluxurysolution.backendapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|solutionrelative:diamondluxurysolution.backendapi\\diamondluxurysolution.backendapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\learning\\cn5\\swp391\\projectbackend\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\diamondluxurysolution.data.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
@@ -17,10 +25,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\learning\\cn5\\swp391\\projectbackend\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\ef\\approle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|solutionrelative:diamondluxurysolution.data\\ef\\approle.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|d:\\learning\\cn5\\swp391\\projectbackend\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.backendapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|solutionrelative:diamondluxurysolution.backendapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|d:\\learning\\cn5\\swp391\\projectbackend\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.backendapi\\diamondluxurysolution.backendapi.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
@@ -46,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -54,46 +58,31 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "AppRole.cs",
-              "DocumentMoniker": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\EF\\AppRole.cs",
-              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\EF\\AppRole.cs",
-              "ToolTip": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\EF\\AppRole.cs",
-              "RelativeToolTip": "DiamondLuxurySolution.Data\\EF\\AppRole.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T07:27:31.172Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "AppUser.cs",
-              "DocumentMoniker": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\EF\\AppUser.cs",
-              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\EF\\AppUser.cs",
-              "ToolTip": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\EF\\AppUser.cs",
-              "RelativeToolTip": "DiamondLuxurySolution.Data\\EF\\AppUser.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAArAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T07:24:32.685Z",
-              "EditorCaption": ""
+              "Title": "DiamondLuxurySolution.BackendApi.csproj",
+              "DocumentMoniker": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj",
+              "ToolTip": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj",
+              "RelativeToolTip": "DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-05-19T07:36:19.224Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MyDbContext.cs",
               "DocumentMoniker": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\EF\\MyDbContext.cs",
               "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\EF\\MyDbContext.cs",
               "ToolTip": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\EF\\MyDbContext.cs",
               "RelativeToolTip": "DiamondLuxurySolution.Data\\EF\\MyDbContext.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-19T07:23:11.323Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-19T07:23:11.323Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "DiamondLuxurySolution.BackendApi.http",
               "DocumentMoniker": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.http",
               "RelativeDocumentMoniker": "DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.http",
@@ -101,12 +90,11 @@
               "RelativeToolTip": "DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.http",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
-              "WhenOpened": "2024-05-16T12:15:47.381Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-16T12:15:47.381Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "DiamondLuxurySolution.Data.csproj",
               "DocumentMoniker": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj",
               "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj",
@@ -114,12 +102,11 @@
               "RelativeToolTip": "DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-05-16T12:14:56.918Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-16T12:14:56.918Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "DiamondLuxurySolution.ViewModel.csproj",
               "DocumentMoniker": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj",
               "RelativeDocumentMoniker": "DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj",
@@ -127,12 +114,48 @@
               "RelativeToolTip": "DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-05-16T12:14:33.417Z",
+              "WhenOpened": "2024-05-16T12:14:33.417Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\Program.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.BackendApi\\Program.cs",
+              "ToolTip": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\Program.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.BackendApi\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAiAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-16T12:13:18.055Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 4,
+              "Title": "AppUser.cs",
+              "DocumentMoniker": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\EF\\AppUser.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\EF\\AppUser.cs",
+              "ToolTip": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\EF\\AppUser.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Data\\EF\\AppUser.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAArAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-19T07:24:32.685Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AppRole.cs",
+              "DocumentMoniker": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\EF\\AppRole.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\EF\\AppRole.cs",
+              "ToolTip": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\EF\\AppRole.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Data\\EF\\AppRole.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-19T07:27:31.172Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "DiamondLuxurySolution.Utilities.csproj",
               "DocumentMoniker": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Utilities\\DiamondLuxurySolution.Utilities.csproj",
               "RelativeDocumentMoniker": "DiamondLuxurySolution.Utilities\\DiamondLuxurySolution.Utilities.csproj",
@@ -140,33 +163,18 @@
               "RelativeToolTip": "DiamondLuxurySolution.Utilities\\DiamondLuxurySolution.Utilities.csproj",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-05-16T12:11:21.677Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-16T12:11:21.677Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\Program.cs",
-              "RelativeDocumentMoniker": "DiamondLuxurySolution.BackendApi\\Program.cs",
-              "ToolTip": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\Program.cs",
-              "RelativeToolTip": "DiamondLuxurySolution.BackendApi\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAnAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-16T12:13:18.055Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "DiamondLuxurySolution.BackendApi",
               "DocumentMoniker": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj",
               "RelativeDocumentMoniker": "DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj",
               "ToolTip": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj",
               "RelativeToolTip": "DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-05-16T12:17:44.98Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-16T12:17:44.98Z"
             },
             {
               "$type": "Bookmark",
