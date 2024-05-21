@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Confirmation</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            -webkit-text-size-adjust: none;
+            text-align: center;
+        }
+
+        .email-container {
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            background-color: #f4f4f4;
+        }
+
+        .email-content {
+            background-color: #ffffff;
+            border: 1px solid #dedede;
+            border-radius: 3px;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .email-header {
+            background-color: #636363;
+            color: #ffffff;
+            padding: 36px 48px;
+            border-radius: 3px 3px 0 0;
+        }
+
+            .email-header h1 {
+                font-size: 30px;
+                font-weight: 300;
+                margin: 0;
+            }
+
+        .email-logo {
+            text-align: center;
+        }
+
+        .email-body {
+            padding: 48px;
+            padding-top: 0;
+        }
+
+            .email-body h2 {
+                color: #96588a;
+                font-size: 18px;
+                font-weight: bold;
+                margin: 0 0 18px;
+            }
+
+            .email-body p {
+                color: #636363;
+                font-size: 14px;
+                line-height: 150%;
+                margin: 0 0 16px;
+            }
+
+        .order-table {
+            width: 100%;
+            border: 1px solid #e5e5e5;
+            border-collapse: collapse;
+            margin-bottom: 40px;
+        }
+
+            .order-table th,
+            .order-table td {
+                border: 1px solid #e5e5e5;
+                padding: 12px;
+                text-align: left;
+                color: #636363;
+            }
+
+            .order-table th {
+                background-color: #f9f9f9;
+            }
+
+        .order-summary {
+            margin-bottom: 40px;
+        }
+
+            .order-summary th,
+            .order-summary td {
+                border-top: 4px solid #e5e5e5;
+            }
+
+        .info-section {
+            margin-bottom: 40px;
+        }
+
+            .info-section h2 {
+                color: #96588a;
+                font-size: 18px;
+                font-weight: bold;
+                margin: 0 0 18px;
+            }
+
+            .info-section address {
+                padding: 12px;
+                border: 1px solid #e5e5e5;
+                color: #636363;
+            }
+
+            .info-section a {
+                color: #96588a;
+                text-decoration: underline;
+            }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-content">
+            <div class="email-header">
+                <h1>Đơn hàng mới: #{{Code}}</h1>
+            </div>
+            <div class="email-logo">
+                <img src="https://firebasestorage.googleapis.com/v0/b/diamondluxuryproject.appspot.com/o/Logo%2FLOGO.png?alt=media&token=b65b5609-5d08-408a-848f-c5b05be38b11" alt="Logo" style="width: 200px; height: 180px" />
+            </div>
+            <div class="email-body">
+                <p>
+                    Bạn vừa nhận được đơn hàng từ {{CustomerName}}. Đơn hàng như sau:
+                </p>
+                <h2>
+                    <a href="#"
+                       style="
+                font-weight: normal;
+                text-decoration: underline;
+                color: #96588a;
+              ">
+                        [Đơn hàng #{{Code}}]
+                    </a>
+                    ({{Date}})
+                </h2>
+                <div class="order-table-wrapper">
+                    <table class="order-table">
+                        <thead>
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <th>Số lượng</th>
+                                <th>Giá</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{Product}}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th scope="row" colspan="2">Nguyên giá:</th>
+                                <td><span>{{Total}}&nbsp;VND</span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row" colspan="2">Phương thức thanh toán:</th>
+                                <td>{{Payment}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row" colspan="2">Tổng cộng:</th>
+                                <td><span>{{Total}}&nbsp;VND</span></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="info-section">
+                    <h2>Thông tin người nhận</h2>
+                    <address>
+                        {{CustomerName}}<br />
+                        {{Address}}<br />
+                        <a href="tel:{{PhoneNumber}}">{{PhoneNumber}}</a><br />
+                        <a href="mailto:{{Email}}">{{Email}}</a>
+                    </address>
+                </div>
+                <div class="info-section">
+                    <h2>Thông tin giao hàng</h2>
+                    <address>
+                        {{CustomerName}}<br />
+                        {{Address}}<br />
+                        <a href="tel:{{PhoneNumber}}">{{PhoneNumber}}</a><br />
+                        <a href="mailto:{{Email}}">{{Email}}</a>
+                    </address>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

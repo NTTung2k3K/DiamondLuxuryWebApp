@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddDbContext<MyDbContext>(options =>
+builder.Services.AddDbContext<LuxuryDiamondShopContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("LuxuryDiamondDb"));
 });
