@@ -17,7 +17,7 @@ namespace DiamondLuxurySolution.Utilities.Helper
         public static IConfiguration _configuration { get; set; }
 
 
-        private static async Task<string> Upload(IFormFile file)
+        public static async Task<string> Upload(IFormFile file)
         {
             if (file != null && file.Length > 0)
             {
@@ -39,13 +39,13 @@ namespace DiamondLuxurySolution.Utilities.Helper
 
         private static async Task<string> UploadToFirebase(Stream stream, string fileName)
         {
-            var auth = new FirebaseAuthProvider(new FirebaseConfig(_configuration[Systemconstant.AppSettings.FirebaseApiKey]));
-            var a = await auth.SignInWithEmailAndPasswordAsync(_configuration[Systemconstant.AppSettings.FirebaseAuthEmail], _configuration[Systemconstant.AppSettings.FirebaseAuthPassword]);
+            var auth = new FirebaseAuthProvider(new FirebaseConfig("AIzaSyBnfKuDQXxO2K6e2O0_S6HVZhcPBdI3zgs"));
+            var a = await auth.SignInWithEmailAndPasswordAsync("DiamondLuxuryDeveloper@gmail.com", "Hello123@");
 
             var cancellation = new CancellationTokenSource();
 
             var task = new FirebaseStorage(
-                _configuration[Systemconstant.AppSettings.FirebaseBucket],
+                "diamondluxuryproject.appspot.com",
                 new FirebaseStorageOptions
                 {
                     AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),

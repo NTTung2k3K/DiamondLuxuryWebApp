@@ -1,3 +1,4 @@
+using DiamondLuxurySolution.Application.Repository.Platform;
 using DiamondLuxurySolution.Data.EF;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +10,7 @@ builder.Services.AddDbContext<LuxuryDiamondShopContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("LuxuryDiamondDb"));
 });
+builder.Services.AddTransient<IPlatform, Platform>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
