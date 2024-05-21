@@ -1,0 +1,297 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Confirmation</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .email-container {
+            width: 600px;
+            margin: auto;
+            background-color: #ffffff;
+            border: 1px solid #dedede;
+            border-radius: 3px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <table border="0"
+               cellpadding="0"
+               cellspacing="0"
+               width="100%"
+               style="
+          background-color: #96588a;
+          color: #ffffff;
+          border-bottom: 0;
+          font-weight: bold;
+          line-height: 100%;
+          vertical-align: middle;
+          font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
+          border-radius: 3px 3px 0 0;
+        ">
+            <tbody>
+                <tr>
+                    <td style="padding: 36px 48px; display: block">
+                        <h1 style="
+                  font-family: 'Helvetica Neue', Helvetica, Roboto, Arial,
+                    sans-serif;
+                  font-size: 30px;
+                  font-weight: 300;
+                  line-height: 150%;
+                  margin: 0;
+                  text-align: left;
+                  color: #ffffff;
+                  background-color: inherit;
+                ">
+                            Cảm ơn bạn đã đặt hàng
+                        </h1>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <img src="https://firebasestorage.googleapis.com/v0/b/diamondluxuryproject.appspot.com/o/Logo%2FLOGO.png?alt=media&token=b65b5609-5d08-408a-848f-c5b05be38b11"
+             style="width: 200px; height: 180px;" />
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+            <tbody>
+                <tr>
+                    <td valign="top" style="background-color: #ffffff">
+                        <table border="0" cellpadding="20" cellspacing="0" width="100%">
+                            <tbody>
+                                <tr>
+                                    <td valign="top" style="padding:0px 48px 48px 32px">
+                                        <div style="
+                          color: #636363;
+                          font-family: 'Helvetica Neue', Helvetica, Roboto,
+                            Arial, sans-serif;
+                          font-size: 14px;
+                          line-height: 150%;
+                          text-align: left;
+                        ">
+                                            <p style="margin: 0 0 16px">
+                                                Xin chào {{CustomerName}},
+                                            </p>
+                                            <p style="margin: 0 0 16px">
+                                                Cảm ơn đã đặt hàng. Đơn hàng sẽ bị tạm giữ cho đến khi
+                                                chúng tôi xác nhận thanh toán hoàn thành. Trong thời
+                                                gian chờ đợi, đây là lời nhắc về những gì bạn đã đặt
+                                                hàng:
+                                            </p>
+
+                                            <h2 style="
+                            color: #96588a;
+                            display: block;
+                            font-family: 'Helvetica Neue', Helvetica, Roboto,
+                              Arial, sans-serif;
+                            font-size: 18px;
+                            font-weight: bold;
+                            line-height: 130%;
+                            margin: 0 0 18px;
+                            text-align: left;
+                          ">
+                                                [Đơn hàng #{{Code}}] ({{Date}})
+                                            </h2>
+
+                                            <div style="margin-bottom: 40px">
+                                                <table cellspacing="0"
+                                                       cellpadding="6"
+                                                       border="1"
+                                                       style="
+                              color: #636363;
+                              border: 1px solid #e5e5e5;
+                              vertical-align: middle;
+                              width: 100%;
+                              font-family: 'Helvetica Neue', Helvetica, Roboto,
+                                Arial, sans-serif;
+                            ">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col"
+                                                                style="
+                                    color: #636363;
+                                    border: 1px solid #e5e5e5;
+                                    vertical-align: middle;
+                                    padding: 12px;
+                                    text-align: left;
+                                  ">
+                                                                Sản phẩm
+                                                            </th>
+                                                            <th scope="col"
+                                                                style="
+                                    color: #636363;
+                                    border: 1px solid #e5e5e5;
+                                    vertical-align: middle;
+                                    padding: 12px;
+                                    text-align: left;
+                                  ">
+                                                                Số lượng
+                                                            </th>
+                                                            <th scope="col"
+                                                                style="
+                                    color: #636363;
+                                    border: 1px solid #e5e5e5;
+                                    vertical-align: middle;
+                                    padding: 12px;
+                                    text-align: left;
+                                  ">
+                                                                Giá
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {{Product}}
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th scope="row"
+                                                                colspan="2"
+                                                                style="
+                                    color: #636363;
+                                    border: 1px solid #e5e5e5;
+                                    vertical-align: middle;
+                                    padding: 12px;
+                                    text-align: left;
+                                    border-top-width: 4px;
+                                  ">
+                                                                Nguyên giá:
+                                                            </th>
+                                                            <td style="
+                                    color: #636363;
+                                    border: 1px solid #e5e5e5;
+                                    vertical-align: middle;
+                                    padding: 12px;
+                                    text-align: left;
+                                    border-top-width: 4px;
+                                  ">
+                                                                <span>{{Total}}&nbsp;</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row"
+                                                                colspan="2"
+                                                                style="
+                                    color: #636363;
+                                    border: 1px solid #e5e5e5;
+                                    vertical-align: middle;
+                                    padding: 12px;
+                                    text-align: left;
+                                  ">
+                                                                Phương thức thanh toán:
+                                                            </th>
+                                                            <td style="
+                                    color: #636363;
+                                    border: 1px solid #e5e5e5;
+                                    vertical-align: middle;
+                                    padding: 12px;
+                                    text-align: left;
+                                  ">
+                                                                {{Payment}}
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row"
+                                                                colspan="2"
+                                                                style="
+                                    color: #636363;
+                                    border: 1px solid #e5e5e5;
+                                    vertical-align: middle;
+                                    padding: 12px;
+                                    text-align: left;
+                                  ">
+                                                                Tổng cộng:
+                                                            </th>
+                                                            <td style="
+                                    color: #636363;
+                                    border: 1px solid #e5e5e5;
+                                    vertical-align: middle;
+                                    padding: 12px;
+                                    text-align: left;
+                                  ">
+                                                                <span>{{Total}}&nbsp;</span>
+                                                            </td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+
+                                            <table cellspacing="0"
+                                                   cellpadding="0"
+                                                   border="0"
+                                                   style="
+                            width: 100%;
+                            vertical-align: top;
+                            margin-bottom: 40px;
+                            padding: 0;
+                          ">
+                                                <tbody>
+                                                    <tr>
+                                                        <td valign="top"
+                                                            width="50%"
+                                                            style="
+                                  text-align: left;
+                                  font-family: 'Helvetica Neue', Helvetica,
+                                    Roboto, Arial, sans-serif;
+                                  border: 0;
+                                  padding: 0;
+                                ">
+                                                            <h2 style="
+                                    color: #96588a;
+                                    display: block;
+                                    font-family: 'Helvetica Neue', Helvetica,
+                                      Roboto, Arial, sans-serif;
+                                    font-size: 18px;
+                                    font-weight: bold;
+                                    line-height: 130%;
+                                    margin: 0 0 18px;
+                                    text-align: left;
+                                  ">
+                                                                Thông tin người nhận
+                                                            </h2>
+
+                                                            <address style="
+                                    padding: 12px;
+                                    color: #636363;
+                                    border: 1px solid #e5e5e5;
+                                  ">
+                                                                {{CustomerName}}<br />{{Address}}<br /><a href="tel:{{PhoneNumber}}"
+                                                                                                          style="
+                                      color: #96588a;
+                                      font-weight: normal;
+                                      text-decoration: underline;
+                                    "
+                                                                                                          target="_blank">{{PhoneNumber}}</a>
+                                                                <br /><a href="mailto:{{Email}}"
+                                                                         target="_blank">{{Email}}</a>
+                                                            </address>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <p style="margin: 0 0 16px">
+                                                Chúng tôi đang tiến hành hoàn thiện đơn đặt hàng của
+                                                bạn
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
