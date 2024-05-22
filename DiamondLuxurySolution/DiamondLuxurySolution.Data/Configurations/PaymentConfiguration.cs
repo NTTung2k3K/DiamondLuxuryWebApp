@@ -24,7 +24,7 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(p => p.Status).IsRequired();
 
             builder.HasOne(p => p.Order)
-                   .WithMany()
+                   .WithMany(x => x.Payments)
                    .HasForeignKey(p => p.OrderId)
                    .IsRequired();
         }

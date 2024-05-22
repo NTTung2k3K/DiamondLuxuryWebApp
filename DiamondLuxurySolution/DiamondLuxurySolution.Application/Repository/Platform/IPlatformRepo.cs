@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DiamondLuxurySolution.Application.Repository.Platform
 {
-    public interface IPlatform
+    public interface IPlatformRepo
     {
         public Task<ApiResult<bool>> CreatePlatform(CreatePlatformRequest request);
         public Task<ApiResult<bool>> UpdatePlatform(UpdatePlatformRequest request);

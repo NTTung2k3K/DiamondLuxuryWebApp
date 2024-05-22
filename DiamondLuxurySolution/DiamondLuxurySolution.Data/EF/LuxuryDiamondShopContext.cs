@@ -23,6 +23,7 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
 
     public virtual DbSet<AppUser> AppUsers { get; set; }
     public virtual DbSet<AppRole> AppRoles { get; set; }
+    public virtual DbSet<AppUserRole> AppUserRoles{ get; set; }
 
     public virtual DbSet<CampaignDetail> CampaignDetails { get; set; }
 
@@ -55,6 +56,7 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
     public virtual DbSet<MaterialPriceListDetail> MaterialPriceListDetails { get; set; }
 
     public virtual DbSet<News> News { get; set; }
+    public virtual DbSet<OrderDiscount> OrderDiscounts { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
 
@@ -118,11 +120,6 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
         modelBuilder.ApplyConfiguration(new WareHouseConfiguration());
         modelBuilder.ApplyConfiguration(new WarrantyConfiguration());
 
-
-
-        modelBuilder.ApplyConfiguration(new AboutConfiguration());
-        modelBuilder.ApplyConfiguration(new AboutConfiguration());
-        modelBuilder.ApplyConfiguration(new AboutConfiguration());
 
 
 

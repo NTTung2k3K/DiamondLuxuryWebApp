@@ -18,9 +18,9 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
     public class PlatformsController : ControllerBase
     {
         private readonly LuxuryDiamondShopContext _context;
-        private readonly IPlatform _platform;
+        private readonly IPlatformRepo _platform;
 
-        public PlatformsController(LuxuryDiamondShopContext context,IPlatform platform)
+        public PlatformsController(LuxuryDiamondShopContext context,IPlatformRepo platform)
         {
             _context = context;
             _platform = platform;

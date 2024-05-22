@@ -15,5 +15,8 @@ namespace DiamondLuxurySolution.Data.Entities
         public DateTime Dob { get; set; }
         public Status status {  get; set; }
         public List<AppUserRole> AppUserRoles { get; set; }
+        public List<Order> Orders { get; set; }
+        public List<KnowledgeNews> KnowledgeNews { get; set; }
+        public List<News> News { get; set; }
     }
 }
