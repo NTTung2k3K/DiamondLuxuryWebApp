@@ -1,8 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\Learning\\CN5\\SWP391\\ProjectBackEnd\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\",
+  "WorkspaceRootPath": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\",
   "Documents": [
     {
+<<<<<<< HEAD
       "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\learning\\cn5\\swp391\\projectbackend\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\migrations\\20240522170557_fixbugvcl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|solutionrelative:diamondluxurysolution.data\\migrations\\20240522170557_fixbugvcl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -500,6 +501,10 @@
     {
       "AbsoluteMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|d:\\learning\\cn5\\swp391\\projectbackend\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.backendapi\\diamondluxurysolution.backendapi.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
       "RelativeMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|solutionrelative:diamondluxurysolution.backendapi\\diamondluxurysolution.backendapi.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+=======
+      "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\entities\\image.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|solutionrelative:diamondluxurysolution.data\\entities\\image.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+>>>>>>> a494aebdec095a83fd112a22e80fdddffbcadbf0
     }
   ],
   "DocumentGroupContainers": [
@@ -509,13 +514,18 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
+<<<<<<< HEAD
           "SelectedChildIndex": 1,
+=======
+          "SelectedChildIndex": 2,
+>>>>>>> a494aebdec095a83fd112a22e80fdddffbcadbf0
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
             },
             {
+<<<<<<< HEAD
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "20240522170557_Fixbugvcl.cs",
@@ -2131,6 +2141,22 @@
               "RelativeToolTip": "DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2024-05-16T12:17:44.98Z",
+=======
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Image.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Entities\\Image.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\Entities\\Image.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Entities\\Image.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Data\\Entities\\Image.cs",
+              "ViewState": "AQIAABEAAAAAAAAAAAAAAA4AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-22T13:34:13.59Z",
+>>>>>>> a494aebdec095a83fd112a22e80fdddffbcadbf0
               "EditorCaption": ""
             }
           ]
