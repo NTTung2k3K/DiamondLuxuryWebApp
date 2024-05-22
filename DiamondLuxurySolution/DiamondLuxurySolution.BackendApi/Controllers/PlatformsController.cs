@@ -9,6 +9,7 @@ using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Models.Platform;
 using DiamondLuxurySolution.Application.Repository.Platform;
+using Azure.Core;
 
 namespace DiamondLuxurySolution.BackendApi.Controllers
 {
@@ -27,9 +28,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
        
 
-        // POST: api/Platforms
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+        [HttpPost("Create")]
         public async Task<ActionResult> CreatePlatform([FromForm]CreatePlatformRequest request)
         {
             try
@@ -47,26 +46,79 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
 
-
-        // DELETE: api/Platforms/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePlatform(int id)
+        [HttpPut("Update")]
+        public async Task<ActionResult> UpdatePlatform([FromForm] UpdatePlatformRequest request)
         {
-            var platform = await _context.Platforms.FindAsync(id);
-            if (platform == null)
+            try
             {
-                return NotFound();
+                var status = await _platform.UpdatePlatform(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
             }
-
-            _context.Platforms.Remove(platform);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
-        private bool PlatformExists(int id)
+
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> DeletePlatform([FromBody]DeletePlatformRequest request)
         {
-            return _context.Platforms.Any(e => e.PlatformId == id);
+            try
+            {
+                var status = await _platform.DeletePlatform(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
+
+        [HttpGet("GetById")]
+        public async Task<IActionResult> FindById([FromQuery]int PlatformId)
+        {
+            try
+            {
+                var status = await _platform.GetPlatfromById(PlatformId);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+        [HttpGet("View")]
+        public async Task<IActionResult> ViewAllPlatformPagination([FromQuery]ViewPlatformRequest request)
+        {
+            try
+            {
+                var status = await _platform.ViewPlatfrom(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
     }
 }

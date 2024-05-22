@@ -180,11 +180,15 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             },
             {
               "$type": "Document",
@@ -194,9 +198,10 @@
               "RelativeDocumentMoniker": "DiamondLuxurySolution.Application\\Repository\\Platform\\Platform.cs",
               "ToolTip": "D:\\Learning\\CN5\\SWP391\\WebApp\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Platform\\Platform.cs",
               "RelativeToolTip": "DiamondLuxurySolution.Application\\Repository\\Platform\\Platform.cs",
-              "ViewState": "AQIAADYAAAAAAAAAAAAQwEcAAAA1AAAA",
+              "ViewState": "AQIAACEAAAAAAAAAAAAQwCEAAAA0AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-21T17:24:41.701Z"
+              "WhenOpened": "2024-05-21T17:24:41.701Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -206,9 +211,10 @@
               "RelativeDocumentMoniker": "DiamondLuxurySolution.Application\\Repository\\Platform\\IPlatform.cs",
               "ToolTip": "D:\\Learning\\CN5\\SWP391\\WebApp\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Platform\\IPlatform.cs",
               "RelativeToolTip": "DiamondLuxurySolution.Application\\Repository\\Platform\\IPlatform.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAAoAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-21T17:24:38.002Z"
+              "WhenOpened": "2024-05-21T17:24:38.002Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -220,7 +226,8 @@
               "RelativeToolTip": "DiamondLuxurySolution.Data\\EF\\LuxuryDiamondShopContext.cs",
               "ViewState": "AQIAADkAAAAAAAAAAAArwEYAAAAhAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-21T01:58:25.326Z"
+              "WhenOpened": "2024-05-21T01:58:25.326Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -232,7 +239,8 @@
               "RelativeToolTip": "DiamondLuxurySolution.Data\\Entities\\Platform.cs",
               "ViewState": "AQIAAAUAAAAAAAAAAAAMwA0AAAAeAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-21T06:30:31.848Z"
+              "WhenOpened": "2024-05-21T06:30:31.848Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -242,9 +250,10 @@
               "RelativeDocumentMoniker": "DiamondLuxurySolution.Utilities\\Constants\\Systemconstant.cs",
               "ToolTip": "D:\\Learning\\CN5\\SWP391\\WebApp\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Utilities\\Constants\\Systemconstant.cs",
               "RelativeToolTip": "DiamondLuxurySolution.Utilities\\Constants\\Systemconstant.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-20T13:11:37.684Z"
+              "WhenOpened": "2024-05-20T13:11:37.684Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -254,7 +263,7 @@
               "RelativeDocumentMoniker": "DiamondLuxurySolution.BackendApi\\Controllers\\PlatformsController.cs",
               "ToolTip": "D:\\Learning\\CN5\\SWP391\\WebApp\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\Controllers\\PlatformsController.cs",
               "RelativeToolTip": "DiamondLuxurySolution.BackendApi\\Controllers\\PlatformsController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEMAAAAIAAAA",
+              "ViewState": "AQIAAD8AAAAAAAAAAAAawEMAAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-21T17:44:51.703Z",
               "EditorCaption": ""
@@ -269,7 +278,8 @@
               "RelativeToolTip": "DiamondLuxurySolution.ViewModel\\Models\\Platform\\CreatePlatformRequest.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAuwBEAAAA8AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-21T17:24:51.575Z"
+              "WhenOpened": "2024-05-21T17:24:51.575Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -699,10 +709,6 @@
               "RelativeToolTip": "DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2024-05-16T12:17:44.98Z"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             }
           ]
         }
