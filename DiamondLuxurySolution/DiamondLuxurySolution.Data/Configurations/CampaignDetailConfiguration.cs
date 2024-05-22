@@ -23,12 +23,12 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(cd => cd.MaxDiscount).HasColumnType("DECIMAL(10, 2)").IsRequired();
 
             builder.HasOne(cd => cd.Promotion)
-                   .WithMany()
+                   .WithMany(x => x.CampaignDetails)
                    .HasForeignKey(cd => cd.PromotionId)
                    .IsRequired();
 
             builder.HasOne(cd => cd.Order)
-                   .WithMany()
+                   .WithMany(x => x.CampaignDetails)
                    .HasForeignKey(cd => cd.OrderId)
                    .IsRequired();
         }

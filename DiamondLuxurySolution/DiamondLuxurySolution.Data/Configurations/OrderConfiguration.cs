@@ -27,7 +27,7 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(o => o.ShipPrice).HasColumnType("DECIMAL(10, 2)").IsRequired();
             builder.Property(o => o.Status).IsRequired();
             builder.HasOne(o => o.Customer)
-                   .WithMany()
+                   .WithMany(x => x.Orders)
                    .HasForeignKey(o => o.CustomerId)
                    .IsRequired();
         }

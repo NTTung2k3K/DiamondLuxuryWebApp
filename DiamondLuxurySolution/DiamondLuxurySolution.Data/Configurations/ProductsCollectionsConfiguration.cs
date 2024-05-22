@@ -18,11 +18,11 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.HasKey(pc => new { pc.CollectionId, pc.ProductId });
 
             builder.HasOne(pc => pc.Collection)
-                   .WithMany()
+                   .WithMany(x => x.ProductsCollections)
                    .HasForeignKey(pc => pc.CollectionId);
 
             builder.HasOne(pc => pc.Product)
-                   .WithMany()
+                   .WithMany(x => x.ProductsCollections)
                    .HasForeignKey(pc => pc.ProductId);
 
             builder.Property(pc => pc.Description).HasMaxLength(250);

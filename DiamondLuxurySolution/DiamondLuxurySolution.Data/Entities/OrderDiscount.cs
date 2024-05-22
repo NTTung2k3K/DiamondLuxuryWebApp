@@ -10,7 +10,7 @@ namespace DiamondLuxurySolution.Data.Entities
     {
         public string OrderId { get; set; } = null!;
         public Guid DiscountId { get; set; }
-        public string Description { get; set; }
+        public string Description { get; set; } = string.Empty;
         public virtual Order Order { get; set; } = null!;
 
         public virtual Discount Discount { get; set; } = null!;

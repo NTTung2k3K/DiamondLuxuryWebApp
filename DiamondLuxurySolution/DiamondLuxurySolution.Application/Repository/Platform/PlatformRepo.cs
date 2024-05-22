@@ -14,10 +14,10 @@ using System.Threading.Tasks;
 
 namespace DiamondLuxurySolution.Application.Repository.Platform
 {
-    public class Platform : IPlatform
+    public class PlatformRepo : IPlatformRepo
     {
         private readonly LuxuryDiamondShopContext _context;
-        public Platform(LuxuryDiamondShopContext context)
+        public PlatformRepo(LuxuryDiamondShopContext context)
         {
             _context = context;
         }

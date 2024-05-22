@@ -23,7 +23,7 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(od => od.TotalPrice).HasColumnType("DECIMAL(10, 2)").IsRequired();
 
             builder.HasOne(od => od.Product)
-                   .WithMany()
+                   .WithMany(x => x.OrderDetails)
                    .HasForeignKey(od => od.ProductId)
                    .IsRequired();
 
@@ -33,7 +33,7 @@ namespace DiamondLuxurySolution.Data.Configurations
                    .IsRequired();
 
             builder.HasOne(od => od.Warranty)
-                   .WithMany()
+                   .WithMany(x => x.OrderDetails)
                    .HasForeignKey(od => od.WarrantyId)
                    .IsRequired();
         }

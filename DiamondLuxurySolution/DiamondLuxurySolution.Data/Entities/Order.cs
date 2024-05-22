@@ -32,10 +32,10 @@ public partial class Order
     public virtual AppUser? Customer { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+    public virtual ICollection<OrderDiscount> OrderDiscounts { get; set; } = new List<OrderDiscount>();
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 
     public virtual AppUser? Shipper { get; set; }
 
-    public virtual ICollection<Discount> Discounts { get; set; } = new List<Discount>();
 }

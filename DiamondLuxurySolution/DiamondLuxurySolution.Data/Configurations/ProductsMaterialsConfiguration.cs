@@ -18,11 +18,11 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.HasKey(pm => new { pm.MaterialId, pm.ProductId });
 
             builder.HasOne(pm => pm.Material)
-                   .WithMany()
+                   .WithMany(x => x.ProductsMaterials)
                    .HasForeignKey(pm => pm.MaterialId);
 
             builder.HasOne(pm => pm.Product)
-                   .WithMany()
+                   .WithMany(x => x.ProductsMaterials)
                    .HasForeignKey(pm => pm.ProductId);
 
             builder.Property(pm => pm.Weight).IsRequired();

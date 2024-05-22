@@ -19,12 +19,12 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(k => k.Description).HasMaxLength(int.MaxValue);
 
             builder.HasOne(k => k.KnowledgeNews)
-                   .WithMany()
+                   .WithMany(k => k.KnowledgeNewCatagoriesDetails)
                    .HasForeignKey(k => k.KnowledgeNewsId)
                    .IsRequired();
 
             builder.HasOne(k => k.KnowledgeNewCatagory)
-                   .WithMany()
+                   .WithMany(k => k.KnowledgeNewCatagoriesDetails)
                    .HasForeignKey(k => k.KnowledgeNewCatagoryId)
                    .IsRequired();
         }

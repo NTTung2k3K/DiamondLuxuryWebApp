@@ -24,7 +24,7 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(k => k.DateModified);
 
             builder.HasOne(k => k.Writer)
-                   .WithMany()
+                   .WithMany(x => x.KnowledgeNews)
                    .HasForeignKey(k => k.WriterId)
                    .IsRequired();
         }

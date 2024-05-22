@@ -16,17 +16,22 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.ToTable("Products_Gems");
 
             builder.HasKey(pg => new { pg.GemId, pg.ProductId });
-
             builder.HasOne(pg => pg.Gem)
-                   .WithMany()
-                   .HasForeignKey(pg => pg.GemId);
+                           .WithMany(g => g.ProductsGems) 
+                           .HasForeignKey(pg => pg.GemId)
+                           .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(pg => pg.Product)
-                   .WithMany()
-                   .HasForeignKey(pg => pg.ProductId);
+                   .WithMany(p => p.ProductsGems) 
+                   .HasForeignKey(pg => pg.ProductId)
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.Property(pg => pg.MainGemPrice).IsRequired();
             builder.Property(pg => pg.SubGemPrice).IsRequired();
+
+
+           
+
         }
     }
 

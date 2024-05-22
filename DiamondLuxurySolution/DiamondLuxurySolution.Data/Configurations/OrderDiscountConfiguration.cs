@@ -18,12 +18,12 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.HasKey(od => new { od.OrderId, od.DiscountId });
 
             builder.HasOne(od => od.Discount)
-                   .WithMany()
+                   .WithMany(x => x.OrderDiscounts)
                    .HasForeignKey(od => od.DiscountId)
                    .IsRequired();
 
             builder.HasOne(od => od.Order)
-                   .WithMany()
+                   .WithMany(x => x.OrderDiscounts)
                    .HasForeignKey(od => od.OrderId)
                    .IsRequired();
         }
