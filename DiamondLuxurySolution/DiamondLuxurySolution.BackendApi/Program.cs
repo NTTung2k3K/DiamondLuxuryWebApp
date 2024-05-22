@@ -1,3 +1,4 @@
+using DiamondLuxurySolution.Application.Repository.About;
 using DiamondLuxurySolution.Application.Repository.Platform;
 using DiamondLuxurySolution.Application.Repository.Slide;
 using DiamondLuxurySolution.Data.EF;
@@ -12,6 +13,7 @@ builder.Services.AddDbContext<LuxuryDiamondShopContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("LuxuryDiamondDb"));
 });
 builder.Services.AddTransient<IPlatform, Platform>();
+builder.Services.AddTransient<IAboutRepo, AboutRepo>();
 builder.Services.AddTransient<ISlideRepo, SlideRepo>();
 
 builder.Services.AddControllers();

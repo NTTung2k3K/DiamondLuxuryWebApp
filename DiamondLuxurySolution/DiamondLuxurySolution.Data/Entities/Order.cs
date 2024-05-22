@@ -23,19 +23,19 @@ public partial class Order
 
     public decimal ShipPrice { get; set; }
 
-    public bool Status { get; set; }
+    public string Status { get; set; }
 
     public Guid? CustomerId { get; set; }
 
     public virtual ICollection<CampaignDetail> CampaignDetails { get; set; } = new List<CampaignDetail>();
 
-    public virtual AspNetUser? Customer { get; set; }
+    public virtual AppUser? Customer { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 
-    public virtual AspNetUser? Shipper { get; set; }
+    public virtual AppUser? Shipper { get; set; }
 
     public virtual ICollection<Discount> Discounts { get; set; } = new List<Discount>();
 }

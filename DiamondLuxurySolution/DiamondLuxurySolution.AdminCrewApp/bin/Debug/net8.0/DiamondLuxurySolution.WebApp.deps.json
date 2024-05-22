@@ -125,13 +125,14 @@
       },
       "Microsoft.AspNetCore.Http.Abstractions/2.1.1": {
         "dependencies": {
-          "Microsoft.AspNetCore.Http.Features": "2.1.1",
+          "Microsoft.AspNetCore.Http.Features": "3.1.32",
           "System.Text.Encodings.Web": "6.0.0"
         }
       },
-      "Microsoft.AspNetCore.Http.Features/2.1.1": {
+      "Microsoft.AspNetCore.Http.Features/3.1.32": {
         "dependencies": {
-          "Microsoft.Extensions.Primitives": "8.0.0"
+          "Microsoft.Extensions.Primitives": "8.0.0",
+          "System.IO.Pipelines": "4.7.5"
         }
       },
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore/8.0.5": {
@@ -607,6 +608,25 @@
           }
         }
       },
+      "PagedList/1.17.0": {
+        "runtime": {
+          "lib/net40/PagedList.dll": {
+            "assemblyVersion": "1.17.0.0",
+            "fileVersion": "1.17.0.0"
+          }
+        }
+      },
+      "PagedList.Mvc/4.5.0": {
+        "dependencies": {
+          "PagedList": "1.17.0"
+        },
+        "runtime": {
+          "lib/net40/PagedList.Mvc.dll": {
+            "assemblyVersion": "4.5.0.0",
+            "fileVersion": "4.5.0.0"
+          }
+        }
+      },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
       "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
       "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
@@ -908,6 +928,7 @@
           "System.Runtime": "4.3.0"
         }
       },
+      "System.IO.Pipelines/4.7.5": {},
       "System.Linq/4.3.0": {
         "dependencies": {
           "System.Collections": "4.3.0",
@@ -1420,6 +1441,13 @@
         }
       },
       "DiamondLuxurySolution.Application/1.0.0": {
+        "dependencies": {
+          "DiamondLuxurySolution.Utilities": "1.0.0",
+          "DiamondLuxurySolution.ViewModel": "1.0.0",
+          "Microsoft.AspNetCore.Http.Features": "3.1.32",
+          "PagedList": "1.17.0",
+          "PagedList.Mvc": "4.5.0"
+        },
         "runtime": {
           "DiamondLuxurySolution.Application.dll": {}
         }
@@ -1436,7 +1464,6 @@
       },
       "DiamondLuxurySolution.Utilities/1.0.0": {
         "dependencies": {
-          "DiamondLuxurySolution.Application": "1.0.0",
           "DiamondLuxurySolution.Data": "1.0.0",
           "DiamondLuxurySolution.ViewModel": "1.0.0",
           "Firebase.Auth": "1.0.0",
@@ -1449,6 +1476,9 @@
         }
       },
       "DiamondLuxurySolution.ViewModel/1.0.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Http": "2.1.34"
+        },
         "runtime": {
           "DiamondLuxurySolution.ViewModel.dll": {}
         }
@@ -1531,12 +1561,12 @@
       "path": "microsoft.aspnetcore.http.abstractions/2.1.1",
       "hashPath": "microsoft.aspnetcore.http.abstractions.2.1.1.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Http.Features/2.1.1": {
+    "Microsoft.AspNetCore.Http.Features/3.1.32": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-VklZ7hWgSvHBcDtwYYkdMdI/adlf7ebxTZ9kdzAhX+gUs5jSHE9mZlTamdgf9miSsxc1QjNazHXTDJdVPZKKTw==",
-      "path": "microsoft.aspnetcore.http.features/2.1.1",
-      "hashPath": "microsoft.aspnetcore.http.features.2.1.1.nupkg.sha512"
+      "sha512": "sha512-uf8Cae8ThkSWPqzRD1HyBzGjd3HbJzw4HDPtMRv2sMmJCDBkGxMIc3gGFP09VLPzt5bHRv82TNPfOYFsMRhr8Q==",
+      "path": "microsoft.aspnetcore.http.features/3.1.32",
+      "hashPath": "microsoft.aspnetcore.http.features.3.1.32.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Identity.EntityFrameworkCore/8.0.5": {
       "type": "package",
@@ -1867,6 +1897,20 @@
       "path": "owin/1.0.0",
       "hashPath": "owin.1.0.0.nupkg.sha512"
     },
+    "PagedList/1.17.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Ou6F3WKXh49hOo0TxWM+SkIGuKllYPuPPvnSYOlQ1sTrtuEyuDUhYbSJd5Sdb06i/sWUJZTjiUecEs3Ht/Hx3g==",
+      "path": "pagedlist/1.17.0",
+      "hashPath": "pagedlist.1.17.0.nupkg.sha512"
+    },
+    "PagedList.Mvc/4.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-D0M4qW2g4a9cwG8ozIKUnJheCrm5GpFTceqUl63AXWaAVnTgk+TysZYUOGMsBRuzid8aF+/E8b0bXM6+90jiEw==",
+      "path": "pagedlist.mvc/4.5.0",
+      "hashPath": "pagedlist.mvc.4.5.0.nupkg.sha512"
+    },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
       "type": "package",
       "serviceable": true,
@@ -2167,6 +2211,13 @@
       "sha512": "sha512-6QOb2XFLch7bEc4lIcJH49nJN2HV+OC3fHDgsLVsBVBk3Y4hFAnOBGzJ2lUu7CyDDFo9IBWkSsnbkT6IBwwiMw==",
       "path": "system.io.filesystem.primitives/4.3.0",
       "hashPath": "system.io.filesystem.primitives.4.3.0.nupkg.sha512"
+    },
+    "System.IO.Pipelines/4.7.5": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-iqGBxw9zqxHK4bzwiYMYGYnaKK1OBQkLGwqqN/+kkj1lQVo+jEaEntOCL4XztOHjpp+ANYQ4UPKNUeeQmFK3mQ==",
+      "path": "system.io.pipelines/4.7.5",
+      "hashPath": "system.io.pipelines.4.7.5.nupkg.sha512"
     },
     "System.Linq/4.3.0": {
       "type": "package",
