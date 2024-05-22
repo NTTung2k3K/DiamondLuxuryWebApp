@@ -21,5 +21,5 @@ public partial class KnowledgeNews
 
     public virtual ICollection<KnowledgeNewCatagoriesDetail> KnowledgeNewCatagoriesDetails { get; set; } = new List<KnowledgeNewCatagoriesDetail>();
 
-    public virtual AspNetUser? Writer { get; set; }
+    public virtual AppUser? Writer { get; set; }
 }

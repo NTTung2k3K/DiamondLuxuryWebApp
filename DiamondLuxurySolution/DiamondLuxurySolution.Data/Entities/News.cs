@@ -23,5 +23,5 @@ public partial class News
 
     public Guid? Id { get; set; }
 
-    public virtual AspNetUser? IdNavigation { get; set; }
+    public virtual AppUser? Writer { get; set; }
 }
