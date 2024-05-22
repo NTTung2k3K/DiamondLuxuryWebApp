@@ -12,11 +12,14 @@ using System.Threading.Tasks;
 
 namespace DiamondLuxurySolution.Utilities.Helper
 {
-    public static class ImageHelper
+    public class ImageHelper
     {
-        public static IConfiguration _configuration { get; set; }
+        private readonly IConfiguration _configuration;
 
-
+        public ImageHelper(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         public static async Task<string> Upload(IFormFile file)
         {
             if (file != null && file.Length > 0)
@@ -41,7 +44,6 @@ namespace DiamondLuxurySolution.Utilities.Helper
         {
             var auth = new FirebaseAuthProvider(new FirebaseConfig("AIzaSyBnfKuDQXxO2K6e2O0_S6HVZhcPBdI3zgs"));
             var a = await auth.SignInWithEmailAndPasswordAsync("DiamondLuxuryDeveloper@gmail.com", "Hello123@");
-
             var cancellation = new CancellationTokenSource();
 
             var task = new FirebaseStorage(
