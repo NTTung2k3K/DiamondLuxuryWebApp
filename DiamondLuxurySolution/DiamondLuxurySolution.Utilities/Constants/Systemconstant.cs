@@ -15,6 +15,8 @@ namespace DiamondLuxurySolution.Utilities.Constants
             public const string FirebaseBucket = "Firebase:Bucket";
             public const string FirebaseAuthEmail = "Firebase:AuthEmail";
             public const string FirebaseAuthPassword = "Firebase:AuthPassword";
+            public const int PAGE_SIZE = 10;
+
 
         }
     }
