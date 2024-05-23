@@ -6,17 +6,4 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\DiamondLuxurySolution.Application\DiamondLuxurySolution.Application.csproj" />
-    <ProjectReference Include="..\DiamondLuxurySolution.BackendApi\DiamondLuxurySolution.BackendApi.csproj" />
-    <ProjectReference Include="..\DiamondLuxurySolution.Data\DiamondLuxurySolution.Data.csproj" />
-    <ProjectReference Include="..\DiamondLuxurySolution.Utilities\DiamondLuxurySolution.Utilities.csproj" />
-    <ProjectReference Include="..\DiamondLuxurySolution.ViewModel\DiamondLuxurySolution.ViewModel.csproj" />
-    <ProjectReference Include="..\DiamondLuxurySolution.WebApp\DiamondLuxurySolution.WebApp.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -16,7 +16,7 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.ToTable("Gems");
 
             builder.HasKey(g => g.GemId);
-            builder.Property(g => g.Proportion).HasColumnType("decimal(10, 2)");
+            builder.Property(g => g.ProportionImage).IsRequired();
             builder.Property(g => g.Symetry).IsRequired().HasMaxLength(250);
             builder.Property(g => g.Polish).IsRequired().HasMaxLength(250);
             builder.Property(g => g.Price).IsRequired().HasColumnType("decimal(10, 2)");

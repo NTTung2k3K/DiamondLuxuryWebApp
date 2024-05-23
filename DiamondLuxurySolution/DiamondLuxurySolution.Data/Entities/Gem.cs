@@ -7,7 +7,7 @@ public partial class Gem
 {
     public Guid GemId { get; set; }
 
-    public decimal? Proportion { get; set; }
+    public string ProportionImage { get; set; } = null!;
 
     public string Symetry { get; set; } = null!;
 

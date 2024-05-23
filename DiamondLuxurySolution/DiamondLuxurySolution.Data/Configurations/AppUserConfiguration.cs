@@ -14,9 +14,6 @@ namespace DiamondLuxurySolution.Data.Configurations
         public void Configure(EntityTypeBuilder<AppUser> builder)
         {
             builder.ToTable("AppUsers");
-            builder.Property(x => x.Firstname).IsRequired().HasMaxLength(200);
-            builder.Property(x => x.Lastname).IsRequired().HasMaxLength(200);
-            builder.Property(x => x.Dob).IsRequired();
         }
     }
 }

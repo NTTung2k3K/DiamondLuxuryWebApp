@@ -90,11 +90,17 @@ namespace DiamondLuxurySolution.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CitizenIDCard")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Dob")
+                    b.Property<DateTime?>("Dob")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -105,14 +111,19 @@ namespace DiamondLuxurySolution.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Firstname")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Fullname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LastChangePasswordTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Lastname")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -140,15 +151,15 @@ namespace DiamondLuxurySolution.Data.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
-
-                    b.Property<int>("status")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -300,8 +311,9 @@ namespace DiamondLuxurySolution.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10, 2)");
 
-                    b.Property<decimal?>("Proportion")
-                        .HasColumnType("decimal(10, 2)");
+                    b.Property<string>("ProportionImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Symetry")
                         .IsRequired()
@@ -1108,20 +1120,11 @@ namespace DiamondLuxurySolution.Data.Migrations
                     b.Property<Guid>("RoleId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(34)
-                        .HasColumnType("nvarchar(34)");
-
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserRole<Guid>");
-
-                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -1141,23 +1144,6 @@ namespace DiamondLuxurySolution.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("DiamondLuxurySolution.Data.Entities.AppUserRole", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>");
-
-                    b.Property<Guid?>("RoleId1")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("UserId1")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasIndex("RoleId1");
-
-                    b.HasIndex("UserId1");
-
-                    b.HasDiscriminator().HasValue("AppUserRole");
                 });
 
             modelBuilder.Entity("DiamondLuxurySolution.Data.Entities.CampaignDetail", b =>
@@ -1483,30 +1469,8 @@ namespace DiamondLuxurySolution.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("DiamondLuxurySolution.Data.Entities.AppUserRole", b =>
-                {
-                    b.HasOne("DiamondLuxurySolution.Data.Entities.AppRole", "Role")
-                        .WithMany("AppUserRoles")
-                        .HasForeignKey("RoleId1");
-
-                    b.HasOne("DiamondLuxurySolution.Data.Entities.AppUser", "User")
-                        .WithMany("AppUserRoles")
-                        .HasForeignKey("UserId1");
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("DiamondLuxurySolution.Data.Entities.AppRole", b =>
-                {
-                    b.Navigation("AppUserRoles");
-                });
-
             modelBuilder.Entity("DiamondLuxurySolution.Data.Entities.AppUser", b =>
                 {
-                    b.Navigation("AppUserRoles");
-
                     b.Navigation("KnowledgeNews");
 
                     b.Navigation("News");

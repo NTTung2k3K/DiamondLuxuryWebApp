@@ -4,6 +4,8 @@ using DiamondLuxurySolution.Application.Repository.Discount;
 using DiamondLuxurySolution.Application.Repository.Platform;
 using DiamondLuxurySolution.Application.Repository.Promotion;
 using DiamondLuxurySolution.Application.Repository.Slide;
+using DiamondLuxurySolution.Application.Repository.User.Customer;
+using DiamondLuxurySolution.Application.Repository.User.Staff;
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -21,6 +23,8 @@ builder.Services.AddTransient<IPlatformRepo, PlatformRepo>();
 builder.Services.AddTransient<IAboutRepo, AboutRepo>();
 builder.Services.AddTransient<ISlideRepo, SlideRepo>();
 builder.Services.AddTransient<IRoleRepo, RoleRepo>();
+builder.Services.AddTransient<ICustomerRepo, CustomerRepo>();
+builder.Services.AddTransient<IStaffRepo, StaffRepo>();
 builder.Services.AddTransient<IPromotionRepo, PromotionRepo>();
 builder.Services.AddTransient<IDiscountRepo, DiscountRepo>();
 
