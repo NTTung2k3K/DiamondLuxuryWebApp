@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DiamondLuxurySolution.Data.Entities
 {
-    public class AppRole : IdentityRole<Guid>
+    public partial class AppRole : IdentityRole<Guid>
     {
         public string Description { get; set; }
-        public List<AppUserRole> AppUserRoles { get; set; }
+        public virtual ICollection<AppUserRole> AppUserRoles { get; set; } = new List<AppUserRole>();
     }
 }

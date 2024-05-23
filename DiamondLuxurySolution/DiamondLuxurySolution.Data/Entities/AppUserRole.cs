@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 
 namespace DiamondLuxurySolution.Data.Entities
 {
-    public class AppUserRole : IdentityUserRole<Guid>
+    public partial class AppUserRole : IdentityUserRole<Guid>
     {
         public Guid UserId { get; set; }
         public Guid RoleId { get; set; }
-        public AppUser User { get; set; }
-        public AppRole Role { get; set; }
+        public virtual AppUser User { get; set; } = null!;
+
+        public virtual AppRole Role { get; set; } = null!;
+
     }
 }

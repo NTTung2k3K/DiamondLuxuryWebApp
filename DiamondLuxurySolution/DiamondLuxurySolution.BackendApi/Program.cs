@@ -1,6 +1,8 @@
 using DiamondLuxurySolution.Application.Repository;
 using DiamondLuxurySolution.Application.Repository.About;
+using DiamondLuxurySolution.Application.Repository.Discount;
 using DiamondLuxurySolution.Application.Repository.Platform;
+using DiamondLuxurySolution.Application.Repository.Promotion;
 using DiamondLuxurySolution.Application.Repository.Slide;
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
@@ -19,6 +21,8 @@ builder.Services.AddTransient<IPlatformRepo, PlatformRepo>();
 builder.Services.AddTransient<IAboutRepo, AboutRepo>();
 builder.Services.AddTransient<ISlideRepo, SlideRepo>();
 builder.Services.AddTransient<IRoleRepo, RoleRepo>();
+builder.Services.AddTransient<IPromotionRepo, PromotionRepo>();
+builder.Services.AddTransient<IDiscountRepo, DiscountRepo>();
 
 
 builder.Services.AddControllers();
