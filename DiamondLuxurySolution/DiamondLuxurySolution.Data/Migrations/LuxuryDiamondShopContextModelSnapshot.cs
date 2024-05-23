@@ -297,6 +297,11 @@ namespace DiamondLuxurySolution.Data.Migrations
                     b.Property<bool>("Fluoresence")
                         .HasColumnType("bit");
 
+                    b.Property<string>("GemName")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
                     b.Property<bool>("IsMain")
                         .HasColumnType("bit");
 

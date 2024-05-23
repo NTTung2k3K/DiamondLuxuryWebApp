@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DiamondLuxurySolution.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Fixbug : Migration
+    public partial class InitDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -46,14 +46,14 @@ namespace DiamondLuxurySolution.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Firstname = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Lastname = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Dob = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Fullname = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CitizenIDCard = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Firstname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Lastname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Dob = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Fullname = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CitizenIDCard = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastChangePasswordTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -143,6 +143,7 @@ namespace DiamondLuxurySolution.Data.Migrations
                 columns: table => new
                 {
                     GemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    GemName = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     ProportionImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Symetry = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Polish = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),

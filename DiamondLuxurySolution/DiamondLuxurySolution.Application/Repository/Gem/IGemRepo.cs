@@ -14,6 +14,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
         public Task<ApiResult<bool>> UpdateGem(UpdateGemResquest request);
         public Task<ApiResult<bool>> DeleteGem(DeleteGemRequest request);
         public Task<ApiResult<GemVm>> GetGemById(Guid GemId);
-        public Task<ApiResult<PageResult<GemVm>>> ViewGem(ViewGemRequest request);
+        public Task<ApiResult<PageResult<GemVm>>> ViewGemInCustomer(ViewGemRequest request);
+        public Task<ApiResult<PageResult<GemVm>>> ViewGemInManager(ViewGemRequest request);
     }
 }

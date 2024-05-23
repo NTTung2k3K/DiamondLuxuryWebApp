@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,8 @@ namespace DiamondLuxurySolution.ViewModel.Models.Gem
 {
     public class CreateGemRequest
     {
-        public decimal? Proportion { get; set; }
+        public string GemName { get; set; } = null!;
+        public IFormFile ProportionImage { get; set; } = null!;
 
         public string Symetry { get; set; } = null!;
 
