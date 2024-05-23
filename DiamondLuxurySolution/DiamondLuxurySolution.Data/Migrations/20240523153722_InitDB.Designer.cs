@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiamondLuxurySolution.Data.Migrations
 {
     [DbContext(typeof(LuxuryDiamondShopContext))]
-    [Migration("20240523095949_Fixxxx")]
-    partial class Fixxxx
+    [Migration("20240523153722_InitDB")]
+    partial class InitDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -299,6 +299,11 @@ namespace DiamondLuxurySolution.Data.Migrations
 
                     b.Property<bool>("Fluoresence")
                         .HasColumnType("bit");
+
+                    b.Property<string>("GemName")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<bool>("IsMain")
                         .HasColumnType("bit");
