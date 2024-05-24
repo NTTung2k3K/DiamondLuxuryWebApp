@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DiamondLuxurySolution.AdminCrewApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+54ab408f211b31fe9d4e34dc66a91407e60f5841")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9e74033cec2c598dbb91d78545de6b11fd344967")]
 [assembly: System.Reflection.AssemblyProductAttribute("DiamondLuxurySolution.AdminCrewApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DiamondLuxurySolution.AdminCrewApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

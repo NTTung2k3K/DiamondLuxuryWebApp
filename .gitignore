@@ -1,4 +1,18 @@
-<<<<<<< HEAD
 .vs
-=======
->>>>>>> a494aebdec095a83fd112a22e80fdddffbcadbf0
+/build/
+*.suo
+*.user
+_ReSharper.*/
+*.sdf
+bin/
+obj/
+Debug/
+Release/
+*.opensdf
+*.tlog
+*.log
+TestResult.xml
+*.VisualState.xml
+Version.cs
+Version.h
+Version.cpp
