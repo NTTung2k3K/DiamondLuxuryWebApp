@@ -1588,6 +1588,7 @@
       },
       "DiamondLuxurySolution.ViewModel/1.0.0": {
         "dependencies": {
+          "DiamondLuxurySolution.Data": "1.0.0",
           "Microsoft.AspNetCore.Http": "2.1.34"
         },
         "runtime": {
