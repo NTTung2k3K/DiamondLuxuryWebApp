@@ -11,10 +11,10 @@ public partial class Material
 
     public string? Description { get; set; }
 
-    public string SubMaterial { get; set; } = null!;
-
     public string Color { get; set; } = null!;
     public int Weight { get; set; }
+
+    public bool Status { get; set; }
 
     public virtual ICollection<Product> Products{ get; set; } = new List<Product>();
 

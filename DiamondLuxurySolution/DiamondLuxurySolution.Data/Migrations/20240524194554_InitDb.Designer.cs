@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiamondLuxurySolution.Data.Migrations
 {
     [DbContext(typeof(LuxuryDiamondShopContext))]
-    [Migration("20240524164457_InitDb")]
+    [Migration("20240524194554_InitDb")]
     partial class InitDb
     {
         /// <inheritdoc />
@@ -418,6 +418,9 @@ namespace DiamondLuxurySolution.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
                     b.HasKey("InspectionCertificateId");
 
                     b.ToTable("InspectionCertificates", (string)null);
@@ -521,10 +524,8 @@ namespace DiamondLuxurySolution.Data.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<string>("SubMaterial")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Weight")
                         .HasColumnType("int");

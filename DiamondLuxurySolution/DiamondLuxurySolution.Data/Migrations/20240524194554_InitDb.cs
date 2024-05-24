@@ -149,7 +149,8 @@ namespace DiamondLuxurySolution.Data.Migrations
                     InspectionCertificateId = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
                     InspectionCertificateName = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     DateGrading = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Logo = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Logo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -177,9 +178,9 @@ namespace DiamondLuxurySolution.Data.Migrations
                     MaterialId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     MaterialName = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SubMaterial = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Color = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    Weight = table.Column<int>(type: "int", nullable: false)
+                    Weight = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

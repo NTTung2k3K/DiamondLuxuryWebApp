@@ -415,6 +415,9 @@ namespace DiamondLuxurySolution.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
                     b.HasKey("InspectionCertificateId");
 
                     b.ToTable("InspectionCertificates", (string)null);
@@ -518,10 +521,8 @@ namespace DiamondLuxurySolution.Data.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<string>("SubMaterial")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Weight")
                         .HasColumnType("int");
