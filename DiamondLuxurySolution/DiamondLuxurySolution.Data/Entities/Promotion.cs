@@ -17,5 +17,7 @@ public partial class Promotion
 
     public DateTime EndDate { get; set; }
 
+    public bool Status { get; set; }
+
     public virtual ICollection<CampaignDetail> CampaignDetails { get; set; } = new List<CampaignDetail>();
 }
