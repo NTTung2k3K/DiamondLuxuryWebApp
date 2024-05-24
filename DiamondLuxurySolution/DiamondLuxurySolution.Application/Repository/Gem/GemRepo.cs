@@ -54,7 +54,6 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Price = request.Price,
                 Fluoresence = request.Fluoresence,
                 ProportionImage = firebaseUrl,
-                _4c = request._4c,
                 Active = request.Active,
             };
             _context.Gems.Add(gem);
@@ -93,7 +92,6 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Price = gem.Price,
                 Fluoresence = gem.Fluoresence,
                 ProportionImage = gem.ProportionImage,
-                _4c = gem._4c,
                 Active = gem.Active,
             };
             return new ApiSuccessResult<GemVm>(gemVm, "Success");
@@ -131,7 +129,6 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
             gem.Price = request.Price;
             gem.Fluoresence = request.Fluoresence;
             gem.ProportionImage = firebaseUrl;
-            gem._4c = request._4c;
             gem.Active = request.Active;
 
             await _context.SaveChangesAsync();
@@ -162,7 +159,6 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Price = gem.Price,
                 Fluoresence = gem.Fluoresence,
                 ProportionImage = gem.ProportionImage,
-                _4c = gem._4c,
                 Active = gem.Active,
             }).ToList();
             var listResult = new PageResult<GemVm>()
@@ -200,7 +196,6 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Price = gem.Price,
                 Fluoresence = gem.Fluoresence,
                 ProportionImage = gem.ProportionImage,
-                _4c = gem._4c,
                 Active = gem.Active,
             }).ToList();
             var listResult = new PageResult<GemVm>()
