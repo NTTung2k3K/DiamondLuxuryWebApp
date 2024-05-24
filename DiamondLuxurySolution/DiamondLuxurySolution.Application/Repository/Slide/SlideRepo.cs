@@ -85,37 +85,35 @@ namespace DiamondLuxurySolution.Application.Repository.Slide
 
         public async Task<ApiResult<bool>> UpdateSlide(UpdateSlideRequest request)
         {
-            if (string.IsNullOrEmpty(request.SlideName))
-            {
-                return new ApiErrorResult<bool>("Vui lòng nhập tên Slide");
-            }
-            if (string.IsNullOrEmpty(request.SlideUrl))
-            {
-                return new ApiErrorResult<bool>("Vui lòng nhập Url của Slide");
-            }
-            if (request.SlideImage == null)
-            {
-                return new ApiErrorResult<bool>("Vui lòng chèn hình ảnh Slide");
-            }
-
             var slide = await _context.Slides.FindAsync(request.SlideId);
             if (slide == null)
             {
-                return new ApiErrorResult<bool>("Không tìm thấy Slide");
+                return new ApiErrorResult<bool>("Không tìm thấy slide");
             }
-            string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.SlideImage);
-            slide.SlideId = request.SlideId;
-            slide.SlideName = request.SlideName;
+            if (!string.IsNullOrEmpty(request.SlideName))
+            {
+                slide.SlideName = request.SlideName;
+            }
+            if (!string.IsNullOrEmpty(request.SlideUrl))
+            {
+                slide.SlideUrl = request.SlideUrl;
+            }
+            if (request.SlideImage != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.SlideImage);
+                slide.SlideImage = firebaseUrl;
+            }
             slide.Status = request.Status;
-            slide.SlideImage = firebaseUrl;
-            slide.SlideUrl = request.SlideUrl;
-            slide.Description = request.Description;
+            if(!string.IsNullOrEmpty(request.Description))
+            {
+                slide.Description = request.Description;
+            }
 
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
         }
 
-        public async Task<ApiResult<PageResult<SlideViewModel>>> ViewSlide(ViewSlideRequest request)
+        public async Task<ApiResult<PageResult<SlideViewModel>>> ViewSlidesInManager(ViewSlideRequest request)
         {
             var listSlide = await _context.Slides.ToListAsync();
             if (request.Keyword != null)
@@ -124,6 +122,39 @@ namespace DiamondLuxurySolution.Application.Repository.Slide
 
             }
             listSlide = listSlide.OrderByDescending(x => x.SlideName).ToList();
+
+            int pageIndex = request.pageIndex ?? 1;
+
+            var listPaging = listSlide.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
+
+            var listSlideVm = listPaging.Select(x => new SlideViewModel()
+            {
+                SlideId = x.SlideId,
+                SlideName = x.SlideName,
+                SlideUrl = x.SlideUrl,
+                SlideImage = x.SlideImage,
+                Status = x.Status,
+                Description = x.Description
+            }).ToList();
+            var listResult = new PageResult<SlideViewModel>()
+            {
+                Items = listSlideVm,
+                PageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE,
+                TotalRecords = listSlideVm.Count,
+                PageIndex = pageIndex
+            };
+            return new ApiSuccessResult<PageResult<SlideViewModel>>(listResult, "Success");
+        }
+
+        public async Task<ApiResult<PageResult<SlideViewModel>>> ViewSlidesInCustomer(ViewSlideRequest request)
+        {
+            var listSlide = await _context.Slides.ToListAsync();
+            if (request.Keyword != null)
+            {
+                listSlide = listSlide.Where(x => x.SlideName.Contains(request.Keyword)).ToList();
+
+            }
+            listSlide = listSlide.Where(x => x.Status == true).OrderByDescending(x => x.SlideName).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 
