@@ -12,4 +12,6 @@ public partial class About
     public string? Description { get; set; }
 
     public string AboutImage { get; set; } = null!;
+
+    public bool Status { get; set; }
 }

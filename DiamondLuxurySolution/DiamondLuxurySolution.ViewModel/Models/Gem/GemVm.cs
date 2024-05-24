@@ -22,11 +22,10 @@ namespace DiamondLuxurySolution.ViewModel.Models.Gem
 
         public bool IsOrigin { get; set; }
 
-        public bool _4c { get; set; }
-
         public bool IsMain { get; set; }
 
         public bool Fluoresence { get; set; }
+        public DateTime AcquisitionDate { get; set; }
 
         public bool Active { get; set; }
     }

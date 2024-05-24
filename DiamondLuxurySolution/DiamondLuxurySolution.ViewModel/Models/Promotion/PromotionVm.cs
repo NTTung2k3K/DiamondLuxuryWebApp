@@ -19,5 +19,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Promotion
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
+
+        public bool Status { get; set; }
     }
 }

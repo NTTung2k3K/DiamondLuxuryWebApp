@@ -22,37 +22,28 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
 
         public async Task<ApiResult<bool>> CreateDiscount(CreateDiscountRequest request)
         {
+            var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.DiscountName))
             {
-                return new ApiErrorResult<bool>("Vui lòng nhập tên chiết khấu");
-            }
-            if (request.StartDate == null)
-            {
-                return new ApiErrorResult<bool>("Vui lòng nhập ngày bắt đầu chiết khấu");
-            }
-            if (request.EndDate == null)
-            {
-                return new ApiErrorResult<bool>("Vui lòng nhập ngày kết thúc chiết khấu");
-            }
-            if (request.StartDate >= request.EndDate)
-            {
-                return new ApiErrorResult<bool>("Ngày kết thúc phải sau ngày bắt đầu chiết khấu");
+                errorList.Add("Vui lòng nhập tên chiết khấu");
+                //return new ApiErrorResult<bool>("Vui lòng nhập tên chiết khấu");
             }
             if (request.PercentSale < 0)
             {
-                return new ApiErrorResult<bool>("% Chiết khấu phải >= 0");
+                errorList.Add("% Chiết khấu phải >= 0");
+                //return new ApiErrorResult<bool>("% Chiết khấu phải >= 0");
             }
-            if (request.DiscountImage == null)
+            if (errorList.Any())
             {
-                return new ApiErrorResult<bool>("Vui lòng gắn Image");
+                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
-            string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.DiscountImage);
             var discount = new DiamondLuxurySolution.Data.Entities.Discount
             {
                 DiscountId = Guid.NewGuid(),
                 DiscountName = request.DiscountName,
                 Description = request.Description,
                 PercentSale = request.PercentSale,
+                Status = request.Status,
             };
             _context.Discounts.Add(discount);
             await _context.SaveChangesAsync();
@@ -85,6 +76,7 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
                 DiscountName = discount.DiscountName,
                 Description = discount.Description,
                 PercentSale = discount.PercentSale,
+                Status = discount.Status,
 
             };
             return new ApiSuccessResult<DiscountVm>(discountVm, "Success");
@@ -92,29 +84,20 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
 
         public async Task<ApiResult<bool>> UpdateDiscount(UpdateDiscountRequest request)
         {
+            var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.DiscountName))
             {
-                return new ApiErrorResult<bool>("Vui lòng nhập tên chiết khấu");
-            }
-            if (request.StartDate == null)
-            {
-                return new ApiErrorResult<bool>("Vui lòng nhập ngày bắt đầu chiết khấu");
-            }
-            if (request.EndDate == null)
-            {
-                return new ApiErrorResult<bool>("Vui lòng nhập ngày kết thúc chiết khấu");
-            }
-            if (request.StartDate >= request.EndDate)
-            {
-                return new ApiErrorResult<bool>("Ngày kết thúc phải sau ngày bắt đầu chiết khấu");
+                errorList.Add("Vui lòng nhập tên chiết khấu");
+                //return new ApiErrorResult<bool>("Vui lòng nhập tên chiết khấu");
             }
             if (request.PercentSale < 0)
             {
-                return new ApiErrorResult<bool>("% Chiết khấu phải >= 0");
+                errorList.Add("% Chiết khấu phải >= 0");
+                //return new ApiErrorResult<bool>("% Chiết khấu phải >= 0");
             }
-            if (request.DiscountImage == null)
+            if (errorList.Any())
             {
-                return new ApiErrorResult<bool>("Vui lòng gắn Image");
+                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
             var discount = await _context.Discounts.FindAsync(request.DiscountId);
             if (discount == null)
@@ -122,16 +105,49 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
                 return new ApiErrorResult<bool>("Không tìm thấy chiết khấu");
             }
 
-            string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.DiscountImage);
             discount.DiscountName = request.DiscountName;
             discount.Description = request.Description;
             discount.PercentSale = request.PercentSale;
+            discount.Status = request.Status;
 
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
         }
 
-        public async Task<ApiResult<PageResult<DiscountVm>>> ViewDiscount(ViewDiscountRequest request)
+
+        public async Task<ApiResult<PageResult<DiscountVm>>> ViewDiscountInCustomer(ViewDiscountRequest request)
+        {
+            var listDiscount = await _context.Discounts.ToListAsync();
+            if (request.Keyword != null)
+            {
+                listDiscount = listDiscount.Where(x => x.DiscountName.Contains(request.Keyword)).ToList();
+
+            }
+            listDiscount = listDiscount.Where(x => x.Status).OrderByDescending(x => x.DiscountName).ToList();
+
+            int pageIndex = request.pageIndex ?? 1;
+
+            var listPaging = listDiscount.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
+
+            var listDiscountVm = listPaging.Select(x => new DiscountVm()
+            {
+                DiscountId = x.DiscountId,
+                DiscountName = x.DiscountName,
+                Description = x.Description,
+                PercentSale = x.PercentSale,
+                Status = x.Status,
+            }).ToList();
+            var listResult = new PageResult<DiscountVm>()
+            {
+                Items = listDiscountVm,
+                PageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE,
+                TotalRecords = listDiscount.Count,
+                PageIndex = pageIndex
+            };
+            return new ApiSuccessResult<PageResult<DiscountVm>>(listResult, "Success");
+        }
+
+        public async Task<ApiResult<PageResult<DiscountVm>>> ViewDiscountInManager(ViewDiscountRequest request)
         {
             var listDiscount = await _context.Discounts.ToListAsync();
             if (request.Keyword != null)
@@ -151,6 +167,7 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
                 DiscountName = x.DiscountName,
                 Description = x.Description,
                 PercentSale = x.PercentSale,
+                Status = x.Status,
             }).ToList();
             var listResult = new PageResult<DiscountVm>()
             {

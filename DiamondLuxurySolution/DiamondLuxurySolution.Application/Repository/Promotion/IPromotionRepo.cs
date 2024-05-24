@@ -14,6 +14,8 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
         public Task<ApiResult<bool>> UpdatePromotion(UpdatePromotionRequest request);
         public Task<ApiResult<bool>> DeletePromotion(DeletePromotionRequest request);
         public Task<ApiResult<PromotionVm>> GetPromotionById(Guid PromotionId);
-        public Task<ApiResult<PageResult<PromotionVm>>> ViewPromotion(ViewPromotionRequest request);
+        public Task<ApiResult<PageResult<PromotionVm>>> ViewPromotionInCustomer(ViewPromotionRequest request);
+
+        public Task<ApiResult<PageResult<PromotionVm>>> ViewPromotionInManager(ViewPromotionRequest request);
     }
 }

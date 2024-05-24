@@ -16,5 +16,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Platform
         public string PlatformUrl { get; set; } = null!;
 
         public IFormFile PlatformLogo { get; set; } = null!;
+
+        public bool Status { get; set; }
     }
 }

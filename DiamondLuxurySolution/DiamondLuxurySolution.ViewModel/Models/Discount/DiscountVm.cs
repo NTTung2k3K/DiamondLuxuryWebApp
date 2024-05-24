@@ -14,12 +14,8 @@ namespace DiamondLuxurySolution.ViewModel.Models.Discount
 
         public string? Description { get; set; }
 
-        public string DiscountImage { get; set; } = null!;
-
         public double PercentSale { get; set; }
 
-        public DateTime StartDate { get; set; }
-
-        public DateTime EndDate { get; set; }
+        public bool Status { get; set; }
     }
 }
