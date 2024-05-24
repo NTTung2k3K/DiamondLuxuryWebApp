@@ -14,8 +14,10 @@ public partial class Material
     public string SubMaterial { get; set; } = null!;
 
     public string Color { get; set; } = null!;
+    public int Weight { get; set; }
 
-    public virtual ICollection<MaterialPriceListDetail> MaterialPriceListDetails { get; set; } = new List<MaterialPriceListDetail>();
+    public virtual ICollection<Product> Products{ get; set; } = new List<Product>();
 
-    public virtual ICollection<ProductsMaterial> ProductsMaterials { get; set; } = new List<ProductsMaterial>();
+    public virtual ICollection<MaterialPriceList> MaterialPriceLists { get; set; } = new List<MaterialPriceList>();
+
 }

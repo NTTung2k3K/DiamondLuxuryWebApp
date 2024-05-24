@@ -52,9 +52,6 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
                 DiscountId = Guid.NewGuid(),
                 DiscountName = request.DiscountName,
                 Description = request.Description,
-                StartDate = request.StartDate,
-                DiscountImage = firebaseUrl,
-                EndDate = request.EndDate,
                 PercentSale = request.PercentSale,
             };
             _context.Discounts.Add(discount);
@@ -86,10 +83,7 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
             {
                 DiscountId = discount.DiscountId,
                 DiscountName = discount.DiscountName,
-                DiscountImage = discount.DiscountImage,
                 Description = discount.Description,
-                StartDate = discount.StartDate,
-                EndDate = discount.EndDate,
                 PercentSale = discount.PercentSale,
 
             };
@@ -130,10 +124,7 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
 
             string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.DiscountImage);
             discount.DiscountName = request.DiscountName;
-            discount.DiscountImage = firebaseUrl;
             discount.Description = request.Description;
-            discount.StartDate = request.StartDate;
-            discount.EndDate = request.EndDate;
             discount.PercentSale = request.PercentSale;
 
             await _context.SaveChangesAsync();
@@ -159,9 +150,6 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
                 DiscountId = x.DiscountId,
                 DiscountName = x.DiscountName,
                 Description = x.Description,
-                DiscountImage = x.DiscountImage,
-                StartDate = x.StartDate,
-                EndDate = x.EndDate,
                 PercentSale = x.PercentSale,
             }).ToList();
             var listResult = new PageResult<DiscountVm>()

@@ -26,8 +26,8 @@ namespace DiamondLuxurySolution.Data.Configurations
                    .HasForeignKey(pg => pg.ProductId)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Property(pg => pg.MainGemPrice).IsRequired();
-            builder.Property(pg => pg.SubGemPrice).IsRequired();
+            builder.Property(pg => pg.MainGemQuantity);
+            builder.Property(pg => pg.SubGemQuantity);
 
 
            

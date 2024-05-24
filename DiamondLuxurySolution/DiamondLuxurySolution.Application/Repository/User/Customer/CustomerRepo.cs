@@ -84,6 +84,83 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
             return new ApiSuccessResult<bool>(true, "Success");
         }
 
+        public async Task<ApiResult<bool>> ForgotpasswordCustomerChange(ForgotPasswordCustomerChangeRequest request)
+        {
+            if (!request.NewPassword.Trim().Equals(request.ConfirmPassword.Trim()))
+            {
+                return new ApiErrorResult<bool>("Mật khẩu không trùng khớp");
+            }
+            var user = await _userManager.FindByEmailAsync(request.Email.Trim().ToString());
+            if (user == null)
+            {
+                return new ApiErrorResult<bool>("Email không tồn tại");
+            }
+            if (!user.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.ChangePasswordRequest.ToString()))
+            {
+                return new ApiErrorResult<bool>("Không có yêu câu thay đổi mật khẩu");
+            }
+            var removePasswordResult = await _userManager.RemovePasswordAsync(user);
+            if (!removePasswordResult.Succeeded)
+            {
+                return new ApiErrorResult<bool>("Xóa mật khẩu cũ thất bại");
+            }
+
+            var addPasswordResult = await _userManager.AddPasswordAsync(user, request.NewPassword.Trim());
+            if (!addPasswordResult.Succeeded)
+            {
+                var errorApi = new ApiErrorResult<bool>("Lỗi thông tin");
+                errorApi.ValidationErrors = new List<string>();
+                foreach (var item in addPasswordResult.Errors)
+                {
+                    errorApi.ValidationErrors.Add(item.Description);
+                }
+                return errorApi;
+            }
+            if (!addPasswordResult.Succeeded)
+            {
+
+                return new ApiErrorResult<bool>("Thêm mật khẩu mới thất bại");
+            }
+            user.LastChangePasswordTime = DateTime.Now;
+            user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Active.ToString();
+            var statusUser = await _userManager.UpdateAsync(user);
+            if (!statusUser.Succeeded)
+            {
+                return new ApiErrorResult<bool>("Lỗi hệ thống, cập nhật thông tin thất bại vui lòng thử lại");
+            }
+
+            return new ApiSuccessResult<bool>(true, "Thay đổi mật khẩu thành công");
+        }
+
+        public async Task<ApiResult<string>> ForgotpasswordCustomerSendCode(string Email)
+        {
+            var user = await _userManager.FindByEmailAsync(Email.Trim().ToString());
+
+            if (user == null)
+            {
+                return new ApiErrorResult<string>("Email không tồn tại");
+            }
+            var roles = await _userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+            {
+                if (role.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer))
+                {
+                    continue;
+                }
+                return new ApiErrorResult<string>("Không hợp lệ");
+
+            }
+            string code = DiamondLuxurySolution.Utilities.Helper.RandomHelper.GenerateRandomString(8);
+            user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.ChangePasswordRequest.ToString();
+            var statusUser = await _userManager.UpdateAsync(user);
+            if (!statusUser.Succeeded)
+            {
+                return new ApiErrorResult<string>("Lỗi hệ thống, cập nhật thông tin thất bại vui lòng thử lại");
+            }
+
+            return new ApiSuccessResult<string>(code, "Success");
+        }
+
         public async Task<ApiResult<CustomerVm>> GetCustomerById(Guid CustomerId)
         {
             var user = await _userManager.FindByIdAsync(CustomerId.ToString());
@@ -243,61 +320,6 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
 
         }
 
-        public async Task<ApiResult<PageResult<CustomerVm>>> ViewCustomerPagination(ViewCustomerPaginationRequest request)
-        {
-            var listUser = _context.Users.AsQueryable();
-            if (request.Keyword != null)
-            {
-                listUser = listUser.Where(x => x.Fullname.Contains(request.Keyword)
-                || x.Email.Contains(request.Keyword) || x.PhoneNumber.Contains(request.Keyword));
-            }
-            listUser = listUser.OrderBy(x => x.UserName);
-            int pageIndex = request.pageIndex ?? 1;
-
-            var listPaging = listUser.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
-
-
-
-            var listResult = new List<CustomerVm>();
-            foreach (var item in listPaging)
-            {
-                var user = new CustomerVm()
-                {
-                    CustomerId = item.Id,
-                    FullName = item.Fullname,
-                    PhoneNumber = item.PhoneNumber,
-                    Email = item.Email,
-                    Dob = (DateTime)item.Dob,
-                    Status = item.Status
-                };
-                var appUser = await _userManager.FindByIdAsync(item.Id.ToString());
-                var roles = await _userManager.GetRolesAsync(appUser);
-                if (roles.Count>0)
-                {
-                    user.ListRoleName = new List<string>();
-                    foreach (var role in roles)
-                    {
-                        user.ListRoleName.Add(role);
-                    }
-                    listResult.Add(user);
-                }
-                else
-                {
-                    listResult.Add(user);
-
-                }
-
-            }
-
-            var result = new PageResult<CustomerVm>()
-            {
-                Items = listResult,
-                TotalRecords = listUser.Count(),
-                PageIndex = pageIndex,
-                PageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE
-            };
-            var apiSuccess = new ApiSuccessResult<PageResult<CustomerVm>>(result, "Success");
-            return apiSuccess;
-        }
+      
     }
 }

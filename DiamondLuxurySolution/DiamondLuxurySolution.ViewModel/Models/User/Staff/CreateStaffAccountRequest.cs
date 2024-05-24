@@ -20,11 +20,11 @@ namespace DiamondLuxurySolution.ViewModel.Models.User.Staff
         public string Email { get; set; }
         public DateTime? Dob { get; set; }
         public string Password { get; set; }
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         public string ConfirmPassword { get; set; }
 
-        public IFormFile Image { get; set; }
+        public IFormFile? Image { get; set; }
         public List<Guid> RoleId { get; set; }
 
     }

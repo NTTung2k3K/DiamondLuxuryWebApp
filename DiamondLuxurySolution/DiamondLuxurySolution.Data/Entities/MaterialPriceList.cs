@@ -10,6 +10,6 @@ public partial class MaterialPriceList
     public decimal BuyPrice { get; set; }
 
     public decimal SellPrice { get; set; }
-
-    public virtual ICollection<MaterialPriceListDetail> MaterialPriceListDetails { get; set; } = new List<MaterialPriceListDetail>();
+    public Guid MaterialId { get; set; }
+    public Material Material { get; set; }
 }

@@ -9,9 +9,9 @@ public partial class ProductsGem
 
     public string ProductId { get; set; } = null!;
 
-    public decimal MainGemPrice { get; set; }
+    public int MainGemQuantity { get; set; }
 
-    public decimal SubGemPrice { get; set; }
+    public int SubGemQuantity { get; set; }
 
     public virtual Gem Gem { get; set; } = null!;
 

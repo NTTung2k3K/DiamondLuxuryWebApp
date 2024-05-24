@@ -28,7 +28,7 @@ namespace DiamondLuxurySolution.Application.Repository
             var role = await _roleManager.FindByNameAsync(request.Name);
             if (role != null)
             {
-                return new ApiErrorResult<bool>("Role không tồn tại");
+                return new ApiErrorResult<bool>("Role đã không tồn tại");
             }
             var roleAdd = new AppRole()
             {

@@ -12,6 +12,7 @@ public partial class Category
     public string CategoryType { get; set; } = null!;
 
     public string CategoryImage { get; set; } = null!;
+    public decimal CategoryPriceProcessing { get; set; }
 
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

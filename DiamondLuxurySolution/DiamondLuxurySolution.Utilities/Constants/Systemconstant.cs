@@ -10,17 +10,18 @@ namespace DiamondLuxurySolution.Utilities.Constants
     {
         public class AppSettings
         {
-            public const string BaseAddress = "Address:Base";
-            public const string FirebaseApiKey = "Firebase:ApiKey";
-            public const string FirebaseBucket = "Firebase:Bucket";
-            public const string FirebaseAuthEmail = "Firebase:AuthEmail";
-            public const string FirebaseAuthPassword = "Firebase:AuthPassword";
+            public const string BaseAddress = "https://localhost:9000";
             public const int PAGE_SIZE = 10;
         }
         public class UserRoleDefault
         {
             public const string Customer = "Khách hàng";
+            public const string Manager = "Quản lý";
+            public const string SalesStaff = "Nhân viên bán hàng";
+            public const string DeliveryStaff = "Nhân viên giao hàng";
+            public const string Admin = "Quản trị viên";
         }
+
         public enum OrderStatus
         {
             InProgress,
@@ -47,7 +48,8 @@ namespace DiamondLuxurySolution.Utilities.Constants
             Suspended,      // Nhân viên bị tạm ngưng
             Terminated,     // Nhân viên đã bị chấm dứt hợp đồng
             Probation,      // Nhân viên đang trong thời gian thử việc
-            Retired         // Nhân viên đã nghỉ hưu
+            Retired,         // Nhân viên đã nghỉ hưu
+            ChangePasswordRequest
         }
         public enum CustomerStatus
         {
@@ -58,7 +60,8 @@ namespace DiamondLuxurySolution.Utilities.Constants
             Suspended,      // Khách hàng bị tạm ngưng
             Deleted,        // Khách hàng đã bị xóa
             Verified,       // Khách hàng đã xác thực
-            Unverified      // Khách hàng chưa xác thực
+            Unverified,      // Khách hàng chưa xác thực,
+            ChangePasswordRequest
         }
 
     }

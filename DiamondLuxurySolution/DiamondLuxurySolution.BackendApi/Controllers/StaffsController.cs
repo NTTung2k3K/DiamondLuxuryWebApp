@@ -1,5 +1,6 @@
 ﻿using DiamondLuxurySolution.Application.Repository.User.Staff;
 using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.ViewModel.Models.User.Customer;
 using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -57,13 +58,12 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
 
-
-        [HttpGet("View")]
-        public async Task<ActionResult> ViewAllStaff([FromQuery] ViewStaffPaginationRequest request)
+        [HttpGet("ViewSalesStaff")]
+        public async Task<ActionResult> ViewSalesStaff([FromQuery] ViewStaffPaginationCommonRequest request)
         {
             try
             {
-                var status = await _Staff.ViewStaffPagination(request);
+                var status = await _Staff.ViewSalesStaffPagination(request);
                 if (status.IsSuccessed)
                 {
                     return Ok(status);
@@ -75,6 +75,113 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+
+        [HttpGet("ViewAdmin")]
+        public async Task<ActionResult> ViewAdmin([FromQuery] ViewStaffPaginationCommonRequest request)
+        {
+            try
+            {
+                var status = await _Staff.ViewAdminPagination(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("ViewCustomer")]
+        public async Task<ActionResult> ViewCustomer([FromQuery] ViewStaffPaginationCommonRequest request)
+        {
+            try
+            {
+                var status = await _Staff.ViewCustomerPagination(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet("ViewDeliveryStaff")]
+        public async Task<ActionResult> ViewDeliveryStaff([FromQuery] ViewStaffPaginationCommonRequest request)
+        {
+            try
+            {
+                var status = await _Staff.ViewDeliveryStaffPagination(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost("ForgotStaffPassword/SendCode/{Username}")]
+        public async Task<ActionResult> ForgotpasswordStaffCode(string Username)
+        {
+            try
+            {
+                var status = await _Staff.ForgotpasswordStaffSendCode(Username);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpPost("ForgotCustomerPassword/ChangePassword")]
+        public async Task<ActionResult> ForgotpasswordStaffChange([FromBody] ForgotPasswordStaffChangeRequest request)
+        {
+            try
+            {
+                var status = await _Staff.ForgotpassworStaffdChange(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet("ViewManagerStaff")]
+        public async Task<ActionResult> ViewManager([FromQuery] ViewStaffPaginationCommonRequest request)
+        {
+            try
+            {
+                var status = await _Staff.ViewManagerPagination(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
 
         [HttpPost("LoginStaff")]
         public async Task<ActionResult> LoginStaff([FromBody] LoginStaffRequest request)
@@ -151,5 +258,9 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+    }
+
+    public class ChangePasswordCommonRequest
+    {
     }
 }
