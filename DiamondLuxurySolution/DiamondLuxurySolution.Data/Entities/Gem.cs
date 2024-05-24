@@ -23,6 +23,7 @@ public partial class Gem
     public bool IsMain { get; set; }
 
     public bool Fluoresence { get; set; }
+    public DateTime AcquisitionDate { get; set; }
 
     public bool Active { get; set; }
     public virtual ICollection<GemPriceList> GemPriceLists
