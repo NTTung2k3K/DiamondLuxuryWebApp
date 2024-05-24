@@ -1,6 +1,7 @@
 using DiamondLuxurySolution.Application.Repository;
 using DiamondLuxurySolution.Application.Repository.About;
 using DiamondLuxurySolution.Application.Repository.Discount;
+using DiamondLuxurySolution.Application.Repository.Gem;
 using DiamondLuxurySolution.Application.Repository.Platform;
 using DiamondLuxurySolution.Application.Repository.Promotion;
 using DiamondLuxurySolution.Application.Repository.Slide;
@@ -27,6 +28,7 @@ builder.Services.AddTransient<ICustomerRepo, CustomerRepo>();
 builder.Services.AddTransient<IStaffRepo, StaffRepo>();
 builder.Services.AddTransient<IPromotionRepo, PromotionRepo>();
 builder.Services.AddTransient<IDiscountRepo, DiscountRepo>();
+builder.Services.AddTransient<IGemRepo, GemRepo>();
 
 
 builder.Services.AddControllers();
