@@ -19,7 +19,6 @@ public partial class Gem
 
     public bool IsOrigin { get; set; }
 
-
     public bool IsMain { get; set; }
 
     public bool Fluoresence { get; set; }

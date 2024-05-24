@@ -95,12 +95,30 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
 
-        [HttpGet("View")]
-        public async Task<IActionResult> ViewAllPromotionPagination([FromQuery] ViewPromotionRequest request)
+        [HttpGet("ViewInCustomer")]
+        public async Task<IActionResult> ViewAllPromotionPaginationInCustomer([FromQuery] ViewPromotionRequest request)
         {
             try
             {
-                var status = await _promotion.ViewPromotion(request);
+                var status = await _promotion.ViewPromotionInCustomer(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("ViewInManager")]
+        public async Task<IActionResult> ViewAllPromotionPaginationInManager([FromQuery] ViewPromotionRequest request)
+        {
+            try
+            {
+                var status = await _promotion.ViewPromotionInManager(request);
                 if (status.IsSuccessed)
                 {
                     return Ok(status);
