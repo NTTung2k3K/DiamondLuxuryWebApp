@@ -2,7 +2,12 @@ using DiamondLuxurySolution.Application.Repository;
 using DiamondLuxurySolution.Application.Repository.About;
 using DiamondLuxurySolution.Application.Repository.Discount;
 using DiamondLuxurySolution.Application.Repository.Gem;
+<<<<<<< HEAD
+using DiamondLuxurySolution.Application.Repository.InspectionCertificate;
+using DiamondLuxurySolution.Application.Repository.Material;
+=======
 using DiamondLuxurySolution.Application.Repository.News;
+>>>>>>> 14cb514da7b386238f214fb3f6ed6b5d512dcd17
 using DiamondLuxurySolution.Application.Repository.Platform;
 using DiamondLuxurySolution.Application.Repository.Promotion;
 using DiamondLuxurySolution.Application.Repository.Slide;
@@ -34,7 +39,12 @@ builder.Services.AddTransient<IStaffRepo, StaffRepo>();
 builder.Services.AddTransient<IPromotionRepo, PromotionRepo>();
 builder.Services.AddTransient<IDiscountRepo, DiscountRepo>();
 builder.Services.AddTransient<IGemRepo, GemRepo>();
+<<<<<<< HEAD
+builder.Services.AddTransient<IInspectionCertificateRepo, InspectionCertificateRepo>();
+builder.Services.AddTransient<IMaterialRepo, MaterialRepo>();
+=======
 builder.Services.AddTransient<INewsRepo, NewsRepo>();
+>>>>>>> 14cb514da7b386238f214fb3f6ed6b5d512dcd17
 
 
 builder.Services.AddControllers();
