@@ -102,12 +102,31 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
 
-        [HttpGet("View")]
-        public async Task<IActionResult> ViewAllPlatformPagination([FromQuery]ViewPlatformRequest request)
+        [HttpGet("ViewInCustomer")]
+        public async Task<IActionResult> ViewAllPlatformPaginationInCustomer([FromQuery]ViewPlatformRequest request)
         {
             try
             {
-                var status = await _platform.ViewPlatfrom(request);
+                var status = await _platform.ViewPlatfromInCustomer(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+        [HttpGet("ViewInManager")]
+        public async Task<IActionResult> ViewAllPlatformPaginationInManager([FromQuery] ViewPlatformRequest request)
+        {
+            try
+            {
+                var status = await _platform.ViewPlatfromInManager(request);
                 if (status.IsSuccessed)
                 {
                     return Ok(status);

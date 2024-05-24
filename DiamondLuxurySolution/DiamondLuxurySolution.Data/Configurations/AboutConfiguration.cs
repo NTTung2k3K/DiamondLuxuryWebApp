@@ -20,6 +20,7 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(a => a.AboutName).IsRequired().HasMaxLength(250);
             builder.Property(a => a.Description).HasMaxLength(250);
             builder.Property(a => a.AboutImage).IsRequired();
+            builder.Property(a => a.Status).IsRequired();
         }
     }
 

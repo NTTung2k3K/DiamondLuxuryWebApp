@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiamondLuxurySolution.Data.Migrations
 {
     [DbContext(typeof(LuxuryDiamondShopContext))]
-    [Migration("20240523153722_InitDB")]
-    partial class InitDB
+    [Migration("20240524154256_InitDb")]
+    partial class InitDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,9 @@ namespace DiamondLuxurySolution.Data.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.HasKey("AboutId");
 
@@ -282,6 +285,9 @@ namespace DiamondLuxurySolution.Data.Migrations
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.HasKey("DiscountId");
 
@@ -791,6 +797,9 @@ namespace DiamondLuxurySolution.Data.Migrations
                     b.Property<string>("PlatformUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.HasKey("PlatformId");
 

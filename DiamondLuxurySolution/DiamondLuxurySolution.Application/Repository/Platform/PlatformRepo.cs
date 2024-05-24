@@ -41,6 +41,7 @@ namespace DiamondLuxurySolution.Application.Repository.Platform
                 PlatformName = request.PlatformName,
                 PlatformLogo = firebaseUrl,
                 PlatformUrl = request.PlatformUrl,
+                Status = request.Status,
             };
             _context.Platforms.Add(platform);
             await _context.SaveChangesAsync();
@@ -72,7 +73,8 @@ namespace DiamondLuxurySolution.Application.Repository.Platform
                 PlatformLogo = platform.PlatformLogo,
                 PlatformUrl = platform.PlatformUrl,
                 PlatformName = platform.PlatformName,
-                PlatformId = platform.PlatformId
+                PlatformId = platform.PlatformId,
+                Status = platform.Status,
             };
             return new ApiSuccessResult<PlatfromVm>(platformVm, "Success");
         }
@@ -100,17 +102,50 @@ namespace DiamondLuxurySolution.Application.Repository.Platform
             platform.PlatformName = request.PlatformName;
             platform.PlatformUrl = request.PlatformUrl;
             platform.PlatformLogo = firebaseUrl;
+            platform.Status = request.Status;
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true,"Success");
         }
 
-        public async Task<ApiResult<PageResult<PlatfromVm>>> ViewPlatfrom(ViewPlatformRequest request)
+        public async Task<ApiResult<PageResult<PlatfromVm>>> ViewPlatfromInCustomer(ViewPlatformRequest request)
         {
             var listPlatform = await _context.Platforms.ToListAsync();
             if (request.Keyword != null)
             {
                 listPlatform = listPlatform.Where(x => x.PlatformName.Contains(request.Keyword)).ToList();
-               
+
+            }
+            listPlatform = listPlatform.Where(x => x.Status).OrderByDescending(x => x.PlatformName).ToList();
+
+            int pageIndex = request.pageIndex ?? 1;
+
+            var listPaging = listPlatform.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
+
+            var listPlatformVm = listPaging.Select(x => new PlatfromVm()
+            {
+                PlatformId = x.PlatformId,
+                PlatformName = x.PlatformName,
+                PlatformUrl = x.PlatformUrl,
+                PlatformLogo = x.PlatformLogo,
+                Status = x.Status,
+            }).ToList();
+            var listResult = new PageResult<PlatfromVm>()
+            {
+                Items = listPlatformVm,
+                PageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE,
+                TotalRecords = listPlatform.Count,
+                PageIndex = pageIndex
+            };
+            return new ApiSuccessResult<PageResult<PlatfromVm>>(listResult, "Success");
+        }
+
+        public async Task<ApiResult<PageResult<PlatfromVm>>> ViewPlatfromInManager(ViewPlatformRequest request)
+        {
+            var listPlatform = await _context.Platforms.ToListAsync();
+            if (request.Keyword != null)
+            {
+                listPlatform = listPlatform.Where(x => x.PlatformName.Contains(request.Keyword)).ToList();
+
             }
             listPlatform = listPlatform.OrderByDescending(x => x.PlatformName).ToList();
 
@@ -124,6 +159,7 @@ namespace DiamondLuxurySolution.Application.Repository.Platform
                 PlatformName = x.PlatformName,
                 PlatformUrl = x.PlatformUrl,
                 PlatformLogo = x.PlatformLogo,
+                Status = x.Status,
             }).ToList();
             var listResult = new PageResult<PlatfromVm>()
             {

@@ -21,5 +21,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Discount
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
+
+        public bool Status { get; set; }
     }
 }

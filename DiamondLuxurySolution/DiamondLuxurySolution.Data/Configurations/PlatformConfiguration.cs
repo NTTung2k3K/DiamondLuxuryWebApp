@@ -19,6 +19,7 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(p => p.PlatformName).IsRequired().HasMaxLength(250);
             builder.Property(p => p.PlatformUrl).IsRequired();
             builder.Property(p => p.PlatformLogo).IsRequired();
+            builder.Property(g => g.Status).IsRequired();
         }
     }
 

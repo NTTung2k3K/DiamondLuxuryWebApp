@@ -19,5 +19,7 @@ public partial class Discount
 
     public DateTime EndDate { get; set; }
 
+    public bool Status { get; set; }
+
     public virtual ICollection<OrderDiscount> OrderDiscounts { get; set; } = new List<OrderDiscount>();
 }

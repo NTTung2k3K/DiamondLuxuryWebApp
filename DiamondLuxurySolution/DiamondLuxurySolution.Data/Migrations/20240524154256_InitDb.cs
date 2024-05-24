@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DiamondLuxurySolution.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitDB : Migration
+    public partial class InitDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,7 +19,8 @@ namespace DiamondLuxurySolution.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AboutName = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
-                    AboutImage = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    AboutImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -114,7 +115,8 @@ namespace DiamondLuxurySolution.Data.Migrations
                     DiscountImage = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     PercentSale = table.Column<double>(type: "float", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -224,7 +226,8 @@ namespace DiamondLuxurySolution.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PlatformName = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     PlatformUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PlatformLogo = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    PlatformLogo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

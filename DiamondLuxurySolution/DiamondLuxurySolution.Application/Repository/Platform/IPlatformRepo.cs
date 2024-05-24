@@ -14,6 +14,8 @@ namespace DiamondLuxurySolution.Application.Repository.Platform
         public Task<ApiResult<bool>> UpdatePlatform(UpdatePlatformRequest request);
         public Task<ApiResult<bool>> DeletePlatform(DeletePlatformRequest request);
         public Task<ApiResult<PlatfromVm>> GetPlatfromById(int PlatformId);
-        public Task<ApiResult<PageResult<PlatfromVm>>> ViewPlatfrom(ViewPlatformRequest request);
+        public Task<ApiResult<PageResult<PlatfromVm>>> ViewPlatfromInCustomer(ViewPlatformRequest request);
+
+        public Task<ApiResult<PageResult<PlatfromVm>>> ViewPlatfromInManager(ViewPlatformRequest request);
     }
 }

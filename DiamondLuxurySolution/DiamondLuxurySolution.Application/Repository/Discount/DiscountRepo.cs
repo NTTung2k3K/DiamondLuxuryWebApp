@@ -140,7 +140,41 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
             return new ApiSuccessResult<bool>(true, "Success");
         }
 
-        public async Task<ApiResult<PageResult<DiscountVm>>> ViewDiscount(ViewDiscountRequest request)
+        public async Task<ApiResult<PageResult<DiscountVm>>> ViewDiscountInCustomer(ViewDiscountRequest request)
+        {
+            var listDiscount = await _context.Discounts.ToListAsync();
+            if (request.Keyword != null)
+            {
+                listDiscount = listDiscount.Where(x => x.DiscountName.Contains(request.Keyword)).ToList();
+
+            }
+            listDiscount = listDiscount.Where(x => x.Status).OrderByDescending(x => x.DiscountName).ToList();
+
+            int pageIndex = request.pageIndex ?? 1;
+
+            var listPaging = listDiscount.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
+
+            var listDiscountVm = listPaging.Select(x => new DiscountVm()
+            {
+                DiscountId = x.DiscountId,
+                DiscountName = x.DiscountName,
+                Description = x.Description,
+                DiscountImage = x.DiscountImage,
+                StartDate = x.StartDate,
+                EndDate = x.EndDate,
+                PercentSale = x.PercentSale,
+            }).ToList();
+            var listResult = new PageResult<DiscountVm>()
+            {
+                Items = listDiscountVm,
+                PageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE,
+                TotalRecords = listDiscount.Count,
+                PageIndex = pageIndex
+            };
+            return new ApiSuccessResult<PageResult<DiscountVm>>(listResult, "Success");
+        }
+
+        public async Task<ApiResult<PageResult<DiscountVm>>> ViewDiscountInManager(ViewDiscountRequest request)
         {
             var listDiscount = await _context.Discounts.ToListAsync();
             if (request.Keyword != null)

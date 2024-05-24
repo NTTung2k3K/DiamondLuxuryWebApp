@@ -43,6 +43,9 @@ namespace DiamondLuxurySolution.Data.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
                     b.HasKey("AboutId");
 
                     b.ToTable("Abouts", (string)null);
@@ -279,6 +282,9 @@ namespace DiamondLuxurySolution.Data.Migrations
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.HasKey("DiscountId");
 
@@ -788,6 +794,9 @@ namespace DiamondLuxurySolution.Data.Migrations
                     b.Property<string>("PlatformUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.HasKey("PlatformId");
 
