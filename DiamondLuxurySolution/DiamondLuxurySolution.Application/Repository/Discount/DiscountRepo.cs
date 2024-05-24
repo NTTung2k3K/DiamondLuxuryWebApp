@@ -38,7 +38,7 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
             {
                 return new ApiErrorResult<bool>("Ngày kết thúc phải sau ngày bắt đầu chiết khấu");
             }
-            if (request.PercentSale >= 0)
+            if (request.PercentSale < 0)
             {
                 return new ApiErrorResult<bool>("% Chiết khấu phải >= 0");
             }
@@ -108,7 +108,7 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
             {
                 return new ApiErrorResult<bool>("Ngày kết thúc phải sau ngày bắt đầu chiết khấu");
             }
-            if (request.PercentSale >= 0)
+            if (request.PercentSale < 0)
             {
                 return new ApiErrorResult<bool>("% Chiết khấu phải >= 0");
             }

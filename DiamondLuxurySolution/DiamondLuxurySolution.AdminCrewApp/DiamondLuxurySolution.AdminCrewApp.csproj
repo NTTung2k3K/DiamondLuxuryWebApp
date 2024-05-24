@@ -7,7 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+<<<<<<< HEAD
     <ProjectReference Include="..\DiamondLuxurySolution.Utilities\DiamondLuxurySolution.Utilities.csproj" />
+=======
+>>>>>>> d8f0a50dfdb411e673c9cc11b6c75c02e42f19a5
     <ProjectReference Include="..\DiamondLuxurySolution.ViewModel\DiamondLuxurySolution.ViewModel.csproj" />
   </ItemGroup>
 
