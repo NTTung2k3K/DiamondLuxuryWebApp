@@ -21,6 +21,7 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(g => g.CaratWeight).IsRequired().HasMaxLength(10);
             builder.Property(g => g.Color).IsRequired().HasMaxLength(10);
             builder.Property(g => g.Price).IsRequired().HasColumnType("decimal(10, 2)");
+            builder.HasOne(x => x.Gem).WithMany(x => x.GemPriceLists).HasForeignKey(x => x.GemId).IsRequired();
         }
     }
 

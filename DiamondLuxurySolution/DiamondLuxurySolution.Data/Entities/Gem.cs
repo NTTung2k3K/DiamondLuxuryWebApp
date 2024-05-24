@@ -17,15 +17,13 @@ public partial class Gem
 
     public bool IsOrigin { get; set; }
 
-    public bool _4c { get; set; }
 
     public bool IsMain { get; set; }
 
     public bool Fluoresence { get; set; }
 
     public bool Active { get; set; }
-
-    public virtual ICollection<GemPriceListDetail> GemPriceListDetails { get; set; } = new List<GemPriceListDetail>();
-
+    public virtual ICollection<GemPriceList> GemPriceLists
+    { get; set; } = new List<GemPriceList>();
     public virtual ICollection<ProductsGem> ProductsGems { get; set; } = new List<ProductsGem>();
 }

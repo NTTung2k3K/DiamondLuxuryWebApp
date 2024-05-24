@@ -36,7 +36,6 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
 
     public virtual DbSet<GemPriceList> GemPriceLists { get; set; }
 
-    public virtual DbSet<GemPriceListDetail> GemPriceListDetails { get; set; }
 
     public virtual DbSet<Image> Images { get; set; }
 
@@ -52,7 +51,6 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
 
     public virtual DbSet<MaterialPriceList> MaterialPriceLists { get; set; }
 
-    public virtual DbSet<MaterialPriceListDetail> MaterialPriceListDetails { get; set; }
 
     public virtual DbSet<News> News { get; set; }
 
@@ -70,7 +68,6 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
 
     public virtual DbSet<ProductsGem> ProductsGems { get; set; }
 
-    public virtual DbSet<ProductsMaterial> ProductsMaterials { get; set; }
 
     public virtual DbSet<ProductsWareHouse> ProductsWareHouses { get; set; }
 
@@ -93,7 +90,6 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
         modelBuilder.ApplyConfiguration(new DiscountConfiguration());
         modelBuilder.ApplyConfiguration(new GemConfiguration());
         modelBuilder.ApplyConfiguration(new GemPriceListConfiguration());
-        modelBuilder.ApplyConfiguration(new GemPriceListDetailConfiguration());
         modelBuilder.ApplyConfiguration(new ImageConfiguration());
         modelBuilder.ApplyConfiguration(new InspectionCertificateConfiguration());
         modelBuilder.ApplyConfiguration(new KnowledgeNewCategoryConfiguration());
@@ -101,17 +97,14 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
         modelBuilder.ApplyConfiguration(new KnowledgeNewsConfiguration());
         modelBuilder.ApplyConfiguration(new MaterialConfiguration());
         modelBuilder.ApplyConfiguration(new MaterialPriceListConfiguration());
-        modelBuilder.ApplyConfiguration(new MaterialPriceListDetailConfiguration());
         modelBuilder.ApplyConfiguration(new NewsConfiguration());
         modelBuilder.ApplyConfiguration(new OrderConfiguration());
-        modelBuilder.ApplyConfiguration(new OrderDiscountConfiguration());
         modelBuilder.ApplyConfiguration(new OrderDetailsConfiguration());
         modelBuilder.ApplyConfiguration(new PaymentConfiguration());
         modelBuilder.ApplyConfiguration(new PlatformConfiguration());
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         modelBuilder.ApplyConfiguration(new ProductCollectionConfiguration());
         modelBuilder.ApplyConfiguration(new ProductGemConfiguration());
-        modelBuilder.ApplyConfiguration(new ProductMaterialConfiguration());
         modelBuilder.ApplyConfiguration(new ProductsWareHousesConfiguration());
         modelBuilder.ApplyConfiguration(new PromotionConfiguration());
         modelBuilder.ApplyConfiguration(new SlideConfiguration());

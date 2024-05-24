@@ -16,6 +16,7 @@ public partial class GemPriceList
     public string Color { get; set; } = null!;
 
     public decimal Price { get; set; }
+    public Guid GemId { get; set; }
+    public Gem Gem { get; set; }
 
-    public virtual ICollection<GemPriceListDetail> GemPriceListDetails { get; set; } = new List<GemPriceListDetail>();
 }

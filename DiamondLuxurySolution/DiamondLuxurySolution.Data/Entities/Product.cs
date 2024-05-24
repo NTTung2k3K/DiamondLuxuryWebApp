@@ -36,6 +36,8 @@ public partial class Product
     public string? InspectionCertificateId { get; set; }
 
     public virtual Category? Category { get; set; }
+    public Guid MaterialId { get; set; }
+    public Material Material { get; set; }
 
     public virtual ICollection<Image> Images { get; set; } = new List<Image>();
 
@@ -47,7 +49,6 @@ public partial class Product
 
     public virtual ICollection<ProductsGem> ProductsGems { get; set; } = new List<ProductsGem>();
 
-    public virtual ICollection<ProductsMaterial> ProductsMaterials { get; set; } = new List<ProductsMaterial>();
 
     public virtual ICollection<ProductsWareHouse> ProductsWareHouses { get; set; } = new List<ProductsWareHouse>();
 }

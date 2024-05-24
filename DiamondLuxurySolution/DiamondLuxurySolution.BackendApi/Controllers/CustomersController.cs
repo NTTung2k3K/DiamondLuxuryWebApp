@@ -3,6 +3,7 @@ using DiamondLuxurySolution.Application.Repository.User.Customer;
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.ViewModel.Models.Platform;
 using DiamondLuxurySolution.ViewModel.Models.User.Customer;
+using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -59,24 +60,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
 
-        [HttpGet("View")]
-        public async Task<ActionResult> ViewAllCustomer([FromQuery] ViewCustomerPaginationRequest request)
-        {
-            try
-            {
-                var status = await _customer.ViewCustomerPagination(request);
-                if (status.IsSuccessed)
-                {
-                    return Ok(status);
-                }
-                return BadRequest(status);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
+        
         [HttpPost("LoginCustomer")]
         public async Task<ActionResult> LoginCustomer([FromBody] LoginCustomerRequest request)
         {
@@ -136,6 +120,41 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             try
             {
                 var status = await _customer.ChangePasswordCustomer(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPost("ForgotCustomerPassword/SendCode/{Email}")]
+        public async Task<ActionResult> ForgotpasswordCustomerCode(string Email)
+        {
+            try
+            {
+                var status = await _customer.ForgotpasswordCustomerSendCode(Email);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpPost("ForgotCustomerPassword/ChangePassword")]
+        public async Task<ActionResult> ForgotpasswordCustomerChange([FromBody] ForgotPasswordCustomerChangeRequest request)
+        {
+            try
+            {
+                var status = await _customer.ForgotpasswordCustomerChange(request);
                 if (status.IsSuccessed)
                 {
                     return Ok(status);

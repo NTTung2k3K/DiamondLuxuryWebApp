@@ -11,13 +11,7 @@ public partial class Discount
 
     public string? Description { get; set; }
 
-    public string DiscountImage { get; set; } = null!;
-
     public double PercentSale { get; set; }
-
-    public DateTime StartDate { get; set; }
-
-    public DateTime EndDate { get; set; }
-
-    public virtual ICollection<OrderDiscount> OrderDiscounts { get; set; } = new List<OrderDiscount>();
+    public List<Order> Orders { get; set; }
+    
 }

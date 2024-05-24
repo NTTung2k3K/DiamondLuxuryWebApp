@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DiamondLuxurySolution.ViewModel.Models.User.Staff
 {
-    public class ViewStaffPaginationRequest : PagingRequestBase
+    public class ViewStaffPaginationCommonRequest : PagingRequestBase
     {
         public string? Keyword { get; set; }
     }

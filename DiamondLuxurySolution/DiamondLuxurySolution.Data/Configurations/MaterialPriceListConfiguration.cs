@@ -18,6 +18,8 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.HasKey(m => m.MaterialPriceListId);
             builder.Property(m => m.BuyPrice).IsRequired().HasColumnType("decimal(10, 2)");
             builder.Property(m => m.SellPrice).IsRequired().HasColumnType("decimal(10, 2)");
+            builder.HasOne(x => x.Material).WithMany(x => x.MaterialPriceLists).HasForeignKey(x => x.MaterialId).IsRequired();
+            
         }
     }
 

@@ -4,6 +4,7 @@ using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.User.Customer;
 using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -82,7 +83,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             var staffVm = new StaffVm()
             {
                 StaffId = user.Id,
-                Dob = (DateTime)user.Dob,
+                Dob = (DateTime)(user.Dob ?? DateTime.MinValue),
                 FullName = user.Fullname,
                 PhoneNumber = user.PhoneNumber,
                 Email = user.Email,
@@ -163,7 +164,10 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             {
                 Fullname = request.FullName.Trim(),
                 Email = request.Email.Trim(),
-                Dob = request.Dob,
+                
+                Dob = (DateTime)(request.Dob ?? DateTime.MinValue),
+
+
                 PhoneNumber = request.PhoneNumber.Trim(),
                 UserName = request.Username.Trim(),
                 Status = request.Status.Trim()
@@ -218,6 +222,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             user.PhoneNumber = request.PhoneNumber.Trim();
             user.Fullname = request.FullName.Trim();
             user.Dob = request.Dob;
+        
             user.Email = request.Email.Trim();
             user.CitizenIDCard = request.CitizenIDCard.Trim();
 
@@ -235,18 +240,33 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             return new ApiSuccessResult<bool>("Cập nhật thông tin thành công");
         }
 
-        public async Task<ApiResult<PageResult<StaffVm>>> ViewStaffPagination(ViewStaffPaginationRequest request)
+        public async Task<ApiResult<PageResult<StaffVm>>> ViewAdminPagination(ViewStaffPaginationCommonRequest request)
         {
-            var listUser = _context.Users.AsQueryable();
-            if (request.Keyword != null)
-            {
-                listUser = listUser.Where(x => x.Fullname.Contains(request.Keyword)
-                || x.Email.Contains(request.Keyword) || x.PhoneNumber.Contains(request.Keyword) || x.CitizenIDCard.Contains(request.Keyword));
-            }
-            listUser = listUser.OrderBy(x => x.Fullname);
-            int pageIndex = request.pageIndex ?? 1;
+            var users = await _userManager.Users.ToListAsync();
+            var customers = new List<AppUser>();
 
-            var listPaging = listUser.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                if (roles.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin))
+                {
+                    customers.Add(user);
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(request.Keyword))
+            {
+                customers = customers.Where(x => x.Fullname.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              || x.Email.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              || x.PhoneNumber.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              || x.CitizenIDCard.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            customers = customers.OrderBy(x => x.Fullname).ToList();
+            int pageIndex = request.pageIndex ?? 1;
+            int pageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE;
+
+            var listPaging = customers.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
 
             var listResult = new List<StaffVm>();
             foreach (var item in listPaging)
@@ -257,7 +277,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                     FullName = item.Fullname,
                     PhoneNumber = item.PhoneNumber,
                     Email = item.Email,
-                    Dob = (DateTime)item.Dob,
+                    Dob = (DateTime)(item.Dob ?? DateTime.MinValue),
                     Status = item.Status,
                     CitizenIDCard = item.CitizenIDCard,
                     Address = item.Address,
@@ -274,18 +294,366 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                     }
                     listResult.Add(user);
                 }
-                listResult.Add(user);
-
+                else
+                {
+                    listResult.Add(user);
+                }
             }
-
             var result = new PageResult<StaffVm>()
             {
                 Items = listResult,
-                TotalRecords = listUser.Count(),
+                TotalRecords = customers.Count(),
                 PageIndex = pageIndex,
-                PageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE
+                PageSize = pageSize
             };
-            return new ApiSuccessResult<PageResult<StaffVm>>(result, "Success"); ;
+            return new ApiSuccessResult<PageResult<StaffVm>>(result, "Success");
         }
+
+
+
+        public async Task<ApiResult<PageResult<StaffVm>>> ViewDeliveryStaffPagination(ViewStaffPaginationCommonRequest request)
+        {
+            var users = await _userManager.Users.ToListAsync();
+            var customers = new List<AppUser>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                if (roles.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.DeliveryStaff))
+                {
+                    customers.Add(user);
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(request.Keyword))
+            {
+                customers = customers.Where(x => x.Fullname.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              || x.Email.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              || x.PhoneNumber.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              || x.CitizenIDCard.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            customers = customers.OrderBy(x => x.Fullname).ToList();
+            int pageIndex = request.pageIndex ?? 1;
+            int pageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE;
+
+            var listPaging = customers.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+
+            var listResult = new List<StaffVm>();
+            foreach (var item in listPaging)
+            {
+                var user = new StaffVm()
+                {
+                    StaffId = item.Id,
+                    FullName = item.Fullname,
+                    PhoneNumber = item.PhoneNumber,
+                    Email = item.Email,
+                    Dob = (DateTime)(item.Dob ?? DateTime.MinValue),
+                    Status = item.Status,
+                    CitizenIDCard = item.CitizenIDCard,
+                    Address = item.Address,
+                    Image = item.Image,
+                };
+                var appUser = await _userManager.FindByIdAsync(item.Id.ToString());
+                var roles = await _userManager.GetRolesAsync(appUser);
+                if (roles.Count > 0)
+                {
+                    user.ListRoleName = new List<string>();
+                    foreach (var role in roles)
+                    {
+                        user.ListRoleName.Add(role);
+                    }
+                    listResult.Add(user);
+                }
+                else
+                {
+                    listResult.Add(user);
+                }
+            }
+            var result = new PageResult<StaffVm>()
+            {
+                Items = listResult,
+                TotalRecords = customers.Count(),
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+            return new ApiSuccessResult<PageResult<StaffVm>>(result, "Success");
+        }
+
+        public async Task<ApiResult<PageResult<StaffVm>>> ViewManagerPagination(ViewStaffPaginationCommonRequest request)
+        {
+            var users = await _userManager.Users.ToListAsync();
+            var customers = new List<AppUser>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                if (roles.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager))
+                {
+                    customers.Add(user);
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(request.Keyword))
+            {
+                customers = customers.Where(x => x.Fullname.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              || x.Email.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              || x.PhoneNumber.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              || x.CitizenIDCard.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            customers = customers.OrderBy(x => x.Fullname).ToList();
+            int pageIndex = request.pageIndex ?? 1;
+            int pageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE;
+
+            var listPaging = customers.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+
+            var listResult = new List<StaffVm>();
+            foreach (var item in listPaging)
+            {
+                var user = new StaffVm()
+                {
+                    StaffId = item.Id,
+                    FullName = item.Fullname,
+                    PhoneNumber = item.PhoneNumber,
+                    Email = item.Email,
+                    Dob = (DateTime)(item.Dob ?? DateTime.MinValue),
+                    Status = item.Status,
+                    CitizenIDCard = item.CitizenIDCard,
+                    Address = item.Address,
+                    Image = item.Image,
+                };
+                var appUser = await _userManager.FindByIdAsync(item.Id.ToString());
+                var roles = await _userManager.GetRolesAsync(appUser);
+                if (roles.Count > 0)
+                {
+                    user.ListRoleName = new List<string>();
+                    foreach (var role in roles)
+                    {
+                        user.ListRoleName.Add(role);
+                    }
+                    listResult.Add(user);
+                }
+                else
+                {
+                    listResult.Add(user);
+                }
+            }
+            var result = new PageResult<StaffVm>()
+            {
+                Items = listResult,
+                TotalRecords = customers.Count(),
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+            return new ApiSuccessResult<PageResult<StaffVm>>(result, "Success");
+        }
+
+        public async Task<ApiResult<PageResult<StaffVm>>> ViewSalesStaffPagination(ViewStaffPaginationCommonRequest request)
+        {
+            var users = await _userManager.Users.ToListAsync();
+            var customers = new List<AppUser>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                if (roles.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
+                {
+                    customers.Add(user);
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(request.Keyword))
+            {
+                customers = customers.Where(x => x.Fullname.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              || x.Email.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              || x.PhoneNumber.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              || x.CitizenIDCard.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            customers = customers.OrderBy(x => x.Fullname).ToList();
+            int pageIndex = request.pageIndex ?? 1;
+            int pageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE;
+
+            var listPaging = customers.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+
+            var listResult = new List<StaffVm>();
+            foreach (var item in listPaging)
+            {
+                var user = new StaffVm()
+                {
+                    StaffId = item.Id,
+                    FullName = item.Fullname,
+                    PhoneNumber = item.PhoneNumber,
+                    Email = item.Email,
+                    Dob = (DateTime)(item.Dob ?? DateTime.MinValue),
+                    Status = item.Status,
+                    CitizenIDCard = item.CitizenIDCard,
+                    Address = item.Address,
+                    Image = item.Image,
+                };
+                var appUser = await _userManager.FindByIdAsync(item.Id.ToString());
+                var roles = await _userManager.GetRolesAsync(appUser);
+                if (roles.Count > 0)
+                {
+                    user.ListRoleName = new List<string>();
+                    foreach (var role in roles)
+                    {
+                        user.ListRoleName.Add(role);
+                    }
+                    listResult.Add(user);
+                }
+                else
+                {
+                    listResult.Add(user);
+                }
+            }
+            var result = new PageResult<StaffVm>()
+            {
+                Items = listResult,
+                TotalRecords = customers.Count(),
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+            return new ApiSuccessResult<PageResult<StaffVm>>(result, "Success");
+        }
+
+        public async Task<ApiResult<PageResult<StaffVm>>> ViewCustomerPagination(ViewStaffPaginationCommonRequest request)
+        {
+            var users = await _userManager.Users.ToListAsync();
+            var customers = new List<AppUser>();
+
+            foreach (var user in users)
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                if (roles.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer))
+                {
+                    customers.Add(user);
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(request.Keyword))
+            {
+                customers = customers.Where(x => x.Fullname.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              || x.Email.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              || x.PhoneNumber.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              || x.CitizenIDCard.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+
+            customers = customers.OrderBy(x => x.Fullname).ToList();
+            int pageIndex = request.pageIndex ?? 1;
+            int pageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE;
+
+            var listPaging = customers.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+
+            var listResult = new List<StaffVm>();
+            foreach (var item in listPaging)
+            {
+                var user = new StaffVm()
+                {
+                    StaffId = item.Id,
+                    FullName = item.Fullname,
+                    PhoneNumber = item.PhoneNumber,
+                    Email = item.Email,
+                    Dob = (DateTime)(item.Dob ?? DateTime.MinValue),
+
+                    Status = item.Status,
+                    CitizenIDCard = item.CitizenIDCard,
+                    Address = item.Address,
+                    Image = item.Image,
+                };  
+                var appUser = await _userManager.FindByIdAsync(item.Id.ToString());
+                var roles = await _userManager.GetRolesAsync(appUser);
+                if (roles.Count > 0)
+                {
+                    user.ListRoleName = new List<string>();
+                    foreach (var role in roles)
+                    {
+                        user.ListRoleName.Add(role);
+                    }
+                    listResult.Add(user);
+                }
+                else
+                {
+                    listResult.Add(user);
+                }
+            }
+            var result = new PageResult<StaffVm>()
+            {
+                Items = listResult,
+                TotalRecords = customers.Count(),
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+            return new ApiSuccessResult<PageResult<StaffVm>>(result, "Success");
+        }
+
+        public async Task<ApiResult<string>> ForgotpasswordStaffSendCode(string Username)
+        {
+            var user = await _userManager.FindByNameAsync(Username.Trim().ToString());
+            if (user == null)
+            {
+                return new ApiErrorResult<string>("Email không tồn tại");
+            }
+            string code = DiamondLuxurySolution.Utilities.Helper.RandomHelper.GenerateRandomString(8);
+            user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.ChangePasswordRequest.ToString();
+            var statusUser = await _userManager.UpdateAsync(user);
+            if (!statusUser.Succeeded)
+            {
+                return new ApiErrorResult<string>("Lỗi hệ thống, cập nhật thông tin thất bại vui lòng thử lại");
+            }
+
+            return new ApiSuccessResult<string>(code, "Success");
+        }
+
+        public async Task<ApiResult<bool>> ForgotpassworStaffdChange(ForgotPasswordStaffChangeRequest request)
+        {
+            if (!request.NewPassword.Trim().Equals(request.ConfirmPassword.Trim()))
+            {
+                return new ApiErrorResult<bool>("Mật khẩu không trùng khớp");
+            }
+            var user = await _userManager.FindByNameAsync(request.Username.Trim().ToString());
+            if (user == null)
+            {
+                return new ApiErrorResult<bool>("Email không tồn tại");
+            }
+            if (!user.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.ChangePasswordRequest.ToString()))
+            {
+                return new ApiErrorResult<bool>("Không có yêu câu thay đổi mật khẩu");
+            }
+            var removePasswordResult = await _userManager.RemovePasswordAsync(user);
+            if (!removePasswordResult.Succeeded)
+            {
+                return new ApiErrorResult<bool>("Xóa mật khẩu cũ thất bại");
+            }
+
+            var addPasswordResult = await _userManager.AddPasswordAsync(user, request.NewPassword.Trim());
+            if (!addPasswordResult.Succeeded)
+            {
+                var errorApi = new ApiErrorResult<bool>("Lỗi thông tin");
+                errorApi.ValidationErrors = new List<string>();
+                foreach (var item in addPasswordResult.Errors)
+                {
+                    errorApi.ValidationErrors.Add(item.Description);
+                }
+                return errorApi;
+            }
+            if (!addPasswordResult.Succeeded)
+            {
+
+                return new ApiErrorResult<bool>("Thêm mật khẩu mới thất bại");
+            }
+            user.LastChangePasswordTime = DateTime.Now;
+            user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Active.ToString();
+            var statusUser = await _userManager.UpdateAsync(user);
+            if (!statusUser.Succeeded)
+            {
+                return new ApiErrorResult<bool>("Lỗi hệ thống, cập nhật thông tin thất bại vui lòng thử lại");
+            }
+            
+            return new ApiSuccessResult<bool>(true,"Thay đổi mật khẩu thành công");
+        }
+
+
     }
 }
