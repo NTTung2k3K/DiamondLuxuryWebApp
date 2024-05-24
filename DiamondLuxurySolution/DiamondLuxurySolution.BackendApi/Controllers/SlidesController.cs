@@ -97,12 +97,30 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
 
-        [HttpGet("View")]
-        public async Task<IActionResult> ViewAllSlidePagination([FromQuery] ViewSlideRequest request)
+        [HttpGet("ViewInCustomer")]
+        public async Task<IActionResult> ViewAllSlidesInCustomer([FromQuery] ViewSlideRequest request)
         {
             try
             {
-                var status = await _slide.ViewSlide(request);
+                var status = await _slide.ViewSlidesInCustomer(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("ViewInManager")]
+        public async Task<IActionResult> ViewAllSlidesInManager([FromQuery] ViewSlideRequest request)
+        {
+            try
+            {
+                var status = await _slide.ViewSlidesInManager(request);
                 if (status.IsSuccessed)
                 {
                     return Ok(status);

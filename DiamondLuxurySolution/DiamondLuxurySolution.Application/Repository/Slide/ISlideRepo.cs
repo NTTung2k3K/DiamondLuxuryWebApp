@@ -15,6 +15,7 @@ namespace DiamondLuxurySolution.Application.Repository.Slide
         public Task<ApiResult<bool>> UpdateSlide(UpdateSlideRequest request);
         public Task<ApiResult<bool>> DeleteSlide(DeleteSlideRequest request);
         public Task<ApiResult<SlideViewModel>> GetSlideById(int SlideId);
-        public Task<ApiResult<PageResult<SlideViewModel>>> ViewSlide(ViewSlideRequest request);
+        public Task<ApiResult<PageResult<SlideViewModel>>> ViewSlidesInCustomer(ViewSlideRequest request);
+        public Task<ApiResult<PageResult<SlideViewModel>>> ViewSlidesInManager(ViewSlideRequest request);
     }
 }
