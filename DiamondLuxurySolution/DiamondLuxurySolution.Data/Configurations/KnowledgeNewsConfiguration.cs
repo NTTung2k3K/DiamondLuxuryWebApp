@@ -22,7 +22,8 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(k => k.Description).HasMaxLength(int.MaxValue);
             builder.Property(k => k.DateCreated);
             builder.Property(k => k.DateModified);
-
+            builder.HasOne(k => k.KnowledgeNewCatagory).WithMany(k => k.KnowledgeNews)
+                .HasForeignKey(k => k.KnowledgeNewCatagoryId);
             builder.HasOne(k => k.Writer)
                    .WithMany(x => x.KnowledgeNews)
                    .HasForeignKey(k => k.WriterId)

@@ -41,8 +41,6 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
 
     public virtual DbSet<InspectionCertificate> InspectionCertificates { get; set; }
 
-    public virtual DbSet<KnowledgeNewCatagoriesDetail> KnowledgeNewCatagoriesDetails { get; set; }
-
     public virtual DbSet<KnowledgeNewCatagory> KnowledgeNewCatagories { get; set; }
 
     public virtual DbSet<KnowledgeNews> KnowledgeNews { get; set; }
@@ -91,7 +89,6 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
         modelBuilder.ApplyConfiguration(new ImageConfiguration());
         modelBuilder.ApplyConfiguration(new InspectionCertificateConfiguration());
         modelBuilder.ApplyConfiguration(new KnowledgeNewCategoryConfiguration());
-        modelBuilder.ApplyConfiguration(new KnowledgeNewCategoryDetailConfiguration());
         modelBuilder.ApplyConfiguration(new KnowledgeNewsConfiguration());
         modelBuilder.ApplyConfiguration(new MaterialConfiguration());
         modelBuilder.ApplyConfiguration(new MaterialPriceListConfiguration());

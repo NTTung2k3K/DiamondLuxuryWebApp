@@ -11,5 +11,5 @@ public partial class KnowledgeNewCatagory
 
     public string? Description { get; set; }
 
-    public virtual ICollection<KnowledgeNewCatagoriesDetail> KnowledgeNewCatagoriesDetails { get; set; } = new List<KnowledgeNewCatagoriesDetail>();
+    public virtual ICollection<KnowledgeNews> KnowledgeNews{ get; set; } = new List<KnowledgeNews>();
 }
