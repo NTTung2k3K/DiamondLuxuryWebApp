@@ -37,7 +37,10 @@ namespace DiamondLuxurySolution.Application.Repository.Platform
             {
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.PlatformLogo);
                 platform.PlatformLogo = firebaseUrl;
-            } 
+            } else
+            {
+                platform.PlatformLogo = "";
+            }
 
             _context.Platforms.Add(platform);
             await _context.SaveChangesAsync();
@@ -94,6 +97,10 @@ namespace DiamondLuxurySolution.Application.Repository.Platform
             {
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.PlatformLogo);
                 platform.PlatformLogo = firebaseUrl;
+            }
+            else
+            {
+                platform.PlatformLogo = "";
             }
 
             await _context.SaveChangesAsync();

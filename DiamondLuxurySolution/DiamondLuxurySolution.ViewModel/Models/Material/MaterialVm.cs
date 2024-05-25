@@ -14,7 +14,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Material
 
         public string? Description { get; set; }
 
-        public string Color { get; set; } = null!;
+        public string? Color { get; set; }
         public int Weight { get; set; }
 
         public bool Status { get; set; }

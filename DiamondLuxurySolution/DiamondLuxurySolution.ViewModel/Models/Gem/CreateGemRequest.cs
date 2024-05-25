@@ -10,11 +10,11 @@ namespace DiamondLuxurySolution.ViewModel.Models.Gem
     public class CreateGemRequest
     {
         public string GemName { get; set; } = null!;
-        public IFormFile ProportionImage { get; set; } = null!;
+        public IFormFile? ProportionImage { get; set; }
 
-        public string Symetry { get; set; } = null!;
+        public string? Symetry { get; set; }
 
-        public string Polish { get; set; } = null!;
+        public string? Polish { get; set; }
 
         public decimal Price { get; set; }
 

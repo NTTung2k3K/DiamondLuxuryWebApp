@@ -1,4 +1,5 @@
 ﻿using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.About;
 using DiamondLuxurySolution.ViewModel.Models.Platform;
@@ -21,29 +22,26 @@ namespace DiamondLuxurySolution.Application.Repository.About
         }
         public async Task<ApiResult<bool>> CreateAbout(CreateAboutRequest request)
         {
-            var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.AboutName))
             {
-                errorList.Add("Vui lòng nhập tên liên hệ");
-                //return new ApiErrorResult<bool>("Vui lòng nhập tên liên hệ");
+                return new ApiErrorResult<bool>("Vui lòng nhập tên liên hệ");
             }
-            if (request.AboutImage == null)
-            {
-                errorList.Add("Vui lòng gắn Image");
-                //return new ApiErrorResult<bool>("Vui lòng gắn Image");
-            }
-            if (errorList.Any())
-            {
-                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
-            }
-            string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.AboutImage);
+            
             var about = new DiamondLuxurySolution.Data.Entities.About
             {
                 AboutName = request.AboutName,
-                AboutImage = firebaseUrl,
-                Description = request.Description,
+                Description = request.Description != null ? request.Description : "",
                 Status = request.Status,
             };
+            if (request.AboutImage != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.AboutImage);
+                about.AboutImage = firebaseUrl;
+            } else
+            {
+                about.AboutImage = "";
+            }
+
             _context.Abouts.Add(about);
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
@@ -82,31 +80,28 @@ namespace DiamondLuxurySolution.Application.Repository.About
 
         public async Task<ApiResult<bool>> UpdateAbout(UpdateAboutRequest request)
         {
-            var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.AboutName))
             {
-                errorList.Add("Vui lòng nhập tên liên hệ");
-                //return new ApiErrorResult<bool>("Vui lòng nhập tên liên hệ");
-            }
-            if (request.AboutImage == null)
-            {
-                errorList.Add("Vui lòng gắn Image");
-                //return new ApiErrorResult<bool>("Vui lòng gắn Image");
-            }
-            if (errorList.Any())
-            {
-                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
+                return new ApiErrorResult<bool>("Vui lòng nhập tên liên hệ");
             }
             var about = await _context.Abouts.FindAsync(request.AboutId);
             if (about == null)
             {
                 return new ApiErrorResult<bool>("Không tìm thấy liên hệ");
             }
-            string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.AboutImage);
+            if (request.AboutImage != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.AboutImage);
+                about.AboutImage = firebaseUrl;
+            }
+            else
+            {
+                about.AboutImage = "";
+            }
             about.AboutName = request.AboutName;
-            about.Description = request.Description;
-            about.AboutImage = firebaseUrl;
+            about.Description = request.Description != null ? request.Description : "";
             about.Status = request.Status;
+
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
         }

@@ -31,7 +31,6 @@ namespace DiamondLuxurySolution.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AboutId"));
 
                     b.Property<string>("AboutImage")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AboutName")
@@ -158,6 +157,9 @@ namespace DiamondLuxurySolution.Data.Migrations
 
 >>>>>>> 01676ae888fd0b156da97ddb3c9c3d22000700ed
                     b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShipStatus")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
@@ -316,7 +318,6 @@ namespace DiamondLuxurySolution.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Polish")
-                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
@@ -324,11 +325,9 @@ namespace DiamondLuxurySolution.Data.Migrations
                         .HasColumnType("decimal(10, 2)");
 
                     b.Property<string>("ProportionImage")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Symetry")
-                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
@@ -415,7 +414,7 @@ namespace DiamondLuxurySolution.Data.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("nvarchar(15)");
 
-                    b.Property<DateTime>("DateGrading")
+                    b.Property<DateTime?>("DateGrading")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("InspectionCertificateName")
@@ -424,7 +423,6 @@ namespace DiamondLuxurySolution.Data.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("Logo")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Status")
@@ -521,7 +519,6 @@ namespace DiamondLuxurySolution.Data.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Color")
-                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
@@ -921,7 +918,6 @@ namespace DiamondLuxurySolution.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("PromotionImage")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PromotionName")

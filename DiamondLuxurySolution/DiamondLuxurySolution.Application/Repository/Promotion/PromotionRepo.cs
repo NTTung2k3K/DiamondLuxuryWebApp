@@ -1,4 +1,5 @@
 ﻿using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Promotion;
 using Microsoft.EntityFrameworkCore;
@@ -41,26 +42,29 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
                 errorList.Add("Ngày kết thúc phải sau ngày bắt đầu khuyến mãi");
                 //return new ApiErrorResult<bool>("Ngày kết thúc phải sau ngày bắt đầu khuyến mãi");
             }
-            if (request.PromotionImage == null)
-            {
-                errorList.Add("Vui lòng gắn Image");
-                //return new ApiErrorResult<bool>("Vui lòng gắn Image");
-            }
             if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
-            string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.PromotionImage);
+            
             var promotion = new DiamondLuxurySolution.Data.Entities.Promotion
             {
                 PromotionId = Guid.NewGuid(),
                 PromotionName = request.PromotionName,
-                Description = request.Description,
+                Description = request.Description != null ? request.Description : "",
                 StartDate = request.StartDate,
-                PromotionImage = firebaseUrl,
                 EndDate = request.EndDate,
                 Status = request.Status,
             };
+            if (request.PromotionImage != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.PromotionImage);
+                promotion.PromotionImage = firebaseUrl;
+            } else
+            {
+                promotion.PromotionImage = "";
+            }
+
             _context.Promotions.Add(promotion);
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
@@ -123,11 +127,6 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
                 errorList.Add("Ngày kết thúc phải sau ngày bắt đầu khuyến mãi");
                 //return new ApiErrorResult<bool>("Ngày kết thúc phải sau ngày bắt đầu khuyến mãi");
             }
-            if (request.PromotionImage == null)
-            {
-                errorList.Add("Vui lòng gắn Image");
-                //return new ApiErrorResult<bool>("Vui lòng gắn Image");
-            }
             if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
@@ -137,13 +136,21 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
             {
                 return new ApiErrorResult<bool>("Không tìm thấy khuyến mãi");
             }
-            string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.PromotionImage);
+            
             promotion.PromotionName = request.PromotionName;
-            promotion.PromotionImage = firebaseUrl;
-            promotion.Description = request.Description;
+            promotion.Description = request.Description != null ? request.Description : "";
             promotion.StartDate = request.StartDate;
             promotion.EndDate = request.EndDate;
             promotion.Status = request.Status;
+            if (request.PromotionImage != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.PromotionImage);
+                promotion.PromotionImage = firebaseUrl;
+            } else
+            {
+                promotion.PromotionImage = "";
+            }
+
 
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");

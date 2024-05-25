@@ -12,9 +12,9 @@ namespace DiamondLuxurySolution.ViewModel.Models.InspectionCertificate
 
         public string InspectionCertificateName { get; set; } = null!;
 
-        public DateTime DateGrading { get; set; }
+        public DateTime? DateGrading { get; set; }
 
-        public string Logo { get; set; } = null!;
+        public string? Logo { get; set; }
 
         public bool Status { get; set; }
     }

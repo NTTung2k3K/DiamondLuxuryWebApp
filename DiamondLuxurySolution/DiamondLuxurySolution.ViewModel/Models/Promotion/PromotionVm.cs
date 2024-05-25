@@ -14,7 +14,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Promotion
 
         public string? Description { get; set; }
 
-        public string PromotionImage { get; set; } = null!;
+        public string? PromotionImage { get; set; }
 
         public DateTime StartDate { get; set; }
 

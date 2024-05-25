@@ -18,8 +18,8 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.HasKey(i => i.InspectionCertificateId);
             builder.Property(i => i.InspectionCertificateId).IsRequired().HasMaxLength(15);
             builder.Property(i => i.InspectionCertificateName).IsRequired().HasMaxLength(250);
-            builder.Property(i => i.DateGrading).IsRequired();
-            builder.Property(i => i.Logo).IsRequired();
+            builder.Property(i => i.DateGrading);
+            builder.Property(i => i.Logo);
         }
     }
 

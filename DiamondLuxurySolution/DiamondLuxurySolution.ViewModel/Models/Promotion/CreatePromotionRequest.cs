@@ -13,7 +13,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Promotion
 
         public string? Description { get; set; }
 
-        public IFormFile PromotionImage { get; set; } = null!;
+        public IFormFile? PromotionImage { get; set; }
 
         public DateTime StartDate { get; set; }
 

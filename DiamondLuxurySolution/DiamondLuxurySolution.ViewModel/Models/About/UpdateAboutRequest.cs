@@ -15,7 +15,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.About
 
         public string? Description { get; set; }
 
-        public IFormFile AboutImage { get; set; } = null!;
+        public IFormFile? AboutImage { get; set; }
 
         public bool Status { get; set; }
     }

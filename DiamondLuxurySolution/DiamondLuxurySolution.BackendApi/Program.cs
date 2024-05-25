@@ -32,7 +32,6 @@ builder.Services.AddDbContext<LuxuryDiamondShopContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("LuxuryDiamondDb"));
 });
-builder.Services.AddTransient<IWarehouseRepo, WarehouseRepo>();
 
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>
@@ -52,6 +51,7 @@ builder.Services.AddTransient<IMaterialRepo, MaterialRepo>();
 builder.Services.AddTransient<IMaterialPriceListRepo, MaterialPriceListRepo>();
 builder.Services.AddTransient<INewsRepo, NewsRepo>();
 builder.Services.AddTransient<IGemPriceListRepo, GemPriceListRepo>();
+builder.Services.AddTransient<IWarehouseRepo, WarehouseRepo>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
