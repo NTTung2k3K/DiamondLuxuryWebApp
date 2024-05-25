@@ -10,6 +10,7 @@ using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,6 +47,10 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
             {
                 errorList.Add("Vui lòng nhập giá lớn hơn 0");
             }
+            if (string.IsNullOrEmpty(request.effectDate.ToString().Trim()))
+            {
+                errorList.Add("Vui lòng nhập ngày tạo bảng giá kim cương");
+            }
             var gem = await _context.Gems.FindAsync(request.GemId);
             if (gem == null)
             {
@@ -55,6 +60,7 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
+
             var gemPriceList = new Data.Entities.GemPriceList
             {
                 CaratWeight = request.CaratWeight,
@@ -64,7 +70,8 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
                 Cut = request.Cut,
                 GemId = request.GemId,
                 Gem = gem,
-                Active = request.Active
+                Active = request.Active,
+                effectDate = request.effectDate
             };
 
             _context.GemPriceLists.Add(gemPriceList);
@@ -88,7 +95,7 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
         public async Task<ApiResult<GemPriceListVm>> GetGemPriceListById(int GemPriceListId)
         {
             var GemPriceList = await _context.GemPriceLists.FindAsync(GemPriceListId);
-            if(GemPriceList == null)
+            if (GemPriceList == null)
             {
                 return new ApiErrorResult<GemPriceListVm>("Không tìm thấy bảng giá kim cương");
             }
@@ -101,6 +108,7 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
                 Color = GemPriceList.Color,
                 Cut = GemPriceList.Cut,
                 Price = GemPriceList.Price,
+                effectDate = GemPriceList.effectDate,
                 Active = GemPriceList.Active,
                 GemVm = gem
             };
@@ -110,44 +118,45 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
         public async Task<ApiResult<bool>> UpdateGemPriceList(UpdateGemPriceListRequest request)
         {
             var GemPriceList = await _context.GemPriceLists.FindAsync(request.GemPriceListId);
+            var errorList = new List<string>();
+
             if (GemPriceList == null)
             {
                 return new ApiErrorResult<bool>("Không tìm thấy bảng giá kim cương");
             }
-            if (!string.IsNullOrEmpty(request.CaratWeight?.Trim()))
-            {
-                GemPriceList.CaratWeight = request.CaratWeight;
-            }
-            if (!string.IsNullOrEmpty(request.Cut?.Trim()))
-            {
-                GemPriceList.Cut = request.Cut;
-            }
-            if (!string.IsNullOrEmpty(request.Clarity?.Trim()))
-            {
-                GemPriceList.Clarity = request.Clarity;
-            }
-            if (!string.IsNullOrEmpty(request.Color?.Trim()))
-            {
-                GemPriceList.Color = request.Color;
-            }
-            if (!string.IsNullOrEmpty(request.Price?.ToString().Trim()))
-            {
-                GemPriceList.Price = (decimal)request.Price;
-            }
 
-            if (GemPriceList.GemId != request.GemId)
+            if (string.IsNullOrEmpty(request.CaratWeight))
             {
-                var gem = await _context.Gems.FindAsync(request.GemId);
-                if (gem == null)
-                {
-                    return new ApiErrorResult<bool>("Không tìm thấy kim cương");
-                }
-                GemPriceList.GemId = gem.GemId;
-                GemPriceList.Gem = gem;
+                errorList.Add("Vui lòng nhập trọng lượng");
             }
+            if (string.IsNullOrEmpty(request.Clarity))
+            {
+                errorList.Add("Vui lòng nhập độ tinh khiết");
+            }
+            if (string.IsNullOrEmpty(request.Cut))
+            {
+                errorList.Add("Vui lòng nhập giác cắt");
+            }
+            if (string.IsNullOrEmpty(request.Color))
+            {
+                errorList.Add("Vui lòng nhập màu sắc");
+            }
+            if (string.IsNullOrEmpty(request.Price.ToString().Trim()) || request.Price <= 0)
+            {
+                errorList.Add("Vui lòng nhập giá lớn hơn 0");
+            }
+            if (errorList.Any())
+            {
+                return new ApiErrorResult<bool>("Không hợp lệ");
+            }
+            GemPriceList.CaratWeight = request.CaratWeight;
+            GemPriceList.Cut = request.Cut;
+            GemPriceList.Clarity = request.Clarity;
+            GemPriceList.Color = request.Color;
+            GemPriceList.Price = request.Price;
+            GemPriceList.effectDate = request.effectDate;
             GemPriceList.Active = request.Active;
             await _context.SaveChangesAsync();
-
             return new ApiSuccessResult<bool>(true, "Success");
         }
 
@@ -176,6 +185,7 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
                     Cut = item.Cut,
                     Color = item.Color,
                     Price = item.Price,
+                    effectDate = item.effectDate,
                     Active = item.Active,
                     GemVm = gem
                 };
@@ -217,6 +227,7 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
                     Cut = item.Cut,
                     Color = item.Color,
                     Price = item.Price,
+                    effectDate = item.effectDate,
                     Active = item.Active,
                     GemVm = gem
                 };

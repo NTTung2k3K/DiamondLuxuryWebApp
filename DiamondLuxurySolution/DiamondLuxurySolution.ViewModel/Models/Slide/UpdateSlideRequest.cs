@@ -11,7 +11,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Slide
     {
         public int SlideId { get; set; }
 
-        public string? SlideName { get; set; }
+        public string SlideName { get; set; } = null!;
 
         public string? Description { get; set; }
 

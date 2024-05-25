@@ -22,6 +22,8 @@ namespace DiamondLuxurySolution.ViewModel.Models.GemPriceList
         public decimal Price { get; set; }
         public Data.Entities.Gem? GemVm { get; set; } 
         public bool Active { get; set; }
+        public DateTime effectDate { get; set; }
+
 
     }
 }

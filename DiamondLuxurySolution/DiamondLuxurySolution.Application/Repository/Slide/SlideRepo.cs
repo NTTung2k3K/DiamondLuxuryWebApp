@@ -94,25 +94,21 @@ namespace DiamondLuxurySolution.Application.Repository.Slide
             {
                 return new ApiErrorResult<bool>("Không tìm thấy slide");
             }
-            if (!string.IsNullOrEmpty(request.SlideName))
+
+            if (string.IsNullOrEmpty(request.SlideName))
             {
-                slide.SlideName = request.SlideName;
+                return new ApiErrorResult<bool>("Vui lòng nhập tên slide");
             }
-            if (!string.IsNullOrEmpty(request.SlideUrl))
-            {
-                slide.SlideUrl = request.SlideUrl;
-            }
+            
+            slide.SlideName = request.SlideName;
+            slide.SlideUrl = !string.IsNullOrEmpty(request.SlideUrl)?request.SlideUrl:"";
+            slide.Description = !string.IsNullOrEmpty(request.Description)?request.Description:"";
+            slide.Status = request.Status;
             if (request.SlideImage != null)
             {
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.SlideImage);
                 slide.SlideImage = firebaseUrl;
             }
-            slide.Status = request.Status;
-            if (!string.IsNullOrEmpty(request.Description))
-            {
-                slide.Description = request.Description;
-            }
-
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
         }
