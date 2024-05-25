@@ -15,10 +15,14 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 <<<<<<< HEAD
+<<<<<<< HEAD
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+27b0a5527ebed665d89a2375e1a0eb31c309f3a4")]
 =======
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+14cb514da7b386238f214fb3f6ed6b5d512dcd17")]
 >>>>>>> 8b1ce7888be30cd6d8bca613758935f4c0c2117a
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8b1ce7888be30cd6d8bca613758935f4c0c2117a")]
+>>>>>>> feature/Api/GemPriceList
 [assembly: System.Reflection.AssemblyProductAttribute("DiamondLuxurySolution.WebApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DiamondLuxurySolution.WebApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
