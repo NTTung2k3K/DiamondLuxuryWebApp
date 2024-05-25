@@ -14,6 +14,8 @@ public partial class Material
     public string? Color { get; set; }
     public int Weight { get; set; }
 
+    public string? MaterialImage { get; set; }
+
     public bool Status { get; set; }
 
     public virtual ICollection<Product> Products{ get; set; } = new List<Product>();
