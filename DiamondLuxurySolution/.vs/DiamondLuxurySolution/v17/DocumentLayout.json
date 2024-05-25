@@ -3,31 +3,147 @@
   "WorkspaceRootPath": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\migrations\\20240524164457_initdb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|solutionrelative:diamondluxurysolution.data\\migrations\\20240524164457_initdb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.application\\repository\\gem\\igemrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|solutionrelative:diamondluxurysolution.application\\repository\\gem\\igemrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.application\\repository\\gem\\gemrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|solutionrelative:diamondluxurysolution.application\\repository\\gem\\gemrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.backendapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|solutionrelative:diamondluxurysolution.backendapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.application\\repository\\news\\inewsrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|solutionrelative:diamondluxurysolution.application\\repository\\news\\inewsrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.application\\repository\\gempricelist\\gempricelistrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|solutionrelative:diamondluxurysolution.application\\repository\\gempricelist\\gempricelistrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.application\\repository\\news\\newsrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|solutionrelative:diamondluxurysolution.application\\repository\\news\\newsrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\configurations\\slideconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|solutionrelative:diamondluxurysolution.data\\configurations\\slideconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\configurations\\gempricelistconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|solutionrelative:diamondluxurysolution.data\\configurations\\gempricelistconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\configurations\\newsconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|solutionrelative:diamondluxurysolution.data\\configurations\\newsconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\configurations\\materialpricelistconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|solutionrelative:diamondluxurysolution.data\\configurations\\materialpricelistconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\configurations\\materialconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|solutionrelative:diamondluxurysolution.data\\configurations\\materialconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\configurations\\discountconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|solutionrelative:diamondluxurysolution.data\\configurations\\discountconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\entities\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|solutionrelative:diamondluxurysolution.data\\entities\\category.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\entities\\materialpricelist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|solutionrelative:diamondluxurysolution.data\\entities\\materialpricelist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\entities\\gempricelist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|solutionrelative:diamondluxurysolution.data\\entities\\gempricelist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\entities\\gem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|solutionrelative:diamondluxurysolution.data\\entities\\gem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\entities\\material.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|solutionrelative:diamondluxurysolution.data\\entities\\material.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\ef\\luxurydiamondshopcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|solutionrelative:diamondluxurysolution.data\\ef\\luxurydiamondshopcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.backendapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|solutionrelative:diamondluxurysolution.backendapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.backendapi\\controllers\\gempricelistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|solutionrelative:diamondluxurysolution.backendapi\\controllers\\gempricelistcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.viewmodel\\models\\gempricelist\\gempricelistvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|solutionrelative:diamondluxurysolution.viewmodel\\models\\gempricelist\\gempricelistvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.backendapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|solutionrelative:diamondluxurysolution.backendapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.backendapi\\controllers\\newscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|solutionrelative:diamondluxurysolution.backendapi\\controllers\\newscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.viewmodel\\models\\gempricelist\\viewgempricelistrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|solutionrelative:diamondluxurysolution.viewmodel\\models\\gempricelist\\viewgempricelistrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.viewmodel\\models\\gempricelist\\updategempricelistrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|solutionrelative:diamondluxurysolution.viewmodel\\models\\gempricelist\\updategempricelistrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.viewmodel\\models\\gempricelist\\deletegempricelistrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|solutionrelative:diamondluxurysolution.viewmodel\\models\\gempricelist\\deletegempricelistrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.viewmodel\\models\\gempricelist\\creategempricelistrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|solutionrelative:diamondluxurysolution.viewmodel\\models\\gempricelist\\creategempricelistrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.viewmodel\\models\\gem\\deletegemrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|solutionrelative:diamondluxurysolution.viewmodel\\models\\gem\\deletegemrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.viewmodel\\models\\gem\\creategemrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|solutionrelative:diamondluxurysolution.viewmodel\\models\\gem\\creategemrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.application\\repository\\gem\\gemrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|solutionrelative:diamondluxurysolution.application\\repository\\gem\\gemrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.viewmodel\\models\\news\\newsvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|solutionrelative:diamondluxurysolution.viewmodel\\models\\news\\newsvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.application\\repository\\gem\\igemrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|solutionrelative:diamondluxurysolution.application\\repository\\gem\\igemrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.application\\repository\\slide\\sliderepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|solutionrelative:diamondluxurysolution.application\\repository\\slide\\sliderepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.application\\repository\\slide\\isliderepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|solutionrelative:diamondluxurysolution.application\\repository\\slide\\isliderepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.application\\repository\\gempricelist\\igempricelistrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|solutionrelative:diamondluxurysolution.application\\repository\\gempricelist\\igempricelistrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.application\\repository\\news\\inewsrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|solutionrelative:diamondluxurysolution.application\\repository\\news\\inewsrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.viewmodel\\models\\gem\\viewgemrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|solutionrelative:diamondluxurysolution.viewmodel\\models\\gem\\viewgemrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\diamondluxurysolution.data.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|solutionrelative:diamondluxurysolution.data\\diamondluxurysolution.data.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ADMIN\\AppData\\Local\\Temp\\2cf8acba-a7a2-46ad-b412-0a184f7d7503_DiamondLuxuryWeb.zip.503\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\migrations\\20240525030240_initdb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|solutionrelative:diamondluxurysolution.data\\migrations\\20240525030240_initdb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -37,7 +153,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 14,
           "Children": [
             {
               "$type": "Bookmark",
@@ -49,89 +165,434 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "20240524164457_InitDb.cs",
-              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Migrations\\20240524164457_InitDb.cs",
-              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\Migrations\\20240524164457_InitDb.cs",
-              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Migrations\\20240524164457_InitDb.cs",
-              "RelativeToolTip": "DiamondLuxurySolution.Data\\Migrations\\20240524164457_InitDb.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAAwBYAAAAZAAAA",
+              "DocumentIndex": 3,
+              "Title": "GemPriceListConfiguration.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Configurations\\GemPriceListConfiguration.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\Configurations\\GemPriceListConfiguration.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Configurations\\GemPriceListConfiguration.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Data\\Configurations\\GemPriceListConfiguration.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAABkAAAA9AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-24T18:06:37.346Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-25T03:07:09.338Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "IGemRepo.cs",
-              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Gem\\IGemRepo.cs",
-              "RelativeDocumentMoniker": "DiamondLuxurySolution.Application\\Repository\\Gem\\IGemRepo.cs",
-              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Gem\\IGemRepo.cs",
-              "RelativeToolTip": "DiamondLuxurySolution.Application\\Repository\\Gem\\IGemRepo.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAFAAAA",
+              "DocumentIndex": 6,
+              "Title": "MaterialConfiguration.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Configurations\\MaterialConfiguration.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\Configurations\\MaterialConfiguration.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Configurations\\MaterialConfiguration.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Data\\Configurations\\MaterialConfiguration.cs",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAzwAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-24T18:05:32.03Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-25T03:06:34.481Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "NewsConfiguration.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Configurations\\NewsConfiguration.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\Configurations\\NewsConfiguration.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Configurations\\NewsConfiguration.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Data\\Configurations\\NewsConfiguration.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAAQwBcAAAAxAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T03:06:14.399Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "GemRepo.cs",
-              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Gem\\GemRepo.cs",
-              "RelativeDocumentMoniker": "DiamondLuxurySolution.Application\\Repository\\Gem\\GemRepo.cs",
-              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Gem\\GemRepo.cs",
-              "RelativeToolTip": "DiamondLuxurySolution.Application\\Repository\\Gem\\GemRepo.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAABAAAA",
+              "Title": "SlideConfiguration.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Configurations\\SlideConfiguration.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\Configurations\\SlideConfiguration.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Configurations\\SlideConfiguration.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Data\\Configurations\\SlideConfiguration.cs",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAzwBYAAAAxAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-24T18:04:21.09Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-25T03:05:57.18Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
+              "Title": "MaterialPriceListConfiguration.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Configurations\\MaterialPriceListConfiguration.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\Configurations\\MaterialPriceListConfiguration.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Configurations\\MaterialPriceListConfiguration.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Data\\Configurations\\MaterialPriceListConfiguration.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAAQwBUAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T03:04:01.675Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DiscountConfiguration.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Configurations\\DiscountConfiguration.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\Configurations\\DiscountConfiguration.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Configurations\\DiscountConfiguration.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Data\\Configurations\\DiscountConfiguration.cs",
+              "ViewState": "AQIAAAsAAAAAAAAAAAAxwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T03:03:31.972Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "20240525030240_InitDb.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Migrations\\20240525030240_InitDb.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\Migrations\\20240525030240_InitDb.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Migrations\\20240525030240_InitDb.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Data\\Migrations\\20240525030240_InitDb.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T03:02:41.477Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Category.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Entities\\Category.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\Entities\\Category.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Entities\\Category.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Data\\Entities\\Category.cs",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAcwA8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T03:00:01.042Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Gem.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Entities\\Gem.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\Entities\\Gem.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Entities\\Gem.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Data\\Entities\\Gem.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAxwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T02:54:02.738Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "Material.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Entities\\Material.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\Entities\\Material.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Entities\\Material.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Data\\Entities\\Material.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAxwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T02:53:20.731Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "MaterialPriceList.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Entities\\MaterialPriceList.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\Entities\\MaterialPriceList.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Entities\\MaterialPriceList.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Data\\Entities\\MaterialPriceList.cs",
+              "ViewState": "AQIAABIAAAAAAAAAAAAAAA4AAAAlAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T02:50:05.898Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\appsettings.json",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.BackendApi\\appsettings.json",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\appsettings.json",
+              "RelativeToolTip": "DiamondLuxurySolution.BackendApi\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAA4AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-05-25T02:46:17.669Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "GemPriceListRepo.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\GemPriceList\\GemPriceListRepo.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Application\\Repository\\GemPriceList\\GemPriceListRepo.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\GemPriceList\\GemPriceListRepo.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Application\\Repository\\GemPriceList\\GemPriceListRepo.cs",
+              "ViewState": "AQIAAJkAAAAAAAAAAAA1wLkAAAAiAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T02:42:18.755Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "GemPriceListController.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\Controllers\\GemPriceListController.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.BackendApi\\Controllers\\GemPriceListController.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\Controllers\\GemPriceListController.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.BackendApi\\Controllers\\GemPriceListController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAgAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T02:22:08.918Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "NewsController.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\Controllers\\NewsController.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.BackendApi\\Controllers\\NewsController.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\Controllers\\NewsController.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.BackendApi\\Controllers\\NewsController.cs",
+              "ViewState": "AQIAAF4AAAAAAAAAAAAAAHEAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T02:21:33.455Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\Program.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.BackendApi\\Program.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\Program.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.BackendApi\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-24T17:40:40.157Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "ViewGemPriceListRequest.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\GemPriceList\\ViewGemPriceListRequest.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.ViewModel\\Models\\GemPriceList\\ViewGemPriceListRequest.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\GemPriceList\\ViewGemPriceListRequest.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.ViewModel\\Models\\GemPriceList\\ViewGemPriceListRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-24T18:47:44.004Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "NewsRepo.cs",
               "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\News\\NewsRepo.cs",
               "RelativeDocumentMoniker": "DiamondLuxurySolution.Application\\Repository\\News\\NewsRepo.cs",
               "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\News\\NewsRepo.cs",
               "RelativeToolTip": "DiamondLuxurySolution.Application\\Repository\\News\\NewsRepo.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAlAAAA",
+              "ViewState": "AQIAAJwAAAAAAAAAAAAlwKgAAAALAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-24T17:50:15.108Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 16,
+              "Title": "GemPriceListVm.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\GemPriceList\\GemPriceListVm.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.ViewModel\\Models\\GemPriceList\\GemPriceListVm.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\GemPriceList\\GemPriceListVm.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.ViewModel\\Models\\GemPriceList\\GemPriceListVm.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAuwAkAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-24T18:28:43.943Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "UpdateGemPriceListRequest.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\GemPriceList\\UpdateGemPriceListRequest.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.ViewModel\\Models\\GemPriceList\\UpdateGemPriceListRequest.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\GemPriceList\\UpdateGemPriceListRequest.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.ViewModel\\Models\\GemPriceList\\UpdateGemPriceListRequest.cs",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAABYAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-24T18:44:13.478Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "DeleteGemPriceListRequest.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\GemPriceList\\DeleteGemPriceListRequest.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.ViewModel\\Models\\GemPriceList\\DeleteGemPriceListRequest.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\GemPriceList\\DeleteGemPriceListRequest.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.ViewModel\\Models\\GemPriceList\\DeleteGemPriceListRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-24T18:45:34.444Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "CreateGemPriceListRequest.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\GemPriceList\\CreateGemPriceListRequest.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.ViewModel\\Models\\GemPriceList\\CreateGemPriceListRequest.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\GemPriceList\\CreateGemPriceListRequest.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.ViewModel\\Models\\GemPriceList\\CreateGemPriceListRequest.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAuwBYAAAAaAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-24T18:41:54.985Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "DeleteGemRequest.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\Gem\\DeleteGemRequest.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.ViewModel\\Models\\Gem\\DeleteGemRequest.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\Gem\\DeleteGemRequest.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.ViewModel\\Models\\Gem\\DeleteGemRequest.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-24T18:46:40.533Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "CreateGemRequest.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\Gem\\CreateGemRequest.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.ViewModel\\Models\\Gem\\CreateGemRequest.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\Gem\\CreateGemRequest.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.ViewModel\\Models\\Gem\\CreateGemRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T02:08:52.667Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "GemRepo.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Gem\\GemRepo.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Application\\Repository\\Gem\\GemRepo.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Gem\\GemRepo.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Application\\Repository\\Gem\\GemRepo.cs",
+              "ViewState": "AQIAAKUAAAAAAAAAAAAIwK4AAAAxAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-24T18:04:21.09Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "NewsVm.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\News\\NewsVm.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.ViewModel\\Models\\News\\NewsVm.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\News\\NewsVm.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.ViewModel\\Models\\News\\NewsVm.cs",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAQwAkAAAAXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-24T18:34:13.426Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "GemPriceList.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Entities\\GemPriceList.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\Entities\\GemPriceList.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Entities\\GemPriceList.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Data\\Entities\\GemPriceList.cs",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAzwBYAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-24T18:16:22.136Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "IGemRepo.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Gem\\IGemRepo.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Application\\Repository\\Gem\\IGemRepo.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Gem\\IGemRepo.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Application\\Repository\\Gem\\IGemRepo.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAA0AAABAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-24T18:05:32.03Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "SlideRepo.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Slide\\SlideRepo.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Application\\Repository\\Slide\\SlideRepo.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Slide\\SlideRepo.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Application\\Repository\\Slide\\SlideRepo.cs",
+              "ViewState": "AQIAAEQAAAAAAAAAAAAgwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T01:48:01.923Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "ISlideRepo.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Slide\\ISlideRepo.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Application\\Repository\\Slide\\ISlideRepo.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Slide\\ISlideRepo.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Application\\Repository\\Slide\\ISlideRepo.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T01:48:00.651Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "IGemPriceListRepo.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\GemPriceList\\IGemPriceListRepo.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Application\\Repository\\GemPriceList\\IGemPriceListRepo.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\GemPriceList\\IGemPriceListRepo.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Application\\Repository\\GemPriceList\\IGemPriceListRepo.cs",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAowA0AAABRAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-24T18:50:25.062Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
               "Title": "INewsRepo.cs",
               "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\News\\INewsRepo.cs",
               "RelativeDocumentMoniker": "DiamondLuxurySolution.Application\\Repository\\News\\INewsRepo.cs",
               "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\News\\INewsRepo.cs",
               "RelativeToolTip": "DiamondLuxurySolution.Application\\Repository\\News\\INewsRepo.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAABBAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAABBAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-24T17:49:45.843Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 13,
+              "Title": "LuxuryDiamondShopContext.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\EF\\LuxuryDiamondShopContext.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\EF\\LuxuryDiamondShopContext.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\EF\\LuxuryDiamondShopContext.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Data\\EF\\LuxuryDiamondShopContext.cs",
+              "ViewState": "AQIAAIkAAAAAAAAAAAAAACQAAAAlAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-24T18:39:56.778Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "ViewGemRequest.cs",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\Gem\\ViewGemRequest.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.ViewModel\\Models\\Gem\\ViewGemRequest.cs",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\Gem\\ViewGemRequest.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.ViewModel\\Models\\Gem\\ViewGemRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-24T18:48:46.709Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "DiamondLuxurySolution.Data.csproj",
+              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj",
+              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj",
+              "RelativeToolTip": "DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-05-24T18:39:26.147Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\ADMIN\\AppData\\Local\\Temp\\2cf8acba-a7a2-46ad-b412-0a184f7d7503_DiamondLuxuryWeb.zip.503\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\Program.cs",
               "ToolTip": "C:\\Users\\ADMIN\\AppData\\Local\\Temp\\2cf8acba-a7a2-46ad-b412-0a184f7d7503_DiamondLuxuryWeb.zip.503\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\Program.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAABAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-24T17:41:23.625Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Program.cs",
-              "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\Program.cs",
-              "RelativeDocumentMoniker": "DiamondLuxurySolution.BackendApi\\Program.cs",
-              "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\Program.cs",
-              "RelativeToolTip": "DiamondLuxurySolution.BackendApi\\Program.cs",
-              "ViewState": "AQIAABIAAAAAAAAAAAAAACcAAAAiAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-24T17:40:40.157Z",
-              "EditorCaption": ""
             }
           ]
         }

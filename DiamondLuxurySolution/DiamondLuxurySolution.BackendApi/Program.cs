@@ -2,6 +2,7 @@ using DiamondLuxurySolution.Application.Repository;
 using DiamondLuxurySolution.Application.Repository.About;
 using DiamondLuxurySolution.Application.Repository.Discount;
 using DiamondLuxurySolution.Application.Repository.Gem;
+using DiamondLuxurySolution.Application.Repository.GemPriceList;
 using DiamondLuxurySolution.Application.Repository.News;
 using DiamondLuxurySolution.Application.Repository.Platform;
 using DiamondLuxurySolution.Application.Repository.Promotion;
@@ -35,7 +36,7 @@ builder.Services.AddTransient<IPromotionRepo, PromotionRepo>();
 builder.Services.AddTransient<IDiscountRepo, DiscountRepo>();
 builder.Services.AddTransient<IGemRepo, GemRepo>();
 builder.Services.AddTransient<INewsRepo, NewsRepo>();
-
+builder.Services.AddTransient<IGemPriceListRepo, GemPriceListRepo>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
