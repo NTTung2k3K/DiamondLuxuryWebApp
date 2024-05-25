@@ -20,7 +20,7 @@ namespace DiamondLuxurySolution.Data.Entities
         public string? Address { get; set; }
         public string? ShipStatus { get; set; }
 
-        public DateTime LastChangePasswordTime { get; set; }
+        public DateTime? LastChangePasswordTime { get; set; }
 
         public List<Order> Orders { get; set; }
         public List<KnowledgeNews> KnowledgeNews { get; set; }

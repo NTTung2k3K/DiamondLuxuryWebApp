@@ -29,7 +29,7 @@ namespace DiamondLuxurySolution.Data.Configurations
                    .WithMany(x => x.Orders)
                    .HasForeignKey(o => o.CustomerId)
                    .IsRequired();
-            builder.HasOne(x => x.Discount).WithMany(x => x.Orders).HasForeignKey(x => x.DiscountId).IsRequired();
+            builder.HasOne(x => x.Discount).WithMany(x => x.Orders).HasForeignKey(x => x.DiscountId);
         }
     }
 
