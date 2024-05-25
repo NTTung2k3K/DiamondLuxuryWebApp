@@ -1,8 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\",
+  "WorkspaceRootPath": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\",
   "Documents": [
     {
+<<<<<<< HEAD
       "AbsoluteMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.viewmodel\\models\\materialpricelist\\updatematerialpricelistrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|solutionrelative:diamondluxurysolution.viewmodel\\models\\materialpricelist\\updatematerialpricelistrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -128,6 +129,45 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.application\\diamondluxurysolution.application.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+=======
+      "AbsoluteMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|d:\\hoc_ki_5\\swp391\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.viewmodel\\models\\platform\\updateplatformrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|solutionrelative:diamondluxurysolution.viewmodel\\models\\platform\\updateplatformrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Migrations\\20240525071506_InitDb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DiamondLuxurySolution.Data\\Migrations\\20240525071506_InitDb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|d:\\hoc_ki_5\\swp391\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.viewmodel\\models\\platform\\platfromvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|solutionrelative:diamondluxurysolution.viewmodel\\models\\platform\\platfromvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|d:\\hoc_ki_5\\swp391\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.viewmodel\\models\\platform\\createplatformrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|solutionrelative:diamondluxurysolution.viewmodel\\models\\platform\\createplatformrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\hoc_ki_5\\swp391\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\entities\\platform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|solutionrelative:diamondluxurysolution.data\\entities\\platform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|d:\\hoc_ki_5\\swp391\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.data\\configurations\\platformconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31E5F5FD-06F3-408E-908D-3015E4E4977D}|DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj|solutionrelative:diamondluxurysolution.data\\configurations\\platformconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|d:\\hoc_ki_5\\swp391\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.application\\repository\\platform\\platformrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|solutionrelative:diamondluxurysolution.application\\repository\\platform\\platformrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|d:\\hoc_ki_5\\swp391\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.backendapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|solutionrelative:diamondluxurysolution.backendapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Migrations\\20240525064945_InitDb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:DiamondLuxurySolution.Data\\Migrations\\20240525064945_InitDb.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|d:\\hoc_ki_5\\swp391\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.application\\diamondluxurysolution.application.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+>>>>>>> 01676ae888fd0b156da97ddb3c9c3d22000700ed
       "RelativeMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|solutionrelative:diamondluxurysolution.application\\diamondluxurysolution.application.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     }
   ],
@@ -138,8 +178,25 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
+<<<<<<< HEAD
           "SelectedChildIndex": 18,
+=======
+          "SelectedChildIndex": 0,
+>>>>>>> 01676ae888fd0b156da97ddb3c9c3d22000700ed
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UpdatePlatformRequest.cs",
+              "DocumentMoniker": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\Platform\\UpdatePlatformRequest.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.ViewModel\\Models\\Platform\\UpdatePlatformRequest.cs",
+              "ToolTip": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\Platform\\UpdatePlatformRequest.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.ViewModel\\Models\\Platform\\UpdatePlatformRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T07:13:02.769Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
@@ -150,6 +207,7 @@
             },
             {
               "$type": "Document",
+<<<<<<< HEAD
               "DocumentIndex": 4,
               "Title": "SlidesController.cs",
               "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\Controllers\\SlidesController.cs",
@@ -328,11 +386,23 @@
               "ViewState": "AQIAADYAAAAAAAAAAAAYwCgAAABIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-25T05:01:26.378Z",
+=======
+              "DocumentIndex": 1,
+              "Title": "20240525071506_InitDb.cs",
+              "DocumentMoniker": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Migrations\\20240525071506_InitDb.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\Migrations\\20240525071506_InitDb.cs",
+              "ToolTip": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Migrations\\20240525071506_InitDb.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Data\\Migrations\\20240525071506_InitDb.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAAQwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T07:15:06.819Z",
+>>>>>>> 01676ae888fd0b156da97ddb3c9c3d22000700ed
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+<<<<<<< HEAD
               "Title": "IMaterialPriceListRepo.cs",
               "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\MaterialPriceList\\IMaterialPriceListRepo.cs",
               "RelativeDocumentMoniker": "DiamondLuxurySolution.Application\\Repository\\MaterialPriceList\\IMaterialPriceListRepo.cs",
@@ -341,10 +411,21 @@
               "ViewState": "AQIAAAYAAAAAAAAAAAAAABAAAABlAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-25T05:01:28.756Z",
+=======
+              "Title": "PlatfromVm.cs",
+              "DocumentMoniker": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\Platform\\PlatfromVm.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.ViewModel\\Models\\Platform\\PlatfromVm.cs",
+              "ToolTip": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\Platform\\PlatfromVm.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.ViewModel\\Models\\Platform\\PlatfromVm.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T07:12:50.437Z",
+>>>>>>> 01676ae888fd0b156da97ddb3c9c3d22000700ed
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+<<<<<<< HEAD
               "DocumentIndex": 27,
               "Title": "ViewMaterialPriceListRequest.cs",
               "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\MaterialPriceList\\ViewMaterialPriceListRequest.cs",
@@ -536,11 +617,23 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2024-05-25T04:35:49.585Z",
+=======
+              "DocumentIndex": 3,
+              "Title": "CreatePlatformRequest.cs",
+              "DocumentMoniker": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\Platform\\CreatePlatformRequest.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.ViewModel\\Models\\Platform\\CreatePlatformRequest.cs",
+              "ToolTip": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\Platform\\CreatePlatformRequest.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.ViewModel\\Models\\Platform\\CreatePlatformRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAA0AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T07:12:33.903Z",
+>>>>>>> 01676ae888fd0b156da97ddb3c9c3d22000700ed
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
+<<<<<<< HEAD
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\Program.cs",
               "RelativeDocumentMoniker": "DiamondLuxurySolution.BackendApi\\Program.cs",
@@ -549,10 +642,21 @@
               "ViewState": "AQIAAB4AAAAAAAAAAAAAACkAAAA9AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-25T04:33:08.326Z",
+=======
+              "Title": "PlatformConfiguration.cs",
+              "DocumentMoniker": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Configurations\\PlatformConfiguration.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\Configurations\\PlatformConfiguration.cs",
+              "ToolTip": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Configurations\\PlatformConfiguration.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Data\\Configurations\\PlatformConfiguration.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAxAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T07:11:35.133Z",
+>>>>>>> 01676ae888fd0b156da97ddb3c9c3d22000700ed
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+<<<<<<< HEAD
               "DocumentIndex": 31,
               "Title": "DiamondLuxurySolution.Application.csproj",
               "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj",
@@ -562,6 +666,69 @@
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
               "WhenOpened": "2024-05-25T04:33:02.906Z",
+=======
+              "DocumentIndex": 4,
+              "Title": "Platform.cs",
+              "DocumentMoniker": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Entities\\Platform.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\Entities\\Platform.cs",
+              "ToolTip": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Entities\\Platform.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Data\\Entities\\Platform.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T07:05:33.522Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "20240525064945_InitDb.cs",
+              "DocumentMoniker": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Migrations\\20240525064945_InitDb.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Data\\Migrations\\20240525064945_InitDb.cs",
+              "ToolTip": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Migrations\\20240525064945_InitDb.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Data\\Migrations\\20240525064945_InitDb.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T06:49:45.982Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\appsettings.json",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.BackendApi\\appsettings.json",
+              "ToolTip": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\appsettings.json",
+              "RelativeToolTip": "DiamondLuxurySolution.BackendApi\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-05-25T06:44:47.551Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "PlatformRepo.cs",
+              "DocumentMoniker": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Platform\\PlatformRepo.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Application\\Repository\\Platform\\PlatformRepo.cs",
+              "ToolTip": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Platform\\PlatformRepo.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Application\\Repository\\Platform\\PlatformRepo.cs",
+              "ViewState": "AQIAACMAAAAAAAAAAAAswBgAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-25T06:42:44.554Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "DiamondLuxurySolution.Application.csproj",
+              "DocumentMoniker": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj",
+              "ToolTip": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj",
+              "RelativeToolTip": "DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-05-25T06:19:21.898Z",
+>>>>>>> 01676ae888fd0b156da97ddb3c9c3d22000700ed
               "EditorCaption": ""
             }
           ]

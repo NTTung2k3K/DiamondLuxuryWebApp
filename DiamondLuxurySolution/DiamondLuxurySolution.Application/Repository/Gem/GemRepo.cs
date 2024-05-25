@@ -104,7 +104,6 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Price = gem.Price,
                 Fluoresence = gem.Fluoresence,
                 ProportionImage = gem.ProportionImage,
-
                 AcquisitionDate = gem.AcquisitionDate,
                 Active = gem.Active,
             };
@@ -157,7 +156,6 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
             gem.Price = request.Price;
             gem.Fluoresence = request.Fluoresence;
             gem.ProportionImage = firebaseUrl;
-
             gem.AcquisitionDate = request.AcquisitionDate;
             gem.Active = request.Active;
 
@@ -189,7 +187,6 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Price = gem.Price,
                 Fluoresence = gem.Fluoresence,
                 ProportionImage = gem.ProportionImage,
-
                 AcquisitionDate = gem.AcquisitionDate,
                 Active = gem.Active,
             }).ToList();

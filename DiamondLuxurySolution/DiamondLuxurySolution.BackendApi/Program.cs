@@ -4,14 +4,21 @@ using DiamondLuxurySolution.Application.Repository.Discount;
 using DiamondLuxurySolution.Application.Repository.Gem;
 using DiamondLuxurySolution.Application.Repository.InspectionCertificate;
 using DiamondLuxurySolution.Application.Repository.Material;
+<<<<<<< HEAD
 using DiamondLuxurySolution.Application.Repository.MaterialPriceList;
 using DiamondLuxurySolution.Application.Repository.GemPriceList;
+=======
+using DiamondLuxurySolution.Application.Repository.GemPriceList;
+using DiamondLuxurySolution.Application.Repository.InspectionCertificate;
+using DiamondLuxurySolution.Application.Repository.Material;
+>>>>>>> 01676ae888fd0b156da97ddb3c9c3d22000700ed
 using DiamondLuxurySolution.Application.Repository.News;
 using DiamondLuxurySolution.Application.Repository.Platform;
 using DiamondLuxurySolution.Application.Repository.Promotion;
 using DiamondLuxurySolution.Application.Repository.Slide;
 using DiamondLuxurySolution.Application.Repository.User.Customer;
 using DiamondLuxurySolution.Application.Repository.User.Staff;
+using DiamondLuxurySolution.Application.Repository.Warehouse;
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -25,6 +32,8 @@ builder.Services.AddDbContext<LuxuryDiamondShopContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("LuxuryDiamondDb"));
 });
+builder.Services.AddTransient<IWarehouseRepo, WarehouseRepo>();
+
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore

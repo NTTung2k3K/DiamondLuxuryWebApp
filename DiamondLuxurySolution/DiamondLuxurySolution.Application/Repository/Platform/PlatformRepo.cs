@@ -23,34 +23,22 @@ namespace DiamondLuxurySolution.Application.Repository.Platform
         }
         public async Task<ApiResult<bool>> CreatePlatform(CreatePlatformRequest request)
         {
-            var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.PlatformName))
             {
-                errorList.Add("Vui lòng nhập tên nền tảng");
-                //return new ApiErrorResult<bool>("Vui lòng nhập tên nền tảng");
+                return new ApiErrorResult<bool>("Vui lòng nhập tên nền tảng");
             }
-            if (string.IsNullOrEmpty(request.PlatformUrl))
-            {
-                errorList.Add("Vui lòng nhập Url của nền tảng");
-                //return new ApiErrorResult<bool>("Vui lòng nhập Url của nền tảng");
-            }
-            if (request.PlatformLogo == null)
-            {
-                errorList.Add("Vui lòng gắn Logo");
-                //return new ApiErrorResult<bool>("Vui lòng gắn Logo");
-            }
-            if (errorList.Any())
-            {
-                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
-            }
-            string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.PlatformLogo);
             var platform = new DiamondLuxurySolution.Data.Entities.Platform
             {
                 PlatformName = request.PlatformName,
-                PlatformLogo = firebaseUrl,
-                PlatformUrl = request.PlatformUrl,
+                PlatformUrl = request.PlatformUrl != null ? request.PlatformUrl : "",
                 Status = request.Status,
             };
+            if (request.PlatformLogo != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.PlatformLogo);
+                platform.PlatformLogo = firebaseUrl;
+            } 
+
             _context.Platforms.Add(platform);
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
@@ -89,36 +77,25 @@ namespace DiamondLuxurySolution.Application.Repository.Platform
 
         public async Task<ApiResult<bool>> UpdatePlatform(UpdatePlatformRequest request)
         {
-            var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.PlatformName))
             {
-                errorList.Add("Vui lòng nhập tên nền tảng");
-                //return new ApiErrorResult<bool>("Vui lòng nhập tên nền tảng");
+                return new ApiErrorResult<bool>("Vui lòng nhập tên nền tảng");
             }
-            if (string.IsNullOrEmpty(request.PlatformUrl))
-            {
-                errorList.Add("Vui lòng nhập Url của nền tảng");
-                //return new ApiErrorResult<bool>("Vui lòng nhập Url của nền tảng");
-            }
-            if (request.PlatformLogo == null)
-            {
-                errorList.Add("Vui lòng gắn Logo");
-                //return new ApiErrorResult<bool>("Vui lòng gắn Logo");
-            }
-            if (errorList.Any())
-            {
-                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
-            }
+
             var platform = await _context.Platforms.FindAsync(request.PlatformId);
             if (platform == null)
             {
                 return new ApiErrorResult<bool>("Không tìm thấy nền tảng");
             }
-            string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.PlatformLogo);
             platform.PlatformName = request.PlatformName;
-            platform.PlatformUrl = request.PlatformUrl;
-            platform.PlatformLogo = firebaseUrl;
+            platform.PlatformUrl = !string.IsNullOrEmpty(request.PlatformUrl) ? request.PlatformUrl : "";
             platform.Status = request.Status;
+            if (request.PlatformLogo != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.PlatformLogo);
+                platform.PlatformLogo = firebaseUrl;
+            }
+
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
         }
