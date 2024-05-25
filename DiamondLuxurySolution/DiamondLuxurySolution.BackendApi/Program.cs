@@ -17,6 +17,7 @@ using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using DiamondLuxurySolution.Application.Repository.Order;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,6 +47,8 @@ builder.Services.AddTransient<IMaterialPriceListRepo, MaterialPriceListRepo>();
 builder.Services.AddTransient<INewsRepo, NewsRepo>();
 builder.Services.AddTransient<IGemPriceListRepo, GemPriceListRepo>();
 builder.Services.AddTransient<IWarehouseRepo, WarehouseRepo>();
+builder.Services.AddTransient<IOrderRepo, OrderRepo>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

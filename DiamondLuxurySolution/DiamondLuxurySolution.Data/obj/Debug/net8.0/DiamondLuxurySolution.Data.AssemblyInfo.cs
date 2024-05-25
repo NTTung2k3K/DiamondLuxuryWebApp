@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DiamondLuxurySolution.Data")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a265b7dc957fc5ac0a12bbd1b8f2171ecac6b2bc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9381590393cc6d34f68a6988a5638a1c9285c748")]
 [assembly: System.Reflection.AssemblyProductAttribute("DiamondLuxurySolution.Data")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DiamondLuxurySolution.Data")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
