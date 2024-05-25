@@ -13,5 +13,7 @@ public partial class InspectionCertificate
 
     public string Logo { get; set; } = null!;
 
+    public bool Status { get; set; }
+
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }
