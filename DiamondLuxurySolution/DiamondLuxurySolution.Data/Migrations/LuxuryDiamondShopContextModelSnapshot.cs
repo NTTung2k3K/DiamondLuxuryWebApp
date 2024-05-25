@@ -151,9 +151,12 @@ namespace DiamondLuxurySolution.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+<<<<<<< HEAD
+=======
                     b.Property<int?>("Point")
                         .HasColumnType("int");
 
+>>>>>>> 01676ae888fd0b156da97ddb3c9c3d22000700ed
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -754,6 +757,10 @@ namespace DiamondLuxurySolution.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlatformId"));
 
                     b.Property<string>("PlatformLogo")
+<<<<<<< HEAD
+                        .IsRequired()
+=======
+>>>>>>> 01676ae888fd0b156da97ddb3c9c3d22000700ed
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PlatformName")
@@ -762,6 +769,10 @@ namespace DiamondLuxurySolution.Data.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("PlatformUrl")
+<<<<<<< HEAD
+                        .IsRequired()
+=======
+>>>>>>> 01676ae888fd0b156da97ddb3c9c3d22000700ed
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Status")
@@ -969,6 +980,12 @@ namespace DiamondLuxurySolution.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("WareHouseId"));
 
+<<<<<<< HEAD
+                    b.Property<DateTime>("AcquisitionDate")
+                        .HasColumnType("datetime2");
+
+=======
+>>>>>>> 01676ae888fd0b156da97ddb3c9c3d22000700ed
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
