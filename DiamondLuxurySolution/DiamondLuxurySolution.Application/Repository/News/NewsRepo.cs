@@ -47,7 +47,7 @@ namespace DiamondLuxurySolution.Application.Repository.News
             {
                 return new ApiErrorResult<bool>("Không tìm thấy người viết");
             }
-            if(errorList.Any())
+            if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Không hợp lệ");
             }
@@ -79,36 +79,19 @@ namespace DiamondLuxurySolution.Application.Repository.News
             {
                 return new ApiErrorResult<bool>("Không tìm thấy tin tức");
             }
-            if (!string.IsNullOrEmpty(request.NewName?.Trim()))
+            if (string.IsNullOrWhiteSpace(request.NewName))
             {
-                news.NewName = request.NewName;
+                return new ApiErrorResult<bool>("Vui lòng nhập tên tin tức");
             }
-            if (!string.IsNullOrEmpty(request.Title?.Trim()))
+            if (string.IsNullOrWhiteSpace(request.Title))
             {
-                news.Title = request.Title;
+                return new ApiErrorResult<bool>("Vui lòng nhập tiêu đề tin tức");
             }
+            news.Title = request.Title;
             news.DateModified = DateTime.Now;
-            if (request.Image != null)
-            {
-                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Image);
-                news.Image = firebaseUrl;
-            }
-            if (!string.IsNullOrEmpty(request.Description?.Trim()))
-            {
-                news.Description = request.Description;
-            }
-
+            news.Image = request.Image != null ? await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Image) : "";
+            news.Description = !string.IsNullOrWhiteSpace(request.Description) ? request.Description : "";
             news.IsOutstanding = request.IsOutstanding;
-            if (news.Id != request.WriterId)
-            {
-                var writer = await _userManager.FindByIdAsync(request.WriterId.ToString());
-                if (writer == null)
-                {
-                    return new ApiErrorResult<bool>("Không tìm thấy người viết");
-                }
-                news.Id = writer.Id;
-                news.Writer = writer;
-            }
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
         }
@@ -133,7 +116,6 @@ namespace DiamondLuxurySolution.Application.Repository.News
                 return new ApiErrorResult<NewsVm>("Không tìm thấy tin tức");
             }
             var writer = await _userManager.FindByIdAsync(news.Id.ToString());
-
             var newsVm = new NewsVm()
             {
                 NewsId = NewsId,

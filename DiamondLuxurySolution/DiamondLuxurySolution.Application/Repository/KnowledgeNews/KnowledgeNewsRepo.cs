@@ -57,7 +57,7 @@ namespace DiamondLuxurySolution.Application.Repository.KnowledgeNews
                 KnowledgeNewCatagoryId = request.KnowledgeNewCatagoryId,
                 Active = request.Active,
                 DateCreated = DateTime.Now,
-                DateModified = null,
+                DateModified = DateTime.Now,
                 Description = !string.IsNullOrEmpty(request.Description) ? request.Description.Trim() : "",
                 Thumnail = request.Thumnail != null ? await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Thumnail) : "",
                 Writer = writer,
@@ -118,15 +118,12 @@ namespace DiamondLuxurySolution.Application.Repository.KnowledgeNews
             {
                 return new ApiErrorResult<bool>("Vui lòng nhập tên tin tức");
             }
-            if (request.DateModified == DateTime.MinValue)
-            {
-                return new ApiErrorResult<bool>("Vui lòng nhập ngày thay đổi tin tức");
-            }
+
             knowledgeNews.KnowledgeNewsName = request.KnowledgeNewsName;
             knowledgeNews.Thumnail = request.Thumnail != null ? await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Thumnail) : "";
             knowledgeNews.Description = !string.IsNullOrWhiteSpace(request.Description) ? request.Description : "";
             knowledgeNews.Active = request.Active;
-            knowledgeNews.DateModified = request.DateModified;
+            knowledgeNews.DateModified = DateTime.Now;
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
         }

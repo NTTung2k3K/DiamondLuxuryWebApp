@@ -30,14 +30,16 @@ namespace DiamondLuxurySolution.Application.Repository.MaterialPriceList
             {
                 errorList.Add("Vui lòng nhập giá mua phải lớn hơn 0");
             }
-            if (request.SellPrice < request.BuyPrice)
+            if (request.SellPrice <= request.BuyPrice)
             {
                 errorList.Add("Vui lòng nhập giá bán phải lớn hơn giá mua");
             }
-            if (string.IsNullOrEmpty(request.effectDate.ToString().Trim()))
+            if (request.effectDate < DateTime.Today.AddDays(-3) || request.effectDate > DateTime.Today)
             {
-                errorList.Add("Vui lòng nhập ngày tạo bảng giá nguyên liệu");
+                errorList.Add("Bảng giá nguyên liệu phải được cập nhật trong khoảng thời gian gần đây.");
             }
+
+
             var material = await _context.Materials.FindAsync(request.MaterialId);
             if (material == null)
             {
@@ -107,13 +109,13 @@ namespace DiamondLuxurySolution.Application.Repository.MaterialPriceList
             {
                 errorList.Add("Vui lòng nhập giá mua phải lớn hơn 0");
             }
-            if (request.SellPrice <= 0)
+            if (request.SellPrice <= materialPL.BuyPrice)
             {
-                errorList.Add("Vui lòng nhập giá bán phải lớn hơn 0");
+                errorList.Add("Vui lòng nhập giá bán phải lớn hơn hoặc bằng giá mua");
             }
-            if (string.IsNullOrEmpty(request.effectDate.ToString().Trim()))
+            if (request.effectDate < DateTime.Today.AddDays(-3) || request.effectDate > DateTime.Today)
             {
-                errorList.Add("Vui lòng nhập ngày tạo bảng giá nguyên liệu");
+                errorList.Add("Bảng giá nguyên liệu phải được cập nhật trong khoảng thời gian gần đây.");
             }
 
             if (errorList.Any())
