@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "58jqwDNq3xe1qIgVimZ7YHlbV8V2lRbqC9CvQjNUXRlZP1ZrUWXAWwQiHWeyjNUhYPGxjTnMPekDMd973TTZlQ==",
+  "dgSpecHash": "tjQles3NjGWT+v8Ks2b/UpFNHKk9MxC+yaH1PCfd3BBHXkQ6tmkC+xu0xD6QJBb7D81PVXfkBLeyln+cCOKwhw==",
   "success": true,
   "projectFilePath": "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\DiamondLuxurySolution.WebApp.csproj",
   "expectedPackageFiles": [
@@ -178,12 +178,6 @@
     "C:\\Users\\tungk\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512"
   ],
   "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    },
     {
       "code": "NU1701",
       "level": "Warning",

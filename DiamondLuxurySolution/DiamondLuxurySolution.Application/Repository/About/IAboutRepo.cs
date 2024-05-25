@@ -14,6 +14,8 @@ namespace DiamondLuxurySolution.Application.Repository.About
         public Task<ApiResult<bool>> UpdateAbout(UpdateAboutRequest request);
         public Task<ApiResult<bool>> DeleteAbout(DeleteAboutRequest request);
         public Task<ApiResult<AboutVm>> GetAboutById(int AboutId);
-        public Task<ApiResult<PageResult<AboutVm>>> ViewAbout(ViewAboutRequest request);
+        public Task<ApiResult<PageResult<AboutVm>>> ViewAboutInCustomer(ViewAboutRequest request);
+
+        public Task<ApiResult<PageResult<AboutVm>>> ViewAboutInManager(ViewAboutRequest request);
     }
 }

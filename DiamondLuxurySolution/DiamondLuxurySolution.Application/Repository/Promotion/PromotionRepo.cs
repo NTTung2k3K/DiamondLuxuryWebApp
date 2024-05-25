@@ -20,25 +20,35 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
         }
         public async Task<ApiResult<bool>> CreatePromotion(CreatePromotionRequest request)
         {
+            var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.PromotionName))
             {
-                return new ApiErrorResult<bool>("Vui lòng nhập tên khuyến mãi");
+                errorList.Add("Vui lòng nhập tên khuyến mãi");
+                //return new ApiErrorResult<bool>("Vui lòng nhập tên khuyến mãi");
             }
             if (request.StartDate == null)
             {
-                return new ApiErrorResult<bool>("Vui lòng nhập ngày bắt đầu khuyến mãi");
+                errorList.Add("Vui lòng nhập ngày bắt đầu khuyến mãi");
+                //return new ApiErrorResult<bool>("Vui lòng nhập ngày bắt đầu khuyến mãi");
             }
             if (request.EndDate == null)
             {
-                return new ApiErrorResult<bool>("Vui lòng nhập ngày kết thúc khuyến mãi");
+                errorList.Add("Vui lòng nhập ngày kết thúc khuyến mãi");
+                //return new ApiErrorResult<bool>("Vui lòng nhập ngày kết thúc khuyến mãi");
             }
             if (request.StartDate >= request.EndDate)
             {
-                return new ApiErrorResult<bool>("Ngày kết thúc phải sau ngày bắt đầu khuyến mãi");
+                errorList.Add("Ngày kết thúc phải sau ngày bắt đầu khuyến mãi");
+                //return new ApiErrorResult<bool>("Ngày kết thúc phải sau ngày bắt đầu khuyến mãi");
             }
             if (request.PromotionImage == null)
             {
-                return new ApiErrorResult<bool>("Vui lòng gắn Image");
+                errorList.Add("Vui lòng gắn Image");
+                //return new ApiErrorResult<bool>("Vui lòng gắn Image");
+            }
+            if (errorList.Any())
+            {
+                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
             string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.PromotionImage);
             var promotion = new DiamondLuxurySolution.Data.Entities.Promotion
@@ -49,6 +59,7 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
                 StartDate = request.StartDate,
                 PromotionImage = firebaseUrl,
                 EndDate = request.EndDate,
+                Status = request.Status,
             };
             _context.Promotions.Add(promotion);
             await _context.SaveChangesAsync();
@@ -84,31 +95,42 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
                 Description = promotion.Description,
                 StartDate = promotion.StartDate,
                 EndDate = promotion.EndDate,
+                Status = promotion.Status,
             };
             return new ApiSuccessResult<PromotionVm>(promotionVm, "Success");
         }
 
         public async Task<ApiResult<bool>> UpdatePromotion(UpdatePromotionRequest request)
         {
+            var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.PromotionName))
             {
-                return new ApiErrorResult<bool>("Vui lòng nhập tên khuyến mãi");
+                errorList.Add("Vui lòng nhập tên khuyến mãi");
+                //return new ApiErrorResult<bool>("Vui lòng nhập tên khuyến mãi");
             }
             if (request.StartDate == null)
             {
-                return new ApiErrorResult<bool>("Vui lòng nhập ngày bắt đầu khuyến mãi");
+                errorList.Add("Vui lòng nhập ngày bắt đầu khuyến mãi");
+                //return new ApiErrorResult<bool>("Vui lòng nhập ngày bắt đầu khuyến mãi");
             }
             if (request.EndDate == null)
             {
-                return new ApiErrorResult<bool>("Vui lòng nhập ngày kết thúc khuyến mãi");
+                errorList.Add("Vui lòng nhập ngày kết thúc khuyến mãi");
+                //return new ApiErrorResult<bool>("Vui lòng nhập ngày kết thúc khuyến mãi");
             }
             if (request.StartDate >= request.EndDate)
             {
-                return new ApiErrorResult<bool>("Ngày kết thúc phải sau ngày bắt đầu khuyến mãi");
+                errorList.Add("Ngày kết thúc phải sau ngày bắt đầu khuyến mãi");
+                //return new ApiErrorResult<bool>("Ngày kết thúc phải sau ngày bắt đầu khuyến mãi");
             }
             if (request.PromotionImage == null)
             {
-                return new ApiErrorResult<bool>("Vui lòng gắn Image");
+                errorList.Add("Vui lòng gắn Image");
+                //return new ApiErrorResult<bool>("Vui lòng gắn Image");
+            }
+            if (errorList.Any())
+            {
+                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
             var promotion = await _context.Promotions.FindAsync(request.PromotionId);
             if (promotion == null)
@@ -121,12 +143,47 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
             promotion.Description = request.Description;
             promotion.StartDate = request.StartDate;
             promotion.EndDate = request.EndDate;
+            promotion.Status = request.Status;
 
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
         }
 
-        public async Task<ApiResult<PageResult<PromotionVm>>> ViewPromotion(ViewPromotionRequest request)
+        public async Task<ApiResult<PageResult<PromotionVm>>> ViewPromotionInCustomer(ViewPromotionRequest request)
+        {
+            var listPromotion = await _context.Promotions.ToListAsync();
+            if (request.Keyword != null)
+            {
+                listPromotion = listPromotion.Where(x => x.PromotionName.Contains(request.Keyword)).ToList();
+
+            }
+            listPromotion = listPromotion.Where(x => x.Status).OrderByDescending(x => x.PromotionName).ToList();
+
+            int pageIndex = request.pageIndex ?? 1;
+
+            var listPaging = listPromotion.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
+
+            var listPromotionVm = listPaging.Select(x => new PromotionVm()
+            {
+                PromotionId = x.PromotionId,
+                PromotionName = x.PromotionName,
+                Description = x.Description,
+                PromotionImage = x.PromotionImage,
+                StartDate = x.StartDate,
+                EndDate = x.EndDate,
+                Status = x.Status,
+            }).ToList();
+            var listResult = new PageResult<PromotionVm>()
+            {
+                Items = listPromotionVm,
+                PageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE,
+                TotalRecords = listPromotion.Count,
+                PageIndex = pageIndex
+            };
+            return new ApiSuccessResult<PageResult<PromotionVm>>(listResult, "Success");
+        }
+
+        public async Task<ApiResult<PageResult<PromotionVm>>> ViewPromotionInManager(ViewPromotionRequest request)
         {
             var listPromotion = await _context.Promotions.ToListAsync();
             if (request.Keyword != null)
@@ -148,6 +205,7 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
                 PromotionImage = x.PromotionImage,
                 StartDate = x.StartDate,
                 EndDate = x.EndDate,
+                Status = x.Status,
             }).ToList();
             var listResult = new PageResult<PromotionVm>()
             {

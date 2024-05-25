@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DiamondLuxurySolution.Data\DiamondLuxurySolution.Data.csproj" />
     <ProjectReference Include="..\DiamondLuxurySolution.Utilities\DiamondLuxurySolution.Utilities.csproj" />
     <ProjectReference Include="..\DiamondLuxurySolution.ViewModel\DiamondLuxurySolution.ViewModel.csproj" />
   </ItemGroup>

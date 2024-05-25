@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.1.34" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DiamondLuxurySolution.Data\DiamondLuxurySolution.Data.csproj" />
+  </ItemGroup>
+
 </Project>

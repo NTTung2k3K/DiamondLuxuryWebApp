@@ -12,4 +12,6 @@ public partial class Platform
     public string PlatformUrl { get; set; } = null!;
 
     public string PlatformLogo { get; set; } = null!;
+
+    public bool Status { get; set; }
 }
