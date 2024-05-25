@@ -65,10 +65,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Price = request.Price,
                 Fluoresence = request.Fluoresence,
                 ProportionImage = firebaseUrl,
-<<<<<<< HEAD
-=======
                 AcquisitionDate = request.AcquisitionDate,
->>>>>>> main
                 Active = request.Active,
             };
             _context.Gems.Add(gem);
@@ -107,11 +104,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Price = gem.Price,
                 Fluoresence = gem.Fluoresence,
                 ProportionImage = gem.ProportionImage,
-<<<<<<< HEAD
-=======
-
                 AcquisitionDate = gem.AcquisitionDate,
->>>>>>> main
                 Active = gem.Active,
             };
             return new ApiSuccessResult<GemVm>(gemVm, "Success");
@@ -163,11 +156,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
             gem.Price = request.Price;
             gem.Fluoresence = request.Fluoresence;
             gem.ProportionImage = firebaseUrl;
-<<<<<<< HEAD
-=======
-
             gem.AcquisitionDate = request.AcquisitionDate;
->>>>>>> main
             gem.Active = request.Active;
 
             await _context.SaveChangesAsync();
@@ -198,11 +187,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Price = gem.Price,
                 Fluoresence = gem.Fluoresence,
                 ProportionImage = gem.ProportionImage,
-<<<<<<< HEAD
-=======
-
                 AcquisitionDate = gem.AcquisitionDate,
->>>>>>> main
                 Active = gem.Active,
             }).ToList();
             var listResult = new PageResult<GemVm>()
@@ -240,10 +225,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Price = gem.Price,
                 Fluoresence = gem.Fluoresence,
                 ProportionImage = gem.ProportionImage,
-<<<<<<< HEAD
-=======
                 AcquisitionDate = gem.AcquisitionDate,
->>>>>>> main
                 Active = gem.Active,
             }).ToList();
             var listResult = new PageResult<GemVm>()
