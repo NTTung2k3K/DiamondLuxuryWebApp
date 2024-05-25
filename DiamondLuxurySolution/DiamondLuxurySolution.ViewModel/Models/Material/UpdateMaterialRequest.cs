@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,8 @@ namespace DiamondLuxurySolution.ViewModel.Models.Material
 
         public string? Color { get; set; }
         public int Weight { get; set; }
+
+        public IFormFile? MaterialImage { get; set; }
 
         public bool Status { get; set; }
     }

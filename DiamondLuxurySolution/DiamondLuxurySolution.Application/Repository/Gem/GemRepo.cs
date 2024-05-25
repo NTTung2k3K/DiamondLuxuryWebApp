@@ -23,22 +23,10 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
         }
         public async Task<ApiResult<bool>> CreateGem(CreateGemRequest request)
         {
-            var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.GemName))
             {
-                errorList.Add("Vui lòng nhập tên kim cương");
-                //return new ApiErrorResult<bool>("Vui lòng nhập tên kim cương");
+                return new ApiErrorResult<bool>("Vui lòng nhập tên kim cương");
             }
-            if (request.Price < 0)
-            {
-                errorList.Add("Giá của kim cương phải > 0");
-                //return new ApiErrorResult<bool>("Giá của kim cương phải > 0");
-            }
-            if (errorList.Any())
-            {
-                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
-            }
-
             
             var gem = new DiamondLuxurySolution.Data.Entities.Gem
             {
@@ -47,8 +35,6 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Polish = request.Polish != null ? request.Polish : "",
                 Symetry = request.Symetry != null ? request.Symetry : "",
                 IsOrigin = request.IsOrigin,
-                IsMain = request.IsMain,
-                Price = request.Price,
                 Fluoresence = request.Fluoresence,
                 AcquisitionDate = request.AcquisitionDate,
                 Active = request.Active,
@@ -60,6 +46,15 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
             } else
             {
                 gem.ProportionImage = "";
+            }
+            if (request.GemImage != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.GemImage);
+                gem.GemImage = firebaseUrl;
+            }
+            else
+            {
+                gem.GemImage = "";
             }
 
             _context.Gems.Add(gem);
@@ -94,8 +89,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Polish = gem.Polish,
                 Symetry = gem.Symetry,
                 IsOrigin = gem.IsOrigin,
-                IsMain = gem.IsMain,
-                Price = gem.Price,
+                GemImage = gem.GemImage,
                 Fluoresence = gem.Fluoresence,
                 ProportionImage = gem.ProportionImage,
                 AcquisitionDate = gem.AcquisitionDate,
@@ -106,20 +100,9 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
 
         public async Task<ApiResult<bool>> UpdateGem(UpdateGemResquest request)
         {
-            var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.GemName))
             {
-                errorList.Add("Vui lòng nhập tên kim cương");
-                //return new ApiErrorResult<bool>("Vui lòng nhập tên kim cương");
-            }
-            if (request.Price < 0)
-            {
-                errorList.Add("Giá của kim cương phải > 0");
-                //return new ApiErrorResult<bool>("Giá của kim cương phải > 0");
-            }
-            if (errorList.Any())
-            {
-                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
+                return new ApiErrorResult<bool>("Vui lòng nhập tên kim cương");
             }
             var gem = await _context.Gems.FindAsync(request.GemId);
             if (gem == null)
@@ -131,8 +114,6 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
             gem.Polish = request.Polish != null ? request.Polish : "";
             gem.Symetry = request.Symetry != null ? request.Symetry : "";
             gem.IsOrigin = request.IsOrigin;
-            gem.IsMain = request.IsMain;
-            gem.Price = request.Price;
             gem.Fluoresence = request.Fluoresence;
             gem.AcquisitionDate = request.AcquisitionDate;
             gem.Active = request.Active;
@@ -143,6 +124,15 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
             } else
             {
                 gem.ProportionImage = "";
+            }
+            if (request.GemImage != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.GemImage);
+                gem.GemImage = firebaseUrl;
+            }
+            else
+            {
+                gem.GemImage = "";
             }
 
             await _context.SaveChangesAsync();
@@ -169,8 +159,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Polish = gem.Polish,
                 Symetry = gem.Symetry,
                 IsOrigin = gem.IsOrigin,
-                IsMain = gem.IsMain,
-                Price = gem.Price,
+                GemImage = gem.GemImage,
                 Fluoresence = gem.Fluoresence,
                 ProportionImage = gem.ProportionImage,
                 AcquisitionDate = gem.AcquisitionDate,
@@ -207,8 +196,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Polish = gem.Polish,
                 Symetry = gem.Symetry,
                 IsOrigin = gem.IsOrigin,
-                IsMain = gem.IsMain,
-                Price = gem.Price,
+                GemImage = gem.GemImage,
                 Fluoresence = gem.Fluoresence,
                 ProportionImage = gem.ProportionImage,
                 AcquisitionDate = gem.AcquisitionDate,
