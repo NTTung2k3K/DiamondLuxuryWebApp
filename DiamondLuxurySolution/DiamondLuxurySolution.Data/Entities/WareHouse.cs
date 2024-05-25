@@ -13,7 +13,5 @@ public partial class WareHouse
 
     public string Location { get; set; } = null!;
 
-    public DateTime AcquisitionDate { get; set; }
-
     public virtual ICollection<ProductsWareHouse> ProductsWareHouses { get; set; } = new List<ProductsWareHouse>();
 }

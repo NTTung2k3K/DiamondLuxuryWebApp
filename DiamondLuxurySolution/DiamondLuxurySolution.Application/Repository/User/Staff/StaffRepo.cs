@@ -128,21 +128,26 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
 
         public async Task<ApiResult<bool>> RegisterStaffAccount(CreateStaffAccountRequest request)
         {
+            List<string> errorList = new List<string>();
             if (!request.Password.Equals(request.ConfirmPassword))
             {
-                return new ApiErrorResult<bool>("Password không trùng khớp");
+                errorList.Add("Password không trùng khớp");
             }
             if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.IsValidEmail(request.Email))
             {
-                return new ApiErrorResult<bool>("Email không hợp lệ");
+                errorList.Add("Email không hợp lệ");
             }
             if (DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ContainsLetters(request.PhoneNumber))
             {
-                return new ApiErrorResult<bool>("Số điện thoại không hợp lệ");
+                errorList.Add("Số điện thoại không hợp lệ");
             }
             if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ValidLenghPhoneNumber(request.PhoneNumber))
             {
-                return new ApiErrorResult<bool>("Số điện thoại không hợp lệ");
+                errorList.Add("Số điện thoại không hợp lệ");
+            }
+            if (errorList.Any())
+            {
+                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
 
 
@@ -165,7 +170,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 Fullname = request.FullName.Trim(),
                 Email = request.Email.Trim(),
                 
-                Dob = (DateTime)(request.Dob ?? DateTime.MinValue),
+                Dob = request.Dob !=null ? request.Dob : null,
 
 
                 PhoneNumber = request.PhoneNumber.Trim(),
@@ -202,26 +207,31 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
         public async Task<ApiResult<bool>> UpdateStaffAccount(UpdateStaffAccountRequest request)
         {
             var user = await _userManager.FindByIdAsync(request.StaffId.ToString());
+            var errorList = new List<string>();
             if (user == null)
             {
-                return new ApiErrorResult<bool>("Nhân viên không tồn tại");
+                return new ApiErrorResult<bool>("Không hợp lệ", new List<string>() { "Username không tồn tại" });
             }
             if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.IsValidEmail(request.Email.Trim()))
             {
-                return new ApiErrorResult<bool>("Email không hợp lệ");
+                errorList.Add("Email không hợp lệ");
             }
             if (DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ContainsLetters(request.PhoneNumber.Trim()))
             {
-                return new ApiErrorResult<bool>("Số điện thoại không hợp lệ");
+                errorList.Add("Số điện thoại không hợp lệ");
             }
             if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ValidLenghPhoneNumber(request.PhoneNumber.Trim()))
             {
-                return new ApiErrorResult<bool>("Số điện thoại không hợp lệ");
+                errorList.Add("Số điện thoại không hợp lệ");
+            }
+            if (errorList.Any())
+            {
+                return new ApiErrorResult<bool>("Không hợp lệ",errorList);
             }
 
             user.PhoneNumber = request.PhoneNumber.Trim();
             user.Fullname = request.FullName.Trim();
-            user.Dob = request.Dob;
+            user.Dob =  request.Dob!=null ? request.Dob : null;
         
             user.Email = request.Email.Trim();
             user.CitizenIDCard = request.CitizenIDCard.Trim();
