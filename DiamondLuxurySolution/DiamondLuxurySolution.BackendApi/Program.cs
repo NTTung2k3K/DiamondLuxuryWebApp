@@ -22,6 +22,7 @@ using DiamondLuxurySolution.Application.Repository.Promotion;
 using DiamondLuxurySolution.Application.Repository.Slide;
 using DiamondLuxurySolution.Application.Repository.User.Customer;
 using DiamondLuxurySolution.Application.Repository.User.Staff;
+using DiamondLuxurySolution.Application.Repository.Warehouse;
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -35,10 +36,15 @@ builder.Services.AddDbContext<LuxuryDiamondShopContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("LuxuryDiamondDb"));
 });
+<<<<<<< HEAD
+builder.Services.AddTransient<IWarehouseRepo, WarehouseRepo>();
+
+=======
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 );
+>>>>>>> main
 builder.Services.AddTransient<IPlatformRepo, PlatformRepo>();
 builder.Services.AddTransient<IAboutRepo, AboutRepo>();
 builder.Services.AddTransient<ISlideRepo, SlideRepo>();

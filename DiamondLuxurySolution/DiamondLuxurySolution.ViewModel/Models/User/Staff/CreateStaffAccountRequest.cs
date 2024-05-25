@@ -18,7 +18,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.User.Staff
         public string CitizenIDCard { get; set; }
         [EmailAddress]
         public string Email { get; set; }
-        public DateTime? Dob { get; set; }
+        public DateTime Dob { get; set; }
         public string Password { get; set; }
         public string? Status { get; set; }
 

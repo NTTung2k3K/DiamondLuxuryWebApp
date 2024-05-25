@@ -19,7 +19,6 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(w => w.WareHouseName).IsRequired().HasMaxLength(250);
             builder.Property(w => w.Description);
             builder.Property(w => w.Location).IsRequired().HasMaxLength(250);
-            builder.Property(w => w.AcquisitionDate).IsRequired();
         }
     }
 

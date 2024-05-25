@@ -14,15 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DiamondLuxurySolution.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-<<<<<<< HEAD
-<<<<<<< HEAD
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d946d88062f135e67000b9124b69bb83ceb05208")]
-=======
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+14cb514da7b386238f214fb3f6ed6b5d512dcd17")]
->>>>>>> 8b1ce7888be30cd6d8bca613758935f4c0c2117a
-=======
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8b1ce7888be30cd6d8bca613758935f4c0c2117a")]
->>>>>>> feature/Api/GemPriceList
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6bba09709cca2674ba77878491dc5489207f00b6")]
 [assembly: System.Reflection.AssemblyProductAttribute("DiamondLuxurySolution.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DiamondLuxurySolution.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
