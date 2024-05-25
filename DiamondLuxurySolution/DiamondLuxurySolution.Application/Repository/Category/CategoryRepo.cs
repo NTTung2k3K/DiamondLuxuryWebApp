@@ -1,6 +1,10 @@
-﻿using DiamondLuxurySolution.ViewModel.Common;
+﻿using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.Data.Entities;
+using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.About;
 using DiamondLuxurySolution.ViewModel.Models.Category;
+using Microsoft.EntityFrameworkCore;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,29 +15,165 @@ namespace DiamondLuxurySolution.Application.Repository.Category
 {
     public class CategoryRepo : ICategoryRepo
     {
-        public Task<ApiResult<bool>> CreateCategory(CreateCategoryRequest request)
+        private readonly LuxuryDiamondShopContext _context;
+        public CategoryRepo(LuxuryDiamondShopContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+        public async Task<ApiResult<bool>> CreateCategory(CreateCategoryRequest request)
+        {
+            if (string.IsNullOrEmpty(request.CategoryName))
+            {
+                return new ApiErrorResult<bool>("Vui lòng nhập tên loại sản phẩm");
+            }
+
+            var category = new DiamondLuxurySolution.Data.Entities.Category
+            {
+                CategoryName = request.CategoryName,
+                CategoryType = request.CategoryType != null ? request.CategoryType : "",
+                CategoryPriceProcessing = request.CategoryPriceProcessing,
+                Status = request.Status,
+            };
+            if (request.CategoryImage != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.CategoryImage);
+                category.CategoryImage = firebaseUrl;
+            }
+            else
+            {
+                category.CategoryImage = "";
+            }
+
+            _context.Categories.Add(category);
+            await _context.SaveChangesAsync();
+            return new ApiSuccessResult<bool>(true, "Success");
         }
 
-        public Task<ApiResult<bool>> DeleteCategory(DeleteCategoryRequest request)
+        public async Task<ApiResult<bool>> DeleteCategory(DeleteCategoryRequest request)
         {
-            throw new NotImplementedException();
+            var category = await _context.Categories.FindAsync(request.CategoryId);
+            if (category == null)
+            {
+                return new ApiErrorResult<bool>("Không tìm thấy loại sản phẩm");
+            }
+
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
+            return new ApiSuccessResult<bool>(false, "Success");
         }
 
-        public Task<ApiResult<AboutVm>> GetCategoryById(int CategoryId)
+        public async Task<ApiResult<CategoryVm>> GetCategoryById(int CategoryId)
         {
-            throw new NotImplementedException();
+            var category = await _context.Categories.FindAsync(CategoryId);
+            if (category == null)
+            {
+                return new ApiErrorResult<CategoryVm>("Không tìm loại sản phẩm");
+            }
+            var categoryVm = new CategoryVm()
+            {
+                CategoryId = CategoryId,
+                CategoryName = category.CategoryName,
+                CategoryImage = category.CategoryImage,
+                CategoryPriceProcessing = category.CategoryPriceProcessing,
+                CategoryType = category.CategoryType,
+                Status = category.Status,
+            };
+            return new ApiSuccessResult<CategoryVm>(categoryVm, "Success");
         }
 
-        public Task<ApiResult<bool>> UpdateCategory(UpdateCategoryRequest request)
+        public async Task<ApiResult<bool>> UpdateCategory(UpdateCategoryRequest request)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(request.CategoryName))
+            {
+                return new ApiErrorResult<bool>("Vui lòng nhập tên loại sản phẩm");
+            }
+            var category = await _context.Categories.FindAsync(request.CategoryId);
+            if (category == null)
+            {
+                return new ApiErrorResult<bool>("Không tìm thấy loại sản phẩm");
+            }
+            if (request.CategoryImage != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.CategoryImage);
+                category.CategoryImage = firebaseUrl;
+            }
+            else
+            {
+                category.CategoryImage = "";
+            }
+            category.CategoryName = request.CategoryName;
+            category.CategoryType = request.CategoryType != null ? request.CategoryType : "";
+            category.CategoryPriceProcessing = request.CategoryPriceProcessing;
+            category.Status = request.Status;
+
+            await _context.SaveChangesAsync();
+            return new ApiSuccessResult<bool>(true, "Success");
         }
 
-        public Task<ApiResult<PageResult<CategoryVm>>> ViewCategory(ViewCategoryRequest request)
+        public async Task<ApiResult<PageResult<CategoryVm>>> ViewCategoryInCustomer(ViewCategoryRequest request)
         {
-            throw new NotImplementedException();
+            var listCategory = await _context.Categories.ToListAsync();
+            if (request.Keyword != null)
+            {
+                listCategory = listCategory.Where(x => x.CategoryName.Contains(request.Keyword)).ToList();
+
+            }
+            listCategory = listCategory.Where(x => x.Status).OrderByDescending(x => x.CategoryName).ToList();
+
+            int pageIndex = request.pageIndex ?? 1;
+
+            var listPaging = listCategory.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
+
+            var listCategoryVm = listPaging.Select(x => new CategoryVm()
+            {
+                CategoryId = x.CategoryId,
+                CategoryName = x.CategoryName,
+                CategoryType = x.CategoryType,
+                CategoryPriceProcessing = x.CategoryPriceProcessing,
+                CategoryImage = x.CategoryImage,
+                Status = x.Status,
+            }).ToList();
+            var listResult = new PageResult<CategoryVm>()
+            {
+                Items = listCategoryVm,
+                PageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE,
+                TotalRecords = listCategory.Count,
+                PageIndex = pageIndex
+            };
+            return new ApiSuccessResult<PageResult<CategoryVm>>(listResult, "Success");
+        }
+
+        public async Task<ApiResult<PageResult<CategoryVm>>> ViewCategoryInManager(ViewCategoryRequest request)
+        {
+            var listCategory = await _context.Categories.ToListAsync();
+            if (request.Keyword != null)
+            {
+                listCategory = listCategory.Where(x => x.CategoryName.Contains(request.Keyword)).ToList();
+
+            }
+            listCategory = listCategory.OrderByDescending(x => x.CategoryName).ToList();
+
+            int pageIndex = request.pageIndex ?? 1;
+
+            var listPaging = listCategory.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
+
+            var listCategoryVm = listPaging.Select(x => new CategoryVm()
+            {
+                CategoryId = x.CategoryId,
+                CategoryName = x.CategoryName,
+                CategoryType = x.CategoryType,
+                CategoryPriceProcessing = x.CategoryPriceProcessing,
+                CategoryImage = x.CategoryImage,
+                Status = x.Status,
+            }).ToList();
+            var listResult = new PageResult<CategoryVm>()
+            {
+                Items = listCategoryVm,
+                PageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE,
+                TotalRecords = listCategory.Count,
+                PageIndex = pageIndex
+            };
+            return new ApiSuccessResult<PageResult<CategoryVm>>(listResult, "Success");
         }
     }
 }

@@ -14,5 +14,7 @@ public partial class Category
     public string? CategoryImage { get; set; }
     public decimal CategoryPriceProcessing { get; set; }
 
+    public bool Status { get; set; }
+
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

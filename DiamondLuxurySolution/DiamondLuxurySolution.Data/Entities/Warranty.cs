@@ -15,5 +15,7 @@ public partial class Warranty
 
     public DateTime DateExpired { get; set; }
 
+    public bool Status { get; set; }
+
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 }
