@@ -12,7 +12,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.MaterialPriceList
         public int MaterialPriceListId{ get; set; }
         public decimal BuyPrice { get; set; }
         public decimal SellPrice { get; set; }
-        public Guid MaterialId { get; set; }
         public bool Active { get; set; }
         public DateTime effectDate { get; set; }
     }

@@ -29,9 +29,9 @@ namespace DiamondLuxurySolution.Application.Repository.MaterialPriceList
             {
                 errorList.Add("Vui lòng nhập giá mua phải lớn hơn 0");
             }
-            if (request.SellPrice <= 0)
+            if (request.SellPrice < request.BuyPrice)
             {
-                errorList.Add("Vui lòng nhập giá bán phải lớn hơn 0");
+                errorList.Add("Vui lòng nhập giá bán phải lớn hơn giá mua");
             }
             if (string.IsNullOrEmpty(request.effectDate.ToString().Trim()))
             {

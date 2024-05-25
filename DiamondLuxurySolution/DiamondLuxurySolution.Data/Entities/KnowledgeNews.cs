@@ -18,8 +18,9 @@ public partial class KnowledgeNews
     public DateTime? DateModified { get; set; }
 
     public Guid? WriterId { get; set; }
-
-    public virtual ICollection<KnowledgeNewCatagoriesDetail> KnowledgeNewCatagoriesDetails { get; set; } = new List<KnowledgeNewCatagoriesDetail>();
+    public int KnowledgeNewCatagoryId { get; set; }
+    public KnowledgeNewCatagory KnowledgeNewCatagory { get; set; }
 
     public virtual AppUser? Writer { get; set; }
+    public bool Active {  get; set; }
 }
