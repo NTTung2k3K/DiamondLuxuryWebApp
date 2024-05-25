@@ -3018,6 +3018,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "DiamondLuxurySolution.Data": "1.0.0",
           "DiamondLuxurySolution.Utilities": "1.0.0",
           "DiamondLuxurySolution.ViewModel": "1.0.0",
           "Microsoft.AspNetCore.Http.Features": "3.1.32",
@@ -9113,12 +9114,6 @@
     }
   },
   "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    },
     {
       "code": "NU1701",
       "level": "Warning",

@@ -2,7 +2,12 @@ using DiamondLuxurySolution.Application.Repository;
 using DiamondLuxurySolution.Application.Repository.About;
 using DiamondLuxurySolution.Application.Repository.Discount;
 using DiamondLuxurySolution.Application.Repository.Gem;
+<<<<<<< HEAD
 using DiamondLuxurySolution.Application.Repository.GemPriceList;
+=======
+using DiamondLuxurySolution.Application.Repository.InspectionCertificate;
+using DiamondLuxurySolution.Application.Repository.Material;
+>>>>>>> deaadebd462eecbe382444cec4b7e13a7698f92d
 using DiamondLuxurySolution.Application.Repository.News;
 using DiamondLuxurySolution.Application.Repository.Platform;
 using DiamondLuxurySolution.Application.Repository.Promotion;
@@ -35,6 +40,8 @@ builder.Services.AddTransient<IStaffRepo, StaffRepo>();
 builder.Services.AddTransient<IPromotionRepo, PromotionRepo>();
 builder.Services.AddTransient<IDiscountRepo, DiscountRepo>();
 builder.Services.AddTransient<IGemRepo, GemRepo>();
+builder.Services.AddTransient<IInspectionCertificateRepo, InspectionCertificateRepo>();
+builder.Services.AddTransient<IMaterialRepo, MaterialRepo>();
 builder.Services.AddTransient<INewsRepo, NewsRepo>();
 builder.Services.AddTransient<IGemPriceListRepo, GemPriceListRepo>();
 

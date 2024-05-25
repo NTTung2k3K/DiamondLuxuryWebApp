@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "G6DE0fu9Fz+9HRE7cu1Bb+wFKN0LmRgmP/h1Z4i4DIqBFrzDE3aFnbyAbTRUz4OQ0N9iGH+CDCsP/5Hby+H2XQ==",
+  "dgSpecHash": "INfYZokUY7IxfcCjb1Yq62XD7y0RFABj/r+mzpwRmUHRq1i4apTfSZqKRHzyS4yr9lJsoP96opkD7apB186RkA==",
   "success": true,
   "projectFilePath": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj",
   "expectedPackageFiles": [
@@ -274,12 +274,6 @@
     "C:\\Users\\ADMIN\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512"
   ],
   "logs": [
-    {
-      "code": "Undefined",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Problem reading the cache file D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-    },
     {
       "code": "NU1701",
       "level": "Warning",
