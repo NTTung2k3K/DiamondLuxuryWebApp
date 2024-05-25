@@ -21,6 +21,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.GemPriceList
         public Guid GemId { get; set; }
 
         public bool Active { get; set; }
+        public DateTime effectDate { get; set; }
 
 
     }
