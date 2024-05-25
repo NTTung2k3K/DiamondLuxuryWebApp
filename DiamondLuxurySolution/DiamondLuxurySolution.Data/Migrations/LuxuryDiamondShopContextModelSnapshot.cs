@@ -43,6 +43,9 @@ namespace DiamondLuxurySolution.Data.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
                     b.HasKey("AboutId");
 
                     b.ToTable("Abouts", (string)null);
@@ -275,6 +278,9 @@ namespace DiamondLuxurySolution.Data.Migrations
                     b.Property<double>("PercentSale")
                         .HasColumnType("float");
 
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
                     b.HasKey("DiscountId");
 
                     b.ToTable("Discounts", (string)null);
@@ -336,6 +342,9 @@ namespace DiamondLuxurySolution.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GemPriceListId"));
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
                     b.Property<string>("CaratWeight")
                         .IsRequired()
                         .HasMaxLength(10)
@@ -361,6 +370,9 @@ namespace DiamondLuxurySolution.Data.Migrations
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(10, 2)");
+
+                    b.Property<DateTime>("effectDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("GemPriceListId");
 
@@ -411,6 +423,9 @@ namespace DiamondLuxurySolution.Data.Migrations
                     b.Property<string>("Logo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.HasKey("InspectionCertificateId");
 
@@ -515,10 +530,8 @@ namespace DiamondLuxurySolution.Data.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<string>("SubMaterial")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Weight")
                         .HasColumnType("int");
@@ -536,6 +549,9 @@ namespace DiamondLuxurySolution.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaterialPriceListId"));
 
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
                     b.Property<decimal>("BuyPrice")
                         .HasColumnType("decimal(10, 2)");
 
@@ -544,6 +560,9 @@ namespace DiamondLuxurySolution.Data.Migrations
 
                     b.Property<decimal>("SellPrice")
                         .HasColumnType("decimal(10, 2)");
+
+                    b.Property<DateTime>("effectDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("MaterialPriceListId");
 
@@ -735,7 +754,6 @@ namespace DiamondLuxurySolution.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlatformId"));
 
                     b.Property<string>("PlatformLogo")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PlatformName")
@@ -744,8 +762,10 @@ namespace DiamondLuxurySolution.Data.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("PlatformUrl")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.HasKey("PlatformId");
 
@@ -900,6 +920,9 @@ namespace DiamondLuxurySolution.Data.Migrations
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.HasKey("PromotionId");
 

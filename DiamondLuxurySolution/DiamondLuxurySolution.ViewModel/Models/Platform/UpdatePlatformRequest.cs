@@ -12,9 +12,9 @@ namespace DiamondLuxurySolution.ViewModel.Models.Platform
         public int PlatformId { get; set; }
         public string PlatformName { get; set; } = null!;
             
-        public string PlatformUrl { get; set; } = null!;
+        public string? PlatformUrl { get; set; }
 
-        public IFormFile PlatformLogo { get; set; } = null!;
+        public IFormFile? PlatformLogo { get; set; }
 
         public bool Status { get; set; }
     }

@@ -23,7 +23,6 @@ namespace DiamondLuxurySolution.Application.Repository.Platform
         }
         public async Task<ApiResult<bool>> CreatePlatform(CreatePlatformRequest request)
         {
-            var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.PlatformName))
             {
                 return new ApiErrorResult<bool>("Vui lòng nhập tên nền tảng");
@@ -38,7 +37,7 @@ namespace DiamondLuxurySolution.Application.Repository.Platform
             {
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.PlatformLogo);
                 platform.PlatformLogo = firebaseUrl;
-            }
+            } 
 
             _context.Platforms.Add(platform);
             await _context.SaveChangesAsync();
@@ -78,7 +77,6 @@ namespace DiamondLuxurySolution.Application.Repository.Platform
 
         public async Task<ApiResult<bool>> UpdatePlatform(UpdatePlatformRequest request)
         {
-            var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.PlatformName))
             {
                 return new ApiErrorResult<bool>("Vui lòng nhập tên nền tảng");
