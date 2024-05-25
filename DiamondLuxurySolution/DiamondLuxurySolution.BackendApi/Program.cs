@@ -18,13 +18,11 @@ using DiamondLuxurySolution.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using DiamondLuxurySolution.Application.Repository.KnowledgeNewCatagory;
-<<<<<<< HEAD
 using DiamondLuxurySolution.Application.Repository.Category;
 using DiamondLuxurySolution.Application.Repository.Collection;
 using DiamondLuxurySolution.Application.Repository.Warranty;
-=======
 using DiamondLuxurySolution.Application.Repository.KnowledgeNews;
->>>>>>> a557b4fb64583bcf6097acf592d760f7245959e2
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,13 +53,10 @@ builder.Services.AddTransient<INewsRepo, NewsRepo>();
 builder.Services.AddTransient<IGemPriceListRepo, GemPriceListRepo>();
 builder.Services.AddTransient<IWarehouseRepo, WarehouseRepo>();
 builder.Services.AddTransient<IKnowledgeNewCatagoryRepo, KnowledgeNewCatagoryRepo>();
-<<<<<<< HEAD
 builder.Services.AddTransient<ICategoryRepo, CategoryRepo>();
 builder.Services.AddTransient<ICollectionRepo, CollectionRepo>();
 builder.Services.AddTransient<IWarrantyRepo, WarrantyRepo>();
-=======
 builder.Services.AddTransient<IKnowledgeNewsRepo, KnowledgeNewsRepo>();
->>>>>>> a557b4fb64583bcf6097acf592d760f7245959e2
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
