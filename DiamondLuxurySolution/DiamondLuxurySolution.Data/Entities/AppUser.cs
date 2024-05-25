@@ -18,6 +18,7 @@ namespace DiamondLuxurySolution.Data.Entities
         public string? CitizenIDCard { get; set; }
         public string? Image {  get; set; }
         public string? Address { get; set; }
+        public string? ShipStatus { get; set; }
 
         public DateTime LastChangePasswordTime { get; set; }
 

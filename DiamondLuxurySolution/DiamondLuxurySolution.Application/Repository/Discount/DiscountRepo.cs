@@ -41,7 +41,7 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
             {
                 DiscountId = Guid.NewGuid(),
                 DiscountName = request.DiscountName,
-                Description = request.Description,
+                Description = request.Description != null ? request.Description : "",
                 PercentSale = request.PercentSale,
                 Status = request.Status,
             };
@@ -106,7 +106,7 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
             }
 
             discount.DiscountName = request.DiscountName;
-            discount.Description = request.Description;
+            discount.Description = request.Description != null ? request.Description : "";
             discount.PercentSale = request.PercentSale;
             discount.Status = request.Status;
 

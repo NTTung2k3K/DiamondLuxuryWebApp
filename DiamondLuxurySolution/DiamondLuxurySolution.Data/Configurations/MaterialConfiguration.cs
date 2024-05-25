@@ -18,7 +18,7 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.HasKey(m => m.MaterialId);
             builder.Property(m => m.MaterialName).IsRequired().HasMaxLength(250);
             builder.Property(m => m.Description);
-            builder.Property(m => m.Color).IsRequired().HasMaxLength(250);
+            builder.Property(m => m.Color).HasMaxLength(250);
             builder.Property(m => m.Weight).IsRequired();
         }
     }

@@ -19,7 +19,7 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(p => p.PromotionId).IsRequired();
             builder.Property(p => p.PromotionName).IsRequired().HasMaxLength(250);
             builder.Property(p => p.Description).HasMaxLength(250);
-            builder.Property(p => p.PromotionImage).IsRequired();
+            builder.Property(p => p.PromotionImage);
             builder.Property(p => p.StartDate).IsRequired();
             builder.Property(p => p.EndDate).IsRequired();
         }

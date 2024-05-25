@@ -1,4 +1,5 @@
 ﻿using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.About;
 using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
@@ -21,34 +22,27 @@ namespace DiamondLuxurySolution.Application.Repository.InspectionCertificate
         }
         public async Task<ApiResult<bool>> CreateInspectionCertificate(CreateInspectionCertificateRequest request)
         {
-            var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.InspectionCertificateName))
             {
-                errorList.Add("Vui lòng nhập tên giấy chứng nhận");
+                return new ApiErrorResult<bool>("Vui lòng nhập tên giấy chứng nhận");
             }
-            if (request.DateGrading == null)
-            {
-                errorList.Add("Vui lòng nhập ngày làm giấy chứng nhận");
-
-            }
-            if (request.Logo == null)
-            {
-                errorList.Add("Vui lòng gắn Logo");
-
-            }
-            if (errorList.Any())
-            {
-                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
-            }
-            string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Logo);
+            
             var inspectionCertificate = new DiamondLuxurySolution.Data.Entities.InspectionCertificate
             {
                 InspectionCertificateId = await GenerateUniqueInspectionCertificateIdAsync(),
                 InspectionCertificateName = request.InspectionCertificateName,
                 DateGrading = request.DateGrading,
-                Logo = firebaseUrl,
                 Status = request.Status,
             };
+            if (request.Logo != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Logo);
+                inspectionCertificate.Logo = firebaseUrl;
+            } else
+            {
+                inspectionCertificate.Logo = "";
+            }
+
             _context.InspectionCertificates.Add(inspectionCertificate);
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
@@ -102,22 +96,9 @@ namespace DiamondLuxurySolution.Application.Repository.InspectionCertificate
 
         public async Task<ApiResult<bool>> UpdateInspectionCertificate(UpdateInspectionCertificateRequest request)
         {
-            var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.InspectionCertificateName))
             {
-                errorList.Add("Vui lòng nhập tên giấy chứng nhận");
-            }
-            if (request.DateGrading == null)
-            {
-                errorList.Add("Vui lòng nhập ngày làm giấy chứng nhận");
-            }
-            if (request.Logo == null)
-            {
-                errorList.Add("Vui lòng gắn Logo");
-            }
-            if (errorList.Any())
-            {
-                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
+                return new ApiErrorResult<bool>("Vui lòng nhập tên giấy chứng nhận");
             }
             
             var inspectionCertificate = await _context.InspectionCertificates.FindAsync(request.InspectionCertificateId);
@@ -125,11 +106,20 @@ namespace DiamondLuxurySolution.Application.Repository.InspectionCertificate
             {
                 return new ApiErrorResult<bool>("Không tìm thấy giấy chứng nhận");
             }
-            string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Logo);
+            
             inspectionCertificate.InspectionCertificateName = request.InspectionCertificateName;
             inspectionCertificate.DateGrading = request.DateGrading;
-            inspectionCertificate.Logo = firebaseUrl;
             inspectionCertificate.Status = request.Status;
+            if (request.Logo != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Logo);
+                inspectionCertificate.Logo = firebaseUrl;
+            }
+            else
+            {
+                inspectionCertificate.Logo = "";
+            }
+
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
         }

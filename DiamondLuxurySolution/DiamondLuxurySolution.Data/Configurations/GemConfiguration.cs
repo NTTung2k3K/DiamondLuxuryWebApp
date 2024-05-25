@@ -17,9 +17,9 @@ namespace DiamondLuxurySolution.Data.Configurations
 
             builder.HasKey(g => g.GemId);
             builder.Property(c => c.GemName).IsRequired().HasMaxLength(250);
-            builder.Property(g => g.ProportionImage).IsRequired();
-            builder.Property(g => g.Symetry).IsRequired().HasMaxLength(250);
-            builder.Property(g => g.Polish).IsRequired().HasMaxLength(250);
+            builder.Property(g => g.ProportionImage);
+            builder.Property(g => g.Symetry).HasMaxLength(250);
+            builder.Property(g => g.Polish).HasMaxLength(250);
             builder.Property(g => g.Price).IsRequired().HasColumnType("decimal(10, 2)");
             builder.Property(g => g.IsOrigin).IsRequired();
             builder.Property(g => g.IsMain).IsRequired();

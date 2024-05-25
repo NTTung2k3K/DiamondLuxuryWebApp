@@ -9,11 +9,11 @@ public partial class Gem
 
     public string GemName { get; set; } = null!;
 
-    public string ProportionImage { get; set; } = null!;
+    public string? ProportionImage { get; set; }
 
-    public string Symetry { get; set; } = null!;
+    public string? Symetry { get; set; }
 
-    public string Polish { get; set; } = null!;
+    public string? Polish { get; set; }
 
     public decimal Price { get; set; }
 

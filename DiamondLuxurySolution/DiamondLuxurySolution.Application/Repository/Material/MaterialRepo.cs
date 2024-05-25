@@ -26,10 +26,6 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             {
                 errorList.Add("Vui lòng nhập tên nguyên liệu");
             }
-            if (string.IsNullOrEmpty(request.Color))
-            {
-                errorList.Add("Vui lòng nhập màu nguyên liệu");
-            }
             if (request.Weight <= 0)
             {
                 errorList.Add("trọng lượng nguyên liệu phải > 0");
@@ -42,9 +38,9 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             {
                 MaterialId = Guid.NewGuid(),
                 MaterialName = request.MaterialName,
-                Color = request.Color,
+                Color = request.Color != null ? request.Color : "",
                 Weight = request.Weight,
-                Description = request.Description,
+                Description = request.Description != null ? request.Description : "",
                 Status = request.Status,
             };
             _context.Materials.Add(material);
@@ -91,10 +87,6 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             {
                 errorList.Add("Vui lòng nhập tên nguyên liệu");
             }
-            if (string.IsNullOrEmpty(request.Color))
-            {
-                errorList.Add("Vui lòng nhập màu nguyên liệu");
-            }
             if (request.Weight <= 0)
             {
                 errorList.Add("trọng lượng nguyên liệu phải > 0");
@@ -109,8 +101,8 @@ namespace DiamondLuxurySolution.Application.Repository.Material
                 return new ApiErrorResult<bool>("Không tìm thấy nguyên liệu");
             }
             material.MaterialName = request.MaterialName;
-            material.Description = request.Description;
-            material.Color = request.Color;
+            material.Description = request.Description != null ? request.Description : "";
+            material.Color = request.Color != null ? request.Color : "";
             material.Weight = request.Weight;
             material.Status = request.Status;
             await _context.SaveChangesAsync();
