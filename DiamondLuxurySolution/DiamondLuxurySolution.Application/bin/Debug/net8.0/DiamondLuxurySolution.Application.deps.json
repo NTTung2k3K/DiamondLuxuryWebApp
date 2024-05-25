@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v8.0": {
       "DiamondLuxurySolution.Application/1.0.0": {
         "dependencies": {
+          "DiamondLuxurySolution.Data": "1.0.0",
           "DiamondLuxurySolution.Utilities": "1.0.0",
           "DiamondLuxurySolution.ViewModel": "1.0.0",
           "Microsoft.AspNetCore.Http.Features": "3.1.32",

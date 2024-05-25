@@ -2,20 +2,9 @@ using DiamondLuxurySolution.Application.Repository;
 using DiamondLuxurySolution.Application.Repository.About;
 using DiamondLuxurySolution.Application.Repository.Discount;
 using DiamondLuxurySolution.Application.Repository.Gem;
-<<<<<<< HEAD
-<<<<<<< HEAD
 using DiamondLuxurySolution.Application.Repository.InspectionCertificate;
 using DiamondLuxurySolution.Application.Repository.Material;
-=======
 using DiamondLuxurySolution.Application.Repository.GemPriceList;
->>>>>>> 8b1ce7888be30cd6d8bca613758935f4c0c2117a
-=======
-using DiamondLuxurySolution.Application.Repository.GemPriceList;
-=======
-using DiamondLuxurySolution.Application.Repository.InspectionCertificate;
-using DiamondLuxurySolution.Application.Repository.Material;
->>>>>>> deaadebd462eecbe382444cec4b7e13a7698f92d
->>>>>>> feature/Api/GemPriceList
 using DiamondLuxurySolution.Application.Repository.News;
 using DiamondLuxurySolution.Application.Repository.Platform;
 using DiamondLuxurySolution.Application.Repository.Promotion;
