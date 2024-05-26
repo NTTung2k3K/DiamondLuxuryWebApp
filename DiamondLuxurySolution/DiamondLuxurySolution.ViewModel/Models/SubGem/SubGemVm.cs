@@ -1,19 +1,18 @@
-﻿using System;
+﻿using DiamondLuxurySolution.Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiamondLuxurySolution.Data.Entities
+namespace DiamondLuxurySolution.ViewModel.Models.SubGem
 {
-    public class SubGem
+    public class SubGemVm
     {
         public Guid SubGemId { get; set; }
         public string SubGemName { get; set; } = string.Empty;
-        public string? Description { get; set; }
+        public string Description { get; set; } = string.Empty;
         public decimal SubGemPrice { get; set; }
         public bool Active { get; set; }
-        public virtual ICollection<SubGemDetail> SubGemDetails { get; set; } = new List<SubGemDetail>();
-
     }
 }

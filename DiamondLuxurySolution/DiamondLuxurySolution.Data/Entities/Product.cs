@@ -51,7 +51,10 @@ public partial class Product
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
     public virtual ICollection<ProductsCollection> ProductsCollections { get; set; } = new List<ProductsCollection>();
+<<<<<<< HEAD
 
+=======
+>>>>>>> 82106bed7b2dca6b6a9cc681d7adbedf5ad8dd6a
     public virtual ICollection<SubGemDetail> SubGemDetails { get; set; } = new List<SubGemDetail>();
 
     public int WarehouseId { get; set; }

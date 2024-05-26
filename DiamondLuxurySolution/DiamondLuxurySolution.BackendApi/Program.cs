@@ -24,6 +24,7 @@ using DiamondLuxurySolution.Application.Repository.Category;
 using DiamondLuxurySolution.Application.Repository.Collection;
 using DiamondLuxurySolution.Application.Repository.Warranty;
 using DiamondLuxurySolution.Application.Repository.KnowledgeNews;
+using DiamondLuxurySolution.Application.Repository.SubGem;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -48,6 +49,7 @@ builder.Services.AddTransient<IStaffRepo, StaffRepo>();
 builder.Services.AddTransient<IPromotionRepo, PromotionRepo>();
 builder.Services.AddTransient<IDiscountRepo, DiscountRepo>();
 builder.Services.AddTransient<IGemRepo, GemRepo>();
+builder.Services.AddTransient<ISubGemRepo, SubGemRepo>();
 builder.Services.AddTransient<IInspectionCertificateRepo, InspectionCertificateRepo>();
 builder.Services.AddTransient<IMaterialRepo, MaterialRepo>();
 builder.Services.AddTransient<IMaterialPriceListRepo, MaterialPriceListRepo>();
@@ -58,6 +60,10 @@ builder.Services.AddTransient<IOrderRepo, OrderRepo>();
 builder.Services.AddTransient<IProductRepo, ProductRepo>();
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 82106bed7b2dca6b6a9cc681d7adbedf5ad8dd6a
 builder.Services.AddTransient<IKnowledgeNewCatagoryRepo, KnowledgeNewCatagoryRepo>();
 builder.Services.AddTransient<ICategoryRepo, CategoryRepo>();
 builder.Services.AddTransient<ICollectionRepo, CollectionRepo>();

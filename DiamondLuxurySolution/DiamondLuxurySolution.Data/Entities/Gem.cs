@@ -16,7 +16,10 @@ public partial class Gem
     public string? Polish { get; set; }
 
     public bool IsOrigin { get; set; }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 82106bed7b2dca6b6a9cc681d7adbedf5ad8dd6a
     public bool Fluoresence { get; set; }
 
     public string? GemImage { get; set; }
