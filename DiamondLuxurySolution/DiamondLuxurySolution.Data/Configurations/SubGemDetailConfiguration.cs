@@ -18,7 +18,7 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.HasKey(x => new {x.ProductId,x.SubGemId} );
             builder.HasOne(x => x.Product).WithMany(x => x.SubGemDetails).HasForeignKey(x => x.ProductId);
             builder.HasOne(x => x.SubGem).WithMany(x => x.SubGemDetails).HasForeignKey(x => x.SubGemId);
-
+            builder.Property(x => x.Quantity);
 
         }
     }

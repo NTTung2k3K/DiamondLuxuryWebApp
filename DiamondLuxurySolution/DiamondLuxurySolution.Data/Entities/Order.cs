@@ -35,7 +35,7 @@ public partial class Order
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
-    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
+    public virtual ICollection<OrdersPayment> OrdersPayment { get; set; } = new List<OrdersPayment>();
 
     public virtual AppUser? Shipper { get; set; }
 
