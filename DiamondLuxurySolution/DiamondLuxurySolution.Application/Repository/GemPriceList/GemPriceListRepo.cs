@@ -47,10 +47,11 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
             {
                 errorList.Add("Vui lòng nhập giá lớn hơn 0");
             }
-            if (string.IsNullOrEmpty(request.effectDate.ToString().Trim()))
+            if (request.effectDate < DateTime.Today.AddDays(-7) || request.effectDate > DateTime.Today)
             {
-                errorList.Add("Vui lòng nhập ngày tạo bảng giá kim cương");
+                errorList.Add("Bảng giá kim cương phải được cập nhật trong khoảng thời gian gần đây.");
             }
+
             var gem = await _context.Gems.FindAsync(request.GemId);
             if (gem == null)
             {
@@ -148,6 +149,10 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
             if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Không hợp lệ");
+            }
+            if (request.effectDate < DateTime.Today.AddDays(-7) || request.effectDate > DateTime.Today)
+            {
+                errorList.Add("Bảng giá kim cương phải được cập nhật trong khoảng thời gian gần đây.");
             }
             GemPriceList.CaratWeight = request.CaratWeight;
             GemPriceList.Cut = request.Cut;

@@ -19,11 +19,9 @@ namespace DiamondLuxurySolution.ViewModel.Models.Gem
 
         public string? Polish { get; set; }
 
-        public decimal Price { get; set; }
-
         public bool IsOrigin { get; set; }
 
-        public bool IsMain { get; set; }
+        public IFormFile? GemImage { get; set; }
 
         public bool Fluoresence { get; set; }
 

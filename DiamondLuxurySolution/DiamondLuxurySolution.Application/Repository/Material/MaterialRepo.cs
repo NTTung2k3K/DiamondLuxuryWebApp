@@ -1,4 +1,5 @@
 ﻿using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.About;
 using DiamondLuxurySolution.ViewModel.Models.Material;
@@ -43,6 +44,15 @@ namespace DiamondLuxurySolution.Application.Repository.Material
                 Description = request.Description != null ? request.Description : "",
                 Status = request.Status,
             };
+            if (request.MaterialImage != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.MaterialImage);
+                material.MaterialImage = firebaseUrl;
+            }
+            else
+            {
+                material.MaterialImage = "";
+            }
             _context.Materials.Add(material);
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
@@ -75,6 +85,7 @@ namespace DiamondLuxurySolution.Application.Repository.Material
                 Color = material.Color,
                 Weight = material.Weight,
                 Description = material.Description,
+                MaterialImage = material.MaterialImage,
                 Status = material.Status,
             };
             return new ApiSuccessResult<MaterialVm>(materialVm, "Success");
@@ -105,6 +116,16 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             material.Color = request.Color != null ? request.Color : "";
             material.Weight = request.Weight;
             material.Status = request.Status;
+            if (request.MaterialImage != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.MaterialImage);
+                material.MaterialImage = firebaseUrl;
+            }
+            else
+            {
+                material.MaterialImage = "";
+            }
+
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
         }
@@ -130,6 +151,7 @@ namespace DiamondLuxurySolution.Application.Repository.Material
                 Description = x.Description,
                 Color = x.Color,
                 Weight = x.Weight,
+                MaterialImage = x.MaterialImage,
                 Status = x.Status,
             }).ToList();
             var listResult = new PageResult<MaterialVm>()
@@ -163,6 +185,7 @@ namespace DiamondLuxurySolution.Application.Repository.Material
                 Description = x.Description,
                 Color = x.Color,
                 Weight = x.Weight,
+                MaterialImage = x.MaterialImage,
                 Status = x.Status,
             }).ToList();
             var listResult = new PageResult<MaterialVm>()

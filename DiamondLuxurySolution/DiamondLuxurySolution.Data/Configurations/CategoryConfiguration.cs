@@ -17,8 +17,9 @@ namespace DiamondLuxurySolution.Data.Configurations
 
             builder.HasKey(c => c.CategoryId);
             builder.Property(c => c.CategoryName).IsRequired().HasMaxLength(250);
-            builder.Property(c => c.CategoryType).IsRequired().HasMaxLength(250);
-            builder.Property(c => c.CategoryImage).IsRequired();
+            builder.Property(c => c.CategoryType).HasMaxLength(250);
+            builder.Property(c => c.CategoryImage);
+            builder.Property(c => c.CategoryPriceProcessing).IsRequired();
         }
     }
 

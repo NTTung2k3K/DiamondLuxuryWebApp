@@ -5,6 +5,7 @@ using DiamondLuxurySolution.ViewModel.Models.About;
 using DiamondLuxurySolution.ViewModel.Models.GemPriceList;
 using DiamondLuxurySolution.ViewModel.Models.Material;
 using DiamondLuxurySolution.ViewModel.Models.MaterialPriceList;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PagedList;
 using System;
@@ -29,14 +30,16 @@ namespace DiamondLuxurySolution.Application.Repository.MaterialPriceList
             {
                 errorList.Add("Vui lòng nhập giá mua phải lớn hơn 0");
             }
-            if (request.SellPrice <= 0)
+            if (request.SellPrice <= request.BuyPrice)
             {
-                errorList.Add("Vui lòng nhập giá bán phải lớn hơn 0");
+                errorList.Add("Vui lòng nhập giá bán phải lớn hơn giá mua");
             }
-            if (string.IsNullOrEmpty(request.effectDate.ToString().Trim()))
+            if (request.effectDate < DateTime.Today.AddDays(-3) || request.effectDate > DateTime.Today)
             {
-                errorList.Add("Vui lòng nhập ngày tạo bảng giá nguyên liệu");
+                errorList.Add("Bảng giá nguyên liệu phải được cập nhật trong khoảng thời gian gần đây.");
             }
+
+
             var material = await _context.Materials.FindAsync(request.MaterialId);
             if (material == null)
             {
@@ -79,6 +82,8 @@ namespace DiamondLuxurySolution.Application.Repository.MaterialPriceList
             {
                 return new ApiErrorResult<MaterialPriceListVm>("Không tìm thấy nguyên liệu");
             }
+            var material = await _context.Materials.FindAsync(materialPriceList.MaterialId.ToString());
+
             var materialPriceListVm = new MaterialPriceListVm()
             {
                 MaterialId = MaterialId,
@@ -86,7 +91,7 @@ namespace DiamondLuxurySolution.Application.Repository.MaterialPriceList
                 SellPrice = materialPriceList.SellPrice,
                 Active = materialPriceList.Active,
                 effectDate = materialPriceList.effectDate,
-                MaterialVm = materialPriceList.Material
+                MaterialVm = material
             };
             return new ApiSuccessResult<MaterialPriceListVm>(materialPriceListVm, "Success");
         }
@@ -104,13 +109,13 @@ namespace DiamondLuxurySolution.Application.Repository.MaterialPriceList
             {
                 errorList.Add("Vui lòng nhập giá mua phải lớn hơn 0");
             }
-            if (request.SellPrice <= 0)
+            if (request.SellPrice <= materialPL.BuyPrice)
             {
-                errorList.Add("Vui lòng nhập giá bán phải lớn hơn 0");
+                errorList.Add("Vui lòng nhập giá bán phải lớn hơn hoặc bằng giá mua");
             }
-            if (string.IsNullOrEmpty(request.effectDate.ToString().Trim()))
+            if (request.effectDate < DateTime.Today.AddDays(-3) || request.effectDate > DateTime.Today)
             {
-                errorList.Add("Vui lòng nhập ngày tạo bảng giá nguyên liệu");
+                errorList.Add("Bảng giá nguyên liệu phải được cập nhật trong khoảng thời gian gần đây.");
             }
 
             if (errorList.Any())

@@ -9,18 +9,18 @@ namespace DiamondLuxurySolution.ViewModel.Models.News
 {
     public class UpdateNewsRequest
     {
-        public int? NewsId { get; set; }
+        public int NewsId { get; set; }
 
-        public string? NewName { get; set; }
+        public string NewName { get; set; } = null!;
 
-        public string? Title { get; set; }
+        public string Title { get; set; } = null!;
 
         public IFormFile? Image { get; set; }
 
         public string? Description { get; set; }
 
-        public bool? IsOutstanding { get; set; }
+        public bool IsOutstanding { get; set; }
 
-        public Guid? WriterId { get; set; }
+        public Guid WriterId { get; set; } 
     }
 }
