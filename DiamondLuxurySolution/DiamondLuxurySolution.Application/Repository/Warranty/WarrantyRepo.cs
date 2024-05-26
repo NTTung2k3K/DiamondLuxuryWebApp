@@ -21,13 +21,18 @@ namespace DiamondLuxurySolution.Application.Repository.Warranty
         }
         public async Task<ApiResult<bool>> CreateWarranty(CreateWarrantyRequest request)
         {
+            var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.WarrantyName))
             {
-                return new ApiErrorResult<bool>("Vui lòng nhập tên phiếu bảo hành");
+                errorList.Add("Vui lòng nhập tên phiếu bảo hành");
             }
             if (request.DateActive > request.DateExpired)
+            { 
+                errorList.Add("Ngày tạo phiếu bảo hành với nhỏ hơn ngày hết hạn");
+            }
+            if (errorList.Any())
             {
-                return new ApiErrorResult<bool>("Ngày tạo phiếu bảo hành với nhỏ hơn ngày hết hạn");
+                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
 
             var warranty = new DiamondLuxurySolution.Data.Entities.Warranty
@@ -79,13 +84,18 @@ namespace DiamondLuxurySolution.Application.Repository.Warranty
 
         public async Task<ApiResult<bool>> UpdateWarranty(UpdateWarrantyRequest request)
         {
+            var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.WarrantyName))
             {
-                return new ApiErrorResult<bool>("Vui lòng nhập tên phiếu bảo hành");
+                errorList.Add("Vui lòng nhập tên phiếu bảo hành");
             }
             if (request.DateActive > request.DateExpired)
             {
-                return new ApiErrorResult<bool>("Ngày tạo phiếu bảo hành với nhỏ hơn ngày hết hạn");
+                errorList.Add("Ngày tạo phiếu bảo hành với nhỏ hơn ngày hết hạn");
+            }
+            if (errorList.Any())
+            {
+                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
 
             var warranty = await _context.Warrantys.FindAsync(request.WarrantyId);

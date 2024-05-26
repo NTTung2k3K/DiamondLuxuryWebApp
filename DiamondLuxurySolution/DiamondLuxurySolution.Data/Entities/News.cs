@@ -7,9 +7,9 @@ public partial class News
 {
     public int NewsId { get; set; }
 
-    public string NewName { get; set; } = null!;
+    public string? NewName { get; set; }
 
-    public string Title { get; set; } = null!;
+    public string? Title { get; set; }
 
     public string? Image { get; set; }
 

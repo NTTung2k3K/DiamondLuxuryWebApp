@@ -10,7 +10,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.InspectionCertificate
 {
     public class CreateInspectionCertificateRequest
     {
-        public string InspectionCertificateName { get; set; } = null!;
+        public string? InspectionCertificateName { get; set; }
 
         public DateTime? DateGrading { get; set; }
 

@@ -16,10 +16,10 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.ToTable("Categories");
 
             builder.HasKey(c => c.CategoryId);
-            builder.Property(c => c.CategoryName).IsRequired().HasMaxLength(250);
+            builder.Property(c => c.CategoryName).HasMaxLength(250);
             builder.Property(c => c.CategoryType).HasMaxLength(250);
             builder.Property(c => c.CategoryImage);
-            builder.Property(c => c.CategoryPriceProcessing).IsRequired();
+            builder.Property(c => c.CategoryPriceProcessing);
         }
     }
 

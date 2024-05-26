@@ -16,10 +16,10 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.ToTable("Slides");
 
             builder.HasKey(s => s.SlideId);
-            builder.Property(s => s.SlideName).IsRequired().HasMaxLength(250);
+            builder.Property(s => s.SlideName).HasMaxLength(250);
             builder.Property(s => s.Description);
-            builder.Property(s => s.SlideUrl).IsRequired();
-            builder.Property(s => s.SlideImage).IsRequired();
+            builder.Property(s => s.SlideUrl);
+            builder.Property(s => s.SlideImage);
             builder.Property(s => s.Status).IsRequired();
         }
     }
