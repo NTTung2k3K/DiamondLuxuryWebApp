@@ -10,8 +10,9 @@ namespace DiamondLuxurySolution.Data.Entities
     {
         public Guid SubGemId { get; set; }
         public string SubGemName { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; }
         public decimal SubGemPrice { get; set; }
+        public bool Active { get; set; }
         public virtual ICollection<SubGemDetail> SubGemDetails { get; set; } = new List<SubGemDetail>();
 
     }
