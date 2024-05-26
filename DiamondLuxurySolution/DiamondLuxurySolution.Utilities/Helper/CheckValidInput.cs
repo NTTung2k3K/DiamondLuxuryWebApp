@@ -16,6 +16,12 @@ namespace DiamondLuxurySolution.Utilities.Helper
             Regex regex = new Regex("[a-zA-Z]");
             return regex.IsMatch(input);
         }
+      
+        public static bool ContainsNumbers(string input)
+        {
+            Regex regex = new Regex("[a-zA-Z]");
+            return regex.IsMatch(input);
+        }
         public static bool ValidLenghPhoneNumber(string phoneNumber)
         {
             var result = phoneNumber.Length >= 10;

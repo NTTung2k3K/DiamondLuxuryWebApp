@@ -35,6 +35,12 @@ namespace DiamondLuxurySolution.Utilities.Constants
             Inactive,
             Active
         }
+        public enum ProductStatus
+        {
+            Selling,
+            OutOfStock,
+            Sales
+        }
         public enum TransactionStatus
         {
             Success,
