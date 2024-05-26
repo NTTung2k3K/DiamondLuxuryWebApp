@@ -282,10 +282,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 {
                     errorList.Add("Sản phẩm phải có ảnh đại diện");
                 }
-                if (request.ProcessingPrice <= 0)
-                {
-                    errorList.Add("Sản phẩm phải có giá hợp lí");
-                }
 
                 if (request.WareHouseId == null)
                 {
@@ -410,7 +406,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 }
 
                 // Process totalPrice
-                decimal OriginalPrice = totalPriceGem + totalMaterialPrice + request.ProcessingPrice + totalSubGemPrice;
+                decimal OriginalPrice = totalPriceGem + totalMaterialPrice + totalSubGemPrice;
                 decimal SellingPrice = OriginalPrice - (OriginalPrice * request.PercentSale);
 
                 // Process Image Of Product

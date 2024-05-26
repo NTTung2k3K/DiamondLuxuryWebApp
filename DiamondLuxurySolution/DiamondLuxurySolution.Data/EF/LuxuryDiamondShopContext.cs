@@ -66,15 +66,10 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
 
     public virtual DbSet<ProductsCollection> ProductsCollections { get; set; }
 
-<<<<<<< HEAD
-
     public virtual DbSet<SubGem> SubGems { get; set; }
     public virtual DbSet<SubGemDetail> SubGemDetail { get; set; }
 
-=======
-    public virtual DbSet<SubGem> SubGems { get; set; }
-    public virtual DbSet<SubGemDetail> SubGemDetail { get; set; }
->>>>>>> 82106bed7b2dca6b6a9cc681d7adbedf5ad8dd6a
+
     public virtual DbSet<Promotion> Promotions { get; set; }
 
     public virtual DbSet<Slide> Slides { get; set; }

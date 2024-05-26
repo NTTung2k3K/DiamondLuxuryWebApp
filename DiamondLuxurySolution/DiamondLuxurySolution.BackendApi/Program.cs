@@ -58,12 +58,6 @@ builder.Services.AddTransient<IGemPriceListRepo, GemPriceListRepo>();
 builder.Services.AddTransient<IWarehouseRepo, WarehouseRepo>();
 builder.Services.AddTransient<IOrderRepo, OrderRepo>();
 builder.Services.AddTransient<IProductRepo, ProductRepo>();
-
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 82106bed7b2dca6b6a9cc681d7adbedf5ad8dd6a
 builder.Services.AddTransient<IKnowledgeNewCatagoryRepo, KnowledgeNewCatagoryRepo>();
 builder.Services.AddTransient<ICategoryRepo, CategoryRepo>();
 builder.Services.AddTransient<ICollectionRepo, CollectionRepo>();
@@ -71,7 +65,6 @@ builder.Services.AddTransient<IWarrantyRepo, WarrantyRepo>();
 builder.Services.AddTransient<IKnowledgeNewsRepo, KnowledgeNewsRepo>();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddIdentity<AppUser, AppRole>()
