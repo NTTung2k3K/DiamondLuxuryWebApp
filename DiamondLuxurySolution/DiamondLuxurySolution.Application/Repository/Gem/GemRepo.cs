@@ -35,10 +35,6 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Polish = request.Polish != null ? request.Polish : "",
                 Symetry = request.Symetry != null ? request.Symetry : "",
                 IsOrigin = request.IsOrigin,
-<<<<<<< HEAD
-                Price = request.Price,
-=======
->>>>>>> 59348e02b106350021dbba36fe0bb84fc3d839e4
                 Fluoresence = request.Fluoresence,
                 AcquisitionDate = request.AcquisitionDate,
                 Active = request.Active,
@@ -93,11 +89,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Polish = gem.Polish,
                 Symetry = gem.Symetry,
                 IsOrigin = gem.IsOrigin,
-<<<<<<< HEAD
-                Price = gem.Price,
-=======
                 GemImage = gem.GemImage,
->>>>>>> 59348e02b106350021dbba36fe0bb84fc3d839e4
                 Fluoresence = gem.Fluoresence,
                 ProportionImage = gem.ProportionImage,
                 AcquisitionDate = gem.AcquisitionDate,
@@ -122,10 +114,6 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
             gem.Polish = request.Polish != null ? request.Polish : "";
             gem.Symetry = request.Symetry != null ? request.Symetry : "";
             gem.IsOrigin = request.IsOrigin;
-<<<<<<< HEAD
-            gem.Price = request.Price;
-=======
->>>>>>> 59348e02b106350021dbba36fe0bb84fc3d839e4
             gem.Fluoresence = request.Fluoresence;
             gem.AcquisitionDate = request.AcquisitionDate;
             gem.Active = request.Active;
@@ -171,11 +159,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Polish = gem.Polish,
                 Symetry = gem.Symetry,
                 IsOrigin = gem.IsOrigin,
-<<<<<<< HEAD
-                Price = gem.Price,
-=======
                 GemImage = gem.GemImage,
->>>>>>> 59348e02b106350021dbba36fe0bb84fc3d839e4
                 Fluoresence = gem.Fluoresence,
                 ProportionImage = gem.ProportionImage,
                 AcquisitionDate = gem.AcquisitionDate,
@@ -212,11 +196,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Polish = gem.Polish,
                 Symetry = gem.Symetry,
                 IsOrigin = gem.IsOrigin,
-<<<<<<< HEAD
-                Price = gem.Price,
-=======
                 GemImage = gem.GemImage,
->>>>>>> 59348e02b106350021dbba36fe0bb84fc3d839e4
                 Fluoresence = gem.Fluoresence,
                 ProportionImage = gem.ProportionImage,
                 AcquisitionDate = gem.AcquisitionDate,
