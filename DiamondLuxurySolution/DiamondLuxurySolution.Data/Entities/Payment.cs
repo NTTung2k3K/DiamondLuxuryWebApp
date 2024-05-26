@@ -17,7 +17,5 @@ public partial class Payment
 
     public bool Status { get; set; }
 
-    public string? OrderId { get; set; }
-
-    public virtual Order? Order { get; set; }
+    public virtual ICollection<OrdersPayment> OrdersPayment { get; set; } = new List<OrdersPayment>();
 }

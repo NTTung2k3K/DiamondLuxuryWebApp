@@ -56,6 +56,8 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
 
     public virtual DbSet<OrderDetail> OrderDetails { get; set; }
 
+    public virtual DbSet<OrdersPayment> OrdersPayments { get; set; }
+
     public virtual DbSet<Payment> Payments { get; set; }
 
     public virtual DbSet<Platform> Platforms { get; set; }
@@ -94,6 +96,7 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
         modelBuilder.ApplyConfiguration(new NewsConfiguration());
         modelBuilder.ApplyConfiguration(new OrderConfiguration());
         modelBuilder.ApplyConfiguration(new OrderDetailsConfiguration());
+        modelBuilder.ApplyConfiguration(new OrdersPaymentConfiguration());
         modelBuilder.ApplyConfiguration(new PaymentConfiguration());
         modelBuilder.ApplyConfiguration(new PlatformConfiguration());
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
@@ -104,14 +107,6 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
         modelBuilder.ApplyConfiguration(new WarrantyConfiguration());
         modelBuilder.ApplyConfiguration(new SubGemConfiguration());
         modelBuilder.ApplyConfiguration(new SubGemDetailConfiguration());
-
-
-
-
-        modelBuilder.ApplyConfiguration(new AboutConfiguration());
-        modelBuilder.ApplyConfiguration(new AboutConfiguration());
-        modelBuilder.ApplyConfiguration(new AboutConfiguration());
-
 
 
 
