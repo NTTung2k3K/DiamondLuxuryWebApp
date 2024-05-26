@@ -10,7 +10,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Gem
     {
         public Guid GemId { get; set; }
 
-        public string GemName { get; set; } = null!;
+        public string? GemName { get; set; }
 
         public string? ProportionImage { get; set; }
 

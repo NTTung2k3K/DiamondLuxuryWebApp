@@ -10,9 +10,9 @@ namespace DiamondLuxurySolution.ViewModel.Models.News
 {
     public class CreateNewsRequest
     {
-        public string NewName { get; set; } = null!;
+        public string? NewName { get; set; }
 
-        public string Title { get; set; } = null!;
+        public string? Title { get; set; }
 
         public IFormFile? Image { get; set; }
 

@@ -11,9 +11,9 @@ namespace DiamondLuxurySolution.ViewModel.Models.News
     {
         public int NewsId { get; set; }
 
-        public string NewName { get; set; } = null!;
+        public string? NewName { get; set; }
 
-        public string Title { get; set; } = null!;
+        public string? Title { get; set; }
 
         public IFormFile? Image { get; set; }
 
@@ -21,6 +21,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.News
 
         public bool IsOutstanding { get; set; }
 
-        public Guid WriterId { get; set; } 
+        public Guid? WriterId { get; set; } 
     }
 }

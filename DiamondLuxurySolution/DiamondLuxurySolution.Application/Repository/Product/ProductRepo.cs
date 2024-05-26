@@ -161,7 +161,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 string thumbnailUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.ProductThumbnail);
 
                 // Process totalPrice
-                decimal OriginalPrice = totalPriceGem + totalMaterialPrice + category.CategoryPriceProcessing + totalSubGemPrice;
+                decimal OriginalPrice = (decimal)(totalPriceGem + totalMaterialPrice + category.CategoryPriceProcessing + totalSubGemPrice);
                 double percent = (double)request.PercentSale / 100;
                 decimal SellingPrice = OriginalPrice - (OriginalPrice * (decimal)percent);
                  
@@ -239,7 +239,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     ProductThumbnail = product.ProductThumbnail,
                     IsHome = product.IsHome,
                     IsSale = product.IsSale,
-                    ProcessingPrice = product.Category.CategoryPriceProcessing,
+                    ProcessingPrice = (decimal)product.Category.CategoryPriceProcessing,
                     PercentSale = product.PercentSale,
                     Status = product.Status,
                     Category = product.Category,
@@ -527,7 +527,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     ProductThumbnail = item.ProductThumbnail,
                     IsHome = item.IsHome,
                     IsSale = item.IsSale,
-                    ProcessingPrice = category.CategoryPriceProcessing,
+                    ProcessingPrice = (decimal)category.CategoryPriceProcessing,
                     PercentSale = item.PercentSale,
                     Status = item.Status,
                     Category = category,

@@ -29,43 +29,43 @@ namespace DiamondLuxurySolution.Application.Repository.News
 
         public async Task<ApiResult<bool>> CreateNews(CreateNewsRequest request)
         {
-            var errorList = new List<string>();
-            if (string.IsNullOrEmpty(request.NewName.Trim()))
-            {
-                errorList.Add("Vui lòng nhập tên tin tức");
-            }
-            if (string.IsNullOrEmpty(request.Title.Trim()))
-            {
-                errorList.Add("Vui lòng nhập tiêu đề");
-            }
-            if (request.Image == null)
-            {
-                errorList.Add("Vui lòng chèn hình ảnh của tin tức");
-            }
             var writer = await _userManager.FindByIdAsync(request.WriterId.ToString());
             if (writer == null)
             {
                 return new ApiErrorResult<bool>("Không tìm thấy người viết");
             }
+            var errorList = new List<string>();
+            if (string.IsNullOrEmpty(request.NewName))
+            {
+                errorList.Add("Vui lòng nhập tên tin tức");
+            }
+            
             if (errorList.Any())
             {
-                return new ApiErrorResult<bool>("Không hợp lệ");
+                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
-            await _context.SaveChangesAsync();
-
-            string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Image);
+            
             var news = new DiamondLuxurySolution.Data.Entities.News
             {
                 NewName = request.NewName,
-                Title = request.Title,
+                Title = request.Title != null ? request.Title : "",
                 DateCreated = DateTime.Now,
                 DateModified = DateTime.Now,
-                Image = firebaseUrl,
-                Description = request.Description,
+                Description = request.Description != null ? request.Description : "",
                 IsOutstanding = request.IsOutstanding,
-                Id = writer.Id,
-                Writer = writer
+                Id =(Guid)writer.Id,
+                Writer = writer,
             };
+            if (request.Image != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Image);
+                news.Image = firebaseUrl;
+            }
+            else
+            {
+                news.Image = "";
+            }
+
             _context.News.Add(news);
             await _context.SaveChangesAsync();
 
@@ -79,14 +79,22 @@ namespace DiamondLuxurySolution.Application.Repository.News
             {
                 return new ApiErrorResult<bool>("Không tìm thấy tin tức");
             }
-            if (string.IsNullOrWhiteSpace(request.NewName))
+            var writer = await _userManager.FindByIdAsync(request.WriterId.ToString());
+            if (writer == null)
             {
-                return new ApiErrorResult<bool>("Vui lòng nhập tên tin tức");
+                return new ApiErrorResult<bool>("Không tìm thấy người viết");
             }
-            if (string.IsNullOrWhiteSpace(request.Title))
+            var errorList = new List<string>();
+            if (string.IsNullOrEmpty(request.NewName))
             {
-                return new ApiErrorResult<bool>("Vui lòng nhập tiêu đề tin tức");
+                errorList.Add("Vui lòng nhập tên tin tức");
             }
+            
+            if (errorList.Any())
+            {
+                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
+            }
+
             news.Title = request.Title;
             news.DateModified = DateTime.Now;
             news.Image = request.Image != null ? await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Image) : "";

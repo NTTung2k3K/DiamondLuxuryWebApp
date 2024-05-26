@@ -10,7 +10,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Platform
     public class UpdatePlatformRequest
     {
         public int PlatformId { get; set; }
-        public string PlatformName { get; set; } = null!;
+        public string? PlatformName { get; set; }
             
         public string? PlatformUrl { get; set; }
 
