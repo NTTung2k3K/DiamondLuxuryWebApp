@@ -17,17 +17,14 @@ using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-<<<<<<< HEAD
 using DiamondLuxurySolution.Application.Repository.Order;
 using DiamondLuxurySolution.Application.Repository.Product;
-=======
 using DiamondLuxurySolution.Application.Repository.KnowledgeNewCatagory;
 using DiamondLuxurySolution.Application.Repository.Category;
 using DiamondLuxurySolution.Application.Repository.Collection;
 using DiamondLuxurySolution.Application.Repository.Warranty;
 using DiamondLuxurySolution.Application.Repository.KnowledgeNews;
 
->>>>>>> 59348e02b106350021dbba36fe0bb84fc3d839e4
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,18 +54,15 @@ builder.Services.AddTransient<IMaterialPriceListRepo, MaterialPriceListRepo>();
 builder.Services.AddTransient<INewsRepo, NewsRepo>();
 builder.Services.AddTransient<IGemPriceListRepo, GemPriceListRepo>();
 builder.Services.AddTransient<IWarehouseRepo, WarehouseRepo>();
-<<<<<<< HEAD
 builder.Services.AddTransient<IOrderRepo, OrderRepo>();
 builder.Services.AddTransient<IProductRepo, ProductRepo>();
 
 
-=======
 builder.Services.AddTransient<IKnowledgeNewCatagoryRepo, KnowledgeNewCatagoryRepo>();
 builder.Services.AddTransient<ICategoryRepo, CategoryRepo>();
 builder.Services.AddTransient<ICollectionRepo, CollectionRepo>();
 builder.Services.AddTransient<IWarrantyRepo, WarrantyRepo>();
 builder.Services.AddTransient<IKnowledgeNewsRepo, KnowledgeNewsRepo>();
->>>>>>> 59348e02b106350021dbba36fe0bb84fc3d839e4
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

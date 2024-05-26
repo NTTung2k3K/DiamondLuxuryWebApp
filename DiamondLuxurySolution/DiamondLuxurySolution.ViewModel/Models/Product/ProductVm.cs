@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DiamondLuxurySolution.Data.Entities;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,10 @@ namespace DiamondLuxurySolution.ViewModel.Models.Product
     public class ProductVm
     {
         public string ProductId { get; set; }
-        public string ProductName { get; set; }
+        public string? ProductName { get; set; }
         public string? Description { get; set; }
 
-        public IFormFile ProductThumbnail { get; set; }
+        public string ProductThumbnail { get; set; }
 
         public bool IsHome { get; set; }
 
@@ -21,23 +22,27 @@ namespace DiamondLuxurySolution.ViewModel.Models.Product
 
         public decimal ProcessingPrice { get; set; }
 
-        public decimal OriginalPrice { get; set; }
 
-        public decimal SellingPrice { get; set; }
-
-        public int SellingCount { get; set; }
 
         public int PercentSale { get; set; }
 
-        public int CategoryId { get; set; }
 
-        public string? InspectionCertificateId { get; set; }
-        public Guid MaterialId { get; set; }
+        public string? Status { get; set; }
+        public DiamondLuxurySolution.Data.Entities.Category Category { get; set; }
 
-        public virtual ICollection<IFormFile> Images { get; set; } = new List<IFormFile>();
+        public DiamondLuxurySolution.Data.Entities.InspectionCertificate InspectionCertificate{ get; set; }
 
-        public virtual ICollection<Guid> Gemid { get; set; } = new List<Guid>();
+        public DiamondLuxurySolution.Data.Entities.Material Material { get; set; }
 
-        public virtual ICollection<int> ProductsWareHouses { get; set; } = new List<int>();
+        public int? Quantity { get; set; }
+
+        public virtual ICollection<string>? Images { get; set; } = new List<string>();
+
+        public DiamondLuxurySolution.Data.Entities.Gem Gem{ get; set; }
+
+        public virtual ICollection<DiamondLuxurySolution.ViewModel.Models.SubGemSupportDTO>? ListSubGems { get; set; } = new List<SubGemSupportDTO>();
+
+        public DiamondLuxurySolution.Data.Entities.WareHouse WareHouse{ get; set; }
+
     }
 }

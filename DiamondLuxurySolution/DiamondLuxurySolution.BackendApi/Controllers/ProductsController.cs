@@ -40,5 +40,82 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+
+        [HttpPut("Update")]
+        public async Task<ActionResult> UpdateProduct([FromForm] UpdateProductRequest request)
+        {
+            try
+            {
+                var status = await _product.UpdateProduct(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> DeleteProduct([FromBody] DeleteProductRequest request)
+        {
+            try
+            {
+                var status = await _product.DeleteProduct(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("GetProductById")]
+        public async Task<IActionResult> FindProductById([FromQuery] string ProductId)
+        {
+            try
+            {
+                var status = await _product.GetProductById(ProductId);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+        [HttpGet("ViewProduct")]
+        public async Task<IActionResult> ViewAllProductPagination([FromQuery] ViewProductRequest request)
+        {
+            try
+            {
+                var status = await _product.ViewProduct(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
     }
 }
