@@ -60,7 +60,10 @@ builder.Services.AddTransient<IOrderRepo, OrderRepo>();
 builder.Services.AddTransient<IProductRepo, ProductRepo>();
 
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> 82106bed7b2dca6b6a9cc681d7adbedf5ad8dd6a
 builder.Services.AddTransient<IKnowledgeNewCatagoryRepo, KnowledgeNewCatagoryRepo>();
 builder.Services.AddTransient<ICategoryRepo, CategoryRepo>();
 builder.Services.AddTransient<ICollectionRepo, CollectionRepo>();

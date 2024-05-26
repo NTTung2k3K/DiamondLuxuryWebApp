@@ -29,6 +29,7 @@ public partial class Product
     public int SellingCount { get; set; }
 
     public int PercentSale { get; set; }
+    public int Quantity { get; set; }
 
     public int? CategoryId { get; set; }
     public string Status { get; set; }
@@ -41,7 +42,7 @@ public partial class Product
     public Guid GemId { get; set; }
     public Material Material { get; set; }
 
-    public Gem Gem { get; set; }
+    public Gem Gem { get; set; } 
 
     public virtual ICollection<Image> Images { get; set; } = new List<Image>();
 
@@ -50,6 +51,10 @@ public partial class Product
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
     public virtual ICollection<ProductsCollection> ProductsCollections { get; set; } = new List<ProductsCollection>();
+<<<<<<< HEAD
+
+=======
+>>>>>>> 82106bed7b2dca6b6a9cc681d7adbedf5ad8dd6a
     public virtual ICollection<SubGemDetail> SubGemDetails { get; set; } = new List<SubGemDetail>();
 
     public int WarehouseId { get; set; }

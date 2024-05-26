@@ -14,7 +14,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
         public Task<ApiResult<bool>> CreateProduct(CreateProductRequest request);
         public Task<ApiResult<bool>> UpdateProduct(UpdateProductRequest request);
         public Task<ApiResult<bool>> DeleteProduct(DeleteProductRequest request);
-        public Task<ApiResult<ProductVm>> GetProductById(int ProductId);
+        public Task<ApiResult<ProductVm>> GetProductById(string ProductId);
         public Task<ApiResult<PageResult<ProductVm>>> ViewProduct(ViewProductRequest request);
     }
 }
