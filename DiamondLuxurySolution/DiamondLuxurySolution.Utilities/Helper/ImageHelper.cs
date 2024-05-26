@@ -20,6 +20,7 @@ namespace DiamondLuxurySolution.Utilities.Helper
         {
             _configuration = configuration;
         }
+        
         public static async Task<string> Upload(IFormFile file)
         {
             if (file != null && file.Length > 0)
