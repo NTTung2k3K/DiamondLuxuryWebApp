@@ -47,7 +47,6 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Polish = request.Polish != null ? request.Polish : "",
                 Symetry = request.Symetry != null ? request.Symetry : "",
                 IsOrigin = request.IsOrigin,
-                IsMain = request.IsMain,
                 Price = request.Price,
                 Fluoresence = request.Fluoresence,
                 AcquisitionDate = request.AcquisitionDate,
@@ -94,7 +93,6 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Polish = gem.Polish,
                 Symetry = gem.Symetry,
                 IsOrigin = gem.IsOrigin,
-                IsMain = gem.IsMain,
                 Price = gem.Price,
                 Fluoresence = gem.Fluoresence,
                 ProportionImage = gem.ProportionImage,
@@ -131,7 +129,6 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
             gem.Polish = request.Polish != null ? request.Polish : "";
             gem.Symetry = request.Symetry != null ? request.Symetry : "";
             gem.IsOrigin = request.IsOrigin;
-            gem.IsMain = request.IsMain;
             gem.Price = request.Price;
             gem.Fluoresence = request.Fluoresence;
             gem.AcquisitionDate = request.AcquisitionDate;
@@ -169,7 +166,6 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Polish = gem.Polish,
                 Symetry = gem.Symetry,
                 IsOrigin = gem.IsOrigin,
-                IsMain = gem.IsMain,
                 Price = gem.Price,
                 Fluoresence = gem.Fluoresence,
                 ProportionImage = gem.ProportionImage,
@@ -207,7 +203,6 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Polish = gem.Polish,
                 Symetry = gem.Symetry,
                 IsOrigin = gem.IsOrigin,
-                IsMain = gem.IsMain,
                 Price = gem.Price,
                 Fluoresence = gem.Fluoresence,
                 ProportionImage = gem.ProportionImage,

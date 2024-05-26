@@ -19,15 +19,14 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(p => p.ProductId).IsRequired().HasMaxLength(15);
             builder.Property(p => p.ProductName).IsRequired().HasMaxLength(250);
             builder.Property(p => p.Description);
-            builder.Property(p => p.ProductThumbnail).IsRequired().HasMaxLength(50);
+            builder.Property(p => p.ProductThumbnail).IsRequired().HasMaxLength(int.MaxValue);
             builder.Property(p => p.IsHome).IsRequired();
             builder.Property(p => p.IsSale).IsRequired();
             builder.Property(p => p.DateCreate).IsRequired();
             builder.Property(p => p.DateModified).IsRequired();
-            builder.Property(p => p.ProcessingPrice).IsRequired().HasColumnType("decimal(10, 2)");
             builder.Property(p => p.OriginalPrice).IsRequired().HasColumnType("decimal(10, 2)");
             builder.Property(p => p.SellingPrice).IsRequired().HasColumnType("decimal(10, 2)");
-            builder.Property(p => p.SellingCount).IsRequired();
+            builder.Property(p => p.SellingCount);
             builder.Property(p => p.PercentSale).IsRequired();
 
             builder.HasOne(p => p.Material).WithMany(x => x.Products).IsRequired();
@@ -37,7 +36,11 @@ namespace DiamondLuxurySolution.Data.Configurations
 
             builder.HasOne(p => p.InspectionCertificate)
               .WithMany(i => i.Products)
-              .HasForeignKey(p => p.InspectionCertificateId);
+              .HasForeignKey(p => p.InspectionCertificateId).IsRequired(false);
+
+            builder.HasOne(p => p.WareHouse)
+             .WithMany(i => i.Products)
+             .HasForeignKey(p => p.WarehouseId);
         }
     }
 

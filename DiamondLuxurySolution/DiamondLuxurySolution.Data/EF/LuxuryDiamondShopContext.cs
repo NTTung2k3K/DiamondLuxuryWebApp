@@ -68,8 +68,8 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
 
     public virtual DbSet<ProductsGem> ProductsGems { get; set; }
 
-
-    public virtual DbSet<ProductsWareHouse> ProductsWareHouses { get; set; }
+    public virtual DbSet<SubGem> SubGems { get; set; }
+    public virtual DbSet<SubGemDetail> SubGemDetail { get; set; }
 
     public virtual DbSet<Promotion> Promotions { get; set; }
 
@@ -105,11 +105,13 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
         modelBuilder.ApplyConfiguration(new ProductConfiguration());
         modelBuilder.ApplyConfiguration(new ProductCollectionConfiguration());
         modelBuilder.ApplyConfiguration(new ProductGemConfiguration());
-        modelBuilder.ApplyConfiguration(new ProductsWareHousesConfiguration());
         modelBuilder.ApplyConfiguration(new PromotionConfiguration());
         modelBuilder.ApplyConfiguration(new SlideConfiguration());
         modelBuilder.ApplyConfiguration(new WareHouseConfiguration());
         modelBuilder.ApplyConfiguration(new WarrantyConfiguration());
+        modelBuilder.ApplyConfiguration(new SubGemConfiguration());
+        modelBuilder.ApplyConfiguration(new SubGemDetailConfiguration());
+
 
 
 

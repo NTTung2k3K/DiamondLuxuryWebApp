@@ -18,6 +18,7 @@ using DiamondLuxurySolution.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using DiamondLuxurySolution.Application.Repository.Order;
+using DiamondLuxurySolution.Application.Repository.Product;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +49,8 @@ builder.Services.AddTransient<INewsRepo, NewsRepo>();
 builder.Services.AddTransient<IGemPriceListRepo, GemPriceListRepo>();
 builder.Services.AddTransient<IWarehouseRepo, WarehouseRepo>();
 builder.Services.AddTransient<IOrderRepo, OrderRepo>();
+builder.Services.AddTransient<IProductRepo, ProductRepo>();
+
 
 
 builder.Services.AddControllers();

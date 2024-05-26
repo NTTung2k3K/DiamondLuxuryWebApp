@@ -13,5 +13,5 @@ public partial class WareHouse
 
     public string Location { get; set; } = null!;
 
-    public virtual ICollection<ProductsWareHouse> ProductsWareHouses { get; set; } = new List<ProductsWareHouse>();
+    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }
