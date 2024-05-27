@@ -17,11 +17,14 @@ namespace DiamondLuxurySolution.Data.Configurations
 
             builder.HasKey(p => p.PromotionId);
             builder.Property(p => p.PromotionId).IsRequired();
-            builder.Property(p => p.PromotionName).IsRequired().HasMaxLength(250);
+            builder.Property(p => p.PromotionName).HasMaxLength(250);
             builder.Property(p => p.Description).HasMaxLength(250);
             builder.Property(p => p.PromotionImage);
             builder.Property(p => p.StartDate).IsRequired();
             builder.Property(p => p.EndDate).IsRequired();
+            builder.Property(p => p.DiscountPercent);
+            builder.Property(p => p.BannerImage);
+            builder.Property(p => p.MaxDiscount);
         }
     }
 

@@ -10,7 +10,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Promotion
     {
         public Guid PromotionId { get; set; }
 
-        public string PromotionName { get; set; } = null!;
+        public string? PromotionName { get; set; }
 
         public string? Description { get; set; }
 
@@ -19,6 +19,12 @@ namespace DiamondLuxurySolution.ViewModel.Models.Promotion
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
+
+        public string? BannerImage { get; set; }
+
+        public decimal? DiscountPercent { get; set; }
+
+        public decimal? MaxDiscount { get; set; }
 
         public bool Status { get; set; }
     }

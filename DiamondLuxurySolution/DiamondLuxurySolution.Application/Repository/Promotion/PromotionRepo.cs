@@ -27,20 +27,50 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
                 errorList.Add("Vui lòng nhập tên khuyến mãi");
                 //return new ApiErrorResult<bool>("Vui lòng nhập tên khuyến mãi");
             }
-            if (request.StartDate == null)
+
+            if (string.IsNullOrEmpty(request.DiscountPercent))
             {
-                errorList.Add("Vui lòng nhập ngày bắt đầu khuyến mãi");
-                //return new ApiErrorResult<bool>("Vui lòng nhập ngày bắt đầu khuyến mãi");
+                errorList.Add("Vui lòng nhập % giảm giá");
             }
-            if (request.EndDate == null)
+
+            decimal percentDiscount = 0;
+            try
             {
-                errorList.Add("Vui lòng nhập ngày kết thúc khuyến mãi");
-                //return new ApiErrorResult<bool>("Vui lòng nhập ngày kết thúc khuyến mãi");
+                percentDiscount = Convert.ToDecimal(request.DiscountPercent);
+
+                if (percentDiscount < 0)
+                {
+                    errorList.Add("% Giảm giá phải >= 0");
+                }
             }
+            catch (FormatException)
+            {
+                errorList.Add("% giảm giá không hợp lệ");
+            }
+
+            if (string.IsNullOrEmpty(request.MaxDiscount))
+            {
+                errorList.Add("Vui lòng nhập giá max giảm");
+            }
+
+            decimal maxDiscount = 0;
+            try
+            {
+                maxDiscount = Convert.ToDecimal(request.MaxDiscount);
+
+                if (maxDiscount < 0)
+                {
+                    errorList.Add("Max giảm giá phải >= 0");
+                }
+            }
+            catch (FormatException)
+            {
+                errorList.Add("Max giảm giá không hợp lệ");
+            }
+
             if (request.StartDate >= request.EndDate)
             {
                 errorList.Add("Ngày kết thúc phải sau ngày bắt đầu khuyến mãi");
-                //return new ApiErrorResult<bool>("Ngày kết thúc phải sau ngày bắt đầu khuyến mãi");
             }
             if (errorList.Any())
             {
@@ -54,6 +84,8 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
                 Description = request.Description != null ? request.Description : "",
                 StartDate = request.StartDate,
                 EndDate = request.EndDate,
+                DiscountPercent = percentDiscount,
+                MaxDiscount = maxDiscount,
                 Status = request.Status,
             };
             if (request.PromotionImage != null)
@@ -63,6 +95,16 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
             } else
             {
                 promotion.PromotionImage = "";
+            }
+
+            if (request.BannerImage != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.BannerImage);
+                promotion.BannerImage = firebaseUrl;
+            }
+            else
+            {
+                promotion.BannerImage = "";
             }
 
             _context.Promotions.Add(promotion);
@@ -112,20 +154,49 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
                 errorList.Add("Vui lòng nhập tên khuyến mãi");
                 //return new ApiErrorResult<bool>("Vui lòng nhập tên khuyến mãi");
             }
-            if (request.StartDate == null)
+            if (string.IsNullOrEmpty(request.DiscountPercent))
             {
-                errorList.Add("Vui lòng nhập ngày bắt đầu khuyến mãi");
-                //return new ApiErrorResult<bool>("Vui lòng nhập ngày bắt đầu khuyến mãi");
+                errorList.Add("Vui lòng nhập % giảm giá");
             }
-            if (request.EndDate == null)
+
+            decimal percentDiscount = 0;
+            try
             {
-                errorList.Add("Vui lòng nhập ngày kết thúc khuyến mãi");
-                //return new ApiErrorResult<bool>("Vui lòng nhập ngày kết thúc khuyến mãi");
+                percentDiscount = Convert.ToDecimal(request.DiscountPercent);
+
+                if (percentDiscount < 0)
+                {
+                    errorList.Add("% Giảm giá phải >= 0");
+                }
             }
+            catch (FormatException)
+            {
+                errorList.Add("% giảm giá không hợp lệ");
+            }
+
+            if (string.IsNullOrEmpty(request.MaxDiscount))
+            {
+                errorList.Add("Vui lòng nhập giá max giảm");
+            }
+
+            decimal maxDiscount = 0;
+            try
+            {
+                maxDiscount = Convert.ToDecimal(request.MaxDiscount);
+
+                if (maxDiscount < 0)
+                {
+                    errorList.Add("Max giảm giá phải >= 0");
+                }
+            }
+            catch (FormatException)
+            {
+                errorList.Add("Max giảm giá không hợp lệ");
+            }
+
             if (request.StartDate >= request.EndDate)
             {
                 errorList.Add("Ngày kết thúc phải sau ngày bắt đầu khuyến mãi");
-                //return new ApiErrorResult<bool>("Ngày kết thúc phải sau ngày bắt đầu khuyến mãi");
             }
             if (errorList.Any())
             {
@@ -142,6 +213,9 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
             promotion.StartDate = request.StartDate;
             promotion.EndDate = request.EndDate;
             promotion.Status = request.Status;
+            promotion.DiscountPercent = percentDiscount;
+            promotion.MaxDiscount = maxDiscount;
+            
             if (request.PromotionImage != null)
             {
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.PromotionImage);
@@ -149,6 +223,16 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
             } else
             {
                 promotion.PromotionImage = "";
+            }
+
+            if (request.BannerImage != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.BannerImage);
+                promotion.BannerImage = firebaseUrl;
+            }
+            else
+            {
+                promotion.BannerImage = "";
             }
 
 
