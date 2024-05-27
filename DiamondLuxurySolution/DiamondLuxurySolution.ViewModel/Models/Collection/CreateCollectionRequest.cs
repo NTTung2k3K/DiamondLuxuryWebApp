@@ -18,6 +18,5 @@ namespace DiamondLuxurySolution.ViewModel.Models.Collection
         public bool Status { get; set; }
 
         public virtual ICollection<string> ListProductId { get; set; } = new List<string>();
-        public string OrderId {  get; set; }
     }
 }
