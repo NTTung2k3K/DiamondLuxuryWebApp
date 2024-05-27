@@ -16,6 +16,9 @@ public partial class Promotion
     public DateTime StartDate { get; set; }
 
     public DateTime EndDate { get; set; }
+    public string BannerImage { get; set; }
+    public decimal DiscountPercent { get; set; }
+    public decimal MaxDiscount { get; set; }
 
     public bool Status { get; set; }
 

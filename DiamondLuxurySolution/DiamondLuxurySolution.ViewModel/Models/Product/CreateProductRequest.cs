@@ -37,7 +37,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Product
 
         public Guid? GemId { get; set; }
         public virtual ICollection<DiamondLuxurySolution.ViewModel.Models.SubGemSupportDTO>? ListSubGems { get; set; } = new List<SubGemSupportDTO>();
-
+        public string? ListSubGemsJson { get; set; }
 
         public int WareHouseId {get ; set;} 
     }

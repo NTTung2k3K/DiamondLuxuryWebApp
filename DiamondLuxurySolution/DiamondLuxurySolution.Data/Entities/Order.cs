@@ -6,7 +6,7 @@ namespace DiamondLuxurySolution.Data.Entities;
 public partial class Order
 {
     public string OrderId { get; set; } = null!;
-    public Guid? DiscountId { get; set; }
+    public string? DiscountId { get; set; }
 
     public string ShipName { get; set; } = null!;
 
@@ -23,6 +23,8 @@ public partial class Order
     public decimal TotalAmout { get; set; }
 
     public decimal ShipPrice { get; set; }
+    public decimal Deposit {  get; set; }
+    public decimal RemainAmount { get; set; }
 
     public string Status { get; set; }
 
@@ -32,6 +34,7 @@ public partial class Order
 
     public virtual Discount? Discount { get; set; }
     public virtual AppUser? Customer { get; set; }
+
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 

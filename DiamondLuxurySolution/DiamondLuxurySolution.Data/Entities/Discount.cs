@@ -5,7 +5,7 @@ namespace DiamondLuxurySolution.Data.Entities;
 
 public partial class Discount
 {
-    public Guid DiscountId { get; set; }
+    public string DiscountId { get; set; }
 
     public string DiscountName { get; set; } = null!;
 

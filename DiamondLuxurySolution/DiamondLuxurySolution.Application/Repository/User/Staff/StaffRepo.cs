@@ -164,15 +164,11 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             }
 
 
-
             var user = new AppUser()
             {
                 Fullname = request.FullName.Trim(),
                 Email = request.Email.Trim(),
-                
                 Dob = request.Dob !=null ? request.Dob : null,
-
-
                 PhoneNumber = request.PhoneNumber.Trim(),
                 UserName = request.Username.Trim(),
                 Status = request.Status.Trim()
@@ -197,6 +193,12 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 var roleFindById = await _roleManager.FindByIdAsync(roleId.ToString());
                 if (roleFindById == null) return new ApiErrorResult<bool>("Role không tồn tại");
                 await _userManager.AddToRoleAsync(user, roleFindById.Name);
+                if (roleFindById.Name == DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.DeliveryStaff)
+                {
+                    user.ShipStatus = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Waiting.ToString();
+                    _userManager.UpdateAsync(user);
+                }
+               
             }
 
 
