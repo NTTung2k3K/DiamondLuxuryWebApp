@@ -8,7 +8,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Warehouse
 {
     public class CreateWarehouseRequest
     {
-        public string WareHouseName { get; set; }
+        public string? WareHouseName { get; set; }
 
         public string? Description { get; set; }
 

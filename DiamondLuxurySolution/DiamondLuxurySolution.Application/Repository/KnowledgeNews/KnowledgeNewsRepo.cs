@@ -29,16 +29,9 @@ namespace DiamondLuxurySolution.Application.Repository.KnowledgeNews
         {
             if (string.IsNullOrWhiteSpace(request.KnowledgeNewsName))
             {
-                return new ApiErrorResult<bool>("Vui lòng nhập tên tin tức");
+                return new ApiErrorResult<bool>("Vui lòng nhập tên tin tức kiến thức");
             }
-            if (request.WriterId == Guid.Empty)
-            {
-                return new ApiErrorResult<bool>("Không tìm thấy người viết");
-            }
-            if (string.IsNullOrWhiteSpace(request.KnowledgeNewCatagoryId.ToString()))
-            {
-                return new ApiErrorResult<bool>("Không tìm thấy danh mục của tin tức");
-            }
+
             var writer = await _userManager.FindByIdAsync(request.WriterId.ToString());
             if (writer == null)
             {
@@ -112,7 +105,17 @@ namespace DiamondLuxurySolution.Application.Repository.KnowledgeNews
             var knowledgeNews = await _context.KnowledgeNews.FindAsync(request.KnowledgeNewsId);
             if (knowledgeNews == null)
             {
-                return new ApiErrorResult<bool>("Không tìm thấy danh mục tin tức");
+                return new ApiErrorResult<bool>("Không tìm thấy kiến thức tin tức ");
+            }
+            var knowledgeNewCategory = await _context.KnowledgeNewCatagories.FindAsync(request.KnowledgeNewCatagoryId);
+            if (knowledgeNewCategory == null)
+            {
+                return new ApiErrorResult<bool>("Không tìm thấy danh mục tin tức ");
+            }
+            var writer = await _userManager.FindByIdAsync(request.WriterId.ToString());
+            if (writer == null)
+            {
+                return new ApiErrorResult<bool>("Tin tức không tìm thấy người viết");
             }
             if (string.IsNullOrWhiteSpace(request.KnowledgeNewsName))
             {

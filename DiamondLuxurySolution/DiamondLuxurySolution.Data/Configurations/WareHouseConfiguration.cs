@@ -16,9 +16,9 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.ToTable("WareHouses");
 
             builder.HasKey(w => w.WareHouseId);
-            builder.Property(w => w.WareHouseName).IsRequired().HasMaxLength(250);
+            builder.Property(w => w.WareHouseName).HasMaxLength(250);
             builder.Property(w => w.Description);
-            builder.Property(w => w.Location).IsRequired().HasMaxLength(250);
+            builder.Property(w => w.Location).HasMaxLength(250);
         }
     }
 

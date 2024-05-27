@@ -10,7 +10,7 @@ namespace DiamondLuxurySolution.Data.Entities
     {
 
         public string ProductId { get; set; } = null!;
-        public Guid SubGemId {  get; set; } 
+        public Guid SubGemId { get; set; }
         public int Quantity { get; set; } 
         public Product Product { get; set; } = null!;
         public SubGem SubGem { get; set; } = null!;

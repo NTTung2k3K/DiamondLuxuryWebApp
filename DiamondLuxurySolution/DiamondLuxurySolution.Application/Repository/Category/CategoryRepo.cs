@@ -4,6 +4,7 @@ using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.About;
 using DiamondLuxurySolution.ViewModel.Models.Category;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -22,16 +23,45 @@ namespace DiamondLuxurySolution.Application.Repository.Category
         }
         public async Task<ApiResult<bool>> CreateCategory(CreateCategoryRequest request)
         {
+            var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.CategoryName))
             {
-                return new ApiErrorResult<bool>("Vui lòng nhập tên loại sản phẩm");
+                errorList.Add("Vui lòng nhập tên loại sản phẩm");
+            }
+            if (string.IsNullOrEmpty(request.CategoryPriceProcessing))
+            {
+                errorList.Add("Vui lòng nhập giá gia công");
+            }
+
+            decimal price = 0;
+            try
+            {
+                price = Convert.ToDecimal(request.CategoryPriceProcessing);
+
+                if (price <= 0)
+                {
+                    errorList.Add("Giá gia công loại sản phẩm > 0");
+                }
+            }
+            catch (FormatException)
+            {
+                errorList.Add("Giá gia công loại sản phẩm không hợp lệ");
+            }
+            catch (OverflowException)
+            {
+                errorList.Add("Giá gia công loại sản phẩm quá lớn hoặc quá nhỏ");
+            }
+
+            if (errorList.Any())
+            {
+                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
 
             var category = new DiamondLuxurySolution.Data.Entities.Category
             {
                 CategoryName = request.CategoryName,
                 CategoryType = request.CategoryType != null ? request.CategoryType : "",
-                CategoryPriceProcessing = request.CategoryPriceProcessing,
+                CategoryPriceProcessing = price,
                 Status = request.Status,
             };
             if (request.CategoryImage != null)
@@ -83,10 +113,40 @@ namespace DiamondLuxurySolution.Application.Repository.Category
 
         public async Task<ApiResult<bool>> UpdateCategory(UpdateCategoryRequest request)
         {
+            var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.CategoryName))
             {
-                return new ApiErrorResult<bool>("Vui lòng nhập tên loại sản phẩm");
+                errorList.Add("Vui lòng nhập tên loại sản phẩm");
             }
+            if (string.IsNullOrEmpty(request.CategoryPriceProcessing))
+            {
+                errorList.Add("Vui lòng nhập giá gia công");
+            }
+
+            decimal price = 0;
+            try
+            {
+                price = Convert.ToDecimal(request.CategoryPriceProcessing);
+
+                if (price <= 0)
+                {
+                    errorList.Add("Giá gia công loại sản phẩm > 0");
+                }
+            }
+            catch (FormatException)
+            {
+                errorList.Add("Giá gia công loại sản phẩm không hợp lệ");
+            }
+            catch (OverflowException)
+            {
+                errorList.Add("Giá gia công loại sản phẩm quá lớn hoặc quá nhỏ");
+            }
+
+            if (errorList.Any())
+            {
+                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
+            }
+
             var category = await _context.Categories.FindAsync(request.CategoryId);
             if (category == null)
             {
@@ -103,7 +163,7 @@ namespace DiamondLuxurySolution.Application.Repository.Category
             }
             category.CategoryName = request.CategoryName;
             category.CategoryType = request.CategoryType != null ? request.CategoryType : "";
-            category.CategoryPriceProcessing = request.CategoryPriceProcessing;
+            category.CategoryPriceProcessing = price;
             category.Status = request.Status;
 
             await _context.SaveChangesAsync();

@@ -1,4 +1,5 @@
 ﻿using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Platform;
 using DiamondLuxurySolution.ViewModel.Models.Slide;
@@ -22,33 +23,30 @@ namespace DiamondLuxurySolution.Application.Repository.Slide
         }
         public async Task<ApiResult<bool>> CreateSlide(CreateSlideRequest request)
         {
-            var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.SlideName))
             {
-                errorList.Add("Vui lòng nhập tên slide");
+                return new ApiErrorResult<bool>("Vui lòng nhập tên slide");
             }
-            if (string.IsNullOrEmpty(request.SlideUrl))
-            {
-                errorList.Add("Vui lòng nhập Url của slide");
-            }
-            if (request.SlideImage == null)
-            {
-                errorList.Add("Vui lòng chèn hình ảnh của slide");
-            }
-            string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.SlideImage);
+            
 
             var slide = new DiamondLuxurySolution.Data.Entities.Slide
             {
                 SlideName = request.SlideName,
-                SlideUrl = request.SlideUrl,
-                SlideImage = firebaseUrl,
+                SlideUrl = request.SlideUrl != null ? request.SlideUrl : "",
                 Status = request.Status,
-                Description = request.Description
+                Description = request.Description != null ? request.Description : "",
             };
-            if (errorList.Any())
+            if (request.SlideImage != null)
             {
-                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.SlideImage);
+                slide.SlideImage = firebaseUrl;
             }
+            else
+            {
+                slide.SlideImage = "";
+            }
+
+
             _context.Slides.Add(slide);
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
@@ -108,6 +106,10 @@ namespace DiamondLuxurySolution.Application.Repository.Slide
             {
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.SlideImage);
                 slide.SlideImage = firebaseUrl;
+            }
+            else
+            {
+                slide.SlideImage = "";
             }
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");

@@ -21,8 +21,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.Product
 
         public bool IsSale { get; set; }
 
-        public decimal ProcessingPrice { get; set; }
-
 
 
         public int PercentSale { get; set; }
@@ -33,13 +31,13 @@ namespace DiamondLuxurySolution.ViewModel.Models.Product
 
         public string? InspectionCertificateId { get; set; }
         public Guid? MaterialId { get; set; }
-        public int? Quantity { get; set; }
+        public int Quantity { get; set; }
 
         public virtual ICollection<IFormFile>? Images { get; set; } = new List<IFormFile>();
 
         public Guid? GemId { get; set; }
         public virtual ICollection<DiamondLuxurySolution.ViewModel.Models.SubGemSupportDTO>? ListSubGems { get; set; } = new List<SubGemSupportDTO>();
-
+        public string? ListSubGemsJson { get; set; }
 
         public int WareHouseId {get ; set;} 
     }

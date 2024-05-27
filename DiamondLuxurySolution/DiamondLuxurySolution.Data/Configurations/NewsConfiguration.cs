@@ -17,8 +17,8 @@ namespace DiamondLuxurySolution.Data.Configurations
 
             builder.HasKey(n => n.NewsId);
             builder.Property(n => n.NewsId).IsRequired();
-            builder.Property(n => n.NewName).IsRequired().HasMaxLength(250);
-            builder.Property(n => n.Title).IsRequired().HasMaxLength(250);
+            builder.Property(n => n.NewName).HasMaxLength(250);
+            builder.Property(n => n.Title).HasMaxLength(250);
             builder.Property(n => n.Image).HasMaxLength(int.MaxValue);
             builder.Property(n => n.Description).HasMaxLength(int.MaxValue);
             builder.Property(n => n.DateCreated);

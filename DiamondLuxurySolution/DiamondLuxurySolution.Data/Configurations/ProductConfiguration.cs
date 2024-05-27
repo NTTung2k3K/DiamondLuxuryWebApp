@@ -29,8 +29,8 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(p => p.SellingCount);
             builder.Property(p => p.PercentSale).IsRequired();
 
-            builder.HasOne(p => p.Material).WithMany(x => x.Products).IsRequired();
-            builder.HasOne(p => p.Gem).WithMany(x => x.Products).IsRequired();
+            builder.HasOne(p => p.Material).WithMany(x => x.Products).IsRequired(false);
+            builder.HasOne(p => p.Gem).WithMany(x => x.Products).HasForeignKey(x => x.GemId).IsRequired();
             builder.HasOne(p => p.Category)
               .WithMany(c => c.Products)
               .HasForeignKey(p => p.CategoryId);

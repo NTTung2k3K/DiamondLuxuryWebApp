@@ -9,7 +9,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Gem
 {
     public class CreateGemRequest
     {
-        public string GemName { get; set; } = null!;
+        public string? GemName { get; set; }
         public IFormFile? ProportionImage { get; set; }
 
         public string? Symetry { get; set; }

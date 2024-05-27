@@ -15,7 +15,7 @@ namespace DiamondLuxurySolution.Application.Repository.MaterialPriceList
         public Task<ApiResult<bool>> CreateMaterialPriceList(CreateMaterialPriceListRequest request);
         public Task<ApiResult<bool>> UpdateMaterialPriceList(UpdateMaterialPriceListRequest request);
         public Task<ApiResult<bool>> DeleteMaterialPriceList(DeleteMaterialPriceListRequest request);
-        public Task<ApiResult<MaterialPriceListVm>> GetMaterialPriceListById(Guid MaterialId);
+        public Task<ApiResult<MaterialPriceListVm>> GetMaterialPriceListById(int MaterialPriceListId);
         public Task<ApiResult<PageResult<MaterialPriceListVm>>> ViewMaterialPriceListInCustomer(ViewMaterialPriceListRequest request);
         public Task<ApiResult<PageResult<MaterialPriceListVm>>> ViewMaterialPriceListInManager(ViewMaterialPriceListRequest request);
     }

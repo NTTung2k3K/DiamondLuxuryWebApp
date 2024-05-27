@@ -11,12 +11,12 @@ namespace DiamondLuxurySolution.ViewModel.Models.Category
     {
         public int CategoryId { get; set; }
 
-        public string CategoryName { get; set; } = null!;
+        public string? CategoryName { get; set; }
 
         public string? CategoryType { get; set; }
 
         public IFormFile? CategoryImage { get; set; }
-        public decimal CategoryPriceProcessing { get; set; }
+        public string? CategoryPriceProcessing { get; set; }
 
         public bool Status { get; set; }
     }

@@ -27,10 +27,26 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             {
                 errorList.Add("Vui lòng nhập tên nguyên liệu");
             }
-            if (request.Weight <= 0)
+            if (string.IsNullOrEmpty(request.Weight))
             {
-                errorList.Add("trọng lượng nguyên liệu phải > 0");
+                errorList.Add("Vui lòng nhập trọng lương nguyên liệu");
             }
+
+            int weight = 0;
+            try
+            {
+                weight = Convert.ToInt32(request.Weight);
+
+                if (weight <= 0)
+                {
+                    errorList.Add("trọng lượng > 0");
+                }
+            }
+            catch (FormatException)
+            {
+                errorList.Add("Trọng lượng không hợp lệ");
+            }
+
             if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
@@ -40,7 +56,7 @@ namespace DiamondLuxurySolution.Application.Repository.Material
                 MaterialId = Guid.NewGuid(),
                 MaterialName = request.MaterialName,
                 Color = request.Color != null ? request.Color : "",
-                Weight = request.Weight,
+                Weight = weight,
                 Description = request.Description != null ? request.Description : "",
                 Status = request.Status,
             };
@@ -98,10 +114,26 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             {
                 errorList.Add("Vui lòng nhập tên nguyên liệu");
             }
-            if (request.Weight <= 0)
+            if (string.IsNullOrEmpty(request.Weight))
             {
-                errorList.Add("trọng lượng nguyên liệu phải > 0");
+                errorList.Add("Vui lòng nhập trọng lương nguyên liệu");
             }
+
+            int weight = 0;
+            try
+            {
+                weight = Convert.ToInt32(request.Weight);
+
+                if (weight <= 0)
+                {
+                    errorList.Add("trọng lượng > 0");
+                }
+            }
+            catch (FormatException)
+            {
+                errorList.Add("Trọng lượng không hợp lệ");
+            }
+
             if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
@@ -114,7 +146,7 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             material.MaterialName = request.MaterialName;
             material.Description = request.Description != null ? request.Description : "";
             material.Color = request.Color != null ? request.Color : "";
-            material.Weight = request.Weight;
+            material.Weight = weight;
             material.Status = request.Status;
             if (request.MaterialImage != null)
             {

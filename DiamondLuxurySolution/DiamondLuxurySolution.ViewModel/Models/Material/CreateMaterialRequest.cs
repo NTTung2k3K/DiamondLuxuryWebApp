@@ -9,12 +9,12 @@ namespace DiamondLuxurySolution.ViewModel.Models.Material
 {
     public class CreateMaterialRequest
     {
-        public string MaterialName { get; set; } = null!;
+        public string? MaterialName { get; set; }
 
         public string? Description { get; set; }
 
         public string? Color { get; set; }
-        public int Weight { get; set; }
+        public string? Weight { get; set; }
 
         public IFormFile? MaterialImage { get; set; }
 

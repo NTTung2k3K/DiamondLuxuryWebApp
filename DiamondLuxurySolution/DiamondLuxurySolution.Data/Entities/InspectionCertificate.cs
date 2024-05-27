@@ -7,7 +7,7 @@ public partial class InspectionCertificate
 {
     public string InspectionCertificateId { get; set; } = null!;
 
-    public string InspectionCertificateName { get; set; } = null!;
+    public string? InspectionCertificateName { get; set; }
 
     public DateTime? DateGrading { get; set; }
 

@@ -10,7 +10,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Warehouse
     {
         public int WareHouseId { get; set; }
 
-        public string WareHouseName { get; set; }
+        public string? WareHouseName { get; set; }
 
         public string? Description { get; set; }
 

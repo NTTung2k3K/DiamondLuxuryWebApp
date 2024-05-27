@@ -9,7 +9,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.About
 {
     public class CreateAboutRequest
     {
-        public string AboutName { get; set; } = null!;
+        public string? AboutName { get; set; }
 
         public string? Description { get; set; }
 

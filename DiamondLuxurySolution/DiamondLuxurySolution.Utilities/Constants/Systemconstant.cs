@@ -44,7 +44,8 @@ namespace DiamondLuxurySolution.Utilities.Constants
         public enum TransactionStatus
         {
             Success,
-            Failed
+            Failed,
+            Waiting
         }
         public enum StaffStatus
         {
@@ -56,6 +57,11 @@ namespace DiamondLuxurySolution.Utilities.Constants
             Probation,      // Nhân viên đang trong thời gian thử việc
             Retired,         // Nhân viên đã nghỉ hưu
             ChangePasswordRequest
+        }
+        public enum ShiperStatus
+        {
+            Waiting,
+            Working,
         }
         public enum CustomerStatus
         {

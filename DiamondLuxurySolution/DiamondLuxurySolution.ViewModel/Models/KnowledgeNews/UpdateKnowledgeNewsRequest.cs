@@ -11,13 +11,15 @@ namespace DiamondLuxurySolution.ViewModel.Models.KnowledgeNews
     {
         public int KnowledgeNewsId { get; set; }
 
-        public string KnowledgeNewsName { get; set; } = null!;
+        public string? KnowledgeNewsName { get; set; }
 
         public IFormFile? Thumnail { get; set; }
 
         public string? Description { get; set; }
 
-        public DateTime DateModified { get; set; }
         public bool Active { get; set; }
+
+        public Guid WriterId { get; set; }
+        public int KnowledgeNewCatagoryId { get; set; }
     }
 }

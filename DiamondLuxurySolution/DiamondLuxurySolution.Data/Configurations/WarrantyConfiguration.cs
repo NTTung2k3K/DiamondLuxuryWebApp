@@ -17,7 +17,7 @@ namespace DiamondLuxurySolution.Data.Configurations
 
             builder.HasKey(w => w.WarrantyId);
             builder.Property(w => w.WarrantyId).IsRequired();
-            builder.Property(w => w.WarrantyName).IsRequired().HasMaxLength(250);
+            builder.Property(w => w.WarrantyName).HasMaxLength(250);
             builder.Property(w => w.Description).HasMaxLength(250);
             builder.Property(w => w.DateActive).IsRequired();
             builder.Property(w => w.DateExpired).IsRequired();
