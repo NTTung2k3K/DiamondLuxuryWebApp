@@ -26,6 +26,7 @@ using DiamondLuxurySolution.Application.Repository.Warranty;
 using DiamondLuxurySolution.Application.Repository.KnowledgeNews;
 using DiamondLuxurySolution.Application.Repository.SubGem;
 using DiamondLuxurySolution.Application.Repository.Payment;
+using DiamondLuxurySolution.Application.Repository.Contact;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -65,6 +66,7 @@ builder.Services.AddTransient<ICollectionRepo, CollectionRepo>();
 builder.Services.AddTransient<IWarrantyRepo, WarrantyRepo>();
 builder.Services.AddTransient<IKnowledgeNewsRepo, KnowledgeNewsRepo>();
 builder.Services.AddTransient<IPaymentRepo, PaymentRepo>();
+builder.Services.AddTransient<IContactRepo, ContactRepo>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
