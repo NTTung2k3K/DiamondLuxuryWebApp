@@ -9,13 +9,7 @@ public partial class CampaignDetail
 
     public string OrderId { get; set; } = null!;
 
-    public double DiscountPercentage { get; set; }
-
-    public decimal FromAmount { get; set; }
-
-    public decimal ToAmount { get; set; }
-
-    public decimal MaxDiscount { get; set; }
+    public decimal SalesPrice { get; set; }
 
     public virtual Order Order { get; set; } = null!;
 

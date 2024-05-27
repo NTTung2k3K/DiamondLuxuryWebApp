@@ -17,10 +17,6 @@ namespace DiamondLuxurySolution.Data.Configurations
 
             builder.HasKey(cd => new { cd.OrderId, cd.PromotionId });
 
-            builder.Property(cd => cd.DiscountPercentage).IsRequired();
-            builder.Property(cd => cd.FromAmount).HasColumnType("DECIMAL(10, 2)").IsRequired();
-            builder.Property(cd => cd.ToAmount).HasColumnType("DECIMAL(10, 2)").IsRequired();
-            builder.Property(cd => cd.MaxDiscount).HasColumnType("DECIMAL(10, 2)").IsRequired();
 
             builder.HasOne(cd => cd.Promotion)
                    .WithMany(x => x.CampaignDetails)

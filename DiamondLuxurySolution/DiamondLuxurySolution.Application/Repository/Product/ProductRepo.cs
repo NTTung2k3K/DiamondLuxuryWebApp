@@ -69,7 +69,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     return new ApiErrorResult<bool>("Lỗi thông tin", errorList);
                 }
                 Random rd = new Random();
-                string ProductId = "P" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
+                string ProductId = "P" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
                 // Process Product gem
                 decimal totalPriceGem = 0;
 

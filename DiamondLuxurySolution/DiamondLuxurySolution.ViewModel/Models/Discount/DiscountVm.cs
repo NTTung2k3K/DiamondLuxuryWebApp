@@ -8,7 +8,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Discount
 {
     public class DiscountVm
     {
-        public Guid DiscountId { get; set; }
+        public string DiscountId { get; set; }
 
         public string DiscountName { get; set; } = null!;
 
