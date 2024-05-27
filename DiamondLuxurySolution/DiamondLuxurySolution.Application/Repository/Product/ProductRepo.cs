@@ -587,11 +587,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     ProductThumbnail = item.ProductThumbnail,
                     IsHome = item.IsHome,
                     IsSale = item.IsSale,
-<<<<<<< HEAD
-                    ProcessingPrice = item.Category.CategoryPriceProcessing,
-=======
-                    ProcessingPrice = (decimal)category.CategoryPriceProcessing,
->>>>>>> 22fc06c2ddec42ee385ab7f8d53c0d1370103b39
+                    ProcessingPrice = (decimal)item.Category.CategoryPriceProcessing,
                     PercentSale = item.PercentSale,
                     Status = item.Status,
                     Category = new CategoryVm
