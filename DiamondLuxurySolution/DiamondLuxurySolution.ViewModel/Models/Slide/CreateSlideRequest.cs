@@ -9,13 +9,13 @@ namespace DiamondLuxurySolution.ViewModel.Models.Slide
 {
     public class CreateSlideRequest
     {
-        public string SlideName { get; set; } = null!;
+        public string? SlideName { get; set; }
 
         public string? Description { get; set; }
 
-        public string SlideUrl { get; set; } = null!;
+        public string? SlideUrl { get; set; }
 
-        public IFormFile SlideImage { get; set; } = null!;
+        public IFormFile? SlideImage { get; set; }
 
         public bool Status { get; set; }
     }

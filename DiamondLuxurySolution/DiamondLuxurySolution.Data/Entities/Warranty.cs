@@ -7,7 +7,7 @@ public partial class Warranty
 {
     public Guid WarrantyId { get; set; }
 
-    public string WarrantyName { get; set; } = null!;
+    public string? WarrantyName { get; set; }
 
     public string? Description { get; set; }
 

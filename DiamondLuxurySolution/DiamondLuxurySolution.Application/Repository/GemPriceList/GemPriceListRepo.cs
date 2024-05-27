@@ -27,23 +27,23 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
         public async Task<ApiResult<bool>> CreateGemPriceList(CreateGemPriceListRequest request)
         {
             var errorList = new List<string>();
-            if (string.IsNullOrEmpty(request.CaratWeight.Trim()))
+            if (string.IsNullOrWhiteSpace(request.CaratWeight))
             {
                 errorList.Add("Vui lòng nhập trọng lượng");
             }
-            if (string.IsNullOrEmpty(request.Clarity.Trim()))
+            if (string.IsNullOrWhiteSpace(request.Clarity.Trim()))
             {
                 errorList.Add("Vui lòng nhập độ tinh khiết");
             }
-            if (string.IsNullOrEmpty(request.Cut.Trim()))
+            if (string.IsNullOrWhiteSpace(request.Cut.Trim()))
             {
                 errorList.Add("Vui lòng nhập giác cắt");
             }
-            if (string.IsNullOrEmpty(request.Color.Trim()))
+            if (string.IsNullOrWhiteSpace(request.Color.Trim()))
             {
                 errorList.Add("Vui lòng nhập màu sắc");
             }
-            if (string.IsNullOrEmpty(request.Price.ToString().Trim()) || request.Price <= 0)
+            if (string.IsNullOrWhiteSpace(request.Price.ToString().Trim()) || request.Price <= 0)
             {
                 errorList.Add("Vui lòng nhập giá lớn hơn 0");
             }

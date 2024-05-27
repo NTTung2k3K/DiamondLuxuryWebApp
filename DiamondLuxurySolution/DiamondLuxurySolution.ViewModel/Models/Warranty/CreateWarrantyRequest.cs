@@ -8,7 +8,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Warranty
 {
     public class CreateWarrantyRequest
     {
-        public string WarrantyName { get; set; } = null!;
+        public string? WarrantyName { get; set; }
 
         public string? Description { get; set; }
 

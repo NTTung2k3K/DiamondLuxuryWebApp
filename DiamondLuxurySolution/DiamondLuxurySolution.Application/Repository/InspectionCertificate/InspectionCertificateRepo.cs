@@ -56,7 +56,8 @@ namespace DiamondLuxurySolution.Application.Repository.InspectionCertificate
 
             do
             {
-                newId = "IP" + random.Next(1000, 10000).ToString(); // Tạo ID với định dạng "IP" theo sau là 4 chữ số ngẫu nhiên
+                newId = "IC" + random.Next(0, 9).ToString() + random.Next(0, 9).ToString() +
+                    random.Next(0, 9).ToString() + random.Next(0, 9).ToString(); 
                 exists = await _context.InspectionCertificates.AnyAsync(ic => ic.InspectionCertificateId == newId);
             } while (exists);
 

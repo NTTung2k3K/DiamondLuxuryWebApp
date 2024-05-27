@@ -16,7 +16,7 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.ToTable("Gems");
 
             builder.HasKey(g => g.GemId);
-            builder.Property(c => c.GemName).IsRequired().HasMaxLength(250);
+            builder.Property(c => c.GemName).HasMaxLength(250);
             builder.Property(g => g.ProportionImage);
             builder.Property(g => g.Symetry).HasMaxLength(250);
             builder.Property(g => g.Polish).HasMaxLength(250);

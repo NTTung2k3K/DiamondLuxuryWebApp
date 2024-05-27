@@ -11,7 +11,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.About
     {
         public int AboutId { get; set; }
 
-        public string AboutName { get; set; } = null!;
+        public string? AboutName { get; set; }
 
         public string? Description { get; set; }
 
