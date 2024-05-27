@@ -32,10 +32,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.Order
 
         public virtual ICollection<Guid> ListPaymentId { get; set; } = new List<Guid>();
 
-<<<<<<< HEAD
-/*        public virtual ICollection<Payment> Payments { get; set; }
-*/    }
-=======
     }
->>>>>>> cc97b0c5ca626e3469d8c24450e54774d316c713
 }
+

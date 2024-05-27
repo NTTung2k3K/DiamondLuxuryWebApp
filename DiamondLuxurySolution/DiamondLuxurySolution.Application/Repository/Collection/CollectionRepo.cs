@@ -131,7 +131,7 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                         ProductThumbnail = product.ProductThumbnail,
                         IsHome = product.IsHome,
                         IsSale = product.IsSale,
-                        ProcessingPrice = product.Category.CategoryPriceProcessing,
+                        ProcessingPrice = (decimal)product.Category.CategoryPriceProcessing,
                         PercentSale = product.PercentSale,
                         Status = product.Status,
                         CategoryVm = new CategoryVm
@@ -348,7 +348,7 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                             ProductThumbnail = product.ProductThumbnail,
                             IsHome = product.IsHome,
                             IsSale = product.IsSale,
-                            ProcessingPrice = product.Category.CategoryPriceProcessing,
+                            ProcessingPrice = (decimal)product.Category.CategoryPriceProcessing,
                             PercentSale = product.PercentSale,
                             Status = product.Status,
                             CategoryVm = new CategoryVm
