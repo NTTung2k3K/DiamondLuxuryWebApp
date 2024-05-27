@@ -39,8 +39,19 @@ namespace DiamondLuxurySolution.ViewModel.Models.Order
 
         public virtual ICollection<PromotionVm>? ListPromotionVm { get; set; } = new List<PromotionVm>();
 
+<<<<<<< HEAD
+        public Guid CustomerId { get; set; }
+
+        public virtual ICollection<CampaignDetail> CampaignDetails { get; set; }
+
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+
+/*        public virtual ICollection<Payment> Payments { get; set; }
+*/    }
+=======
         public virtual ICollection<PaymentVm> ListPaymentVm { get; set; } = new List<PaymentVm>();
         public List<CampaignDetailSupportDTO> CampaignDetailsVm { get; set; }
         public List<OrderPaymentSupportDTO> OrdersPaymentVm { get; set; }
     }
+>>>>>>> cc97b0c5ca626e3469d8c24450e54774d316c713
 }
