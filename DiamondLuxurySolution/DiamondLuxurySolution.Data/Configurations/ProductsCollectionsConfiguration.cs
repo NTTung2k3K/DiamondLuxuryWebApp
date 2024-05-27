@@ -24,8 +24,6 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.HasOne(pc => pc.Product)
                    .WithMany(x => x.ProductsCollections)
                    .HasForeignKey(pc => pc.ProductId);
-
-            builder.Property(pc => pc.Description).HasMaxLength(250);
         }
     }
 
