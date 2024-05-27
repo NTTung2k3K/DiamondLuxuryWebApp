@@ -37,6 +37,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.Order
 
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 
-        public virtual ICollection<Payment> Payments { get; set; }
-    }
+/*        public virtual ICollection<Payment> Payments { get; set; }
+*/    }
 }
