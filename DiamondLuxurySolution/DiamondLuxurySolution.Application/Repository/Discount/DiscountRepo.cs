@@ -26,29 +26,59 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
             if (string.IsNullOrEmpty(request.DiscountName))
             {
                 errorList.Add("Vui lòng nhập tên chiết khấu");
-                //return new ApiErrorResult<bool>("Vui lòng nhập tên chiết khấu");
             }
-            if (request.PercentSale < 0)
+            if (string.IsNullOrEmpty(request.PercentSale))
             {
-                errorList.Add("% Chiết khấu phải >= 0");
-                //return new ApiErrorResult<bool>("% Chiết khấu phải >= 0");
+                errorList.Add("Vui lòng nhập % chiết khấu");
             }
+
+            double percentSale = 0;
+            try
+            {
+                percentSale = Convert.ToDouble(request.PercentSale);
+
+                if (percentSale < 0)
+                {
+                     errorList.Add("% Chiết khấu phải >= 0");
+                }
+            }
+            catch (FormatException)
+            {
+                errorList.Add("% chiết khấu không hợp lệ");
+            }
+
             if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
             var discount = new DiamondLuxurySolution.Data.Entities.Discount
             {
-                DiscountId = request.DiscountCode,
+                DiscountId = await GenerateUniqueDiscountIdAsync(),
                 DiscountName = request.DiscountName,
                 Description = request.Description != null ? request.Description : "",
-                PercentSale = request.PercentSale,
+                PercentSale = percentSale,
                 Status = request.Status,
             };
             _context.Discounts.Add(discount);
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
         }
+        public async Task<string> GenerateUniqueDiscountIdAsync()
+        {
+            string newId;
+            bool exists;
+            Random random = new Random();
+
+            do
+            {
+                newId = "DC" + random.Next(0, 9).ToString() + random.Next(0, 9).ToString() +
+                    random.Next(0, 9).ToString() + random.Next(0, 9).ToString();
+                exists = await _context.InspectionCertificates.AnyAsync(ic => ic.InspectionCertificateId == newId);
+            } while (exists);
+
+            return newId;
+        }
+
 
         public async Task<ApiResult<bool>> DeleteDiscount(DeleteDiscountRequest request)
         {
@@ -63,7 +93,7 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
             return new ApiSuccessResult<bool>(false, "Success");
         }
 
-        public async Task<ApiResult<DiscountVm>> GetDiscountById(Guid DiscountId)
+        public async Task<ApiResult<DiscountVm>> GetDiscountById(string DiscountId)
         {
             var discount = await _context.Discounts.FindAsync(DiscountId);
             if (discount == null)
@@ -90,10 +120,24 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
                 errorList.Add("Vui lòng nhập tên chiết khấu");
                 //return new ApiErrorResult<bool>("Vui lòng nhập tên chiết khấu");
             }
-            if (request.PercentSale < 0)
+            if (string.IsNullOrEmpty(request.PercentSale))
             {
-                errorList.Add("% Chiết khấu phải >= 0");
-                //return new ApiErrorResult<bool>("% Chiết khấu phải >= 0");
+                errorList.Add("Vui lòng nhập % chiết khấu");
+            }
+
+            double percentSale = 0;
+            try
+            {
+                percentSale = Convert.ToDouble(request.PercentSale);
+
+                if (percentSale < 0)
+                {
+                    errorList.Add("% Chiết khấu phải >= 0");
+                }
+            }
+            catch (FormatException)
+            {
+                errorList.Add("% chiết khấu không hợp lệ");
             }
             if (errorList.Any())
             {
@@ -107,7 +151,7 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
 
             discount.DiscountName = request.DiscountName;
             discount.Description = request.Description != null ? request.Description : "";
-            discount.PercentSale = request.PercentSale;
+            discount.PercentSale = percentSale;
             discount.Status = request.Status;
 
             await _context.SaveChangesAsync();

@@ -77,7 +77,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
         [HttpGet("GetById")]
-        public async Task<IActionResult> FindById([FromQuery] Guid DiscountId)
+        public async Task<IActionResult> FindById([FromQuery] string DiscountId)
         {
             try
             {

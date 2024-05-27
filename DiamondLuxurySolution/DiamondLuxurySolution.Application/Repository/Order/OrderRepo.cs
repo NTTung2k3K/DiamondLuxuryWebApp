@@ -174,7 +174,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         var discountPrice = ((decimal)totalPrice * (decimal)promotion.DiscountPercent);
                         if (discountPrice >= promotion.MaxDiscount)
                         {
-                            discountPrice = promotion.MaxDiscount;
+                            discountPrice = (decimal)promotion.MaxDiscount;
                         }
                         isSale = true;
                         salesPrice += discountPrice;
@@ -507,7 +507,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         var discountPrice = ((decimal)totalPrice * (decimal)promotion.DiscountPercent);
                         if (discountPrice >= promotion.MaxDiscount)
                         {
-                            discountPrice = promotion.MaxDiscount;
+                            discountPrice = (decimal)promotion.MaxDiscount;
                         }
                         isSale = true;
                         salesPrice += discountPrice;
