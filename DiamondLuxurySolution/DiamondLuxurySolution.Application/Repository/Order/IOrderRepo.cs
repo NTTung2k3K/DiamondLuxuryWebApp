@@ -12,11 +12,12 @@ namespace DiamondLuxurySolution.Application.Repository.Order
     public interface IOrderRepo
     {
         public Task<ApiResult<bool>> CreateOrder(CreateOrderRequest request);
-        public Task<ApiResult<bool>> UpdateOrder(UpdateOrderRequest request);
-        public Task<ApiResult<bool>> DeleteOrder(ChangeOrderRequest request);
-        public Task<ApiResult<bool>> CancelOrder(ChangeOrderRequest request);
-        public Task<ApiResult<bool>> AcceptOrder(ChangeOrderRequest request);
-        public Task<ApiResult<OrderVm>> GetOrderById(int OrderId);
+        public Task<ApiResult<bool>> DeleteOrder(string OrderId);
+        public Task<ApiResult<bool>> UpdateInfoOrder(UpdateOrderRequest request);
+        public Task<ApiResult<bool>> ContinuePayment(ContinuePaymentRequest request);
+
+        public Task<ApiResult<bool>> ChangeStatusOrder(ChangeOrderStatusRequest request);
+        public Task<ApiResult<OrderVm>> GetOrderById(string OrderId);
         public Task<ApiResult<PageResult<OrderVm>>> ViewOrder(ViewOrderRequest request);
     }
 }

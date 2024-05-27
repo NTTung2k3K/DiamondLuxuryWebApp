@@ -1,10 +1,12 @@
 ﻿using DiamondLuxurySolution.Application.Repository.Gem;
 using DiamondLuxurySolution.Application.Repository.Product;
 using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.ViewModel.Models;
 using DiamondLuxurySolution.ViewModel.Models.Gem;
 using DiamondLuxurySolution.ViewModel.Models.Product;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace DiamondLuxurySolution.BackendApi.Controllers
 {
@@ -28,6 +30,11 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         {
             try
             {
+                if (!string.IsNullOrEmpty(request.ListSubGemsJson))
+                {
+                    request.ListSubGems = JsonConvert.DeserializeObject<ICollection<SubGemSupportDTO>>(request.ListSubGemsJson);
+                }
+
                 var status = await _product.CreateProduct(request);
                 if (status.IsSuccessed)
                 {
@@ -47,6 +54,10 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         {
             try
             {
+                if (!string.IsNullOrEmpty(request.ListSubGemsJson))
+                {
+                    request.ListSubGems = JsonConvert.DeserializeObject<ICollection<SubGemSupportDTO>>(request.ListSubGemsJson);
+                }
                 var status = await _product.UpdateProduct(request);
                 if (status.IsSuccessed)
                 {
