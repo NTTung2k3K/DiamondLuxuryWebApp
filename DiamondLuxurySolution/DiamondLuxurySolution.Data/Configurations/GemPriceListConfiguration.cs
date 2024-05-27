@@ -16,11 +16,11 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.ToTable("GemPriceLists");
 
             builder.HasKey(g => g.GemPriceListId);
-            builder.Property(g => g.Cut).IsRequired().HasMaxLength(30);
-            builder.Property(g => g.Clarity).IsRequired().HasMaxLength(10);
-            builder.Property(g => g.CaratWeight).IsRequired().HasMaxLength(10);
-            builder.Property(g => g.Color).IsRequired().HasMaxLength(10);
-            builder.Property(g => g.Price).IsRequired().HasColumnType("decimal(10, 2)");
+            builder.Property(g => g.Cut).HasMaxLength(30);
+            builder.Property(g => g.Clarity).HasMaxLength(10);
+            builder.Property(g => g.CaratWeight).HasMaxLength(10);
+            builder.Property(g => g.Color).HasMaxLength(10);
+            builder.Property(g => g.Price).HasColumnType("decimal(10, 2)");
             builder.HasOne(x => x.Gem).WithMany(x => x.GemPriceLists).HasForeignKey(x => x.GemId).IsRequired();
             builder.Property(g => g.Active).IsRequired();
             builder.Property(g => g.effectDate).IsRequired();

@@ -17,7 +17,7 @@ namespace DiamondLuxurySolution.Data.Configurations
 
             builder.HasKey(k => k.KnowledgeNewCatagoryId);
             builder.Property(k => k.KnowledgeNewCatagoryId).IsRequired().ValueGeneratedOnAdd();
-            builder.Property(k => k.KnowledgeNewCatagoriesName).IsRequired().HasMaxLength(250);
+            builder.Property(k => k.KnowledgeNewCatagoriesName).HasMaxLength(250);
             builder.Property(k => k.Description).HasMaxLength(int.MaxValue);
         }
     }

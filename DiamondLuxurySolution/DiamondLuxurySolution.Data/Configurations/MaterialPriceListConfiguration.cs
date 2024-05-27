@@ -16,8 +16,8 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.ToTable("MaterialPriceLists");
 
             builder.HasKey(m => m.MaterialPriceListId);
-            builder.Property(m => m.BuyPrice).IsRequired().HasColumnType("decimal(10, 2)");
-            builder.Property(m => m.SellPrice).IsRequired().HasColumnType("decimal(10, 2)");
+            builder.Property(m => m.BuyPrice).HasColumnType("decimal(10, 2)");
+            builder.Property(m => m.SellPrice).HasColumnType("decimal(10, 2)");
             builder.HasOne(x => x.Material).WithMany(x => x.MaterialPriceLists).HasForeignKey(x => x.MaterialId).IsRequired();
             builder.Property(m => m.Active).IsRequired();
             builder.Property(m => m.effectDate).IsRequired();
