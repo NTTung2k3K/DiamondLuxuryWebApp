@@ -8,7 +8,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.KnowledgeNewsCategory
 {
     public class CreateKnowledgeNewsCategoryRequest
     {
-        public string KnowledgeNewCatagoriesName { get; set; } = null!;
+        public string? KnowledgeNewCatagoriesName { get; set; }
 
         public string? Description { get; set; }
     }

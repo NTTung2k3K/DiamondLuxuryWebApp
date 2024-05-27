@@ -11,7 +11,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.KnowledgeNews
     {
         public int KnowledgeNewsId { get; set; }
 
-        public string KnowledgeNewsName { get; set; } = null!;
+        public string? KnowledgeNewsName { get; set; }
 
         public string? Thumnail { get; set; }
 

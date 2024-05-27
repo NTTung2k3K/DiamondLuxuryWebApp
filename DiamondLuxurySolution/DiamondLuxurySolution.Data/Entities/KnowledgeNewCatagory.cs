@@ -7,7 +7,7 @@ public partial class KnowledgeNewCatagory
 {
     public int KnowledgeNewCatagoryId { get; set; }
 
-    public string KnowledgeNewCatagoriesName { get; set; } = null!;
+    public string? KnowledgeNewCatagoriesName { get; set; }
 
     public string? Description { get; set; }
 

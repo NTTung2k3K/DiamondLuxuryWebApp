@@ -25,12 +25,35 @@ namespace DiamondLuxurySolution.Application.Repository.MaterialPriceList
         }
         public async Task<ApiResult<bool>> CreateMaterialPriceList(CreateMaterialPriceListRequest request)
         {
-            var errorList = new List<string>();
-            if (request.BuyPrice <= 0)
+            var material = await _context.Materials.FindAsync(request.MaterialId);
+            if (material == null)
             {
-                errorList.Add("Vui lòng nhập giá mua phải lớn hơn 0");
+                return new ApiErrorResult<bool>("Không tìm thấy nguyên liệu");
             }
-            if (request.SellPrice <= request.BuyPrice)
+
+            var errorList = new List<string>();
+            if (string.IsNullOrEmpty(request.BuyPrice) || string.IsNullOrEmpty(request.SellPrice))
+            {
+                errorList.Add("Vui lòng nhập giá mua và bán nguyên liệu");
+            }
+
+            decimal priceBuy = 0;
+            decimal priceSell = 0;
+            try
+            {
+                priceBuy = Convert.ToDecimal(request.BuyPrice);
+                priceSell = Convert.ToDecimal(request.SellPrice);
+
+                if (priceBuy <= 0 || priceSell <=0)
+                {
+                    errorList.Add("Giá mua và bán nguyên liệu > 0");
+                }
+            }
+            catch (FormatException)
+            {
+                errorList.Add("Giá nguyên liệu không hợp lệ");
+            }
+            if (priceSell <= priceBuy)
             {
                 errorList.Add("Vui lòng nhập giá bán phải lớn hơn giá mua");
             }
@@ -38,13 +61,7 @@ namespace DiamondLuxurySolution.Application.Repository.MaterialPriceList
             {
                 errorList.Add("Bảng giá nguyên liệu phải được cập nhật trong khoảng thời gian gần đây.");
             }
-
-
-            var material = await _context.Materials.FindAsync(request.MaterialId);
-            if (material == null)
-            {
-                return new ApiErrorResult<bool>("Không tìm thấy nguyên liệu");
-            }
+            
             if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
@@ -52,11 +69,11 @@ namespace DiamondLuxurySolution.Application.Repository.MaterialPriceList
             var materialPriceList = new DiamondLuxurySolution.Data.Entities.MaterialPriceList
             {
                 MaterialId = request.MaterialId,
-                BuyPrice = request.BuyPrice,
-                SellPrice = request.SellPrice,
+                BuyPrice = priceBuy,
+                SellPrice = priceSell,
                 effectDate = request.effectDate,
                 Active = request.Active,
-                Material = material
+                Material = material,
             };
             _context.MaterialPriceLists.Add(materialPriceList);
             await _context.SaveChangesAsync();
@@ -75,20 +92,20 @@ namespace DiamondLuxurySolution.Application.Repository.MaterialPriceList
             return new ApiSuccessResult<bool>(false, "Success");
         }
 
-        public async Task<ApiResult<MaterialPriceListVm>> GetMaterialPriceListById(Guid MaterialId)
+        public async Task<ApiResult<MaterialPriceListVm>> GetMaterialPriceListById(int MaterialPriceListId)
         {
-            var materialPriceList = await _context.MaterialPriceLists.FindAsync(MaterialId);
+            var materialPriceList = await _context.MaterialPriceLists.FindAsync(MaterialPriceListId);
             if (materialPriceList == null)
             {
                 return new ApiErrorResult<MaterialPriceListVm>("Không tìm thấy nguyên liệu");
             }
-            var material = await _context.Materials.FindAsync(materialPriceList.MaterialId.ToString());
+            var material = await _context.Materials.FindAsync(materialPriceList.MaterialId);
 
             var materialPriceListVm = new MaterialPriceListVm()
             {
-                MaterialId = MaterialId,
-                BuyPrice = materialPriceList.BuyPrice,
-                SellPrice = materialPriceList.SellPrice,
+                MaterialPriceListId = MaterialPriceListId,
+                BuyPrice = (decimal)materialPriceList.BuyPrice,
+                SellPrice = (decimal)materialPriceList.SellPrice,
                 Active = materialPriceList.Active,
                 effectDate = materialPriceList.effectDate,
                 MaterialVm = material
@@ -99,19 +116,35 @@ namespace DiamondLuxurySolution.Application.Repository.MaterialPriceList
         public async Task<ApiResult<bool>> UpdateMaterialPriceList(UpdateMaterialPriceListRequest request)
         {
             var materialPL = await _context.MaterialPriceLists.FindAsync(request.MaterialPriceListId);
-
             if (materialPL == null)
             {
                 return new ApiErrorResult<bool>("Không tìm thấy nguyên liệu");
             }
             var errorList = new List<string>();
-            if (request.BuyPrice <= 0)
+            if (string.IsNullOrEmpty(request.BuyPrice) || string.IsNullOrEmpty(request.SellPrice))
             {
-                errorList.Add("Vui lòng nhập giá mua phải lớn hơn 0");
+                errorList.Add("Vui lòng nhập giá mua và bán nguyên liệu");
             }
-            if (request.SellPrice <= materialPL.BuyPrice)
+
+            decimal priceBuy = 0;
+            decimal priceSell = 0;
+            try
             {
-                errorList.Add("Vui lòng nhập giá bán phải lớn hơn hoặc bằng giá mua");
+                priceBuy = Convert.ToDecimal(request.BuyPrice);
+                priceSell = Convert.ToDecimal(request.SellPrice);
+
+                if (priceBuy <= 0 || priceSell <= 0)
+                {
+                    errorList.Add("Giá mua và bán nguyên liệu > 0");
+                }
+            }
+            catch (FormatException)
+            {
+                errorList.Add("Giá nguyên liệu không hợp lệ");
+            }
+            if (priceSell <= priceBuy)
+            {
+                errorList.Add("Vui lòng nhập giá bán phải lớn hơn giá mua");
             }
             if (request.effectDate < DateTime.Today.AddDays(-3) || request.effectDate > DateTime.Today)
             {
@@ -122,8 +155,8 @@ namespace DiamondLuxurySolution.Application.Repository.MaterialPriceList
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
-            materialPL.BuyPrice = request.BuyPrice;
-            materialPL.SellPrice = request.SellPrice;
+            materialPL.BuyPrice = priceBuy;
+            materialPL.SellPrice = priceSell;
             materialPL.effectDate = request.effectDate;
             materialPL.Active = request.Active;
             await _context.SaveChangesAsync();
@@ -143,26 +176,26 @@ namespace DiamondLuxurySolution.Application.Repository.MaterialPriceList
             int pageIndex = request.pageIndex ?? 1;
 
             var listPaging = listMaterialPL.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
-            var listMaterialVm = new List<MaterialPriceListVm>();
+            var listMaterialPriceList = new List<MaterialPriceListVm>();
             foreach (var x in listPaging)
             {
                 var material = await _context.Materials.FindAsync(x.MaterialId);
                 var materialPriceListVm = new MaterialPriceListVm()
                 {
-                    MaterialId = x.MaterialId,
-                    BuyPrice = x.BuyPrice,
-                    SellPrice = x.SellPrice,
+                    MaterialPriceListId = x.MaterialPriceListId,
+                    BuyPrice = (decimal)x.BuyPrice,
+                    SellPrice = (decimal)x.SellPrice,
                     effectDate = x.effectDate,
                     Active = x.Active,
-                    MaterialVm = material
+                    MaterialVm = material,
                 };
-                listMaterialVm.Add(materialPriceListVm);
+                listMaterialPriceList.Add(materialPriceListVm);
             }
             var listResult = new PageResult<MaterialPriceListVm>()
             {
-                Items = listMaterialVm,
+                Items = listMaterialPriceList,
                 PageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE,
-                TotalRecords = listMaterialVm.Count,
+                TotalRecords = listMaterialPL.Count,
                 PageIndex = pageIndex
             };
             return new ApiSuccessResult<PageResult<MaterialPriceListVm>>(listResult, "Success");
@@ -171,35 +204,34 @@ namespace DiamondLuxurySolution.Application.Repository.MaterialPriceList
         public async Task<ApiResult<PageResult<MaterialPriceListVm>>> ViewMaterialPriceListInManager(ViewMaterialPriceListRequest request)
         {
             var listMaterialPL = await _context.MaterialPriceLists.ToListAsync();
+
             if (request.Keyword != null)
             {
                 listMaterialPL = listMaterialPL.Where(x => x.effectDate.ToString().Contains(request.Keyword)).ToList();
-
             }
-            listMaterialPL = listMaterialPL.OrderByDescending(x => x.effectDate).ToList();
+            listMaterialPL = listMaterialPL.OrderByDescending(x => x.effectDate.ToString()).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 
             var listPaging = listMaterialPL.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
-
-            var listMaterialVm = new List<MaterialPriceListVm>();
+            var listMaterialPriceList = new List<MaterialPriceListVm>();
             foreach (var x in listPaging)
             {
                 var material = await _context.Materials.FindAsync(x.MaterialId);
                 var materialPriceListVm = new MaterialPriceListVm()
                 {
-                    MaterialId = x.MaterialId,
-                    BuyPrice = x.BuyPrice,
-                    SellPrice = x.SellPrice,
+                    MaterialPriceListId = x.MaterialPriceListId,
+                    BuyPrice = (decimal)x.BuyPrice,
+                    SellPrice = (decimal)x.SellPrice,
                     effectDate = x.effectDate,
                     Active = x.Active,
-                    MaterialVm = material
+                    MaterialVm = material,
                 };
-                listMaterialVm.Add(materialPriceListVm);
+                listMaterialPriceList.Add(materialPriceListVm);
             }
             var listResult = new PageResult<MaterialPriceListVm>()
             {
-                Items = listMaterialVm,
+                Items = listMaterialPriceList,
                 PageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE,
                 TotalRecords = listMaterialPL.Count,
                 PageIndex = pageIndex

@@ -88,7 +88,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 {
                     if (item.effectDate.Date == DateTime.Now.Date)
                     {
-                        totalPriceGem += item.Price;
+                        totalPriceGem += (decimal)item.Price;
                     }
                 }
                 if (errorList.Any())
@@ -108,7 +108,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     {
                         if (item.effectDate.Date == DateTime.Now.Date)
                         {
-                            totalMaterialPrice += item.SellPrice;
+                            totalMaterialPrice += (decimal)item.SellPrice;
                         }
                     }
                     if (errorList.Any())
@@ -380,7 +380,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 {
                     if (item.effectDate.Date == DateTime.Now.Date)
                     {
-                        totalPriceGem += item.Price;
+                        totalPriceGem +=  (decimal)item.Price;
                     }
                 }
                 product.GemId = gem.GemId;
@@ -403,7 +403,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     {
                         if (item.effectDate.Date == DateTime.Now.Date)
                         {
-                            totalMaterialPrice += item.SellPrice;
+                            totalMaterialPrice += (decimal)item.SellPrice;
                         }
                     }
 

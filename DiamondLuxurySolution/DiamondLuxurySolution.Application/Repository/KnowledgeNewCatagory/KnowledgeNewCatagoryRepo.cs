@@ -28,7 +28,7 @@ namespace DiamondLuxurySolution.Application.Repository.KnowledgeNewCatagory
             var knowledgeNewCatagory = new DiamondLuxurySolution.Data.Entities.KnowledgeNewCatagory
             {
                 KnowledgeNewCatagoriesName = request.KnowledgeNewCatagoriesName,
-                Description = request.Description
+                Description = request.Description != null ? request.Description : "",
             };
             _context.KnowledgeNewCatagories.Add(knowledgeNewCatagory);
             await _context.SaveChangesAsync();
