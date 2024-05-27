@@ -21,6 +21,7 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
 
     public virtual DbSet<About> Abouts { get; set; }
 
+    public virtual DbSet<Contact> Contacts { get; set; }
     public virtual DbSet<AppUser> AppUsers { get; set; }
     public virtual DbSet<AppRole> AppRoles { get; set; }
 
@@ -36,7 +37,6 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
 
     public virtual DbSet<GemPriceList> GemPriceLists { get; set; }
 
-
     public virtual DbSet<Image> Images { get; set; }
 
     public virtual DbSet<InspectionCertificate> InspectionCertificates { get; set; }
@@ -48,7 +48,6 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
     public virtual DbSet<Material> Materials { get; set; }
 
     public virtual DbSet<MaterialPriceList> MaterialPriceLists { get; set; }
-
 
     public virtual DbSet<News> News { get; set; }
 
@@ -109,7 +108,7 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
         modelBuilder.ApplyConfiguration(new WarrantyConfiguration());
         modelBuilder.ApplyConfiguration(new SubGemConfiguration());
         modelBuilder.ApplyConfiguration(new SubGemDetailConfiguration());
-
+        modelBuilder.ApplyConfiguration(new ContactConfiguration());
 
 
         modelBuilder.ApplyConfiguration(new AppUserConfiguration());
