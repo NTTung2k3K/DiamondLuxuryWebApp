@@ -39,7 +39,7 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
             }
             var discount = new DiamondLuxurySolution.Data.Entities.Discount
             {
-                DiscountId = Guid.NewGuid(),
+                DiscountId = request.DiscountCode,
                 DiscountName = request.DiscountName,
                 Description = request.Description != null ? request.Description : "",
                 PercentSale = request.PercentSale,

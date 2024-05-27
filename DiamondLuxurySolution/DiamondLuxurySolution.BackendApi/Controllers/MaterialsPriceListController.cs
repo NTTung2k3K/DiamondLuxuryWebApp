@@ -81,11 +81,11 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
         [HttpGet("GetById")]
-        public async Task<IActionResult> FindById([FromQuery] Guid MaterialId)
+        public async Task<IActionResult> FindMaterialsPriceListById([FromQuery] int MaterialPriceListId)
         {
             try
             {
-                var status = await _materialPL.GetMaterialPriceListById(MaterialId);
+                var status = await _materialPL.GetMaterialPriceListById(MaterialPriceListId);
                 if (status.IsSuccessed)
                 {
                     return Ok(status);

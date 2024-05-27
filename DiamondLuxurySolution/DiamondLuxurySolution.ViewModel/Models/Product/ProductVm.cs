@@ -1,4 +1,9 @@
 ﻿using DiamondLuxurySolution.Data.Entities;
+using DiamondLuxurySolution.ViewModel.Models.Category;
+using DiamondLuxurySolution.ViewModel.Models.Gem;
+using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
+using DiamondLuxurySolution.ViewModel.Models.Material;
+using DiamondLuxurySolution.ViewModel.Models.Warehouse;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -28,21 +33,21 @@ namespace DiamondLuxurySolution.ViewModel.Models.Product
 
 
         public string? Status { get; set; }
-        public DiamondLuxurySolution.Data.Entities.Category Category { get; set; }
+        public CategoryVm Category { get; set; }
 
-        public DiamondLuxurySolution.Data.Entities.InspectionCertificate InspectionCertificate{ get; set; }
+        public InspectionCertificateVm InspectionCertificate{ get; set; }
 
-        public DiamondLuxurySolution.Data.Entities.Material Material { get; set; }
+        public MaterialVm Material { get; set; }
 
         public int? Quantity { get; set; }
 
         public virtual ICollection<string>? Images { get; set; } = new List<string>();
 
-        public DiamondLuxurySolution.Data.Entities.Gem Gem{ get; set; }
+        public GemVm Gem{ get; set; }
 
         public virtual ICollection<DiamondLuxurySolution.ViewModel.Models.SubGemSupportDTO>? ListSubGems { get; set; } = new List<SubGemSupportDTO>();
 
-        public DiamondLuxurySolution.Data.Entities.WareHouse WareHouse{ get; set; }
+        public WarehouseVm WareHouse{ get; set; }
 
     }
 }

@@ -1,4 +1,11 @@
 ﻿using DiamondLuxurySolution.Data.Entities;
+using DiamondLuxurySolution.ViewModel.Models.Discount;
+using DiamondLuxurySolution.ViewModel.Models.Payment;
+using DiamondLuxurySolution.ViewModel.Models.Product;
+using DiamondLuxurySolution.ViewModel.Models.Promotion;
+using DiamondLuxurySolution.ViewModel.Models.User.Customer;
+using DiamondLuxurySolution.ViewModel.Models.User.Staff;
+using DiamondLuxurySolution.ViewModel.Models.Warranty;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,27 +17,29 @@ namespace DiamondLuxurySolution.ViewModel.Models.Order
     public class OrderVm
     {
         public string OrderId { get; set; }
+        public string ShipName { get; set; } = null!;
 
-        public string ShipName { get; set; }
+        public DiscountVm DiscountVm { get; set; }
 
-        public Guid? DiscountId { get; set; }
+        public string ShipPhoneNumber { get; set; } = null!;
 
-        public Guid? ShipperId { get; set; }
-
-        public string ShipPhoneNumber { get; set; }
-
-        public string ShipEmail { get; set; }
+        public string ShipEmail { get; set; } = null!;
 
         public string ShipAdress { get; set; }
 
-        public DateTime OrderDate { get; set; }
+        public string? Status { get; set; }
+        public decimal RemainAmount { get; set; }
+        public decimal TotalAmount { get; set; }
 
-        public decimal TotalAmout { get; set; }
+        public CustomerVm CustomerVm { get; set; }
+        public StaffVm ShiperVm { get; set; }
+        public WarrantyVm WarrantyVm { get; set; }
 
-        public decimal ShipPrice { get; set; }
+        public virtual ICollection<OrderProductSupport> ListOrderProduct { get; set; } = new List<OrderProductSupport>();
 
-        public string Status { get; set; }
+        public virtual ICollection<PromotionVm>? ListPromotionVm { get; set; } = new List<PromotionVm>();
 
+<<<<<<< HEAD
         public Guid CustomerId { get; set; }
 
         public virtual ICollection<CampaignDetail> CampaignDetails { get; set; }
@@ -39,4 +48,10 @@ namespace DiamondLuxurySolution.ViewModel.Models.Order
 
 /*        public virtual ICollection<Payment> Payments { get; set; }
 */    }
+=======
+        public virtual ICollection<PaymentVm> ListPaymentVm { get; set; } = new List<PaymentVm>();
+        public List<CampaignDetailSupportDTO> CampaignDetailsVm { get; set; }
+        public List<OrderPaymentSupportDTO> OrdersPaymentVm { get; set; }
+    }
+>>>>>>> cc97b0c5ca626e3469d8c24450e54774d316c713
 }

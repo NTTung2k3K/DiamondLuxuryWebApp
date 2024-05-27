@@ -9,6 +9,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Discount
 {
     public class CreateDiscountRequest
     {
+        public string DiscountCode { get; set; }
         public string DiscountName { get; set; } = null!;
 
         public string? Description { get; set; }

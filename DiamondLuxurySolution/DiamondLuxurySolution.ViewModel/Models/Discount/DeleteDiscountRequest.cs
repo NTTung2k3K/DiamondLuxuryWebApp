@@ -8,6 +8,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.Discount
 {
     public class DeleteDiscountRequest
     {
-        public Guid DiscountId { get; set; }
+        public string DiscountId { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.KnowledgeNews
 {
     public class CreateKnowledgeNewsRequest
     {
-        public string KnowledgeNewsName { get; set; } = null!;
+        public string? KnowledgeNewsName { get; set; }
 
         public IFormFile? Thumnail { get; set; }
 

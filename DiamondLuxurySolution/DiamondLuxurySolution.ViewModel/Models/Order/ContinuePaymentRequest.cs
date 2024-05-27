@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace DiamondLuxurySolution.ViewModel.Models.Order
 {
-    public class ChangeOrderRequest
+    public class ContinuePaymentRequest
     {
         public string OrderId { get; set; }
+        public decimal PaidTheRest { get; set; }
     }
 }

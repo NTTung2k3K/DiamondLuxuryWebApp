@@ -17,17 +17,16 @@ namespace DiamondLuxurySolution.Data.Configurations
 
             builder.HasKey(k => k.KnowledgeNewsId);
             builder.Property(k => k.KnowledgeNewsId).IsRequired().ValueGeneratedOnAdd();
-            builder.Property(k => k.KnowledgeNewsName).IsRequired().HasMaxLength(250);
+            builder.Property(k => k.KnowledgeNewsName).HasMaxLength(250);
             builder.Property(k => k.Thumnail).HasMaxLength(int.MaxValue);
             builder.Property(k => k.Description).HasMaxLength(int.MaxValue);
-            builder.Property(k => k.DateCreated);
-            builder.Property(k => k.DateModified);
+            builder.Property(k => k.DateCreated).IsRequired();
+            builder.Property(k => k.DateModified).IsRequired();
             builder.HasOne(k => k.KnowledgeNewCatagory).WithMany(k => k.KnowledgeNews)
-                .HasForeignKey(k => k.KnowledgeNewCatagoryId);
+                .HasForeignKey(k => k.KnowledgeNewCatagoryId).IsRequired();
             builder.HasOne(k => k.Writer)
                    .WithMany(x => x.KnowledgeNews)
-                   .HasForeignKey(k => k.WriterId)
-                   .IsRequired();
+                   .HasForeignKey(k => k.WriterId).IsRequired();
         }
     }
 
