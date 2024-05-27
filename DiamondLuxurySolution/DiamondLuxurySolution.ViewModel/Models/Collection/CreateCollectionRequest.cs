@@ -16,5 +16,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Collection
         public IFormFile? Thumbnail { get; set; }
 
         public bool Status { get; set; }
+
+        public virtual ICollection<string> ListProductId { get; set; } = new List<string>();
     }
 }

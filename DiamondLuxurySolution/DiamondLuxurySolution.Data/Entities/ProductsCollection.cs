@@ -9,8 +9,6 @@ public partial class ProductsCollection
 
     public string ProductId { get; set; } = null!;
 
-    public string? Description { get; set; }
-
     public virtual Collection Collection { get; set; } = null!;
 
     public virtual Product Product { get; set; } = null!;

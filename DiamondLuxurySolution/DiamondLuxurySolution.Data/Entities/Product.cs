@@ -42,6 +42,7 @@ public partial class Product
     public Material Material { get; set; }
 
     public Gem Gem { get; set; }
+    public int Quantity {  get; set; }
 
     public virtual ICollection<Image> Images { get; set; } = new List<Image>();
 

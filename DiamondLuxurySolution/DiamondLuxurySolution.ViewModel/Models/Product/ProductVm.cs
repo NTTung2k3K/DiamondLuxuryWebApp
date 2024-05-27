@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DiamondLuxurySolution.ViewModel.Models.Category;
+using DiamondLuxurySolution.ViewModel.Models.Gem;
+using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
+using DiamondLuxurySolution.ViewModel.Models.Material;
+using DiamondLuxurySolution.ViewModel.Models.Warehouse;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +18,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Product
         public string ProductName { get; set; }
         public string? Description { get; set; }
 
-        public IFormFile ProductThumbnail { get; set; }
+        public string ProductThumbnail { get; set; }
 
         public bool IsHome { get; set; }
 
@@ -29,15 +34,20 @@ namespace DiamondLuxurySolution.ViewModel.Models.Product
 
         public int PercentSale { get; set; }
 
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
 
+        public string Status {  get; set; }
+        public int Quantity {  get; set; }
         public string? InspectionCertificateId { get; set; }
-        public Guid MaterialId { get; set; }
+        public Guid? MaterialId { get; set; }
 
-        public virtual ICollection<IFormFile> Images { get; set; } = new List<IFormFile>();
+        public virtual ICollection<String> Images { get; set; } = new List<String>();
+        public virtual ICollection<SubGemSupportDTO> ListSubGems { get; set; } = new List<SubGemSupportDTO>();
 
-        public virtual ICollection<Guid> Gemid { get; set; } = new List<Guid>();
-
-        public virtual ICollection<int> ProductsWareHouses { get; set; } = new List<int>();
+        public virtual GemVm GemVms{ get; set; }
+        public virtual CategoryVm CategoryVm { get; set; }
+        public virtual WarehouseVm WareHouseVms { get; set; }
+        public virtual MaterialVm MaterialVms { get; set; }
+        public virtual InspectionCertificateVm InspectionCertificateVm { get; set; }
     }
 }

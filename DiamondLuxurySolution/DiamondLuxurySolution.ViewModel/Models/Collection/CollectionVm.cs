@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DiamondLuxurySolution.Data.Entities;
+using DiamondLuxurySolution.ViewModel.Models.Product;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,10 +14,12 @@ namespace DiamondLuxurySolution.ViewModel.Models.Collection
 
         public string CollectionName { get; set; } = null!;
 
-        public string? Description { get; set; }
-
         public string? Thumbnail { get; set; }
 
         public bool Status { get; set; }
+        public string? Description { get; set; }
+
+        public ICollection<DiamondLuxurySolution.ViewModel.Models.Product.ProductVm> ListProducts
+            = new List<ProductVm>();
     }
 }
