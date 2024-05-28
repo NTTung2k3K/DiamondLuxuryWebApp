@@ -8,7 +8,6 @@ using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
 using DiamondLuxurySolution.ViewModel.Models.Material;
 using DiamondLuxurySolution.ViewModel.Models.Platform;
 using DiamondLuxurySolution.ViewModel.Models.Product;
-using DiamondLuxurySolution.ViewModel.Models.Warehouse;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PagedList;
@@ -186,7 +185,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     PercentSale = request.PercentSale,
                     CategoryId = request.CategoryId,
                     Status = request.Status,
-                    WarehouseId = request.WareHouseId,
                     GemId = gem.GemId
                 };
                 _context.Products.Add(product);
@@ -223,7 +221,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     .Include(p => p.Category)
                     .Include(p => p.Gem)
                     .Include(p => p.Images)
-                    .Include(p => p.WareHouse)
                     .FirstOrDefaultAsync(p => p.ProductId == ProductId);
 
                 if (product == null)
@@ -267,13 +264,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                         Symetry = product.Gem.Symetry
                     },
 
-                    WareHouse = new WarehouseVm
-                    {
-                        WarehouseId = product.WareHouse.WareHouseId,
-                        Description = product.WareHouse.Description,
-                        Location = product.WareHouse.Location,
-                        WareHouseName = product.WareHouse.WareHouseName
-                    }
+                    
                 };
                 if (product.Images != null)
                 {
@@ -489,7 +480,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 product.SellingPrice = SellingPrice;
                 product.PercentSale = request.PercentSale;
                 product.Status = request.Status;
-                product.WarehouseId = request.WareHouseId;
 
                 _context.Products.Update(product);
 
@@ -511,7 +501,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     .Include(p => p.Category)
                     .Include(p => p.Gem)
                     .Include(p => p.Images)
-                    .Include(p => p.WareHouse)
                                             .ToListAsync();
 
             if (!string.IsNullOrEmpty(request.Keyword))
@@ -520,7 +509,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                                                    || x.Description.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
                                                    || x.Gem.GemName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
                                                    || x.Category.CategoryName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
-                                                   || x.WareHouse.WareHouseName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
                                                    || x.SubGemDetails.Any(sg => sg.SubGem.SubGemName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase))
                                                    || x.SubGemDetails.Any(sg => sg.SubGem.Description.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase))).ToList();
             }
@@ -537,7 +525,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
             foreach (var item in pagedProducts)
             {
                 var gem = item.Gem;
-                var warehouse = item.WareHouse;
                 var listSubGem = item.SubGemDetails.ToList();
                 List<SubGemSupportDTO> listSubGemVm = listSubGem.Select(sg => new SubGemSupportDTO
                 {
@@ -580,13 +567,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                         Symetry = item.Gem.Symetry
                     },
 
-                    WareHouse = new WarehouseVm
-                    {
-                        WarehouseId = item.WareHouse.WareHouseId,
-                        Description = item.WareHouse.Description,
-                        Location = item.WareHouse.Location,
-                        WareHouseName = item.WareHouse.WareHouseName
-                    }
+                    
                 };
                 if (item.Images != null)
                 {

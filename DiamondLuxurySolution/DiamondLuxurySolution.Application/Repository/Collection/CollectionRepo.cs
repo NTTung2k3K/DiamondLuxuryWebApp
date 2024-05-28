@@ -8,7 +8,6 @@ using DiamondLuxurySolution.ViewModel.Models.Gem;
 using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
 using DiamondLuxurySolution.ViewModel.Models.Material;
 using DiamondLuxurySolution.ViewModel.Models.Product;
-using DiamondLuxurySolution.ViewModel.Models.Warehouse;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -114,7 +113,6 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                         .Include(p => p.Category)
                         .Include(p => p.Gem)
                         .Include(p => p.Images)
-                        .Include(p => p.WareHouse)
                         .FirstOrDefaultAsync(p => p.ProductId == item.ProductId);
 
                     if (product == null)
@@ -156,13 +154,7 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                             Symetry = product.Gem.Symetry
                         },
 
-                        WareHouseVms = new WarehouseVm
-                        {
-                            WarehouseId = product.WareHouse.WareHouseId,
-                            Description = product.WareHouse.Description,
-                            Location = product.WareHouse.Location,
-                            WareHouseName = product.WareHouse.WareHouseName
-                        }
+                       
                     };
                     if (product.Images != null)
                     {
@@ -304,7 +296,6 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                             .Include(p => p.Category)
                             .Include(p => p.Gem)
                             .Include(p => p.Images)
-                            .Include(p => p.WareHouse)
                             .FirstOrDefaultAsync(p => p.ProductId == item.ProductId);
 
                         if (product == null)
@@ -346,13 +337,7 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                                 Symetry = product.Gem.Symetry
                             },
 
-                            WareHouseVms = new WarehouseVm
-                            {
-                                WarehouseId = product.WareHouse.WareHouseId,
-                                Description = product.WareHouse.Description,
-                                Location = product.WareHouse.Location,
-                                WareHouseName = product.WareHouse.WareHouseName
-                            }
+                           
                         };
                         if (product.Images != null)
                         {

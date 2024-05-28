@@ -53,6 +53,4 @@ public partial class Product
     public virtual ICollection<ProductsCollection> ProductsCollections { get; set; } = new List<ProductsCollection>();
     public virtual ICollection<SubGemDetail> SubGemDetails { get; set; } = new List<SubGemDetail>();
 
-    public int WarehouseId { get; set; }
-    public WareHouse WareHouse { get; set; }
 }

@@ -11,7 +11,6 @@ using DiamondLuxurySolution.Application.Repository.Promotion;
 using DiamondLuxurySolution.Application.Repository.Slide;
 using DiamondLuxurySolution.Application.Repository.User.Customer;
 using DiamondLuxurySolution.Application.Repository.User.Staff;
-using DiamondLuxurySolution.Application.Repository.Warehouse;
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -55,7 +54,6 @@ builder.Services.AddTransient<IInspectionCertificateRepo, InspectionCertificateR
 builder.Services.AddTransient<IMaterialRepo, MaterialRepo>();
 builder.Services.AddTransient<INewsRepo, NewsRepo>();
 builder.Services.AddTransient<IGemPriceListRepo, GemPriceListRepo>();
-builder.Services.AddTransient<IWarehouseRepo, WarehouseRepo>();
 builder.Services.AddTransient<IOrderRepo, OrderRepo>();
 builder.Services.AddTransient<IProductRepo, ProductRepo>();
 builder.Services.AddTransient<IKnowledgeNewCatagoryRepo, KnowledgeNewCatagoryRepo>();

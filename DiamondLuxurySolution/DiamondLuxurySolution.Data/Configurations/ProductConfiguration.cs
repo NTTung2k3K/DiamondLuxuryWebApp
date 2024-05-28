@@ -35,10 +35,6 @@ namespace DiamondLuxurySolution.Data.Configurations
               .WithMany(c => c.Products)
               .HasForeignKey(p => p.CategoryId);
 
-            
-            builder.HasOne(p => p.WareHouse)
-             .WithMany(i => i.Products)
-             .HasForeignKey(p => p.WarehouseId);
         }
     }
 
