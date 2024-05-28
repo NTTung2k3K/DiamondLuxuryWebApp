@@ -12,6 +12,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Contact
         public string ContactNameUser { get; set; } = null!;
         public string ContactEmailUser { get; set; } = null!;
         public string ContactPhoneUser { get; set; } = null!;
-        public string content { get; set; } = null!;
+        public string Content { get; set; } = null!;
+        public bool IsResponse { get; set; }    
     }
 }

@@ -18,8 +18,9 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(c => c.ContactId).ValueGeneratedOnAdd();
             builder.Property(c => c.ContactPhoneUser).HasMaxLength(250);
             builder.Property(c => c.ContactNameUser).HasMaxLength(250);
-            builder.Property(c => c.content);
+            builder.Property(c => c.Content);
             builder.Property(c => c.ContactEmailUser).HasMaxLength(250);
+            builder.Property(c => c.IsResponse);
         }
     }
 }
