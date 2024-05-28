@@ -6,6 +6,7 @@ using DiamondLuxurySolution.ViewModel.Models.About;
 using DiamondLuxurySolution.ViewModel.Models.Gem;
 using DiamondLuxurySolution.ViewModel.Models.News;
 using DiamondLuxurySolution.ViewModel.Models.Slide;
+using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PagedList;
@@ -39,12 +40,12 @@ namespace DiamondLuxurySolution.Application.Repository.News
             {
                 errorList.Add("Vui lòng nhập tên tin tức");
             }
-            
+
             if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
-            
+
             var news = new DiamondLuxurySolution.Data.Entities.News
             {
                 NewName = request.NewName,
@@ -53,7 +54,7 @@ namespace DiamondLuxurySolution.Application.Repository.News
                 DateModified = DateTime.Now,
                 Description = request.Description != null ? request.Description : "",
                 IsOutstanding = request.IsOutstanding,
-                Id =(Guid)writer.Id,
+                Id = (Guid)writer.Id,
                 Writer = writer,
             };
             if (request.Image != null)
@@ -89,7 +90,7 @@ namespace DiamondLuxurySolution.Application.Repository.News
             {
                 errorList.Add("Vui lòng nhập tên tin tức");
             }
-            
+
             if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
@@ -123,7 +124,28 @@ namespace DiamondLuxurySolution.Application.Repository.News
             {
                 return new ApiErrorResult<NewsVm>("Không tìm thấy tin tức");
             }
-            var writer = await _userManager.FindByIdAsync(news.Id.ToString());
+            var user = await _userManager.FindByIdAsync(news.Id.ToString());
+            var writer = new StaffVm()
+            {
+                StaffId = user.Id,
+                FullName = user.Fullname,
+                PhoneNumber = user.PhoneNumber,
+                Email = user.Email,
+                Dob = (DateTime)(user.Dob ?? DateTime.MinValue),
+                Status = user.Status,
+                CitizenIDCard = user.CitizenIDCard,
+                Address = user.Address,
+                Image = user.Image,
+            };
+            var roles = await _userManager.GetRolesAsync(user);
+            if (roles.Count > 0)
+            {
+                writer.ListRoleName = new List<string>();
+                foreach (var role in roles)
+                {
+                    writer.ListRoleName.Add(role);
+                }
+            }
             var newsVm = new NewsVm()
             {
                 NewsId = NewsId,
@@ -158,7 +180,28 @@ namespace DiamondLuxurySolution.Application.Repository.News
             var listNewsVm = new List<NewsVm>();
             foreach (var item in listPaging)
             {
-                var writer = await _userManager.FindByIdAsync(item.Id.ToString());
+                var user = await _userManager.FindByIdAsync(item.Id.ToString());
+                var writer = new StaffVm()
+                {
+                    StaffId = user.Id,
+                    FullName = user.Fullname,
+                    PhoneNumber = user.PhoneNumber,
+                    Email = user.Email,
+                    Dob = (DateTime)(user.Dob ?? DateTime.MinValue),
+                    Status = user.Status,
+                    CitizenIDCard = user.CitizenIDCard,
+                    Address = user.Address,
+                    Image = user.Image,
+                };
+                var roles = await _userManager.GetRolesAsync(user);
+                if (roles.Count > 0)
+                {
+                    writer.ListRoleName = new List<string>();
+                    foreach (var role in roles)
+                    {
+                        writer.ListRoleName.Add(role);
+                    }
+                }
                 var newsVm = new NewsVm()
                 {
                     NewsId = item.NewsId,

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DiamondLuxurySolution.Application.Repository.User.Staff
@@ -137,11 +138,11 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             {
                 errorList.Add("Email không hợp lệ");
             }
-            if (DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ContainsLetters(request.PhoneNumber))
+            if (DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ContainsLetters(request.FullName))
             {
-                errorList.Add("Số điện thoại không hợp lệ");
+                errorList.Add("Họ tên không hợp lệ");
             }
-            if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ValidLenghPhoneNumber(request.PhoneNumber))
+            if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ValidPhoneNumber(request.PhoneNumber))
             {
                 errorList.Add("Số điện thoại không hợp lệ");
             }
@@ -222,10 +223,26 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             {
                 errorList.Add("Số điện thoại không hợp lệ");
             }
-            if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ValidLenghPhoneNumber(request.PhoneNumber.Trim()))
+            if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ValidPhoneNumber(request.PhoneNumber.Trim()))
             {
                 errorList.Add("Số điện thoại không hợp lệ");
             }
+
+            #region Check lỗi phoneNumbers
+            /*if (string.IsNullOrWhiteSpace(request.ContactPhoneUser))
+            {
+                errorList.Add("Vui lòng nhập số điện thoại");
+            }
+            else
+            {
+                if (!Regex.IsMatch(request.ContactPhoneUser, "^(09|03|07|08|05)[0-9]{8,9}$"))
+                {
+                    errorList.Add("Số điện thoại không hợp lệ");
+                }
+            }*/
+            #endregion End 
+            
+            
             if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Không hợp lệ",errorList);

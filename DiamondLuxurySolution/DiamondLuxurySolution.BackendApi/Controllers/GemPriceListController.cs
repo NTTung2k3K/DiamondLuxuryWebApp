@@ -95,31 +95,12 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
 
-
-        [HttpGet("ViewInCustomer")]
-        public async Task<IActionResult> ViewAllGemPriceListInCustomerPagination([FromQuery] ViewGemPriceListRequest request)
-        {
-            try
-            {
-                var status = await _news.ViewGemPriceListInCustomer(request);
-                if (status.IsSuccessed)
-                {
-                    return Ok(status);
-                }
-                return BadRequest(status);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        [HttpGet("ViewInManager")]
+        [HttpGet("ViewGemPriceList")]
         public async Task<IActionResult> ViewAllGemPriceListInMangerPagination([FromQuery] ViewGemPriceListRequest request)
         {
             try
             {
-                var status = await _news.ViewGemPriceListInManager(request);
+                var status = await _news.ViewGemPriceList(request);
                 if (status.IsSuccessed)
                 {
                     return Ok(status);

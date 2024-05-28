@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DiamondLuxurySolution.ViewModel.Models.Material;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Frame
         public double Size {  get; set; }
         public double Weight {  get; set; }
 
-        public virtual Data.Entities.Material Material { get; set; }
+        public virtual MaterialVm MaterialVm { get; set; }
 
     }
 }

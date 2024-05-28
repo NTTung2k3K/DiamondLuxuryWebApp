@@ -66,7 +66,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
             return new ApiSuccessResult<bool>("Cập nhật mật khẩu thành công");
         }
 
-    
+
 
         public async Task<ApiResult<bool>> DeleteCustomer(Guid CustomerId)
         {
@@ -95,7 +95,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
             {
                 return new ApiErrorResult<bool>("Mật khẩu không trùng khớp");
             }
-         
+
             if (!user.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.ChangePasswordRequest.ToString()))
             {
                 return new ApiErrorResult<bool>("Không có yêu câu thay đổi mật khẩu");
@@ -192,7 +192,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
 
         public async Task<ApiResult<bool>> Login(LoginCustomerRequest request)
         {
-            
+
             if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
             {
                 return new ApiErrorResult<bool>("Tải khoản hoặc mật khẩu không đúng");
@@ -211,7 +211,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
             {
                 return new ApiErrorResult<bool>("Tải khoản hoặc mật khẩu không đúng");
             }
-            
+
             return new ApiSuccessResult<bool>(true, "Success");
         }
 
@@ -227,15 +227,32 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
             {
                 errorList.Add("Password không trùng khớp");
             }
-           
+
             if (DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ContainsLetters(request.PhoneNumber))
             {
                 errorList.Add("Số điện thoại không hợp lệ");
             }
-            if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ValidLenghPhoneNumber(request.PhoneNumber))
+
+
+            if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ValidPhoneNumber(request.PhoneNumber))
             {
                 errorList.Add("Số điện thoại không hợp lệ");
             }
+
+            #region Check lỗi phoneNumbers
+            /*if (string.IsNullOrWhiteSpace(request.ContactPhoneUser))
+            {
+                errorList.Add("Vui lòng nhập số điện thoại");
+            }
+            else
+            {
+                if (!Regex.IsMatch(request.ContactPhoneUser, "^(09|03|07|08|05)[0-9]{8,9}$"))
+                {
+                    errorList.Add("Số điện thoại không hợp lệ");
+                }
+            }*/
+            #endregion End
+
             if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.IsValidEmail(request.Email))
             {
                 errorList.Add("Email không hợp lệ");
@@ -284,7 +301,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
                     return new ApiErrorResult<bool>("Lỗi hệ thống, không thể tạo role vui lòng thử lại");
                 }
             }
-           
+
             var statusAddRole = await _userManager.AddToRoleAsync(user, customerRole.Name);
             if (!statusAddRole.Succeeded)
             {
@@ -309,7 +326,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
             {
                 errorList.Add("Số điện thoại không hợp lệ");
             }
-            if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ValidLenghPhoneNumber(request.PhoneNumber.Trim()))
+            if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ValidPhoneNumber(request.PhoneNumber.Trim()))
             {
                 errorList.Add("Số điện thoại không hợp lệ");
             }
@@ -322,7 +339,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
             user.Dob = request.Dob;
             user.Email = request.Email.Trim();
             user.Status = request.Status.Trim();
-            
+
             var statusUser = await _userManager.UpdateAsync(user);
             if (!statusUser.Succeeded)
             {
@@ -332,6 +349,6 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
 
         }
 
-      
+
     }
 }

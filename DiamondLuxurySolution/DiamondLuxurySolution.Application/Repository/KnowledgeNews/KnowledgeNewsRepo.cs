@@ -4,6 +4,7 @@ using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.KnowledgeNews;
 using DiamondLuxurySolution.ViewModel.Models.KnowledgeNewsCategory;
 using DiamondLuxurySolution.ViewModel.Models.MaterialPriceList;
+using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PagedList;
@@ -82,9 +83,35 @@ namespace DiamondLuxurySolution.Application.Repository.KnowledgeNews
             {
                 return new ApiErrorResult<KnowledgeNewsVm>("Không tìm thấy tin tức");
             }
-            var writer = await _userManager.FindByIdAsync(knowledgeNews.WriterId.ToString());
+            var user = await _userManager.FindByIdAsync(knowledgeNews.WriterId.ToString());
+            var writer = new StaffVm()
+            {
+                StaffId = user.Id,
+                FullName = user.Fullname,
+                PhoneNumber = user.PhoneNumber,
+                Email = user.Email,
+                Dob = (DateTime)(user.Dob ?? DateTime.MinValue),
+                Status = user.Status,
+                CitizenIDCard = user.CitizenIDCard,
+                Address = user.Address,
+                Image = user.Image,
+            };
+            var roles = await _userManager.GetRolesAsync(user);
+            if (roles.Count > 0)
+            {
+                writer.ListRoleName = new List<string>();
+                foreach (var role in roles)
+                {
+                    writer.ListRoleName.Add(role);
+                }
+            }
             var knowledgeNewsCategory = await _context.KnowledgeNewCatagories.FindAsync(knowledgeNews.KnowledgeNewCatagoryId);
-
+            var knowledgeNewsCategoryVm = new KnowledgeNewsCategoryVm
+            {
+                Description = knowledgeNewsCategory.Description,
+                KnowledgeNewCatagoriesName = knowledgeNewsCategory.KnowledgeNewCatagoriesName,
+                KnowledgeNewCatagoryId = knowledgeNewsCategory.KnowledgeNewCatagoryId
+            };
             var knowledgeNewsVm = new KnowledgeNewsVm()
             {
                 KnowledgeNewsId = KnowledgeNewsId,
@@ -94,7 +121,7 @@ namespace DiamondLuxurySolution.Application.Repository.KnowledgeNews
                 DateModified = knowledgeNews.DateModified,
                 Thumnail = knowledgeNews.Thumnail,
                 Active = knowledgeNews.Active,
-                KnowledgeNewCatagory = knowledgeNewsCategory,
+                KnowledgeNewCatagoryVm = knowledgeNewsCategoryVm,
                 Writer = writer
             };
             return new ApiSuccessResult<KnowledgeNewsVm>(knowledgeNewsVm, "Success");
@@ -131,7 +158,7 @@ namespace DiamondLuxurySolution.Application.Repository.KnowledgeNews
             return new ApiSuccessResult<bool>(true, "Success");
         }
 
-        public async Task<ApiResult<PageResult<KnowledgeNewsVm>>> ViewKnowledgeNewsInCustomer(ViewKnowledgeNewsRequest request)
+        public async Task<ApiResult<PageResult<KnowledgeNewsVm>>> ViewKnowledgeNews(ViewKnowledgeNewsRequest request)
         {
             var listKnowledgeNews = await _context.KnowledgeNews.ToListAsync();
             if (!string.IsNullOrEmpty(request.KeyWord))
@@ -148,63 +175,47 @@ namespace DiamondLuxurySolution.Application.Repository.KnowledgeNews
             var listKnowledgeNewslVm = new List<KnowledgeNewsVm>();
             foreach (var x in listPaging)
             {
-                var writer = await _userManager.FindByIdAsync(x.WriterId.ToString());
-                var knowledgeCategory = await _context.KnowledgeNewCatagories.FindAsync(x.KnowledgeNewCatagoryId);
-                var knowledgeNewsVm = new KnowledgeNewsVm()
+                var user = await _userManager.FindByIdAsync(x.WriterId.ToString());
+                var writer = new StaffVm()
                 {
-                    Active = x.Active,
-                    DateCreated = x.DateCreated,
-                    DateModified = x.DateCreated,
-                    Description = x.Description,
-                    KnowledgeNewCatagory = knowledgeCategory,
-                    KnowledgeNewsId = x.KnowledgeNewsId,
-                    KnowledgeNewsName = x.KnowledgeNewsName,
-                    Thumnail = x.Thumnail,
-                    Writer = x.Writer
+                    StaffId = user.Id,
+                    FullName = user.Fullname,
+                    PhoneNumber = user.PhoneNumber,
+                    Email = user.Email,
+                    Dob = (DateTime)(user.Dob ?? DateTime.MinValue),
+                    Status = user.Status,
+                    CitizenIDCard = user.CitizenIDCard,
+                    Address = user.Address,
+                    Image = user.Image,
                 };
-                listKnowledgeNewslVm.Add(knowledgeNewsVm);
-            }
-            var listResult = new PageResult<KnowledgeNewsVm>()
-            {
-                Items = listKnowledgeNewslVm,
-                PageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE,
-                TotalRecords = listKnowledgeNews.Count,
-                PageIndex = pageIndex
-            };
-            return new ApiSuccessResult<PageResult<KnowledgeNewsVm>>(listResult, "Success");
-        }
-
-
-        public async Task<ApiResult<PageResult<KnowledgeNewsVm>>> ViewKnowledgeNewsInManager(ViewKnowledgeNewsRequest request)
-        {
-            var listKnowledgeNews = await _context.KnowledgeNews.ToListAsync();
-            if (!string.IsNullOrEmpty(request.KeyWord))
-            {
-                listKnowledgeNews = listKnowledgeNews.Where(x => x.KnowledgeNewsName.Contains(request.KeyWord)).ToList();
-
-            }
-            listKnowledgeNews = listKnowledgeNews.OrderByDescending(x => x.KnowledgeNewsName).ToList();
-
-            int pageIndex = request.pageIndex ?? 1;
-
-            var listPaging = listKnowledgeNews.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
-
-            var listKnowledgeNewslVm = new List<KnowledgeNewsVm>();
-            foreach (var x in listPaging)
-            {
-                var writer = await _userManager.FindByIdAsync(x.WriterId.ToString());
+                var roles = await _userManager.GetRolesAsync(user);
+                if (roles.Count > 0)
+                {
+                    writer.ListRoleName = new List<string>();
+                    foreach (var role in roles)
+                    {
+                        writer.ListRoleName.Add(role);
+                    }
+                }
                 var knowledgeCategory = await _context.KnowledgeNewCatagories.FindAsync(x.KnowledgeNewCatagoryId);
+                var knowledgeNewsCategoryVm = new KnowledgeNewsCategoryVm
+                {
+                    Description = knowledgeCategory.Description,
+                    KnowledgeNewCatagoriesName = knowledgeCategory.KnowledgeNewCatagoriesName,
+                    KnowledgeNewCatagoryId = knowledgeCategory.KnowledgeNewCatagoryId
+                };
+
                 var knowledgeNewsVm = new KnowledgeNewsVm()
                 {
                     Active = x.Active,
                     DateCreated = x.DateCreated,
                     DateModified = x.DateCreated,
                     Description = x.Description,
-                    KnowledgeNewCatagory = knowledgeCategory,
                     KnowledgeNewsId = x.KnowledgeNewsId,
                     KnowledgeNewsName = x.KnowledgeNewsName,
                     Thumnail = x.Thumnail,
-                    Writer = x.Writer
+                    KnowledgeNewCatagoryVm = knowledgeNewsCategoryVm,
+                    Writer = writer
                 };
                 listKnowledgeNewslVm.Add(knowledgeNewsVm);
             }

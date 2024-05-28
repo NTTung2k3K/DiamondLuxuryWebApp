@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Azure.Core;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -22,10 +23,16 @@ namespace DiamondLuxurySolution.Utilities.Helper
             Regex regex = new Regex("[a-zA-Z]");
             return regex.IsMatch(input);
         }
-        public static bool ValidLenghPhoneNumber(string phoneNumber)
+        public static bool ValidPhoneNumber(string phoneNumber)
         {
-            var result = phoneNumber.Length >= 10;
+            var result = Regex.IsMatch(phoneNumber, "^(09|03|07|08|05)[0-9]{8,9}$");
             return result ;
+        }
+        //^ [A-Z0-9._%+-]+@ [A-Z0-9.-]+. [A-Z] {2,6}$(chuỗi check email - ghi thêm cho dui)
+        public static bool ValidIdentCitizenIdentityCard(string citizenCard)
+        {
+            var result = Regex.IsMatch(citizenCard, "^(0)[0-9]{11}$");
+            return result;
         }
 
         public static bool IsValidEmail(string emailAddress)

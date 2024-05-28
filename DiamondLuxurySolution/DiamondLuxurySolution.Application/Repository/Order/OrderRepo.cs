@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DiamondLuxurySolution.Application.Repository.Order
@@ -46,15 +47,15 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 return new ApiErrorResult<bool>("Không tìm thấy đơn hàng");
             }
             order.RemainAmount = order.RemainAmount - request.PaidTheRest;
-            if(order.RemainAmount < 0)
+            if (order.RemainAmount < 0)
             {
-                return new ApiSuccessResult<bool>(true, "Đã thanh toán thành công và bị dư "+Math.Abs(order.RemainAmount));
+                return new ApiSuccessResult<bool>(true, "Đã thanh toán thành công và bị dư " + Math.Abs(order.RemainAmount));
             }
             if (order.RemainAmount == 0)
             {
-                return new ApiSuccessResult<bool>(true,"Success");
+                return new ApiSuccessResult<bool>(true, "Success");
             }
-            return new ApiSuccessResult<bool>("Success số tiền còn lại cần thanh toán là "+order.RemainAmount);
+            return new ApiSuccessResult<bool>("Success số tiền còn lại cần thanh toán là " + order.RemainAmount);
         }
 
         public async Task<ApiResult<bool>> CreateOrder(CreateOrderRequest request)
@@ -68,10 +69,19 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             {
                 errorList.Add("Vui lòng nhập email nhận hàng");
             }
-            if (string.IsNullOrEmpty(request.ShipPhoneNumber))
+
+            if (string.IsNullOrWhiteSpace(request.ShipPhoneNumber))
             {
-                errorList.Add("Vui lòng nhập số điện thoại người nhận hàng");
+                errorList.Add("Vui lòng nhập số điện thoại");
             }
+            else
+            {
+                if (!Regex.IsMatch(request.ShipPhoneNumber, "^(09|03|07|08|05)[0-9]{8,9}$"))
+                {
+                    errorList.Add("Số điện thoại không hợp lệ");
+                }
+            }
+
             if (string.IsNullOrEmpty(request.ShipAdress))
             {
                 errorList.Add("Vui lòng nhập địa chỉ nhận hàng");
@@ -110,7 +120,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
 
 
 
-           
+
 
             // Process OrderDetail
             decimal totalPrice = 0;
@@ -268,7 +278,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             }
             _context.Orders.Remove(order);
             await _context.SaveChangesAsync();
-            return new ApiSuccessResult<bool>(true,"Success");
+            return new ApiSuccessResult<bool>(true, "Success");
         }
 
         public async Task<ApiResult<OrderVm>> GetOrderById(string OrderId)
@@ -360,7 +370,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             if (order.OrderDetails != null)
             {
                 List<OrderProductSupportVm> listOrderSupport = new List<OrderProductSupportVm>();
-                foreach(var orderDetail in  order.OrderDetails)
+                foreach (var orderDetail in order.OrderDetails)
                 {
                     var product = await _context.Products.FindAsync(orderDetail.ProductId);
                     var warranty = await _context.Warrantys.FindAsync(orderDetail.WarrantyId);
@@ -433,7 +443,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             order.ShipName = request.ShipName;
 
 
-           
+
 
             // Process OrderDetail
             decimal totalPrice = 0;
@@ -560,7 +570,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             else
             {
                 var campaignDetail = _context.CampaignDetails.Where(x => x.OrderId == order.OrderId);
-                _context.CampaignDetails.RemoveRange(campaignDetail); 
+                _context.CampaignDetails.RemoveRange(campaignDetail);
             }
             decimal total = totalPrice - (totalSales + totalDiscount);
 
@@ -576,9 +586,9 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             order.RemainAmount = (decimal)order.TotalAmout - (decimal)request.Deposit;
 
             // Process Payment 
-            if(request.ListPaymentId != null)
+            if (request.ListPaymentId != null)
             {
-               var OrderPayment  =  _context.OrdersPayments.Where(x => x.OrderId == order.OrderId);
+                var OrderPayment = _context.OrdersPayments.Where(x => x.OrderId == order.OrderId);
                 _context.OrdersPayments.RemoveRange(OrderPayment);
             }
 

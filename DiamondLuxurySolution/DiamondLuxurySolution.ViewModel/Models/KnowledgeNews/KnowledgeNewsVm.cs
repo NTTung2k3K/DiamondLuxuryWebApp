@@ -1,4 +1,6 @@
 ﻿using DiamondLuxurySolution.Data.Entities;
+using DiamondLuxurySolution.ViewModel.Models.KnowledgeNewsCategory;
+using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +23,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.KnowledgeNews
 
         public DateTime? DateModified { get; set; }
         public bool Active { get; set; }
-        public KnowledgeNewCatagory? KnowledgeNewCatagory { get; set; }
-        public virtual AppUser? Writer { get; set; }
+        public KnowledgeNewsCategoryVm? KnowledgeNewCatagoryVm { get; set; }
+        public virtual StaffVm? Writer { get; set; }
     }
 }

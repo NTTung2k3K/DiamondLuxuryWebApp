@@ -1,4 +1,5 @@
 ﻿using DiamondLuxurySolution.Data.Entities;
+using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.News
 
         public bool? IsOutstanding { get; set; }
 
-        public virtual AppUser? Writer { get; set; }
+        public virtual StaffVm? Writer { get; set; }
     }
 }

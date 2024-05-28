@@ -14,7 +14,6 @@ namespace DiamondLuxurySolution.Application.Repository.KnowledgeNews
         public Task<ApiResult<bool>> UpdateKnowledgeNews(UpdateKnowledgeNewsRequest request);
         public Task<ApiResult<bool>> DeleteKnowledgeNews(DeleteKnowledgeNewsRequest request);
         public Task<ApiResult<KnowledgeNewsVm>> GetKnowledgeNewsById(int KnowledgeNewsId);
-        public Task<ApiResult<PageResult<KnowledgeNewsVm>>> ViewKnowledgeNewsInCustomer(ViewKnowledgeNewsRequest request);
-        public Task<ApiResult<PageResult<KnowledgeNewsVm>>> ViewKnowledgeNewsInManager(ViewKnowledgeNewsRequest request);
+        public Task<ApiResult<PageResult<KnowledgeNewsVm>>> ViewKnowledgeNews(ViewKnowledgeNewsRequest request);
     }
 }

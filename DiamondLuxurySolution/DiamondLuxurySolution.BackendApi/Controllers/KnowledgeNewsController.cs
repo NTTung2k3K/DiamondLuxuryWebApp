@@ -95,12 +95,12 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
 
-        [HttpGet("ViewInCustomer")]
-        public async Task<IActionResult> ViewAllKnowledgeNewsInCustomerPagination([FromQuery] ViewKnowledgeNewsRequest request)
+        [HttpGet("ViewKnowledgeNews")]
+        public async Task<IActionResult> ViewAllKnowledgeNews([FromQuery] ViewKnowledgeNewsRequest request)
         {
             try
             {
-                var status = await _knowledgeNews.ViewKnowledgeNewsInCustomer(request);
+                var status = await _knowledgeNews.ViewKnowledgeNews(request);
                 if (status.IsSuccessed)
                 {
                     return Ok(status);
@@ -113,22 +113,5 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
 
-        [HttpGet("ViewInManager")]
-        public async Task<IActionResult> ViewAllKnowledgeNewsInManagerPagination([FromQuery] ViewKnowledgeNewsRequest request)
-        {
-            try
-            {
-                var status = await _knowledgeNews.ViewKnowledgeNewsInManager(request);
-                if (status.IsSuccessed)
-                {
-                    return Ok(status);
-                }
-                return BadRequest(status);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
     }
 }

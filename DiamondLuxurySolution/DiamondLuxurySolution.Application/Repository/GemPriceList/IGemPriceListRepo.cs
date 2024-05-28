@@ -14,7 +14,6 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
         public Task<ApiResult<bool>> UpdateGemPriceList(UpdateGemPriceListRequest request);
         public Task<ApiResult<bool>> DeleteGemPriceList(DeleteGemPriceListRequest request);
         public Task<ApiResult<GemPriceListVm>> GetGemPriceListById(int GemPriceListId);
-        public Task<ApiResult<PageResult<GemPriceListVm>>> ViewGemPriceListInCustomer(ViewGemPriceListRequest request);
-        public Task<ApiResult<PageResult<GemPriceListVm>>> ViewGemPriceListInManager(ViewGemPriceListRequest request);
+        public Task<ApiResult<PageResult<GemPriceListVm>>> ViewGemPriceList(ViewGemPriceListRequest request);
     }
 }

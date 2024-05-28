@@ -4,6 +4,7 @@ using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Frame;
 using DiamondLuxurySolution.ViewModel.Models.GemPriceList;
+using DiamondLuxurySolution.ViewModel.Models.Material;
 using Microsoft.EntityFrameworkCore;
 using PagedList;
 using System;
@@ -126,12 +127,22 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
                 return new ApiErrorResult<FrameVm>("Không tìm thấy khung");
             }
             var material = await _context.Materials.FindAsync(frame.MaterialId);
+            var materialVm = new MaterialVm
+            {
+                Color = material.Color,
+                Description = material.Description,
+                MaterialId = material.MaterialId,
+                MaterialImage = material.MaterialImage,
+                MaterialName = material.MaterialName,
+                Status = material.Status,
+                Weight = material.Weight
+            };
             var frameVm = new FrameVm
             {
                 Size = frame.Size,
                 Weight = frame.Weight,
                 NameFrame = frame.FrameName,
-                Material = material,
+                MaterialVm = materialVm,
                 FrameId = FrameId,
             };
             return new ApiSuccessResult<FrameVm>(frameVm, "Success");
@@ -224,13 +235,23 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
             foreach (var item in listPaging)
             {
                 var material = await _context.Materials.FindAsync(item.MaterialId);
+                var materialVm = new MaterialVm
+                {
+                    Color = material.Color,
+                    Description = material.Description,
+                    MaterialId = material.MaterialId,
+                    MaterialImage = material.MaterialImage,
+                    MaterialName = material.MaterialName,
+                    Status = material.Status,
+                    Weight = material.Weight
+                };
                 var frameVm = new FrameVm()
                 {
                    FrameId = item.FrameId,
                    NameFrame = item.FrameName,
                    Size = item.Size,
                    Weight = item.Weight,
-                   Material = material
+                   MaterialVm = materialVm
                 };
                 listFrameVm.Add(frameVm);
             }

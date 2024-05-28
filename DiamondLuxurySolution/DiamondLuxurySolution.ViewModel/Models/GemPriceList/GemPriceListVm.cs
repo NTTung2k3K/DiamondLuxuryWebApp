@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DiamondLuxurySolution.Data.Entities;
+using DiamondLuxurySolution.ViewModel.Models.Gem;
 
 namespace DiamondLuxurySolution.ViewModel.Models.GemPriceList
 {
@@ -20,7 +21,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.GemPriceList
         public string? Color { get; set; }
 
         public decimal Price { get; set; }
-        public Data.Entities.Gem? GemVm { get; set; } 
+        public GemVm GemVm { get; set; } 
         public bool Active { get; set; }
         public DateTime effectDate { get; set; }
 

@@ -34,6 +34,7 @@ namespace DiamondLuxurySolution.Application.Repository.Contact
             {
                 errorList.Add("Vui lòng nhập tên");
             }
+
             if (string.IsNullOrWhiteSpace(request.ContactPhoneUser))
             {
                 errorList.Add("Vui lòng nhập số điện thoại");
@@ -45,6 +46,7 @@ namespace DiamondLuxurySolution.Application.Repository.Contact
                     errorList.Add("Số điện thoại không hợp lệ");
                 }
             }
+
             if (string.IsNullOrWhiteSpace(request.Content))
             {
                 errorList.Add("Vui lòng nhập nội dung");
