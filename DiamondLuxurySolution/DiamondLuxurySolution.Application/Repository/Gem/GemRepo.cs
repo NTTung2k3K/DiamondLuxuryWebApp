@@ -4,6 +4,7 @@ using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Gem;
 using DiamondLuxurySolution.ViewModel.Models.GemPriceList;
+using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
 using DiamondLuxurySolution.ViewModel.Models.Promotion;
 using Microsoft.EntityFrameworkCore;
 using PagedList;
@@ -96,6 +97,15 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 return new ApiErrorResult<GemVm>("Không tìm thấy giấy chứng nhận kim cương");
             }
 
+            var inspectionCertificateVm = new InspectionCertificateVm() 
+            {
+                InspectionCertificateId = insp.InspectionCertificateId,
+                InspectionCertificateName = insp.InspectionCertificateName,
+                DateGrading = insp.DateGrading,
+                Logo = insp.Logo,
+                Status = insp.Status,          
+            };
+
             var gemVm = new GemVm()
             {
                 GemId = gem.GemId,
@@ -108,7 +118,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 ProportionImage = gem.ProportionImage,
                 AcquisitionDate = gem.AcquisitionDate,
                 Active = gem.Active,
-                InspectionCertificate = insp,
+                InspectionCertificateVm = inspectionCertificateVm,
             };
             return new ApiSuccessResult<GemVm>(gemVm, "Success");
         }
@@ -173,6 +183,14 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
             foreach (var item in listPaging)
             {
                 var insp = await _context.InspectionCertificates.FindAsync(item.InspectionCertificateId);
+                var inspectionCertificateVm = new InspectionCertificateVm()
+                {
+                    InspectionCertificateId = insp.InspectionCertificateId,
+                    InspectionCertificateName = insp.InspectionCertificateName,
+                    DateGrading = insp.DateGrading,
+                    Logo = insp.Logo,
+                    Status = insp.Status,
+                };
                 var gemVm = new GemVm()
                 {
                     GemId = item.GemId,
@@ -185,7 +203,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                     ProportionImage = item.ProportionImage,
                     AcquisitionDate = item.AcquisitionDate,
                     Active = item.Active,
-                    InspectionCertificate = insp,
+                    InspectionCertificateVm = inspectionCertificateVm,
                 };
                 listGemVm.Add(gemVm);
             }
@@ -219,6 +237,14 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
             foreach (var item in listPaging)
             {
                 var insp = await _context.InspectionCertificates.FindAsync(item.InspectionCertificateId);
+                var inspectionCertificateVm = new InspectionCertificateVm()
+                {
+                    InspectionCertificateId = insp.InspectionCertificateId,
+                    InspectionCertificateName = insp.InspectionCertificateName,
+                    DateGrading = insp.DateGrading,
+                    Logo = insp.Logo,
+                    Status = insp.Status,
+                };
                 var gemVm = new GemVm()
                 {
                     GemId = item.GemId,
@@ -231,7 +257,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                     ProportionImage = item.ProportionImage,
                     AcquisitionDate = item.AcquisitionDate,
                     Active = item.Active,
-                    InspectionCertificate = insp,
+                    InspectionCertificateVm = inspectionCertificateVm,
                 };
                 listGemVm.Add(gemVm);
             }
