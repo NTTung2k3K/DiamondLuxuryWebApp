@@ -14,6 +14,6 @@ public partial class InspectionCertificate
     public string? Logo { get; set; }
 
     public bool Status { get; set; }
+    public Gem Gem {  get; set; }
 
-    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

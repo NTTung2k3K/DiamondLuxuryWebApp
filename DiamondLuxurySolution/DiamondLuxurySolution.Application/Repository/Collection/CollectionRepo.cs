@@ -112,8 +112,6 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                         .Include(p => p.SubGemDetails)
                             .ThenInclude(sg => sg.SubGem)
                         .Include(p => p.Category)
-                        .Include(p => p.InspectionCertificate)
-                        .Include(p => p.Material)
                         .Include(p => p.Gem)
                         .Include(p => p.Images)
                         .Include(p => p.WareHouse)
@@ -131,7 +129,6 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                         ProductThumbnail = product.ProductThumbnail,
                         IsHome = product.IsHome,
                         IsSale = product.IsSale,
-                        ProcessingPrice = (decimal)product.Category.CategoryPriceProcessing,
                         PercentSale = product.PercentSale,
                         Status = product.Status,
                         CategoryVm = new CategoryVm
@@ -140,7 +137,6 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                             CategoryName = product.Category.CategoryName,
                             CategoryType = product.Category.CategoryType,
                             CategoryImage = product.Category.CategoryImage,
-                            CategoryPriceProcessing = product.Category.CategoryPriceProcessing,
                             Status = product.Category.Status
                         },
 
@@ -181,30 +177,7 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                             Quantity = x.Quantity
                         }).ToList();
                     }
-                    if (product.Material != null)
-                    {
-                        productVms.MaterialVms = new MaterialVm
-                        {
-                            MaterialId = product.Material.MaterialId,
-                            MaterialName = product.Material.MaterialName,
-                            Color = product.Material.Color,
-                            Description = product.Material.Description,
-                            Status = product.Material.Status,
-                            MaterialImage = product.Material.MaterialImage,
-                            Weight = product.Material.Weight,
-                        };
-                    }
-                    if (product.InspectionCertificate != null)
-                    {
-                        productVms.InspectionCertificateVm = new InspectionCertificateVm
-                        {
-                            InspectionCertificateId = product.InspectionCertificate.InspectionCertificateId,
-                            InspectionCertificateName = product.InspectionCertificate.InspectionCertificateName,
-                            Logo = product.InspectionCertificate.Logo,
-                            DateGrading = product.InspectionCertificate.DateGrading,
-                            Status = product.InspectionCertificate.Status
-                        };
-                    }
+                  
                     listProductVm.Add(productVms);
                 }
                 catch (Exception e)
@@ -329,8 +302,6 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                             .Include(p => p.SubGemDetails)
                                 .ThenInclude(sg => sg.SubGem)
                             .Include(p => p.Category)
-                            .Include(p => p.InspectionCertificate)
-                            .Include(p => p.Material)
                             .Include(p => p.Gem)
                             .Include(p => p.Images)
                             .Include(p => p.WareHouse)
@@ -348,7 +319,6 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                             ProductThumbnail = product.ProductThumbnail,
                             IsHome = product.IsHome,
                             IsSale = product.IsSale,
-                            ProcessingPrice = (decimal)product.Category.CategoryPriceProcessing,
                             PercentSale = product.PercentSale,
                             Status = product.Status,
                             CategoryVm = new CategoryVm
@@ -357,7 +327,6 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                                 CategoryName = product.Category.CategoryName,
                                 CategoryType = product.Category.CategoryType,
                                 CategoryImage = product.Category.CategoryImage,
-                                CategoryPriceProcessing = product.Category.CategoryPriceProcessing,
                                 Status = product.Category.Status
                             },
 
@@ -398,30 +367,7 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                                 Quantity = x.Quantity
                             }).ToList();
                         }
-                        if (product.Material != null)
-                        {
-                            productVms.MaterialVms = new MaterialVm
-                            {
-                                MaterialId = product.Material.MaterialId,
-                                MaterialName = product.Material.MaterialName,
-                                Color = product.Material.Color,
-                                Description = product.Material.Description,
-                                Status = product.Material.Status,
-                                MaterialImage = product.Material.MaterialImage,
-                                Weight = product.Material.Weight,
-                            };
-                        }
-                        if (product.InspectionCertificate != null)
-                        {
-                            productVms.InspectionCertificateVm = new InspectionCertificateVm
-                            {
-                                InspectionCertificateId = product.InspectionCertificate.InspectionCertificateId,
-                                InspectionCertificateName = product.InspectionCertificate.InspectionCertificateName,
-                                Logo = product.InspectionCertificate.Logo,
-                                DateGrading = product.InspectionCertificate.DateGrading,
-                                Status = product.InspectionCertificate.Status
-                            };
-                        }
+                      
                         listProductVm.Add(productVms);
                     }
                     catch (Exception e)

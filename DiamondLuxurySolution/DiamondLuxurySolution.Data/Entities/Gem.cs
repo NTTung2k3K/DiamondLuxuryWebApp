@@ -23,6 +23,8 @@ public partial class Gem
     public DateTime AcquisitionDate { get; set; }
 
     public bool Active { get; set; }
+    public string InspectionCertificateId { get; set; }
+    public InspectionCertificate InspectionCertificate { get; set; }
     public virtual ICollection<GemPriceList> GemPriceLists
     { get; set; } = new List<GemPriceList>();
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();

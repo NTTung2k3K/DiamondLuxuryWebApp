@@ -34,19 +34,19 @@ public partial class Product
     public int? CategoryId { get; set; }
     public string Status { get; set; }
 
-    public string? InspectionCertificateId { get; set; }
 
     public virtual Category? Category { get; set; }
-    public Guid? MaterialId { get; set; }
 
     public Guid GemId { get; set; }
-    public Material Material { get; set; }
 
     public Gem Gem { get; set; }
+    public string FrameId { get; set; }
+    public Frame Frame { get; set; }
+    public decimal ProductPriceProcessing { get; set; }
+
 
     public virtual ICollection<Image> Images { get; set; } = new List<Image>();
 
-    public InspectionCertificate InspectionCertificate { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 

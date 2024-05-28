@@ -95,8 +95,8 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 {
                     return new ApiErrorResult<bool>("Lỗi tìm kiếm", errorList);
                 }
-                // Process Material
-                decimal totalMaterialPrice = 0;
+                // Process Material NEED FIX
+                /*decimal totalMaterialPrice = 0;
                 if (request.MaterialId != null)
                 {
                     var materialList = _context.MaterialPriceLists.Where(x => x.MaterialId == request.MaterialId);
@@ -115,7 +115,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     {
                         return new ApiErrorResult<bool>("Lỗi tìm kiếm", errorList);
                     }
-                }
+                }*/
                 // Process SubGemPrice
                 decimal totalSubGemPrice = 0;
                 if (request.ListSubGems != null && request.ListSubGems.Count > 0)
@@ -164,7 +164,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 string thumbnailUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.ProductThumbnail);
 
                 // Process totalPrice
-                decimal OriginalPrice = (decimal)(totalPriceGem + totalMaterialPrice + category.CategoryPriceProcessing + totalSubGemPrice);
+                decimal OriginalPrice = (decimal)(totalPriceGem + totalSubGemPrice); // + them cai processing price cua product
                 double percent = (double)request.PercentSale / 100;
                 decimal SellingPrice = OriginalPrice - (OriginalPrice * (decimal)percent);
 
@@ -185,8 +185,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     Quantity = request.Quantity,
                     PercentSale = request.PercentSale,
                     CategoryId = request.CategoryId,
-                    InspectionCertificateId = string.IsNullOrEmpty(request.InspectionCertificateId) ? null : request.InspectionCertificateId,
-                    MaterialId = request.MaterialId != null ? request.MaterialId : null,
                     Status = request.Status,
                     WarehouseId = request.WareHouseId,
                     GemId = gem.GemId
@@ -223,8 +221,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     .Include(p => p.SubGemDetails)
                         .ThenInclude(sg => sg.SubGem)
                     .Include(p => p.Category)
-                    .Include(p => p.InspectionCertificate)
-                    .Include(p => p.Material)
                     .Include(p => p.Gem)
                     .Include(p => p.Images)
                     .Include(p => p.WareHouse)
@@ -244,7 +240,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     ProductThumbnail = product.ProductThumbnail,
                     IsHome = product.IsHome,
                     IsSale = product.IsSale,
-                    ProcessingPrice = (decimal)product.Category.CategoryPriceProcessing,
                     PercentSale = product.PercentSale,
                     Status = product.Status,
                     Category = new CategoryVm
@@ -253,7 +248,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                         CategoryName = product.Category.CategoryName,
                         CategoryType = product.Category.CategoryType,
                         CategoryImage = product.Category.CategoryImage,
-                        CategoryPriceProcessing = product.Category.CategoryPriceProcessing,
                         Status = product.Category.Status
                     },
 
@@ -294,30 +288,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                         Quantity = x.Quantity
                     }).ToList();
                 }
-                if (product.Material != null)
-                {
-                    productVms.Material = new MaterialVm
-                    {
-                        MaterialId = product.Material.MaterialId,
-                        MaterialName = product.Material.MaterialName,
-                        Color = product.Material.Color,
-                        Description = product.Material.Description,
-                        Status = product.Material.Status,
-                        MaterialImage = product.Material.MaterialImage,
-                        Weight = product.Material.Weight,
-                    };
-                }
-                if (product.InspectionCertificate != null)
-                {
-                    productVms.InspectionCertificate = new InspectionCertificateVm
-                    {
-                        InspectionCertificateId = product.InspectionCertificate.InspectionCertificateId,
-                        InspectionCertificateName = product.InspectionCertificate.InspectionCertificateName,
-                        Logo = product.InspectionCertificate.Logo,
-                        DateGrading = product.InspectionCertificate.DateGrading,
-                        Status = product.InspectionCertificate.Status
-                    };
-                }
+              
                 return new ApiSuccessResult<ProductVm>(productVms);
             }
             catch (Exception e)
@@ -389,8 +360,8 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     return new ApiErrorResult<bool>("Lỗi tìm kiếm", errorList);
                 }
 
-                // Process Material
-                decimal totalMaterialPrice = 0;
+                // Process Material NEED FIX
+                /*decimal totalMaterialPrice = 0;
                 if (request.MaterialId != null)
                 {
                     var materialList = _context.MaterialPriceLists.Where(x => x.MaterialId == request.MaterialId);
@@ -416,7 +387,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 else
                 {
                     product.MaterialId = null;
-                }
+                }*/
 
                 // Process SubGemPrice
                 decimal totalSubGemPrice = 0;
@@ -469,7 +440,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 }
 
                 // Process totalPrice
-                decimal OriginalPrice = totalPriceGem + totalMaterialPrice + totalSubGemPrice;
+                decimal OriginalPrice = totalPriceGem + totalSubGemPrice;
                 decimal SellingPrice = OriginalPrice - (OriginalPrice * request.PercentSale);
 
                 // Process Image Of Product
@@ -517,7 +488,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 product.OriginalPrice = OriginalPrice;
                 product.SellingPrice = SellingPrice;
                 product.PercentSale = request.PercentSale;
-                product.InspectionCertificateId = string.IsNullOrEmpty(request.InspectionCertificateId) ? null : request.InspectionCertificateId;
                 product.Status = request.Status;
                 product.WarehouseId = request.WareHouseId;
 
@@ -539,8 +509,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     .Include(p => p.SubGemDetails)
                         .ThenInclude(sg => sg.SubGem)
                     .Include(p => p.Category)
-                    .Include(p => p.InspectionCertificate)
-                    .Include(p => p.Material)
                     .Include(p => p.Gem)
                     .Include(p => p.Images)
                     .Include(p => p.WareHouse)
@@ -552,8 +520,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                                                    || x.Description.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
                                                    || x.Gem.GemName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
                                                    || x.Category.CategoryName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
-                                                   || x.InspectionCertificate.InspectionCertificateName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
-                                                   || x.Material.MaterialName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
                                                    || x.WareHouse.WareHouseName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
                                                    || x.SubGemDetails.Any(sg => sg.SubGem.SubGemName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase))
                                                    || x.SubGemDetails.Any(sg => sg.SubGem.Description.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase))).ToList();
@@ -587,7 +553,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     ProductThumbnail = item.ProductThumbnail,
                     IsHome = item.IsHome,
                     IsSale = item.IsSale,
-                    ProcessingPrice = (decimal)item.Category.CategoryPriceProcessing,
                     PercentSale = item.PercentSale,
                     Status = item.Status,
                     Category = new CategoryVm
@@ -596,7 +561,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                         CategoryName = item.Category.CategoryName,
                         CategoryType = item.Category.CategoryType,
                         CategoryImage = item.Category.CategoryImage,
-                        CategoryPriceProcessing = item.Category.CategoryPriceProcessing,
                         Status = item.Category.Status
                     },
 
@@ -637,30 +601,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                         Quantity = x.Quantity
                     }).ToList();
                 }
-                if (item.Material != null)
-                {
-                    productVms.Material = new MaterialVm
-                    {
-                        MaterialId = item.Material.MaterialId,
-                        MaterialName = item.Material.MaterialName,
-                        Color = item.Material.Color,
-                        Description = item.Material.Description,
-                        Status = item.Material.Status,
-                        MaterialImage = item.Material.MaterialImage,
-                        Weight = item.Material.Weight,
-                    };
-                }
-                if (item.InspectionCertificate != null)
-                {
-                    productVms.InspectionCertificate = new InspectionCertificateVm
-                    {
-                        InspectionCertificateId = item.InspectionCertificate.InspectionCertificateId,
-                        InspectionCertificateName = item.InspectionCertificate.InspectionCertificateName,
-                        Logo = item.InspectionCertificate.Logo,
-                        DateGrading = item.InspectionCertificate.DateGrading,
-                        Status = item.InspectionCertificate.Status
-                    };
-                }
+               
 
                 listResultVm.Add(productVms);
             }

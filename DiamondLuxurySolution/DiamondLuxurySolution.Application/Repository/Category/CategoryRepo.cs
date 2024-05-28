@@ -61,7 +61,6 @@ namespace DiamondLuxurySolution.Application.Repository.Category
             {
                 CategoryName = request.CategoryName,
                 CategoryType = request.CategoryType != null ? request.CategoryType : "",
-                CategoryPriceProcessing = price,
                 Status = request.Status,
             };
             if (request.CategoryImage != null)
@@ -104,7 +103,6 @@ namespace DiamondLuxurySolution.Application.Repository.Category
                 CategoryId = CategoryId,
                 CategoryName = category.CategoryName,
                 CategoryImage = category.CategoryImage,
-                CategoryPriceProcessing = category.CategoryPriceProcessing,
                 CategoryType = category.CategoryType,
                 Status = category.Status,
             };
@@ -163,7 +161,6 @@ namespace DiamondLuxurySolution.Application.Repository.Category
             }
             category.CategoryName = request.CategoryName;
             category.CategoryType = request.CategoryType != null ? request.CategoryType : "";
-            category.CategoryPriceProcessing = price;
             category.Status = request.Status;
 
             await _context.SaveChangesAsync();
@@ -189,7 +186,6 @@ namespace DiamondLuxurySolution.Application.Repository.Category
                 CategoryId = x.CategoryId,
                 CategoryName = x.CategoryName,
                 CategoryType = x.CategoryType,
-                CategoryPriceProcessing = x.CategoryPriceProcessing,
                 CategoryImage = x.CategoryImage,
                 Status = x.Status,
             }).ToList();
@@ -222,7 +218,6 @@ namespace DiamondLuxurySolution.Application.Repository.Category
                 CategoryId = x.CategoryId,
                 CategoryName = x.CategoryName,
                 CategoryType = x.CategoryType,
-                CategoryPriceProcessing = x.CategoryPriceProcessing,
                 CategoryImage = x.CategoryImage,
                 Status = x.Status,
             }).ToList();
