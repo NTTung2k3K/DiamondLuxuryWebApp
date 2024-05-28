@@ -1,6 +1,5 @@
 ﻿using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Order;
-using DiamondLuxurySolution.ViewModel.Models.Warehouse;
 using System;
 using System.Collections.Generic;
 using System.Linq;

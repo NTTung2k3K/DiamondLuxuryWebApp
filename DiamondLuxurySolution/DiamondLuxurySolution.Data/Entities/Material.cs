@@ -10,16 +10,15 @@ public partial class Material
     public string? MaterialName { get; set; }
 
     public string? Description { get; set; }
-
     public string? Color { get; set; }
     public int? Weight { get; set; }
 
     public string? MaterialImage { get; set; }
 
+    public decimal Price { get; set; }
     public bool Status { get; set; }
+    public DateTime EffectDate { get; set; }
 
-    public virtual ICollection<Product> Products{ get; set; } = new List<Product>();
-
-    public virtual ICollection<MaterialPriceList> MaterialPriceLists { get; set; } = new List<MaterialPriceList>();
+    public List<Frame> Frames { get; set; }
 
 }

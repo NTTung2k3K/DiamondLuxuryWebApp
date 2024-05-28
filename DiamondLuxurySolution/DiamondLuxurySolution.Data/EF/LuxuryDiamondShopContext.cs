@@ -47,8 +47,7 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
 
     public virtual DbSet<Material> Materials { get; set; }
 
-    public virtual DbSet<MaterialPriceList> MaterialPriceLists { get; set; }
-
+    public virtual DbSet<Frame> Frames { get; set; }
     public virtual DbSet<News> News { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
@@ -73,7 +72,6 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
 
     public virtual DbSet<Slide> Slides { get; set; }
 
-    public virtual DbSet<WareHouse> WareHouses { get; set; }
 
     public virtual DbSet<Frame> Frames { get; set; }
     public virtual DbSet<Warranty> Warrantys { get; set; }
@@ -94,7 +92,6 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
         modelBuilder.ApplyConfiguration(new KnowledgeNewCategoryConfiguration());
         modelBuilder.ApplyConfiguration(new KnowledgeNewsConfiguration());
         modelBuilder.ApplyConfiguration(new MaterialConfiguration());
-        modelBuilder.ApplyConfiguration(new MaterialPriceListConfiguration());
         modelBuilder.ApplyConfiguration(new NewsConfiguration());
         modelBuilder.ApplyConfiguration(new OrderConfiguration());
         modelBuilder.ApplyConfiguration(new OrderDetailsConfiguration());
@@ -105,11 +102,12 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
         modelBuilder.ApplyConfiguration(new ProductCollectionConfiguration());
         modelBuilder.ApplyConfiguration(new PromotionConfiguration());
         modelBuilder.ApplyConfiguration(new SlideConfiguration());
-        modelBuilder.ApplyConfiguration(new WareHouseConfiguration());
         modelBuilder.ApplyConfiguration(new WarrantyConfiguration());
         modelBuilder.ApplyConfiguration(new SubGemConfiguration());
         modelBuilder.ApplyConfiguration(new SubGemDetailConfiguration());
         modelBuilder.ApplyConfiguration(new ContactConfiguration());
+        modelBuilder.ApplyConfiguration(new FrameConfiguration());
+
 
 
         modelBuilder.ApplyConfiguration(new AppUserConfiguration());

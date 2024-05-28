@@ -2,7 +2,6 @@
 using DiamondLuxurySolution.ViewModel.Models.Gem;
 using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
 using DiamondLuxurySolution.ViewModel.Models.Material;
-using DiamondLuxurySolution.ViewModel.Models.Warehouse;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -42,7 +41,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.Product
 
         public virtual GemVm GemVms{ get; set; }
         public virtual CategoryVm CategoryVm { get; set; }
-        public virtual WarehouseVm WareHouseVms { get; set; }
         public virtual MaterialVm MaterialVms { get; set; }
         public virtual InspectionCertificateVm InspectionCertificateVm { get; set; }
 
@@ -57,7 +55,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.Product
         public GemVm Gem{ get; set; }
 
 
-        public WarehouseVm WareHouse{ get; set; }
 
     }
 }

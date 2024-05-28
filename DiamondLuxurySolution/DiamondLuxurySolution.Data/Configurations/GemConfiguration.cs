@@ -24,6 +24,8 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(g => g.GemImage).HasMaxLength(int.MaxValue);
             builder.Property(g => g.Fluoresence).IsRequired();
             builder.Property(g => g.Active).IsRequired();
+
+            builder.HasOne(x => x.InspectionCertificate).WithOne(x => x.Gem).HasForeignKey<Gem>(g => g.InspectionCertificateId);
         }
     }
 

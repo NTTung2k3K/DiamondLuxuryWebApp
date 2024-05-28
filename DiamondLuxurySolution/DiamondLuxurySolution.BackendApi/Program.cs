@@ -4,7 +4,6 @@ using DiamondLuxurySolution.Application.Repository.Discount;
 using DiamondLuxurySolution.Application.Repository.Gem;
 using DiamondLuxurySolution.Application.Repository.InspectionCertificate;
 using DiamondLuxurySolution.Application.Repository.Material;
-using DiamondLuxurySolution.Application.Repository.MaterialPriceList;
 using DiamondLuxurySolution.Application.Repository.GemPriceList;
 using DiamondLuxurySolution.Application.Repository.News;
 using DiamondLuxurySolution.Application.Repository.Platform;
@@ -12,7 +11,6 @@ using DiamondLuxurySolution.Application.Repository.Promotion;
 using DiamondLuxurySolution.Application.Repository.Slide;
 using DiamondLuxurySolution.Application.Repository.User.Customer;
 using DiamondLuxurySolution.Application.Repository.User.Staff;
-using DiamondLuxurySolution.Application.Repository.Warehouse;
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -55,10 +53,8 @@ builder.Services.AddTransient<IGemRepo, GemRepo>();
 builder.Services.AddTransient<ISubGemRepo, SubGemRepo>();
 builder.Services.AddTransient<IInspectionCertificateRepo, InspectionCertificateRepo>();
 builder.Services.AddTransient<IMaterialRepo, MaterialRepo>();
-builder.Services.AddTransient<IMaterialPriceListRepo, MaterialPriceListRepo>();
 builder.Services.AddTransient<INewsRepo, NewsRepo>();
 builder.Services.AddTransient<IGemPriceListRepo, GemPriceListRepo>();
-builder.Services.AddTransient<IWarehouseRepo, WarehouseRepo>();
 builder.Services.AddTransient<IOrderRepo, OrderRepo>();
 builder.Services.AddTransient<IProductRepo, ProductRepo>();
 builder.Services.AddTransient<IKnowledgeNewCatagoryRepo, KnowledgeNewCatagoryRepo>();
@@ -73,7 +69,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddIdentity<AppUser, AppRole>()
-        .AddEntityFrameworkStores<LuxuryDiamondShopContext>()
+.AddEntityFrameworkStores<LuxuryDiamondShopContext>()
         .AddDefaultTokenProviders();
 
 var app = builder.Build();
