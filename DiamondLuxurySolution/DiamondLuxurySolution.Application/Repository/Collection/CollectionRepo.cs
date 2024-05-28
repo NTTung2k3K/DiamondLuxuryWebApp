@@ -147,7 +147,7 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
 
 
                         Quantity = product.Quantity,
-                        GemVms = new GemVm
+                        GemVm = new GemVm
                         {
                             GemId = product.Gem.GemId,
                             GemName = product.Gem.GemName,
@@ -333,7 +333,7 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
 
 
                             Quantity = product.Quantity,
-                            GemVms = new GemVm
+                            GemVm = new GemVm
                             {
                                 GemId = product.Gem.GemId,
                                 GemName = product.Gem.GemName,

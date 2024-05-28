@@ -10,6 +10,8 @@ namespace DiamondLuxurySolution.Application.Repository.Platform
 {
     public interface IPlatformRepo
     {
+
+        public Task<ApiResult<List<PlatfromVm>>> GetAll();
         public Task<ApiResult<bool>> CreatePlatform(CreatePlatformRequest request);
         public Task<ApiResult<bool>> UpdatePlatform(UpdatePlatformRequest request);
         public Task<ApiResult<bool>> DeletePlatform(DeletePlatformRequest request);

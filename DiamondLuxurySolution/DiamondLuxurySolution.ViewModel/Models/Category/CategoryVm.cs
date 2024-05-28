@@ -15,7 +15,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.Category
         public string? CategoryType { get; set; }
 
         public string? CategoryImage { get; set; }
-        public decimal? CategoryPriceProcessing { get; set; }
         public bool Status { get; set; }
     }
 }

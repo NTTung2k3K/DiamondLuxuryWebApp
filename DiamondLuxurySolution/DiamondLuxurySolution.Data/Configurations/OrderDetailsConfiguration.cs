@@ -35,7 +35,8 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.HasOne(od => od.Warranty)
                    .WithMany(x => x.OrderDetails)
                    .HasForeignKey(od => od.WarrantyId)
-                   .IsRequired();
+                   .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
         }
     }
 

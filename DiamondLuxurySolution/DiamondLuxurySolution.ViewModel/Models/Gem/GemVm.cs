@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,5 +29,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Gem
         public bool Active { get; set; }
 
         public Data.Entities.InspectionCertificate InspectionCertificate { get; set; }
+        public InspectionCertificateVm InspectionCertificateVm { get; set; }
+
     }
 }

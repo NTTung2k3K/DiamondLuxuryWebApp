@@ -33,16 +33,10 @@ namespace DiamondLuxurySolution.ViewModel.Models.Order
 
         public CustomerVm CustomerVm { get; set; }
         public StaffVm ShiperVm { get; set; }
-        public WarrantyVm WarrantyVm { get; set; }
 
-        public virtual ICollection<OrderProductSupport> ListOrderProduct { get; set; } = new List<OrderProductSupport>();
+        public virtual ICollection<OrderProductSupportVm> ListOrderProduct { get; set; } = new List<OrderProductSupportVm>();
 
-        public virtual ICollection<PromotionVm>? ListPromotionVm { get; set; } = new List<PromotionVm>();
-
-        public Guid CustomerId { get; set; }
-
-        public virtual ICollection<PaymentVm> ListPaymentVm { get; set; } = new List<PaymentVm>();
-        public List<CampaignDetailSupportDTO> CampaignDetailsVm { get; set; }
+        public List<CampaignDetailSupportDTO> ListPromotionVm { get; set; }
         public List<OrderPaymentSupportDTO> OrdersPaymentVm { get; set; }
     }
 }

@@ -30,6 +30,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Order
 
         public virtual ICollection<Guid>? ListPromotionId { get; set; } = new List<Guid>();
 
+
         public virtual ICollection<Guid> ListPaymentId { get; set; } = new List<Guid>();
 
     }

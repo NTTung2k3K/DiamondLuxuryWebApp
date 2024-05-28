@@ -46,9 +46,13 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 return new ApiErrorResult<bool>("Không tìm thấy đơn hàng");
             }
             order.RemainAmount = order.RemainAmount - request.PaidTheRest;
-            if(order.RemainAmount == 0)
+            if(order.RemainAmount < 0)
             {
-                return new ApiErrorResult<bool>("Success");
+                return new ApiSuccessResult<bool>(true, "Đã thanh toán thành công và bị dư "+Math.Abs(order.RemainAmount));
+            }
+            if (order.RemainAmount == 0)
+            {
+                return new ApiSuccessResult<bool>(true,"Success");
             }
             return new ApiSuccessResult<bool>("Success số tiền còn lại cần thanh toán là "+order.RemainAmount);
         }
@@ -106,17 +110,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
 
 
 
-            // Process Warranty
-            var warranty = new DiamondLuxurySolution.Data.Entities.Warranty()
-            {
-                WarrantyId = Guid.NewGuid(),
-                DateActive = DateTime.Now,
-                DateExpired = DateTime.Now.AddMonths(12),
-                WarrantyName = "Phiếu bảo hành cho Order " + OrderId,
-                Description = "Phiếu bảo hành có giá trị trong vòng 12 tháng",
-                Status = true,
-            };
-            _context.Warrantys.Add(warranty);
+           
 
             // Process OrderDetail
             decimal totalPrice = 0;
@@ -127,6 +121,16 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 {
                     return new ApiErrorResult<bool>("Không tìm thấy sản phẩm trong đơn đặt hàng");
                 }
+                // Process Warranty
+                var warranty = new DiamondLuxurySolution.Data.Entities.Warranty()
+                {
+                    WarrantyId = Guid.NewGuid(),
+                    DateActive = DateTime.Now,
+                    DateExpired = DateTime.Now.AddMonths(12),
+                    WarrantyName = $"Phiếu bảo hành cho sản phẩm {product.ProductName} | {product.ProductId}  ",
+                    Description = "Phiếu bảo hành có giá trị trong vòng 12 tháng",
+                    Status = true,
+                };
                 var orderDetail = new OrderDetail()
                 {
                     OrderId = OrderId,
@@ -137,6 +141,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     WarrantyId = warranty.WarrantyId
                 };
                 totalPrice += orderDetail.TotalPrice;
+                _context.Warrantys.Add(warranty);
                 _context.OrderDetails.Add(orderDetail);
             }
 
@@ -327,7 +332,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             }
             if (order.CampaignDetails != null)
             {
-                orderVms.CampaignDetailsVm = order.CampaignDetails.Select(cd => new CampaignDetailSupportDTO()
+                orderVms.ListPromotionVm = order.CampaignDetails.Select(cd => new CampaignDetailSupportDTO()
                 {
                     PromotionId = cd.Promotion.PromotionId,
                     PromotionName = cd.Promotion.PromotionName,
@@ -354,7 +359,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             }
             if (order.OrderDetails != null)
             {
-                List<OrderProductSupport> listOrderSupport = new List<OrderProductSupport>();
+                List<OrderProductSupportVm> listOrderSupport = new List<OrderProductSupportVm>();
                 foreach(var orderDetail in  order.OrderDetails)
                 {
                     var product = await _context.Products.FindAsync(orderDetail.ProductId);
@@ -368,7 +373,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         Status = warranty.Status,
                         WarrantyName = warranty.WarrantyName
                     };
-                    var orderProductSupport = new OrderProductSupport()
+                    var orderProductSupport = new OrderProductSupportVm()
                     {
                         ProductId = orderDetail.ProductId,
                         Quantity = orderDetail.Quantity,
@@ -428,27 +433,44 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             order.ShipName = request.ShipName;
 
 
-            // Process warranty
-            var listWarranty = _context.OrderDetails.Where(x => x.OrderId==order.OrderId).ToList();
-            var warranty = new DiamondLuxurySolution.Data.Entities.Warranty()
-            {
-                WarrantyId = listWarranty[0].WarrantyId,
-                DateActive = DateTime.Now,
-                DateExpired = DateTime.Now.AddMonths(12),
-                WarrantyName = "Phiếu bảo hành cho Order " + order.OrderId,
-                Description = "Phiếu bảo hành có giá trị trong vòng 12 tháng",
-                Status = true,
-            };
+           
 
             // Process OrderDetail
             decimal totalPrice = 0;
             if (request.ListOrderProduct != null)
             {
                 var listOrderProduct = _context.OrderDetails.Where(x => x.OrderId == order.OrderId);
+
+                // Collect all warranty IDs from the existing order details
+                var warrantyIdsToRemove = listOrderProduct.Select(od => od.WarrantyId).ToList();
+
+                // Remove the existing order details
                 _context.OrderDetails.RemoveRange(listOrderProduct);
+
+                // Remove old warranties
+                var oldWarranties = _context.Warrantys.Where(w => warrantyIdsToRemove.Contains(w.WarrantyId)).ToList();
+                _context.Warrantys.RemoveRange(oldWarranties);
+
 
                 foreach (var orderProduct in request.ListOrderProduct)
                 {
+                    var product = await _context.Products.FindAsync(orderProduct.ProductId);
+                    if (product == null)
+                    {
+                        return new ApiErrorResult<bool>("Không tìm thấy sản phẩm trong đơn đặt hàng");
+                    }
+                    // Process warranty
+
+
+                    var warranty = new DiamondLuxurySolution.Data.Entities.Warranty()
+                    {
+                        WarrantyId = Guid.NewGuid(),
+                        DateActive = DateTime.Now,
+                        DateExpired = DateTime.Now.AddMonths(12),
+                        WarrantyName = $"Phiếu bảo hành cho sản phẩm {product.ProductName} | {product.ProductId}  ",
+                        Description = "Phiếu bảo hành có giá trị trong vòng 12 tháng",
+                        Status = true,
+                    };
                     var OrderDetail = new OrderDetail()
                     {
                         OrderId = order.OrderId,
@@ -459,13 +481,25 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         WarrantyId = warranty.WarrantyId
                     };
                     totalPrice += OrderDetail.TotalPrice;
+                    _context.Warrantys.Add(warranty);
                     _context.OrderDetails.Add(OrderDetail);
                 }
             }
             else
             {
                 var listOrderProduct = _context.OrderDetails.Where(x => x.OrderId == order.OrderId);
+
+                // Collect all warranty IDs from the existing order details
+                var warrantyIdsToRemove = listOrderProduct.Select(od => od.WarrantyId).ToList();
+
+                // Remove the existing order details
                 _context.OrderDetails.RemoveRange(listOrderProduct);
+
+                // Remove old warranties
+                var oldWarranties = _context.Warrantys.Where(w => warrantyIdsToRemove.Contains(w.WarrantyId)).ToList();
+                _context.Warrantys.RemoveRange(oldWarranties);
+
+
             }
 
             // Process Discount
@@ -648,7 +682,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 }
                 if (order.CampaignDetails != null)
                 {
-                    orderVms.CampaignDetailsVm = order.CampaignDetails.Select(cd => new CampaignDetailSupportDTO()
+                    orderVms.ListPromotionVm = order.CampaignDetails.Select(cd => new CampaignDetailSupportDTO()
                     {
                         PromotionId = cd.Promotion.PromotionId,
                         PromotionName = cd.Promotion.PromotionName,
@@ -675,7 +709,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 }
                 if (order.OrderDetails != null)
                 {
-                    List<OrderProductSupport> listOrderSupport = new List<OrderProductSupport>();
+                    List<OrderProductSupportVm> listOrderSupport = new List<OrderProductSupportVm>();
                     foreach (var orderDetail in order.OrderDetails)
                     {
                         var product = await _context.Products.FindAsync(orderDetail.ProductId);
@@ -689,7 +723,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                             Status = warranty.Status,
                             WarrantyName = warranty.WarrantyName
                         };
-                        var orderProductSupport = new OrderProductSupport()
+                        var orderProductSupport = new OrderProductSupportVm()
                         {
                             ProductId = orderDetail.ProductId,
                             Quantity = orderDetail.Quantity,
