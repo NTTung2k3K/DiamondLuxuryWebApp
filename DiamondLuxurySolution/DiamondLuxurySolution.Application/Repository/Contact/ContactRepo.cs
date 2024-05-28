@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DiamondLuxurySolution.Application.Repository.Contact
@@ -37,20 +38,28 @@ namespace DiamondLuxurySolution.Application.Repository.Contact
             {
                 errorList.Add("Vui lòng nhập số điện thoại");
             }
-            if (string.IsNullOrWhiteSpace(request.content))
+            else
+            {
+                if (!Regex.IsMatch(request.ContactPhoneUser, "^(09|03|07|08|05)[0-9]{8,9}$"))
+                {
+                    errorList.Add("Số điện thoại không hợp lệ");
+                }
+            }
+            if (string.IsNullOrWhiteSpace(request.Content))
             {
                 errorList.Add("Vui lòng nhập nội dung");
             }
-            if(errorList.Any())
+            if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
             var contact = new DiamondLuxurySolution.Data.Entities.Contact
             {
-                content = request.content.Trim(),
+                Content = request.Content.Trim(),
                 ContactPhoneUser = request.ContactPhoneUser.Trim(),
                 ContactNameUser = request.ContactNameUser.Trim(),
-                ContactEmailUser = request.ContactEmailUser.Trim(),                
+                ContactEmailUser = request.ContactEmailUser.Trim(),
+                IsResponse = false
             };
 
             _context.Contacts.Add(contact);
@@ -74,7 +83,7 @@ namespace DiamondLuxurySolution.Application.Repository.Contact
         public async Task<ApiResult<ContactVm>> GetContactById(int ContactId)
         {
             var contact = await _context.Contacts.FindAsync(ContactId);
-    
+
             if (contact == null)
             {
                 return new ApiErrorResult<ContactVm>("Không tìm thấy liên hệ");
@@ -82,10 +91,11 @@ namespace DiamondLuxurySolution.Application.Repository.Contact
             var contactVm = new ContactVm()
             {
                 ContactId = contact.ContactId,
-                content = contact.content.Trim(),
+                Content = contact.Content.Trim(),
                 ContactPhoneUser = contact.ContactPhoneUser.Trim(),
                 ContactNameUser = contact.ContactNameUser.Trim(),
                 ContactEmailUser = contact.ContactEmailUser.Trim(),
+                IsResponse = contact.IsResponse
             };
             return new ApiSuccessResult<ContactVm>(contactVm, "Success");
         }
@@ -101,11 +111,12 @@ namespace DiamondLuxurySolution.Application.Repository.Contact
             {
                 errorList.Add("Vui lòng nhập tên");
             }
-            if (string.IsNullOrWhiteSpace(request.ContactPhoneUser))
+            if (string.IsNullOrWhiteSpace(request.ContactPhoneUser)
+                || Regex.IsMatch(request.ContactPhoneUser, "^[09|03|07|08|05] + [0-9]{8,9}$"))
             {
-                errorList.Add("Vui lòng nhập số điện thoại");
+                errorList.Add("Số điện thoại không hợp lệ");
             }
-            if (string.IsNullOrWhiteSpace(request.content))
+            if (string.IsNullOrWhiteSpace(request.Content))
             {
                 errorList.Add("Vui lòng nhập nội dung");
             }
@@ -122,9 +133,10 @@ namespace DiamondLuxurySolution.Application.Repository.Contact
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
+            contact.IsResponse = request.IsResponse;
             contact.ContactEmailUser = request.ContactEmailUser;
             contact.ContactPhoneUser = request.ContactPhoneUser;
-            contact.content = request.content;
+            contact.Content = request.Content;
             contact.ContactNameUser = request.ContactNameUser;
 
             await _context.SaveChangesAsync();
@@ -137,11 +149,10 @@ namespace DiamondLuxurySolution.Application.Repository.Contact
             var listContact = await _context.Contacts.ToListAsync();
             if (request.Keyword != null)
             {
-                listContact = listContact.Where(x => x.ContactPhoneUser.Contains(request.Keyword) 
-                || x.ContactNameUser.Contains(request.Keyword)).ToList();
-
+                listContact = listContact.Where(x => x.ContactPhoneUser.Contains(request.Keyword)
+                || x.ContactNameUser.Contains(request.Keyword) || x.IsResponse.ToString().Contains(request.Keyword)).ToList();
             }
-            listContact = listContact.OrderByDescending(x => x.ContactNameUser).ToList();
+            listContact = listContact.OrderByDescending(x => x.IsResponse).ThenBy(x => x.ContactNameUser).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 
@@ -150,10 +161,11 @@ namespace DiamondLuxurySolution.Application.Repository.Contact
             var listContactVm = listPaging.Select(contact => new ContactVm()
             {
                 ContactId = contact.ContactId,
-                content = contact.content.Trim(),
+                Content = contact.Content.Trim(),
                 ContactPhoneUser = contact.ContactPhoneUser.Trim(),
                 ContactNameUser = contact.ContactNameUser.Trim(),
                 ContactEmailUser = contact.ContactEmailUser.Trim(),
+                IsResponse = contact.IsResponse
             }).ToList();
             var listResult = new PageResult<ContactVm>()
             {

@@ -11,6 +11,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.Contact
         public string? ContactNameUser { get; set; } 
         public string? ContactEmailUser { get; set; }
         public string? ContactPhoneUser { get; set; }
-        public string? content { get; set; }
-    } 
+        public string? Content { get; set; }
+    }
 }
