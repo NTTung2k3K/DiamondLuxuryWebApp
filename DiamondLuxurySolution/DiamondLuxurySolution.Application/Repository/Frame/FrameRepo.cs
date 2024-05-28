@@ -68,10 +68,10 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
-
             var frame = new Data.Entities.Frame
             {
-                NameFrame = request.NameFrame.Trim(),
+                FrameId = await GenerateUniqueIdAsync(),
+                FrameName = request.NameFrame.Trim(),
                 Size = size,
                 Weight = weight,
                 Material = material,
@@ -80,6 +80,30 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
             _context.Frames.Add(frame);
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
+        }
+        public async Task<string> GenerateUniqueIdAsync()
+        {
+            string newId;
+            bool exists;
+            Random rd = new Random();
+            do
+            {
+                newId = "F" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) +
+                    rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
+                exists = await _context.Frames.AnyAsync(x => x.FrameId == newId);
+            } while (exists);
+            return newId;
+        }
+        public string GenerateFrameIdRandom()
+        {
+            Random random = new Random();
+            bool check = true;
+            do
+            {
+                string result = "F" + random.Next(9) + random.Next(9) + random.Next(9) + random.Next(9) + random.Next(9) + random.Next(9) + random.Next(9) + random.Next(9) + random.Next(9);
+
+            } while (check);
+            return "";
         }
 
         public async Task<ApiResult<bool>> DeleteFrame(DeleteFrameRequest request)
@@ -106,7 +130,7 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
             {
                 Size = frame.Size,
                 Weight = frame.Weight,
-                NameFrame = frame.NameFrame,
+                NameFrame = frame.FrameName,
                 Material = material,
                 FrameId = FrameId,
             };
@@ -177,7 +201,7 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
 
             frame.Weight = weight;
             frame.Size = size;
-            frame.NameFrame = request.NameFrame.Trim();
+            frame.FrameName = request.NameFrame.Trim();
 
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
@@ -188,10 +212,10 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
             var listFrame = await _context.Frames.ToListAsync();
             if (request.Keyword != null)
             {
-                listFrame = listFrame.Where(x => x.NameFrame.Contains(request.Keyword)).ToList();
+                listFrame = listFrame.Where(x => x.FrameName.Contains(request.Keyword)).ToList();
 
             }
-            listFrame = listFrame.OrderByDescending(x => x.NameFrame).ToList();
+            listFrame = listFrame.OrderByDescending(x => x.FrameName).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 
@@ -203,7 +227,7 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
                 var frameVm = new FrameVm()
                 {
                    FrameId = item.FrameId,
-                   NameFrame = item.NameFrame,
+                   NameFrame = item.FrameName,
                    Size = item.Size,
                    Weight = item.Weight,
                    Material = material

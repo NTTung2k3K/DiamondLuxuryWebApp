@@ -71,9 +71,6 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
     public virtual DbSet<Promotion> Promotions { get; set; }
 
     public virtual DbSet<Slide> Slides { get; set; }
-
-
-    public virtual DbSet<Frame> Frames { get; set; }
     public virtual DbSet<Warranty> Warrantys { get; set; }
 
 
