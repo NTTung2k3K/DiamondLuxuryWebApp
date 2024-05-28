@@ -100,7 +100,14 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                 return new ApiErrorResult<CollectionVm>("Không tìm thấy bộ sưu tập");
             }
             var listProductsCollection = _context.ProductsCollections.Where(x => x.CollectionId == collection.CollectionId).ToList();
-
+            var collectionVm = new CollectionVm()
+            {
+                CollectionId = CollectionId,
+                CollectionName = collection.CollectionName,
+                Thumbnail = collection.Thumbnail,
+                Status = collection.Status,
+                Description = collection.Description,
+            };
             var listProductVm = new List<ProductVm>();
             foreach (var item in listProductsCollection)
             {
@@ -177,15 +184,9 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                     return new ApiErrorResult<CollectionVm>(e.Message);
                 }
             }
-            var collectionVm = new CollectionVm()
-            {
-                CollectionId = CollectionId,
-                CollectionName = collection.CollectionName,
-                Thumbnail = collection.Thumbnail,
-                Status = collection.Status,
-                Description = collection.Description,
-                ListProducts = listProductVm
-            };
+
+            collectionVm.ListProducts = listProductVm;
+
             return new ApiSuccessResult<CollectionVm>(collectionVm, "Success");
         }
 
@@ -200,7 +201,7 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
             {
                 return new ApiErrorResult<bool>("Vui lòng nhập tên bộ sưu tập");
             }
-            if (request.ListProductsAdd.Count > 0 || request.ListProductsRemove.Count > 0 || request.ProductId != null)
+            if (request.ListProductIdRemove.Count > 0 || request.ListProductIdAdd.Count > 0 || request.ProductId != null)
             {
                 var productCollection = _context.ProductsCollections.Where(x => x.CollectionId == request.CollectionId);
                 if (productCollection.Any())
@@ -223,7 +224,7 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                     }
 
                     //Khi xoa 1 luot product khoi collection
-                    if (request.ListProductsRemove.Count > 0)
+                    if (request.ListProductIdRemove.Count > 0)
                     {
                         var productsDeleteFromCollection = productCollection
                         .Where(pc => existingProduct.Any(p => p.ProductId == pc.ProductId)).ToList();
@@ -234,17 +235,17 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                         }
                     }
                     //Khi them product vao collection
-                    if (request.ListProductsAdd.Count > 0)
+                    if (request.ListProductIdAdd.Count > 0)
                     {
-                        foreach (var product in request.ListProductsAdd)
+                        foreach (var productId in request.ListProductIdAdd)
                         {
                             // Kiem tra product co ton tai trong collection khong roi moi add
-                            if (!existingProduct.Contains(product))
+                            if (!existingProduct.Any(p => p.ProductId == productId))
                             {
                                 _context.ProductsCollections.Add(new ProductsCollection
                                 {
                                     CollectionId = request.CollectionId,
-                                    ProductId = product.ProductId
+                                    ProductId = productId
                                 });
                             }
                             else
@@ -284,6 +285,15 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
             var listCollectionVm = new List<CollectionVm>();
             foreach (var collection in listPaging)
             {
+                var CollectionVm = new CollectionVm()
+                {
+                    CollectionId = collection.CollectionId,
+                    CollectionName = collection.CollectionName,
+                    Description = collection.Description,
+                    Thumbnail = collection.Thumbnail,
+                    Status = collection.Status,
+                    
+                };
                 var listProductsCollection = _context.ProductsCollections.Where(x => x.CollectionId == collection.CollectionId).ToList();
                 foreach (var item in listProductsCollection)
                 {
@@ -360,15 +370,8 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                         return new ApiErrorResult<PageResult<CollectionVm>>(e.Message);
                     }
                 }
-                var CollectionVm = new CollectionVm()
-                {
-                    CollectionId = collection.CollectionId,
-                    CollectionName = collection.CollectionName,
-                    Description = collection.Description,
-                    Thumbnail = collection.Thumbnail,
-                    Status = collection.Status,
-                    ListProducts = listProductVm
-                };
+
+                CollectionVm.ListProducts = listProductVm;
                 listCollectionVm.Add(CollectionVm);
             }
             var listResult = new PageResult<CollectionVm>()

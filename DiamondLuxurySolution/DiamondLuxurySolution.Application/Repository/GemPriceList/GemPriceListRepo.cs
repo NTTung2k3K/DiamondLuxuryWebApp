@@ -79,7 +79,6 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
             _context.GemPriceLists.Add(gemPriceList);
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
-
         }
 
         public async Task<ApiResult<bool>> DeleteGemPriceList(DeleteGemPriceListRequest request)

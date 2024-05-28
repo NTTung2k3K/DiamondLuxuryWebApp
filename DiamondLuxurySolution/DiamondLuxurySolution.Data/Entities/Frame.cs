@@ -10,9 +10,9 @@ namespace DiamondLuxurySolution.Data.Entities
     {
 
         public string FrameId { get; set; }
+        public double Size { get; set; }
         public double Weight { get; set; }
         public string FrameName { get; set; }
-        public int Size { get; set; }
 
         public Guid MaterialId { get; set; }
         public Material Material { get; set; }
