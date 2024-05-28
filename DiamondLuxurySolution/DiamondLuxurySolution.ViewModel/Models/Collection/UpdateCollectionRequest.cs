@@ -20,8 +20,8 @@ namespace DiamondLuxurySolution.ViewModel.Models.Collection
 
         public bool Status { get; set; }
 
-        public virtual ICollection<Data.Entities.Product> ListProductsRemove { get; set; } = new List<Data.Entities.Product>();
-        public virtual ICollection<Data.Entities.Product> ListProductsAdd { get; set; } = new List<Data.Entities.Product>();
+        public virtual ICollection<string> ListProductIdRemove { get; set; } = new List<string>();
+        public virtual ICollection<string> ListProductIdAdd { get; set; } = new List<string>();
         public string? ProductId {  get; set; }
     }
 }

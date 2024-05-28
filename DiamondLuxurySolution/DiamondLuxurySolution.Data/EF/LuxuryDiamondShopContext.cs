@@ -75,6 +75,7 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
 
     public virtual DbSet<WareHouse> WareHouses { get; set; }
 
+    public virtual DbSet<Frame> Frames { get; set; }
     public virtual DbSet<Warranty> Warrantys { get; set; }
 
 
