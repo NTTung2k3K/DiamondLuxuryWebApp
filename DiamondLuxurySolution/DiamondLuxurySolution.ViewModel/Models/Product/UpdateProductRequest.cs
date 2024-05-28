@@ -22,21 +22,20 @@ namespace DiamondLuxurySolution.ViewModel.Models.Product
 
 
         public int PercentSale { get; set; }
+        public decimal ProcessingPrice { get; set; }
+
 
 
         public string? Status { get; set; }
         public int? CategoryId { get; set; }
 
-        public string? InspectionCertificateId { get; set; }
-        public Guid? MaterialId { get; set; }
-        public int? Quantity { get; set; }
+        public int Quantity { get; set; }
 
         public virtual ICollection<IFormFile>? Images { get; set; } = new List<IFormFile>();
+        public string? FrameId { get; set; }
 
         public Guid? GemId { get; set; }
         public virtual ICollection<DiamondLuxurySolution.ViewModel.Models.SubGemSupportDTO>? ListSubGems { get; set; } = new List<SubGemSupportDTO>();
-
         public string? ListSubGemsJson { get; set; }
-        public int WareHouseId { get; set; }
     }
 }

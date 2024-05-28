@@ -60,6 +60,20 @@ namespace DiamondLuxurySolution.Application.Repository.Platform
             return new ApiSuccessResult<bool>(false, "Success");
         }
 
+        public async Task<ApiResult<List<PlatfromVm>>> GetAll()
+        {
+            var list = await _context.Platforms.ToListAsync();
+            var rs = list.Select(x => new PlatfromVm()
+            {
+                PlatformId = x.PlatformId,
+                PlatformLogo = x.PlatformLogo,
+                PlatformName = x.PlatformName,
+                PlatformUrl = x.PlatformUrl,
+                Status = x.Status,
+            }).ToList();
+            return new ApiSuccessResult<List<PlatfromVm>>(rs);
+        }
+
         public async Task<ApiResult<PlatfromVm>> GetPlatfromById(int PlatformId)
         {
             var platform = await _context.Platforms.FindAsync(PlatformId);

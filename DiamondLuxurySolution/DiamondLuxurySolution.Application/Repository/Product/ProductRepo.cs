@@ -50,10 +50,9 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 {
                     errorList.Add("Sản phẩm phải có ảnh đại diện");
                 }
-
-                if (request.WareHouseId == null)
+                if (request.ProcessingPrice <= 0 )
                 {
-                    errorList.Add("Sản phẩm cần phải có kho lưu trữ");
+                    errorList.Add("Sản phẩm phải có giá gia công hợp lí");
                 }
                 if (request.CategoryId == null)
                 {
@@ -69,6 +68,10 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 }
                 Random rd = new Random();
                 string ProductId = "P" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
+
+
+
+
                 // Process Product gem
                 decimal totalPriceGem = 0;
 
@@ -90,31 +93,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                         totalPriceGem += (decimal)item.Price;
                     }
                 }
-                if (errorList.Any())
-                {
-                    return new ApiErrorResult<bool>("Lỗi tìm kiếm", errorList);
-                }
-                // Process Material NEED FIX
-                /*decimal totalMaterialPrice = 0;
-                if (request.MaterialId != null)
-                {
-                    var materialList = _context.MaterialPriceLists.Where(x => x.MaterialId == request.MaterialId);
-                    if (materialList == null)
-                    {
-                        return new ApiErrorResult<bool>($"Không tìm nguyên liệu");
-                    }
-                    foreach (var item in materialList)
-                    {
-                        if (item.effectDate.Date == DateTime.Now.Date)
-                        {
-                            totalMaterialPrice += (decimal)item.SellPrice;
-                        }
-                    }
-                    if (errorList.Any())
-                    {
-                        return new ApiErrorResult<bool>("Lỗi tìm kiếm", errorList);
-                    }
-                }*/
                 // Process SubGemPrice
                 decimal totalSubGemPrice = 0;
                 if (request.ListSubGems != null && request.ListSubGems.Count > 0)
@@ -136,8 +114,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                         _context.SubGemDetail.Add(subGemDetail);
                     }
                 }
-
-
                 // Process Image Of Product
                 if (request.Images.Any() && request.Images.Count > 0)
                 {
@@ -162,11 +138,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 // Process Thumbnail
                 string thumbnailUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.ProductThumbnail);
 
-                // Process totalPrice
-                decimal OriginalPrice = (decimal)(totalPriceGem + totalSubGemPrice); // + them cai processing price cua product
-                double percent = (double)request.PercentSale / 100;
-                decimal SellingPrice = OriginalPrice - (OriginalPrice * (decimal)percent);
-
+              
                 // Save Product
                 var product = new DiamondLuxurySolution.Data.Entities.Product()
                 {
@@ -178,15 +150,44 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     IsSale = request.IsSale,
                     DateCreate = DateTime.Now,
                     DateModified = DateTime.Now,
-                    OriginalPrice = OriginalPrice,
-                    SellingPrice = SellingPrice,
                     SellingCount = 0,
                     Quantity = request.Quantity,
                     PercentSale = request.PercentSale,
                     CategoryId = request.CategoryId,
                     Status = request.Status,
-                    GemId = gem.GemId
+                    GemId = gem.GemId,
+                    ProductPriceProcessing = request.ProcessingPrice
                 };
+
+                //Process Frame
+                decimal totalFramePrice = 0;
+                if (request.FrameId != null)
+                {
+                    var frame = await _context.Frames.FindAsync(request.FrameId);
+                    if (frame == null)
+                    {
+                        return new ApiErrorResult<bool>("Không tìm thấy khung của sản phẩm");
+                    }
+                    product.FrameId = frame.FrameId;
+                    var frameWeight = frame.Weight;
+                    var material = await _context.Materials.FindAsync(frame.MaterialId);
+                    if (material.EffectDate.Date.Equals(DateTime.Now.Date))
+                    {
+                        totalFramePrice = (decimal)material.Price * (decimal)frameWeight;
+                    }
+                    else
+                    {
+                        return new ApiErrorResult<bool>("Không tìm thấy giá cho nguyên liệu "+material.MaterialName);
+                    }
+                   
+                }
+                // Process totalPrice
+                decimal OriginalPrice = (decimal)(totalPriceGem + totalSubGemPrice) + request.ProcessingPrice+ totalFramePrice; // + them cai processing price cua product
+                double percent = (double)request.PercentSale / 100;
+                decimal SellingPrice = OriginalPrice - (OriginalPrice * (decimal)percent);
+                product.OriginalPrice = OriginalPrice;
+                product.SellingPrice = SellingPrice;
+
                 _context.Products.Add(product);
 
                 await _context.SaveChangesAsync();
@@ -220,7 +221,8 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                         .ThenInclude(sg => sg.SubGem)
                     .Include(p => p.Category)
                     .Include(p => p.Gem)
-                    .Include(p => p.Images)
+                    .ThenInclude(x => x.InspectionCertificate)
+                    .Include(x => x.Frame)
                     .FirstOrDefaultAsync(p => p.ProductId == ProductId);
 
                 if (product == null)
@@ -239,7 +241,8 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     IsSale = product.IsSale,
                     PercentSale = product.PercentSale,
                     Status = product.Status,
-                    Category = new CategoryVm
+                    CategoryId = product.CategoryId,
+                    CategoryVm = new CategoryVm
                     {
                         CategoryId = product.Category.CategoryId,
                         CategoryName = product.Category.CategoryName,
@@ -247,10 +250,8 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                         CategoryImage = product.Category.CategoryImage,
                         Status = product.Category.Status
                     },
-
-
                     Quantity = product.Quantity,
-                    Gem = new GemVm
+                    GemVm = new GemVm
                     {
                         GemId = product.Gem.GemId,
                         GemName = product.Gem.GemName,
@@ -261,10 +262,17 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                         Fluoresence = product.Gem.Fluoresence,
                         Polish = product.Gem.Polish,
                         ProportionImage = product.Gem.ProportionImage,
-                        Symetry = product.Gem.Symetry
+                        Symetry = product.Gem.Symetry,
+                        InspectionCertificateVm = product.Gem.InspectionCertificate != null ? new InspectionCertificateVm()
+                        {
+                            InspectionCertificateId = product.Gem.InspectionCertificate.InspectionCertificateId,
+                            DateGrading = product.Gem.InspectionCertificate.DateGrading,
+                            InspectionCertificateName = product.Gem.InspectionCertificate.InspectionCertificateName,
+                            Logo = product.Gem.InspectionCertificate.Logo,
+                            Status = product.Gem.InspectionCertificate.Status
+                        } : null,
                     },
-
-                    
+                    ProcessingPrice = product.ProductPriceProcessing
                 };
                 if (product.Images != null)
                 {
@@ -279,7 +287,31 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                         Quantity = x.Quantity
                     }).ToList();
                 }
+                if (product.FrameId != null)
+                {
               
+                    productVms.FrameVm = new ViewModel.Models.Frame.FrameVm()
+                    {
+                        FrameId = product.FrameId,
+                        NameFrame = product.Frame.FrameName,
+                        Size = product.Frame.Size,
+                        Weight = product.Frame.Weight,
+                    };
+                    var material = await _context.Materials.FindAsync(product.Frame.MaterialId);
+
+                    productVms.MaterialVm = new MaterialVm()
+                    {
+                        MaterialId = material.MaterialId,
+                        Color = material.Color,
+                        Description = material.Description,
+                        MaterialImage = material.MaterialImage,
+                        MaterialName = material.MaterialName,
+                        Status = material.Status,
+                        Weight = material.Weight,
+
+                    };
+                   
+                }
                 return new ApiSuccessResult<ProductVm>(productVms);
             }
             catch (Exception e)
@@ -306,11 +338,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 if (request.ProductThumbnail == null)
                 {
                     errorList.Add("Sản phẩm phải có ảnh đại diện");
-                }
-
-                if (request.WareHouseId == null)
-                {
-                    errorList.Add("Sản phẩm cần phải có kho lưu trữ");
                 }
 
                 if (errorList.Any())
@@ -342,7 +369,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 {
                     if (item.effectDate.Date == DateTime.Now.Date)
                     {
-                        totalPriceGem +=  (decimal)item.Price;
+                        totalPriceGem += (decimal)item.Price;
                     }
                 }
                 product.GemId = gem.GemId;
@@ -350,35 +377,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 {
                     return new ApiErrorResult<bool>("Lỗi tìm kiếm", errorList);
                 }
-
-                // Process Material NEED FIX
-                /*decimal totalMaterialPrice = 0;
-                if (request.MaterialId != null)
-                {
-                    var materialList = _context.MaterialPriceLists.Where(x => x.MaterialId == request.MaterialId);
-                    if (materialList == null)
-                    {
-                        return new ApiErrorResult<bool>("Không tìm nguyên liệu");
-                    }
-
-                    foreach (var item in materialList)
-                    {
-                        if (item.effectDate.Date == DateTime.Now.Date)
-                        {
-                            totalMaterialPrice += (decimal)item.SellPrice;
-                        }
-                    }
-
-                    if (errorList.Any())
-                    {
-                        return new ApiErrorResult<bool>("Lỗi tìm kiếm", errorList);
-                    }
-                    product.MaterialId = request.MaterialId;
-                }
-                else
-                {
-                    product.MaterialId = null;
-                }*/
 
                 // Process SubGemPrice
                 decimal totalSubGemPrice = 0;
@@ -430,10 +428,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     _context.SubGemDetail.RemoveRange(existingSubGems);
                 }
 
-                // Process totalPrice
-                decimal OriginalPrice = totalPriceGem + totalSubGemPrice;
-                decimal SellingPrice = OriginalPrice - (OriginalPrice * request.PercentSale);
-
+            
                 // Process Image Of Product
                 if (request.Images != null && request.Images.Any())
                 {
@@ -457,6 +452,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     var existingImages = _context.Images.Where(x => x.ProductId == request.ProductId).ToList();
                     _context.Images.RemoveRange(existingImages);
                 }
+           
 
                 // Process Category
                 var category = await _context.Categories.FindAsync(request.CategoryId);
@@ -465,9 +461,41 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     return new ApiErrorResult<bool>("Không tìm thấy loại của sản phẩm");
                 }
                 product.CategoryId = category.CategoryId;
+                //Process Frame
+                decimal totalFramePrice = 0;
+                if (request.FrameId != null)
+                {
+                    var frame = await _context.Frames.FindAsync(request.FrameId);
+                    if (frame == null)
+                    {
+                        return new ApiErrorResult<bool>("Không tìm thấy khung của sản phẩm");
+                    }
+                    product.FrameId = frame.FrameId;
+                    var frameWeight = frame.Weight;
+                    var material = await _context.Materials.FindAsync(frame.MaterialId);
+                    if (material.EffectDate.Date.Equals(DateTime.Now.Date))
+                    {
+                        totalFramePrice = (decimal)material.Price * (decimal)frameWeight;
+                    }
+                    else
+                    {
+                        return new ApiErrorResult<bool>("Không tìm thấy giá cho nguyên liệu " + material.MaterialName);
+                    }
+
+                }
+                else
+                {
+                    product.FrameId = null;
+                }
+                // Process totalPrice
+                decimal OriginalPrice = (decimal)(totalPriceGem + totalSubGemPrice) + request.ProcessingPrice + totalFramePrice; // + them cai processing price cua product
+                double percent = (double)request.PercentSale / 100;
+                decimal SellingPrice = OriginalPrice - (OriginalPrice * (decimal)percent);
+                product.OriginalPrice = OriginalPrice;
+                product.SellingPrice = SellingPrice;
+
 
                 // Process Thumbnail
-
                 string thumbnailUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.ProductThumbnail);
                 product.ProductThumbnail = thumbnailUrl;
                 // Update Product
@@ -480,6 +508,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 product.SellingPrice = SellingPrice;
                 product.PercentSale = request.PercentSale;
                 product.Status = request.Status;
+                product.ProductPriceProcessing = request.ProcessingPrice;
 
                 _context.Products.Update(product);
 
@@ -494,14 +523,18 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 
         public async Task<ApiResult<PageResult<ProductVm>>> ViewProduct(ViewProductRequest request)
         {
+
             var listProduct = await _context.Products
-                    .Include(p => p.Images)
-                    .Include(p => p.SubGemDetails)
-                        .ThenInclude(sg => sg.SubGem)
-                    .Include(p => p.Category)
-                    .Include(p => p.Gem)
-                    .Include(p => p.Images)
-                                            .ToListAsync();
+                .Include(p => p.Images)
+                .Include(p => p.SubGemDetails)
+                    .ThenInclude(sg => sg.SubGem)
+                .Include(p => p.Category)
+                .Include(p => p.Gem)
+                .ThenInclude(x => x.InspectionCertificate)
+                .Include(x => x.Frame)
+                                        .ToListAsync();
+
+
 
             if (!string.IsNullOrEmpty(request.Keyword))
             {
@@ -522,67 +555,99 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 
             List<ProductVm> listResultVm = new List<ProductVm>();
 
-            foreach (var item in pagedProducts)
+            foreach (var product in pagedProducts)
             {
-                var gem = item.Gem;
-                var listSubGem = item.SubGemDetails.ToList();
+                var gem = product.Gem;
+                var listSubGem = product.SubGemDetails.ToList();
                 List<SubGemSupportDTO> listSubGemVm = listSubGem.Select(sg => new SubGemSupportDTO
                 {
                     SubGemId = sg.SubGemId,
                     Quantity = sg.Quantity
                 }).ToList();
 
+
+
                 var productVms = new ProductVm
                 {
-                    ProductId = item.ProductId,
-                    ProductName = item.ProductName,
-                    Description = item.Description,
-                    ProductThumbnail = item.ProductThumbnail,
-                    IsHome = item.IsHome,
-                    IsSale = item.IsSale,
-                    PercentSale = item.PercentSale,
-                    Status = item.Status,
-                    Category = new CategoryVm
+                    ProductId = product.ProductId,
+                    ProductName = product.ProductName,
+                    Description = product.Description,
+                    ProductThumbnail = product.ProductThumbnail,
+                    IsHome = product.IsHome,
+                    IsSale = product.IsSale,
+                    PercentSale = product.PercentSale,
+                    Status = product.Status,
+                    CategoryId = product.CategoryId,
+                    CategoryVm = new CategoryVm
                     {
-                        CategoryId = item.Category.CategoryId,
-                        CategoryName = item.Category.CategoryName,
-                        CategoryType = item.Category.CategoryType,
-                        CategoryImage = item.Category.CategoryImage,
-                        Status = item.Category.Status
+                        CategoryId = product.Category.CategoryId,
+                        CategoryName = product.Category.CategoryName,
+                        CategoryType = product.Category.CategoryType,
+                        CategoryImage = product.Category.CategoryImage,
+                        Status = product.Category.Status
                     },
-
-
-                    Quantity = item.Quantity,
-                    Gem = new GemVm
+                    Quantity = product.Quantity,
+                    GemVm = new GemVm
                     {
-                        GemId = item.Gem.GemId,
-                        GemName = item.Gem.GemName,
-                        GemImage = item.Gem.GemImage,
-                        AcquisitionDate = item.Gem.AcquisitionDate,
-                        IsOrigin = item.Gem.IsOrigin,
-                        Active = item.Gem.Active,
-                        Fluoresence = item.Gem.Fluoresence,
-                        Polish = item.Gem.Polish,
-                        ProportionImage = item.Gem.ProportionImage,
-                        Symetry = item.Gem.Symetry
+                        GemId = product.Gem.GemId,
+                        GemName = product.Gem.GemName,
+                        GemImage = product.Gem.GemImage,
+                        AcquisitionDate = product.Gem.AcquisitionDate,
+                        IsOrigin = product.Gem.IsOrigin,
+                        Active = product.Gem.Active,
+                        Fluoresence = product.Gem.Fluoresence,
+                        Polish = product.Gem.Polish,
+                        ProportionImage = product.Gem.ProportionImage,
+                        Symetry = product.Gem.Symetry,
+                        InspectionCertificateVm = product.Gem.InspectionCertificate != null ? new InspectionCertificateVm()
+                        {
+                            InspectionCertificateId = product.Gem.InspectionCertificate.InspectionCertificateId,
+                            DateGrading = product.Gem.InspectionCertificate.DateGrading,
+                            InspectionCertificateName = product.Gem.InspectionCertificate.InspectionCertificateName,
+                            Logo = product.Gem.InspectionCertificate.Logo,
+                            Status = product.Gem.InspectionCertificate.Status
+                        } : null,
                     },
-
-                    
+                    ProcessingPrice = product.ProductPriceProcessing
                 };
-                if (item.Images != null)
+                if (product.Images != null)
                 {
-                    var imagePaths = item.Images.Select(x => x.ImagePath).ToList();
+                    var imagePaths = product.Images.Select(x => x.ImagePath).ToList();
                     productVms.Images = imagePaths;
                 }
-                if (item.SubGemDetails != null)
+                if (product.SubGemDetails != null)
                 {
-                    productVms.ListSubGems = item.SubGemDetails.Select(x => new SubGemSupportDTO
+                    productVms.ListSubGems = product.SubGemDetails.Select(x => new SubGemSupportDTO
                     {
                         SubGemId = x.SubGemId,
                         Quantity = x.Quantity
                     }).ToList();
                 }
-               
+                if (product.FrameId != null)
+                {
+
+                    productVms.FrameVm = new ViewModel.Models.Frame.FrameVm()
+                    {
+                        FrameId = product.FrameId,
+                        NameFrame = product.Frame.FrameName,
+                        Size = product.Frame.Size,
+                        Weight = product.Frame.Weight,
+                    };
+                    var material = await _context.Materials.FindAsync(product.Frame.MaterialId);
+
+                    productVms.MaterialVm = new MaterialVm()
+                    {
+                        MaterialId = material.MaterialId,
+                        Color = material.Color,
+                        Description = material.Description,
+                        MaterialImage = material.MaterialImage,
+                        MaterialName = material.MaterialName,
+                        Status = material.Status,
+                        Weight = material.Weight,
+
+                    };
+
+                }
 
                 listResultVm.Add(productVms);
             }

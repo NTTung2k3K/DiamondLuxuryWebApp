@@ -1,4 +1,5 @@
 ﻿using DiamondLuxurySolution.ViewModel.Models.Category;
+using DiamondLuxurySolution.ViewModel.Models.Frame;
 using DiamondLuxurySolution.ViewModel.Models.Gem;
 using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
 using DiamondLuxurySolution.ViewModel.Models.Material;
@@ -25,36 +26,21 @@ namespace DiamondLuxurySolution.ViewModel.Models.Product
 
         public decimal ProcessingPrice { get; set; }
 
-
-
         public int PercentSale { get; set; }
 
         public int? CategoryId { get; set; }
 
         public string Status {  get; set; }
         public int Quantity {  get; set; }
-        public string? InspectionCertificateId { get; set; }
-        public Guid? MaterialId { get; set; }
 
         public virtual ICollection<String> Images { get; set; } = new List<String>();
         public virtual ICollection<SubGemSupportDTO> ListSubGems { get; set; } = new List<SubGemSupportDTO>();
 
-        public virtual GemVm GemVms{ get; set; }
+        public virtual GemVm GemVm { get; set; }
         public virtual CategoryVm CategoryVm { get; set; }
-        public virtual MaterialVm MaterialVms { get; set; }
-        public virtual InspectionCertificateVm InspectionCertificateVm { get; set; }
+        public virtual MaterialVm MaterialVm { get; set; }
 
-        public CategoryVm Category { get; set; }
-
-        public InspectionCertificateVm InspectionCertificate{ get; set; }
-
-        public MaterialVm Material { get; set; }
-
-
-
-        public GemVm Gem{ get; set; }
-
-
+        public virtual FrameVm FrameVm { get; set; }
 
     }
 }
