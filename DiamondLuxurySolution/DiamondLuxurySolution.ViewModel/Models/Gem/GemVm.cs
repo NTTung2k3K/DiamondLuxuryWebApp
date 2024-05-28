@@ -26,5 +26,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Gem
         public DateTime AcquisitionDate { get; set; }
 
         public bool Active { get; set; }
+
+        public Data.Entities.InspectionCertificate InspectionCertificate { get; set; }
     }
 }

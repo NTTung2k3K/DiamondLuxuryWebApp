@@ -3,6 +3,7 @@ using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Gem;
+using DiamondLuxurySolution.ViewModel.Models.GemPriceList;
 using DiamondLuxurySolution.ViewModel.Models.Promotion;
 using Microsoft.EntityFrameworkCore;
 using PagedList;
@@ -23,11 +24,17 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
         }
         public async Task<ApiResult<bool>> CreateGem(CreateGemRequest request)
         {
+            var insp = await _context.InspectionCertificates.FindAsync(request.InspectionCertificateId);
+            if (insp == null)
+            {
+                return new ApiErrorResult<bool>("Không tìm thấy giấy chứng nhận kim cương");
+            }
+
             if (string.IsNullOrEmpty(request.GemName))
             {
                 return new ApiErrorResult<bool>("Vui lòng nhập tên kim cương");
             }
-            
+
             var gem = new DiamondLuxurySolution.Data.Entities.Gem
             {
                 GemId = Guid.NewGuid(),
@@ -38,6 +45,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Fluoresence = request.Fluoresence,
                 AcquisitionDate = request.AcquisitionDate,
                 Active = request.Active,
+                InspectionCertificateId = request.InspectionCertificateId,
             };
             if (request.ProportionImage != null)
             {
@@ -82,6 +90,12 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
             {
                 return new ApiErrorResult<GemVm>("Không tìm thấy kim cương");
             }
+            var insp = await _context.InspectionCertificates.FindAsync(gem.InspectionCertificateId);
+            if (insp == null)
+            {
+                return new ApiErrorResult<GemVm>("Không tìm thấy giấy chứng nhận kim cương");
+            }
+
             var gemVm = new GemVm()
             {
                 GemId = gem.GemId,
@@ -94,6 +108,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 ProportionImage = gem.ProportionImage,
                 AcquisitionDate = gem.AcquisitionDate,
                 Active = gem.Active,
+                InspectionCertificate = insp,
             };
             return new ApiSuccessResult<GemVm>(gemVm, "Success");
         }
@@ -109,7 +124,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
             {
                 return new ApiErrorResult<bool>("Không tìm thấy kim cương");
             }
-            
+
             gem.GemName = request.GemName;
             gem.Polish = request.Polish != null ? request.Polish : "";
             gem.Symetry = request.Symetry != null ? request.Symetry : "";
@@ -138,6 +153,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
         }
+
         public async Task<ApiResult<PageResult<GemVm>>> ViewGemInCustomer(ViewGemRequest request)
         {
             var listGem = await _context.Gems.ToListAsync();
@@ -152,19 +168,28 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
 
             var listPaging = listGem.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
 
-            var listGemVm = listPaging.Select(gem => new GemVm()
+            var listGemVm = new List<GemVm>();
+
+            foreach (var item in listPaging)
             {
-                GemId = gem.GemId,
-                GemName = gem.GemName,
-                Polish = gem.Polish,
-                Symetry = gem.Symetry,
-                IsOrigin = gem.IsOrigin,
-                GemImage = gem.GemImage,
-                Fluoresence = gem.Fluoresence,
-                ProportionImage = gem.ProportionImage,
-                AcquisitionDate = gem.AcquisitionDate,
-                Active = gem.Active,
-            }).ToList();
+                var insp = await _context.InspectionCertificates.FindAsync(item.InspectionCertificateId);
+                var gemVm = new GemVm()
+                {
+                    GemId = item.GemId,
+                    GemName = item.GemName,
+                    Polish = item.Polish,
+                    Symetry = item.Symetry,
+                    IsOrigin = item.IsOrigin,
+                    GemImage = item.GemImage,
+                    Fluoresence = item.Fluoresence,
+                    ProportionImage = item.ProportionImage,
+                    AcquisitionDate = item.AcquisitionDate,
+                    Active = item.Active,
+                    InspectionCertificate = insp,
+                };
+                listGemVm.Add(gemVm);
+            }
+
             var listResult = new PageResult<GemVm>()
             {
                 Items = listGemVm,
@@ -189,19 +214,28 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
 
             var listPaging = listGem.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
 
-            var listGemVm = listPaging.Select(gem => new GemVm()
+            var listGemVm = new List<GemVm>();
+
+            foreach (var item in listPaging)
             {
-                GemId = gem.GemId,
-                GemName = gem.GemName,
-                Polish = gem.Polish,
-                Symetry = gem.Symetry,
-                IsOrigin = gem.IsOrigin,
-                GemImage = gem.GemImage,
-                Fluoresence = gem.Fluoresence,
-                ProportionImage = gem.ProportionImage,
-                AcquisitionDate = gem.AcquisitionDate,
-                Active = gem.Active,
-            }).ToList();
+                var insp = await _context.InspectionCertificates.FindAsync(item.InspectionCertificateId);
+                var gemVm = new GemVm()
+                {
+                    GemId = item.GemId,
+                    GemName = item.GemName,
+                    Polish = item.Polish,
+                    Symetry = item.Symetry,
+                    IsOrigin = item.IsOrigin,
+                    GemImage = item.GemImage,
+                    Fluoresence = item.Fluoresence,
+                    ProportionImage = item.ProportionImage,
+                    AcquisitionDate = item.AcquisitionDate,
+                    Active = item.Active,
+                    InspectionCertificate = insp,
+                };
+                listGemVm.Add(gemVm);
+            }
+
             var listResult = new PageResult<GemVm>()
             {
                 Items = listGemVm,
