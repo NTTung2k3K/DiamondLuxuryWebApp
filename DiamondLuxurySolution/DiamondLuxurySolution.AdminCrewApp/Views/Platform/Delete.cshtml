@@ -1,0 +1,58 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Platform.PlatfromVm
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Xóa </h1>
+
+<h3 style="color: red">Bạn có muốn xóa nền tảng này?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PlatformId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PlatformId)
+        </dd>
+        <dt class="col-sm-2">
+            Tên nền tảng
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PlatformName)
+        </dd>
+        <dt class="col-sm-2">
+            Nền tảng Url
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PlatformUrl)
+        </dd>
+        <dt class="col-sm-2">
+            Logo
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.PlatformLogo != null)
+            {
+                <img src="@Model.PlatformLogo" style="style= height:100px; width:100px" />
+            }
+            else
+            {
+                <h5>Chưa co logo</h5>
+            }
+        </dd>
+        <dt class="col-sm-2">
+            Hiển thị
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        </dl>
+    <form asp-action="Delete">
+        <input type="hidden" name="PlatformId" value="@Model.PlatformId"/>
+        <input type="submit" value="Xóa" class="btn btn-danger" /> 
+    <a class="m-3" asp-action="Index">Về trang quản lí nền tảng</a>
+
+    </form>
+</div>

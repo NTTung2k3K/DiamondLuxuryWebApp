@@ -10,9 +10,9 @@ namespace DiamondLuxurySolution.Utilities.Constants
     {
         public class AppSettings
         {
-            public const string BaseAddress = "https://localhost:9000";
+            public const string BaseAddress = "Address:Base";
             public const int PAGE_SIZE = 10;
-        }
+        }   
         public class UserRoleDefault
         {
             public const string Customer = "Khách hàng";

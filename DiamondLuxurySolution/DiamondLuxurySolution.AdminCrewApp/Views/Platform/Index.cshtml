@@ -1,0 +1,90 @@
+﻿@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Common
+@using DiamondLuxurySolution.ViewModel.Models.Platform
+
+@model PageResult<PlatfromVm>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-md-3">
+    <p>
+        <a asp-action="Create" asp-controller="Platform" class="btn btn-success">Tạo mới</a>
+    </p>
+</div>
+
+
+
+@if (Model.Items != null && Model.Items.Count > 0)
+{
+    <form asp-action="Index" asp-controller="Platform" method="get">
+
+        <div class="row m-3" >
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-4">
+                <input type="text" name="Keyword" class="form-control" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm nền tảng">
+            </div>
+            <div class="col-md-2">
+            <button class="btn btn-success">Tìm kiêm</button>
+            
+            </div>
+        </div>
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <label>PlatformId</label>
+                </th>
+                <th>
+                    <label>Tên nền tảng</label>
+                </th>
+                <th>
+                    <label>Nền tảng url</label>
+                </th>
+                <th>
+                    <label>Nền tảng logo</label>
+                </th>
+                <th>
+                    <label>Hiển thị</label>
+                </th>
+                <th style="text-align">Cài đặt</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>@item.PlatformId</td>
+                    <td>@item.PlatformName</td>
+                    <td>@item.PlatformUrl</td>
+                    @if(string.IsNullOrEmpty(item.PlatformLogo)){
+                         <td>Không có hình ảnh</td>
+                    }else{
+
+                        <td>
+                            <img src="@item.PlatformLogo" style="height:100px; width:100px" />
+                        </td>
+                    }
+                    <td>@item.Status</td>
+                    <td class="text-center">
+                        @Html.ActionLink("Chỉnh sửa", "Edit", new { PlatformId = item.PlatformId }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Xem chi tiết", "Detail", new { PlatformId = item.PlatformId }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Xóa", "Delete", new { PlatformId = item.PlatformId }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center align-items-center">
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
+}
+else
+{
+    <h1>Không có thông tin</h1>
+}

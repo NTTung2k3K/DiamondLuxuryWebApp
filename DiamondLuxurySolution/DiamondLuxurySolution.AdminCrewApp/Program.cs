@@ -1,7 +1,20 @@
+using DiamondLuxurySolution.AdminCrewApp.Service.Platform;
+using DiamondLuxurySolution.Data.EF;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddTransient<IPlatformApiService, PlatformApiService>();
+builder.Services.AddDbContext<LuxuryDiamondShopContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("eShopSolutionDb"));
+});
+builder.Services.AddRazorPages()
+    .AddRazorRuntimeCompilation();
 
 var app = builder.Build();
 

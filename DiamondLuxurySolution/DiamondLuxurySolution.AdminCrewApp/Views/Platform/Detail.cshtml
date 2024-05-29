@@ -1,0 +1,57 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Platform.PlatfromVm
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Detail</h1>
+
+<div>
+    <h4>PlatfromVm</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PlatformId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PlatformId)
+        </dd>
+        <dt class="col-sm-2">
+            Tên nền tảng
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PlatformName)
+        </dd>
+        <dt class="col-sm-2">
+            Nền tảng Url
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PlatformUrl)
+        </dd>
+        <dt class="col-sm-2">
+            Logo
+        </dt>
+        <dd class="col-sm-10">
+            @if (Model.PlatformLogo != null)
+            {
+                <img src="@Model.PlatformLogo" style="style= height:100px; width:100px" />
+            }
+            else
+            {
+                <h5>Chưa co logo</h5>
+            }
+        </dd>
+        <dt class="col-sm-2">
+            Hiển thị
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Chỉnh sửa", "Edit", new { PlatformId = Model.PlatformId }, new { @class = "btn btn-warning" })
+
+    <a class="m-3" asp-action="Index">Về trang quản lí nền tảng</a>
+</div>

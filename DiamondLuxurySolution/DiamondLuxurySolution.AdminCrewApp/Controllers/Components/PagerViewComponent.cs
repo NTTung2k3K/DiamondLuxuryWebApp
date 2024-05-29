@@ -1,7 +1,7 @@
 ﻿using DiamondLuxurySolution.ViewModel.Common;
 using Microsoft.AspNetCore.Mvc;
 
-namespace eShopSolution.AdminApp.Controllers.Components
+namespace DiamondLuxurySolution.AdminCrewApp.Controllers.Components
 {
     public class PagerViewComponent : ViewComponent
     {

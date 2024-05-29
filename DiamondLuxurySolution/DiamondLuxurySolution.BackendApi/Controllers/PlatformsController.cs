@@ -66,7 +66,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeletePlatform([FromBody]DeletePlatformRequest request)
+        public async Task<IActionResult> DeletePlatform([FromQuery]DeletePlatformRequest request)
         {
             try
             {

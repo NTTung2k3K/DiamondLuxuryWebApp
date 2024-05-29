@@ -8,6 +8,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.Platform
 {
     public class DeletePlatformRequest
     {
-        public int PlatformId { get; set; }
+        public int PlatformId { get; set; }             
     }
 }
