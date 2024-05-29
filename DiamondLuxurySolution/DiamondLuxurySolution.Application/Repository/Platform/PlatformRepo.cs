@@ -77,6 +77,7 @@ namespace DiamondLuxurySolution.Application.Repository.Platform
         public async Task<ApiResult<PlatfromVm>> GetPlatfromById(int PlatformId)
         {
             var platform = await _context.Platforms.FindAsync(PlatformId);
+
             if (platform == null)
             {
                 return new ApiErrorResult<PlatfromVm>("Không tìm thấy nền tảng");

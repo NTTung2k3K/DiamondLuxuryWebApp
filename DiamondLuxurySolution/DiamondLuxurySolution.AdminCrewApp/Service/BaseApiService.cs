@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using DiamondLuxurySolution.ViewModel.Common;
+using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
 
@@ -16,7 +17,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
         }
-        protected async Task<TResponse> PostAsyncHasImage<TResponse>(string url, object obj)
+        protected async Task<ApiResult<TResponse>> PostAsyncHasImage<TResponse>(string url, object obj)
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
@@ -71,20 +72,20 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                 // Post the content
                 var response = await client.PostAsync(url, multipartFormDataContent);
                 var body = await response.Content.ReadAsStringAsync();
-
-                if (response.IsSuccessStatusCode)
+                var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
+               
+                if (objectResult.IsSuccessed == false)
                 {
-                    return JsonConvert.DeserializeObject<TResponse>(body);
+                    return objectResult;
                 }
                 else
                 {
-                    // Handle the error response accordingly
-                    throw new HttpRequestException($"Request failed with status code {response.StatusCode}: {body}");
+                    return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
                 }
             }
         }
 
-        protected async Task<TResponse> PostAsync<TResponse>(string url, Object obj)
+        protected async Task<ApiResult<TResponse>> PostAsync<TResponse>(string url, Object obj)
         {
             var json = JsonConvert.SerializeObject(obj);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
@@ -92,25 +93,37 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
             var response = await client.PostAsync(url, httpContent);
             var body = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode)
+            var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
+           
+            if (objectResult.IsSuccessed == false)
             {
-                return JsonConvert.DeserializeObject<TResponse>(body);
+                return objectResult;
             }
-            return JsonConvert.DeserializeObject<TResponse>(body);
+            else
+            {
+                return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
+            }
         }
-        protected async Task<TResponse> GetAsync<TResponse>(string url)
+        protected async Task<ApiResult<TResponse>> GetAsync<TResponse>(string url)
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
             var response = await client.GetAsync(url);
             var body = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode)
+            var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
+           
+            if (objectResult.IsSuccessed == false)
             {
-                return JsonConvert.DeserializeObject<TResponse>(body);
+                return objectResult;
             }
-            return JsonConvert.DeserializeObject<TResponse>(body);
+            else
+            {
+                return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
+            }
+
+           
         }
-        protected async Task<TResponse> PutAsync<TResponse>(string url, Object obj)
+        protected async Task<ApiResult<TResponse>> PutAsync<TResponse>(string url, Object obj)
         {
             var json = JsonConvert.SerializeObject(obj);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
@@ -118,13 +131,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
             var response = await client.PutAsync(url, httpContent);
             var body = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode)
+            var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
+           
+            if (objectResult.IsSuccessed == false)
             {
-                return JsonConvert.DeserializeObject<TResponse>(body);
+                return objectResult;
             }
-            return JsonConvert.DeserializeObject<TResponse>(body);
+            else
+            {
+                return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
+            }
         }
-        protected async Task<TResponse> PutAsyncHasImage<TResponse>(string url, object obj)
+        protected async Task<ApiResult<TResponse>> PutAsyncHasImage<TResponse>(string url, object obj)
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
@@ -179,33 +197,38 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                 // Put the content
                 var response = await client.PutAsync(url, multipartFormDataContent);
                 var body = await response.Content.ReadAsStringAsync();
-
-                if (response.IsSuccessStatusCode)
+                var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
+               
+                if (objectResult.IsSuccessed == false)
                 {
-                    return JsonConvert.DeserializeObject<TResponse>(body);
+                    return objectResult;
                 }
                 else
                 {
-                    // Handle the error response accordingly
-                    throw new HttpRequestException($"Request failed with status code {response.StatusCode}: {body}");
+                    return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
                 }
             }
         }
 
-        protected async Task<TResponse> DeleteAsync<TResponse>(string url)
+        protected async Task<ApiResult<TResponse>> DeleteAsync<TResponse>(string url)
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
             var response = await client.DeleteAsync(url);
             var body = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode)
+            var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
+           
+            if (objectResult.IsSuccessed == false)
             {
-                return JsonConvert.DeserializeObject<TResponse>(body);
+                return objectResult;
             }
-            return JsonConvert.DeserializeObject<TResponse>(body);
+            else
+            {
+                return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
+            }
         }
 
-        protected async Task<TResponse> PatchAsync<TResponse>(string url, Object obj)
+        protected async Task<ApiResult<TResponse>> PatchAsync<TResponse>(string url, Object obj)
         {
             var json = JsonConvert.SerializeObject(obj);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
@@ -213,11 +236,16 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
             var response = await client.PatchAsync(url, httpContent);
             var body = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode)
+            var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
+           
+            if (objectResult.IsSuccessed == false)
             {
-                return JsonConvert.DeserializeObject<TResponse>(body);
+                return objectResult;
             }
-            return JsonConvert.DeserializeObject<TResponse>(body);
+            else
+            {
+                return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
+            }
         }
 
 
