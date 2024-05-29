@@ -6,7 +6,16 @@
 }
 
 <h1>Xóa </h1>
-
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if(Model != null)
+{
+    
 <h3 style="color: red">Bạn có muốn xóa nền tảng này?</h3>
 <div>
     <hr />
@@ -46,7 +55,9 @@
             Hiển thị
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Status)
+            <div class="form-check form-switch ">
+                <input class="form-check-input f-18 ml-3" type="checkbox" asp-for="Status" value="@Model.Status" disabled />
+            </div>
         </dd>
         </dl>
     <form asp-action="Delete">
@@ -55,4 +66,9 @@
     <a class="m-3" asp-action="Index">Về trang quản lí nền tảng</a>
 
     </form>
-</div>
+    </div>
+}
+else
+{
+    <a class="m-3" asp-action="Index">Về trang quản lí nền tảng</a>
+}

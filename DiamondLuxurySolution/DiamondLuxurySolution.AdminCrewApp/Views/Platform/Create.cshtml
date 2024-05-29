@@ -5,45 +5,52 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>CreatePlatformRequest</h4>
+<h1>Tạo mới nền tảng</h1>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-6">
+        @if(ViewBag.Errors != null)
+        {
+            foreach (var error in ViewBag.Errors)
+            {
+                <h6 class="text-danger">@error</h6>
+            }
+        }
         <form asp-action="Create" asp-controller="Platform" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="PlatformName" class="control-label"></label>
-                <input name="PlatformName" class="form-control" value="@Html.Encode(Model.PlatformName)" />
+            <div class="form-group m-2">
+                <label asp-for="PlatformName" class="control-label m-2"></label>
+                <input name="PlatformName" class="form-control" />
 
                 <span asp-validation-for="PlatformName" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="PlatformUrl" class="control-label"></label>
+            <div class="form-group m-2">
+                <label asp-for="PlatformUrl" class="control-label  m-2"></label>
                 <input asp-for="PlatformUrl" class="form-control" />
                 <span asp-validation-for="PlatformUrl" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="PlatformLogo" class="control-label"></label>
+
+            <div class="form-group m-2">
+                <label asp-for="PlatformLogo" class="control-label m-2"></label>
                 <input asp-for="PlatformLogo" class="form-control" type="file" />
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Status" /> @Html.DisplayNameFor(model => model.Status)
-                </label>
+            <div class="form-check form-switch m-4">
+                <label asp-for="Status" class="control-label m-2">Hiển thị</label>
+                <input class="form-check-input f-18" type="checkbox"  asp-for="Status">
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+            <div class="form-group row">
+                <div class="col-md-5">
+                    <input type="submit" value="Tạo mới" class="btn btn-success" />
+                </div>
+                <div class="col-md-7">
+                    <a class="m-5" asp-action="Index">Về trang quản lí nền tảng</a>
+                </div>
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        
+    </script>
 }

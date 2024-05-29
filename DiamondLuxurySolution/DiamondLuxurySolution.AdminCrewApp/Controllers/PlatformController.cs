@@ -5,6 +5,7 @@ using DiamondLuxurySolution.ViewModel.Models.Platform;
 using DiamondLuxurySolution.ViewModel.Models.Role;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static DiamondLuxurySolution.Utilities.Constants.Systemconstant;
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
     public class PlatformController : Controller
@@ -50,16 +51,24 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
-
-                if (!ModelState.IsValid)
-                {
-                    return View();
-                }
                 var status = await _platformApiService.GetPlatfromById(PlatformId);
                 if (status is ApiErrorResult<PlatfromVm> errorResult)
                 {
-                    ViewBag.Error = "Không thể tìm thấy " + PlatformId.ToString();
+                    List<string> listError = new List<string>();
+                    if (status.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
+                    }
+                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                    {
+                        foreach (var error in listError)
+                        {
+                            listError.Add(error);
+                        }
+                    }
+                    ViewBag.Errors = listError;
                     return View();
+
                 }
                 return View(status.ResultObj);
             }
@@ -74,13 +83,25 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
-
-                if (!ModelState.IsValid)
-                {
-                    return View();
-                }
-
                 var platform = await _platformApiService.GetPlatfromById(PlatformId);
+                if (platform is ApiErrorResult<PlatfromVm> errorResult)
+                {
+                    List<string> listError = new List<string>();
+                    if (platform.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
+                    }
+                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                    {
+                        foreach (var error in listError)
+                        {
+                            listError.Add(error);
+                        }
+                    }
+                    ViewBag.Errors = listError;
+                    return View();
+
+                }
                 return View(platform.ResultObj);
             }
             catch
@@ -94,12 +115,26 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             try
             {
 
-                if (!ModelState.IsValid)
-                {
-                    return View();
-                }
+              
                 var status = await _platformApiService.UpdatePlatform(request);
-                  
+                if (status is ApiErrorResult<bool> errorResult)
+                {
+                    List<string> listError = new List<string>();
+                    if (status.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
+                    }
+                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                    {
+                        foreach (var error in listError)
+                        {
+                            listError.Add(error);
+                        }
+                    }
+                    ViewBag.Errors = listError;
+                    return View();
+
+                }
                 return RedirectToAction("Index", "Platform");
             }
             catch
@@ -115,14 +150,26 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
-
-                if (!ModelState.IsValid)
+                var platform = await _platformApiService.GetPlatfromById(PlatformId);
+                if (platform is ApiErrorResult<PlatfromVm> errorResult)
                 {
+                    List<string> listError = new List<string>();
+                    if (platform.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
+                    }
+                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                    {
+                        foreach (var error in listError)
+                        {
+                            listError.Add(error);
+                        }
+                    }
+                    ViewBag.Errors = listError;
                     return View();
-                }
 
-                var User = await _platformApiService.GetPlatfromById(PlatformId);
-                return View(User.ResultObj);
+                }
+                return View(platform.ResultObj);
             }
             catch
             {
@@ -136,15 +183,25 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             try
             {
 
-                if (!ModelState.IsValid)
-                {
-                    return View();
-                }
+              
                 var status = await _platformApiService.DeletePlatform(request);
                 if (status is ApiErrorResult<bool> errorResult)
                 {
-                    ViewBag.Errors = errorResult.ValidationErrors;
+                    List<string> listError = new List<string>();
+                    if (status.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
+                    }
+                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                    {
+                        foreach (var error in listError)
+                        {
+                            listError.Add(error);
+                        }
+                    }
+                    ViewBag.Errors = listError;
                     return View();
+
                 }
                 return RedirectToAction("Index", "Platform");
 
@@ -157,27 +214,32 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var platformVm = new DiamondLuxurySolution.ViewModel.Models.Platform.CreatePlatformRequest()
-            {
-                PlatformName = "",
-                PlatformUrl = "",
-            };
-            return View(platformVm);
+          
+            return View();
         }
         [HttpPost]
         public async Task<IActionResult> Create(CreatePlatformRequest request)
         {
 
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
+          
             var status = await _platformApiService.CreatePlatform(request);
 
             if (status is ApiErrorResult<bool> errorResult)
             {
-                ViewBag.Errors = errorResult.Message;
+                List<string> listError = new List<string>();
+                if (status.Message != null)
+                {
+                     listError.Add(errorResult.Message);
+                }else if(errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                {
+                    foreach (var error in listError)
+                    {
+                        listError.Add(error);
+                    }
+                }
+                ViewBag.Errors = listError;
                 return View();
+
             }
             TempData["SuccessMsg"] = "Create success for Role " + request.PlatformName;
 

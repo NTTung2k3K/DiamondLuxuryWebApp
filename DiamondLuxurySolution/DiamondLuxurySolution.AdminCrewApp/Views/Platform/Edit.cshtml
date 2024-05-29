@@ -6,59 +6,77 @@
 }
 
 <h1>Chỉnh sửa</h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if(Model != null){
+    <div class="row">
+        <div class="col-md-6">
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" asp-controller="Platform" method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="PlatformId" class="control-label"></label>
-                <input asp-for="PlatformId" class="form-control" readonly />
-            </div>
-            <div class="form-group">
-                <label asp-for="PlatformName" class="control-label">Tên nền tảng</label>
-                <input asp-for="PlatformName" class="form-control" />
-                <span asp-validation-for="PlatformName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PlatformUrl" class="control-label">Nền tảng Url</label>
-                <input asp-for="PlatformUrl" class="form-control" />
-                <span asp-validation-for="PlatformUrl" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PlatformLogo" class="control-label">Logo</label>
-                @if (string.IsNullOrEmpty(Model.PlatformLogo))
-                {
-                    <div>Không có hình ảnh</div>
-                }
-                else
-                {
-                    <td>
-                        <img src="@Model.PlatformLogo" style="height:100px; width:100px" />
-                    </td>
-                }
+            <form asp-action="Edit" asp-controller="Platform" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group m-2">
+                    <label asp-for="PlatformId" class="control-label  m-2"></label>
+                    <input asp-for="PlatformId" class="form-control" readonly />
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="PlatformName" class="control-label m-2"></label>
+                    <input name="PlatformName" class="form-control" value="@Html.Encode(Model.PlatformName)" />
 
-            </div>
-            <div class="form-group">
-                <label class="control-label">Thay hình mới</label>
-                <input asp-for="PlatformLogo" class="form-control" type="file" />
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Status" /> Hiển thị
-                </label>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Lưu" class="btn btn-primary" />
-            </div>
-        </form>
+                    <span asp-validation-for="PlatformName" class="text-danger"></span>
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="PlatformUrl" class="control-label  m-2"></label>
+                    <input asp-for="PlatformUrl" class="form-control" />
+                    <span asp-validation-for="PlatformUrl" class="text-danger"></span>
+                </div>
+
+                <div class="form-group m-2">
+                    <label class="control-label m-2">Logo hiện tại</label>
+                    @if (string.IsNullOrEmpty(Model.PlatformLogo) || Model.PlatformLogo.Length <= 0)
+                    {
+                        <label style="color:orangered;">Không có hình ảnh</label>
+                    }
+                    else
+                    {
+                        <label>
+                            <img src="@Model.PlatformLogo" style="height:100px; width:100px" />
+                        </label>
+                    }
+                </div>
+
+
+
+                <div class="form-group m-2">
+                    <label asp-for="PlatformLogo" class="control-label m-2">Logo Mới</label>
+                    <input asp-for="PlatformLogo" class="form-control" type="file" />
+                </div>
+                <div class="form-check form-switch m-4">
+                    <label asp-for="Status" class="control-label mt-1">Hiển thị</label>
+                    <input class="form-check-input f-18" type="checkbox" asp-for="Status">
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        <input type="submit" value="Lưu" class="btn btn-primary" />
+                    </div>
+                    <div class="col-md-7">
+                        <a class="m-5" asp-action="Index">Về trang quản lí nền tảng</a>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
+}
+else
+{
+    <a class="m-5" asp-action="Index">Về trang quản lí nền tảng</a>
 
-<div>
-    <a asp-action="Index">Về trang quản lí nền tảng</a>
-</div>
+}
+<hr />
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

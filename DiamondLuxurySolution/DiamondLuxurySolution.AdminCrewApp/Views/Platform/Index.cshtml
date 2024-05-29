@@ -8,58 +8,55 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
-<div class="col-md-3">
-    <p>
+<div class="row mb-4">
+    <div class="col-md-4">
         <a asp-action="Create" asp-controller="Platform" class="btn btn-success">Tạo mới</a>
-    </p>
+    </div>
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-5">
+            <form asp-action="Index" asp-controller="Platform" method="get" class="d-flex">
+
+                <div class="search">
+                    <input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm nền tảng" />
+                    <button type="submit">Tìm kiếm</button>
+                </div>
+            </form>
+    </div>
 </div>
-
-
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
 
 @if (Model.Items != null && Model.Items.Count > 0)
 {
-    <form asp-action="Index" asp-controller="Platform" method="get">
-
-        <div class="row m-3" >
-            <div class="col-md-6">
-            </div>
-            <div class="col-md-4">
-                <input type="text" name="Keyword" class="form-control" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm nền tảng">
-            </div>
-            <div class="col-md-2">
-            <button class="btn btn-success">Tìm kiêm</button>
-            
-            </div>
-        </div>
-    </form>
+    
     <table class="table">
         <thead>
-            <tr>
-                <th>
-                    <label>PlatformId</label>
-                </th>
-                <th>
+            <tr class="text-center">
+                <th >
                     <label>Tên nền tảng</label>
                 </th>
                 <th>
                     <label>Nền tảng url</label>
                 </th>
-                <th>
+                <th >
                     <label>Nền tảng logo</label>
                 </th>
                 <th>
                     <label>Hiển thị</label>
                 </th>
-                <th style="text-align">Cài đặt</th>
+                <th>Cài đặt</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.Items)
             {
-                <tr>
-                    <td>@item.PlatformId</td>
+                <tr class="text-center">
                     <td>@item.PlatformName</td>
                     <td>@item.PlatformUrl</td>
                     @if(string.IsNullOrEmpty(item.PlatformLogo)){
@@ -70,7 +67,21 @@
                             <img src="@item.PlatformLogo" style="height:100px; width:100px" />
                         </td>
                     }
-                    <td>@item.Status</td>
+                    @if (item.Status == true)
+                    {
+                        <td>
+                            <span class="badge bg-success rounded-pill">Hoạt động</span>
+
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <span class="badge bg-danger rounded-pill">Chưa hoạt động</span>
+
+                        </td>
+
+                    }
                     <td class="text-center">
                         @Html.ActionLink("Chỉnh sửa", "Edit", new { PlatformId = item.PlatformId }, new { @class = "btn btn-warning" })
                         @Html.ActionLink("Xem chi tiết", "Detail", new { PlatformId = item.PlatformId }, new { @class = "btn btn-info" })
