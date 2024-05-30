@@ -1,0 +1,56 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Role.RoleVm
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chi tiết vai trò</h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if (Model != null)
+{
+
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.RoleId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.RoleId)
+            </dd>
+            <dt class="col-sm-2">
+                Tên chức vụ
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class="col-sm-2">
+                Mô tả
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+        </dl>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            @Html.ActionLink("Chỉnh sửa", "Edit", new { RoleId = Model.RoleId }, new { @class = "btn btn-warning" })
+        </div>
+        <div class="col-md-6">
+            <a class="m-5" asp-action="Index" asp-controller="Role">Về trang quản lí chức vụ</a>
+        </div>
+    </div>
+}else{
+    <div>
+        <a class="m-5" asp-action="Index" asp-controller="Role">Về trang quản lí chức vụ</a>
+    </div>
+}
+
+
