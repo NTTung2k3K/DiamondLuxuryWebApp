@@ -61,7 +61,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteCateGory([FromBody] DeleteCategoryRequest request)
+        public async Task<IActionResult> DeleteCateGory([FromQuery] DeleteCategoryRequest request)
         {
             try
             {
