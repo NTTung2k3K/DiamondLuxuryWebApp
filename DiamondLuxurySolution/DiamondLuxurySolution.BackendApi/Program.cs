@@ -26,6 +26,7 @@ using DiamondLuxurySolution.Application.Repository.SubGem;
 using DiamondLuxurySolution.Application.Repository.Payment;
 using DiamondLuxurySolution.Application.Repository.Contact;
 using DiamondLuxurySolution.Application.Repository.Frame;
+using DiamondLuxurySolution.Application.Repository.Role;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -65,10 +66,13 @@ builder.Services.AddTransient<IKnowledgeNewsRepo, KnowledgeNewsRepo>();
 builder.Services.AddTransient<IPaymentRepo, PaymentRepo>();
 builder.Services.AddTransient<IContactRepo, ContactRepo>();
 builder.Services.AddTransient<IFrameRepo, FrameRepo>();
+builder.Services.AddScoped<IRoleInitializer, RoleInitializer>();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddIdentity<AppUser, AppRole>()
+
 .AddEntityFrameworkStores<LuxuryDiamondShopContext>()
         .AddDefaultTokenProviders();
 
@@ -86,5 +90,10 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
+using (var scope = app.Services.CreateScope())
+{
+    var roleInitializer = scope.ServiceProvider.GetRequiredService<IRoleInitializer>();
+    roleInitializer.CreateDefaultRole().Wait();
+    roleInitializer.CreateAdminAccount().Wait();
+}
 app.Run();

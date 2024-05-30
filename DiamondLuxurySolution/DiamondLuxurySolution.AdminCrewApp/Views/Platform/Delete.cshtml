@@ -13,62 +13,62 @@
         <h6 class="text-danger">@error</h6>
     }
 }
-@if(Model != null)
+@if (Model != null)
 {
-    
-<h3 style="color: red">Bạn có muốn xóa nền tảng này?</h3>
-<div>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PlatformId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PlatformId)
-        </dd>
-        <dt class="col-sm-2">
-            Tên nền tảng
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PlatformName)
-        </dd>
-        <dt class="col-sm-2">
-            Nền tảng Url
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PlatformUrl)
-        </dd>
-        <dt class="col-sm-2">
-            Logo
-        </dt>
-        <dd class="col-sm-10">
-            @if (Model.PlatformLogo != null)
-            {
-                <img src="@Model.PlatformLogo" style="style= height:100px; width:100px" />
-            }
-            else
-            {
-                <h5>Chưa co logo</h5>
-            }
-        </dd>
-        <dt class="col-sm-2">
-            Hiển thị
-        </dt>
-        <dd class="col-sm-10">
-            <div class="form-check form-switch ">
-                <input class="form-check-input f-18 ml-3" type="checkbox" asp-for="Status" value="@Model.Status" disabled />
-            </div>
-        </dd>
-        </dl>
-    <form asp-action="Delete">
-        <input type="hidden" name="PlatformId" value="@Model.PlatformId"/>
-        <input type="submit" value="Xóa" class="btn btn-danger" /> 
-    <a class="m-3" asp-action="Index">Về trang quản lí nền tảng</a>
 
-    </form>
+    <h3 style="color: red">Bạn có muốn xóa nền tảng này?</h3>
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.PlatformId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PlatformId)
+            </dd>
+            <dt class="col-sm-2">
+                Tên nền tảng
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PlatformName)
+            </dd>
+            <dt class="col-sm-2">
+                Nền tảng Url
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PlatformUrl)
+            </dd>
+            <dt class="col-sm-2">
+                Logo
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.PlatformLogo != null)
+                {
+                    <img src="@Model.PlatformLogo" style="style= height:100px; width:100px" />
+                }
+                else
+                {
+                    <h5>Chưa co logo</h5>
+                }
+            </dd>
+            <dt class="col-sm-2">
+                Hiển thị
+            </dt>
+            <dd class="col-sm-10">
+                <div class="form-check form-switch ">
+                    <input class="form-check-input f-18 ml-3" type="checkbox" asp-for="Status" value="@Model.Status" disabled />
+                </div>
+            </dd>
+        </dl>
+        <form asp-action="Delete" asp-controller="Platform" method="post">
+            <input type="hidden" name="PlatformId" value="@Model.PlatformId" />
+            <input type="submit" value="Xóa" class="btn btn-danger" />
+            <a class="m-3" asp-action="Index" asp-controller="Platform">Về trang quản lí nền tảng</a>
+
+        </form>
     </div>
 }
 else
 {
-    <a class="m-3" asp-action="Index">Về trang quản lí nền tảng</a>
+    <a class="m-3" asp-action="Index" asp-controller="Platform">Về trang quản lí nền tảng</a>
 }

@@ -1,4 +1,5 @@
-﻿using DiamondLuxurySolution.Data.EF;
+﻿using Azure.Core;
+using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Role;
@@ -18,7 +19,7 @@ namespace DiamondLuxurySolution.Application.Repository
     {
         private readonly RoleManager<AppRole> _roleManager;
 
-        public RoleRepo( RoleManager<AppRole> roleManager)
+        public RoleRepo(RoleManager<AppRole> roleManager)
         {
             _roleManager = roleManager;
         }
@@ -28,7 +29,20 @@ namespace DiamondLuxurySolution.Application.Repository
             var role = await _roleManager.FindByNameAsync(request.Name);
             if (role != null)
             {
-                return new ApiErrorResult<bool>("Role đã không tồn tại");
+                return new ApiErrorResult<bool>("Role đã tồn tại");
+            }
+            var errorList = new List<string>();
+            if (request.Name == null)
+            {
+                errorList.Add("Yêu cầu tên của chức vụ");
+            }
+            if (request.Description == null)
+            {
+                errorList.Add("Yêu cầu mô tả của chức vụ");
+            }
+            if (errorList.Count > 0)
+            {
+                return new ApiErrorResult<bool>("Lỗi thông tin", errorList);
             }
             var roleAdd = new AppRole()
             {
@@ -40,7 +54,7 @@ namespace DiamondLuxurySolution.Application.Repository
             {
                 return new ApiErrorResult<bool>("Lỗi hệ thống");
             }
-            return new ApiSuccessResult<bool>(true,"Success");
+            return new ApiSuccessResult<bool>(true, "Success");
 
         }
 
@@ -49,7 +63,7 @@ namespace DiamondLuxurySolution.Application.Repository
             var role = await _roleManager.FindByIdAsync(request.RoleId.ToString());
             if (role == null)
             {
-              return new ApiErrorResult<bool>("Role không tồn tại");
+                return new ApiErrorResult<bool>("Role không tồn tại");
             }
             var status = await _roleManager.DeleteAsync(role);
             if (!status.Succeeded)
@@ -82,6 +96,19 @@ namespace DiamondLuxurySolution.Application.Repository
             {
                 return new ApiErrorResult<bool>("Role không tồn tại");
             }
+            var errorList = new List<string>();
+            if(request.Name == null)
+            {
+                errorList.Add("Yêu cầu tên của chức vụ");
+            }
+            if(request.Description == null)
+            {
+                errorList.Add("Yêu cầu mô tả của chức vụ");
+            }
+            if(errorList.Count > 0)
+            {
+                return new ApiErrorResult<bool>("Lỗi thông tin", errorList);
+            }
             role.Name = request.Name;
             role.Description = request.Description;
             var status = await _roleManager.UpdateAsync(role);
@@ -91,6 +118,8 @@ namespace DiamondLuxurySolution.Application.Repository
             }
             return new ApiSuccessResult<bool>(true, "Success");
         }
+
+      
 
         public async Task<ApiResult<PageResult<RoleVm>>> GetRolePagination(ViewRoleRequest request)
         {
@@ -131,7 +160,7 @@ namespace DiamondLuxurySolution.Application.Repository
                 Name = x.Name,
                 Description = x.Description
             }).ToList();
-            return new ApiSuccessResult<List<RoleVm>>(listRoleViewModel,"Success");
+            return new ApiSuccessResult<List<RoleVm>>(listRoleViewModel, "Success");
         }
 
     }
