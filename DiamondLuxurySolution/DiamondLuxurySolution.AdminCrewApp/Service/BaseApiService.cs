@@ -52,7 +52,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
 
                         if (propertyValue != null)
                         {
-                            if (propertyValue is string)
+                            if (propertyValue is DateTime dateTime)
+                            {
+                                // Convert DateTime to string in a specific format (e.g., ISO 8601)
+                                stringContent = dateTime.ToString("o"); // "o" stands for the round-trip format, which is ISO 8601
+                            }
+                            else if (propertyValue is string)
                             {
                                 // If the property value is already a string, use it directly
                                 stringContent = propertyValue.ToString();
@@ -177,7 +182,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
 
                         if (propertyValue != null)
                         {
-                            if (propertyValue is string)
+                            if (propertyValue is DateTime dateTime)
+                            {
+                                // Convert DateTime to string in a specific format (e.g., ISO 8601)
+                                stringContent = dateTime.ToString("o"); // "o" stands for the round-trip format, which is ISO 8601
+                            }
+                            else if (propertyValue is string)
                             {
                                 // If the property value is already a string, use it directly
                                 stringContent = propertyValue.ToString();
