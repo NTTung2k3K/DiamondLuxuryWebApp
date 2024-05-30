@@ -61,7 +61,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteInspectionCertificate([FromBody] DeleteInspectionCertificateRequest request)
+        public async Task<IActionResult> DeleteInspectionCertificate([FromQuery] DeleteInspectionCertificateRequest request)
         {
             try
             {

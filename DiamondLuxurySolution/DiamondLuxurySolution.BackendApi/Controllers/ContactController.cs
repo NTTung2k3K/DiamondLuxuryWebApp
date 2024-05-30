@@ -25,7 +25,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpPost("Create")]
-        public async Task<ActionResult> CreateContact([FromForm] CreateContactRequest request)
+        public async Task<ActionResult> CreateContact([FromBody] CreateContactRequest request)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<ActionResult> UpdateContact([FromForm] UpdateContactRequest request)
+        public async Task<ActionResult> UpdateContact([FromBody] UpdateContactRequest request)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteContact([FromBody] DeleteContactRequest request)
+        public async Task<IActionResult> DeleteContact([FromQuery] DeleteContactRequest request)
         {
             try
             {

@@ -1,0 +1,104 @@
+﻿@using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate
+@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Common
+
+@model PageResult<InspectionCertificateVm>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row mb-4">
+    <div class="col-md-4">
+        <a asp-action="Create" asp-controller="InspectionCertificate" class="btn btn-success">Tạo mới</a>
+    </div>
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <form asp-action="Index" asp-controller="InspectionCertificate" method="get" class="d-flex">
+
+            <div class="search">
+                <input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm nền tảng" />
+                <button type="submit">Tìm kiếm</button>
+            </div>
+        </form>
+    </div>
+</div>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+
+@if (Model.Items != null && Model.Items.Count > 0)
+{
+
+    <table class="table">
+        <thead>
+            <tr class="text-center">
+                <th>
+                    <label>Tên giấy chứng nhận 4C</label>
+                </th>
+                <th>
+                    <label>Ngày khởi tạo</label>
+                </th>
+                <th>
+                    <label>Giấy chứng nhận 4C logo</label>
+                </th>
+                <th>
+                    <label>Hiển thị</label>
+                </th>
+                <th>Cài đặt</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr class="text-center">
+                    <td>@item.InspectionCertificateName</td>
+                    <td>@item.DateGrading</td>
+                    @if (string.IsNullOrEmpty(item.Logo))
+                    {
+                        <td>Không có hình ảnh</td>
+                    }
+                    else
+                    {
+
+                        <td>
+                            <img src="@item.Logo" style="height:100px; width:100px" />
+                        </td>
+                    }
+                    @if (item.Status == true)
+                    {
+                        <td>
+                            <span class="badge bg-success rounded-pill">Hoạt động</span>
+
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <span class="badge bg-danger rounded-pill">Chưa hoạt động</span>
+
+                        </td>
+
+                    }
+                    <td class="text-center">
+                        @Html.ActionLink("Chỉnh sửa", "Edit", new { InspectionCertificateId = item.InspectionCertificateId }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Xem chi tiết", "Detail", new { InspectionCertificateId = item.InspectionCertificateId }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Xóa", "Delete", new { InspectionCertificateId = item.InspectionCertificateId }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center align-items-center">
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
+}
+else
+{
+    <h1>Không có thông tin</h1>
+}
