@@ -5,6 +5,7 @@ using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.About;
 using DiamondLuxurySolution.ViewModel.Models.Collection;
 using DiamondLuxurySolution.ViewModel.Models.Contact;
+using DiamondLuxurySolution.ViewModel.Models.Platform;
 using Microsoft.EntityFrameworkCore;
 using PagedList;
 using System;
@@ -80,6 +81,21 @@ namespace DiamondLuxurySolution.Application.Repository.Contact
             _context.Contacts.Remove(contact);
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(false, "Success");
+        }
+
+        public async Task<ApiResult<List<ContactVm>>> GetAll()
+        {
+            var list = await _context.Contacts.ToListAsync();
+            var rs = list.Select(x => new ContactVm()
+            {
+                ContactId = x.ContactId,
+                ContactNameUser = x.ContactNameUser,
+                ContactEmailUser = x.ContactEmailUser,
+                ContactPhoneUser = x.ContactPhoneUser,
+                Content = x.Content,
+                IsResponse = x.IsResponse,
+            }).ToList();
+            return new ApiSuccessResult<List<ContactVm>>(rs);
         }
 
         public async Task<ApiResult<ContactVm>> GetContactById(int ContactId)
