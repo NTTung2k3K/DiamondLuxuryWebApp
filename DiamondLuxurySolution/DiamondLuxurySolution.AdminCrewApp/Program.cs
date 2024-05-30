@@ -1,3 +1,4 @@
+using DiamondLuxurySolution.AdminCrewApp.Service.Contact;
 using DiamondLuxurySolution.AdminCrewApp.Service.Platform;
 using DiamondLuxurySolution.AdminCrewApp.Service.Role;
 using DiamondLuxurySolution.Data.EF;
@@ -12,6 +13,7 @@ builder.Services.AddTransient<IRoleApiService, RoleApiService>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IPlatformApiService, PlatformApiService>();
+builder.Services.AddTransient<IContactApiService, ContactApiService>();
 builder.Services.AddDbContext<LuxuryDiamondShopContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("eShopSolutionDb"));
