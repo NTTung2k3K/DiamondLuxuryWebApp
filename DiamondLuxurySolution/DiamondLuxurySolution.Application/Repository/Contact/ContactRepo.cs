@@ -82,6 +82,21 @@ namespace DiamondLuxurySolution.Application.Repository.Contact
             return new ApiSuccessResult<bool>(false, "Success");
         }
 
+        public async Task<ApiResult<List<ContactVm>>> GetAll()
+        {
+            var list = await _context.Contacts.ToListAsync();
+            var rs = list.Select(x => new ContactVm()
+            {
+                ContactId = x.ContactId,
+                ContactNameUser = x.ContactNameUser,
+                ContactEmailUser = x.ContactEmailUser,
+                ContactPhoneUser = x.ContactPhoneUser,
+                Content = x.Content,
+                IsResponse = x.IsResponse,
+            }).ToList();
+            return new ApiSuccessResult<List<ContactVm>>(rs);
+        }
+
         public async Task<ApiResult<ContactVm>> GetContactById(int ContactId)
         {
             var contact = await _context.Contacts.FindAsync(ContactId);
@@ -121,10 +136,6 @@ namespace DiamondLuxurySolution.Application.Repository.Contact
             if (string.IsNullOrWhiteSpace(request.Content))
             {
                 errorList.Add("Vui lòng nhập nội dung");
-            }
-            if (errorList.Any())
-            {
-                return new ApiErrorResult<bool>("Không hợp lệ");
             }
             var contact = await _context.Contacts.FindAsync(request.ContactId);
             if (contact == null)
