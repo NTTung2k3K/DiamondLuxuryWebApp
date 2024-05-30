@@ -1,0 +1,52 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Role.RoleVm
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Xóa </h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if (Model != null)
+{
+
+    <h3 style="color: red">Bạn có muốn xóa chức vụ này?</h3>
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.RoleId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.RoleId)
+            </dd>
+            <dt class="col-sm-2">
+                Tên chức vụ
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class="col-sm-2">
+                Mô tả
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+        </dl>
+        <form asp-action="Delete" asp-controller="Role" method="post">
+            <input type="hidden" name="RoleId" value="@Model.RoleId" />
+            <input type="submit" value="Xóa" class="btn btn-danger" />
+            <a class="m-3" asp-action="Index" asp-controller="Role">Về trang quản lí chức vụ</a>
+        </form>
+    </div>
+}
+else
+{
+    <a class="m-3" asp-action="Index" asp-controller="Role">Về trang quản lí nền tảng</a>
+}
