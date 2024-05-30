@@ -22,7 +22,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpPost("Create")]
-        public async Task<ActionResult> CreateRole([FromForm] CreateRoleRequest request)
+        public async Task<ActionResult> CreateRole([FromBody] CreateRoleRequest request)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<ActionResult> UpdateRole([FromForm] UpdateRoleRequest request)
+        public async Task<ActionResult> UpdateRole([FromBody] UpdateRoleRequest request)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteRole([FromBody] DeleteRoleRequest request)
+        public async Task<IActionResult> DeleteRole([FromQuery] DeleteRoleRequest request)
         {
             try
             {

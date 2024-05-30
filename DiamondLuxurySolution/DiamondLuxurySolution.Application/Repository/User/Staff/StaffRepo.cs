@@ -1,4 +1,5 @@
-﻿using DiamondLuxurySolution.Data.EF;
+﻿using Azure.Core;
+using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.User.Customer;
@@ -169,7 +170,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             {
                 Fullname = request.FullName.Trim(),
                 Email = request.Email.Trim(),
-                Dob = request.Dob !=null ? request.Dob : null,
+                Dob = request.Dob != null ? request.Dob : null,
                 PhoneNumber = request.PhoneNumber.Trim(),
                 UserName = request.Username.Trim(),
                 Status = request.Status.Trim()
@@ -199,7 +200,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                     user.ShipStatus = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Waiting.ToString();
                     _userManager.UpdateAsync(user);
                 }
-               
+
             }
 
 
@@ -241,17 +242,17 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 }
             }*/
             #endregion End 
-            
-            
+
+
             if (errorList.Any())
             {
-                return new ApiErrorResult<bool>("Không hợp lệ",errorList);
+                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
 
             user.PhoneNumber = request.PhoneNumber.Trim();
             user.Fullname = request.FullName.Trim();
-            user.Dob =  request.Dob!=null ? request.Dob : null;
-        
+            user.Dob = request.Dob != null ? request.Dob : null;
+
             user.Email = request.Email.Trim();
             user.CitizenIDCard = request.CitizenIDCard.Trim();
 
@@ -590,7 +591,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                     CitizenIDCard = item.CitizenIDCard,
                     Address = item.Address,
                     Image = item.Image,
-                };  
+                };
                 var appUser = await _userManager.FindByIdAsync(item.Id.ToString());
                 var roles = await _userManager.GetRolesAsync(appUser);
                 if (roles.Count > 0)
@@ -679,10 +680,10 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             {
                 return new ApiErrorResult<bool>("Lỗi hệ thống, cập nhật thông tin thất bại vui lòng thử lại");
             }
-            
-            return new ApiSuccessResult<bool>(true,"Thay đổi mật khẩu thành công");
+
+            return new ApiSuccessResult<bool>(true, "Thay đổi mật khẩu thành công");
         }
 
-
+       
     }
 }
