@@ -1,0 +1,77 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Category.CategoryVm
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chi tiết danh mục</h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+                <h6 class="text-danger">@error</h6>
+    }
+}
+@if (Model != null)
+{
+
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CategoryId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CategoryId)
+            </dd>
+            <dt class="col-sm-2">
+                Tên danh mục 
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CategoryName)
+            </dd>
+            <dt class="col-sm-2">
+                Loại danh mục 
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CategoryType)
+            </dd>
+            <dt class="col-sm-2">
+                Hình ảnh danh mục
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.CategoryImage != null)
+                {
+                        <img src="@Model.CategoryImage" style="style= height:100px; width:100px" />
+                }
+                else
+                {
+                        <h5>Chưa co hình ảnh</h5>
+                }
+            </dd>
+            <dt class="col-sm-2">
+                Hiển thị
+            </dt>
+            <dd class="col-sm-10">
+                <div class="form-check form-switch ">
+                    <input class="form-check-input f-18 ml-3" type="checkbox" asp-for="Status" value="@Model.Status" disabled />
+                </div>
+            </dd>
+        </dl>
+    </div>
+        <div class="row">
+            <div class="col-md-3">
+            @Html.ActionLink("Chỉnh sửa", "Edit", new { CategoryId = Model.CategoryId }, new { @class = "btn btn-warning" })
+            </div>
+            <div class="col-md-7">
+                <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Category")'">Về trang quản lí danh mục</button>
+            </div>
+        </div>
+}
+else
+{
+        <div>
+            <a class="m-5" asp-action="Index" asp-controller="Category">Về trang quản lí danh mục</a>
+        </div>
+}

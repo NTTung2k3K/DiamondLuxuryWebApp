@@ -1,0 +1,56 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Category.CategoryVm
+
+@{
+	ViewData["Title"] = "Create";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Tạo mới danh mục</h1>
+<hr />
+<div class="row">
+	<div class="col-md-6">
+		@if (ViewBag.Errors != null)
+		{
+			foreach (var error in ViewBag.Errors)
+			{
+										<h6 class="text-danger">@error</h6>
+			}
+		}
+		<form asp-action="Create" asp-controller="Category" method="post" enctype="multipart/form-data">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="form-group m-2">
+				<label asp-for="CategoryName" class="control-label m-2"></label>
+				<input name="CategoryName" class="form-control" />
+
+				<span asp-validation-for="CategoryName" class="text-danger"></span>
+			</div>
+			<div class="form-group m-2">
+				<label asp-for="CategoryType" class="control-label  m-2"></label>
+				<input asp-for="CategoryType" class="form-control" />
+				<span asp-validation-for="CategoryType" class="text-danger"></span>
+			</div>
+
+			<div class="form-group m-2">
+				<label asp-for="CategoryImage" class="control-label m-2"></label>
+				<input asp-for="CategoryImage" class="form-control" type="file" />
+			</div>
+			<div class="form-check form-switch m-4">
+				<label asp-for="Status" class="control-label m-2">Hiển thị</label>
+				<input class="form-check-input f-18" type="checkbox"  asp-for="Status">
+			</div>
+			<div class="form-group row">
+				<div class="col-md-5">
+					<input type="submit" value="Tạo mới" class="btn btn-success" />
+				</div>
+				<div class="col-md-7">
+					<button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Category")'">Về trang quản lí danh mục</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+@section Scripts {
+				<script>
+
+				</script>
+}
