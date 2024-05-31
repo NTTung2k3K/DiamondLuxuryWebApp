@@ -94,6 +94,7 @@ namespace DiamondLuxurySolution.Application.Repository.Payment
             }
             payment.Status = request.Status;
             payment.Description = !string.IsNullOrWhiteSpace(request.Description) ? request.Description : "";
+            payment.PaymentMethod = request.PaymentMethod;
 
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");

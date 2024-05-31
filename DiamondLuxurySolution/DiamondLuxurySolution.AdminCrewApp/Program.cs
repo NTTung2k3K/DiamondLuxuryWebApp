@@ -7,14 +7,13 @@ using DiamondLuxurySolution.AdminCrewApp.Service.Role;
 using DiamondLuxurySolution.AdminCrewApp.Service.Staff;
 using DiamondLuxurySolution.Data.EF;
 using Microsoft.EntityFrameworkCore;
-<<<<<<< HEAD
+
 using DiamondLuxurySolution.AdminCrewApp.Service.Payment;
-=======
+
 using DiamondLuxurySolution.AdminCrewApp.Service.Gem;
 using DiamondLuxurySolution.AdminCrewApp.Service.Material;
 using DiamondLuxurySolution.AdminCrewApp.Service.Slide;
 
->>>>>>> main
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,15 +26,15 @@ builder.Services.AddTransient<ICustomerApiService, CustomerApiService>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IPlatformApiService, PlatformApiService>();
-<<<<<<< HEAD
+
 builder.Services.AddTransient<IPaymentApiService, PaymentApiService>();
-=======
+
 builder.Services.AddTransient<IInspectionCertificateApiService, InspectionCertificateApiService>();
 builder.Services.AddTransient<IContactApiService, ContactApiService>();
 builder.Services.AddTransient<IGemApiService, GemApiService>();
 builder.Services.AddTransient<IMaterialApiService, MaterialApiService>();
 builder.Services.AddTransient<ISlideApiService, SlideApiService>();
->>>>>>> main
+
 builder.Services.AddTransient<ICategoryApiService, CategoryApiService>();
 builder.Services.AddTransient<IInspectionCertificateApiService, InspectionCertificateApiService>();
 

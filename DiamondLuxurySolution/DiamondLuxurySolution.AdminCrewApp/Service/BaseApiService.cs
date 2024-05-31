@@ -259,15 +259,15 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
             }
 
             var client = _httpClientFactory.CreateClient();
-<<<<<<< HEAD
+
             if (client == null)
             {
                 Console.WriteLine("HttpClient creation failed.");
                 return new ApiErrorResult<TResponse>("HttpClient creation failed.");
             }
-=======
+
             client.Timeout = TimeSpan.FromMinutes(5);
->>>>>>> main
+
 
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
 
