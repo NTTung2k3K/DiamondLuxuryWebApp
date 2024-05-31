@@ -61,7 +61,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteSlide([FromBody] DeleteSlideRequest request)
+        public async Task<IActionResult> DeleteSlide([FromQuery] DeleteSlideRequest request)
         {
             try
             {
