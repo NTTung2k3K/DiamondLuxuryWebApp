@@ -26,18 +26,22 @@
                 <div class="form-group m-2">
                     <label asp-for="MaterialName" class="control-label">Tên vật liệu</label>
                     <input asp-for="MaterialName" class="form-control" />
+                    <span asp-validation-for="MaterialName" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="Color" class="control-label">Màu vật liệu</label>
                     <input asp-for="Color" class="form-control" />
+                    <span asp-validation-for="Color" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="Price" class="control-label">Giá vật liệu</label>
                     <input type="number" asp-for="Price" class="form-control" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="EffectDate" class="control-label">Ngày của giá hiện hành</label>
                     <input asp-for="EffectDate" class="form-control" />
+                    <span asp-validation-for="EffectDate" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="Description" class="control-label">Mô tả vật liệu</label>
