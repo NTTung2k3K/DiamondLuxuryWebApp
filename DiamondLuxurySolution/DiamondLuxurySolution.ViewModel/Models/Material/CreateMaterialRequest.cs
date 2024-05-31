@@ -14,10 +14,16 @@ namespace DiamondLuxurySolution.ViewModel.Models.Material
         public string? Description { get; set; }
 
         public string? Color { get; set; }
-        public string? Weight { get; set; }
 
         public IFormFile? MaterialImage { get; set; }
 
         public bool Status { get; set; }
+
+        public DateTime EffectDate { get; set; }
+
+        public string? Price { get; set; }
+
+        public string? Weight { get; set; }
+
     }
 }

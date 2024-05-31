@@ -11,11 +11,11 @@ public partial class Material
 
     public string? Description { get; set; }
     public string? Color { get; set; }
-    public int? Weight { get; set; }
+    public decimal? Weight { get; set; }
 
     public string? MaterialImage { get; set; }
 
-    public decimal Price { get; set; }
+    public decimal? Price { get; set; }
     public bool Status { get; set; }
     public DateTime EffectDate { get; set; }
 

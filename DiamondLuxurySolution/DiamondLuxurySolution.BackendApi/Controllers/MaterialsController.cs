@@ -61,7 +61,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteMaterial([FromBody] DeleteMaterialRequest request)
+        public async Task<IActionResult> DeleteMaterial([FromQuery] DeleteMaterialRequest request)
         {
             try
             {
@@ -132,6 +132,5 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
-
     }
 }
