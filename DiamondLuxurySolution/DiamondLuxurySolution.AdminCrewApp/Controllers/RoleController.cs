@@ -2,9 +2,11 @@
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Role;
 using Microsoft.AspNetCore.Mvc;
+using static DiamondLuxurySolution.Utilities.Constants.Systemconstant;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
+
     public class RoleController : Controller
     {
         private readonly IRoleApiService _roleApiService;
@@ -125,21 +127,23 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 if (status is ApiErrorResult<bool> errorResult)
                 {
                     List<string> listError = new List<string>();
-                    if (status.Message != null)
+
+                    if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
                     {
-                        listError.Add(errorResult.Message);
-                    }
-                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-                    {
-                        foreach (var error in listError)
+                        foreach (var error in errorResult.ValidationErrors)
                         {
                             listError.Add(error);
                         }
+                    }
+                    else if (status.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
                     }
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+
                 return RedirectToAction("Index", "Role");
             }
             catch
@@ -191,21 +195,23 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 if (status is ApiErrorResult<bool> errorResult)
                 {
                     List<string> listError = new List<string>();
-                    if (status.Message != null)
+
+                    if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
                     {
-                        listError.Add(errorResult.Message);
-                    }
-                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-                    {
-                        foreach (var error in listError)
+                        foreach (var error in errorResult.ValidationErrors)
                         {
                             listError.Add(error);
                         }
+                    }
+                    else if (status.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
                     }
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+
                 return RedirectToAction("Index", "Role");
 
             }
@@ -233,21 +239,23 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             if (status is ApiErrorResult<bool> errorResult)
             {
                 List<string> listError = new List<string>();
-                if (status.Message != null)
+
+                if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
                 {
-                    listError.Add(errorResult.Message);
-                }
-                else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-                {
-                    foreach (var error in listError)
+                    foreach (var error in errorResult.ValidationErrors)
                     {
                         listError.Add(error);
                     }
                 }
+                else if (status.Message != null)
+                {
+                    listError.Add(errorResult.Message);
+                }
                 ViewBag.Errors = listError;
-                return View(request);
+                return View();
 
             }
+
             TempData["SuccessMsg"] = "Tạo mới thành công cho " + request.Name;
 
             return RedirectToAction("Index", "Role");

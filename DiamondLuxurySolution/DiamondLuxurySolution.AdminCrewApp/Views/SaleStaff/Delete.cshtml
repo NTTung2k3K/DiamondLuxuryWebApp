@@ -1,0 +1,174 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.User.Staff.StaffVm
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Xóa </h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if (Model != null)
+{
+    <h3 style="color: red">Bạn có muốn xóa nhân viên này?</h3>
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                Id của nhân viên
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.StaffId)
+            </dd>
+            <dt class="col-sm-2">
+                Tài khoản
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Username)
+            </dd>
+            <dt class="col-sm-2">
+                Họ và tên
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FullName)
+            </dd>
+            <dt class="col-sm-2">
+                Địa chỉ
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+            <dt class="col-sm-2">
+                Số điện thoại
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </dd>
+            <dt class="col-sm-2">
+                Số căn cước công dân
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CitizenIDCard)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dt class="col-sm-2">
+                Chức vụ
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.ListRoleName.Count > 0)
+                {
+                    foreach (var role in Model.ListRoleName)
+                    {
+                        <p>@role</p>
+                    }
+                }
+                else
+                {
+                    <p>Không có chức vụ</p>
+                }
+            </dd>
+            <dt class="col-sm-2">
+                Trạng thái
+            </dt>
+
+            @if (Model.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Suspended.ToString()))
+            {
+                <dd class="col-md-10">
+                    <span class="badge bg-danger rounded-pill">Nghĩ việc</span>
+
+                </dd>
+            }
+            @if (Model.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Active.ToString()))
+            {
+                <dd class="col-md-10">
+                    <span class="badge bg-success rounded-pill">Hoạt động</span>
+                </dd>
+            }
+            @if (Model.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.ChangePasswordRequest.ToString()))
+            {
+                <dd class="col-md-10">
+                    Yêu cầu thay đổi mật khẩu
+                </dd>
+            }
+            @if (Model.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Inactive.ToString()))
+            {
+                <dd class="col-md-10">
+                    Không hoạt động
+                </dd>
+            }
+            @if (Model.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Retired.ToString()))
+            {
+                <dd class="col-md-10">
+                    Nghĩ hưu
+                </dd>
+            }
+            
+            @if (Model.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.OnLeave.ToString()))
+            {
+                <dd class="col-md-10">
+                    Nghĩ phép
+                </dd>
+            }
+            @if (Model.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Terminated.ToString()))
+            {
+                <dd class="col-md-10">
+                    Chấm dứt hợp đồng
+                </dd>
+            }
+            @if (Model.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Probation.ToString()))
+            {
+                <dd class="col-md-10">
+                    Thử việc
+                </dd>
+            }
+
+
+            <dt class="col-sm-2">
+                Ngày sinh
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Dob.Date.ToString("dd/MM/yyyy")
+            </dd>
+
+            <dt class="col-sm-2">
+                Hình ảnh
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.Image != null)
+                {
+                    <img src="@Model.Image" style="style= height:100px; width:100px" />
+                }
+                else
+                {
+                    <p>Chưa có hình ảnh</p>
+                }
+            </dd>
+        </dl>
+        <form asp-action="Delete" asp-controller="Admin" method="post" class="row">
+            <div class="col-md-3">
+                <input type="hidden" name="StaffId" value="@Model.StaffId" />
+                <input type="submit" value="Xóa" class="btn btn-danger" />
+            </div>
+            
+            <div class="col-md-6">
+                <a class="m-5" asp-action="Index" asp-controller="Admin">Về trang quản lí nhân viên bán hàng</a>
+            </div>
+        </form>
+    </div>
+}
+else
+{
+    <div>
+        <a class="m-5" asp-action="Index" asp-controller="Admin">Về trang quản lí nhân viên bán hàng</a>
+    </div>
+}

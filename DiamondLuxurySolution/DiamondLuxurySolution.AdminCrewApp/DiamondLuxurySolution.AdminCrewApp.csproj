@@ -19,4 +19,29 @@
     <ProjectReference Include="..\DiamondLuxurySolution.ViewModel\DiamondLuxurySolution.ViewModel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Customer\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Customer\Delete.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Customer\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Customer\Detail.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Customer\Edit.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Customer\Detail.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\Customer\Edit.cshtml" />
+  </ItemGroup>
+
 </Project>

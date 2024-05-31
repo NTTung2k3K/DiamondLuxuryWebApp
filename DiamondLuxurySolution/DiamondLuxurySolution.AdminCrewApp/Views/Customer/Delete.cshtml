@@ -1,0 +1,121 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.User.Customer.CustomerVm
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Xóa </h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if (Model != null)
+{
+    <h3 style="color: red">Bạn có muốn xóa khách hàng này?</h3>
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                Id của khách hàng
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CustomerId)
+            </dd>
+            <dt class="col-sm-2">
+                Email
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dt class="col-sm-2">
+                Họ và tên
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FullName)
+            </dd>
+            <dt class="col-sm-2">
+                Địa chỉ
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+            <dt class="col-sm-2">
+                Số điện thoại
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </dd>
+           
+            <dt class="col-sm-2">
+                Vai trò
+            </dt>
+            <dd class="col-sm-10">
+               Khách hàng
+            </dd>
+            <dt class="col-sm-2">
+                Trạng thái
+            </dt>
+
+            @if (Model.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Suspended.ToString()))
+            {
+                <dd class="col-md-10">
+                    Tạm khóa
+                </dd>
+            }
+            @if (Model.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Active.ToString()))
+            {
+                <dd class="col-md-10">
+                   Hoạt động
+                </dd>
+            }
+            @if (Model.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.ChangePasswordRequest.ToString()))
+            {
+                <dd class="col-md-10">
+                    Yêu cầu thay đổi mật khẩu
+                </dd>
+            }
+            @if (Model.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Inactive.ToString()))
+            {
+                <dd class="col-md-10">
+                    Không hoạt động
+                </dd>
+            }
+            @if (Model.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.New.ToString()))
+            {
+                <dd class="col-md-10">
+                    K/H mới
+                </dd>
+            }
+           
+
+
+            <dt class="col-sm-2">
+                Ngày sinh
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Dob.Date.ToString("dd/MM/yyyy")
+            </dd>
+           
+        </dl>
+        <form asp-action="Delete" asp-controller="Customer" method="post" class="row">
+            <div class="col-md-3">
+                <input type="hidden" name="CustomerId" value="@Model.CustomerId" />
+                <input type="submit" value="Xóa" class="btn btn-danger" />
+            </div>
+            
+            <div class="col-md-6">
+                <a class="m-5" asp-action="Index" asp-controller="Customer">Về trang quản lí khách hàng</a>
+            </div>
+        </form>
+    </div>
+}
+else
+{
+    <div>
+        <a class="m-5" asp-action="Index" asp-controller="Customer">Về trang quản lí khách hàng</a>
+    </div>
+}
