@@ -1,28 +1,27 @@
-﻿using Azure.Core;
-using DiamondLuxurySolution.AdminCrewApp.Service.Platform;
+﻿using DiamondLuxurySolution.AdminCrewApp.Service.Payment;
 using DiamondLuxurySolution.ViewModel.Common;
-using DiamondLuxurySolution.ViewModel.Models.Platform;
+using DiamondLuxurySolution.ViewModel.Models.Payment;
 using Microsoft.AspNetCore.Mvc;
-using static DiamondLuxurySolution.Utilities.Constants.Systemconstant;
+using Newtonsoft.Json;
+
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class PlatformController : Controller
+    public class PaymentController : Controller
     {
-        private readonly IPlatformApiService _platformApiService;
+        private readonly IPaymentApiService _paymentApiService;
 
-        public PlatformController(IPlatformApiService platfromApiService)
+        public PaymentController(IPaymentApiService paymentApiService)
         {
-            _platformApiService = platfromApiService;
+            _paymentApiService = paymentApiService;
         }
-               
-        
+
         [HttpGet]
-        public async Task<IActionResult> Index(ViewPlatformRequest request)
+        public async Task<IActionResult> Index(ViewPaymentRequest request)
         {
             try
             {
 
-                ViewBag.txtLastSeachValue = request.Keyword;
+                ViewBag.txtLastSeachValue = request.KeyWord;
                 if (!ModelState.IsValid)
                 {
                     return View();
@@ -36,8 +35,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     ViewBag.SuccessMsg = TempData["SuccessMsg"];
                 }
 
-                var platform = await _platformApiService.ViewPlatfromInManager(request);
-                return View(platform.ResultObj);
+                var Payment = await _paymentApiService.ViewInPayment(request);
+                return View(Payment.ResultObj);
             }
             catch
             {
@@ -45,12 +44,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
         }
         [HttpGet]
-        public async Task<IActionResult> Detail(int PlatformId)
+        public async Task<IActionResult> Detail(Guid PaymentId)
         {
             try
             {
-                var status = await _platformApiService.GetPlatfromById(PlatformId);
-                if (status is ApiErrorResult<PlatfromVm> errorResult)
+                var status = await _paymentApiService.GetPaymentById(PaymentId);
+                if (status is ApiErrorResult<PaymentVm> errorResult)
                 {
                     List<string> listError = new List<string>();
                     if (status.Message != null)
@@ -77,15 +76,15 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int PlatformId)
+        public async Task<IActionResult> Edit(Guid PaymentId)
         {
             try
             {
-                var platform = await _platformApiService.GetPlatfromById(PlatformId);
-                if (platform is ApiErrorResult<PlatfromVm> errorResult)
+                var Payment = await _paymentApiService.GetPaymentById(PaymentId);
+                if (Payment is ApiErrorResult<PaymentVm> errorResult)
                 {
                     List<string> listError = new List<string>();
-                    if (platform.Message != null)
+                    if (Payment.Message != null)
                     {
                         listError.Add(errorResult.Message);
                     }
@@ -100,7 +99,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     return View();
 
                 }
-                return View(platform.ResultObj);
+                return View(Payment.ResultObj);
             }
             catch
             {
@@ -108,83 +107,22 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(UpdatePlatformRequest request)
+        public async Task<IActionResult> Edit(UpdatePaymentRequest request)
         {
             try
             {
-
-
-                var status = await _platformApiService.UpdatePlatform(request);
-                if (status is ApiErrorResult<bool> errorResult)
+                if (!ModelState.IsValid)
                 {
-                    List<string> listError = new List<string>();
-
-                    if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                    PaymentVm paymentVm = new PaymentVm()
                     {
-                        foreach (var error in errorResult.ValidationErrors)
-                        {
-                            listError.Add(error);
-                        }
-                    }
-                    else if (status.Message != null)
-                    {
-                        listError.Add(errorResult.Message);
-                    }
-                    ViewBag.Errors = listError;
-                    return View();
-
+                        PaymentMethod = request.PaymentMethod,
+                        Description = request.Description,
+                        Status = request.Status,
+                    };
+                    return View(paymentVm);
                 }
 
-                return RedirectToAction("Index", "Platform");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-
-
-        [HttpGet]
-        public async Task<IActionResult> Delete(int PlatformId)
-        {
-            try
-            {
-                var platform = await _platformApiService.GetPlatfromById(PlatformId);
-                if (platform is ApiErrorResult<PlatfromVm> errorResult)
-                {
-                    List<string> listError = new List<string>();
-                    if (platform.Message != null)
-                    {
-                        listError.Add(errorResult.Message);
-                    }
-                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-                    {
-                        foreach (var error in listError)
-                        {
-                            listError.Add(error);
-                        }
-                    }
-                    ViewBag.Errors = listError;
-                    return View();
-
-                }
-                return View(platform.ResultObj);
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Delete(DeletePlatformRequest request)
-        {
-            try
-            {
-
-              
-                var status = await _platformApiService.DeletePlatform(request);
+                var status = await _paymentApiService.UpdatePayment(request);
                 if (status is ApiErrorResult<bool> errorResult)
                 {
                     List<string> listError = new List<string>();
@@ -203,53 +141,132 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     return View();
 
                 }
-                return RedirectToAction("Index", "Platform");
-
+                return RedirectToAction("Index", "Payment");
             }
             catch
             {
                 return View();
             }
         }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid PaymentId)
+        {
+            try
+            {
+                var Payment = await _paymentApiService.GetPaymentById(PaymentId);
+                if (Payment is ApiErrorResult<PaymentVm> errorResult)
+                {
+                    List<string> listError = new List<string>();
+                    if (Payment.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
+                    }
+                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                    {
+                        foreach (var error in listError)
+                        {
+                            listError.Add(error);
+                        }
+                    }
+                    ViewBag.Errors = listError;
+                    return View();
+
+                }
+                return View(Payment.ResultObj);
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        [HttpPost]
+        [HttpPost]
+        public async Task<IActionResult> Delete(DeletePaymentRequest request)
+        {
+            try
+            {
+                if (request == null)
+                {
+                    Console.WriteLine("DeletePaymentRequest is null.");
+                    return View(request);
+                }
+
+                Console.WriteLine($"Sending request to delete payment with ID: {request.PaymentId}");
+                var status = await _paymentApiService.DeletePayment(request);
+                Console.WriteLine($"Response from delete payment: {JsonConvert.SerializeObject(status)}");
+
+                if (status == null)
+                {
+                    Console.WriteLine("DeletePayment response is null.");
+                }
+
+                if (status is ApiErrorResult<bool> errorResult)
+                {
+                    List<string> listError = new List<string>();
+                    if (status.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
+                    }
+                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                    {
+                        foreach (var error in errorResult.ValidationErrors)
+                        {
+                            listError.Add(error);
+                        }
+                    }
+                    ViewBag.Errors = listError;
+                    return View();
+                }
+                return RedirectToAction("Index", "Payment");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception occurred: {ex.Message}");
+                return View();
+            }
+        }
+
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-          
+
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(CreatePlatformRequest request)
+        public async Task<IActionResult> Create(CreatePaymentRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(request);
+            }
 
-          
-            var status = await _platformApiService.CreatePlatform(request);
+            var status = await _paymentApiService.CreatePayment(request);
 
             if (status is ApiErrorResult<bool> errorResult)
             {
                 List<string> listError = new List<string>();
-
-                if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                if (status.Message != null)
                 {
-                    foreach (var error in errorResult.ValidationErrors)
+                    listError.Add(errorResult.Message);
+                }
+                else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                {
+                    foreach (var error in listError)
                     {
                         listError.Add(error);
                     }
                 }
-                else if (status.Message != null)
-                {
-                    listError.Add(errorResult.Message);
-                }
                 ViewBag.Errors = listError;
-                return View();
+                return View(request);
 
             }
+            TempData["SuccessMsg"] = "Tạo mới thành công cho " + request.PaymentMethod;
 
-            TempData["SuccessMsg"] = "Create success for Role " + request.PlatformName;
-
-            return RedirectToAction("Index", "Platform");
+            return RedirectToAction("Index", "Payment");
         }
-
-
     }
-
 }

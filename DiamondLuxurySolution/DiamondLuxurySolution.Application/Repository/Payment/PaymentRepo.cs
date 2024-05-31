@@ -1,6 +1,5 @@
 ﻿using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.ViewModel.Common;
-using DiamondLuxurySolution.ViewModel.Models.Collection;
 using DiamondLuxurySolution.ViewModel.Models.Payment;
 using Microsoft.EntityFrameworkCore;
 using PagedList;
@@ -28,8 +27,7 @@ namespace DiamondLuxurySolution.Application.Repository.Payment
             var payment = new DiamondLuxurySolution.Data.Entities.Payment
             {
                 PaymentMethod = request.PaymentMethod,
-                Message = string.IsNullOrWhiteSpace(request.Message) ? request.Message : "",
-                Description = string.IsNullOrWhiteSpace(request.Description) ? request.Description : "",
+                Description = !string.IsNullOrWhiteSpace(request.Description) ? request.Description : "",
                 Status = request.Status,
                     
             };
@@ -52,6 +50,19 @@ namespace DiamondLuxurySolution.Application.Repository.Payment
             return new ApiSuccessResult<bool>(false, "Success");
         }
 
+        public async Task<ApiResult<List<PaymentVm>>> GetAll()
+        {
+            var list = await _context.Payments.ToListAsync();
+            var rs = list.Select(x => new PaymentVm()
+            {
+                PaymentId = x.PaymentId,
+                Description = x.Description,
+                PaymentMethod = x.PaymentMethod,
+                Status = x.Status,
+            }).ToList();
+            return new ApiSuccessResult<List<PaymentVm>>(rs);
+        }
+
         public async Task<ApiResult<PaymentVm>> GetPaymentById(Guid PaymentId)
         {
             var payment = await _context.Payments.FindAsync(PaymentId);
@@ -62,8 +73,7 @@ namespace DiamondLuxurySolution.Application.Repository.Payment
             var paymentVm = new PaymentVm()
             {
                PaymentId = PaymentId,
-               Description = payment.Description,
-               Message = payment.Message,
+               Description = payment.Description,    
                PaymentMethod = payment.PaymentMethod,
                Status = payment.Status
             };
@@ -84,7 +94,7 @@ namespace DiamondLuxurySolution.Application.Repository.Payment
             }
             payment.Status = request.Status;
             payment.Description = !string.IsNullOrWhiteSpace(request.Description) ? request.Description : "";
-            payment.Message = !string.IsNullOrWhiteSpace(request.Message) ? request.Message : "";
+            payment.PaymentMethod = request.PaymentMethod;
 
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
@@ -109,7 +119,6 @@ namespace DiamondLuxurySolution.Application.Repository.Payment
                 PaymentId = x.PaymentId,
                 PaymentMethod = x.PaymentMethod,
                 Description = x.Description,
-                Message = x.Message,
                 Status = x.Status,
             }).ToList();
             var listResult = new PageResult<PaymentVm>()
