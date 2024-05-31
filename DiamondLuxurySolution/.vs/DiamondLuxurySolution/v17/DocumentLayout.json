@@ -1,105 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "E:\\MVC\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{D6562C95-A8BA-4226-BD2A-AD9F8B3A48D1}|DiamondLuxurySolution.AdminCrewApp\\DiamondLuxurySolution.AdminCrewApp.csproj|e:\\mvc\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.admincrewapp\\views\\inspectioncertificate\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{D6562C95-A8BA-4226-BD2A-AD9F8B3A48D1}|DiamondLuxurySolution.AdminCrewApp\\DiamondLuxurySolution.AdminCrewApp.csproj|solutionrelative:diamondluxurysolution.admincrewapp\\views\\inspectioncertificate\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D6562C95-A8BA-4226-BD2A-AD9F8B3A48D1}|DiamondLuxurySolution.AdminCrewApp\\DiamondLuxurySolution.AdminCrewApp.csproj|e:\\mvc\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.admincrewapp\\views\\slide\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{D6562C95-A8BA-4226-BD2A-AD9F8B3A48D1}|DiamondLuxurySolution.AdminCrewApp\\DiamondLuxurySolution.AdminCrewApp.csproj|solutionrelative:diamondluxurysolution.admincrewapp\\views\\slide\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D6562C95-A8BA-4226-BD2A-AD9F8B3A48D1}|DiamondLuxurySolution.AdminCrewApp\\DiamondLuxurySolution.AdminCrewApp.csproj|e:\\mvc\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.admincrewapp\\views\\slide\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{D6562C95-A8BA-4226-BD2A-AD9F8B3A48D1}|DiamondLuxurySolution.AdminCrewApp\\DiamondLuxurySolution.AdminCrewApp.csproj|solutionrelative:diamondluxurysolution.admincrewapp\\views\\slide\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D6562C95-A8BA-4226-BD2A-AD9F8B3A48D1}|DiamondLuxurySolution.AdminCrewApp\\DiamondLuxurySolution.AdminCrewApp.csproj|e:\\mvc\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.admincrewapp\\views\\inspectioncertificate\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{D6562C95-A8BA-4226-BD2A-AD9F8B3A48D1}|DiamondLuxurySolution.AdminCrewApp\\DiamondLuxurySolution.AdminCrewApp.csproj|solutionrelative:diamondluxurysolution.admincrewapp\\views\\inspectioncertificate\\delete.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D6562C95-A8BA-4226-BD2A-AD9F8B3A48D1}|DiamondLuxurySolution.AdminCrewApp\\DiamondLuxurySolution.AdminCrewApp.csproj|e:\\mvc\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.admincrewapp\\views\\platform\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{D6562C95-A8BA-4226-BD2A-AD9F8B3A48D1}|DiamondLuxurySolution.AdminCrewApp\\DiamondLuxurySolution.AdminCrewApp.csproj|solutionrelative:diamondluxurysolution.admincrewapp\\views\\platform\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Edit.cshtml",
-              "DocumentMoniker": "E:\\MVC\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.AdminCrewApp\\Views\\InspectionCertificate\\Edit.cshtml",
-              "RelativeDocumentMoniker": "DiamondLuxurySolution.AdminCrewApp\\Views\\InspectionCertificate\\Edit.cshtml",
-              "ToolTip": "E:\\MVC\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.AdminCrewApp\\Views\\InspectionCertificate\\Edit.cshtml*",
-              "RelativeToolTip": "DiamondLuxurySolution.AdminCrewApp\\Views\\InspectionCertificate\\Edit.cshtml*",
-              "ViewState": "AQIAAAwAAAAAAAAAAAAAABsAAABNAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-31T04:05:59.947Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Detail.cshtml",
-              "DocumentMoniker": "E:\\MVC\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.AdminCrewApp\\Views\\Slide\\Detail.cshtml",
-              "RelativeDocumentMoniker": "DiamondLuxurySolution.AdminCrewApp\\Views\\Slide\\Detail.cshtml",
-              "ToolTip": "E:\\MVC\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.AdminCrewApp\\Views\\Slide\\Detail.cshtml",
-              "RelativeToolTip": "DiamondLuxurySolution.AdminCrewApp\\Views\\Slide\\Detail.cshtml",
-              "ViewState": "AQIAACoAAAAAAAAAAAAAAC8AAAAhAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-31T03:57:52.279Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Detail.cshtml",
-              "DocumentMoniker": "E:\\MVC\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.AdminCrewApp\\Views\\Platform\\Detail.cshtml",
-              "RelativeDocumentMoniker": "DiamondLuxurySolution.AdminCrewApp\\Views\\Platform\\Detail.cshtml",
-              "ToolTip": "E:\\MVC\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.AdminCrewApp\\Views\\Platform\\Detail.cshtml",
-              "RelativeToolTip": "DiamondLuxurySolution.AdminCrewApp\\Views\\Platform\\Detail.cshtml",
-              "ViewState": "AQIAAB4AAAAAAAAAAAAUwCsAAAApAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-31T03:57:44.359Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Delete.cshtml",
-              "DocumentMoniker": "E:\\MVC\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.AdminCrewApp\\Views\\InspectionCertificate\\Delete.cshtml",
-              "RelativeDocumentMoniker": "DiamondLuxurySolution.AdminCrewApp\\Views\\InspectionCertificate\\Delete.cshtml",
-              "ToolTip": "E:\\MVC\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.AdminCrewApp\\Views\\InspectionCertificate\\Delete.cshtml",
-              "RelativeToolTip": "DiamondLuxurySolution.AdminCrewApp\\Views\\InspectionCertificate\\Delete.cshtml",
-              "ViewState": "AQIAADYAAAAAAAAAAAAAAFEAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-31T03:54:30.416Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Delete.cshtml",
-              "DocumentMoniker": "E:\\MVC\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.AdminCrewApp\\Views\\Slide\\Delete.cshtml",
-              "RelativeDocumentMoniker": "DiamondLuxurySolution.AdminCrewApp\\Views\\Slide\\Delete.cshtml",
-              "ToolTip": "E:\\MVC\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.AdminCrewApp\\Views\\Slide\\Delete.cshtml",
-              "RelativeToolTip": "DiamondLuxurySolution.AdminCrewApp\\Views\\Slide\\Delete.cshtml",
-              "ViewState": "AQIAAC0AAAAAAAAAAAAAAC0AAAARAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-05-31T03:54:25.539Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }
