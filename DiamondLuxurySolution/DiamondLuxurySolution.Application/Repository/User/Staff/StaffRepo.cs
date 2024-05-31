@@ -206,14 +206,14 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 if (roleFindById.Name == DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.DeliveryStaff)
                 {
                     user.ShipStatus = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Waiting.ToString();
-                    _userManager.UpdateAsync(user);
+                  await  _userManager.UpdateAsync(user);
                 }
 
             }
 
 
 
-            return new ApiSuccessResult<bool>(true, "Đăng kí thành công");
+            return new ApiSuccessResult<bool>(true, "Success");
         }
 
         public async Task<ApiResult<bool>> UpdateStaffAccount(UpdateStaffAccountRequest request)
@@ -586,7 +586,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             return new ApiSuccessResult<PageResult<StaffVm>>(result, "Success");
         }
 
-        public async Task<ApiResult<PageResult<StaffVm>>> ViewCustomerPagination(ViewStaffPaginationCommonRequest request)
+        public async Task<ApiResult<PageResult<CustomerVm>>> ViewCustomerPagination(ViewStaffPaginationCommonRequest request)
         {
             var users = await _userManager.Users.ToListAsync();
             var customers = new List<AppUser>();
@@ -614,21 +614,18 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
 
             var listPaging = customers.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
 
-            var listResult = new List<StaffVm>();
+            var listResult = new List<CustomerVm>();
             foreach (var item in listPaging)
             {
-                var user = new StaffVm()
+                var user = new CustomerVm()
                 {
-                    StaffId = item.Id,
+                    CustomerId = item.Id,
                     FullName = item.Fullname,
                     PhoneNumber = item.PhoneNumber,
                     Email = item.Email,
                     Dob = (DateTime)(item.Dob ?? DateTime.MinValue),
-
                     Status = item.Status,
-                    CitizenIDCard = item.CitizenIDCard,
                     Address = item.Address,
-                    Image = item.Image,
                 };
                 var appUser = await _userManager.FindByIdAsync(item.Id.ToString());
                 var roles = await _userManager.GetRolesAsync(appUser);
@@ -646,14 +643,14 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                     listResult.Add(user);
                 }
             }
-            var result = new PageResult<StaffVm>()
+            var result = new PageResult<CustomerVm>()
             {
                 Items = listResult,
                 TotalRecords = customers.Count(),
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
-            return new ApiSuccessResult<PageResult<StaffVm>>(result, "Success");
+            return new ApiSuccessResult<PageResult<CustomerVm>>(result, "Success");
         }
 
         public async Task<ApiResult<string>> ForgotpasswordStaffSendCode(string Username)
@@ -722,6 +719,20 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             return new ApiSuccessResult<bool>(true, "Thay đổi mật khẩu thành công");
         }
 
-       
+        public async Task<ApiResult<bool>> ChangeStatusCustomer(ChangeStatusCustomerRequest request)
+        {
+            var user = await _userManager.FindByEmailAsync(request.Email.ToString());
+            if (user == null)
+            {
+                return new ApiErrorResult<bool>("Email không tồn tại");
+            }
+            user.Status = request.Status;
+            var statusUser = await _userManager.UpdateAsync(user);
+            if (!statusUser.Succeeded)
+            {
+                return new ApiErrorResult<bool>("Lỗi hệ thống, cập nhật thông tin thất bại vui lòng thử lại");
+            }
+            return new ApiSuccessResult<bool>(true, "Success");
+        }
     }
 }

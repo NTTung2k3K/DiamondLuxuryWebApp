@@ -20,6 +20,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Customer
         {
             var data = await GetAsync<CustomerVm>("api/Customers/GetCustomerById?CustomerId=" + CustomerId);
             return data;
-        }
+        } 
     }
 }

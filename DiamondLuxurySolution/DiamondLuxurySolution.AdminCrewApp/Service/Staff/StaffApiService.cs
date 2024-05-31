@@ -1,6 +1,7 @@
 ﻿using Azure.Core;
 using DiamondLuxurySolution.AdminCrewApp.Services;
 using DiamondLuxurySolution.ViewModel.Common;
+using DiamondLuxurySolution.ViewModel.Models.User.Customer;
 using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 using static DiamondLuxurySolution.Utilities.Constants.Systemconstant;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -16,6 +17,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Staff
         public async Task<ApiResult<bool>> ChangePasswordStaff(ChangePasswordStaffRequest request)
         {
             var data = await PostAsync<bool>("api/Staffs/ChangePasswordStaff", request);
+            return data;
+        }
+
+        public  async Task<ApiResult<bool>> ChangeStatusCustomer(ChangeStatusCustomerRequest request)
+        {
+            var data = await PutAsync<bool>("api/Staffs/ChangeStatusCustomer", request);
             return data;
         }
 
@@ -67,9 +74,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Staff
             return data;
         }
 
-        public async Task<ApiResult<PageResult<StaffVm>>> ViewCustomerPagination(ViewStaffPaginationCommonRequest request)
+        public async Task<ApiResult<PageResult<CustomerVm>>> ViewCustomerPagination(ViewStaffPaginationCommonRequest request)
         {
-            var data = await GetAsync<PageResult<StaffVm>>($"api/Staffs/ViewCustomer?Keyword={request.Keyword}&pageIndex={request.pageIndex}");
+            var data = await GetAsync<PageResult<CustomerVm>>($"api/Staffs/ViewCustomer?Keyword={request.Keyword}&pageIndex={request.pageIndex}");
             return data;
         }
 

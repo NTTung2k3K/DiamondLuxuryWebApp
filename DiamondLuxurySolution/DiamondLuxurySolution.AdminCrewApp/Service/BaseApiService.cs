@@ -21,7 +21,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
-
+            client.Timeout = TimeSpan.FromMinutes(5);
             using (var multipartFormDataContent = new MultipartFormDataContent())
             {
                 // Get the properties of the object
@@ -107,6 +107,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
 
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
             var client = _httpClientFactory.CreateClient();
+            client.Timeout = TimeSpan.FromMinutes(5);
+
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
             var response = await client.PostAsync(url, httpContent);
             var body = await response.Content.ReadAsStringAsync();
@@ -124,6 +126,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
         protected async Task<ApiResult<TResponse>> GetAsync<TResponse>(string url)
         {
             var client = _httpClientFactory.CreateClient();
+            client.Timeout = TimeSpan.FromMinutes(5);
+
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
             var response = await client.GetAsync(url);
             var body = await response.Content.ReadAsStringAsync();
@@ -150,6 +154,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
 
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
             var client = _httpClientFactory.CreateClient();
+            client.Timeout = TimeSpan.FromMinutes(5);
+
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
             var response = await client.PutAsync(url, httpContent);
             var body = await response.Content.ReadAsStringAsync();
@@ -167,6 +173,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
         protected async Task<ApiResult<TResponse>> PutAsyncHasImage<TResponse>(string url, object obj)
         {
             var client = _httpClientFactory.CreateClient();
+            client.Timeout = TimeSpan.FromMinutes(5);
+
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
 
             using (var multipartFormDataContent = new MultipartFormDataContent())
@@ -240,6 +248,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
         protected async Task<ApiResult<TResponse>> DeleteAsync<TResponse>(string url)
         {
             var client = _httpClientFactory.CreateClient();
+            client.Timeout = TimeSpan.FromMinutes(5);
+
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
             var response = await client.DeleteAsync(url);
             var body = await response.Content.ReadAsStringAsync();
@@ -265,6 +275,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
 
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
             var client = _httpClientFactory.CreateClient();
+            client.Timeout = TimeSpan.FromMinutes(5);
+
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
             var response = await client.PatchAsync(url, httpContent);
             var body = await response.Content.ReadAsStringAsync();

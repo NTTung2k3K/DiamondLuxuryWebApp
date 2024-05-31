@@ -7,5 +7,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Customer
     {
         public Task<ApiResult<CustomerVm>> GetCustomerById(Guid CustomerId);
         public Task<ApiResult<bool>> DeleteCustomer(Guid CustomerId);
+
     }
 }

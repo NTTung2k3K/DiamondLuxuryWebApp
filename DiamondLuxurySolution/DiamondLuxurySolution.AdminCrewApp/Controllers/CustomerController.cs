@@ -88,7 +88,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
-                var statuses = Enum.GetValues(typeof(StaffStatus)).Cast<StaffStatus>().ToList();
+                var statuses = Enum.GetValues(typeof(CustomerStatus)).Cast<CustomerStatus>().ToList();
                 ViewBag.ListStatus = statuses;
 
                 var listRoleAll = await _roleApiService.GetRolesForView();
@@ -142,35 +142,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
                 var listRoleAll = await _roleApiService.GetRolesForView();
                 ViewBag.ListRoleAll = listRoleAll.ResultObj.ToList();
-
-
-                if (!ModelState.IsValid)
+                var changeRequest = new ChangeStatusCustomerRequest()
                 {
-                    var listRoleName = new List<string>();
-                    foreach (var item in request.RoleId)
-                    {
-                        var role = _roleApiService.GetRoleById(item);
-                        listRoleName.Add(role.Result.ResultObj.Name);
-                    }
-                    CustomerVm staffVm = new CustomerVm()
-                    {
-                        Address = request.Address,
-                        Dob = request.Dob,
-                        Email = request.Email,
-                        FullName = request.FullName,
-                        PhoneNumber = request.PhoneNumber,
-                        ListRoleName = request.ListRoleName,
-                        Status = request.Status,
-                    };
-                    if (listRoleName.Count > 0)
-                    {
-                        staffVm.ListRoleName = listRoleName;
-                    }
-                    return View(staffVm);
-                }
-
-
-                var status = await _staffApiService.UpdateStaffAccount(request);
+                    Status = request.Status,
+                    Email = request.Email,
+                };
+                var status = await _staffApiService.ChangeStatusCustomer(changeRequest);
                 if (status is ApiErrorResult<bool> errorResult)
                 {
                     List<string> listError = new List<string>();

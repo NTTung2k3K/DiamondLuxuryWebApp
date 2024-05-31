@@ -258,6 +258,25 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+
+        [HttpPut("ChangeStatusCustomer")]
+        public async Task<ActionResult> ChangeStatusCustomer([FromBody] ChangeStatusCustomerRequest request)
+        {
+            try
+            {
+                var status = await _Staff.ChangeStatusCustomer(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 
     
