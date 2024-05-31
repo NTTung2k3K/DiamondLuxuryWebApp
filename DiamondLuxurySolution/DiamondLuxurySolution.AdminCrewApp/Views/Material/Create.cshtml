@@ -1,0 +1,63 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Material.CreateMaterialRequest
+
+@{
+    ViewData["Title"] = "Create";
+}
+<h1>Tạo mới vật liệu</h1>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        @if (ViewBag.Errors != null)
+        {
+            foreach (var error in ViewBag.Errors)
+            {
+                <h6 class="m-2 text-danger">@error</h6>
+            }
+        }
+        <form asp-action="Create" asp-controller="Material" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group m-2">
+                <label asp-for="MaterialName" class="control-label mb-1">Tên vật liệu</label>
+                <input type="text" name="MaterialName" class="form-control" />
+            </div>
+          
+            <div class="form-group m-2 mt-2">
+                <label asp-for="Color" class="control-label mb-1 mt-3">Màu vật liệu</label>
+                <input type="text" step="0.01" asp-for="Color" class="form-control" />
+            </div>
+            <div class="form-group m-2 mt-2">
+                <label asp-for="Price" class="control-label mb-1 mt-3">Giá vật liệu</label>
+                <input type="number" asp-for="Price" class="form-control" />
+            </div>
+            <div class="form-group m-2 ">
+                <label asp-for="EffectDate" class="control-label mb-1 mt-3">Ngày của giá hiện hành</label>
+                <input type="date" asp-for="EffectDate" class="form-control" />
+            </div>
+            <div class="form-group m-2 mt-2">
+                <label asp-for="Description" class="control-label mb-1 mt-3">Mô tả vật liệu</label>
+                <input type="text" asp-for="Description" class="form-control" />
+            </div>
+            <div class="form-group m-2 mt-2">
+                <label asp-for="MaterialImage" class="control-label mb-1 mt-3">Hình ảnh</label>
+                <input type="file" asp-for="MaterialImage" class="form-control" />
+            </div>
+            <div class="form-check form-switch m-4">
+                <label asp-for="Status" class="control-label m-1">Hiển thị</label>
+                <input class="form-check-input f-18" type="checkbox" asp-for="Status">
+            </div>
+            <div class="form-group row">
+                <div class="col-md-5">
+                    <input type="submit" value="Tạo mới" class="btn btn-success" />
+                </div>
+                <div class="col-md-7 mt-2">
+                    <a class="m-6 btn btn-secondary" asp-action="Index">Về trang quản lí vật liệu</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <script>
+
+    </script>
+}

@@ -307,7 +307,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                         MaterialImage = material.MaterialImage,
                         MaterialName = material.MaterialName,
                         Status = material.Status,
-                        Weight = material.Weight,
 
                     };
                    
@@ -643,7 +642,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                         MaterialImage = material.MaterialImage,
                         MaterialName = material.MaterialName,
                         Status = material.Status,
-                        Weight = material.Weight,
 
                     };
 

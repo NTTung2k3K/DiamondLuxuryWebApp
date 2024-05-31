@@ -1,0 +1,91 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Material.MaterialVm
+
+@{
+    ViewData["Title"] = "Detail";
+}
+
+<h1>Chi tiết vật liệu</h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if (Model != null)
+{
+
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-3 mb-3">
+                @Html.DisplayNameFor(model => model.MaterialId)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.MaterialId)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Tên vật liệu
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.MaterialName)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Màu vật liệu
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Color)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Giá vật liệu
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Price)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Ngày của giá hiện hành
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.EffectDate)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Mô tả vật liệu
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Hình ảnh
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.MaterialImage != null)
+                {
+                    <img src="@Model.MaterialImage" style="style= height:100px; width:100px" />
+                }
+                else
+                {
+                    <h5>Chưa có hình ảnh</h5>
+                }
+            </dd>
+
+            <dt class="col-sm-3 mb-3">
+                Hiển thị
+            </dt>
+            <dd class="col-sm-9">
+                <div class="form-check form-switch ">
+                    <input class="form-check-input f-18 ml-3" type="checkbox" asp-for="Status" value="@Model.Status" disabled />
+                </div>
+            </dd>
+        </dl>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            @Html.ActionLink("Chỉnh sửa", "Edit", new { MaterialId = Model.MaterialId }, new { @class = "btn btn-warning" })
+        </div>
+        <div class="col-sm-9">
+            <a class="btn btn-secondary" asp-action="Index">Về trang quản lí vật liệu</a>
+        </div>
+    </div>
+
+}
+

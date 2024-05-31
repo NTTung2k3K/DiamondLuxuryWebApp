@@ -1,0 +1,98 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Material.MaterialVm
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Xóa </h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if (Model != null)
+{
+
+    <h3 style="color: red">Bạn có muốn xóa vật liệu này?</h3>
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.MaterialId)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.MaterialId)
+            </dd>
+            <dt class="col-sm-4">
+                Tên vật liệu
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.MaterialName)
+            </dd>
+            <dt class="col-sm-4">
+                Màu vật liệu
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Color)
+            </dd>
+            <dt class="col-sm-4">
+                Giá vật liệu
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Price)
+            </dd>
+            <dt class="col-sm-4">
+                Ngày hiện hành giá vật liệu
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.EffectDate)
+            </dd>
+            <dt class="col-sm-4">
+                Mô tả vật liệu
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt class="col-sm-4">
+                Hình ảnh
+            </dt>
+            <dd class="col-sm-8">
+                @if (Model.MaterialImage != null)
+                {
+                    <img src="@Model.MaterialImage" style="style= height:100px; width:100px" />
+                }
+                else
+                {
+                    <h5>Chưa có hình ảnh</h5>
+                }
+            </dd>
+
+            <dt class="col-sm-4">
+                Hiển thị
+            </dt>
+            <dd class="col-sm-8">
+                <div class="form-check form-switch col-sm-8">
+                    <input class="form-check-input f-18" type="checkbox" asp-for="Status" value="@Model.Status" disabled />
+                </div>
+            </dd>
+        </dl>
+        <form asp-action="Delete" asp-controller="Material" method="post">
+            <input type="hidden" name="MaterialId" value="@Model.MaterialId" />
+            <div class="row">
+                <div class="col-sm-4">
+                    <input type="submit" value="Xóa" class="btn btn-danger" />
+                </div>
+                <div class="col-sm-8">
+                    <a asp-action="Index" class="btn btn-secondary">Về trang quản lý vật liệu</a>
+                </div>
+            </div>
+        </form>
+    </div>
+}
+else
+{
+    <a class="m-3 btn btn-secondary" asp-action="Index">Về trang quản lý vật liệu</a>
+}

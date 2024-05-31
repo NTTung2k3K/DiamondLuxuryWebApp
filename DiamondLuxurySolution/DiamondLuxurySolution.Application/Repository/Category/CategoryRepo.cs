@@ -28,34 +28,6 @@ namespace DiamondLuxurySolution.Application.Repository.Category
             {
                 errorList.Add("Vui lòng nhập tên loại sản phẩm");
             }
-            if (string.IsNullOrEmpty(request.CategoryPriceProcessing))
-            {
-                errorList.Add("Vui lòng nhập giá gia công");
-            }
-
-            decimal price = 0;
-            try
-            {
-                price = Convert.ToDecimal(request.CategoryPriceProcessing);
-
-                if (price <= 0)
-                {
-                    errorList.Add("Giá gia công loại sản phẩm > 0");
-                }
-            }
-            catch (FormatException)
-            {
-                errorList.Add("Giá gia công loại sản phẩm không hợp lệ");
-            }
-            catch (OverflowException)
-            {
-                errorList.Add("Giá gia công loại sản phẩm quá lớn hoặc quá nhỏ");
-            }
-
-            if (errorList.Any())
-            {
-                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
-            }
 
             var category = new DiamondLuxurySolution.Data.Entities.Category
             {
@@ -115,34 +87,6 @@ namespace DiamondLuxurySolution.Application.Repository.Category
             if (string.IsNullOrEmpty(request.CategoryName))
             {
                 errorList.Add("Vui lòng nhập tên loại sản phẩm");
-            }
-            if (string.IsNullOrEmpty(request.CategoryPriceProcessing))
-            {
-                errorList.Add("Vui lòng nhập giá gia công");
-            }
-
-            decimal price = 0;
-            try
-            {
-                price = Convert.ToDecimal(request.CategoryPriceProcessing);
-
-                if (price <= 0)
-                {
-                    errorList.Add("Giá gia công loại sản phẩm > 0");
-                }
-            }
-            catch (FormatException)
-            {
-                errorList.Add("Giá gia công loại sản phẩm không hợp lệ");
-            }
-            catch (OverflowException)
-            {
-                errorList.Add("Giá gia công loại sản phẩm quá lớn hoặc quá nhỏ");
-            }
-
-            if (errorList.Any())
-            {
-                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
 
             var category = await _context.Categories.FindAsync(request.CategoryId);

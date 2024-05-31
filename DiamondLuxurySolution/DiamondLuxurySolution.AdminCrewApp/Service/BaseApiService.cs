@@ -97,6 +97,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
         }
 
 
+
         protected async Task<ApiResult<TResponse>> PostAsync<TResponse>(string url, Object obj)
         {
             var json = JsonConvert.SerializeObject(obj, new JsonSerializerSettings
@@ -217,17 +218,21 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                                 // If the property value is already a string, use it directly
                                 stringContent = propertyValue.ToString();
                             }
+                            else if (propertyValue is Guid guid)
+                            {
+                                stringContent = guid.ToString();
+                            }
                             else
                             {
                                 // Convert property value to JSON and then to plain text
                                 stringContent = JsonConvert.SerializeObject(propertyValue);
-                            }
+                            } 
                         }
 
                         var textContent = new StringContent(stringContent, Encoding.UTF8, "text/plain");
                         multipartFormDataContent.Add(textContent, property.Name);
                     }
-                }
+                } 
 
                 // Put the content
                 var response = await client.PutAsync(url, multipartFormDataContent);
