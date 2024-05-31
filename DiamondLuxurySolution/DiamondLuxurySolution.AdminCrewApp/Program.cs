@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using DiamondLuxurySolution.AdminCrewApp.Service.Gem;
 using DiamondLuxurySolution.AdminCrewApp.Service.Material;
 using DiamondLuxurySolution.AdminCrewApp.Service.Slide;
+using DiamondLuxurySolution.AdminCrewApp.Service.Login;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<ILoginApiService, LoginApiService>();
+
 builder.Services.AddTransient<IRoleApiService, RoleApiService>();
 builder.Services.AddTransient<IStaffApiService, StaffApiService>();
 builder.Services.AddTransient<ICustomerApiService, CustomerApiService>();

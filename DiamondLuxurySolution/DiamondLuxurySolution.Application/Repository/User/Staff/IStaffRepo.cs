@@ -12,7 +12,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
 {
     public interface IStaffRepo
     {
-        public Task<ApiResult<bool>> LoginStaff(LoginStaffRequest request);
+        public Task<ApiResult<string>> LoginStaff(LoginStaffRequest request);
         public Task<ApiResult<bool>> RegisterStaffAccount(CreateStaffAccountRequest request);
       
 

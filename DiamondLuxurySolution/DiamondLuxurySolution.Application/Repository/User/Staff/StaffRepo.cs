@@ -6,10 +6,14 @@ using DiamondLuxurySolution.ViewModel.Models.User.Customer;
 using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -22,12 +26,13 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly LuxuryDiamondShopContext _context;
-
-        public StaffRepo(LuxuryDiamondShopContext context, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
+        private readonly IConfiguration _configuarion;
+        public StaffRepo(LuxuryDiamondShopContext context, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _context = context;
+            _configuarion = configuration;
         }
 
         public async Task<ApiResult<bool>> ChangePasswordStaff(ChangePasswordStaffRequest request)
@@ -115,25 +120,46 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             return new ApiSuccessResult<StaffVm>(staffVm, "Success");
         }
 
-        public async Task<ApiResult<bool>> LoginStaff(LoginStaffRequest request)
+        public async Task<ApiResult<string>> LoginStaff(LoginStaffRequest request)
         {
             if (string.IsNullOrEmpty(request.UserName.Trim()) || string.IsNullOrEmpty(request.Password.Trim()))
             {
-                return new ApiErrorResult<bool>("Tải khoản hoặc mật khẩu không đúng");
+                return new ApiErrorResult<string>("Tải khoản hoặc mật khẩu không đúng");
             }
 
             var user = await _userManager.FindByNameAsync(request.UserName.Trim());
             if (user == null)
             {
-                return new ApiErrorResult<bool>("Tải khoản hoặc mật khẩu không đúng");
+                return new ApiErrorResult<string>("Tải khoản hoặc mật khẩu không đúng");
             }
             var userPasswordConfirm = await _userManager.CheckPasswordAsync(user, request.Password.Trim());
             if (userPasswordConfirm == false)
             {
-                return new ApiErrorResult<bool>("Tải khoản hoặc mật khẩu không đúng");
+                return new ApiErrorResult<string>("Tải khoản hoặc mật khẩu không đúng");
             }
+            var authClaim = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Name, user.Fullname),
+                new Claim(ClaimTypes.Email,user.Email),
+            };
+            var roles = await _userManager.GetRolesAsync(user);
+            foreach (var item in roles)
+            {
+                authClaim.Add(new Claim(ClaimTypes.Role, item.ToString()));
+            }
+            var authKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuarion["Jwt:Key"]));
+            var token = new JwtSecurityToken(
+                    issuer: _configuarion["Jwt:Issuer"],
+                    audience: _configuarion["Jwt:Audience"],
+                    claims: authClaim,
+                    expires: DateTime.Now.AddMinutes(3),
+                    signingCredentials: new SigningCredentials(authKey, SecurityAlgorithms.HmacSha512Signature)
+                );
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return new ApiSuccessResult<bool>(true, "Success");
+            var ApiSuccess = new ApiSuccessResult<string>(tokenString, "Success");
+
+            return ApiSuccess;
         }
 
         public async Task<ApiResult<bool>> RegisterStaffAccount(CreateStaffAccountRequest request)
