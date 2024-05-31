@@ -27,8 +27,7 @@
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="ContactNameUser" class="control-label m-2"></label>
-                    <input name="ContactNameUser" class="form-control" readonly value="@Html.Encode(Model.ContactNameUser) " />
-
+                    <input asp-for="ContactNameUser" class="form-control" readonly />
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="ContactEmailUser" class="control-label  m-2"></label>
@@ -47,11 +46,11 @@
                     <input class="form-check-input f-18" type="checkbox" asp-for="IsResponse">
                 </div>
                 <div class="form-group row">
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <input type="submit" value="Lưu" class="btn btn-primary" />
                     </div>
-                    <div class="col-md-7">
-                        <a class="m-5" asp-action="Index">Về trang quản lí liên hệ</a>
+                    <div class="col-md-8">
+                        <a class="btn btn-secondary" asp-action="Index">Về trang quản lí liên hệ</a>
                     </div>
                 </div>
             </form>
@@ -60,7 +59,7 @@
 }
 else
 {
-    <a class="m-5" asp-action="Index">Về trang quản lí liên hệ</a>
+    <a class="m-5 btn btn-secondary" asp-action="Index">Về trang quản lí liên hệ</a>
 }
 <hr />
 

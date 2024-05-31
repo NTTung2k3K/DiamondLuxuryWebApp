@@ -194,7 +194,10 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                             }
                             else if (propertyValue is Guid guid)
                             {
+<<<<<<< HEAD
+=======
                                 // Convert Guid to string
+>>>>>>> 95790222ccd483d70a412ab23701ec46fd0d6df4
                                 stringContent = guid.ToString();
                             }
                             else
