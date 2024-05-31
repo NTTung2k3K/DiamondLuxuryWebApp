@@ -28,30 +28,11 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             {
                 errorList.Add("Vui lòng nhập tên nguyên liệu");
             }
-            if (string.IsNullOrEmpty(request.Weight))
-            {
-                errorList.Add("Vui lòng nhập trọng lương nguyên liệu");
-            }
 
-            decimal weight = 0;
+            double price = 0;
             try
             {
-                weight = Convert.ToDecimal(request.Weight);
-
-                if (weight <= 0)
-                {
-                    errorList.Add("trọng lượng > 0");
-                }
-            }
-            catch (FormatException)
-            {
-                errorList.Add("Trọng lượng không hợp lệ");
-            }
-
-            decimal price = 0;
-            try
-            {
-                price = Convert.ToDecimal(request.Price);
+                price = Convert.ToDouble(request.Price);
 
                 if (price <= 0)
                 {
@@ -75,7 +56,6 @@ namespace DiamondLuxurySolution.Application.Repository.Material
                 Status = request.Status,
                 EffectDate = request.EffectDate,
                 Price = price,
-                Weight = weight,
             };
             if (request.MaterialImage != null)
             {
@@ -116,7 +96,6 @@ namespace DiamondLuxurySolution.Application.Repository.Material
                 MaterialId = MaterialId,
                 MaterialName = material.MaterialName,
                 Color = material.Color,
-                Weight = material.Weight,
                 Price = material.Price,
                 EffectDate = material.EffectDate,
                 Description = material.Description,
@@ -139,7 +118,6 @@ namespace DiamondLuxurySolution.Application.Repository.Material
                 Status = x.Status,
                 EffectDate = x.EffectDate,
                 Price = x.Price,
-                Weight = x.Weight
                 
             }).ToList();
             return new ApiSuccessResult<List<MaterialVm>>(rs);
@@ -152,22 +130,7 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             {
                 errorList.Add("Vui lòng nhập tên nguyên liệu");
             }
-            if (string.IsNullOrEmpty(request.Weight.ToString()))
-            {
-                errorList.Add("Vui lòng nhập trọng lương nguyên liệu");
-            }
 
-            try
-            {
-                if (request.Weight <= 0)
-                {
-                    errorList.Add("Trọng lượng > 0");
-                }
-            }
-            catch (FormatException)
-            {
-                errorList.Add("Trọng lượng không hợp lệ");
-            }
             try
             {
                 if (request.Price <= 0)
@@ -191,7 +154,6 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             material.MaterialName = request.MaterialName;
             material.Description = request.Description != null ? request.Description : "";
             material.Color = request.Color != null ? request.Color : "";
-            material.Weight = request.Weight;
             material.Price = request.Price;
             material.EffectDate = request.EffectDate;
             material.Status = request.Status;
@@ -231,7 +193,6 @@ namespace DiamondLuxurySolution.Application.Repository.Material
                 Color = x.Color,
                 MaterialImage = x.MaterialImage,
                 Status = x.Status,
-                Weight = x.Weight,
                 Price = x.Price,
                 EffectDate = x.EffectDate
             }).ToList();
@@ -266,7 +227,6 @@ namespace DiamondLuxurySolution.Application.Repository.Material
                 Color = x.Color,
                 MaterialImage = x.MaterialImage,
                 Status = x.Status,
-                Weight = x.Weight,
                 Price = x.Price,
                 EffectDate = x.EffectDate
             }).ToList();

@@ -125,7 +125,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         MaterialId = request.MaterialId,
                         MaterialName = request.MaterialName,
                         Color = request.Color,
-                        Weight = request.Weight,
                         Price = request.Price,
                         EffectDate = request.EffectDate,
                         Description = request.Description,
