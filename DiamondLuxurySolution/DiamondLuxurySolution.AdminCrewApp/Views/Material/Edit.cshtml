@@ -1,0 +1,107 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Material.MaterialVm
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Chỉnh sửa</h1>
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-md-6">
+            @if (ViewBag.Errors != null)
+            {
+                foreach (var error in ViewBag.Errors)
+                {
+                    <h6 class="text-danger">@error</h6>
+                }
+            }
+            <form asp-action="Edit" asp-controller="Material" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group m-2">
+                    <label asp-for="MaterialId" class="control-label">Id vật liệu</label>
+                    <input asp-for="MaterialId" class="form-control" readonly />
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="MaterialName" class="control-label">Tên vật liệu</label>
+                    <input asp-for="MaterialName" class="form-control" />
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="Color" class="control-label">Màu vật liệu</label>
+                    <input asp-for="Color" class="form-control" />
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="Weight" class="control-label">Cân nặng vật liệu</label>
+                    <input type="number" asp-for="Weight" class="form-control" />
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="Price" class="control-label">Giá vật liệu</label>
+                    <input type="number" asp-for="Price" class="form-control" />
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="EffectDate" class="control-label">Ngày của giá hiện hành</label>
+                    <input asp-for="EffectDate" class="form-control" />
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="Description" class="control-label">Mô tả vật liệu</label>
+                    <input asp-for="Description" class="form-control" />
+                </div>
+                <div class="form-group m-2">
+                    <label class="control-label m-2">Hình ảnh hiện tại</label>
+                    @if (string.IsNullOrEmpty(Model.MaterialImage) || Model.MaterialImage.Length <= 0)
+                    {
+                        <label style="color:orangered;">Không có hình ảnh</label>
+                    }
+                    else
+                    {
+                        <label>
+                            <img src="@Model.MaterialImage" style="height:100px; width:100px" />
+                        </label>
+                    }
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="MaterialImage" class="control-label m-2">Hình ảnh Mới</label>
+                    <input asp-for="MaterialImage" class="form-control" type="file" value="@Model.MaterialName"/>
+                </div>
+                <div class="form-check form-switch m-4">
+                    <label asp-for="Status" class="control-label mt-1">Hiển thị</label>
+                    <input class="form-check-input f-18" type="checkbox" asp-for="Status">
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        <input type="submit" value="Lưu" class="btn btn-primary" />
+                    </div>
+                    <div class="col-md-7">
+                        <a class="m-6 btn btn-secondary" asp-action="Index">Về trang quản lí vật liệu</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <a class="m-5 btn btn-secondary" asp-action="Index">Về trang quản lí vật liệu</a>
+}
+<script>
+    var currentImage = document.getElementById('currentImage').value;
+    // Đặt giá trị của input hidden thành URL của hình ảnh hiện tại
+    document.getElementById('newImage').addEventListener('change', function () {
+        var newImage = this.value;
+        if (newImage) {
+            // Nếu người dùng chọn một hình ảnh mới, cập nhật giá trị của input hidden thành URL của hình ảnh mới
+            document.getElementById('currentImage').value = newImage;
+        }
+        else {
+            // Nếu người dùng không chọn hình ảnh mới, giữ nguyên giá trị của input hidden
+            document.getElementById('currentImage').value = currentImage;
+        }
+    });
+</script>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

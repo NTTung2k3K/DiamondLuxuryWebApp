@@ -10,15 +10,19 @@ namespace DiamondLuxurySolution.ViewModel.Models.Material
     {
         public Guid MaterialId { get; set; }
 
-        public string MaterialName { get; set; } = null!;
+        public string? MaterialName { get; set; }
 
         public string? Description { get; set; }
 
         public string? Color { get; set; }
-        public int? Weight { get; set; } 
-
         public string? MaterialImage { get; set; }
 
         public bool Status { get; set; }
+        public decimal? Price { get; set; }
+        public decimal? Weight { get; set; }
+        public DateTime? EffectDate { get; set; }
+
+
+
     }
 }
