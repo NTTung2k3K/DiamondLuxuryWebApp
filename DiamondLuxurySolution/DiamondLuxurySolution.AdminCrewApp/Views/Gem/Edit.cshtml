@@ -19,6 +19,7 @@
                 <div class="form-group m-2">
                     <label asp-for="GemName" class="control-label m-2"></label>
                     <input asp-for="GemName" class="form-control" />
+                    <span asp-validation-for="GemName" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">
                     <label class="control-label m-2">Hình kim cương hiện tại</label>
@@ -36,14 +37,17 @@
                 <div class="form-group m-2">
                     <label asp-for="GemImage" class="control-label m-2">Hình kim cương mới</label>
                     <input asp-for="GemImage" class="form-control" type="file" />
+                    <span asp-validation-for="GemImage" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="Symetry" class="control-label m-2"></label>
                     <input asp-for="Symetry" class="form-control" />
+                    <span asp-validation-for="Symetry" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="Polish" class="control-label m-2"></label>
                     <input asp-for="Polish" class="form-control" />
+                    <span asp-validation-for="Polish" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">
                     <label class="control-label m-2">Hình kim cương hiện tại</label>
@@ -61,6 +65,7 @@
                 <div class="form-group m-2">
                     <label asp-for="ProportionImage" class="control-label m-2">Hình kim cương mới</label>
                     <input asp-for="ProportionImage" class="form-control" type="file" />
+                    <span asp-validation-for="ProportionImage" class="text-danger"></span>
                 </div>
                 <div class="form-check form-switch m-4">
                     <label asp-for="IsOrigin" class="control-label mt-1">Nhân tạo/Tự nhiên</label>
@@ -73,6 +78,7 @@
                 <div class="form-group m-2">
                     <label asp-for="AcquisitionDate" class="control-label m-2"></label>
                     <input asp-for="AcquisitionDate" class="form-control" type="date" />
+                    <span asp-validation-for="AcquisitionDate" class="text-danger"></span>
                 </div>
                 <div class="form-check form-switch m-4">
                     <label asp-for="Active" class="control-label mt-1">Hiển thị</label>
