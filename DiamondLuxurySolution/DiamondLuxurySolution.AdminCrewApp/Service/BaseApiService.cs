@@ -192,6 +192,10 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                                 // If the property value is already a string, use it directly
                                 stringContent = propertyValue.ToString();
                             }
+                            else if (propertyValue is Guid guid)
+                            {
+                                stringContent = guid.ToString();
+                            }
                             else
                             {
                                 // Convert property value to JSON and then to plain text

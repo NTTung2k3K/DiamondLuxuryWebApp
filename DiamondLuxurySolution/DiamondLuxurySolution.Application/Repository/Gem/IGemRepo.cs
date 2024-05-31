@@ -10,6 +10,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
 {
     public interface IGemRepo
     {
+        public Task<ApiResult<List<GemVm>>> GetAll();
         public Task<ApiResult<bool>> CreateGem(CreateGemRequest request);
         public Task<ApiResult<bool>> UpdateGem(UpdateGemResquest request);
         public Task<ApiResult<bool>> DeleteGem(DeleteGemRequest request);
