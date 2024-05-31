@@ -194,19 +194,23 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                             }
                             else if (propertyValue is Guid guid)
                             {
+<<<<<<< HEAD
+=======
+                                // Convert Guid to string
+>>>>>>> 95790222ccd483d70a412ab23701ec46fd0d6df4
                                 stringContent = guid.ToString();
                             }
                             else
                             {
                                 // Convert property value to JSON and then to plain text
                                 stringContent = JsonConvert.SerializeObject(propertyValue);
-                            }
+                            } 
                         }
 
                         var textContent = new StringContent(stringContent, Encoding.UTF8, "text/plain");
                         multipartFormDataContent.Add(textContent, property.Name);
                     }
-                }
+                } 
 
                 // Put the content
                 var response = await client.PutAsync(url, multipartFormDataContent);

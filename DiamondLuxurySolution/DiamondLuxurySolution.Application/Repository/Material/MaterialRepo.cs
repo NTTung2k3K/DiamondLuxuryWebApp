@@ -2,6 +2,7 @@
 using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.About;
+using DiamondLuxurySolution.ViewModel.Models.Contact;
 using DiamondLuxurySolution.ViewModel.Models.Material;
 using Microsoft.EntityFrameworkCore;
 using PagedList;
@@ -32,10 +33,10 @@ namespace DiamondLuxurySolution.Application.Repository.Material
                 errorList.Add("Vui lòng nhập trọng lương nguyên liệu");
             }
 
-            int weight = 0;
+            decimal weight = 0;
             try
             {
-                weight = Convert.ToInt32(request.Weight);
+                weight = Convert.ToDecimal(request.Weight);
 
                 if (weight <= 0)
                 {
@@ -47,22 +48,38 @@ namespace DiamondLuxurySolution.Application.Repository.Material
                 errorList.Add("Trọng lượng không hợp lệ");
             }
 
+            decimal price = 0;
+            try
+            {
+                price = Convert.ToDecimal(request.Price);
+
+                if (price <= 0)
+                {
+                    errorList.Add("Giá tiền > 0");
+                }
+            }
+            catch (FormatException)
+            {
+                errorList.Add("Giá tiền không hợp lệ");
+            }
             if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
-            var material = new DiamondLuxurySolution.Data.Entities.Material
+            var material = new Data.Entities.Material
             {
                 MaterialId = Guid.NewGuid(),
                 MaterialName = request.MaterialName,
                 Color = request.Color != null ? request.Color : "",
-                Weight = weight,
                 Description = request.Description != null ? request.Description : "",
                 Status = request.Status,
+                EffectDate = request.EffectDate,
+                Price = price,
+                Weight = weight,
             };
             if (request.MaterialImage != null)
             {
-                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.MaterialImage);
+                string firebaseUrl = await Utilities.Helper.ImageHelper.Upload(request.MaterialImage);
                 material.MaterialImage = firebaseUrl;
             }
             else
@@ -100,11 +117,32 @@ namespace DiamondLuxurySolution.Application.Repository.Material
                 MaterialName = material.MaterialName,
                 Color = material.Color,
                 Weight = material.Weight,
+                Price = material.Price,
+                EffectDate = material.EffectDate,
                 Description = material.Description,
                 MaterialImage = material.MaterialImage,
                 Status = material.Status,
             };
             return new ApiSuccessResult<MaterialVm>(materialVm, "Success");
+        }
+
+        public async Task<ApiResult<List<MaterialVm>>> GetAll()
+        {
+            var list = await _context.Materials.ToListAsync();
+            var rs = list.Select(x => new MaterialVm()
+            {
+                MaterialId = x.MaterialId,
+                MaterialName = x.MaterialName,
+                Color = x.Color,
+                Description = x.Description,
+                MaterialImage = x.MaterialImage,
+                Status = x.Status,
+                EffectDate = x.EffectDate,
+                Price = x.Price,
+                Weight = x.Weight
+                
+            }).ToList();
+            return new ApiSuccessResult<List<MaterialVm>>(rs);
         }
 
         public async Task<ApiResult<bool>> UpdateMaterial(UpdateMaterialRequest request)
@@ -114,26 +152,33 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             {
                 errorList.Add("Vui lòng nhập tên nguyên liệu");
             }
-            if (string.IsNullOrEmpty(request.Weight))
+            if (string.IsNullOrEmpty(request.Weight.ToString()))
             {
                 errorList.Add("Vui lòng nhập trọng lương nguyên liệu");
             }
 
-            int weight = 0;
             try
             {
-                weight = Convert.ToInt32(request.Weight);
-
-                if (weight <= 0)
+                if (request.Weight <= 0)
                 {
-                    errorList.Add("trọng lượng > 0");
+                    errorList.Add("Trọng lượng > 0");
                 }
             }
             catch (FormatException)
             {
                 errorList.Add("Trọng lượng không hợp lệ");
             }
-
+            try
+            {
+                if (request.Price <= 0)
+                {
+                    errorList.Add("Gía tiền > 0");
+                }
+            }
+            catch (FormatException)
+            {
+                errorList.Add("Gía tiền không hợp lệ");
+            }
             if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
@@ -146,11 +191,13 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             material.MaterialName = request.MaterialName;
             material.Description = request.Description != null ? request.Description : "";
             material.Color = request.Color != null ? request.Color : "";
-            material.Weight = weight;
+            material.Weight = request.Weight;
+            material.Price = request.Price;
+            material.EffectDate = request.EffectDate;
             material.Status = request.Status;
             if (request.MaterialImage != null)
             {
-                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.MaterialImage);
+                string firebaseUrl = await Utilities.Helper.ImageHelper.Upload(request.MaterialImage);
                 material.MaterialImage = firebaseUrl;
             }
             else
@@ -174,7 +221,7 @@ namespace DiamondLuxurySolution.Application.Repository.Material
 
             int pageIndex = request.pageIndex ?? 1;
 
-            var listPaging = listMaterial.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
+            var listPaging = listMaterial.ToPagedList(pageIndex, Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
 
             var listMaterialVm = listPaging.Select(x => new MaterialVm()
             {
@@ -182,14 +229,16 @@ namespace DiamondLuxurySolution.Application.Repository.Material
                 MaterialName = x.MaterialName,
                 Description = x.Description,
                 Color = x.Color,
-                Weight = x.Weight,
                 MaterialImage = x.MaterialImage,
                 Status = x.Status,
+                Weight = x.Weight,
+                Price = x.Price,
+                EffectDate = x.EffectDate
             }).ToList();
             var listResult = new PageResult<MaterialVm>()
             {
                 Items = listMaterialVm,
-                PageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE,
+                PageSize = Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE,
                 TotalRecords = listMaterial.Count,
                 PageIndex = pageIndex
             };
@@ -202,13 +251,12 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             if (request.Keyword != null)
             {
                 listMaterial = listMaterial.Where(x => x.MaterialName.Contains(request.Keyword)).ToList();
-
             }
             listMaterial = listMaterial.OrderByDescending(x => x.MaterialName).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 
-            var listPaging = listMaterial.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
+            var listPaging = listMaterial.ToPagedList(pageIndex, Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
 
             var listMaterialVm = listPaging.Select(x => new MaterialVm()
             {
@@ -216,14 +264,16 @@ namespace DiamondLuxurySolution.Application.Repository.Material
                 MaterialName = x.MaterialName,
                 Description = x.Description,
                 Color = x.Color,
-                Weight = x.Weight,
                 MaterialImage = x.MaterialImage,
                 Status = x.Status,
+                Weight = x.Weight,
+                Price = x.Price,
+                EffectDate = x.EffectDate
             }).ToList();
             var listResult = new PageResult<MaterialVm>()
             {
                 Items = listMaterialVm,
-                PageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE,
+                PageSize = Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE,
                 TotalRecords = listMaterial.Count,
                 PageIndex = pageIndex
             };

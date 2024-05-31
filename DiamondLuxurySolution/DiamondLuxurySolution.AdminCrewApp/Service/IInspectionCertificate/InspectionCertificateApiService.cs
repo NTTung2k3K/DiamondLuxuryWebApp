@@ -1,12 +1,12 @@
 ﻿using DiamondLuxurySolution.AdminCrewApp.Services;
+using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
 using System;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Service.IInspectionCertificate
 {
-        public class InspectionCertificateApiService : BaseApiService, IInspectionCertificateApiService
-    {
+        public class InspectionCertificateApiService : BaseApiService, IInspectionCertificateApiService {
         public InspectionCertificateApiService(IHttpClientFactory httpClientFactory, IConfiguration configuration, IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration, httpContextAccessor)
         {
         }
@@ -17,7 +17,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.IInspectionCertificate
             {
                 DateTime date = (DateTime)request.DateGrading;
                 request.DateGrading = date;
-
             }
             var data = await PostAsyncHasImage<bool>("api/InspectionCertificates/Create", request);
             return data;

@@ -7,26 +7,26 @@
 <hr />
 <div class="row">
     <div class="col-md-6">
-
+        @if (ViewBag.Errors != null)
+        {
+            foreach (var error in ViewBag.Errors)
+            {
+                <h6 class="text-danger">@error</h6>
+            }
+        }
         <form asp-action="Create" asp-controller="InspectionCertificate" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group m-2">
-                <label asp-for="InspectionCertificateName" class="control-label mb-1"></label>
+                <label asp-for="InspectionCertificateName" class="control-label mb-1">Tên giấy chứng nhận</label>
                 <input name="InspectionCertificateName" class="form-control" />
             </div>
-            @if (ViewBag.Errors != null)
-            {
-                foreach (var error in ViewBag.Errors)
-                {
-                    <h6 class="text-danger">@error</h6>
-                }
-            }
+           
             <div class="form-group m-2 ">
-                <label asp-for="DateGrading" class="control-label mb-1 mt-3"></label>
+                <label asp-for="DateGrading" class="control-label mb-1 mt-3">Ngày khởi tạo</label>
                 <input type="date" asp-for="DateGrading" class="form-control" />
             </div>
             <div class="form-group m-2 mt-2">
-                <label asp-for="Logo" class="control-label mb-1 mt-3"></label>
+                <label asp-for="Logo" class="control-label mb-1 mt-3">Logo giấy chứng nhận</label>
                 <input type="file" asp-for="Logo" class="form-control" />
             </div>
             <div class="form-check form-switch m-4">
