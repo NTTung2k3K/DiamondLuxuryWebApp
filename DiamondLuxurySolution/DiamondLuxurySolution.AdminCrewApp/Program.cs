@@ -6,6 +6,7 @@ using DiamondLuxurySolution.AdminCrewApp.Service.Platform;
 using DiamondLuxurySolution.AdminCrewApp.Service.Role;
 using DiamondLuxurySolution.Data.EF;
 using Microsoft.EntityFrameworkCore;
+using DiamondLuxurySolution.AdminCrewApp.Service.Payment;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,7 @@ builder.Services.AddTransient<IRoleApiService, RoleApiService>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IPlatformApiService, PlatformApiService>();
-
+builder.Services.AddTransient<IPaymentApiService, PaymentApiService>();
 builder.Services.AddTransient<ICategoryApiService, CategoryApiService>();
 builder.Services.AddTransient<IInspectionCertificateApiService, InspectionCertificateApiService>();
 

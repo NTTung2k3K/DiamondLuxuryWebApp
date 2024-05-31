@@ -222,12 +222,36 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
 
         protected async Task<ApiResult<TResponse>> DeleteAsync<TResponse>(string url)
         {
+            if (_httpClientFactory == null)
+            {
+                Console.WriteLine("HttpClientFactory is null.");
+                return new ApiErrorResult<TResponse>("HttpClientFactory is null.");
+            }
+
             var client = _httpClientFactory.CreateClient();
+            if (client == null)
+            {
+                Console.WriteLine("HttpClient creation failed.");
+                return new ApiErrorResult<TResponse>("HttpClient creation failed.");
+            }
+
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
+
+            Console.WriteLine($"DELETE URL: {url}");
+
             var response = await client.DeleteAsync(url);
+
+            if (response == null)
+            {
+                Console.WriteLine("Response from DELETE request is null.");
+                return new ApiErrorResult<TResponse>("Response from DELETE request is null.");
+            }
+
             var body = await response.Content.ReadAsStringAsync();
+            Console.WriteLine($"Response Body: {body}");
+
             var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
-           
+
             if (objectResult.IsSuccessed == false)
             {
                 return objectResult;
@@ -237,6 +261,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                 return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
             }
         }
+
 
         protected async Task<ApiResult<TResponse>> PatchAsync<TResponse>(string url, Object obj)
         {

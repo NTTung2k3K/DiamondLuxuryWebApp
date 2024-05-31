@@ -19,7 +19,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Role
 
         public async Task<ApiResult<bool>> DeleteRole(DeleteRoleRequest request)
         {
-            var data = await DeleteAsync<bool>("api/Roles/Delete?roleId="+request.RoleId);
+            var data = await DeleteAsync<bool>("api/Roles/Delete?roleId="+ request.RoleId);
             return data;
         }
 
