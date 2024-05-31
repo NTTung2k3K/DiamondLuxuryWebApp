@@ -1,5 +1,7 @@
+using DiamondLuxurySolution.AdminCrewApp.Service.Customer;
 using DiamondLuxurySolution.AdminCrewApp.Service.Platform;
 using DiamondLuxurySolution.AdminCrewApp.Service.Role;
+using DiamondLuxurySolution.AdminCrewApp.Service.Staff;
 using DiamondLuxurySolution.Data.EF;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IRoleApiService, RoleApiService>();
+builder.Services.AddTransient<IStaffApiService, StaffApiService>();
+builder.Services.AddTransient<ICustomerApiService, CustomerApiService>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IPlatformApiService, PlatformApiService>();

@@ -75,8 +75,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
             {
                 return new ApiErrorResult<bool>("Khách hàng không tồn tại");
             }
-            user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Suspended.ToString();
-            var statusUser = await _userManager.UpdateAsync(user);
+            var statusUser = await _userManager.DeleteAsync(user);
             if (!statusUser.Succeeded)
             {
                 return new ApiErrorResult<bool>("Lỗi hệ thống,xóa khách hàng thất bại vui lòng thử lại");

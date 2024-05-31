@@ -72,6 +72,12 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 return new ApiErrorResult<bool>("Nhân viên không tồn tại");
             }
             user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Terminated.ToString();
+            var status =  await _userManager.DeleteAsync(user);
+            if (!status.Succeeded)
+            {
+                return new ApiErrorResult<bool>("Không thể xóa nhân viên");
+
+            }
             return new ApiSuccessResult<bool>(true, "Success");
         }
 
@@ -91,7 +97,9 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 Email = user.Email,
                 CitizenIDCard = user.CitizenIDCard,
                 Image = user.Image,
-                Address = user.Address
+                Address = user.Address,
+                Status = user.Status,
+                Username = user.UserName
             };
 
             var listRoleOfUser = await _userManager.GetRolesAsync(user);
@@ -135,14 +143,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             {
                 errorList.Add("Password không trùng khớp");
             }
-            if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.IsValidEmail(request.Email))
-            {
-                errorList.Add("Email không hợp lệ");
-            }
-            if (DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ContainsLetters(request.FullName))
-            {
-                errorList.Add("Họ tên không hợp lệ");
-            }
+            
             if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ValidPhoneNumber(request.PhoneNumber))
             {
                 errorList.Add("Số điện thoại không hợp lệ");
@@ -173,9 +174,16 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 Dob = request.Dob != null ? request.Dob : null,
                 PhoneNumber = request.PhoneNumber.Trim(),
                 UserName = request.Username.Trim(),
-                Status = request.Status.Trim()
-
+                Status = request.Status.Trim(),
+                CitizenIDCard = request.CitizenIDCard,
+                Address = request.Address.Trim(),
             };
+            if(request.Image != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Image);
+                user.Image = firebaseUrl;
+            }
+
 
             var status = await _userManager.CreateAsync(user, request.Password);
             if (!status.Succeeded)
@@ -220,27 +228,27 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             {
                 errorList.Add("Email không hợp lệ");
             }
-            if (DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ContainsLetters(request.PhoneNumber.Trim()))
+            /*if (DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ContainsLetters(request.PhoneNumber.Trim()))
             {
                 errorList.Add("Số điện thoại không hợp lệ");
             }
             if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ValidPhoneNumber(request.PhoneNumber.Trim()))
             {
                 errorList.Add("Số điện thoại không hợp lệ");
-            }
+            }*/
 
             #region Check lỗi phoneNumbers
-            /*if (string.IsNullOrWhiteSpace(request.ContactPhoneUser))
+            if (string.IsNullOrWhiteSpace(request.PhoneNumber))
             {
                 errorList.Add("Vui lòng nhập số điện thoại");
             }
             else
             {
-                if (!Regex.IsMatch(request.ContactPhoneUser, "^(09|03|07|08|05)[0-9]{8,9}$"))
+                if (!Regex.IsMatch(request.PhoneNumber, "^(09|03|07|08|05)[0-9]{8,9}$"))
                 {
                     errorList.Add("Số điện thoại không hợp lệ");
                 }
-            }*/
+            }
             #endregion End 
 
 
@@ -256,11 +264,40 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             user.Email = request.Email.Trim();
             user.CitizenIDCard = request.CitizenIDCard.Trim();
 
+            user.Address = request.Address;
+            user.Status = request.Status;
+
             if (request.Image != null)
             {
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Image);
                 user.Image = firebaseUrl;
             }
+
+            if (request.RoleId.Count > 0)
+            {
+
+
+                var listRole = await _userManager.GetRolesAsync(user);
+                foreach (var role in listRole)
+                {
+                    await _userManager.RemoveFromRoleAsync(user, role);
+                }
+                foreach (var roleAdd in request.RoleId)
+                {
+                    var role = await _roleManager.FindByIdAsync(roleAdd.ToString());
+                    if (role == null) return new ApiErrorResult<bool>("Role is not exited!");
+                    await _userManager.AddToRoleAsync(user, role.Name);
+                }
+            }
+            else
+            {
+                var listRole = await _userManager.GetRolesAsync(user);
+                foreach (var role in listRole)
+                {
+                    await _userManager.RemoveFromRoleAsync(user, role);
+                }
+            }
+
 
             var statusUser = await _userManager.UpdateAsync(user);
             if (!statusUser.Succeeded)
@@ -312,6 +349,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                     CitizenIDCard = item.CitizenIDCard,
                     Address = item.Address,
                     Image = item.Image,
+                    
                 };
                 var appUser = await _userManager.FindByIdAsync(item.Id.ToString());
                 var roles = await _userManager.GetRolesAsync(appUser);
