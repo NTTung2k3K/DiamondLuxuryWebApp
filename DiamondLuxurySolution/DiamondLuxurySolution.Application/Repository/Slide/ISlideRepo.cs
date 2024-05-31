@@ -11,6 +11,7 @@ namespace DiamondLuxurySolution.Application.Repository.Slide
 {
     public interface ISlideRepo
     {
+        public Task<ApiResult<List<SlideViewModel>>> GetAll();
         public Task<ApiResult<bool>> CreateSlide(CreateSlideRequest request);
         public Task<ApiResult<bool>> UpdateSlide(UpdateSlideRequest request);
         public Task<ApiResult<bool>> DeleteSlide(DeleteSlideRequest request);

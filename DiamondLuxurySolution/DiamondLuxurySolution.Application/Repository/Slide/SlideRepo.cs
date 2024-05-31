@@ -180,6 +180,21 @@ namespace DiamondLuxurySolution.Application.Repository.Slide
             };
             return new ApiSuccessResult<PageResult<SlideViewModel>>(listResult, "Success");
         }
+
+        public async Task<ApiResult<List<SlideViewModel>>> GetAll()
+        {
+            var list = await _context.Slides.ToListAsync();
+            var rs = list.Select(x => new SlideViewModel()
+            {
+                SlideId =x.SlideId,
+                SlideName=x.SlideName,
+                SlideUrl = x.SlideUrl,
+                Description = x.Description,
+                SlideImage =x.SlideImage,
+                Status = x.Status,
+            }).ToList();
+            return new ApiSuccessResult<List<SlideViewModel>>(rs);
+        }
     }
 }
 

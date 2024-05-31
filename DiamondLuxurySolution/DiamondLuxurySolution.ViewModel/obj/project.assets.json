@@ -3158,24 +3158,37 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "C:\\Users\\ADMIN\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+=======
+    "C:\\Users\\Admin\\.nuget\\packages\\": {}
+>>>>>>> 5a3d0a77f6492a0e0a6e38f5df87b23f73c1b6b1
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj",
       "projectName": "DiamondLuxurySolution.ViewModel",
       "projectPath": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj",
       "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
       "outputPath": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\obj\\",
+=======
+      "projectUniqueName": "E:\\MvC\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj",
+      "projectName": "DiamondLuxurySolution.ViewModel",
+      "projectPath": "E:\\MvC\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj",
+      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+      "outputPath": "E:\\MvC\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\obj\\",
+>>>>>>> 5a3d0a77f6492a0e0a6e38f5df87b23f73c1b6b1
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
+<<<<<<< HEAD
         "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+=======
+        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> 5a3d0a77f6492a0e0a6e38f5df87b23f73c1b6b1
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3189,8 +3202,13 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
+<<<<<<< HEAD
             "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj": {
               "projectPath": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj"
+=======
+            "E:\\MvC\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj": {
+              "projectPath": "E:\\MvC\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj"
+>>>>>>> 5a3d0a77f6492a0e0a6e38f5df87b23f73c1b6b1
             }
           }
         }
@@ -3231,7 +3249,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.206/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
       }
     }
   },
