@@ -24,7 +24,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpPost("Create")]
-        public async Task<ActionResult> CreatePayment([FromForm] CreatePaymentRequest request)
+        public async Task<ActionResult> CreatePayment([FromBody] CreatePaymentRequest request)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<ActionResult> UpdatePayment([FromForm] UpdatePaymentRequest request)
+        public async Task<ActionResult> UpdatePayment([FromBody] UpdatePaymentRequest request)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeletePayment([FromBody] DeletePaymentRequest request)
+        public async Task<IActionResult> DeletePayment([FromQuery] DeletePaymentRequest request)
         {
             try
             {

@@ -1,0 +1,50 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Payment.CreatePaymentRequest
+
+@{
+    ViewData["Title"] = "Tạo mới thanh toán";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Tạo mới thanh toán</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        @if (ViewBag.Errors != null)
+        {
+            foreach (var error in ViewBag.Errors)
+            {
+                <h6 class="text-danger">@error</h6>
+            }
+        }
+        <form asp-action="Create" asp-controller="Payment" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PaymentMethod" class="control-label m-2"></label>
+                <input asp-for="PaymentMethod" class="form-control" />
+                <span asp-validation-for="PaymentMethod" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label m-2"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-check form-switch m-4">
+                <label asp-for="Status" class="control-label m-2">Hiển thị</label>
+                <input class="form-check-input f-18" type="checkbox"  asp-for="Status">
+            </div>
+            <div class="form-group row">
+                <div class="col-md-5">
+                    <input type="submit" value="Tạo mới" class="btn btn-primary" />
+                </div>
+                <div class="col-md-7">
+                   <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Payment")'">Về trang quản lí danh mục</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
