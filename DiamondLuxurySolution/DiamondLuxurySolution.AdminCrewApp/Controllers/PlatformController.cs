@@ -2,8 +2,6 @@
 using DiamondLuxurySolution.AdminCrewApp.Service.Platform;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Platform;
-using DiamondLuxurySolution.ViewModel.Models.Role;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static DiamondLuxurySolution.Utilities.Constants.Systemconstant;
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
@@ -16,8 +14,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             _platformApiService = platfromApiService;
         }
-       
-
+               
+        
         [HttpGet]
         public async Task<IActionResult> Index(ViewPlatformRequest request)
         {
@@ -120,21 +118,23 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 if (status is ApiErrorResult<bool> errorResult)
                 {
                     List<string> listError = new List<string>();
-                    if (status.Message != null)
+
+                    if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
                     {
-                        listError.Add(errorResult.Message);
-                    }
-                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-                    {
-                        foreach (var error in listError)
+                        foreach (var error in errorResult.ValidationErrors)
                         {
                             listError.Add(error);
                         }
+                    }
+                    else if (status.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
                     }
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+
                 return RedirectToAction("Index", "Platform");
             }
             catch
@@ -227,20 +227,23 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             if (status is ApiErrorResult<bool> errorResult)
             {
                 List<string> listError = new List<string>();
-                if (status.Message != null)
+
+                if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
                 {
-                     listError.Add(errorResult.Message);
-                }else if(errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-                {
-                    foreach (var error in listError)
+                    foreach (var error in errorResult.ValidationErrors)
                     {
                         listError.Add(error);
                     }
+                }
+                else if (status.Message != null)
+                {
+                    listError.Add(errorResult.Message);
                 }
                 ViewBag.Errors = listError;
                 return View();
 
             }
+
             TempData["SuccessMsg"] = "Create success for Role " + request.PlatformName;
 
             return RedirectToAction("Index", "Platform");

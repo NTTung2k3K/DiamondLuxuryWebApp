@@ -1,0 +1,130 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.User.Customer.CustomerVm
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chi tiết quản trị viên</h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if (Model != null)
+{
+
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                Id của nhân viên
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.CustomerId)
+            </dd>
+            <dt class="col-sm-2">
+                Email
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dt class="col-sm-2">
+                Họ và tên
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.FullName)
+            </dd>
+            <dt class="col-sm-2">
+                Địa chỉ
+            </dt>
+            <dd class="col-sm-10">
+                @if (string.IsNullOrEmpty(Model.Address))
+                {
+                    <p>Chưa có</p>
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.Address)
+                }
+            </dd>
+            <dt class="col-sm-2">
+                Số điện thoại
+            </dt>
+            <dd class="col-sm-10">
+                @if (string.IsNullOrEmpty(Model.PhoneNumber))
+                {
+                    <p>Chưa có</p>
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.PhoneNumber)
+                }
+            </dd>
+            <dt class="col-sm-2">
+                Vai trò
+            </dt>
+            <dd class="col-sm-10">
+                Khách hàng
+            </dd>
+            <dt class="col-sm-2">
+                Trạng thái
+            </dt>
+
+            @if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Suspended.ToString()))
+            {
+                <dd class="col-md-10">
+                  Tạm khóa
+                </dd>
+            }
+            @if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Active.ToString()))
+            {
+                <dd class="col-md-10">
+                    Hoạt động
+                </dd>
+            }
+            @if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.ChangePasswordRequest.ToString()))
+            {
+                <dd class="col-md-10">
+                    Yêu cầu thay đổi mật khẩu
+                </dd>
+            }
+            @if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Inactive.ToString()))
+            {
+                <dd class="col-md-10">
+                    Không hoạt động
+                </dd>
+            }
+            @if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.New.ToString()))
+            {
+                <dd class="col-md-10">
+                    K/H mới
+                </dd>
+            }
+
+            <dt class="col-sm-2">
+                Ngày sinh
+            </dt>
+            <dd class="col-sm-10">
+                @Model.Dob.ToString("dd/MM/yyyy")
+            </dd>
+
+        </dl>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            @Html.ActionLink("Chỉnh sửa", "Edit", new { CustomerId = Model.CustomerId }, new { @class = "btn btn-warning" })
+        </div>
+        <div class="col-md-6">
+            <a class="m-5" asp-action="Index" asp-controller="Customer">Về trang quản lí khánh hàng</a>
+        </div>
+    </div>
+}
+else
+{
+    <div>
+        <a class="m-5" asp-action="Index" asp-controller="Customer">Về trang quản lí khánh hàng</a>
+    </div>
+}

@@ -1,7 +1,5 @@
 ﻿using DiamondLuxurySolution.Data.EF;
-using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
-using DiamondLuxurySolution.ViewModel.Models.About;
 using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
 using Microsoft.EntityFrameworkCore;
 using PagedList;

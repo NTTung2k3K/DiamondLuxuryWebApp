@@ -62,7 +62,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteGem([FromBody] DeleteGemRequest request)
+        public async Task<IActionResult> DeleteGem([FromQuery] DeleteGemRequest request)
         {
             try
             {
@@ -85,6 +85,24 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             try
             {
                 var status = await _gem.GetGemById(GemId);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var status = await _gem.GetAll();
                 if (status.IsSuccessed)
                 {
                     return Ok(status);

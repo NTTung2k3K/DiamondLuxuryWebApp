@@ -14,6 +14,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static DiamondLuxurySolution.Utilities.Constants.Systemconstant;
 
@@ -75,8 +76,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
             {
                 return new ApiErrorResult<bool>("Khách hàng không tồn tại");
             }
-            user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Suspended.ToString();
-            var statusUser = await _userManager.UpdateAsync(user);
+            var statusUser = await _userManager.DeleteAsync(user);
             if (!statusUser.Succeeded)
             {
                 return new ApiErrorResult<bool>("Lỗi hệ thống,xóa khách hàng thất bại vui lòng thử lại");
@@ -175,7 +175,9 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
                 Dob = user.Dob != null ? (DateTime)user.Dob : DateTime.MinValue,
                 FullName = user.Fullname,
                 PhoneNumber = user.PhoneNumber,
-                Email = user.Email
+                Email = user.Email,
+                Status = user.Status,
+                Address = user.Address
             };
             var listRoleOfUser = await _userManager.GetRolesAsync(user);
 
@@ -233,24 +235,18 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
                 errorList.Add("Số điện thoại không hợp lệ");
             }
 
-
-            if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ValidPhoneNumber(request.PhoneNumber))
-            {
-                errorList.Add("Số điện thoại không hợp lệ");
-            }
-
             #region Check lỗi phoneNumbers
-            /*if (string.IsNullOrWhiteSpace(request.ContactPhoneUser))
+            if (string.IsNullOrWhiteSpace(request.PhoneNumber))
             {
                 errorList.Add("Vui lòng nhập số điện thoại");
             }
             else
             {
-                if (!Regex.IsMatch(request.ContactPhoneUser, "^(09|03|07|08|05)[0-9]{8,9}$"))
+                if (!Regex.IsMatch(request.PhoneNumber, "^(09|03|07|08|05)[0-9]{8,9}$"))
                 {
                     errorList.Add("Số điện thoại không hợp lệ");
                 }
-            }*/
+            }
             #endregion End
 
             if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.IsValidEmail(request.Email))

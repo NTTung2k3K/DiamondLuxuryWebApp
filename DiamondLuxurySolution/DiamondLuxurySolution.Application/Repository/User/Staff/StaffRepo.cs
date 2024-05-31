@@ -72,6 +72,12 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 return new ApiErrorResult<bool>("Nhân viên không tồn tại");
             }
             user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Terminated.ToString();
+            var status =  await _userManager.DeleteAsync(user);
+            if (!status.Succeeded)
+            {
+                return new ApiErrorResult<bool>("Không thể xóa nhân viên");
+
+            }
             return new ApiSuccessResult<bool>(true, "Success");
         }
 
@@ -91,7 +97,9 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 Email = user.Email,
                 CitizenIDCard = user.CitizenIDCard,
                 Image = user.Image,
-                Address = user.Address
+                Address = user.Address,
+                Status = user.Status,
+                Username = user.UserName
             };
 
             var listRoleOfUser = await _userManager.GetRolesAsync(user);
@@ -135,14 +143,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             {
                 errorList.Add("Password không trùng khớp");
             }
-            if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.IsValidEmail(request.Email))
-            {
-                errorList.Add("Email không hợp lệ");
-            }
-            if (DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ContainsLetters(request.FullName))
-            {
-                errorList.Add("Họ tên không hợp lệ");
-            }
+            
             if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ValidPhoneNumber(request.PhoneNumber))
             {
                 errorList.Add("Số điện thoại không hợp lệ");
@@ -173,9 +174,16 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 Dob = request.Dob != null ? request.Dob : null,
                 PhoneNumber = request.PhoneNumber.Trim(),
                 UserName = request.Username.Trim(),
-                Status = request.Status.Trim()
-
+                Status = request.Status.Trim(),
+                CitizenIDCard = request.CitizenIDCard,
+                Address = request.Address.Trim(),
             };
+            if(request.Image != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Image);
+                user.Image = firebaseUrl;
+            }
+
 
             var status = await _userManager.CreateAsync(user, request.Password);
             if (!status.Succeeded)
@@ -198,14 +206,14 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 if (roleFindById.Name == DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.DeliveryStaff)
                 {
                     user.ShipStatus = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Waiting.ToString();
-                    _userManager.UpdateAsync(user);
+                  await  _userManager.UpdateAsync(user);
                 }
 
             }
 
 
 
-            return new ApiSuccessResult<bool>(true, "Đăng kí thành công");
+            return new ApiSuccessResult<bool>(true, "Success");
         }
 
         public async Task<ApiResult<bool>> UpdateStaffAccount(UpdateStaffAccountRequest request)
@@ -220,27 +228,27 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             {
                 errorList.Add("Email không hợp lệ");
             }
-            if (DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ContainsLetters(request.PhoneNumber.Trim()))
+            /*if (DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ContainsLetters(request.PhoneNumber.Trim()))
             {
                 errorList.Add("Số điện thoại không hợp lệ");
             }
             if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ValidPhoneNumber(request.PhoneNumber.Trim()))
             {
                 errorList.Add("Số điện thoại không hợp lệ");
-            }
+            }*/
 
             #region Check lỗi phoneNumbers
-            /*if (string.IsNullOrWhiteSpace(request.ContactPhoneUser))
+            if (string.IsNullOrWhiteSpace(request.PhoneNumber))
             {
                 errorList.Add("Vui lòng nhập số điện thoại");
             }
             else
             {
-                if (!Regex.IsMatch(request.ContactPhoneUser, "^(09|03|07|08|05)[0-9]{8,9}$"))
+                if (!Regex.IsMatch(request.PhoneNumber, "^(09|03|07|08|05)[0-9]{8,9}$"))
                 {
                     errorList.Add("Số điện thoại không hợp lệ");
                 }
-            }*/
+            }
             #endregion End 
 
 
@@ -256,11 +264,40 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             user.Email = request.Email.Trim();
             user.CitizenIDCard = request.CitizenIDCard.Trim();
 
+            user.Address = request.Address;
+            user.Status = request.Status;
+
             if (request.Image != null)
             {
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Image);
                 user.Image = firebaseUrl;
             }
+
+            if (request.RoleId.Count > 0)
+            {
+
+
+                var listRole = await _userManager.GetRolesAsync(user);
+                foreach (var role in listRole)
+                {
+                    await _userManager.RemoveFromRoleAsync(user, role);
+                }
+                foreach (var roleAdd in request.RoleId)
+                {
+                    var role = await _roleManager.FindByIdAsync(roleAdd.ToString());
+                    if (role == null) return new ApiErrorResult<bool>("Role is not exited!");
+                    await _userManager.AddToRoleAsync(user, role.Name);
+                }
+            }
+            else
+            {
+                var listRole = await _userManager.GetRolesAsync(user);
+                foreach (var role in listRole)
+                {
+                    await _userManager.RemoveFromRoleAsync(user, role);
+                }
+            }
+
 
             var statusUser = await _userManager.UpdateAsync(user);
             if (!statusUser.Succeeded)
@@ -312,6 +349,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                     CitizenIDCard = item.CitizenIDCard,
                     Address = item.Address,
                     Image = item.Image,
+                    
                 };
                 var appUser = await _userManager.FindByIdAsync(item.Id.ToString());
                 var roles = await _userManager.GetRolesAsync(appUser);
@@ -548,7 +586,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             return new ApiSuccessResult<PageResult<StaffVm>>(result, "Success");
         }
 
-        public async Task<ApiResult<PageResult<StaffVm>>> ViewCustomerPagination(ViewStaffPaginationCommonRequest request)
+        public async Task<ApiResult<PageResult<CustomerVm>>> ViewCustomerPagination(ViewStaffPaginationCommonRequest request)
         {
             var users = await _userManager.Users.ToListAsync();
             var customers = new List<AppUser>();
@@ -576,21 +614,18 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
 
             var listPaging = customers.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
 
-            var listResult = new List<StaffVm>();
+            var listResult = new List<CustomerVm>();
             foreach (var item in listPaging)
             {
-                var user = new StaffVm()
+                var user = new CustomerVm()
                 {
-                    StaffId = item.Id,
+                    CustomerId = item.Id,
                     FullName = item.Fullname,
                     PhoneNumber = item.PhoneNumber,
                     Email = item.Email,
                     Dob = (DateTime)(item.Dob ?? DateTime.MinValue),
-
                     Status = item.Status,
-                    CitizenIDCard = item.CitizenIDCard,
                     Address = item.Address,
-                    Image = item.Image,
                 };
                 var appUser = await _userManager.FindByIdAsync(item.Id.ToString());
                 var roles = await _userManager.GetRolesAsync(appUser);
@@ -608,14 +643,14 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                     listResult.Add(user);
                 }
             }
-            var result = new PageResult<StaffVm>()
+            var result = new PageResult<CustomerVm>()
             {
                 Items = listResult,
                 TotalRecords = customers.Count(),
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
-            return new ApiSuccessResult<PageResult<StaffVm>>(result, "Success");
+            return new ApiSuccessResult<PageResult<CustomerVm>>(result, "Success");
         }
 
         public async Task<ApiResult<string>> ForgotpasswordStaffSendCode(string Username)
@@ -684,6 +719,20 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             return new ApiSuccessResult<bool>(true, "Thay đổi mật khẩu thành công");
         }
 
-       
+        public async Task<ApiResult<bool>> ChangeStatusCustomer(ChangeStatusCustomerRequest request)
+        {
+            var user = await _userManager.FindByEmailAsync(request.Email.ToString());
+            if (user == null)
+            {
+                return new ApiErrorResult<bool>("Email không tồn tại");
+            }
+            user.Status = request.Status;
+            var statusUser = await _userManager.UpdateAsync(user);
+            if (!statusUser.Succeeded)
+            {
+                return new ApiErrorResult<bool>("Lỗi hệ thống, cập nhật thông tin thất bại vui lòng thử lại");
+            }
+            return new ApiSuccessResult<bool>(true, "Success");
+        }
     }
 }

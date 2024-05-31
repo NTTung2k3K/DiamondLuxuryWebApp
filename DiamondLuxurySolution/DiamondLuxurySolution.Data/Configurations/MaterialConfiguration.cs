@@ -19,7 +19,8 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(m => m.MaterialName).HasMaxLength(250);
             builder.Property(m => m.Description);
             builder.Property(m => m.Color).HasMaxLength(250);
-            builder.Property(m => m.Weight);
+            builder.Property(m => m.Price);
+            builder.Property(m => m.EffectDate);
             builder.Property(m => m.MaterialImage);
         }
     }
