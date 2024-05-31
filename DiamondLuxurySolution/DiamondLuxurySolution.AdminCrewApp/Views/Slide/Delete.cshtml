@@ -1,0 +1,81 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Slide.SlideViewModel
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Xóa </h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if (Model != null)
+{
+
+    <h3 style="color: red">Bạn có muốn xóa Slide này?</h3>
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.SlideId)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.SlideId)
+            </dd>
+            <dt class="col-sm-4">
+                Tên Slide
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.SlideName)
+            </dd>
+            <dt class="col-sm-4">
+                Mô Tả
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt class="col-sm-4">
+                Slide IMG
+            </dt>
+            <dd class="col-sm-8">
+                @if (Model.SlideImage != null)
+                {
+                    <img src="@Model.SlideImage" style="style= height:100px; width:100px" />
+                }
+                else
+                {
+                    <h5>Chưa có Hình Ảnh</h5>
+                }
+            </dd>
+
+            <dt class="col-sm-4">
+                Hiển thị
+            </dt>
+            <dd class="col-sm-8">
+                <div class="form-check form-switch col-sm-8">
+                    <input class="form-check-input f-18" type="checkbox" asp-for="Status" value="@Model.Status" disabled />
+                </div>
+            </dd>
+        </dl>
+        <form asp-action="Delete" asp-controller="Slide" method="post">
+            <input type="hidden" name="SlideId" value="@Model.SlideId" />
+            <div class="row">
+                <div class="col-sm-4">
+                    <input type="submit" value="Xóa" class="btn btn-danger" />
+                </div>
+                <div class="col-sm-8">
+                    <a asp-action="Index" class="btn btn-secondary">Về trang quản lý Slide</a>
+                </div>
+            </div>
+        </form>
+    </div>
+}
+else
+{
+    <a class="m-3 btn btn-secondary" asp-action="Index">Về trang quản lí Slide</a>
+}
+
