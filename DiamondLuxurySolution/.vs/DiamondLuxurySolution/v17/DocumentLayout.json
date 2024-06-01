@@ -1,5 +1,12 @@
 {
   "Version": 1,
+<<<<<<< HEAD
+  "WorkspaceRootPath": "E:\\clone\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|e:\\clone\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.backendapi\\controllers\\aboutscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F39446BF-C276-48F9-A38C-5170B2AB3AED}|DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj|solutionrelative:diamondluxurysolution.backendapi\\controllers\\aboutscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+=======
   "WorkspaceRootPath": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\",
   "Documents": [
     {
@@ -1002,6 +1009,7 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Migrations\\20240528031637_initDB.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+>>>>>>> 767d0e03aed7f2cc561f6a642d61277766b3c447
     }
   ],
   "DocumentGroupContainers": [
@@ -1011,6 +1019,22 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
+<<<<<<< HEAD
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AboutsController.cs",
+              "DocumentMoniker": "E:\\clone\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\Controllers\\AboutsController.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.BackendApi\\Controllers\\AboutsController.cs",
+              "ToolTip": "E:\\clone\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\Controllers\\AboutsController.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.BackendApi\\Controllers\\AboutsController.cs",
+              "ViewState": "AQIAAGYAAAAAAAAAAAAmwD0AAAA/AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-01T07:47:24.294Z",
+              "EditorCaption": ""
+=======
           "SelectedChildIndex": 8,
           "Children": [
             {
@@ -4053,6 +4077,7 @@
               "RelativeToolTip": "..\\..\\..\\..\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Migrations\\20240525152924_remove.cs",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-25T15:29:24.578Z"
+>>>>>>> 767d0e03aed7f2cc561f6a642d61277766b3c447
             }
           ]
         }

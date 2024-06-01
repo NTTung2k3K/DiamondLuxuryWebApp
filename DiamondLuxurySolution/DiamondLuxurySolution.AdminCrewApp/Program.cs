@@ -13,6 +13,7 @@ using DiamondLuxurySolution.AdminCrewApp.Service.Payment;
 using DiamondLuxurySolution.AdminCrewApp.Service.Gem;
 using DiamondLuxurySolution.AdminCrewApp.Service.Material;
 using DiamondLuxurySolution.AdminCrewApp.Service.Slide;
+using DiamondLuxurySolution.AdminCrewApp.Service.About;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,6 +35,7 @@ builder.Services.AddTransient<IContactApiService, ContactApiService>();
 builder.Services.AddTransient<IGemApiService, GemApiService>();
 builder.Services.AddTransient<IMaterialApiService, MaterialApiService>();
 builder.Services.AddTransient<ISlideApiService, SlideApiService>();
+    builder.Services.AddTransient<IAboutApiService, AboutApiService>();
 
 builder.Services.AddTransient<ICategoryApiService, CategoryApiService>();
 builder.Services.AddTransient<IInspectionCertificateApiService, InspectionCertificateApiService>();

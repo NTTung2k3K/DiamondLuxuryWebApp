@@ -59,7 +59,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteAbout([FromBody] DeleteAboutRequest request)
+        public async Task<IActionResult> DeleteAbout([FromQuery] DeleteAboutRequest request)
         {
             try
             {
