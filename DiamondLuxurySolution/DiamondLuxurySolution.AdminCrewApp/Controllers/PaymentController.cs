@@ -123,25 +123,25 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 }
 
                 var status = await _paymentApiService.UpdatePayment(request);
-                if (status is ApiErrorResult<bool> errorResult)
-                {
-                    List<string> listError = new List<string>();
-                    if (status.Message != null)
-                    {
-                        listError.Add(errorResult.Message);
-                    }
-                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-                    {
-                        foreach (var error in listError)
-                        {
-                            listError.Add(error);
-                        }
-                    }
-                    ViewBag.Errors = listError;
-                    return View();
+				if (status is ApiErrorResult<bool> errorResult)
+				{
+					List<string> listError = new List<string>();
 
-                }
-                return RedirectToAction("Index", "Payment");
+					if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+					{
+						foreach (var error in errorResult.ValidationErrors)
+						{
+							listError.Add(error);
+						}
+					}
+					else if (status.Message != null)
+					{
+						listError.Add(errorResult.Message);
+					}
+					ViewBag.Errors = listError;
+					return View();
+				}
+				return RedirectToAction("Index", "Payment");
             }
             catch
             {
@@ -246,25 +246,25 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
             var status = await _paymentApiService.CreatePayment(request);
 
-            if (status is ApiErrorResult<bool> errorResult)
-            {
-                List<string> listError = new List<string>();
-                if (status.Message != null)
-                {
-                    listError.Add(errorResult.Message);
-                }
-                else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-                {
-                    foreach (var error in listError)
-                    {
-                        listError.Add(error);
-                    }
-                }
-                ViewBag.Errors = listError;
-                return View(request);
+			if (status is ApiErrorResult<bool> errorResult)
+			{
+				List<string> listError = new List<string>();
 
-            }
-            TempData["SuccessMsg"] = "Tạo mới thành công cho " + request.PaymentMethod;
+				if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+				{
+					foreach (var error in errorResult.ValidationErrors)
+					{
+						listError.Add(error);
+					}
+				}
+				else if (status.Message != null)
+				{
+					listError.Add(errorResult.Message);
+				}
+				ViewBag.Errors = listError;
+				return View();
+			}
+			TempData["SuccessMsg"] = "Tạo mới thành công cho " + request.PaymentMethod;
 
             return RedirectToAction("Index", "Payment");
         }

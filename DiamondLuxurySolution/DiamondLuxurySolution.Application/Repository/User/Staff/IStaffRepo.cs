@@ -12,12 +12,13 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
 {
     public interface IStaffRepo
     {
-        public Task<ApiResult<bool>> LoginStaff(LoginStaffRequest request);
+        public Task<ApiResult<string>> LoginStaff(LoginStaffRequest request);
         public Task<ApiResult<bool>> RegisterStaffAccount(CreateStaffAccountRequest request);
       
 
         public Task<ApiResult<bool>> UpdateStaffAccount(UpdateStaffAccountRequest request);
         public Task<ApiResult<StaffVm>> GetStaffById(Guid StaffId);
+        public Task<ApiResult<Guid>> GetStaffByUsername(string Username);
 
         public Task<ApiResult<bool>> DeleteStaff(Guid StaffId);
         

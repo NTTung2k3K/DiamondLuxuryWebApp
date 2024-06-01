@@ -21,6 +21,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Staff
         public Task<ApiResult<bool>> ForgotpassworStaffdChange(ForgotPasswordStaffChangeRequest request);
 
         public Task<ApiResult<bool>> ChangeStatusCustomer(ChangeStatusCustomerRequest request);
+        public Task<ApiResult<Guid>> GetStaffByUsername(string Username);
 
         public Task<ApiResult<PageResult<CustomerVm>>> ViewCustomerPagination(ViewStaffPaginationCommonRequest request);
         public Task<ApiResult<PageResult<StaffVm>>> ViewSalesStaffPagination(ViewStaffPaginationCommonRequest request);

@@ -155,7 +155,7 @@
                             <li class="pc-item">
                                 <a class="pc-link" href="/SaleStaff/Index">Nhân viên bán hàng</a>
                             </li>
-                              <li class="pc-item">
+                            <li class="pc-item">
                                 <a class="pc-link" href="/DeliveryStaff/Index">Nhân viên giao hàng</a>
                             </li>
                             <li class="pc-item">
@@ -189,6 +189,9 @@
                             </li>
                             <li class="pc-item">
                                 <a class="pc-link" href="/Slide/Index">Quản lí Slides</a>
+                            </li>
+                            <li class="pc-item">
+                                <a class="pc-link" href="/About/Index">Quản lí About</a>
                             </li>
                              <li class="pc-item">
                                 <a class="pc-link" href="/InspectionCertificate/Index">Quản lí giấy chứng nhận</a>
@@ -235,7 +238,7 @@
                         </a>
                         <ul class="pc-submenu">
                             <li class="pc-item">
-                                <a class="pc-link" href="../demo/layout-compact.html">Quản Lí Mã Giảm Giá</a>
+                                <a class="pc-link" href="/Discount/Index">Quản Lí Mã Giảm Giá</a>
                             </li>
                         </ul>
                     </li>
@@ -294,15 +297,20 @@
                             <span class="pc-mtext">Hộp Thư</span>
                         </a>
                     </li>
-                    <li class="pc-item" >
-                        <a href="../widget/w_statistics.html" class="pc-link btn btn-danger  btn-sm mt-5" style="color: white; border-radius:25px;">
-                            <span class="pc-micon">
-                                <svg class="pc-icon">
-                                    <use xlink:href="#custom-airplane"></use>
-                                </svg>
-                            </span>
-                            <span class="pc-mtext">Đăng xuất</span>
-                        </a>
+                    <li class="pc-item">
+                        <form asp-controller="Staff" asp-action="Logout" method="post" class="text-center" style="display:flex; justify-content:center">
+                            <div >
+                                <button type="submit" class="pc-link btn btn-danger btn-sm mt-5" style="color: white; border-radius:25px;">
+                                    <span class="pc-micon">
+                                        <svg class="pc-icon">
+                                            <use xlink:href="#custom-airplane"></use>
+                                        </svg>
+                                    </span>
+                                    <span class="pc-mtext">Đăng xuất</span>
+                                </button>
+                            </div>
+                          
+                        </form>
                     </li>
                 </ul>
             </div>

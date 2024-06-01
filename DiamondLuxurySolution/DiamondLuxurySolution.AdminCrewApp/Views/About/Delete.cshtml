@@ -1,0 +1,80 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.About.AboutVm
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Xóa </h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if (Model != null)
+{
+
+    <h3 style="color: red">Bạn có muốn xóa About này?</h3>
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.AboutId)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.AboutId)
+            </dd>
+            <dt class="col-sm-4">
+                Tên Thông Tin Liên Hệ
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.AboutName)
+            </dd>
+            <dt class="col-sm-4">
+                Mô Tả
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt class="col-sm-4">
+                Hình Ảnh
+            </dt>
+            <dd class="col-sm-8">
+                @if (Model.AboutImage != null)
+                {
+                    <img src="@Model.AboutImage" style="style= height:100px; width:100px" />
+                }
+                else
+                {
+                    <h5>Chưa có Hình Ảnh</h5>
+                }
+            </dd>
+
+            <dt class="col-sm-4">
+                Hiển thị
+            </dt>
+            <dd class="col-sm-8">
+                <div class="form-check form-switch col-sm-8">
+                    <input class="form-check-input f-18" type="checkbox" asp-for="Status" value="@Model.Status" disabled />
+                </div>
+            </dd>
+        </dl>
+        <form asp-action="Delete" asp-controller="About" method="post">
+            <input type="hidden" name="AboutId" value="@Model.AboutId" />
+            <div class="row">
+                <div class="col-sm-4">
+                    <input type="submit" value="Xóa" class="btn btn-danger" />
+                </div>
+                <div class="col-sm-8">
+                    <a asp-action="Index" class="btn btn-secondary">Về trang quản lý About</a>
+                </div>
+            </div>
+        </form>
+    </div>
+}
+else
+{
+    <a class="m-3 btn btn-secondary" asp-action="Index">Về trang quản lí About</a>
+}
