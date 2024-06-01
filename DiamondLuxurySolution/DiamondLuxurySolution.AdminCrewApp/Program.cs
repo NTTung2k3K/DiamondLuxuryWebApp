@@ -13,11 +13,15 @@ using DiamondLuxurySolution.AdminCrewApp.Service.Payment;
 using DiamondLuxurySolution.AdminCrewApp.Service.Gem;
 using DiamondLuxurySolution.AdminCrewApp.Service.Material;
 using DiamondLuxurySolution.AdminCrewApp.Service.Slide;
+<<<<<<< HEAD
+using DiamondLuxurySolution.AdminCrewApp.Service.Frame;
+=======
 using DiamondLuxurySolution.AdminCrewApp.Service.Discount;
 using DiamondLuxurySolution.AdminCrewApp.Service.Login;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using DiamondLuxurySolution.AdminCrewApp.Service.About;
+>>>>>>> aa64aa377f47d7bfcaceb9b1b855619ffe07b7ff
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,7 +37,7 @@ builder.Services.AddTransient<ICustomerApiService, CustomerApiService>();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IPlatformApiService, PlatformApiService>();
-
+builder.Services.AddTransient<IFrameApiService, FrameApiService>();
 builder.Services.AddTransient<IPaymentApiService, PaymentApiService>();
 builder.Services.AddTransient<IDiscountApiService, DiscountApiService>();
 

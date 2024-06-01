@@ -24,7 +24,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpPost("Create")]
-        public async Task<ActionResult> CreateFrame([FromForm] CreateFrameRequest request)
+        public async Task<ActionResult> CreateFrame([FromBody] CreateFrameRequest request)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<ActionResult> UpdateFrame([FromForm] UpdateFrameRequest request)
+        public async Task<ActionResult> UpdateFrame([FromBody] UpdateFrameRequest request)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteFrame([FromBody] DeleteFrameRequest request)
+        public async Task<IActionResult> DeleteFrame([FromQuery] DeleteFrameRequest request)
         {
             try
             {

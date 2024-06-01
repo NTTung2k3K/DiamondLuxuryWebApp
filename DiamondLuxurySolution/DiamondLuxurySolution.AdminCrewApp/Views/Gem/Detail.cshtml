@@ -94,9 +94,21 @@
                 Huỳnh quang
             </dt>
             <dd class="col-sm-9">
-                <div class="form-check form-switch ">
-                    <input class="form-check-input f-18 ml-3" type="checkbox" asp-for="Fluoresence" value="@Model.Fluoresence" disabled />
-                </div>
+                @if (@Model.Fluoresence == true)
+                {
+                    <td>
+                        <span>Có huỳnh quang</span>
+
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <span>Không có huỳnh quang</span>
+
+                    </td>
+
+                }
             </dd>
             <dt class="col-sm-3 mb-3">
                 Ngày nhận
