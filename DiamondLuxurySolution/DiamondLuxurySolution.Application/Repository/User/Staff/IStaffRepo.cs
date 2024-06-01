@@ -18,7 +18,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
 
         public Task<ApiResult<bool>> UpdateStaffAccount(UpdateStaffAccountRequest request);
         public Task<ApiResult<StaffVm>> GetStaffById(Guid StaffId);
-        public Task<ApiResult<Guid>> GetStaffByUsername(string Username);
+        public Task<ApiResult<StaffVm>> GetStaffByUsername(string Username);
 
         public Task<ApiResult<bool>> DeleteStaff(Guid StaffId);
         

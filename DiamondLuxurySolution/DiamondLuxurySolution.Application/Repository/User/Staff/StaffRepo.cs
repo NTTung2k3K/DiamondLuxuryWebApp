@@ -774,15 +774,39 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             return new ApiSuccessResult<bool>(true, "Success");
         }
 
-        public async Task<ApiResult<Guid>> GetStaffByUsername(string Username)
+        public async Task<ApiResult<StaffVm>> GetStaffByUsername(string Username)
         {
             var user = await _userManager.FindByNameAsync(Username.ToString());
             if (user == null)
             {
-                return new ApiErrorResult<Guid>("Nhân viên không tồn tại");
+                return new ApiErrorResult<StaffVm>("Nhân viên không tồn tại");
             }
+            var staffVm = new StaffVm()
+            {
+                StaffId = user.Id,
+                Dob = (DateTime)(user.Dob ?? DateTime.MinValue),
+                FullName = user.Fullname,
+                PhoneNumber = user.PhoneNumber,
+                Email = user.Email,
+                CitizenIDCard = user.CitizenIDCard,
+                Image = user.Image,
+                Address = user.Address,
+                Status = user.Status,
+                Username = user.UserName
+            };
 
-            return new ApiSuccessResult<Guid>(user.Id, "Success");
+            var listRoleOfUser = await _userManager.GetRolesAsync(user);
+
+            if (listRoleOfUser.Count > 0)
+            {
+                staffVm.ListRoleName = new List<string>();
+                foreach (var role in listRoleOfUser)
+                {
+                    staffVm.ListRoleName.Add(role);
+                }
+            }
+            return new ApiSuccessResult<StaffVm>(staffVm, "Success");
         }
+
     }
 }
