@@ -3,6 +3,7 @@ using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.About;
 using DiamondLuxurySolution.ViewModel.Models.Platform;
+using DiamondLuxurySolution.ViewModel.Models.Slide;
 using Microsoft.EntityFrameworkCore;
 using PagedList;
 using System;
@@ -76,6 +77,20 @@ namespace DiamondLuxurySolution.Application.Repository.About
                 Status = about.Status,
             };
             return new ApiSuccessResult<AboutVm>(aboutVm, "Success");
+        }
+
+        public async Task<ApiResult<List<AboutVm>>> GetAll()
+        {
+            var list = await _context.Abouts.ToListAsync();
+            var rs = list.Select(x => new AboutVm()
+            {
+               AboutId= x.AboutId,
+                AboutName= x.AboutName,
+                Description= x.Description,
+                Status = x.Status,
+                AboutImage=x.AboutImage,
+            }).ToList();
+            return new ApiSuccessResult<List<AboutVm>>(rs);
         }
 
         public async Task<ApiResult<bool>> UpdateAbout(UpdateAboutRequest request)

@@ -19,19 +19,23 @@
             <div class="form-group m-2">
                 <label asp-for="MaterialName" class="control-label mb-1">Tên vật liệu</label>
                 <input type="text" name="MaterialName" class="form-control" />
+                <span asp-validation-for="MaterialName" class="text-danger"></span>
             </div>
           
             <div class="form-group m-2 mt-2">
                 <label asp-for="Color" class="control-label mb-1 mt-3">Màu vật liệu</label>
                 <input type="text" step="0.01" asp-for="Color" class="form-control" />
+                <span asp-validation-for="Color" class="text-danger"></span>
             </div>
             <div class="form-group m-2 mt-2">
                 <label asp-for="Price" class="control-label mb-1 mt-3">Giá vật liệu</label>
                 <input type="number" asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group m-2 ">
                 <label asp-for="EffectDate" class="control-label mb-1 mt-3">Ngày của giá hiện hành</label>
                 <input type="date" asp-for="EffectDate" class="form-control" />
+                <span asp-validation-for="EffectDate" class="text-danger"></span>
             </div>
             <div class="form-group m-2 mt-2">
                 <label asp-for="Description" class="control-label mb-1 mt-3">Mô tả vật liệu</label>
@@ -40,6 +44,7 @@
             <div class="form-group m-2 mt-2">
                 <label asp-for="MaterialImage" class="control-label mb-1 mt-3">Hình ảnh</label>
                 <input type="file" asp-for="MaterialImage" class="form-control" />
+                <span asp-validation-for="MaterialImage" class="text-danger"></span>
             </div>
             <div class="form-check form-switch m-4">
                 <label asp-for="Status" class="control-label m-1">Hiển thị</label>

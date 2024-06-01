@@ -28,6 +28,7 @@
             <div class="form-group m-2">
                 <label asp-for="GemImage" class="control-label m-2"></label>
                 <input asp-for="GemImage" class="form-control" type="file" />
+                <span asp-validation-for="GemImage" class="text-danger"></span>
             </div>
             <div class="form-group m-2">
                 <label asp-for="Symetry" class="control-label  m-2"></label>
@@ -42,6 +43,7 @@
             <div class="form-group m-2">
                 <label asp-for="ProportionImage" class="control-label m-2"></label>
                 <input asp-for="ProportionImage" class="form-control" type="file" />
+                <span asp-validation-for="ProportionImage" class="text-danger"></span>
             </div>
             <div class="form-check form-switch m-4">
                 <label asp-for="IsOrigin" class="control-label m-1">Nhân tạo/Tự nhiên</label>
@@ -54,6 +56,7 @@
             <div class="form-group m-2 ">
                 <label asp-for="AcquisitionDate" class="control-label mb-1 mt-3"></label>
                 <input type="date" asp-for="AcquisitionDate" class="form-control" />
+                <span asp-validation-for="AcquisitionDate" class="text-danger"></span>
             </div>
             <div class="form-check form-switch m-4">
                 <label asp-for="Active" class="control-label m-1">Hiển thị</label>
