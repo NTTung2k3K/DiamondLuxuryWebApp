@@ -10,20 +10,25 @@ namespace DiamondLuxurySolution.ViewModel.Models.Material
 {
     public class UpdateMaterialRequest
     {
-        public Guid MaterialId { get; set; } 
+        public Guid MaterialId { get; set; }
 
-        [Required(ErrorMessage = "Yêu cầu tên của vat lieu")]
+        [Required(ErrorMessage = "Cần nhập tên nguyên liệu")]
         public string? MaterialName { get; set; }
 
         public string? Description { get; set; }
 
+        [Required(ErrorMessage = "Cần nhập màu")]
         public string? Color { get; set; }
 
+        [Required(ErrorMessage = "Cần nhập hình nguyên liệu")]
         public IFormFile? MaterialImage { get; set; }
 
         public bool Status { get; set; }
+
+        [Required(ErrorMessage = "Cần nhập ngày ảnh hưởng")]
         public DateTime EffectDate { get; set; }
 
+        [Required(ErrorMessage = "Cần nhập giá")]
         public double? Price { get; set; }
     }
 }

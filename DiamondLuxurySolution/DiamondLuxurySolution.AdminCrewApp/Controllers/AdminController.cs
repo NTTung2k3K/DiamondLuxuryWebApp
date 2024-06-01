@@ -52,7 +52,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             try
             {
                 var status = await _staffApiService.GetStaffById(StaffId);
-                if (status is ApiErrorResult<bool> errorResult)
+                if (status is ApiErrorResult<StaffVm> errorResult)
                 {
                     List<string> listError = new List<string>();
 

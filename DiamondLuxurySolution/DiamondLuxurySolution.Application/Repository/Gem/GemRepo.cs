@@ -45,7 +45,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Symetry = request.Symetry != null ? request.Symetry : "",
                 IsOrigin = request.IsOrigin,
                 Fluoresence = request.Fluoresence,
-                AcquisitionDate = request.AcquisitionDate,
+                AcquisitionDate = (DateTime)request.AcquisitionDate,
                 Active = request.Active,
                 InspectionCertificateId = request.InspectionCertificateId,
             };
@@ -176,7 +176,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
             gem.Symetry = request.Symetry != null ? request.Symetry : "";
             gem.IsOrigin = request.IsOrigin;
             gem.Fluoresence = request.Fluoresence;
-            gem.AcquisitionDate = request.AcquisitionDate;
+            gem.AcquisitionDate = (DateTime)request.AcquisitionDate;
             gem.Active = request.Active;
             if (request.ProportionImage != null)
             {
