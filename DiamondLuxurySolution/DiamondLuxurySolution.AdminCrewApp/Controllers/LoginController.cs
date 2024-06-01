@@ -14,6 +14,7 @@ using DiamondLuxurySolution.AdminCrewApp.Service.Login;
 using Azure.Core;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using DiamondLuxurySolution.ViewModel.Common;
+using DiamondLuxurySolution.AdminCrewApp.Service.Staff;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
@@ -23,10 +24,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
         private readonly IConfiguration _configuration;
         private readonly ILoginApiService _loginApiService;
+        private readonly IStaffApiService _staffApiService;
 
-        public LoginController( IConfiguration configuration,ILoginApiService loginApiService)
+        public LoginController( IConfiguration configuration,ILoginApiService loginApiService, IStaffApiService staffApiService)
         {
             _configuration = configuration;
+            _staffApiService = staffApiService;
             _loginApiService = loginApiService;
         }
 
@@ -59,8 +62,13 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             userPrincipal,
                             authProperties);
 
+
+                var user = _staffApiService.GetStaffByUsername(request.UserName);
+                var userId = user.Result.ResultObj.ToString();
+                HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_ID,userId);
                 return RedirectToAction("Index", "Home");
             }
+
             ViewBag.Error = "Tài khoản hoặc mật khẩu không đúng";
             return View((object)request.UserName);
         }

@@ -773,5 +773,16 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             }
             return new ApiSuccessResult<bool>(true, "Success");
         }
+
+        public async Task<ApiResult<Guid>> GetStaffByUsername(string Username)
+        {
+            var user = await _userManager.FindByNameAsync(Username.ToString());
+            if (user == null)
+            {
+                return new ApiErrorResult<Guid>("Nhân viên không tồn tại");
+            }
+
+            return new ApiSuccessResult<Guid>(user.Id, "Success");
+        }
     }
 }

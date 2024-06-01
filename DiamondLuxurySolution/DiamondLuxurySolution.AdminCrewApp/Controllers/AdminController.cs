@@ -52,19 +52,20 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             try
             {
                 var status = await _staffApiService.GetStaffById(StaffId);
-                if (status is ApiErrorResult<StaffVm> errorResult)
+                if (status is ApiErrorResult<bool> errorResult)
                 {
                     List<string> listError = new List<string>();
-                    if (status.Message != null)
+
+                    if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
                     {
-                        listError.Add(errorResult.Message);
-                    }
-                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-                    {
-                        foreach (var error in listError)
+                        foreach (var error in errorResult.ValidationErrors)
                         {
                             listError.Add(error);
                         }
+                    }
+                    else if (status.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
                     }
                     ViewBag.Errors = listError;
                     return View();

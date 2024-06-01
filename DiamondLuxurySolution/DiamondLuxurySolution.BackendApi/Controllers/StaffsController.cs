@@ -60,7 +60,23 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
-
+        [HttpGet("GetStaffByUsername")]
+        public async Task<ActionResult> GetStaffByUsername([FromQuery] string Username)
+        {
+            try
+            {
+                var status = await _Staff.GetStaffByUsername(Username);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         [HttpGet("ViewSalesStaff")]
         public async Task<ActionResult> ViewSalesStaff([FromQuery] ViewStaffPaginationCommonRequest request)
         {
