@@ -85,6 +85,8 @@ namespace DiamondLuxurySolution.Application.Repository.Slide
             return new ApiSuccessResult<SlideViewModel>(slideVm, "Success");
         }
 
+
+
         public async Task<ApiResult<bool>> UpdateSlide(UpdateSlideRequest request)
         {
             var slide = await _context.Slides.FindAsync(request.SlideId);

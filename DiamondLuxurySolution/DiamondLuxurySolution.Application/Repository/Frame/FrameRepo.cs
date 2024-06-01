@@ -135,7 +135,6 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
                 MaterialImage = material.MaterialImage,
                 MaterialName = material.MaterialName,
                 Status = material.Status,
-                Weight = material.Weight
             };
             var frameVm = new FrameVm
             {
@@ -243,7 +242,6 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
                     MaterialImage = material.MaterialImage,
                     MaterialName = material.MaterialName,
                     Status = material.Status,
-                    Weight = material.Weight
                 };
                 var frameVm = new FrameVm()
                 {

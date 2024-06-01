@@ -2,6 +2,7 @@
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
+using DiamondLuxurySolution.ViewModel.Models.Contact;
 using DiamondLuxurySolution.ViewModel.Models.Gem;
 using DiamondLuxurySolution.ViewModel.Models.GemPriceList;
 using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
@@ -44,7 +45,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Symetry = request.Symetry != null ? request.Symetry : "",
                 IsOrigin = request.IsOrigin,
                 Fluoresence = request.Fluoresence,
-                AcquisitionDate = request.AcquisitionDate,
+                AcquisitionDate = (DateTime)request.AcquisitionDate,
                 Active = request.Active,
                 InspectionCertificateId = request.InspectionCertificateId,
             };
@@ -82,6 +83,41 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
             _context.Gems.Remove(gem);
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(false, "Success");
+        }
+
+        public async Task<ApiResult<List<GemVm>>> GetAll()
+        {
+            var list = await _context.Gems.ToListAsync();
+            var listGemVm = new List<GemVm>();
+
+            foreach (var item in listGemVm)
+            {
+                var insp = await _context.InspectionCertificates.FindAsync(item.InspectionCertificateVm);
+                var inspectionCertificateVm = new InspectionCertificateVm()
+                {
+                    InspectionCertificateId = insp.InspectionCertificateId,
+                    InspectionCertificateName = insp.InspectionCertificateName,
+                    DateGrading = insp.DateGrading,
+                    Logo = insp.Logo,
+                    Status = insp.Status,
+                };
+                var gemVm = new GemVm()
+                {
+                    GemId = item.GemId,
+                    GemName = item.GemName,
+                    Polish = item.Polish,
+                    Symetry = item.Symetry,
+                    IsOrigin = item.IsOrigin,
+                    GemImage = item.GemImage,
+                    Fluoresence = item.Fluoresence,
+                    ProportionImage = item.ProportionImage,
+                    AcquisitionDate = item.AcquisitionDate,
+                    Active = item.Active,
+                    InspectionCertificateVm = inspectionCertificateVm,
+                };
+                listGemVm.Add(gemVm);
+            }
+            return new ApiSuccessResult<List<GemVm>>(listGemVm.ToList());
         }
 
         public async Task<ApiResult<GemVm>> GetGemById(Guid GemId)
@@ -140,7 +176,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
             gem.Symetry = request.Symetry != null ? request.Symetry : "";
             gem.IsOrigin = request.IsOrigin;
             gem.Fluoresence = request.Fluoresence;
-            gem.AcquisitionDate = request.AcquisitionDate;
+            gem.AcquisitionDate = (DateTime)request.AcquisitionDate;
             gem.Active = request.Active;
             if (request.ProportionImage != null)
             {

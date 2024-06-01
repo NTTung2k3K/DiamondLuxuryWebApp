@@ -1,0 +1,110 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Gem.GemVm
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Edit" asp-controller="Gem" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group m-2">
+                    <label asp-for="GemId" class="control-label m-2"></label>
+                    <input asp-for="GemId" class="form-control" readonly />
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="GemName" class="control-label m-2"></label>
+                    <input asp-for="GemName" class="form-control" />
+                    <span asp-validation-for="GemName" class="text-danger"></span>
+                </div>
+                <div class="form-group m-2">
+                    <label class="control-label m-2">Hình kim cương hiện tại</label>
+                    @if (string.IsNullOrEmpty(Model.GemImage) || Model.GemImage.Length <= 0)
+                    {
+                        <label style="color:orangered;">Không có hình ảnh</label>
+                    }
+                    else
+                    {
+                        <label>
+                            <img src="@Model.GemImage" style="height:100px; width:100px" />
+                        </label>
+                    }
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="GemImage" class="control-label m-2">Hình kim cương mới</label>
+                    <input asp-for="GemImage" class="form-control" type="file" />
+                    <span asp-validation-for="GemImage" class="text-danger"></span>
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="Symetry" class="control-label m-2"></label>
+                    <input asp-for="Symetry" class="form-control" />
+                    <span asp-validation-for="Symetry" class="text-danger"></span>
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="Polish" class="control-label m-2"></label>
+                    <input asp-for="Polish" class="form-control" />
+                    <span asp-validation-for="Polish" class="text-danger"></span>
+                </div>
+                <div class="form-group m-2">
+                    <label class="control-label m-2">Hình kim cương hiện tại</label>
+                    @if (string.IsNullOrEmpty(Model.ProportionImage) || Model.ProportionImage.Length <= 0)
+                    {
+                        <label style="color:orangered;">Không có hình ảnh</label>
+                    }
+                    else
+                    {
+                        <label>
+                            <img src="@Model.ProportionImage" style="height:100px; width:100px" />
+                        </label>
+                    }
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="ProportionImage" class="control-label m-2">Hình kim cương mới</label>
+                    <input asp-for="ProportionImage" class="form-control" type="file" />
+                    <span asp-validation-for="ProportionImage" class="text-danger"></span>
+                </div>
+                <div class="form-check form-switch m-4">
+                    <label asp-for="IsOrigin" class="control-label mt-1">Nhân tạo/Tự nhiên</label>
+                    <input class="form-check-input f-18" type="checkbox" asp-for="IsOrigin">
+                </div>
+                <div class="form-check form-switch m-4">
+                    <label asp-for="Fluoresence" class="control-label mt-1">Huỳnh quang</label>
+                    <input class="form-check-input f-18" type="checkbox" asp-for="Fluoresence">
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="AcquisitionDate" class="control-label m-2"></label>
+                    <input asp-for="AcquisitionDate" class="form-control" type="date" />
+                    <span asp-validation-for="AcquisitionDate" class="text-danger"></span>
+                </div>
+                <div class="form-check form-switch m-4">
+                    <label asp-for="Active" class="control-label mt-1">Hiển thị</label>
+                    <input class="form-check-input f-18" type="checkbox" asp-for="Active">
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        <input type="submit" value="Lưu" class="btn btn-primary" />
+                    </div>
+                    <div class="col-md-7">
+                        <a class="m-6 btn btn-secondary" asp-action="Index">Về trang quản lí kim cương</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <a class="m-5 btn btn-secondary" asp-action="Index">Về trang quản lí kim cương</a>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

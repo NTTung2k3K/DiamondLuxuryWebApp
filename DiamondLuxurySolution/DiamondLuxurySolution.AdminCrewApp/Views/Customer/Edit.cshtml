@@ -1,0 +1,167 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.User.Customer.CustomerVm
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chỉnh sửa</h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-md-6">
+
+            <form asp-action="Edit" asp-controller="Customer" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group m-2">
+                    <input asp-for="CustomerId" class="form-control" type="hidden" />
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="Email" class="control-label m-2">Email</label>
+                    <input asp-for="Email" readonly class="form-control"  />
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="FullName" class="control-label m-2">Họ và tên</label>
+                    <input asp-for="FullName" readonly class="form-control" />
+                    <span asp-validation-for="FullName" class="text-danger"></span>
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="Address" class="control-label m-2">Địa chỉ</label>
+                    <input asp-for="Address" readonly class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="PhoneNumber" class="control-label m-2">Số điện thoại</label>
+                    <input asp-for="PhoneNumber" readonly class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+               
+               
+                <div class="form-group m-2">
+                    <label asp-for="Dob" class="control-label m-2">Ngày sinh</label>
+                    <input asp-for="Dob" readonly class="form-control" type="date" />
+                    <span asp-validation-for="Dob" class="text-danger"></span>
+                </div>
+               
+                <div class="form-group m-2">
+                    <label asp-for="ListRoleName" class="control-label m-2">Vai trò</label>
+                    <input  readonly class="form-control" value="Khách hàng"/>
+                    <span asp-validation-for="ListRoleName" class="text-danger"></span>
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="Status" class="m-2 control-label">Trạng thái</label>
+                    <!--Start dropdown list-->
+                    <select class="m-2 h-50" name="Status">
+                        @foreach (var item in ViewBag.ListStatus)
+                        {
+                            if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Suspended.ToString()))
+                            {
+                                if (Model.Status.ToString().Equals(item.ToString()))
+                                {
+                                    <option value="@item" selected>
+                                        <span class="badge bg-danger rounded-pill">Tạm khóa</span>
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="@item">
+                                        <span class="badge bg-danger rounded-pill">Tạm khóa</span>
+                                    </option>
+                                }
+                            }
+                            else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Active.ToString()))
+                            {
+                                if (Model.Status.ToString().Equals(item.ToString()))
+                                {
+                                    <option value="@item" selected>
+                                        <span class="badge bg-success rounded-pill">Hoạt động</span>
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="@item">
+                                        <span class="badge bg-success rounded-pill">Hoạt động</span>
+                                    </option>
+                                }
+                            }
+                            else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.ChangePasswordRequest.ToString()))
+                            {
+                                if (Model.Status.ToString().Equals(item.ToString()))
+                                {
+                                    <option value="@item" selected>
+                                        <span class="badge bg-info rounded-pill">Yêu cầu thay đổi mật khẩu</span>
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="@item">
+                                        <span class="badge bg-info rounded-pill">Yêu cầu thay đổi mật khẩu</span>
+                                    </option>
+                                }
+                            }
+                            else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Inactive.ToString()))
+                            {
+                                if (Model.Status.ToString().Equals(item.ToString()))
+                                {
+                                    <option value="@item" selected>
+                                        <span class="badge bg-secondary rounded-pill">Không hoạt động</span>
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="@item">
+                                        <span class="badge bg-secondary rounded-pill">Không hoạt động</span>
+                                    </option>
+                                }
+                            }
+                            else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.New.ToString()))
+                            {
+                                if (Model.Status.ToString().Equals(item.ToString()))
+                                {
+                                    <option value="@item" selected>
+                                        <span class="badge bg-warning rounded-pill">K/H mới</span>
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="@item">
+                                        <span class="badge bg-warning rounded-pill">K/H mới</span>
+                                    </option>
+                                }
+                            }
+                        }
+                    </select>
+                    <!--End dropdown list-->
+
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        <input type="submit" value="Lưu" class="btn btn-primary" />
+                    </div>
+                    <div class="col-md-7">
+                        <a class="m-3" asp-action="Index" asp-controller="Customer">Về trang quản lí khách hàng</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <a class="m-5" asp-action="Index" asp-controller="Customer">Về trang quản lí khách hàng</a>
+}
+<hr />
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

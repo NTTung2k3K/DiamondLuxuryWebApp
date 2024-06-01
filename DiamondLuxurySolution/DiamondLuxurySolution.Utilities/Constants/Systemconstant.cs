@@ -67,12 +67,8 @@ namespace DiamondLuxurySolution.Utilities.Constants
         {
             Active,         // Khách hàng đang hoạt động
             Inactive,       // Khách hàng không hoạt động
-            Pending,        // Khách hàng đang chờ xử lý
             New,
             Suspended,      // Khách hàng bị tạm ngưng
-            Deleted,        // Khách hàng đã bị xóa
-            Verified,       // Khách hàng đã xác thực
-            Unverified,      // Khách hàng chưa xác thực,
             ChangePasswordRequest
         }
 

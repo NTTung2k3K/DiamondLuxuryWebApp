@@ -1,0 +1,185 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.User.Staff.CreateStaffAccountRequest
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h1>Tạo mới nhân viên</h1>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        @if (ViewBag.Errors != null)
+        {
+            foreach (var error in ViewBag.Errors)
+            {
+                <h6 class="text-danger">@error</h6>
+            }
+        }
+
+        <form asp-action="Create" asp-controller="Staff" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group m-2">
+                <label asp-for="FullName" class="control-label">Họ và tên</label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group  m-2">
+                <label asp-for="Address" class="control-label">Địa chỉ</label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group  m-2">
+                <label asp-for="PhoneNumber" class="control-label">Số điện thoại</label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group  m-2">
+                <label asp-for="CitizenIDCard" class="control-label">Số căn cước công dân</label>
+                <input asp-for="CitizenIDCard" class="form-control" />
+                <span asp-validation-for="CitizenIDCard" class="text-danger"></span>
+            </div>
+            <div class="form-group  m-2">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group  m-2">
+                <label asp-for="Dob" class="control-label">Ngày sinh</label>
+                <input asp-for="Dob" class="form-control" type="date"/>
+                <span asp-validation-for="Dob" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group m-2">
+                <label asp-for="RoleId" class="control-label m-2">Danh sách chức vụ</label>
+                <select class="h-50" multiple name="RoleId[]">
+
+                    @foreach (var role in ViewBag.ListRoleAll)
+                    {
+                        if (Model!=null && Model.RoleId != null)
+                        {
+                            string selectedCheck = Model.RoleId.Contains(@role.RoleId) ? "selected=\"selected\"" : "";
+                            if (string.IsNullOrEmpty(selectedCheck))
+                            {
+                                <option value="@role.RoleId">
+                                    @role.Name
+                                </option>
+                            }
+                            else
+                            {
+                                <option value="@role.RoleId" selected>
+                                    @role.Name
+                                </option>
+                            }
+                        }
+                        else
+                        {
+                            <option value="@role.RoleId">
+                                @role.Name
+                            </option>
+                        }
+
+                    }
+
+
+                </select>
+                <br />
+                <span asp-validation-for="RoleId" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="Status" class="m-2 control-label">Trạng thái</label>
+                <!--Start dropdown list-->
+                <select class="m-2 h-50" name="Status">
+                    @foreach (var item in ViewBag.ListStatus)
+                    {
+                        if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Suspended.ToString()))
+                        {
+                            <option value="@item">
+                                <span class="badge bg-danger rounded-pill">Nghĩ việc</span>
+                            </option>
+                        }
+                        else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Active.ToString()))
+                        {
+                            <option value="@item">
+                                <span class="badge bg-success rounded-pill">Hoạt động</span>
+                            </option>
+                        }
+                        else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.ChangePasswordRequest.ToString()))
+                        {
+                            <option value="@item">
+                                <span class="badge bg-info rounded-pill">Yêu cầu thay đổi mật khẩu</span>
+                            </option>
+                        }
+                        else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Inactive.ToString()))
+                        {
+                            <option value="@item">
+                                <span class="badge bg-secondary rounded-pill">Không hoạt động</span>
+                            </option>
+                        }
+                        else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Retired.ToString()))
+                        {
+                            <option value="@item">
+                                <span class="badge bg-warning rounded-pill">Nghỉ hưu</span>
+                            </option>
+                        }
+                        else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.OnLeave.ToString()))
+                        {
+                            <option value="@item">
+                                <span class="badge bg-primary rounded-pill">Nghỉ phép</span>
+                            </option>
+                        }
+                        else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Terminated.ToString()))
+                        {
+                            <option value="@item">
+                                <span class="badge bg-danger rounded-pill">Chấm dứt hợp đồng</span>
+                            </option>
+                        }
+                        else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Probation.ToString()))
+                        {
+                            <option value="@item">
+                                <span class="badge bg-orange rounded-pill">Thử việc</span>
+                            </option>
+                        }
+                    }
+                </select>
+
+                <!--End dropdown list-->
+
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group  m-2">
+                <label asp-for="Username" class="control-label">Tài khoản</label>
+                <input asp-for="Username" class="form-control" />
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+            <div class="form-group  m-2">
+                <label asp-for="Password" class="control-label">Mật khẩu</label>
+                <input asp-for="Password" class="form-control" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group  m-2">
+                <label asp-for="ConfirmPassword" class="control-label">Nhập lại mật khẩu</label>
+                <input asp-for="ConfirmPassword" class="form-control" type="password" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group  m-2">
+                <label class="control-label">Hình ảnh</label>
+                <input name="Image" type="file"  class="form-control" />
+            </div>
+            <div class="form-group  m-2 row">
+                <div class="col-md-6  m-2">
+                    <input type="submit" value="Tạo mới" class="btn btn-success" />
+                </div>
+
+                <div class="col-md-3 m-2 mt-3">
+                    <a class="" asp-action="Index" asp-controller="Home">Về trang chủ</a>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+@section Scripts {
+    <script>
+
+    </script>
+}

@@ -22,8 +22,8 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
 
-        [HttpDelete("DeleteStaff/{id}")]
-        public async Task<ActionResult> DeleteStaff([FromBody] Guid StaffId)
+        [HttpDelete("DeleteStaff/{StaffId}")]
+        public async Task<ActionResult> DeleteStaff([FromRoute] Guid StaffId)
         {
             try
             {
@@ -224,7 +224,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
 
-        [HttpPut("Update")]
+        [HttpPost("Update")]
         public async Task<ActionResult> UpdateStaffAccount([FromForm] UpdateStaffAccountRequest request)
         {
             try
@@ -258,9 +258,26 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+
+        [HttpPut("ChangeStatusCustomer")]
+        public async Task<ActionResult> ChangeStatusCustomer([FromBody] ChangeStatusCustomerRequest request)
+        {
+            try
+            {
+                var status = await _Staff.ChangeStatusCustomer(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 
-    public class ChangePasswordCommonRequest
-    {
-    }
+    
 }

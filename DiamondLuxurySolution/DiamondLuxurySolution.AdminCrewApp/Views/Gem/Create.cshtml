@@ -1,0 +1,88 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Gem.CreateGemRequest
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Tạo mới kim cương</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        @if (ViewBag.Errors != null)
+        {
+            foreach (var error in ViewBag.Errors)
+            {
+                <h6 class="text-danger">@error</h6>
+            }
+        }
+
+        <form asp-action="Create" asp-controller="Gem" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group m-2">
+                <label asp-for="GemName" class="control-label m-2"></label>
+                <input name="GemName" class="form-control" />
+                <span asp-validation-for="GemName" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="GemImage" class="control-label m-2"></label>
+                <input asp-for="GemImage" class="form-control" type="file" />
+                <span asp-validation-for="GemImage" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="Symetry" class="control-label  m-2"></label>
+                <input asp-for="Symetry" class="form-control" />
+                <span asp-validation-for="Symetry" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="Polish" class="control-label  m-2"></label>
+                <input asp-for="Polish" class="form-control" />
+                <span asp-validation-for="Polish" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="ProportionImage" class="control-label m-2"></label>
+                <input asp-for="ProportionImage" class="form-control" type="file" />
+                <span asp-validation-for="ProportionImage" class="text-danger"></span>
+            </div>
+            <div class="form-check form-switch m-4">
+                <label asp-for="IsOrigin" class="control-label m-1">Nhân tạo/Tự nhiên</label>
+                <input class="form-check-input f-18" type="checkbox" asp-for="IsOrigin">
+            </div>
+            <div class="form-check form-switch m-4">
+                <label asp-for="Fluoresence" class="control-label m-1">Huỳnh quang</label>
+                <input class="form-check-input f-18" type="checkbox" asp-for="Fluoresence">
+            </div>
+            <div class="form-group m-2 ">
+                <label asp-for="AcquisitionDate" class="control-label mb-1 mt-3"></label>
+                <input type="date" asp-for="AcquisitionDate" class="form-control" />
+                <span asp-validation-for="AcquisitionDate" class="text-danger"></span>
+            </div>
+            <div class="form-check form-switch m-4">
+                <label asp-for="Active" class="control-label m-1">Hiển thị</label>
+                <input class="form-check-input f-18" type="checkbox" asp-for="Active">
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="InspectionCertificateId" class="control-label  m-2"></label>
+                <input asp-for="InspectionCertificateId" class="form-control" />
+                <span asp-validation-for="InspectionCertificateId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-md-5">
+                    <input type="submit" value="Tạo mới" class="btn btn-success" />
+                </div>
+                <div class="col-md-7 mt-2">
+                    <a class="m-6 btn btn-secondary" asp-action="Index">Về trang quản lí kim cương</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+

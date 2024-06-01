@@ -1,0 +1,119 @@
+﻿@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Common
+@using DiamondLuxurySolution.ViewModel.Models.User.Customer
+
+@model PageResult<CustomerVm>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row mb-4">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-5">
+        <form asp-action="Index" asp-controller="Customer" method="get" class="d-flex">
+
+            <div class="search">
+                <input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm chức vụ" />
+                <button type="submit">Tìm kiếm</button>
+            </div>
+        </form>
+    </div>
+</div>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+
+@if (Model != null && Model != null && Model.Items != null && Model.Items.Count > 0)
+{
+
+    <table class="table">
+        <thead>
+            <tr class="text-center">
+                <th class="p-0">
+                    <label>Email</label>
+                </th>
+                <th class="p-0">
+                    <label>Họ và tên</label>
+                </th>
+                <th class="p-0">
+                    <label>Số điện thoại</label>
+                </th>
+
+                <th class="p-0">
+                    <label>Trạng thái</label>
+                </th>
+                <th class="p-0">
+                    <label>Chức vụ</label>
+                </th>
+                <th>Cài đặt</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr class="text-center ">
+                    <td class="p-0">@item.Email</td>
+                    <td class="p-0">@item.FullName</td>
+                    <td class="p-0">@item.PhoneNumber</td>
+
+                    @if (item.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Suspended.ToString()))
+                    {
+                        <td class="p-0">
+                            <span class="badge bg-danger rounded-pill">Tạm khóa</span>
+
+                        </td>
+                    }
+                    @if (item.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Active.ToString()))
+                    {
+                        <td class="p-0">
+                            <span class="badge bg-success rounded-pill">Hoạt động</span>
+                        </td>
+                    }
+                    @if (item.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.ChangePasswordRequest.ToString()))
+                    {
+                        <td class="p-0">
+                            <span class="badge bg-info rounded-pill">Y/C thay đổi mật khẩu</span>
+                        </td>
+                    }
+                    @if (item.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Inactive.ToString()))
+                    {
+                        <td class="p-0">
+                            <span class="badge bg-gray-500 rounded-pill">Không hoạt động</span>
+                        </td>
+                    }
+                    @if (item.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.New.ToString()))
+                    {
+                        <td class="p-0">
+                            <span class="badge bg-yellow-500 rounded-pill">K/H mới</span>
+                        </td>
+                    }
+                  
+                    <td class="p-0">@Html.Raw(string.Join("<br />", item.ListRoleName))</td>
+
+
+                    <td class="text-center">
+                        @Html.ActionLink("Chỉnh sửa", "Edit", new { CustomerId = item.CustomerId }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Xem chi tiết", "Detail", new { CustomerId = item.CustomerId }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Xóa", "Delete", new { CustomerId = item.CustomerId }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center align-items-center">
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
+}
+else
+{
+    <h1>Không có thông tin</h1>
+}
