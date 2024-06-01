@@ -1,6 +1,7 @@
 ﻿using DiamondLuxurySolution.Application.Repository.Platform;
 using DiamondLuxurySolution.Application.Repository.Slide;
 using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Models.Platform;
 using DiamondLuxurySolution.ViewModel.Models.Slide;
 using Microsoft.AspNetCore.Http;
@@ -121,6 +122,23 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             try
             {
                 var status = await _slide.ViewSlidesInManager(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var status = await _slide.GetAll();
                 if (status.IsSuccessed)
                 {
                     return Ok(status);

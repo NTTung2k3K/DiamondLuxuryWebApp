@@ -1,6 +1,7 @@
 ﻿using DiamondLuxurySolution.AdminCrewApp.Service.Platform;
 using DiamondLuxurySolution.AdminCrewApp.Service.Slide;
 using DiamondLuxurySolution.ViewModel.Common;
+using DiamondLuxurySolution.ViewModel.Models.Material;
 using DiamondLuxurySolution.ViewModel.Models.Platform;
 using DiamondLuxurySolution.ViewModel.Models.Slide;
 using Microsoft.AspNetCore.Mvc;
@@ -110,6 +111,19 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
+                if (!ModelState.IsValid)
+                {
+
+                    SlideViewModel slideViewModel = new SlideViewModel()
+                    {
+                       SlideId = request.SlideId,
+                       Description = request.Description,
+                       SlideName = request.SlideName,
+                       SlideUrl = request.SlideUrl,
+                       Status = request.Status,
+                    };
+                    return View(slideViewModel);
+                }
 
 
                 var status = await _SlideApiService.UpdateSlide(request);
@@ -216,6 +230,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateSlideRequest request)
         {
+
 
 
             var status = await _SlideApiService.CreateSlide(request);

@@ -7,18 +7,20 @@ using DiamondLuxurySolution.AdminCrewApp.Service.Role;
 using DiamondLuxurySolution.AdminCrewApp.Service.Staff;
 using DiamondLuxurySolution.Data.EF;
 using Microsoft.EntityFrameworkCore;
-
 using DiamondLuxurySolution.AdminCrewApp.Service.Payment;
-
 using DiamondLuxurySolution.AdminCrewApp.Service.Gem;
 using DiamondLuxurySolution.AdminCrewApp.Service.Material;
 using DiamondLuxurySolution.AdminCrewApp.Service.Slide;
+using DiamondLuxurySolution.AdminCrewApp.Service.Frame;
 using DiamondLuxurySolution.AdminCrewApp.Service.Discount;
 using DiamondLuxurySolution.AdminCrewApp.Service.Login;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using DiamondLuxurySolution.AdminCrewApp.Service.About;
 using DiamondLuxurySolution.AdminCrewApp.Service.News;
+using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNewsCategoty;
+using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNewsCategory;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,23 +34,19 @@ builder.Services.AddTransient<INewsApiService, NewsApiService>();
 builder.Services.AddTransient<IRoleApiService, RoleApiService>();
 builder.Services.AddTransient<IStaffApiService, StaffApiService>();
 builder.Services.AddTransient<ICustomerApiService, CustomerApiService>();
-
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IPlatformApiService, PlatformApiService>();
-
+builder.Services.AddTransient<IFrameApiService, FrameApiService>();
 builder.Services.AddTransient<IPaymentApiService, PaymentApiService>();
 builder.Services.AddTransient<IDiscountApiService, DiscountApiService>();
-
 builder.Services.AddTransient<IInspectionCertificateApiService, InspectionCertificateApiService>();
 builder.Services.AddTransient<IContactApiService, ContactApiService>();
 builder.Services.AddTransient<IGemApiService, GemApiService>();
 builder.Services.AddTransient<IMaterialApiService, MaterialApiService>();
 builder.Services.AddTransient<ISlideApiService, SlideApiService>();
-    builder.Services.AddTransient<IAboutApiService, AboutApiService>();
-
+builder.Services.AddTransient<IAboutApiService, AboutApiService>();
+builder.Services.AddTransient<IKnowledgeNewsCategoryApiService, KnowledgeNewsCategoryApiService>();
 builder.Services.AddTransient<ICategoryApiService, CategoryApiService>();
-builder.Services.AddTransient<IInspectionCertificateApiService, InspectionCertificateApiService>();
-
 
 builder.Services.AddDbContext<LuxuryDiamondShopContext>(options =>
 {
