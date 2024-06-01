@@ -13,6 +13,9 @@ using DiamondLuxurySolution.AdminCrewApp.Service.Payment;
 using DiamondLuxurySolution.AdminCrewApp.Service.Gem;
 using DiamondLuxurySolution.AdminCrewApp.Service.Material;
 using DiamondLuxurySolution.AdminCrewApp.Service.Slide;
+using DiamondLuxurySolution.AdminCrewApp.Service.Login;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using DiamondLuxurySolution.AdminCrewApp.Service.About;
 
 
@@ -21,6 +24,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<ILoginApiService, LoginApiService>();
+
 builder.Services.AddTransient<IRoleApiService, RoleApiService>();
 builder.Services.AddTransient<IStaffApiService, StaffApiService>();
 builder.Services.AddTransient<ICustomerApiService, CustomerApiService>();
@@ -45,9 +50,22 @@ builder.Services.AddDbContext<LuxuryDiamondShopContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("eShopSolutionDb"));
 });
+
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Login/Index/";
+        options.AccessDeniedPath = "/Login/Forbidden/";
+    });
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
-
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
+    options.Cookie.HttpOnly = true; // Make the session cookie HTTP only
+    options.Cookie.IsEssential = true; // Make the session cookie essential
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -62,11 +80,11 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseSession();
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Index}/{id?}");
 
 app.Run();
