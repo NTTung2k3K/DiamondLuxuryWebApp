@@ -32,6 +32,15 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 return new ApiErrorResult<bool>("Không tìm thấy giấy chứng nhận kim cương");
             }
 
+            var list = await _context.Gems.ToListAsync();
+            foreach (var gems in list)
+            {
+                if (gems.InspectionCertificateId.Equals(request.InspectionCertificateId))
+                {
+                    return new ApiErrorResult<bool>("Giấy chứng nhận này đã được sử dụng");
+                }
+            }
+
             if (string.IsNullOrEmpty(request.GemName))
             {
                 return new ApiErrorResult<bool>("Vui lòng nhập tên kim cương");
@@ -90,9 +99,9 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
             var list = await _context.Gems.ToListAsync();
             var listGemVm = new List<GemVm>();
 
-            foreach (var item in listGemVm)
+            foreach (var item in list)
             {
-                var insp = await _context.InspectionCertificates.FindAsync(item.InspectionCertificateVm);
+                var insp = await _context.InspectionCertificates.FindAsync(item.InspectionCertificateId);
                 var inspectionCertificateVm = new InspectionCertificateVm()
                 {
                     InspectionCertificateId = insp.InspectionCertificateId,

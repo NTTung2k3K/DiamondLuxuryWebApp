@@ -113,10 +113,7 @@ namespace DiamondLuxurySolution.Application.Repository.Platform
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.PlatformLogo);
                 platform.PlatformLogo = firebaseUrl;
             }
-            else
-            {
-                platform.PlatformLogo = "";
-            }
+            
 
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");

@@ -13,12 +13,12 @@ namespace DiamondLuxurySolution.ViewModel.Models.Gem
         public Guid GemId { get; set; }
 
         [Required(ErrorMessage = "Cần nhập tên kim cương")]
-        public string? GemName { get; set; }
+        public string GemName { get; set; }
         public IFormFile? ProportionImage { get; set; }
         [Required(ErrorMessage = "Cần nhập độ đối xứng")]
-        public string? Symetry { get; set; }
+        public string Symetry { get; set; }
         [Required(ErrorMessage = "Cần nhập độ bóng")]
-        public string? Polish { get; set; }
+        public string Polish { get; set; }
         public bool IsOrigin { get; set; }
         public IFormFile? GemImage { get; set; }
         public bool Fluoresence { get; set; }

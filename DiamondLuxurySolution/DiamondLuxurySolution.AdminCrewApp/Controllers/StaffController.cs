@@ -2,6 +2,8 @@
 using DiamondLuxurySolution.AdminCrewApp.Service.Staff;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.User.Staff;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using static DiamondLuxurySolution.Utilities.Constants.Systemconstant;
 
@@ -72,6 +74,14 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             TempData["SuccessMsg"] = "Tạo mới thành công cho " + request.FullName;
 
             return RedirectToAction("Index", "Admin");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Remove("token");
+            return RedirectToAction("Index", "Login");
         }
     }
 }

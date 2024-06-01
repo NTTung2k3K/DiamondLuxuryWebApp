@@ -112,8 +112,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
-
-
                 var status = await _platformApiService.UpdatePlatform(request);
                 if (status is ApiErrorResult<bool> errorResult)
                 {

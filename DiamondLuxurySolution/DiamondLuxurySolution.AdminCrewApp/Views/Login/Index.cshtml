@@ -1,0 +1,127 @@
+﻿@{
+    Layout = "";
+}
+@model  string
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Diamond Luxury System</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="~/images/LOGO_black.png" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet"
+          type="text/css"
+          href="~/admin/vendor/bootstrap/css/bootstrap.min.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet"
+          type="text/css"
+          href="~/admin/fonts/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/admin/vendor/animate/animate.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet"
+          type="text/css"
+          href="~/admin/vendor/css-hamburgers/hamburgers.min.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet"
+          type="text/css"
+          href="~/admin/vendor/select2/select2.min.css" />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="~/admin/css/util.css" />
+    <link rel="stylesheet" type="text/css" href="~/admin/css/main.css" />
+    <!--===============================================================================================-->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&display=swap"
+          rel="stylesheet" />
+</head>
+<body>
+    <div class="limiter">
+        <div class="container-login100">
+            <div class="wrap-login100">
+                <div class="login100-pic js-tilt" data-tilt>
+                    <a href="/Login/Index">
+                        <img src="~/admin/images/LOGO_While.png" alt="IMG" />
+                    </a>
+                </div>
+
+                <form class="login100-form validate-form" asp-action="Index" asp-controller="Login" method="post">
+                    <span class="login100-form-title"> Đăng nhập </span>
+
+                    <!-- Login gg fb -->
+                    @if (Model != null)
+                    {
+                        <div class="wrap-input100 validate-input"
+                             data-validate="Yêu cầu tài khoản">
+                            <input class="input100"
+                                   type="text"
+                                   name="Username"
+                                   placeholder="Tài khoản" value="@Model" />
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="wrap-input100 validate-input"
+                             data-validate="Yêu cầu tài khoản">
+                            <input class="input100"
+                                   type="text"
+                                   name="Username"
+                                   placeholder="Tài khoản" />
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                    }
+
+
+                    <div class="wrap-input100 validate-input"
+                         data-validate="Yêu cầu mật khẩu">
+                        <input class="input100"
+                               type="password"
+                               name="Password"
+                               placeholder="Mật khẩu" />
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+                            <i class="fa fa-lock" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    <div style="color:red" class="text-center">
+                        @ViewBag.Error
+                    </div>
+                    <div class="container-login100-form-btn">
+                        <button class="login100-form-btn">Đăng nhập</button>
+                    </div>
+                    <div class="text-center">
+                        <a class="txt2" href="/Login/ForgotPassword">Quên mật khẩu </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!--===============================================================================================-->
+    <script src="~/admin/vendor/jquery/jquery-3.2.1.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/admin/vendor/bootstrap/js/popper.js"></script>
+    <script src="~/admin/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/admin/vendor/select2/select2.min.js"></script>
+    <!--===============================================================================================-->
+    <script src="~/admin/vendor/tilt/tilt.jquery.min.js"></script>
+    <script>
+        $(".js-tilt").tilt({
+            scale: 1.1,
+        });
+    </script>
+    <!--===============================================================================================-->
+    <script src="~/admin/js/main.js"></script>
+</body>
+</html>
