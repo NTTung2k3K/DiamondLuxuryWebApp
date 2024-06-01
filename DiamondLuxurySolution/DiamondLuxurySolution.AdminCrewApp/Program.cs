@@ -7,6 +7,7 @@ using DiamondLuxurySolution.AdminCrewApp.Service.Role;
 using DiamondLuxurySolution.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using DiamondLuxurySolution.AdminCrewApp.Service.Slide;
+using DiamondLuxurySolution.AdminCrewApp.Service.About;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,7 @@ builder.Services.AddTransient<IPlatformApiService, PlatformApiService>();
 
 
 builder.Services.AddTransient<ISlideApiService, SlideApiService>();
+    builder.Services.AddTransient<IAboutApiService, AboutApiService>();
 
 builder.Services.AddTransient<ICategoryApiService, CategoryApiService>();
 builder.Services.AddTransient<IInspectionCertificateApiService, InspectionCertificateApiService>();
