@@ -57,7 +57,40 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateMaterialRequest request)
         {
+            
             var status = await _materialApiService.CreateMaterial(request);
+            /*            List<string> listError = new List<string>();
+            */
+            /*     // Xử lý lỗi từ Require(errorMessage)
+                 if (!ModelState.IsValid)
+                 {
+                     foreach (var modelStateKey in ModelState.Keys)
+                     {
+                         var modelStateVal = ModelState[modelStateKey];
+                         foreach (var error in modelStateVal.Errors)
+                         {
+                             listError.Add(error.ErrorMessage);
+                         }
+                     }
+                 }
+
+                 // Xử lý lỗi từ API
+                 if (status is ApiErrorResult<bool> errorResult)
+                 {
+                     if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                     {
+                         foreach (var error in errorResult.ValidationErrors)
+                         {
+                             listError.Add(error);
+                         }
+                     }
+                     else if (status.Message != null)
+                     {
+                         listError.Add(errorResult.Message);
+                     }
+                 }*/
+            
+           
             if (status is ApiErrorResult<bool> errorResult)
             {
                 List<string> listError = new List<string>();
@@ -75,11 +108,16 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 }
                 ViewBag.Errors = listError;
                 return View();
-
             }
             TempData["SuccessMsg"] = "Create success for Role " + request.MaterialName;
-
             return RedirectToAction("Index", "Material");
+/*            if (listError.Count == 0)
+            {
+                TempData["SuccessMsg"] = "Create success for Role " + request.MaterialName;
+                return RedirectToAction("Index", "Material");
+            }*/
+/*            ViewBag.Errors = listError;
+            return View();*/
         }
         [HttpGet]
         public async Task<IActionResult> Edit(Guid MaterialId)
@@ -119,16 +157,10 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-
                     MaterialVm materialVm = new MaterialVm()
                     {
                         MaterialId = request.MaterialId,
-                        MaterialName = request.MaterialName,
-                        Color = request.Color,
-                        Price = request.Price,
-                        EffectDate = request.EffectDate,
                         Description = request.Description,
-                        MaterialImage = request.MaterialImage.ToString(),
                         Status = request.Status
                     };
                     return View(materialVm);
@@ -137,20 +169,19 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 if (status is ApiErrorResult<bool> errorResult)
                 {
                     List<string> listError = new List<string>();
-                    if (status.Message != null)
+                    if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
                     {
-                        listError.Add(errorResult.Message);
-                    }
-                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-                    {
-                        foreach (var error in listError)
+                        foreach (var error in errorResult.ValidationErrors)
                         {
                             listError.Add(error);
                         }
                     }
+                    else if (status.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
+                    }
                     ViewBag.Errors = listError;
                     return View();
-
                 }
                 return RedirectToAction("Index", "Material");
             }

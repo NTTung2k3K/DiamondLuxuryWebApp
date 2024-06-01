@@ -103,7 +103,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
             var json = JsonConvert.SerializeObject(obj, new JsonSerializerSettings
             {
                 DateFormatHandling = DateFormatHandling.IsoDateFormat, // Ensure DateTime is serialized in ISO 8601 format
-                DateTimeZoneHandling = DateTimeZoneHandling.Utc // Handle DateTime in UTC format if necessary
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc, // Handle DateTime in UTC format if necessary
+                TypeNameHandling = TypeNameHandling.All
             });
 
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
@@ -150,7 +151,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
             var json = JsonConvert.SerializeObject(obj, new JsonSerializerSettings
             {
                 DateFormatHandling = DateFormatHandling.IsoDateFormat, // Ensure DateTime is serialized in ISO 8601 format
-                DateTimeZoneHandling = DateTimeZoneHandling.Utc // Handle DateTime in UTC format if necessary
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc, // Handle DateTime in UTC format if necessary
+                TypeNameHandling = TypeNameHandling.All
             });
 
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
@@ -236,16 +238,13 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                 // Put the content
                 var response = await client.PutAsync(url, multipartFormDataContent);
                 var body = await response.Content.ReadAsStringAsync();
-                var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
-
-                if (objectResult.IsSuccessed == false)
+                if (!response.IsSuccessStatusCode)
                 {
+                    var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
                     return objectResult;
                 }
-                else
-                {
-                    return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
-                }
+
+                return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
             }
         }
 
