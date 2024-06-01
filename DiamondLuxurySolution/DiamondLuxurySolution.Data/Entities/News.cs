@@ -19,7 +19,7 @@ public partial class News
 
     public DateTime? DateModified { get; set; }
 
-    public bool? IsOutstanding { get; set; }
+    public bool Status { get; set; }
 
     public Guid? Id { get; set; }
 

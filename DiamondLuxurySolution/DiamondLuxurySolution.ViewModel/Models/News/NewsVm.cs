@@ -2,6 +2,7 @@
 using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,9 +12,10 @@ namespace DiamondLuxurySolution.ViewModel.Models.News
     public class NewsVm
     {
         public int NewsId { get; set; }
-        public string? NewName { get; set; }
-
-        public string? Title { get; set; }
+        [Required(ErrorMessage ="Tin tức cần phải có tên")]
+        public string NewName { get; set; }
+        [Required(ErrorMessage = "Tin tức cần phải có tiêu đề")]
+        public string Title { get; set; }
 
         public string? Image { get; set; }
 
@@ -23,7 +25,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.News
 
         public DateTime? DateModified { get; set; }
 
-        public bool? IsOutstanding { get; set; }
+        public bool Status { get; set; }
 
         public virtual StaffVm? Writer { get; set; }
     }

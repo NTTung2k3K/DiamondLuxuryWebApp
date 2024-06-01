@@ -1,0 +1,113 @@
+﻿@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Common
+@using DiamondLuxurySolution.ViewModel.Models.News
+
+@model PageResult<NewsVm>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <a asp-action="Create" asp-controller="News" class="btn btn-success">Tạo mới</a>
+    </div>
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-5">
+        <form asp-action="Index" asp-controller="News" method="get" class="d-flex">
+
+            <div class="search">
+                <input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm tin tức" />
+                <button type="submit">Tìm kiếm</button>
+            </div>
+        </form>
+    </div>
+</div>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+
+@if (Model != null && Model != null && Model.Items != null && Model.Items.Count > 0)
+{
+
+    <table class="table">
+        <thead>
+            <tr class="text-center">
+                <th>
+                    <label>Tên tin tức</label>
+                </th>
+                <th>
+                    <label>Tiêu đề</label>
+                </th>
+                <th>
+                    <label>Hình ảnh</label>
+                </th>
+                <th>
+                    <label>Lần chỉnh sửa gần nhất</label>
+                </th>
+                <th>
+                    <label>Người viết</label>
+                </th>
+
+                <th>
+                    <label>Trạng thái</label>
+                </th>
+                <th>Cài đặt</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr class="text-center">
+                    <td>@item.NewName</td>
+                    <td>@item.Title</td>
+                    @if (string.IsNullOrEmpty(item.Image))
+                    {
+                        <td>Không có hình ảnh</td>
+                    }
+                    else
+                    {
+                        <td>
+                            <img src="@item.Image" style="height:100px; width:100px" />
+                        </td>
+                    }
+                    <td>@item.DateModified</td>
+                    <td>@item.Writer.FullName</td>
+
+                    @if (item.Status == true)
+                    {
+                        <td>
+                            <span class="badge bg-success rounded-pill">Hoạt động</span>
+
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <span class="badge bg-danger rounded-pill">Đã ẩn</span>
+
+                        </td>
+                    }
+                    <td class="text-center">
+                        @Html.ActionLink("Chỉnh sửa", "Edit", new { NewsId = item.NewsId }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Xem chi tiết", "Detail", new { NewsId = item.NewsId }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Xóa", "Delete", new { NewsId = item.NewsId }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center align-items-center">
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
+}
+else
+{
+    <h1>Không có thông tin</h1>
+}

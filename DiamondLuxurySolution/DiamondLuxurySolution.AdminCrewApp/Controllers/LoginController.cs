@@ -63,9 +63,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             authProperties);
 
 
-                var user = _staffApiService.GetStaffByUsername(request.UserName);
-                var userId = user.Result.ResultObj.ToString();
-                HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_ID,userId);
+                var user = await _staffApiService.GetStaffByUsername(request.UserName);
+                var userId = user.ResultObj.StaffId;
+
+                HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_ID,userId.ToString());
+                HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_NAME, user.ResultObj.Username);
+
                 return RedirectToAction("Index", "Home");
             }
 
