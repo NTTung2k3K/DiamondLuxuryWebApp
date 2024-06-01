@@ -17,6 +17,8 @@ using DiamondLuxurySolution.AdminCrewApp.Service.Login;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using DiamondLuxurySolution.AdminCrewApp.Service.About;
+using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNewsCategoty;
+using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNewsCategory;
 
 
 
@@ -39,7 +41,13 @@ builder.Services.AddTransient<IContactApiService, ContactApiService>();
 builder.Services.AddTransient<IGemApiService, GemApiService>();
 builder.Services.AddTransient<IMaterialApiService, MaterialApiService>();
 builder.Services.AddTransient<ISlideApiService, SlideApiService>();
+<<<<<<< HEAD
+    builder.Services.AddTransient<IAboutApiService, AboutApiService>();
+builder.Services.AddTransient<IKnowledgeNewsCategoryApiService, KnowledgeNewsCategoryApiService>();
+
+=======
 builder.Services.AddTransient<IAboutApiService, AboutApiService>();
+>>>>>>> 977f3a4c5d97ec6daca98cda3a174ae180d9d17b
 builder.Services.AddTransient<ICategoryApiService, CategoryApiService>();
 builder.Services.AddTransient<IInspectionCertificateApiService, InspectionCertificateApiService>();
 

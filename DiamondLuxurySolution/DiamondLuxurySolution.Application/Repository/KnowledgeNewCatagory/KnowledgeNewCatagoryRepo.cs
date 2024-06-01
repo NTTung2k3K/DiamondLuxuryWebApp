@@ -1,6 +1,7 @@
 ﻿using Azure.Core;
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.ViewModel.Common;
+using DiamondLuxurySolution.ViewModel.Models.About;
 using DiamondLuxurySolution.ViewModel.Models.KnowledgeNewsCategory;
 using Microsoft.EntityFrameworkCore;
 using PagedList;
@@ -37,7 +38,7 @@ namespace DiamondLuxurySolution.Application.Repository.KnowledgeNewCatagory
 
         public async Task<ApiResult<bool>> DeleteKnowledgeNewsCategory(DeleteKnowledgeNewsCategoryRequest request)
         {
-            var knowledgeNewsCatagory = await _context.KnowledgeNewCatagories.FindAsync(request.KnowledgeCategoryId);
+            var knowledgeNewsCatagory = await _context.KnowledgeNewCatagories.FindAsync(request.KnowledgeNewsCategoryId);
             if (knowledgeNewsCatagory == null)
             {
                 return new ApiErrorResult<bool>("Không tìm thấy danh mục tin tức");
@@ -47,19 +48,32 @@ namespace DiamondLuxurySolution.Application.Repository.KnowledgeNewCatagory
             return new ApiSuccessResult<bool>(false, "Success");
         }
 
-
-        public async Task<ApiResult<KnowledgeNewsCategoryVm>> GetKnowledgeNewsCategoryById(int KnowledgeNewsCategoryId)
+        public async Task<ApiResult<List<KnowledgeNewsCategoryVm>>> GetAll()
         {
-            var knowledgeNewsCatagory = await _context.KnowledgeNewCatagories.FindAsync(KnowledgeNewsCategoryId);
+
+            var list = await _context.KnowledgeNewCatagories.ToListAsync();
+            var rs = list.Select(x => new KnowledgeNewsCategoryVm()
+            {
+                KnowledgeNewCatagoryId=x.KnowledgeNewCatagoryId,
+                Description=x.Description,
+                KnowledgeNewCatagoriesName=x.KnowledgeNewCatagoriesName,
+            }).ToList();
+            return new ApiSuccessResult<List<KnowledgeNewsCategoryVm>>(rs);
+        }
+
+        public async Task<ApiResult<KnowledgeNewsCategoryVm>> GetKnowledgeNewsCategoryById(int knowledgeNewsCategoryId)
+        {
+            var knowledgeNewsCatagory = await _context.KnowledgeNewCatagories.FindAsync(knowledgeNewsCategoryId);
             if (knowledgeNewsCatagory == null)
             {
                 return new ApiErrorResult<KnowledgeNewsCategoryVm>("Không tìm thấy danh mục tin tức");
             }
             var knowledgeNewsCatagoryVm = new KnowledgeNewsCategoryVm()
             {
+                KnowledgeNewCatagoryId = knowledgeNewsCatagory.KnowledgeNewCatagoryId,
                 KnowledgeNewCatagoriesName = knowledgeNewsCatagory.KnowledgeNewCatagoriesName,
                 Description = knowledgeNewsCatagory.Description,
-                KnowledgeNewCatagoryId = knowledgeNewsCatagory.KnowledgeNewCatagoryId
+                
             };
             return new ApiSuccessResult<KnowledgeNewsCategoryVm>(knowledgeNewsCatagoryVm, "Success");
         }
