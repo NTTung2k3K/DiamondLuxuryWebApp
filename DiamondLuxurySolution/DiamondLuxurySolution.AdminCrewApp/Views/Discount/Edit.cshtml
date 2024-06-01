@@ -1,0 +1,66 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Discount.DiscountVm
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chỉnh sửa</h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+
+@if (Model != null)
+{
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit" asp-controller="Discount" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group m-2">
+                 <label asp-for="DiscountId" class="control-label  m-2">Id chiết khấu</label>
+                    <input asp-for="DiscountId" class="form-control" readonly />
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="DiscountName" class="control-label m-2">Tên chiết khấu</label>
+                        <input name="DiscountName" class="form-control" value="@Html.Encode(Model.DiscountName)" />
+                    <span asp-validation-for="DiscountName" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="Description" class="control-label  m-2">Mô tả chiết khấu</label>
+                        <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="PercentSale" class="control-label  m-2">Phần trăm chiết khấu</label>
+                        <input asp-for="PercentSale" class="form-control" />
+                    <span asp-validation-for="PercentSale" class="text-danger"></span>
+            </div>
+            <div class="form-check form-switch m-4">
+                <label asp-for="Status" class="control-label mt-1">Hiển thị</label>
+                    <input class="form-check-input f-20" type="checkbox" asp-for="Status">
+            </div>
+            <div class="form-group row">
+                <div class="col-md-5">
+                    <input type="submit" value="Lưu" class="btn btn-primary" />
+                </div>
+                <div class="col-md-7">
+                    <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Discount")'">Về trang quản lí mã giảm giá</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+}
+else
+{
+        <a class="m-5" asp-action="Index" asp-controller="Discount">Về trang quản lí mã giảm giá</a>
+
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

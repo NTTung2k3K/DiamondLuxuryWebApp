@@ -147,13 +147,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
         }
         protected async Task<ApiResult<TResponse>> PutAsync<TResponse>(string url, Object obj)
         {
-            var json = JsonConvert.SerializeObject(obj, new JsonSerializerSettings
+            string json = null;
+            if (obj != null)
             {
-                DateFormatHandling = DateFormatHandling.IsoDateFormat, // Ensure DateTime is serialized in ISO 8601 format
-                DateTimeZoneHandling = DateTimeZoneHandling.Utc // Handle DateTime in UTC format if necessary
-            });
+                json = JsonConvert.SerializeObject(obj, new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Include, // Ensure null values are included in the serialized JSON
+                    DateFormatHandling = DateFormatHandling.IsoDateFormat, // Ensure DateTime is serialized in ISO 8601 format
+                    DateTimeZoneHandling = DateTimeZoneHandling.Utc // Handle DateTime in UTC format if necessary
+                });
+            }
 
-            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var httpContent = obj != null ? new StringContent(json, Encoding.UTF8, "application/json") : null;
             var client = _httpClientFactory.CreateClient();
             client.Timeout = TimeSpan.FromMinutes(5);
 
@@ -171,6 +176,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                 return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
             }
         }
+
         protected async Task<ApiResult<TResponse>> PutAsyncHasImage<TResponse>(string url, object obj)
         {
             var client = _httpClientFactory.CreateClient();

@@ -22,7 +22,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpPost("Create")]
-        public async Task<ActionResult> CreateDiscount([FromForm] CreateDiscountRequest request)
+        public async Task<ActionResult> CreateDiscount([FromBody] CreateDiscountRequest request)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<ActionResult> UpdateDiscount([FromForm] UpdateDiscountRequest request)
+        public async Task<ActionResult> UpdateDiscount([FromBody] UpdateDiscountRequest request)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteDiscount([FromBody] DeleteDiscountRequest request)
+        public async Task<IActionResult> DeleteDiscount([FromQuery] DeleteDiscountRequest request)
         {
             try
             {

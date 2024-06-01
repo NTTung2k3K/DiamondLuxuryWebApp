@@ -13,6 +13,7 @@ using DiamondLuxurySolution.AdminCrewApp.Service.Payment;
 using DiamondLuxurySolution.AdminCrewApp.Service.Gem;
 using DiamondLuxurySolution.AdminCrewApp.Service.Material;
 using DiamondLuxurySolution.AdminCrewApp.Service.Slide;
+using DiamondLuxurySolution.AdminCrewApp.Service.Discount;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +29,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IPlatformApiService, PlatformApiService>();
 
 builder.Services.AddTransient<IPaymentApiService, PaymentApiService>();
+builder.Services.AddTransient<IDiscountApiService, DiscountApiService>();
 
 builder.Services.AddTransient<IInspectionCertificateApiService, InspectionCertificateApiService>();
 builder.Services.AddTransient<IContactApiService, ContactApiService>();
