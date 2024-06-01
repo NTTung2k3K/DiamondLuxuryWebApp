@@ -14,6 +14,8 @@ using DiamondLuxurySolution.AdminCrewApp.Service.Gem;
 using DiamondLuxurySolution.AdminCrewApp.Service.Material;
 using DiamondLuxurySolution.AdminCrewApp.Service.Slide;
 using DiamondLuxurySolution.AdminCrewApp.Service.About;
+using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNewsCategoty;
+using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNewsCategory;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +38,7 @@ builder.Services.AddTransient<IGemApiService, GemApiService>();
 builder.Services.AddTransient<IMaterialApiService, MaterialApiService>();
 builder.Services.AddTransient<ISlideApiService, SlideApiService>();
     builder.Services.AddTransient<IAboutApiService, AboutApiService>();
+builder.Services.AddTransient<IKnowledgeNewsCategoryApiService, KnowledgeNewsCategoryApiService>();
 
 builder.Services.AddTransient<ICategoryApiService, CategoryApiService>();
 builder.Services.AddTransient<IInspectionCertificateApiService, InspectionCertificateApiService>();
