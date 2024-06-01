@@ -1,7 +1,7 @@
 ﻿@{
     Layout = "";
 }
-
+@model  string
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,7 +10,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!--===============================================================================================-->
-    <link rel="icon" type="image/png" href="images/LOGO_black.png" />
+    <link rel="icon" type="image/png" href="~/images/LOGO_black.png" />
     <!--===============================================================================================-->
     <link rel="stylesheet"
           type="text/css"
@@ -43,7 +43,7 @@
         <div class="container-login100">
             <div class="wrap-login100">
                 <div class="login100-pic js-tilt" data-tilt>
-                    <a href="facebook.com">
+                    <a href="/Login/Index">
                         <img src="~/admin/images/LOGO_While.png" alt="IMG" />
                     </a>
                 </div>
@@ -52,18 +52,35 @@
                     <span class="login100-form-title"> Đăng nhập </span>
 
                     <!-- Login gg fb -->
+                    @if (Model != null)
+                    {
+                        <div class="wrap-input100 validate-input"
+                             data-validate="Yêu cầu tài khoản">
+                            <input class="input100"
+                                   type="text"
+                                   name="Username"
+                                   placeholder="Tài khoản" value="@Model" />
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="wrap-input100 validate-input"
+                             data-validate="Yêu cầu tài khoản">
+                            <input class="input100"
+                                   type="text"
+                                   name="Username"
+                                   placeholder="Tài khoản" />
+                            <span class="focus-input100"></span>
+                            <span class="symbol-input100">
+                                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                    }
 
-                    <div class="wrap-input100 validate-input"
-                         data-validate="Yêu cầu tài khoản">
-                        <input class="input100"
-                               type="text"
-                               name="Username"
-                               placeholder="Tài khoản" />
-                        <span class="focus-input100"></span>
-                        <span class="symbol-input100">
-                            <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                        </span>
-                    </div>
 
                     <div class="wrap-input100 validate-input"
                          data-validate="Yêu cầu mật khẩu">

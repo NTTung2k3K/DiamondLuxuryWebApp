@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using DiamondLuxurySolution.AdminCrewApp.Service.Login;
 using Azure.Core;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using DiamondLuxurySolution.ViewModel.Common;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
@@ -31,9 +32,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Index(string returnUrl)
+        public async Task<IActionResult> Index()
         {
-            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
@@ -62,9 +62,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.Error = "Tài khoản hoặc mật khẩu không đúng";
-            return View();
+            return View((object)request.UserName);
         }
-
+      
         [HttpGet]
         public async Task<IActionResult> ForgotPassword()
         {
@@ -72,11 +72,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> ForgotPassword(string Email)
+        public async Task<IActionResult> ForgotPassword(string Username)
         {
-            var apiResult = await _loginApiService.ForgotpasswordStaffSendCode(Email);
-            TempData["Code"] = apiResult.ResultObj.ToString();
-            return View();
+            var apiResult = await _loginApiService.ForgotpasswordStaffSendCode(Username);
+            if (!apiResult.IsSuccessed)
+            {
+                ViewBag.Error = apiResult.Message;
+                return View((object)Username);
+            }
+            HttpContext.Session.SetString("Code", apiResult.ResultObj.ToString());
+            HttpContext.Session.SetString("Username", Username.ToString());
+
+            return RedirectToAction("VerifyCode", "Login");
         }
         [HttpGet]
         public async Task<IActionResult> VerifyCode()
@@ -87,12 +94,13 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         [HttpPost]
         public async Task<IActionResult> VerifyCode(string code)
         {
-            if (TempData["Code"].ToString().Equals(code.ToString()))
+            if (HttpContext.Session.GetString("Code").ToString().Equals(code.ToString()))
             {
-                return RedirectToAction("ChangePaassword", "Login");
+                HttpContext.Session.Remove("Code");
+                return RedirectToAction("ChangePassword", "Login");
             }
             ViewBag.Error = "Sai mã xác thực";
-            return View();
+            return View((object)code);
         }
 
         [HttpGet]
@@ -104,30 +112,52 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ForgotPasswordStaffChangeRequest request)
         {
-            var apiResult = await _loginApiService.ForgotpassworStaffdChange(request);
-            return View();
+            request.Username = HttpContext.Session.GetString("Username").ToString();
+            var status = await _loginApiService.ForgotpassworStaffdChange(request);
+            if (status is ApiErrorResult<bool> errorResult)
+            {
+                List<string> listError = new List<string>();
+
+                if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                {
+                    foreach (var error in errorResult.ValidationErrors)
+                    {
+                        listError.Add(error);
+                    }
+                }
+                else if (status.Message != null)
+                {
+                    listError.Add(errorResult.Message);
+                }
+                ViewBag.Errors = listError;
+                return View();
+
+            }
+
+            return RedirectToAction("Index","Login");
         }
 
         private ClaimsPrincipal ValidateToken(string jwtToken)
         {
             IdentityModelEventSource.ShowPII = true;
 
+            TokenValidationParameters validationParameters = new TokenValidationParameters
+            {
+                ValidateLifetime = true,
+                ValidAudience = _configuration["Jwt:Audience"],
+                ValidIssuer = _configuration["Jwt:Issuer"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]))
+            };
+
             SecurityToken validatedToken;
-            TokenValidationParameters validationParameters = new TokenValidationParameters();
-
-            validationParameters.ValidateLifetime = true;
-
-            validationParameters.ValidAudience = _configuration["Jwt:Audience"];
-            validationParameters.ValidIssuer = _configuration["Jwt:Issuer"];
-            validationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-
-            ClaimsPrincipal principal = new JwtSecurityTokenHandler().ValidateToken(jwtToken, validationParameters, out validatedToken);
+            JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
+            ClaimsPrincipal principal = handler.ValidateToken(jwtToken, validationParameters, out validatedToken);
 
             return principal;
         }
 
 
-        
+
 
 
 

@@ -1,6 +1,6 @@
-﻿using Azure.Core;
-using DiamondLuxurySolution.Data.EF;
+﻿using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
+using DiamondLuxurySolution.Utilities.Helper;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.User.Customer;
 using DiamondLuxurySolution.ViewModel.Models.User.Staff;
@@ -8,16 +8,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using PagedList;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
 namespace DiamondLuxurySolution.Application.Repository.User.Staff
 {
     public class StaffRepo : IStaffRepo
@@ -27,7 +21,8 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
         private readonly RoleManager<AppRole> _roleManager;
         private readonly LuxuryDiamondShopContext _context;
         private readonly IConfiguration _configuarion;
-        public StaffRepo(LuxuryDiamondShopContext context, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IConfiguration configuration)
+
+        public StaffRepo( LuxuryDiamondShopContext context, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -684,18 +679,36 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             var user = await _userManager.FindByNameAsync(Username.Trim().ToString());
             if (user == null)
             {
-                return new ApiErrorResult<string>("Email không tồn tại");
+                return new ApiErrorResult<string>("Tài khoản không tồn tại");
             }
-            string code = DiamondLuxurySolution.Utilities.Helper.RandomHelper.GenerateRandomString(8);
+            Random rd = new Random();
+            string code = ""+rd.Next(0,9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString();
             user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.ChangePasswordRequest.ToString();
             var statusUser = await _userManager.UpdateAsync(user);
             if (!statusUser.Succeeded)
             {
                 return new ApiErrorResult<string>("Lỗi hệ thống, cập nhật thông tin thất bại vui lòng thử lại");
             }
+            SendEmail(code,user.Email);
 
             return new ApiSuccessResult<string>(code, "Success");
         }
+        public void SendEmail(string code, string toEmail)
+        {
+            // Correct relative path from current directory to the HTML file
+            string relativePath = @"..\..\DiamondLuxurySolution\DiamondLuxurySolution.Utilities\FormSendEmail\SendCode.html";
+            // Combine the relative path with the current directory to get the full path
+            string path = Path.GetFullPath(relativePath);
+
+            if (!System.IO.File.Exists(path))
+            {
+                return;
+            }
+            string contentCustomer = System.IO.File.ReadAllText(path);
+            contentCustomer = contentCustomer.Replace("{{VerifyCode}}", code);
+            DoingMail.SendMail("LuxuryDiamond", "Yêu cầu thay đổi mật khẩu", contentCustomer, toEmail);
+        }
+
 
         public async Task<ApiResult<bool>> ForgotpassworStaffdChange(ForgotPasswordStaffChangeRequest request)
         {

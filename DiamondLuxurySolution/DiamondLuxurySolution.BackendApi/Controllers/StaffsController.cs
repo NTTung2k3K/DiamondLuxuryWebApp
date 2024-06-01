@@ -1,5 +1,6 @@
 ﻿using DiamondLuxurySolution.Application.Repository.User.Staff;
 using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.Utilities.Helper;
 using DiamondLuxurySolution.ViewModel.Models.User.Customer;
 using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 using Microsoft.AspNetCore.Http;
@@ -14,11 +15,13 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
         private readonly LuxuryDiamondShopContext _context;
         private readonly IStaffRepo _Staff;
+        
 
-        public StaffsController(LuxuryDiamondShopContext context, IStaffRepo Staff)
+        public StaffsController( LuxuryDiamondShopContext context, IStaffRepo Staff)
         {
             _context = context;
             _Staff = Staff;
+        
         }
 
 
@@ -134,7 +137,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         public async Task<ActionResult> ForgotpasswordStaffCode(string Username)
         {
             try
-            {
+                {
                 var status = await _Staff.ForgotpasswordStaffSendCode(Username);
                 if (status.IsSuccessed)
                 {
@@ -147,6 +150,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+       
         [HttpPost("ForgotCustomerPassword/ChangePassword")]
         public async Task<ActionResult> ForgotpasswordStaffChange([FromBody] ForgotPasswordStaffChangeRequest request)
         {
@@ -279,5 +283,5 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
     }
 
-    
+
 }
