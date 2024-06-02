@@ -93,4 +93,8 @@
     <None Include="wwwroot\Admin\vendor\tilt\tilt.jquery.min.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\NewFolder\" />
+  </ItemGroup>
+
 </Project>

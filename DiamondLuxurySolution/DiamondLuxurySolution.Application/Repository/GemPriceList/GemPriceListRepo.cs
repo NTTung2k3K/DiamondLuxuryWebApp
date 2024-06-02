@@ -39,10 +39,10 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
                 errorList.Add("Vui lòng nhập giá kim cương");
             }
 
-            decimal price = 0;
+            double price = 0;
             try
             {
-                price = Convert.ToDecimal(request.Price);
+                price = Convert.ToDouble(request.Price);
 
                 if (price <= 0)
                 {
@@ -74,7 +74,7 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
                 Cut = request.Cut != null ? request.Cut : "",
                 GemId = request.GemId,
                 Active = request.Active,
-                effectDate = request.effectDate
+                effectDate = (DateTime)request.effectDate
             };
 
             _context.GemPriceLists.Add(gemPriceList);
@@ -92,6 +92,54 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
             _context.GemPriceLists.Remove(gemPriceList);
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(false, "Success");
+        }
+
+        public async Task<ApiResult<List<GemPriceListVm>>> GetAll()
+        {
+            var list = await _context.GemPriceLists.ToListAsync();
+            var listGemPriceListVm = new List<GemPriceListVm>();
+
+            foreach (var item in list)
+            {
+                var gem = await _context.Gems.FindAsync(item.GemId);
+                var insp = await _context.InspectionCertificates.FindAsync(gem.InspectionCertificateId);
+                var inspectionCertificateVm = new InspectionCertificateVm()
+                {
+                    InspectionCertificateId = insp.InspectionCertificateId,
+                    InspectionCertificateName = insp.InspectionCertificateName,
+                    DateGrading = insp.DateGrading,
+                    Logo = insp.Logo,
+                    Status = insp.Status,
+                };
+                var gemVm = new GemVm()
+                {
+                    GemId = gem.GemId,
+                    GemName = gem.GemName,
+                    AcquisitionDate = gem.AcquisitionDate,
+                    Active = gem.Active,
+                    Fluoresence = gem.Fluoresence,
+                    GemImage = gem.GemImage,
+                    IsOrigin = gem.IsOrigin,
+                    Polish = gem.Polish,
+                    ProportionImage = gem.ProportionImage,
+                    Symetry = gem.Symetry,
+                    InspectionCertificateVm = inspectionCertificateVm,
+                };
+                var gemPriceListVm = new GemPriceListVm
+                {
+                    GemPriceListId = item.GemPriceListId,
+                    Active = item.Active,
+                    CaratWeight = item.CaratWeight,
+                    Clarity = item.Clarity,
+                    Color = item.Color,
+                    Cut = item.Cut,
+                    effectDate = item.effectDate,
+                    Price = (double)item.Price,
+                    GemVm = gemVm
+                };
+                listGemPriceListVm.Add(gemPriceListVm);
+            }
+            return new ApiSuccessResult<List<GemPriceListVm>>(listGemPriceListVm.ToList());
         }
 
         public async Task<ApiResult<GemPriceListVm>> GetGemPriceListById(int GemPriceListId)
@@ -132,7 +180,7 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
                 Clarity = GemPriceList.Clarity,
                 Color = GemPriceList.Color,
                 Cut = GemPriceList.Cut,
-                Price = (decimal)GemPriceList.Price,
+                Price = (double)GemPriceList.Price,
                 effectDate = GemPriceList.effectDate,
                 Active = GemPriceList.Active,
                 GemVm = gemVm
@@ -160,10 +208,10 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
                 errorList.Add("Vui lòng nhập giá kim cương");
             }
 
-            decimal price = 0;
+            double price = 0;
             try
             {
-                price = Convert.ToDecimal(request.Price);
+                price = Convert.ToDouble(request.Price);
 
                 if (price <= 0)
                 {
@@ -190,7 +238,7 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
             GemPriceList.Clarity = request.Clarity != null ? request.Clarity : "";
             GemPriceList.Color = request.Color != null ? request.Color : "";
             GemPriceList.Price = price;
-            GemPriceList.effectDate = request.effectDate;
+            GemPriceList.effectDate = (DateTime)request.effectDate;
             GemPriceList.Active = request.Active;
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
@@ -243,7 +291,7 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
                     Clarity = item.Clarity,
                     Cut = item.Cut,
                     Color = item.Color,
-                    Price = (decimal)item.Price,
+                    Price = (double)item.Price,
                     effectDate = item.effectDate,
                     Active = item.Active,
                     GemVm = gemVm

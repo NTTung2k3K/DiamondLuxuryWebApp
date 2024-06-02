@@ -17,6 +17,7 @@ using DiamondLuxurySolution.AdminCrewApp.Service.Login;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using DiamondLuxurySolution.AdminCrewApp.Service.About;
+using DiamondLuxurySolution.AdminCrewApp.Service.GemPriceList;
 
 
 
@@ -42,6 +43,7 @@ builder.Services.AddTransient<ISlideApiService, SlideApiService>();
 builder.Services.AddTransient<IAboutApiService, AboutApiService>();
 builder.Services.AddTransient<ICategoryApiService, CategoryApiService>();
 builder.Services.AddTransient<IInspectionCertificateApiService, InspectionCertificateApiService>();
+builder.Services.AddTransient<IGemPriceListApiService, GemPriceListApiService>();
 
 
 builder.Services.AddDbContext<LuxuryDiamondShopContext>(options =>

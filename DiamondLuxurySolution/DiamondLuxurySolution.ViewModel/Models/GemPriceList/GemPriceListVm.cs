@@ -20,7 +20,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.GemPriceList
 
         public string? Color { get; set; }
 
-        public decimal Price { get; set; }
+        public double Price { get; set; }
         public GemVm GemVm { get; set; } 
         public bool Active { get; set; }
         public DateTime effectDate { get; set; }

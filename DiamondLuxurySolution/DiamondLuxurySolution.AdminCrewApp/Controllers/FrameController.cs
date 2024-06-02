@@ -193,6 +193,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             {
                 if (!ModelState.IsValid)
                 {
+                    var listMaterial = await _materialApiService.GetAll();
+                    ViewBag.ListMaterial = listMaterial.ResultObj.ToList();
                     var frame = await _frameApiService.GetFrameById(request.FrameId);
                     var material = await _materialApiService.GetMaterialById(frame.ResultObj.MaterialVm.MaterialId);
                     var materialVm = new MaterialVm()
@@ -216,8 +218,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     return View(frameVm);
                 }
 
-                var listMaterial = await _materialApiService.GetAll();
-                ViewBag.ListMaterial = listMaterial.ResultObj.ToList();
+                
 
                 var status = await _frameApiService.UpdateFrame(request);
                 if (status is ApiErrorResult<bool> errorResult)
@@ -236,6 +237,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         listError.Add(errorResult.Message);
                     }
                     ViewBag.Errors = listError;
+                    var listMaterial = await _materialApiService.GetAll();
+                    ViewBag.ListMaterial = listMaterial.ResultObj.ToList();
                     var frame = await _frameApiService.GetFrameById(request.FrameId);
                     var material = await _materialApiService.GetMaterialById(frame.ResultObj.MaterialVm.MaterialId);
                     var materialVm = new MaterialVm()
@@ -256,7 +259,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         NameFrame = request.NameFrame,
                         MaterialVm = materialVm,
                     };
-                    return View(frameVm);
+
+					return View(frameVm);
 
                 }
                 return RedirectToAction("Index", "Frame");
