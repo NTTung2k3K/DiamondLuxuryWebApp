@@ -1,0 +1,182 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.News.CreateNewsRequest
+
+@{
+    ViewData["Title"] = "Tạo mới tin tức";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Tạo mới tin tức</h1>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        @if (ViewBag.Errors != null)
+        {
+            foreach (var error in ViewBag.Errors)
+            {
+                <h6 class="text-danger">@error</h6>
+            }
+        }
+
+        <form asp-action="Create" asp-controller="News" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group m-2">
+                <label asp-for="NewName" class="control-label m-2">Tên tin tức</label>
+                <input asp-for="NewName" class="form-control" />
+                <span asp-validation-for="NewName" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="Title" class="control-label m-2">Tiêu đề</label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="Image" class="control-label m-2">Hình đại diện</label>
+                <input asp-for="Image" class="form-control" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            <div class="form-check form-switch m-4">
+                <label asp-for="Status" class="control-label m-2">Hiển thị</label>
+                <input class="form-check-input f-18" type="checkbox" asp-for="Status">
+            </div>
+            <div style="max-width: 960px;">
+                <div class="form-group m-2 text-center" style="width:1000px;">
+                    <h4 asp-for="Description" class="control-label m-4">Nội dung</h4>
+                    <textarea asp-for="Description" id="editor"></textarea>
+                </div>
+            </div>
+           
+            <div class="form-group row">
+                <div class="col-md-5">
+                    <input type="submit" value="Tạo mới" class="btn btn-success" />
+                </div>
+                <div class="col-md-7">
+                    <a class="m-5" asp-action="Index" asp-controller="News">Về trang quản lí tin tức</a>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+@section Scripts {
+    <script src="~/assets/js/plugins/ckeditor/classic/ckeditor.js"></script>
+    <script src="~/assets/js/plugins/ckeditor/vi.js"></script>
+
+
+
+
+    <script>
+        class MyUploadAdapter {
+            constructor(loader) {
+                // The file loader instance to use during the upload. It sounds scary but do not
+                // worry — the loader will be passed into the adapter later on in this guide.
+                this.loader = loader;
+            }
+
+            upload() {
+                return this.loader.file
+                    .then(file => new Promise((resolve, reject) => {
+                        this._initRequest();
+                        this._initListeners(resolve, reject, file);
+                        this._sendRequest(file);
+                    }));
+            }
+
+            // Aborts the upload process.
+            abort() {
+                if (this.xhr) {
+                    this.xhr.abort();
+                }
+            }
+            _initRequest() {
+                const xhr = this.xhr = new XMLHttpRequest();
+
+                // Note that your request may look different. It is up to you and your editor
+                // integration to choose the right communication channel. This example uses
+                // a POST request with JSON as a data structure but your configuration
+                // could be different.
+                xhr.open('POST', "/Post/Upload", true);
+                xhr.responseType = 'json';
+            }
+            _initListeners(resolve, reject, file) {
+                const xhr = this.xhr;
+                const loader = this.loader;
+                const genericErrorText = `Couldn't upload file: ${file.name}.`;
+
+                xhr.addEventListener('error', () => reject(genericErrorText));
+                xhr.addEventListener('abort', () => reject());
+                xhr.addEventListener('load', () => {
+                    const response = xhr.response;
+
+                    // This example assumes the XHR server's "response" object will come with
+                    // an "error" which has its own "message" that can be passed to reject()
+                    // in the upload promise.
+                    //
+                    // Your integration may handle upload errors in a different way so make sure
+                    // it is done properly. The reject() function must be called when the upload fails.
+                    if (!response || response.error) {
+                        return reject(response && response.error ? response.error.message : genericErrorText);
+                    }
+
+                    // If the upload is successful, resolve the upload promise with an object containing
+                    // at least the "default" URL, pointing to the image on the server.
+                    // This URL will be used to display the image in the content. Learn more in the
+                    // UploadAdapter#upload documentation.
+                    resolve({
+                        default: response.url
+                    });
+                });
+
+                // Upload progress when it is supported. The file loader has the #uploadTotal and #uploaded
+                // properties which are used e.g. to display the upload progress bar in the editor
+                // user interface.
+                if (xhr.upload) {
+                    xhr.upload.addEventListener('progress', evt => {
+                        if (evt.lengthComputable) {
+                            loader.uploadTotal = evt.total;
+                            loader.uploaded = evt.loaded;
+                        }
+                    });
+                }
+            }
+            _sendRequest(file) {
+                // Prepare the form data.
+                const data = new FormData();
+
+                data.append('upload', file);
+
+                // Important note: This is the right place to implement security mechanisms
+                // like authentication and CSRF protection. For instance, you can use
+                // XMLHttpRequest.setRequestHeader() to set the request headers containing
+                // the CSRF token generated earlier by your application.
+
+                // Send the request.
+                this.xhr.send(data);
+            }
+        }
+        function MyCustomUploadAdapterPlugin(editor) {
+            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                // Configure the URL to the upload script in your backend here!
+                return new MyUploadAdapter(loader);
+            };
+        }
+
+       
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                // Toolbar của bạn (nếu bạn muốn)
+                // toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
+                extraPlugins: [MyCustomUploadAdapterPlugin],
+
+            })
+            .then(editor => {
+                // Thiết lập chiều cao tối thiểu là 500px bằng cách thêm CSS
+                editor.editing.view.change(writer => {
+                    writer.setStyle('min-height', '500px', editor.editing.view.document.getRoot());
+                });
+                window.editor = editor;
+            })
+            .catch(err => {
+                console.error(err.stack);
+            });
+    </script>
+}

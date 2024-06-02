@@ -1,6 +1,7 @@
 ﻿using DiamondLuxurySolution.Application.Repository.About;
 using DiamondLuxurySolution.Application.Repository.Frame;
 using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Models.About;
 using DiamondLuxurySolution.ViewModel.Models.Frame;
 using Microsoft.AspNetCore.Http;
@@ -24,7 +25,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpPost("Create")]
-        public async Task<ActionResult> CreateFrame([FromForm] CreateFrameRequest request)
+        public async Task<ActionResult> CreateFrame([FromBody] CreateFrameRequest request)
         {
             try
             {
@@ -42,7 +43,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<ActionResult> UpdateFrame([FromForm] UpdateFrameRequest request)
+        public async Task<ActionResult> UpdateFrame([FromBody] UpdateFrameRequest request)
         {
             try
             {
@@ -61,7 +62,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteFrame([FromBody] DeleteFrameRequest request)
+        public async Task<IActionResult> DeleteFrame([FromQuery] DeleteFrameRequest request)
         {
             try
             {
@@ -84,6 +85,24 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             try
             {
                 var status = await _frame.GetFrameById(FrameId);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var status = await _frame.GetAll();
                 if (status.IsSuccessed)
                 {
                     return Ok(status);

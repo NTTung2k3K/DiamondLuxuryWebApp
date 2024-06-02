@@ -1,0 +1,105 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.GemPriceList.GemPriceListVm
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chi tiết giá kim cương</h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+
+
+@if (Model != null)
+{
+
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-3 mb-3">
+                @Html.DisplayNameFor(model => model.GemPriceListId)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.GemPriceListId)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Tên kim cương
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.GemVm.GemName)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Giát cắt
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Cut)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Độ tinh khiết
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Clarity)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Trọng lượng Carat
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.CaratWeight)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Màu sắc
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Color)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Giá 
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => @Model.Price)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Ngày ảnh hưởng
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => @Model.effectDate)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Hiển thị
+            </dt>
+            <dd class="col-sm-9">
+                <div class="form-check form-switch ">
+                    <input class="form-check-input f-18 ml-3" type="checkbox" asp-for="Active" value="@Model.Active" disabled />
+                </div>
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Hình kim cương
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.GemVm.GemImage != null)
+                {
+                    <img src="@Model.GemVm.GemImage" style="style= height:100px; width:100px" />
+                }
+                else
+                {
+                    <h5>Chưa có logo</h5>
+                }
+            </dd>
+        </dl>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            @Html.ActionLink("Chỉnh sửa", "Edit", new { GemPriceListId = @Model.GemPriceListId }, new { @class = "btn btn-warning" })
+        </div>
+        <div class="col-sm-9">
+            <a class="btn btn-secondary" asp-action="Index">Về trang quản lí giá kim cương</a>
+        </div>
+    </div>
+
+}
+

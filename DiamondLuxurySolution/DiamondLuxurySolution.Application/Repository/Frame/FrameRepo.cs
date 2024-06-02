@@ -2,6 +2,7 @@
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
+using DiamondLuxurySolution.ViewModel.Models.Contact;
 using DiamondLuxurySolution.ViewModel.Models.Frame;
 using DiamondLuxurySolution.ViewModel.Models.GemPriceList;
 using DiamondLuxurySolution.ViewModel.Models.Material;
@@ -55,7 +56,7 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
             {
                 size = Convert.ToDouble(request.Size);
 
-                if (weight <= 0)
+                if (size <= 0)
                 {
                     errorList.Add("Kích thước khung phải lớn > 0");
                 }
@@ -134,6 +135,8 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
                 MaterialId = material.MaterialId,
                 MaterialImage = material.MaterialImage,
                 MaterialName = material.MaterialName,
+                EffectDate = material.EffectDate,
+                Price = material.Price,
                 Status = material.Status,
             };
             var frameVm = new FrameVm
@@ -158,7 +161,7 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
             var material = await _context.Materials.FindAsync(request.MaterialId);
             if (material == null)
             {
-                return new ApiErrorResult<bool>("Không tìm thấy khung");
+                return new ApiErrorResult<bool>("Không tìm thấy vật liệu");
             }
 
             var errorList = new List<string>();
@@ -212,6 +215,7 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
             frame.Weight = weight;
             frame.Size = size;
             frame.FrameName = request.NameFrame.Trim();
+            frame.Material = material;
 
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
@@ -241,6 +245,8 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
                     MaterialId = material.MaterialId,
                     MaterialImage = material.MaterialImage,
                     MaterialName = material.MaterialName,
+                    Price = material.Price,
+                    EffectDate = material.EffectDate,
                     Status = material.Status,
                 };
                 var frameVm = new FrameVm()
@@ -261,6 +267,39 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
                 PageIndex = pageIndex
             };
             return new ApiSuccessResult<PageResult<FrameVm>>(listResult, "Success");
+        }
+
+        public async Task<ApiResult<List<FrameVm>>> GetAll()
+        {
+            var listFrame = await _context.Frames.ToListAsync();
+            var listFrameVm = new List<FrameVm>();
+
+            foreach ( var frame in listFrame)
+            {
+                var material = await _context.Materials.FindAsync(frame.MaterialId);
+                var materialVm = new MaterialVm
+                {
+                    Color = material.Color,
+                    Description = material.Description,
+                    MaterialId = material.MaterialId,
+                    MaterialImage = material.MaterialImage,
+                    MaterialName = material.MaterialName,
+                    EffectDate = material.EffectDate,
+                    Price = material.Price,
+                    Status = material.Status,
+                };
+                var frameVm = new FrameVm()
+                {
+                    FrameId = frame.FrameId,
+                    NameFrame = frame.FrameName,
+                    Size = frame.Size,
+                    Weight = frame.Weight,
+                    MaterialVm = materialVm
+                };
+                listFrameVm.Add(frameVm);
+            }
+
+            return new ApiSuccessResult<List<FrameVm>>(listFrameVm);
         }
     }
 }

@@ -50,9 +50,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Staff
             return data;
         }
 
-        public async Task<ApiResult<Guid>> GetStaffByUsername(string Username)
+        public async Task<ApiResult<StaffVm>> GetStaffByUsername(string Username)
         {
-            var data = await GetAsync<Guid>("api/Staffs/GetStaffByUsername?Username=" + Username);
+            var data = await GetAsync<StaffVm>("api/Staffs/GetStaffByUsername?Username=" + Username);
             return data;
         }
 

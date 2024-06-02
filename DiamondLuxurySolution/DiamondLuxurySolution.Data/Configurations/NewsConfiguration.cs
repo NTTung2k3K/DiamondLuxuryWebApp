@@ -23,7 +23,6 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(n => n.Description).HasMaxLength(int.MaxValue);
             builder.Property(n => n.DateCreated);
             builder.Property(n => n.DateModified);
-            builder.Property(n => n.IsOutstanding).IsRequired();
 
             builder.HasOne(n => n.Writer)
                    .WithMany(x => x.News)
