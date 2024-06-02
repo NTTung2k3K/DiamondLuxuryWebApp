@@ -11,7 +11,9 @@ namespace DiamondLuxurySolution.Application.Repository.Material
 {
     public interface IMaterialRepo
     {
-        public Task<ApiResult<bool>> CreateMaterial(CreateMaterialRequest request);
+        public Task<ApiResult<List<MaterialVm>>> GetAll();
+
+		public Task<ApiResult<bool>> CreateMaterial(CreateMaterialRequest request);
         public Task<ApiResult<bool>> UpdateMaterial(UpdateMaterialRequest request);
         public Task<ApiResult<bool>> DeleteMaterial(DeleteMaterialRequest request);
         public Task<ApiResult<MaterialVm>> GetMaterialById(Guid MaterialId);

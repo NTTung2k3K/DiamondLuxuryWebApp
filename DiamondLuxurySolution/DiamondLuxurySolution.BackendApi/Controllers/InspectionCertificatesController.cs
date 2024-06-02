@@ -96,6 +96,24 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
 
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var status = await _inspectionCertificate.GetAll();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
 
         [HttpGet("ViewInCustomer")]
         public async Task<IActionResult> ViewAllInspectionCertificatePaginationInCustomer([FromQuery] ViewInspectionCertificateRequest request)

@@ -1,0 +1,101 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Frame.FrameVm
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chỉnh sửa</h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-md-6">
+            
+            <form asp-action="Edit" asp-controller="Frame" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group m-2">
+                    <label asp-for="FrameId" class="control-label m-2"></label>
+                    <input asp-for="FrameId" class="form-control" readonly />
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="NameFrame" class="control-label m-2">Tên khung</label>
+                    <input asp-for="NameFrame" class="form-control" />
+                    <span asp-validation-for="NameFrame" class="text-danger"></span>
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="Size" class="control-label m-2">Size</label>
+                    <input asp-for="Size" class="form-control" />
+                    <span asp-validation-for="Size" class="text-danger"></span>
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="Weight" class="control-label m-2">Trọng lượng</label>
+                    <input asp-for="Weight" class="form-control" />
+                    <span asp-validation-for="Weight" class="text-danger"></span>
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="MaterialVm.MaterialId" class="control-label m-2">Tên vật liệu</label>
+                    <select class="h-50" multiple name="MaterialId[]"
+                            style="height: 150px; width: 100%; padding: 8px; font-size: 16px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9;">
+                        @foreach (var material in ViewBag.ListMaterial)
+                        {
+                            if (Model != null && Model.MaterialVm.MaterialId != null)
+                            {
+                                string selectedCheck = Model.MaterialVm.MaterialId.ToString().Contains(@material.MaterialId.ToString()) ? "selected=\"selected\"" : "";
+                                if (string.IsNullOrEmpty(selectedCheck))
+                                {
+                                    <option value="@material.MaterialId">
+                                        @material.MaterialName
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="@material.MaterialId" selected>
+                                        @material.MaterialName
+                                    </option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="@material.MaterialId">
+                                    @material.MaterialName
+                                </option>
+                            }
+                        }
+                    </select>
+                    <br />
+                    <span asp-validation-for="MaterialVm.MaterialId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        <input type="submit" value="Lưu" class="btn btn-primary" />
+                    </div>
+                    <div class="col-md-7">
+                        <a class="m-6 btn btn-secondary" asp-action="Index">Về trang quản lí khung</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <a class="btn btn-secondary" asp-action="Index">Về trang quản lí khung</a>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+

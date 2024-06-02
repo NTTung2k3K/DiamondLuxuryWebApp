@@ -37,15 +37,16 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
             {
                 percentSale = Convert.ToDouble(request.PercentSale);
 
-                if (percentSale < 0)
+                if (percentSale < 0 || percentSale > 2)
                 {
-                     errorList.Add("% Chiết khấu phải >= 0");
+                     errorList.Add("% Chiết khấu phải >= 0 và <=2");
                 }
             }
             catch (FormatException)
             {
                 errorList.Add("% chiết khấu không hợp lệ");
-            }
+				return new ApiErrorResult<bool>("Chiết khấu không hợp lệ, phải nhập số", errorList);
+			}
 
             if (errorList.Any())
             {
@@ -130,11 +131,11 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
             {
                 percentSale = Convert.ToDouble(request.PercentSale);
 
-                if (percentSale < 0)
-                {
-                    errorList.Add("% Chiết khấu phải >= 0");
-                }
-            }
+				if (percentSale < 0 || percentSale > 2)
+				{
+					errorList.Add("% Chiết khấu phải >= 0 và <=2");
+				}
+			}
             catch (FormatException)
             {
                 errorList.Add("% chiết khấu không hợp lệ");

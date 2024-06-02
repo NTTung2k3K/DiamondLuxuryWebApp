@@ -1,5 +1,6 @@
 ﻿using DiamondLuxurySolution.AdminCrewApp.Service.Contact;
 using DiamondLuxurySolution.AdminCrewApp.Service.Gem;
+using DiamondLuxurySolution.AdminCrewApp.Service.IInspectionCertificate;
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Contact;
@@ -7,17 +8,18 @@ using DiamondLuxurySolution.ViewModel.Models.Gem;
 using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
 using DiamondLuxurySolution.ViewModel.Models.Material;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
     public class GemController : Controller
     {
-        private readonly LuxuryDiamondShopContext _context;
+        private readonly IInspectionCertificateApiService _inspectionCertificateApiService;
         private readonly IGemApiService _gemApiService;
 
-        public GemController(LuxuryDiamondShopContext context , IGemApiService gemApiService)
+        public GemController(IInspectionCertificateApiService inspectionCertificateApiService, IGemApiService gemApiService)
         {
-            _context = context;
+            _inspectionCertificateApiService = inspectionCertificateApiService;
             _gemApiService = gemApiService;
         }
 
@@ -89,28 +91,25 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    var gem = await _context.Gems.FindAsync(request.GemId);
-                    var insp = await _context.InspectionCertificates.FindAsync(gem.InspectionCertificateId);
+                    var gem = await _gemApiService.GetGemById(request.GemId);
+                    var insp = await _inspectionCertificateApiService.GetInspectionCertificateById(gem.ResultObj.InspectionCertificateVm.InspectionCertificateId);
                     var inspectionCertificateVm = new InspectionCertificateVm()
                     {
-                        InspectionCertificateId = insp.InspectionCertificateId,
-                        InspectionCertificateName = insp.InspectionCertificateName,
-                        DateGrading = insp.DateGrading,
-                        Logo = insp.Logo,
-                        Status = insp.Status,
+                        InspectionCertificateId = insp.ResultObj.InspectionCertificateId,
+                        InspectionCertificateName = insp.ResultObj.InspectionCertificateName,
+                        DateGrading = insp.ResultObj.DateGrading,
+                        Logo = insp.ResultObj.Logo,
+                        Status = insp.ResultObj.Status,
                     };
 
                     GemVm gemVm = new GemVm()
                     {
                         GemId = request.GemId,
                         GemName = request.GemName,
-                        GemImage = request.GemImage.ToString(),
-                        Symetry = request.Symetry,
-                        Polish = request.Polish,
-                        ProportionImage = request.ProportionImage.ToString(),
+                        Symetry = request.Symetry != null ? request.Symetry : null,
+                        Polish = request.Polish != null ? request.Polish : null,
                         IsOrigin = request.IsOrigin,
                         Fluoresence = request.Fluoresence,
-                        AcquisitionDate = (DateTime)request.AcquisitionDate,
                         Active = request.Active,
                         InspectionCertificateVm = inspectionCertificateVm
 
@@ -121,16 +120,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 if (status is ApiErrorResult<bool> errorResult)
                 {
                     List<string> listError = new List<string>();
-                    if (status.Message != null)
+
+                    if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
                     {
-                        listError.Add(errorResult.Message);
-                    }
-                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-                    {
-                        foreach (var error in listError)
+                        foreach (var error in errorResult.ValidationErrors)
                         {
                             listError.Add(error);
                         }
+                    }
+                    else if (status.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
                     }
                     ViewBag.Errors = listError;
                     return View();
@@ -246,30 +246,67 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            var listInsp = await _inspectionCertificateApiService.GetAll();
+            var listGem = await _gemApiService.GetAll();
+
+            // Lấy tất cả các InspectionCertificateId có trong listGem
+            var gemInspectionCertificateIds = listGem.ResultObj
+                                                     .Select(gem => gem.InspectionCertificateVm.InspectionCertificateId)
+                                                     .ToList();
+
+            // Lấy các InspectionCertificateId chưa có trong gem
+            var availableInspectionCertificates = listInsp.ResultObj
+                              .Where(insp => !gemInspectionCertificateIds.Any(gemId => gemId.Equals(insp.InspectionCertificateId)))
+                              .ToList();
+
+            ViewBag.ListIsnp = availableInspectionCertificates;
+
             return View();
         }
         [HttpPost]
         public async Task<IActionResult> Create(CreateGemRequest request)
         {
+            var listInsp = await _inspectionCertificateApiService.GetAll();
+            var listGem = await _gemApiService.GetAll();
 
+            // Lấy tất cả các InspectionCertificateId có trong listGem
+            var gemInspectionCertificateIds = listGem.ResultObj
+                                                     .SelectMany(gem => gem.InspectionCertificateVm.InspectionCertificateId)
+                                                     .ToList();
+
+            // Lấy các InspectionCertificateId chưa có trong gem
+            var availableInspectionCertificates = listInsp.ResultObj
+                              .Where(insp => !gemInspectionCertificateIds.Any(gemId => gemId.Equals(insp.InspectionCertificateId)))
+                              .ToList();
+ 
+
+            if (!ModelState.IsValid)
+            {
+
+                return View(request);
+            }
 
             var status = await _gemApiService.CreateGem(request);
 
             if (status is ApiErrorResult<bool> errorResult)
             {
                 List<string> listError = new List<string>();
-                if (status.Message != null)
+
+                if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
                 {
-                    listError.Add(errorResult.Message);
-                }
-                else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-                {
-                    foreach (var error in listError)
+                    foreach (var error in errorResult.ValidationErrors)
                     {
                         listError.Add(error);
                     }
                 }
+                else if (status.Message != null)
+                {
+                    listError.Add(errorResult.Message);
+                }
                 ViewBag.Errors = listError;
+
+                ViewBag.ListIsnp = availableInspectionCertificates;
+
                 return View();
 
             }

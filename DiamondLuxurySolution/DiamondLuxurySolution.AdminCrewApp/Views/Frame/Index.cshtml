@@ -1,0 +1,85 @@
+﻿@using DiamondLuxurySolution.ViewModel.Models.Frame
+@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Common
+
+@model PageResult<FrameVm>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <a asp-action="Create" asp-controller="Frame" class="btn btn-success">Tạo mới</a>
+    </div>
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <form asp-action="Index" asp-controller="Frame" method="get" class="d-flex">
+
+            <div class="search">
+                <input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm khung" />
+                <button type="submit">Tìm kiếm</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+
+@if (Model.Items != null && Model.Items.Count > 0)
+{
+
+    <table class="table">
+        <thead>
+            <tr class="text-center">
+                <th>
+                    <label>Tên khung</label>
+                </th>
+                <th>
+                    <label>Size khung</label>
+                </th>
+                <th>
+                    <label>Trọng lượng</label>
+                </th>
+                <th>
+                    <label>Vật liệu</label>
+                </th>
+                <th>Cài đặt</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr class="text-center">
+                    <td>@item.NameFrame</td>
+                    <td>@item.Size</td>
+                    <td>@item.Weight</td>
+                    <td>@item.MaterialVm.MaterialName</td>
+                    
+                    <td class="text-center">
+                        @Html.ActionLink("Chỉnh sửa", "Edit", new { FrameId = item.FrameId }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Xem chi tiết", "Detail", new { FrameId = item.FrameId }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Xóa", "Delete", new { FrameId = item.FrameId }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center align-items-center">
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
+}
+else
+{
+    <h1>Không có thông tin</h1>
+}
+
+
