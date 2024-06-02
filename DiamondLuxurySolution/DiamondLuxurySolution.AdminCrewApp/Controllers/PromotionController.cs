@@ -118,16 +118,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             {
                 if (!ModelState.IsValid)
                 {
+                    var promotionsVmCall = await _promotionApiService.GetPromotionById(request.PromotionId);
+
 
                     PromotionVm promotionVm = new PromotionVm()
                     {
                         PromotionId = request.PromotionId,
                         PromotionName = request.PromotionName,
                         Description = request.Description,
-                        PromotionImage = request.PromotionImage.ToString(),
+                        PromotionImage = promotionsVmCall.ResultObj.PromotionImage,
                         StartDate = (DateTime)request.StartDate,
                         EndDate = (DateTime)request.EndDate,
-                        BannerImage = request.BannerImage.ToString(),
+                        BannerImage = promotionsVmCall.ResultObj.BannerImage,
                         DiscountPercent = Convert.ToDecimal(request.DiscountPercent),
                         MaxDiscount = Convert.ToDecimal(request.MaxDiscount),
                         Status = request.Status,

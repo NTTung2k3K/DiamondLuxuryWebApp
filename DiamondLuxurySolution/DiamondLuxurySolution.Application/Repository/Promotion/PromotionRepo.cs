@@ -40,9 +40,9 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
             {
                 percentDiscount = Convert.ToDecimal(request.DiscountPercent);
 
-                if (percentDiscount < 0)
+                if (percentDiscount < 0 || percentDiscount > 100)
                 {
-                    errorList.Add("% Giảm giá phải >= 0");
+                    errorList.Add("% Giảm giá phải >= 0 và <= 100");
                 }
             }
             catch (FormatException)
@@ -183,7 +183,6 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
             var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.PromotionName))
             {
-                
                 return new ApiErrorResult<bool>("Vui lòng nhập tên khuyến mãi");
             }
             if (string.IsNullOrEmpty(request.DiscountPercent))
@@ -196,19 +195,19 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
             {
                 percentDiscount = Convert.ToDecimal(request.DiscountPercent);
 
-                if (percentDiscount < 0 || percentDiscount >100)
+                if (percentDiscount < 0 || percentDiscount > 100)
                 {
-                    errorList.Add("% Giảm giá phải >= 0 và <=100");
+                    errorList.Add("% Giảm giá phải >= 0 và <= 100");
                 }
             }
             catch (FormatException)
             {
-                errorList.Add("% giảm giá không hợp lệ");
+                return new ApiErrorResult<bool>("% giảm giá không hợp lệ hoặc chưa được nhập");
             }
 
             if (string.IsNullOrEmpty(request.MaxDiscount))
             {
-                errorList.Add("Vui lòng nhập giá max giảm");
+                return new ApiErrorResult<bool>("Vui lòng nhập giá max giảm");
             }
 
             decimal maxDiscount = 0;
@@ -218,30 +217,27 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
 
                 if (maxDiscount < 0)
                 {
-                    errorList.Add("Max giảm giá phải >= 0");
+                    return new ApiErrorResult<bool>("Max giảm giá phải >= 0");
                 }
             }
             catch (FormatException)
             {
-                errorList.Add("Giảm giá tối đa không hợp lệ hoặc chưa được nhập");
+                return new ApiErrorResult<bool>("Giảm giá tối đa không hợp lệ hoặc chưa được nhập");
             }
 
             if (request.StartDate >= request.EndDate)
             {
-                errorList.Add("Ngày kết thúc phải sau ngày bắt đầu khuyến mãi");
+                return new ApiErrorResult<bool>("Ngày kết thúc phải sau ngày bắt đầu khuyến mãi");
             }
-            if (errorList.Any())
-            {
-                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
-            }
+
             var promotion = await _context.Promotions.FindAsync(request.PromotionId);
             if (promotion == null)
             {
                 return new ApiErrorResult<bool>("Không tìm thấy khuyến mãi");
             }
-            
+
             promotion.PromotionName = request.PromotionName;
-            promotion.Description = request.Description != null ? request.Description : "";
+            promotion.Description = request.Description ?? "";
             promotion.StartDate = request.StartDate;
             promotion.EndDate = request.EndDate;
             promotion.DiscountPercent = percentDiscount;
@@ -259,10 +255,11 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.BannerImage);
                 promotion.BannerImage = firebaseUrl;
             }
-
+            _context.Promotions.Update(promotion);
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
         }
+
 
         public async Task<ApiResult<PageResult<PromotionVm>>> ViewPromotionInCustomer(ViewPromotionRequest request)
         {
