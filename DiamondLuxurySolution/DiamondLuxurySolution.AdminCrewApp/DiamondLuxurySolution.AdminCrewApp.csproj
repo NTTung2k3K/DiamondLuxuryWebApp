@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
   </ItemGroup>
@@ -94,7 +95,11 @@
   </ItemGroup>
 
   <ItemGroup>
+<<<<<<< HEAD
     <Folder Include="wwwroot\NewFolder\" />
+=======
+    <Folder Include="wwwroot\ImageCK\" />
+>>>>>>> 4a083e99b293c74735458876c0872b13d767162e
   </ItemGroup>
 
 </Project>

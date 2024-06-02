@@ -1,5 +1,6 @@
 ﻿using DiamondLuxurySolution.Application.Repository.About;
 using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Models.About;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -119,6 +120,23 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             try
             {
                 var status = await _about.ViewAboutInManager(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var status = await _about.GetAll();
                 if (status.IsSuccessed)
                 {
                     return Ok(status);

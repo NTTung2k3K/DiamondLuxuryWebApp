@@ -1,0 +1,91 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.News.NewsVm
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Xóa tin tức </h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if (Model != null)
+{
+
+    <h3 style="color: red">Bạn có muốn xóa tin tức này?</h3>
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                Id của tin tức
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.NewsId)
+            </dd>
+            <dt class="col-sm-2">
+                Người viết
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Writer.FullName)
+            </dd>
+            <dt class="col-sm-2">
+                Tên tin tức
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.NewName)
+            </dd>
+            <dt class="col-sm-2">
+                Hình đại diện
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.Image != null && Model.Image != "")
+                {
+                    <img src="@Model.Image" style="style= height:100px; width:100px" />
+                }
+                else
+                {
+                    <h5>Chưa có hình ảnh</h5>
+                }
+            </dd>
+            <dt class="col-sm-2">
+                Trạng thái
+            </dt>
+            <dd class="col-sm-10">
+                @if (Model.Status)
+                {
+                    <div style="color:green">Hoạt động</div>
+                }
+                else
+                {
+                    <div style="color:red">Đã ẩn</div>
+                }
+
+            </dd>
+            <dt class="col-sm-2">
+                Lần chỉnh sửa gần nhất
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.DateModified)
+            </dd>
+            <dt class="col-sm-2">
+                Mô tả
+            </dt>
+            <dd class="col-sm-10">
+                @Html.Raw(Model.Description)
+            </dd>
+        </dl>
+        <form asp-action="Delete" asp-controller="News" method="post">
+            <input type="hidden" name="NewsId" value="@Model.NewsId" />
+            <input type="submit" value="Xóa" class="btn btn-danger" />
+            <a class="m-5" asp-action="Index" asp-controller="News">Về trang quản lí tin tức</a>
+        </form>
+    </div>
+}
+else
+{
+    <a class="m-5" asp-action="Index" asp-controller="News">Về trang quản lí tin tức</a>
+}

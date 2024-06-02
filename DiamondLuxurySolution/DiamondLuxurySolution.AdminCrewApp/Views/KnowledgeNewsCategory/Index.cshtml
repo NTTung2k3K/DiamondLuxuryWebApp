@@ -1,0 +1,71 @@
+﻿@using DiamondLuxurySolution.ViewModel.Models.KnowledgeNewsCategory
+@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Common
+@model PageResult<KnowledgeNewsCategoryVm>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row mb-4">
+    <div class="col-md-4">
+        <a asp-action="Create" asp-controller="KnowledgeNewsCategory" class="btn btn-success">Tạo mới</a>
+    </div>
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <form asp-action="Index" asp-controller="KnowledgeNewsCategory" method="get" class="d-flex">
+
+            <div class="search">
+                <input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm Loại Kiến Thức Tin Tức" />
+                <button type="submit">Tìm kiếm</button>
+            </div>
+        </form>
+    </div>
+</div>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if (Model.Items != null && Model.Items.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr class="text-center">
+                <th>
+                    <label>Tên Loại Kiến Thức Tin Tức</label>
+                </th>
+                <th>
+                    <label>Mô Tả</label>
+                </th>
+                <th>
+                    <label>Cài Đặt</label>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr class="text-center">
+                    <td>@item.KnowledgeNewCatagoriesName</td>
+                    <td>@item.Description</td>
+                    <td class="text-center">
+                        @Html.ActionLink("Chỉnh sửa", "Edit", new { knowledgeNewsCategoryId = item.KnowledgeNewCatagoryId }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Xem chi tiết", "Detail", new { knowledgeNewsCategoryId = item.KnowledgeNewCatagoryId }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Xóa", "Delete", new { knowledgeNewsCategoryId = item.KnowledgeNewCatagoryId }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center align-items-center">
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
+}
+
+else
+{
+    <h1>Không có thông tin</h1>
+}
