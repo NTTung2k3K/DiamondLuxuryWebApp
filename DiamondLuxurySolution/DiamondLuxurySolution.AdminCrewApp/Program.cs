@@ -11,24 +11,17 @@ using DiamondLuxurySolution.AdminCrewApp.Service.Payment;
 using DiamondLuxurySolution.AdminCrewApp.Service.Gem;
 using DiamondLuxurySolution.AdminCrewApp.Service.Material;
 using DiamondLuxurySolution.AdminCrewApp.Service.Slide;
-<<<<<<< HEAD
-=======
 using DiamondLuxurySolution.AdminCrewApp.Service.Frame;
->>>>>>> 9d778064a986e189815414de3631be4cf382079a
 using DiamondLuxurySolution.AdminCrewApp.Service.Discount;
 using DiamondLuxurySolution.AdminCrewApp.Service.Login;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using DiamondLuxurySolution.AdminCrewApp.Service.About;
-<<<<<<< HEAD
 using DiamondLuxurySolution.Application.Repository.Promotion;
 using DiamondLuxurySolution.AdminCrewApp.Service.Promotion;
-=======
 using DiamondLuxurySolution.AdminCrewApp.Service.GemPriceList;
 using DiamondLuxurySolution.AdminCrewApp.Service.News;
 
-
->>>>>>> 9d778064a986e189815414de3631be4cf382079a
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,11 +38,7 @@ builder.Services.AddTransient<IPlatformApiService, PlatformApiService>();
 builder.Services.AddTransient<IFrameApiService, FrameApiService>();
 builder.Services.AddTransient<IPaymentApiService, PaymentApiService>();
 builder.Services.AddTransient<IDiscountApiService, DiscountApiService>();
-<<<<<<< HEAD
 builder.Services.AddTransient<IPromotionApiService, PromotionApiService>();
-
-=======
->>>>>>> 9d778064a986e189815414de3631be4cf382079a
 builder.Services.AddTransient<IInspectionCertificateApiService, InspectionCertificateApiService>();
 builder.Services.AddTransient<IContactApiService, ContactApiService>();
 builder.Services.AddTransient<IGemApiService, GemApiService>();
