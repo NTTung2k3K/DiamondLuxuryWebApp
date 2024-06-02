@@ -248,25 +248,17 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
             promotion.MaxDiscount = maxDiscount;
             promotion.Status = request.Status;
 
-            if (request.PromotionImage != null && request.PromotionImage.Length>0 )
+            if (request.PromotionImage != null)
             {
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.PromotionImage);
                 promotion.PromotionImage = firebaseUrl;
-            } else
-            {
-                promotion.PromotionImage = "";
             }
 
-            if (request.BannerImage != null && request.BannerImage.Length>0)
+            if (request.BannerImage != null)
             {
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.BannerImage);
                 promotion.BannerImage = firebaseUrl;
             }
-            else
-            {
-                promotion.BannerImage = "";
-            }
-
 
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
