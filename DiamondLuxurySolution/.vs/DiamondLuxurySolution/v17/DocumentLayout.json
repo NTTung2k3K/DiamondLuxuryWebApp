@@ -1,5 +1,36 @@
 {
   "Version": 1,
+<<<<<<< HEAD
+  "WorkspaceRootPath": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|c:\\users\\admin\\documents\\github\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.application\\repository\\promotion\\promotionrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|solutionrelative:diamondluxurysolution.application\\repository\\promotion\\promotionrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6562C95-A8BA-4226-BD2A-AD9F8B3A48D1}|DiamondLuxurySolution.AdminCrewApp\\DiamondLuxurySolution.AdminCrewApp.csproj|c:\\users\\admin\\documents\\github\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.admincrewapp\\service\\promotion\\promotionapiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6562C95-A8BA-4226-BD2A-AD9F8B3A48D1}|DiamondLuxurySolution.AdminCrewApp\\DiamondLuxurySolution.AdminCrewApp.csproj|solutionrelative:diamondluxurysolution.admincrewapp\\service\\promotion\\promotionapiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6562C95-A8BA-4226-BD2A-AD9F8B3A48D1}|DiamondLuxurySolution.AdminCrewApp\\DiamondLuxurySolution.AdminCrewApp.csproj|c:\\users\\admin\\documents\\github\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.admincrewapp\\controllers\\platformcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6562C95-A8BA-4226-BD2A-AD9F8B3A48D1}|DiamondLuxurySolution.AdminCrewApp\\DiamondLuxurySolution.AdminCrewApp.csproj|solutionrelative:diamondluxurysolution.admincrewapp\\controllers\\platformcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6562C95-A8BA-4226-BD2A-AD9F8B3A48D1}|DiamondLuxurySolution.AdminCrewApp\\DiamondLuxurySolution.AdminCrewApp.csproj|c:\\users\\admin\\documents\\github\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.admincrewapp\\controllers\\promotioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D6562C95-A8BA-4226-BD2A-AD9F8B3A48D1}|DiamondLuxurySolution.AdminCrewApp\\DiamondLuxurySolution.AdminCrewApp.csproj|solutionrelative:diamondluxurysolution.admincrewapp\\controllers\\promotioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D6562C95-A8BA-4226-BD2A-AD9F8B3A48D1}|DiamondLuxurySolution.AdminCrewApp\\DiamondLuxurySolution.AdminCrewApp.csproj|c:\\users\\admin\\documents\\github\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.admincrewapp\\views\\promotion\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{D6562C95-A8BA-4226-BD2A-AD9F8B3A48D1}|DiamondLuxurySolution.AdminCrewApp\\DiamondLuxurySolution.AdminCrewApp.csproj|solutionrelative:diamondluxurysolution.admincrewapp\\views\\promotion\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|c:\\users\\admin\\documents\\github\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.application\\repository\\promotion\\ipromotionrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|solutionrelative:diamondluxurysolution.application\\repository\\promotion\\ipromotionrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|c:\\users\\admin\\documents\\github\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.viewmodel\\models\\promotion\\promotionvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EC199B60-5663-428C-A3C2-D14048EB7026}|DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj|solutionrelative:diamondluxurysolution.viewmodel\\models\\promotion\\promotionvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+=======
   "WorkspaceRootPath": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\",
   "Documents": [
     {
@@ -1182,6 +1213,7 @@
     {
       "AbsoluteMoniker": "D:0:0:{D6562C95-A8BA-4226-BD2A-AD9F8B3A48D1}|DiamondLuxurySolution.AdminCrewApp\\DiamondLuxurySolution.AdminCrewApp.csproj|d:\\hoc_ki_5\\swp391\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.admincrewapp\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{D6562C95-A8BA-4226-BD2A-AD9F8B3A48D1}|DiamondLuxurySolution.AdminCrewApp\\DiamondLuxurySolution.AdminCrewApp.csproj|solutionrelative:diamondluxurysolution.admincrewapp\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+>>>>>>> 9d778064a986e189815414de3631be4cf382079a
     }
   ],
   "DocumentGroupContainers": [
@@ -1190,8 +1222,13 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
+<<<<<<< HEAD
+          "DockedWidth": 288,
+          "SelectedChildIndex": 2,
+=======
           "DockedWidth": 200,
           "SelectedChildIndex": 7,
+>>>>>>> 9d778064a986e189815414de3631be4cf382079a
           "Children": [
             {
               "$type": "Bookmark",
@@ -1199,6 +1236,87 @@
             },
             {
               "$type": "Bookmark",
+<<<<<<< HEAD
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PromotionRepo.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Promotion\\PromotionRepo.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Application\\Repository\\Promotion\\PromotionRepo.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Promotion\\PromotionRepo.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Application\\Repository\\Promotion\\PromotionRepo.cs",
+              "ViewState": "AQIAALQAAAAAAAAAAAA9wL4AAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-02T15:33:26.325Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PromotionApiService.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.AdminCrewApp\\Service\\Promotion\\PromotionApiService.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.AdminCrewApp\\Service\\Promotion\\PromotionApiService.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.AdminCrewApp\\Service\\Promotion\\PromotionApiService.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.AdminCrewApp\\Service\\Promotion\\PromotionApiService.cs",
+              "ViewState": "AQIAABoAAAAAAAAAAAAAwCYAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-02T15:11:40.344Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PlatformController.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.AdminCrewApp\\Controllers\\PlatformController.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.AdminCrewApp\\Controllers\\PlatformController.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.AdminCrewApp\\Controllers\\PlatformController.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.AdminCrewApp\\Controllers\\PlatformController.cs",
+              "ViewState": "AQIAAD4AAAAAAAAAAAAgwIIAAAAvAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-02T15:18:32.944Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "PromotionVm.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\Promotion\\PromotionVm.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.ViewModel\\Models\\Promotion\\PromotionVm.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\Models\\Promotion\\PromotionVm.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.ViewModel\\Models\\Promotion\\PromotionVm.cs",
+              "ViewState": "AQIAABAAAAAAAAAAAAAAABsAAAAwAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-02T15:06:12.046Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.AdminCrewApp\\Views\\Promotion\\Edit.cshtml",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.AdminCrewApp\\Views\\Promotion\\Edit.cshtml",
+              "ToolTip": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.AdminCrewApp\\Views\\Promotion\\Edit.cshtml",
+              "RelativeToolTip": "DiamondLuxurySolution.AdminCrewApp\\Views\\Promotion\\Edit.cshtml",
+              "ViewState": "AQIAAEwAAAAAAAAAAADwv0QAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-06-02T14:56:36.851Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "IPromotionRepo.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Promotion\\IPromotionRepo.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.Application\\Repository\\Promotion\\IPromotionRepo.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Promotion\\IPromotionRepo.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.Application\\Repository\\Promotion\\IPromotionRepo.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-02T14:31:44.886Z",
+              "EditorCaption": ""
+=======
               "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
             },
             {
@@ -1224,10 +1342,22 @@
               "ViewState": "AQIAAAoAAAAAAAAAAAAqwBwAAAAYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-01T16:52:43.911Z"
+>>>>>>> 9d778064a986e189815414de3631be4cf382079a
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
+<<<<<<< HEAD
+              "Title": "PromotionController.cs",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.AdminCrewApp\\Controllers\\PromotionController.cs",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.AdminCrewApp\\Controllers\\PromotionController.cs",
+              "ToolTip": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.AdminCrewApp\\Controllers\\PromotionController.cs",
+              "RelativeToolTip": "DiamondLuxurySolution.AdminCrewApp\\Controllers\\PromotionController.cs",
+              "ViewState": "AQIAAGQAAAAAAAAAAAAwwHMAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-02T14:17:06.932Z",
+              "EditorCaption": ""
+=======
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.AdminCrewApp\\Program.cs",
               "RelativeDocumentMoniker": "DiamondLuxurySolution.AdminCrewApp\\Program.cs",
@@ -4783,6 +4913,7 @@
               "RelativeToolTip": "..\\..\\..\\..\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\Migrations\\20240525152924_remove.cs",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-05-25T15:29:24.578Z"
+>>>>>>> 9d778064a986e189815414de3631be4cf382079a
             }
           ]
         }

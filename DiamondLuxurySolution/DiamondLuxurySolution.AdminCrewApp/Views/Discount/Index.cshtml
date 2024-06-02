@@ -37,9 +37,6 @@
 		<thead>
 			<tr class="text-center">
 				<th>
-					<label>ID chiết khấu</label>
-				</th>
-				<th>
 					<label>Tên chiết khấu</label>
 				</th>
 				<th>
@@ -58,7 +55,6 @@
 			@foreach (var item in Model.Items)
 			{
 				<tr class="text-center">
-					<td>@item.DiscountId</td>
 					<td>@item.DiscountName</td>
 					<td>@item.Description</td>
 					<td>@item.PercentSale</td>
