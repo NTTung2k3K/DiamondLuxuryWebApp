@@ -1,11 +1,14 @@
 ﻿using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
+using DiamondLuxurySolution.ViewModel.Models.Gem;
+using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
 using DiamondLuxurySolution.ViewModel.Models.Promotion;
 using Microsoft.EntityFrameworkCore;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,8 +27,7 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
             var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.PromotionName))
             {
-                errorList.Add("Vui lòng nhập tên khuyến mãi");
-                //return new ApiErrorResult<bool>("Vui lòng nhập tên khuyến mãi");
+                return new ApiErrorResult<bool>("Vui lòng nhập tên khuyến mãi");
             }
 
             if (string.IsNullOrEmpty(request.DiscountPercent))
@@ -126,6 +128,33 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
         }
 
 
+        public async Task<ApiResult<List<PromotionVm>>> GetAll()
+        {
+            var list = await _context.Promotions.ToListAsync();
+            var listPromotionVm = new List<PromotionVm>();
+
+            foreach (var item in listPromotionVm)
+            {
+                var promotionVm = new PromotionVm()
+                {
+                    PromotionId = item.PromotionId,
+                    PromotionName = item.PromotionName,
+                    Description = item.Description,
+                    PromotionImage = item.PromotionImage,
+                    StartDate = item.StartDate,
+                    EndDate = item.EndDate,
+                    BannerImage = item.BannerImage,
+                    DiscountPercent = item.DiscountPercent,
+                    MaxDiscount = item.MaxDiscount,
+                    Status = item.Status,
+                };
+                listPromotionVm.Add(promotionVm);
+            }
+            return new ApiSuccessResult<List<PromotionVm>>(listPromotionVm.ToList());
+        }
+
+
+
         public async Task<ApiResult<PromotionVm>> GetPromotionById(Guid PromotionId)
         {
             var promotion = await _context.Promotions.FindAsync(PromotionId);
@@ -141,6 +170,9 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
                 Description = promotion.Description,
                 StartDate = promotion.StartDate,
                 EndDate = promotion.EndDate,
+                BannerImage = promotion.BannerImage,
+                DiscountPercent = promotion.DiscountPercent,    
+                MaxDiscount = promotion.MaxDiscount,
                 Status = promotion.Status,
             };
             return new ApiSuccessResult<PromotionVm>(promotionVm, "Success");
@@ -151,8 +183,8 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
             var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.PromotionName))
             {
-                errorList.Add("Vui lòng nhập tên khuyến mãi");
-                //return new ApiErrorResult<bool>("Vui lòng nhập tên khuyến mãi");
+                
+                return new ApiErrorResult<bool>("Vui lòng nhập tên khuyến mãi");
             }
             if (string.IsNullOrEmpty(request.DiscountPercent))
             {
@@ -164,9 +196,9 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
             {
                 percentDiscount = Convert.ToDecimal(request.DiscountPercent);
 
-                if (percentDiscount < 0)
+                if (percentDiscount < 0 || percentDiscount >100)
                 {
-                    errorList.Add("% Giảm giá phải >= 0");
+                    errorList.Add("% Giảm giá phải >= 0 và <=100");
                 }
             }
             catch (FormatException)
@@ -191,7 +223,7 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
             }
             catch (FormatException)
             {
-                errorList.Add("Max giảm giá không hợp lệ");
+                errorList.Add("Giảm giá tối đa không hợp lệ hoặc chưa được nhập");
             }
 
             if (request.StartDate >= request.EndDate)
@@ -212,11 +244,11 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
             promotion.Description = request.Description != null ? request.Description : "";
             promotion.StartDate = request.StartDate;
             promotion.EndDate = request.EndDate;
-            promotion.Status = request.Status;
             promotion.DiscountPercent = percentDiscount;
             promotion.MaxDiscount = maxDiscount;
-            
-            if (request.PromotionImage != null)
+            promotion.Status = request.Status;
+
+            if (request.PromotionImage != null && request.PromotionImage.Length>0 )
             {
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.PromotionImage);
                 promotion.PromotionImage = firebaseUrl;
@@ -225,7 +257,7 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
                 promotion.PromotionImage = "";
             }
 
-            if (request.BannerImage != null)
+            if (request.BannerImage != null && request.BannerImage.Length>0)
             {
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.BannerImage);
                 promotion.BannerImage = firebaseUrl;
@@ -262,6 +294,7 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
                 PromotionImage = x.PromotionImage,
                 StartDate = x.StartDate,
                 EndDate = x.EndDate,
+                BannerImage = x.BannerImage,
                 Status = x.Status,
             }).ToList();
             var listResult = new PageResult<PromotionVm>()
@@ -296,6 +329,7 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
                 PromotionImage = x.PromotionImage,
                 StartDate = x.StartDate,
                 EndDate = x.EndDate,
+                BannerImage = x.BannerImage,
                 Status = x.Status,
             }).ToList();
             var listResult = new PageResult<PromotionVm>()
