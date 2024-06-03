@@ -15,6 +15,9 @@ namespace DiamondLuxurySolution.Application.Repository.SubGem
         public Task<ApiResult<bool>> UpdateSubGem(UpdateSubGemRequest request);
         public Task<ApiResult<bool>> DeleteSubGem(DeleteSubGemRequest request);
         public Task<ApiResult<SubGemVm>> GetSubGemById(Guid SubGemId);
+
+        public Task<ApiResult<List<SubGemVm>>> GetAll();
+
         public Task<ApiResult<PageResult<SubGemVm>>> ViewSubGemInCustomer(ViewSubGemRequest request);
         public Task<ApiResult<PageResult<SubGemVm>>> ViewSubGemInManager(ViewSubGemRequest request);
     }

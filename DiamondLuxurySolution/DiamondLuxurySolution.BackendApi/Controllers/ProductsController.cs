@@ -25,28 +25,28 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
 
-        [HttpPost("Create")]
-        public async Task<ActionResult> CreateProduct([FromForm] CreateProductRequest request)
-        {
-            try
+            [HttpPost("Create")]
+            public async Task<ActionResult> CreateProduct([FromForm] CreateProductRequest request)
             {
-                if (!string.IsNullOrEmpty(request.ListSubGemsJson))
+                try
                 {
-                    request.ListSubGems = JsonConvert.DeserializeObject<ICollection<SubGemSupportDTO>>(request.ListSubGemsJson);
-                }
+                    if (!string.IsNullOrEmpty(request.ListSubGemsJson))
+                    {
+                        request.ListSubGems = JsonConvert.DeserializeObject<List<SubGemSupportDTO>>(request.ListSubGemsJson);
+                    }
 
-                var status = await _product.CreateProduct(request);
-                if (status.IsSuccessed)
-                {
-                    return Ok(status);
+                    var status = await _product.CreateProduct(request);
+                    if (status.IsSuccessed)
+                    {
+                        return Ok(status);
+                    }
+                    return BadRequest(status);
                 }
-                return BadRequest(status);
+                catch (Exception e)
+                {
+                    return BadRequest(e.Message);
+                }
             }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
 
 
         [HttpPut("Update")]
@@ -73,7 +73,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteProduct([FromBody] DeleteProductRequest request)
+        public async Task<IActionResult> DeleteProduct([FromQuery] DeleteProductRequest request)
         {
             try
             {

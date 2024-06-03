@@ -20,6 +20,7 @@ using DiamondLuxurySolution.AdminCrewApp.Service.About;
 using DiamondLuxurySolution.AdminCrewApp.Service.News;
 using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNewsCategoty;
 using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNewsCategory;
+using DiamondLuxurySolution.AdminCrewApp.Service.Product;
 
 
 
@@ -30,6 +31,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<ILoginApiService, LoginApiService>();
 builder.Services.AddTransient<INewsApiService, NewsApiService>();
+builder.Services.AddTransient<IProductApiService, ProductApiService>();
 
 builder.Services.AddTransient<IRoleApiService, RoleApiService>();
 builder.Services.AddTransient<IStaffApiService, StaffApiService>();

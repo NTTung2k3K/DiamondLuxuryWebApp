@@ -35,7 +35,7 @@
     <!-- [Downdown list CSS Files] -->
     <link rel="stylesheet" href="../assets/css/dropdownlist.css" />
 
-
+    @RenderSection("CssStyle", required: false);
 
 </head>
 <!-- [Head] end -->
@@ -221,7 +221,7 @@
                         </a>
                         <ul class="pc-submenu">
                             <li class="pc-item">
-                                <a class="pc-link" href="../demo/layout-compact.html">Quản Lí Sản Phẩm</a>
+                                <a class="pc-link" href="/Product/Index">Quản Lí Sản Phẩm</a>
                             </li>
                             <li class="pc-item">
                                 <a class="pc-link" href="/Gem/Index">Quản Lí Kim Cương</a>

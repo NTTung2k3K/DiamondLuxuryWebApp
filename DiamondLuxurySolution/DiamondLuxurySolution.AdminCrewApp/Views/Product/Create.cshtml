@@ -1,0 +1,421 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Product.CreateProductRequest
+
+@{
+    ViewData["Title"] = "Tạo mới tin tức";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section CssStyle {
+    <!-- fileupload-custom css -->
+    <link rel="stylesheet" href="~/assets/css/plugins/dropzone.min.css" />
+    <link rel="stylesheet" href="~/assets/css/style.css" id="main-style-link" />
+
+}
+<h1>Tạo mới sản phẩm</h1>
+<hr />
+<div class="row">
+    <div class="col-md-9">
+        @if (ViewBag.Errors != null)
+        {
+            foreach (var error in ViewBag.Errors)
+            {
+                <h6 class="text-danger">@error</h6>
+            }
+        }
+
+        <form asp-action="Create" asp-controller="Product" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group m-2">
+                <label asp-for="ProductName" class="control-label m-2"></label>
+                <input asp-for="ProductName" class="form-control" />
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="Description" class="control-label m-2"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="ProductThumbnail" class="control-label m-2"></label>
+                <input asp-for="ProductThumbnail" class="form-control" type="file" />
+                <span asp-validation-for="ProductThumbnail" class="text-danger"></span>
+            </div>
+            <div class="form-check form-switch m-4">
+                <label asp-for="IsHome" class="control-label m-2"></label>
+                <input class="form-check-input f-18" type="checkbox" asp-for="IsHome">
+            </div>
+            <div class="form-check form-switch m-4">
+                <label asp-for="IsSale" class="control-label m-2"></label>
+                <input class="form-check-input f-18" type="checkbox" asp-for="IsSale">
+            </div>
+
+            <div class="form-check form-switch m-4">
+                <label asp-for="Status" class="control-label m-2"></label>
+                <input class="form-check-input f-18" type="checkbox" asp-for="Status">
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="PercentSale" class="control-label m-2"></label>
+                <input asp-for="PercentSale" type="number" class="form-control" />
+                <span asp-validation-for="PercentSale" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="ProcessingPrice" class="control-label m-2"></label>
+                <input asp-for="ProcessingPrice" class="form-control" />
+                <span asp-validation-for="ProcessingPrice" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group m-2">
+                <label asp-for="GemId" class="control-label m-2">Kim cương chính</label>
+                <select class="h-50 " name="GemId">
+
+                    @foreach (var Gem in ViewBag.FullGem)
+                    {
+                        if (Model != null && Model.GemId != null)
+                        {
+                            string selectedCheck = Model.GemId.Equals(@Gem.GemId) ? "selected=\"selected\"" : "";
+                            if (string.IsNullOrEmpty(selectedCheck))
+                            {
+                                <option value="@Gem.GemId">
+                                    <div>
+                                        Tên: @Gem.GemName &nbsp; Loại: @(Gem.IsOrigin ? "Tự nhiên" : "Nhân tạo") &nbsp; Trạng thái: @(Gem.Active ? "Hoạt động" : "Chưa hoạt động")
+                                    </div>
+                                </option>
+                            }
+                            else
+                            {
+                                <option value="@Gem.GemId">
+                                    <div>
+                                        Tên: @Gem.GemName &nbsp; Loại: @(Gem.IsOrigin ? "Tự nhiên" : "Nhân tạo") &nbsp; Trạng thái: @(Gem.Active ? "Hoạt động" : "Chưa hoạt động")
+                                    </div>
+                                </option>
+                            }
+                        }
+                        else
+                        {
+                            <option value="@Gem.GemId">
+                                <div>
+                                    Tên: @Gem.GemName &nbsp; Loại: @(Gem.IsOrigin ? "Tự nhiên" : "Nhân tạo") &nbsp; Trạng thái: @(Gem.Active ? "Hoạt động" : "Chưa hoạt động")
+                                </div>
+                            </option>
+                        }
+
+                    }
+
+
+                </select>
+                <br />
+                <span asp-validation-for="GemId" class="text-danger"></span>
+            </div>
+            <div class="container mt-5">
+                <div class="col-12">
+                    <h5 class="d-flex justify-content-center mt-3">Kim cương phụ</h5>
+                    <div class="table-responsive">
+                        <table id="itemTable" class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th><span class="text-danger">*</span>Tên</th>
+                                    <th><span class="text-danger">*</span>Số lượng</th>
+                                    <th class="text-center">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Khởi tạo tbody trống -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-content-center mt-3">
+                        <hr class="mb-4 mt-0 border-secondary border-opacity-50">
+                        <button id="addItemBtn" type="button" class="btn btn-light-primary d-flex align-items-center gap-2"><i class="ti ti-plus"></i> Thêm</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group m-2">
+                <label asp-for="FrameId" class="control-label m-2">Khung</label>
+                <select class="h-50" name="FrameId">
+                    <option value="" class="text-center">Không có</option>
+                    @foreach (var Frame in ViewBag.FullFrame)
+                    {
+                        if (Model != null && Model.FrameId != null)
+                        {
+                            string selectedCheck = Model.FrameId.Equals(@Frame.FrameId) ? "selected=\"selected\"" : "";
+                            if (string.IsNullOrEmpty(selectedCheck))
+                            {
+                                <option value="@Frame.FrameId">
+                                    <div>
+                                        Tên: @Frame.NameFrame &nbsp; Kích thước: @Frame.Size &nbsp; Trọng lượng: @Frame.Weight
+                                    </div>
+                                </option>
+                            }
+                            else
+                            {
+                                <option value="@Frame.FrameId">
+                                    <div>
+                                        Tên: @Frame.NameFrame &nbsp; Kích thước: @Frame.Size &nbsp; Trọng lượng: @Frame.Weight
+                                    </div>
+                                </option>
+                            }
+                        }
+                        else
+                        {
+                            <option value="@Frame.FrameId">
+                                <div>
+                                    Tên: @Frame.NameFrame &nbsp; Kích thước: @Frame.Size &nbsp; Trọng lượng: @Frame.Weight
+                                </div>
+                            </option>
+                        }
+
+                    }
+
+
+                </select>
+                <br />
+                <span asp-validation-for="FrameId" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2">
+                <label asp-for="CategoryId" class="control-label m-2">Loại</label>
+                <select class="h-50" name="CategoryId">
+                    @foreach (var category in ViewBag.FullCategory)
+                    {
+                        if (Model != null && Model.CategoryId != null)
+                        {
+                            string selectedCheck = Model.CategoryId.Equals(@category.CategoryId) ? "selected=\"selected\"" : "";
+                            if (string.IsNullOrEmpty(selectedCheck))
+                            {
+                                <option value="@category.CategoryId">
+                                    <div>
+                                        Tên: @category.CategoryName &nbsp; Loại: @category.CategoryType &nbsp; Trạng thái: @(category.Status ? Html.Raw("<span style='color:green'>Hoạt động</span>") : Html.Raw("<span style='color:red'>Chưa hoạt động</span>"))
+                                    </div>
+                                </option>
+                            }
+                            else
+                            {
+                                <option value="@category.CategoryId">
+                                    <div>
+                                        Tên: @category.CategoryName &nbsp; Loại: @category.CategoryType &nbsp; Trạng thái: @(category.Status ? Html.Raw("<span style='color:green'>Hoạt động</span>") : Html.Raw("<span style='color:red'>Chưa hoạt động</span>"))
+
+                                    </div>
+                                </option>
+                            }
+                        }
+                        else
+                        {
+                            <option value="@category.CategoryId">
+                                <div>
+                                    Tên: @category.CategoryName &nbsp; Loại: @category.CategoryType &nbsp; Trạng thái: @(category.Status ? Html.Raw("<span style='color:green'>Hoạt động</span>") : Html.Raw("<span style='color:red'>Chưa hoạt động</span>"))
+                                </div>
+                            </option>
+                        }
+
+                    }
+
+
+                </select>
+                <br />
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group m-2">
+                <label asp-for="Quantity" class="control-label m-2"></label>
+                <input asp-for="Quantity" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+
+
+                <div class="container mt-5">
+                    <div class="col-12">
+                        <h5 class="d-flex justify-content-center mt-3">Hình ảnh phụ</h5>
+                        <div class="table-responsive">
+                            <table id="itemTableImages" class="table table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th class=""><span class="text-danger">*</span>File Hình ảnh</th>
+                                        <th class="text-center">Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableImage">
+                               
+                            
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex justify-content-center mt-3">
+                            <hr class="mb-4 mt-0 border-secondary border-opacity-50">
+                            <button id="addItemBtnAddImage" type="button" class="btn btn-light-primary d-flex align-items-center gap-2"><i class="ti ti-plus"></i> Thêm</button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            <div class="form-group row">
+                <div class="col-md-5">
+                    <input type="submit" value="Tạo mới" class="btn btn-success" />
+                </div>
+                <div class="col-md-7">
+                    <a class="m-5" asp-action="Index" asp-controller="News">Về trang quản lí tin tức</a>
+                </div>
+            </div>
+
+
+
+        </form>
+        
+
+    </div>
+</div>
+@{
+    var fullSubgemJson = Json.Serialize(ViewBag.FullSubgem);
+}
+@section Scripts {
+    <script src="~/assets/js/plugins/dropzone-amd-module.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var index = 1;
+            var selectedOptions = []; // Mảng chứa các option đã chọn
+
+            // Hàm kiểm tra và cập nhật trạng thái của nút thêm
+            function updateAddButtonState() {
+                var totalOptions = fullSubgem.length;
+                var selectedOptionsCount = selectedOptions.length;
+
+                if (selectedOptionsCount >= totalOptions - 1) {
+                    $('#addItemBtn').prop('disabled', true).text('Đã hết kim cương phụ');
+                } else {
+                    $('#addItemBtn').prop('disabled', false).html('<i class="ti ti-plus"></i> Thêm');
+                }
+            }
+
+            // Bắt sự kiện khi một option được chọn
+            $(document).on('change', '.select-subgem', function () {
+                var selectedOption = $(this).val();
+                if (selectedOption) {
+                    selectedOptions.push(selectedOption); // Thêm giá trị của option vào mảng selectedOptions
+                    removeSelectedOption(selectedOption); // Loại bỏ option đã chọn từ dropdown
+                    updateAddButtonState(); // Cập nhật trạng thái của nút thêm
+                }
+            });
+
+            // Thêm dòng mới khi nhấn nút Thêm
+            $('#addItemBtn').on('click', function () {
+                var selectedOptionsa = $('.select-subgem').find(':selected').map(function () {
+                    return $(this).val();
+                }).get();
+                selectedOptions = selectedOptionsa;
+                var newRow = `<tr>
+                                                                     <td>${index}</td>
+                                                                     <td>
+                                                                                                         <select class="h-50 select-subgem" name="ListSubGems[${--index}].SubGemId"">
+                                                                         </select>
+                                                                     </td>
+                                                                                                             <td><input type="number" class="form-control"  name="ListSubGems[${index}].Quantity"  placeholder="Số lượng" /></td>
+                                                                     <td class="text-center">
+                                                                         <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default delete-item"><i class="ti ti-trash f-20"></i></a>
+                                                                     </td>
+                                                                 </tr>`;
+                $('#itemTable tbody').append(newRow);
+                index+=2
+                createOptions(); // Gọi hàm tạo option mới sau khi thêm dòng mới
+                updateAddButtonState(); // Cập nhật trạng thái của nút thêm
+            });
+
+            // Xóa dòng khi nhấn nút Xóa
+            $(document).on('click', '.delete-item', function (event) {
+                event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+                var select = $(this).closest('tr').find('.select-subgem');
+                var selectedOption = select.val();
+                if (selectedOption) {
+                    var optionIndex = selectedOptions.indexOf(selectedOption);
+                    if (optionIndex !== -1) {
+                        selectedOptions.splice(optionIndex, 1);
+                    }
+                }
+                $(this).closest('tr').remove();
+                updateIndex();
+                updateAddButtonState(); // Cập nhật trạng thái của nút thêm
+            });
+
+            var fullSubgem = @Html.Raw(fullSubgemJson); // Chuyển dữ liệu từ ViewBag thành một mảng JavaScript
+
+            // Sử dụng dữ liệu từ fullSubgem để tạo các tùy chọn cho select
+            function createOptions() {
+                var newRowSelect = $('#itemTable tbody tr:last').find('.select-subgem'); // Chọn phần tử select trong hàng mới được thêm vào
+                newRowSelect.empty(); // Xóa các option cũ trước khi tạo mới
+
+                if (Array.isArray(fullSubgem) && fullSubgem.length > 0) {
+                    fullSubgem.forEach(function (subgem) {
+                        if (!selectedOptions.includes(subgem.subGemId)) { // Kiểm tra xem option đã được chọn trước đó chưa
+                            var option = $('<option/>');
+                            option.val(subgem.subGemId);
+                            option.text('Tên: ' + subgem.subGemName + ' | Giá: ' + subgem.subGemPrice + ' | Trạng thái: ' + (subgem.Active ? 'Hoạt động' : 'Chưa hoạt động'));
+                            option.addClass('optionOfSubGem');
+                            newRowSelect.append(option);
+                        }
+                    });
+                } else {
+                    console.error('Dữ liệu từ ViewBag.FullSubgem không hợp lệ.');
+                }
+            }
+
+            // Gọi hàm tạo option khi trang được tải
+            createOptions();
+            updateAddButtonState(); // Kiểm tra trạng thái của nút thêm khi tải trang
+
+            // Cập nhật lại chỉ số khi có thay đổi
+            function updateIndex() {
+                $('#itemTable tbody tr').each(function (i, row) {
+                    $(row).find('td:first').text(i + 1);
+                });
+                index = $('#itemTable tbody tr').length;
+            }
+        });
+
+
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var index = 0;
+
+            // Thêm dòng mới khi nhấn nút Thêm
+            $('#addItemBtnAddImage').on('click', function () {
+                index++;
+                var newRow = `<tr>
+                                    <td>${index}</td>
+                                    <td>
+                                                <input type="file" class="form-control" name="Images">
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default delete-item"><i class="ti ti-trash f-20"></i></a>
+                                    </td>
+                                  </tr>`;
+                $('#tableImage').append(newRow);
+                updateIndex(); // Cập nhật lại chỉ số sau khi thêm hàng
+            });
+
+            // Xóa dòng khi nhấn nút Xóa
+            $(document).on('click', '.delete-item', function (event) {
+                event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
+                $(this).closest('tr').remove();
+                updateIndex(); // Cập nhật lại chỉ số sau khi xóa hàng
+            });
+
+            // Cập nhật lại chỉ số khi có thay đổi
+            function updateIndex() {
+                $('#tableImage tr').each(function (i, row) {
+                    $(row).find('td:first').text(i + 1);
+                    $(row).find('input[type="file"]').attr('name', 'Images');
+                });
+                index = $('#tableImage tr').length;
+            }
+        });
+    </script>   
+}

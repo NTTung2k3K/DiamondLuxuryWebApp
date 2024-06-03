@@ -15,6 +15,8 @@ namespace DiamondLuxurySolution.Application.Repository.Category
         public Task<ApiResult<bool>> UpdateCategory(UpdateCategoryRequest request);
         public Task<ApiResult<bool>> DeleteCategory(DeleteCategoryRequest request);
         public Task<ApiResult<CategoryVm>> GetCategoryById(int CategoryId);
+        public Task<ApiResult<List<CategoryVm>>> GetAll();
+
         public Task<ApiResult<PageResult<CategoryVm>>> ViewCategoryInCustomer(ViewCategoryRequest request);
 
         public Task<ApiResult<PageResult<CategoryVm>>> ViewCategoryInManager(ViewCategoryRequest request);

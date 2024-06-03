@@ -22,7 +22,23 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             _gem = gem;
         }
 
-
+        [HttpGet("GetAll")]
+        public async Task<ActionResult> GetAllGem()
+        {
+            try
+            {
+                var status = await _gem.GetAll();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
         [HttpPost("Create")]
         public async Task<ActionResult> CreateGem([FromForm] CreateGemRequest request)
@@ -85,24 +101,6 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             try
             {
                 var status = await _gem.GetGemById(GemId);
-                if (status.IsSuccessed)
-                {
-                    return Ok(status);
-                }
-                return BadRequest(status);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
-        {
-            try
-            {
-                var status = await _gem.GetAll();
                 if (status.IsSuccessed)
                 {
                     return Ok(status);

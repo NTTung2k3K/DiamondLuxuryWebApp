@@ -241,7 +241,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     IsSale = product.IsSale,
                     PercentSale = product.PercentSale,
                     Status = product.Status,
-                    CategoryId = product.CategoryId,
                     CategoryVm = new CategoryVm
                     {
                         CategoryId = product.Category.CategoryId,
@@ -576,7 +575,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     IsSale = product.IsSale,
                     PercentSale = product.PercentSale,
                     Status = product.Status,
-                    CategoryId = product.CategoryId,
                     CategoryVm = new CategoryVm
                     {
                         CategoryId = product.Category.CategoryId,
