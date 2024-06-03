@@ -21,6 +21,7 @@ using DiamondLuxurySolution.Application.Repository.Promotion;
 using DiamondLuxurySolution.AdminCrewApp.Service.Promotion;
 using DiamondLuxurySolution.AdminCrewApp.Service.GemPriceList;
 using DiamondLuxurySolution.AdminCrewApp.Service.News;
+using DiamondLuxurySolution.AdminCrewApp.Service.Warranty;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -47,6 +48,7 @@ builder.Services.AddTransient<ISlideApiService, SlideApiService>();
 builder.Services.AddTransient<IAboutApiService, AboutApiService>();
 builder.Services.AddTransient<ICategoryApiService, CategoryApiService>();
 builder.Services.AddTransient<IGemPriceListApiService, GemPriceListApiService>();
+builder.Services.AddTransient<IWarrantyApiService, WarrantyApiService>();
 
 
 builder.Services.AddDbContext<LuxuryDiamondShopContext>(options =>
