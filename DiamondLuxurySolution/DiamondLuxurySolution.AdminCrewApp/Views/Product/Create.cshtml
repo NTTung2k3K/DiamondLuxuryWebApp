@@ -48,9 +48,35 @@
                 <input class="form-check-input f-18" type="checkbox" asp-for="IsSale">
             </div>
 
-            <div class="form-check form-switch m-4">
-                <label asp-for="Status" class="control-label m-2"></label>
-                <input class="form-check-input f-18" type="checkbox" asp-for="Status">
+            <div class="form-group m-2">
+                <label asp-for="Status" class="m-2 control-label">Trạng thái</label>
+                <!--Start dropdown list-->
+                <select class="m-2 h-50" name="Status">
+                    @foreach (var item in ViewBag.ListStatus)
+                    {
+                        if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()))
+                        {
+                            <option value="@item">
+                                <span class="badge bg-danger rounded-pill">Bán</span>
+                            </option>
+                        }
+                        else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString()))
+                        {
+                            <option value="@item">
+                                <span class="badge bg-success rounded-pill">Hết hàng</span>
+                            </option>
+                        }
+                        else{
+                            <option value="@item">
+                                <span class="badge bg-info rounded-pill">Giảm giá</span>
+                            </option>
+                        }
+                    }
+                </select>
+
+                <!--End dropdown list-->
+
+                <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group m-2">
                 <label asp-for="PercentSale" class="control-label m-2"></label>

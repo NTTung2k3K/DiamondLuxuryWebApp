@@ -1,0 +1,46 @@
+﻿@using DiamondLuxurySolution.ViewModel.Models.Slide
+@model List<SlideViewModel>
+
+<div class="slider-area">
+    <div class="homepage-slider">
+        @if (Model != null && Model.Count() > 0)
+        {
+            @foreach (var slide in Model)
+            {
+                if (slide.Status)
+                {
+                    <!-- Single Slide Start -->
+                    <div class="single-slider content-v-center"
+                         style="background-image: url(@slide.SlideImage)">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="slider-content">
+                                        <h5 data-animation="rollIn" data-duration=".8s" data-delay=".5s">
+                                            @slide.Description
+                                        </h5>
+                                        <h1 data-animation="fadeInDown" data-duration=".8s" data-delay=".2s">
+                                            @slide.SlideName
+                                        </h1>
+                                        <p class="mb--50 mb-sm--20" data-animation="fadeInDown" data-duration=".8s"
+                                           data-delay=".2s">Giá Khởi Điểm Từ<strong>1,499,000đ</strong></p>
+                                        <div class="slide-btn-group" data-animation="fadeInUp" data-duration="1s"
+                                             data-delay=".3s">
+                                            <a href="@slide.SlideUrl" class="btn btn-bordered btn-style-1">Mua Sắm Tại Đây</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Single Slide End -->
+                }
+            }
+        }
+        else
+        {
+            <p>Không có slide</p>
+        }
+
+    </div>
+</div>

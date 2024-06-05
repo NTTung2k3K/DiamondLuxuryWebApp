@@ -30,13 +30,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<ILoginApiService, LoginApiService>();
+
 builder.Services.AddTransient<INewsApiService, NewsApiService>();
+
 builder.Services.AddTransient<IProductApiService, ProductApiService>();
 
 builder.Services.AddTransient<IRoleApiService, RoleApiService>();
+
 builder.Services.AddTransient<IStaffApiService, StaffApiService>();
+
 builder.Services.AddTransient<ICustomerApiService, CustomerApiService>();
+
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 builder.Services.AddTransient<IPlatformApiService, PlatformApiService>();
 builder.Services.AddTransient<IFrameApiService, FrameApiService>();
 builder.Services.AddTransient<IPaymentApiService, PaymentApiService>();
@@ -50,10 +56,6 @@ builder.Services.AddTransient<IAboutApiService, AboutApiService>();
 builder.Services.AddTransient<IKnowledgeNewsCategoryApiService, KnowledgeNewsCategoryApiService>();
 builder.Services.AddTransient<ICategoryApiService, CategoryApiService>();
 
-builder.Services.AddDbContext<LuxuryDiamondShopContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("eShopSolutionDb"));
-});
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

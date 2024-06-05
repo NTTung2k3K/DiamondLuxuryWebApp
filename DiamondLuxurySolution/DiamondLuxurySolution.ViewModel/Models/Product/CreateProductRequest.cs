@@ -39,7 +39,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Product
         [Required(ErrorMessage = "Sản phẩm cần phải có loại")]
         public int CategoryId { get; set; }
         [Required(ErrorMessage = "Sản phẩm phải có số lượng")]
-        [Range(0, int.MaxValue, ErrorMessage = "Số lượng nên lớn hơn hoặc bầng 0")]
+        [Range(0, int.MaxValue, ErrorMessage = "Số lượng nên lớn hơn hoặc bằng 0")]
         [DisplayName("Số lượng")]
         public int Quantity { get; set; }
         [DisplayName("Hỉnh ảnh phụ")]

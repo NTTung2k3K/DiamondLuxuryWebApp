@@ -58,6 +58,10 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 {
                     request.ListSubGems = JsonConvert.DeserializeObject<ICollection<SubGemSupportDTO>>(request.ListSubGemsJson);
                 }
+                if (!string.IsNullOrEmpty(request.ListExistingSubGemsJson))
+                {
+                    request.ExistingListSubGems = JsonConvert.DeserializeObject<ICollection<SubGemSupportDTO>>(request.ListExistingSubGemsJson);
+                }
                 var status = await _product.UpdateProduct(request);
                 if (status.IsSuccessed)
                 {

@@ -1,0 +1,29 @@
+/*****************************
+36. Animation CSS
+*****************************/
+
+@keyframes passing-reverse {
+  from {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(7%);
+    opacity: .6;
+  }
+
+  to {
+    transform: translateX(30%);
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}

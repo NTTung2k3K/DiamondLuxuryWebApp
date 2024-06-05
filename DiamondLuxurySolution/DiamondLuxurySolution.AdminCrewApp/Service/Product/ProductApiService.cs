@@ -38,8 +38,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Product
 
         public async Task<ApiResult<bool>> UpdateProduct(UpdateProductRequest request)
         {
-            var data = await PutAsyncHasImage<bool>("api/Products/Update",request);
-            return data;
+            if (request.Images != null)
+            {
+                var data = await PutAsyncHasImageAndListImage<bool>("api/Products/Update", request, request.Images);
+                return data;
+            }
+            else
+            {
+                var data = await PutAsyncHasImage<bool>("api/Products/Update", request);
+                return data;
+            }
+           
         }
 
         public async Task<ApiResult<PageResult<ProductVm>>> ViewProduct(ViewProductRequest request)

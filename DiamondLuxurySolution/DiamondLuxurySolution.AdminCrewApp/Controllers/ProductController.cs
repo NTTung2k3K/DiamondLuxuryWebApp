@@ -8,6 +8,7 @@ using DiamondLuxurySolution.ViewModel.Models.Product;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text.Json;
+using static DiamondLuxurySolution.Utilities.Constants.Systemconstant;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
@@ -95,6 +96,13 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
+                ViewBag.FullCategory = _categoryApiService.GetAll().Result.ResultObj.ToList();
+                ViewBag.FullFrame = _frameApiService.GetAll().Result.ResultObj.ToList();
+                ViewBag.FullSubgem = _ProductApiService.GetAll().Result.ResultObj.ToList();
+                ViewBag.FullGem = _gemApiService.GetAll().Result.ResultObj.ToList();
+                // Làm status từ viewBag enum
+                var statuses = Enum.GetValues(typeof(ProductStatus)).Cast<ProductStatus>().ToList();
+                ViewBag.ListStatus = statuses;
                 var Product = await _ProductApiService.GetProductById(ProductId);
                 if (Product is ApiErrorResult<ProductVm> errorResult)
                 {
@@ -126,6 +134,13 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
+                ViewBag.FullCategory = _categoryApiService.GetAll().Result.ResultObj.ToList();
+                ViewBag.FullFrame = _frameApiService.GetAll().Result.ResultObj.ToList();
+                ViewBag.FullSubgem = _ProductApiService.GetAll().Result.ResultObj.ToList();
+                ViewBag.FullGem = _gemApiService.GetAll().Result.ResultObj.ToList();
+                // Làm status từ viewBag enum
+                var statuses = Enum.GetValues(typeof(ProductStatus)).Cast<ProductStatus>().ToList();
+                ViewBag.ListStatus = statuses;
                 if (!ModelState.IsValid)
                 {
                     var ProductVmCall = await _ProductApiService.GetProductById(request.ProductId);
@@ -149,6 +164,26 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         Status = request.Status,
                     };
                     return View(ProductVm);
+                }
+                if (request.ListSubGems != null && request.ListSubGems.Count > 0)
+                {
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true, // If needed
+                        WriteIndented = true // If needed
+                    };
+                    string listSubGemsJson = System.Text.Json.JsonSerializer.Serialize(request.ListSubGems, options);
+                    request.ListSubGemsJson = listSubGemsJson;
+                }
+                if (request.ExistingListSubGems != null && request.ExistingListSubGems.Count > 0)
+                {
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true, // If needed
+                        WriteIndented = true // If needed
+                    };
+                    string listExistingSubGemsJson = System.Text.Json.JsonSerializer.Serialize(request.ExistingListSubGems, options);
+                    request.ListExistingSubGemsJson = listExistingSubGemsJson;
                 }
                 var status = await _ProductApiService.UpdateProduct(request);
                 if (status is ApiErrorResult<bool> errorResult)
@@ -253,6 +288,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             ViewBag.FullFrame =  _frameApiService.GetAll().Result.ResultObj.ToList();
             ViewBag.FullSubgem =  _ProductApiService.GetAll().Result.ResultObj.ToList();
             ViewBag.FullGem =  _gemApiService.GetAll().Result.ResultObj.ToList();
+            var statuses = Enum.GetValues(typeof(ProductStatus)).Cast<ProductStatus>().ToList();
+            ViewBag.ListStatus = statuses;
             return View();
         }
         [HttpPost]
@@ -264,6 +301,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             ViewBag.FullSubgem = _ProductApiService.GetAll().Result.ResultObj.ToList();
             ViewBag.FullGem = _gemApiService.GetAll().Result.ResultObj.ToList();
             // Làm status từ viewBag enum
+            var statuses = Enum.GetValues(typeof(ProductStatus)).Cast<ProductStatus>().ToList();
+            ViewBag.ListStatus = statuses;
 
 
             if (!ModelState.IsValid)

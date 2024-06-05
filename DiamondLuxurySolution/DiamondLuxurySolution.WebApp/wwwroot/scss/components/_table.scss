@@ -1,0 +1,262 @@
+/*****************************
+34. Table CSS
+*****************************/
+
+.table{
+	--bs-table-border-color: $border-color;
+	border-bottom: 1px solid $border-color;
+	thead{
+		th{
+			text-transform: capitalize;
+			@include white-space(nowrap);
+			border-bottom: 0;
+			color: $body-color-2;
+			text-transform: uppercase;
+			font-weight: 500;
+			padding: 2rem 1.5rem;
+			font-family: $heading-font;
+			&:not(:last-child){
+				border-right: 1px solid $border-color;
+			}
+			border-top: 0;
+		}		
+	}
+	td, th{
+		vertical-align: middle;
+		text-align: center;
+		padding: 1.5rem;
+	}
+
+	td{
+		border-top: 1px solid $border-color;
+		&:not(:last-child){
+			border-right: 1px solid $border-color;
+		}
+		h3{
+			a{
+				font-weight: 500;
+				color: $body-color;
+			}
+		}
+		a{
+			&.delete{
+				color: $body-color;
+			}
+		}
+		.quantity{
+			margin: 0 auto;
+			width: 8.7rem;
+			.qtybutton{
+				background: #2e2e2e;
+			}
+		}
+		&.cart-product-price{
+			font-size: 1.8rem;
+			line-height: 1.6;
+			color: $body-color-2;
+			strong{
+				font-weight: 500;
+			}
+		}
+		img{
+			width: 7.5rem;
+		}
+	}
+}
+.cart-calculator-table{
+	th{
+		width: 40%;
+		text-transform: uppercase;
+		text-align: left;
+		@include breakpoint(xsmall){
+			width: 25%;
+		}
+	}
+	th, td{
+		border: none;
+		padding: 1rem 0;
+		color: $body-color;
+		vertical-align: top;
+		font-family: $heading-font;
+	}
+	td{
+		text-align: right;
+		.price-ammount{
+			font-weight: 500;
+			@extend %primary-color;
+		}
+		.expand-calculator{
+			display: block;
+			color: $color-red;
+			margin: 1rem 0;
+		}
+	}
+	.cart-total{
+		th, td{
+			font-size: 2rem;
+			@include breakpoint(xsmall){
+				font-size: 1.6rem;
+			}
+		}
+	}
+}
+.order-table{
+	.table{
+		border: 1px solid $body-color;
+		thead{
+			th{
+				border-right: 1px solid $body-color;
+			}
+		}
+		td{
+			border-right: 1px solid $body-color;
+			border-top: 1px solid $body-color;
+		}
+		tr{
+			&.order-total{
+				th{
+					font-size: 1.8rem;
+				}
+				td{
+					font-weight: 500;
+					border-bottom: none;
+					font-size: 1.8rem;
+					span{
+						@extend %primary-color;
+					}
+				}
+			}
+		}
+		tfoot{
+			th{
+				border-top: 1px solid $body-color;
+				border-right: 1px solid $body-color;
+				font-family: $heading-font;
+			}
+		}
+	}
+} 
+.compare-table{
+	.table{
+		margin-bottom: 0;
+		border-bottom: 0;
+
+		& >:not(caption)>*>* {
+			border-bottom: none;
+		}
+
+		th{
+			text-transform: capitalize;
+			border-bottom: none;
+			border-right: 1px solid $border-color;
+			color: $heading-color;
+			font-family: $heading-font;
+			font-weight: 500;
+			font-size: 1.6rem;
+		}	
+		td, th{
+			border-top: 1px solid $border-color;
+		}
+		.first-column{
+			min-width: 20rem;
+		}
+		td{
+			border-right: 1px solid $border-color;
+			min-width: 14rem;
+			color: $body-color;
+			img{
+				max-width: 20rem;
+			}
+			.price{
+				.sale-price{
+					@extend %sale-price-1;
+				}
+				.regular-price{
+					@extend %regular-price-common;
+					@extend %regular-price-1;
+					font-size: 1.5rem;
+					margin-right: .4rem;
+				}
+			}
+			h3{
+				a{
+					font-weight: 500;
+					font-size: 1.6rem;
+					color: $heading-color;
+				}
+			}
+			.ratings{
+				text-align: center;
+				a{
+					display: inline-block;
+				}
+				i.fa{
+					color: $color-yellow;
+				}
+				i.disabled{
+					color: $color-white-light;
+				}
+				span{
+					font-size: 1.4rem;
+					font-weight: 300;
+					margin-top: 1rem;
+					display: block;
+				}
+			}
+			.summary{
+				min-width: 14rem;
+			}
+			.delete{
+				color: $color-red;
+			}
+		}
+	}
+}
+
+.account-table{
+	.table{
+		border-left: 1px solid $border-color;
+		border-bottom: 1px solid $border-color;
+		background: $bg-color-2;
+		thead{
+			th{
+				border-right: 1px solid $border-color;
+			}
+		}
+		th,td{
+			border-right: 1px solid $border-color;
+			border-top: 1px solid $border-color;
+		}
+		th{
+			color: $heading-color;
+		}
+		td{
+			color: $body-color;
+			&.wide-column{
+				min-width: 21rem;
+				@include breakpoint(medium){
+					min-width: 20rem;
+				}
+			}
+		}
+	}
+}
+.wishlist-table{
+	.table{
+		margin-bottom: 0;
+		border-bottom: 0;
+		min-width: 855px;
+		thead{
+			th{
+				border-right: 1px solid $border-color;
+			}
+		}
+		th, td{
+			border-right: 1px solid $border-color;
+			border-bottom: 1px solid $border-color;
+		}
+	}
+}
+.wide-column{
+	min-width: 21rem;
+}

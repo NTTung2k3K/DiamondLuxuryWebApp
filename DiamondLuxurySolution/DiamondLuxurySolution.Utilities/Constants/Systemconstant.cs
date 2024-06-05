@@ -42,7 +42,7 @@ namespace DiamondLuxurySolution.Utilities.Constants
         {
             Selling,
             OutOfStock,
-            Sales
+            Sales,
         }
         public enum TransactionStatus
         {
