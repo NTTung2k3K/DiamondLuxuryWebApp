@@ -10,7 +10,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.GemPriceList
     public class ViewGemPriceListRequest : PagingRequestBase
     {
         public string? Keyword { get; set; }
-        public bool Active { get; set; }
 
     }
 }

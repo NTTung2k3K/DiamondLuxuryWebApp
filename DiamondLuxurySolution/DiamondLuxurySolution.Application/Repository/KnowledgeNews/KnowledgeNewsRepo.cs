@@ -47,8 +47,8 @@ namespace DiamondLuxurySolution.Application.Repository.KnowledgeNews
             var knowledgeNews = new DiamondLuxurySolution.Data.Entities.KnowledgeNews
             {
                 KnowledgeNewsName = request.KnowledgeNewsName.Trim(),
-                WriterId = request.WriterId,
-                KnowledgeNewCatagoryId = request.KnowledgeNewCatagoryId,
+                WriterId = (Guid)request.WriterId,
+                KnowledgeNewCatagoryId = (int)request.KnowledgeNewCatagoryId,
                 Active = request.Active,
                 DateCreated = DateTime.Now,
                 DateModified = DateTime.Now,
@@ -154,6 +154,7 @@ namespace DiamondLuxurySolution.Application.Repository.KnowledgeNews
             knowledgeNews.Description = !string.IsNullOrWhiteSpace(request.Description) ? request.Description : "";
             knowledgeNews.Active = request.Active;
             knowledgeNews.DateModified = DateTime.Now;
+            knowledgeNews.KnowledgeNewCatagory = knowledgeNewCategory;
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
         }
@@ -161,12 +162,12 @@ namespace DiamondLuxurySolution.Application.Repository.KnowledgeNews
         public async Task<ApiResult<PageResult<KnowledgeNewsVm>>> ViewKnowledgeNews(ViewKnowledgeNewsRequest request)
         {
             var listKnowledgeNews = await _context.KnowledgeNews.ToListAsync();
-            if (!string.IsNullOrEmpty(request.KeyWord))
+            if (!string.IsNullOrEmpty(request.Keyword))
             {
-                listKnowledgeNews = listKnowledgeNews.Where(x => x.KnowledgeNewsName.Contains(request.KeyWord)).ToList();
+                listKnowledgeNews = listKnowledgeNews.Where(x => x.KnowledgeNewsName.Contains(request.Keyword)).ToList();
 
             }
-            listKnowledgeNews = listKnowledgeNews.Where(x => x.Active == true).OrderByDescending(x => x.KnowledgeNewsName).ToList();
+            listKnowledgeNews = listKnowledgeNews.OrderByDescending(x => x.KnowledgeNewsName).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 

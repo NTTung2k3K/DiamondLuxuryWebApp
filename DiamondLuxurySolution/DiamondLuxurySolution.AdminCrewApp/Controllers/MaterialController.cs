@@ -57,6 +57,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateMaterialRequest request)
         {
+
             var status = await _materialApiService.CreateMaterial(request);
             if (status is ApiErrorResult<bool> errorResult)
             {

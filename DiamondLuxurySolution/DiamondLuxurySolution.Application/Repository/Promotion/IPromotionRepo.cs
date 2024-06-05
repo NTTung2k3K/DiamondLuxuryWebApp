@@ -1,15 +1,11 @@
 ﻿using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Promotion;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DiamondLuxurySolution.Application.Repository.Promotion
 {
     public interface IPromotionRepo
     {
+        public Task<ApiResult<List<PromotionVm>>> GetAll();
         public Task<ApiResult<bool>> CreatePromotion(CreatePromotionRequest request);
         public Task<ApiResult<bool>> UpdatePromotion(UpdatePromotionRequest request);
         public Task<ApiResult<bool>> DeletePromotion(DeletePromotionRequest request);

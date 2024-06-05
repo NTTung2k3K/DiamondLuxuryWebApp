@@ -1,5 +1,6 @@
 using DiamondLuxurySolution.WebApp.Service.Slide;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

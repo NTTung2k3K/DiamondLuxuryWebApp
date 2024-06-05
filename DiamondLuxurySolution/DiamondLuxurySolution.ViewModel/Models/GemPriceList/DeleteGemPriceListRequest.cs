@@ -9,7 +9,5 @@ namespace DiamondLuxurySolution.ViewModel.Models.GemPriceList
     public class DeleteGemPriceListRequest
     {
         public int GemPriceListId {  get; set; }
-        public bool Active { get; set; }
-
     }
 }

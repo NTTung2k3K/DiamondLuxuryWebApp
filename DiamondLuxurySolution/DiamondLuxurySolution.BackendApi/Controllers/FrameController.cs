@@ -115,6 +115,8 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
 
+       
+
 
         [HttpGet("ViewInFrame")]
         public async Task<IActionResult> ViewAllFramePagination([FromQuery] ViewFrameRequest request)
