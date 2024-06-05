@@ -1,0 +1,104 @@
+/******************************
+
+INDEX:
+
+    00 - Base - Global
+    01 - Base - Typography
+    02 - Base - Helpers
+    03 - Base - Colors
+
+    10 - Layout - Header
+    11 - Layout - Footer
+    12 - Layout - Sidebar
+
+    20 - Components - Navigation
+    21 - Components - Mini Cart
+    22 - Components - Button
+    23 - Components - Slider
+    24 - Components - Form
+    25 - Components - Product
+    26 - Components - Modal
+    27 - Components - Carousel
+    28 - Components - Social Icon
+    29 - Components - Tabs
+    30 - Components - Promo CSS
+    31 - Components - Accordion
+    32 - Components - Progress Bar
+    33 - Components - Post
+    34 - Components - Table
+    35 - Components - Comment
+    36 - Components - Animation
+
+    40 - Pages - About
+    41 - Pages - 404 
+    42 - Pages - Shop
+    43 - Pages - Single Product
+    44 - Pages - Checkout
+    45 - Pages - Cart
+
+******************************/
+
+
+/*
+    Defult Primary Color:       #fb9935
+    Default Border Color:       #e5e5e5
+    Default Text Color:         #999999
+    Default Heading Color:      #333333
+    Default Body Font:          'Quicksand', sans-serif;
+
+*/
+ 
+
+
+// Fonts
+
+@import url('https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900');
+@import url('https://fonts.googleapis.com/css?family=Prata');
+@import url('https://fonts.googleapis.com/css?family=Dancing+Script:400,700');
+// Base 
+
+@import 'base/variables';
+@import 'base/mixins';
+@import 'base/typography';
+
+// Utilities
+
+@import 'utilities/helper';
+
+// Layout 
+
+@import 'layout/header';
+@import 'layout/footer';
+@import 'layout/sidebar';
+
+// Components
+@import 'components/navigation';
+@import 'components/mini-cart';
+@import 'components/button';
+@import 'components/slider';
+@import 'components/form';
+@import 'components/product';
+@import 'components/modal';
+@import 'components/carousel';
+@import 'components/social';
+@import 'components/tabs';
+@import 'components/promo';
+@import 'components/accordion';
+@import 'components/progressbar';
+@import 'components/post';
+@import 'components/table';
+@import 'components/comment';
+@import 'components/animation';
+ 
+// Pages 
+
+@import 'pages/shop';
+@import 'pages/about';
+@import 'pages/404';
+@import 'pages/single-product';
+@import 'pages/checkout';
+@import 'pages/cart';
+
+@import 'utilities/color'; 
+   
+

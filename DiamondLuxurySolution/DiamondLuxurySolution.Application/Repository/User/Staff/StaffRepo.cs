@@ -147,7 +147,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                     issuer: _configuarion["Jwt:Issuer"],
                     audience: _configuarion["Jwt:Audience"],
                     claims: authClaim,
-                    expires: DateTime.Now.AddMinutes(3),
+                    expires: DateTime.Now.AddHours(1),
                     signingCredentials: new SigningCredentials(authKey, SecurityAlgorithms.HmacSha512Signature)
                 );
             var tokenString = new JwtSecurityTokenHandler().WriteToken(token);

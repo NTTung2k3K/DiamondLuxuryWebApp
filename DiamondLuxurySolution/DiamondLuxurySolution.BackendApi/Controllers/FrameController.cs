@@ -79,6 +79,24 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
 
+        [HttpGet("GetAll")]
+        public async Task<ActionResult> GetAllFrame()
+        {
+            try
+            {
+                var status = await _frame.GetAll();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpGet("GetById")]
         public async Task<IActionResult> FindById([FromQuery] string FrameId)
         {
@@ -97,23 +115,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
 
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
-        {
-            try
-            {
-                var status = await _frame.GetAll();
-                if (status.IsSuccessed)
-                {
-                    return Ok(status);
-                }
-                return BadRequest(status);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+       
 
 
         [HttpGet("ViewInFrame")]

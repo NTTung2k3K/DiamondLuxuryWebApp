@@ -1,0 +1,79 @@
+/*****************************
+27. Carousel CSS
+*****************************/
+
+.slick-btn,
+.slick-arrow{
+	cursor: pointer;	
+}
+.product-carousel{
+	&.nav-top{
+		.slick-btn{
+			top: -3.4rem;
+		}
+	}	
+}
+.nav{
+	&-top{
+		.slick-btn{
+			@extend %body-color;
+			font-size: 2rem;
+			@extend %posabsolute;
+			top: -5.8rem;
+			background: $bg-color;
+			width: 2rem;
+			text-align: right;
+			@include breakpoint(xsmall){
+				display: none;
+			}
+			i{
+				@include transition(all .3s);
+			}
+			&:hover{
+				i{
+					@extend %primary-color;
+					@include transform(scale(1.4));
+				}
+			}
+		}
+		.slick-prev{
+			right: 2rem;
+		}
+		.slick-next{
+			right: 0;
+		}
+	}
+	&-vertical-center{
+		.slick-list {
+		    margin: 0 -1rem;
+		}
+		.slick{
+			&-btn{
+				top: 50%;
+				@include transform(translateY(-50%));
+			}
+		}
+	}
+	&-horizontal-center{
+		.slick-list {
+		    margin: -.5rem 0;
+		}
+		.slick{
+			&-btn{
+				left: 50% !important;
+				@include transform(translateX(-50%));
+			}
+		}
+	}
+	&-top, 
+	&-vertical-center,
+	&-horizontal-center{
+		@extend %posrelative;
+		.slick{
+			&-btn{
+				@extend %posabsolute;
+				@extend %basetransition;
+			}
+		}
+	}
+}

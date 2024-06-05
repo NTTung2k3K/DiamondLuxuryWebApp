@@ -25,6 +25,7 @@ using DiamondLuxurySolution.AdminCrewApp.Service.Warranty;
 using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNews;
 using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNewsCategoty;
 using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNewsCategory;
+using DiamondLuxurySolution.AdminCrewApp.Service.Product;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,11 +34,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<ILoginApiService, LoginApiService>();
+
 builder.Services.AddTransient<INewsApiService, NewsApiService>();
+
+builder.Services.AddTransient<IProductApiService, ProductApiService>();
+
 builder.Services.AddTransient<IRoleApiService, RoleApiService>();
+
 builder.Services.AddTransient<IStaffApiService, StaffApiService>();
+
 builder.Services.AddTransient<ICustomerApiService, CustomerApiService>();
+
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 builder.Services.AddTransient<IPlatformApiService, PlatformApiService>();
 builder.Services.AddTransient<IFrameApiService, FrameApiService>();
 builder.Services.AddTransient<IPaymentApiService, PaymentApiService>();
@@ -56,10 +65,6 @@ builder.Services.AddTransient<IKnowLedgeNewsApiService, KnowledgeNewsApiService>
 builder.Services.AddTransient<IKnowledgeNewsCategoryApiService, KnowledgeNewsCategoryApiService>();
 
 
-builder.Services.AddDbContext<LuxuryDiamondShopContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("eShopSolutionDb"));
-});
 
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

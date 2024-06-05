@@ -31,10 +31,14 @@ namespace DiamondLuxurySolution.ViewModel.Models.Product
 
         public int Quantity { get; set; }
 
-        public virtual ICollection<IFormFile>? Images { get; set; } = new List<IFormFile>();
+        public virtual List<IFormFile>? Images { get; set; } = new List<IFormFile>();
         public string? FrameId { get; set; }
 
         public Guid? GemId { get; set; }
+        public List<string> ExistingImages { get; set; } = new List<string>();
+        public virtual ICollection<DiamondLuxurySolution.ViewModel.Models.SubGemSupportDTO>? ExistingListSubGems { get; set; } = new List<SubGemSupportDTO>();
+        public string? ListExistingSubGemsJson { get; set; }
+
         public virtual ICollection<DiamondLuxurySolution.ViewModel.Models.SubGemSupportDTO>? ListSubGems { get; set; } = new List<SubGemSupportDTO>();
         public string? ListSubGemsJson { get; set; }
     }
