@@ -1,0 +1,99 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.KnowledgeNews.KnowledgeNewsVm
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chi tiết kiến thức trang sức</h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+
+
+@if (Model != null)
+{
+
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-3 mb-3">
+                @Html.DisplayNameFor(model => model.KnowledgeNewsId)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.KnowledgeNewsId)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Tên kiến thức trang sức
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.KnowledgeNewsName)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Hình 
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.Thumnail != null)
+                {
+                    <img src="@Model.Thumnail" style="style= height:100px; width:100px" />
+                }
+                else
+                {
+                    <h5>Chưa có logo</h5>
+                }
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Ngày tạo
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.DateCreated)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Ngày sửa
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.DateModified)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Người đăng
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Writer.FullName)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Chủ đề
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.KnowledgeNewCatagoryVm.KnowledgeNewCatagoriesName)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Hiển thị
+            </dt>
+            <dd class="col-sm-9">
+                <div class="form-check form-switch ">
+                    <input class="form-check-input f-18 ml-3" type="checkbox" asp-for="Active" value="@Model.Active" disabled />
+                </div>
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Mô tả
+            </dt>
+            <dd class="col-sm-9">
+                @Html.Raw(Model.Description)
+            </dd>
+        </dl>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            @Html.ActionLink("Chỉnh sửa", "Edit", new { KnowledgeNewsId = @Model.KnowledgeNewsId }, new { @class = "btn btn-warning" })
+        </div>
+        <div class="col-sm-9">
+            <a class="btn btn-secondary" asp-action="Index">Về trang quản lí kiến thức tin tức</a>
+        </div>
+    </div>
+
+}
+
