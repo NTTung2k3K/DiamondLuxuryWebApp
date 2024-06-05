@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DiamondLuxurySolution.ViewModel")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+60384f93133e1da962f79b9744629ba0de017a9f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+41cf73f9e7e8f7f0d4ff51f178228902d2f28ebf")]
 [assembly: System.Reflection.AssemblyProductAttribute("DiamondLuxurySolution.ViewModel")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DiamondLuxurySolution.ViewModel")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

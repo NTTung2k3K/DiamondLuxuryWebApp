@@ -1,7 +1,7 @@
 ﻿using DiamondLuxurySolution.WebApp.Service.Slide;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DiamondLuxurySolution.WebApp.Repository.Components
+namespace DiamondLuxurySolution.WebApp.Repository.Components.Slide
 {
     public class SlideViewComponent : ViewComponent
     {
