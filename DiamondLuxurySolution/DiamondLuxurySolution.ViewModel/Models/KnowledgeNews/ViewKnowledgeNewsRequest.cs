@@ -9,6 +9,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.KnowledgeNews
 {
     public class ViewKnowledgeNewsRequest : PagingRequestBase
     {
-        public string? KeyWord { get; set; }
+        public string? Keyword { get; set; }
     }
 }
