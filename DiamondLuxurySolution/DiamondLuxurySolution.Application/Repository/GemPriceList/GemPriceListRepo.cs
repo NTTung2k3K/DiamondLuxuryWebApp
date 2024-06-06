@@ -39,10 +39,10 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
                 errorList.Add("Vui lòng nhập giá kim cương");
             }
 
-            double price = 0;
+            decimal price = 0;
             try
             {
-                price = Convert.ToDouble(request.Price);
+                price = Convert.ToDecimal(request.Price);
 
                 if (price <= 0)
                 {
@@ -134,7 +134,7 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
                     Color = item.Color,
                     Cut = item.Cut,
                     effectDate = item.effectDate,
-                    Price = (double)item.Price,
+                    Price = (decimal)item.Price,
                     GemVm = gemVm
                 };
                 listGemPriceListVm.Add(gemPriceListVm);
@@ -180,7 +180,7 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
                 Clarity = GemPriceList.Clarity,
                 Color = GemPriceList.Color,
                 Cut = GemPriceList.Cut,
-                Price = (double)GemPriceList.Price,
+                Price = (decimal)GemPriceList.Price,
                 effectDate = GemPriceList.effectDate,
                 Active = GemPriceList.Active,
                 GemVm = gemVm
@@ -208,10 +208,10 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
                 errorList.Add("Vui lòng nhập giá kim cương");
             }
 
-            double price = 0;
+            decimal price = 0;
             try
             {
-                price = Convert.ToDouble(request.Price);
+                price = Convert.ToDecimal(request.Price);
 
                 if (price <= 0)
                 {
@@ -252,7 +252,7 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
                 listGemPriceList = listGemPriceList.Where(x => x.CaratWeight.Contains(request.Keyword)).ToList();
 
             }
-            listGemPriceList = listGemPriceList.Where(x => x.Active == true).OrderByDescending(x => x.CaratWeight).ToList();
+            listGemPriceList = listGemPriceList.OrderByDescending(x => x.CaratWeight).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 
@@ -291,7 +291,7 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
                     Clarity = item.Clarity,
                     Cut = item.Cut,
                     Color = item.Color,
-                    Price = (double)item.Price,
+                    Price = (decimal)item.Price,
                     effectDate = item.effectDate,
                     Active = item.Active,
                     GemVm = gemVm

@@ -155,7 +155,7 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             material.Description = request.Description != null ? request.Description : "";
             material.Color = request.Color != null ? request.Color : "";
             material.Price = request.Price;
-            material.EffectDate = request.EffectDate;
+            material.EffectDate = (DateTime)request.EffectDate;
             material.Status = request.Status;
             if (request.MaterialImage != null)
             {
