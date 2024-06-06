@@ -26,15 +26,15 @@ namespace DiamondLuxurySolution.ViewModel.Models.Product
 
 
 
-        public string? Status { get; set; }
-        public int? CategoryId { get; set; }
+        public string Status { get; set; }
+        public int CategoryId { get; set; }
 
         public int Quantity { get; set; }
 
         public virtual List<IFormFile>? Images { get; set; } = new List<IFormFile>();
         public string? FrameId { get; set; }
 
-        public Guid? GemId { get; set; }
+        public Guid GemId { get; set; }
         public List<string> ExistingImages { get; set; } = new List<string>();
         public virtual ICollection<DiamondLuxurySolution.ViewModel.Models.SubGemSupportDTO>? ExistingListSubGems { get; set; } = new List<SubGemSupportDTO>();
         public string? ListExistingSubGemsJson { get; set; }

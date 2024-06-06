@@ -488,7 +488,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
 
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
 
-            Console.WriteLine($"DELETE URL: {url}");
 
             var response = await client.DeleteAsync(url);
 
@@ -499,7 +498,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
             }
 
             var body = await response.Content.ReadAsStringAsync();
-            Console.WriteLine($"Response Body: {body}");
 
             var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
 

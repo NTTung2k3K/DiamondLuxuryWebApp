@@ -36,6 +36,10 @@ namespace DiamondLuxurySolution.ViewModel.Models.Product
         public string Status {  get; set; }
         [DisplayName("Sô lượng")]
         public int Quantity {  get; set; }
+        public decimal? OriginalPrice { get; set; }
+        public decimal? SellingPrice { get; set; }
+        public DateTime? DateModify { get; set; }
+        public int QuantitySold { get; set; }
 
         public virtual ICollection<String> Images { get; set; } = new List<String>();
         public virtual ICollection<SubGemSupportDTO> ListSubGems { get; set; } = new List<SubGemSupportDTO>();
