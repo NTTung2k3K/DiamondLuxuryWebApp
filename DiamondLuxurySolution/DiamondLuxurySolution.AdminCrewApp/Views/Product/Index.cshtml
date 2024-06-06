@@ -48,9 +48,6 @@
                 <th>
                     <label>Ảnh đại diện</label>
                 </th>
-                <th>
-                    <label>Giảm giá</label>
-                </th>
               
                 <th>
                     <label>Sale</label>
@@ -81,21 +78,7 @@
                         </td>
                     }
                     <td>@item.PercentSale<span>%</span></td>
-               
-
-                    @if (item.IsSale == true)
-                    {
-                        <td>
-                            <span class="badge bg-success rounded-pill">Hoạt động</span>
-
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            <span class="badge bg-danger rounded-pill">Chưa hoạt động</span>
-                        </td>
-                    }
+                   
                     @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString()))
                     {
                         <td>
@@ -114,7 +97,12 @@
                             <span class="badge bg-red-500 rounded-pill">Đang Sale</span>
                         </td>
                     }
-
+                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-yellow-500 rounded-pill">Sắp có hàng</span>
+                        </td>
+                    }
 
 
                     <td>@item.Quantity</td>
