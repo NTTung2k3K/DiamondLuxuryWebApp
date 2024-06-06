@@ -15,7 +15,7 @@ public partial class GemPriceList
 
     public string? Color { get; set; }
 
-    public double? Price { get; set; }
+    public decimal? Price { get; set; }
     public Guid GemId { get; set; }
     public Gem Gem { get; set; }
     public bool Active { get; set; }

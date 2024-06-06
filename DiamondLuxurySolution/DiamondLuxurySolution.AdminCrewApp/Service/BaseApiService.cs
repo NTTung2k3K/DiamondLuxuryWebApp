@@ -205,6 +205,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
             {
                 DateFormatHandling = DateFormatHandling.IsoDateFormat, // Ensure DateTime is serialized in ISO 8601 format
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc // Handle DateTime in UTC format if necessary
+
             });
 
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");

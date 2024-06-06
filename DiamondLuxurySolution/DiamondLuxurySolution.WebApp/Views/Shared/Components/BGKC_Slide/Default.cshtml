@@ -1,0 +1,36 @@
+﻿@using DiamondLuxurySolution.ViewModel.Models.Slide
+@model List<SlideViewModel>
+
+<div class="slider-area">
+	<div class="homepage-slider">
+		@if (Model != null && Model.Count() > 0)
+		{
+			@foreach (var slide in Model)
+			{
+				if (slide.Status)
+				{
+					<!-- Single Slide Start -->
+					<div class="single-slider content-v-center" style="background-image: url(@slide.SlideImage)">
+						<div class="container">
+							<div class="row">
+								<div class="col-12">
+									<div class="slider-content">
+										<h1 data-animation="fadeInDown" data-duration=".8s" data-delay=".2s">
+											<strong style="font-size: 80px; display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
+												Bảng Giá Kim Cương
+											</strong>
+										</h1>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				}
+			}
+		}
+		else
+		{
+			<p>Không có slide</p>
+		}
+	</div>
+</div>
