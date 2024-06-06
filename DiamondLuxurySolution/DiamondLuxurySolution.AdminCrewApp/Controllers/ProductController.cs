@@ -144,6 +144,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 if (!ModelState.IsValid)
                 {
                     var ProductVmCall = await _ProductApiService.GetProductById(request.ProductId);
+                    var category = await _categoryApiService.GetCategoryById(request.CategoryId);
+                    var gem = await _gemApiService.GetGemById(request.GemId);
+
                     ProductVm ProductVm = new ProductVm()
                     {
                         ProductId = request.ProductId,
@@ -154,15 +157,24 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         Images = ProductVmCall.ResultObj.Images,
                         ListSubGems = request.ListSubGems,
                         ProductName = request.ProductName,
-                        CategoryVm = ProductVmCall.ResultObj.CategoryVm,
-                        FrameVm = ProductVmCall.ResultObj.FrameVm,
+                        CategoryVm = category.ResultObj,
                         ProcessingPrice = request.ProcessingPrice,
-                        GemVm = ProductVmCall.ResultObj.GemVm,
+                        GemVm = gem.ResultObj,
                         MaterialVm = ProductVmCall.ResultObj.MaterialVm,
                         ProductThumbnail = ProductVmCall.ResultObj.ProductThumbnail,
                         Quantity = request.Quantity,
                         Status = request.Status,
+                        DateModify = ProductVmCall.ResultObj.DateModify,
+                        OriginalPrice = ProductVmCall.ResultObj.OriginalPrice,
+                        QuantitySold = ProductVmCall.ResultObj.QuantitySold,
+                        SellingPrice = ProductVmCall.ResultObj.SellingPrice
                     };
+                    if (request.FrameId != null)
+                    {
+                        var frame = await _frameApiService.GetFrameById(request.FrameId);
+                        ProductVm.FrameVm = frame.ResultObj;
+                    }
+
                     return View(ProductVm);
                 }
                 if (request.ListSubGems != null && request.ListSubGems.Count > 0)
@@ -202,14 +214,46 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         listError.Add(errorResult.Message);
                     }
                     ViewBag.Errors = listError;
-                    return View(request);
+                    var ProductVmCall = await _ProductApiService.GetProductById(request.ProductId);
+                    var category = await _categoryApiService.GetCategoryById(request.CategoryId);
+                    var gem = await _gemApiService.GetGemById(request.GemId);
+
+                    ProductVm ProductVm = new ProductVm()
+                    {
+                        ProductId = request.ProductId,
+                        Description = request.Description,
+                        PercentSale = request.PercentSale,
+                        IsSale = request.IsSale,
+                        IsHome = request.IsHome,
+                        Images = ProductVmCall.ResultObj.Images,
+                        ListSubGems = request.ListSubGems,
+                        ProductName = request.ProductName,
+                        CategoryVm = category.ResultObj,
+                        ProcessingPrice = request.ProcessingPrice,
+                        GemVm = gem.ResultObj,
+                        MaterialVm = ProductVmCall.ResultObj.MaterialVm,
+                        ProductThumbnail = ProductVmCall.ResultObj.ProductThumbnail,
+                        Quantity = request.Quantity,
+                        Status = request.Status,
+                        DateModify = ProductVmCall.ResultObj.DateModify,
+                        OriginalPrice = ProductVmCall.ResultObj.OriginalPrice,
+                        QuantitySold = ProductVmCall.ResultObj.QuantitySold,
+                        SellingPrice = ProductVmCall.ResultObj.SellingPrice
+                    };
+                    if (request.FrameId != null)
+                    {
+                        var frame = await _frameApiService.GetFrameById(request.FrameId);
+                        ProductVm.FrameVm = frame.ResultObj;
+                    }
+
+                    return View(ProductVm);
                 }
 
                 return RedirectToAction("Index", "Product");
             }
             catch
             {
-                return View(request);
+                return View();
             }
         }
 
