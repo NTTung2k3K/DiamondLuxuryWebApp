@@ -21,6 +21,11 @@ namespace DiamondLuxurySolution.ViewModel.Models.Discount
         [Required(ErrorMessage = "Cần nhập phần trăm chiết khấu")]
         public string PercentSale { get; set; }
 
-        public bool Status { get; set; }
+		[Required(ErrorMessage = "Cần nhập điểm bắt đầu chiết khấu")]
+		public string? From { get; set; }
+		[Required(ErrorMessage = "Cần nhập điểm đến chiết khấu")]
+		public string? To { get; set; }
+
+		public bool Status { get; set; }
     }
 }
