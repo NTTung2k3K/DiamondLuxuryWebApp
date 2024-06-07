@@ -119,6 +119,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         DiscountId = request.DiscountId,
                         DiscountName = request.DiscountName,
                         PercentSale = Convert.ToDouble(request.PercentSale),
+                        From = Convert.ToInt32(request.From),
+                        To = Convert.ToInt32(request.To),
                         Status = request.Status,
                     };
                     return View(discountVm);

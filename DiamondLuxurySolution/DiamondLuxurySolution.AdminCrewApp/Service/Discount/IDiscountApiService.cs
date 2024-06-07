@@ -5,7 +5,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Discount
 {
     public interface IDiscountApiService
     {
-        public Task<ApiResult<List<DiscountVm>>> GetAll();
         public Task<ApiResult<bool>> CreateDiscount(CreateDiscountRequest request);
         public Task<ApiResult<bool>> UpdateDiscount(UpdateDiscountRequest request);
         public Task<ApiResult<bool>> DeleteDiscount(DeleteDiscountRequest request);

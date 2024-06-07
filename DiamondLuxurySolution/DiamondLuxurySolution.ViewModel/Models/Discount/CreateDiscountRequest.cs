@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Azure.Core.Pipeline;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,6 +19,10 @@ namespace DiamondLuxurySolution.ViewModel.Models.Discount
 
         [Required(ErrorMessage = "Cần nhập phần trăm chiết khấu")]
         public string? PercentSale { get; set; }
+		[Required(ErrorMessage = "Cần nhập điểm bắt đầu chiết khấu")]
+		public string? From { get; set; }
+		[Required(ErrorMessage = "Cần nhập điểm đến chiết khấu")]
+		public string? To { get; set; }
 
         public bool Status { get; set; }
     }
