@@ -182,7 +182,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     var options = new JsonSerializerOptions
                     {
                         PropertyNameCaseInsensitive = true, // If needed
-                        WriteIndented = true // If needed
+                        WriteIndented = true // If neededf
                     };
                     string listSubGemsJson = System.Text.Json.JsonSerializer.Serialize(request.ListSubGems, options);
                     request.ListSubGemsJson = listSubGemsJson;

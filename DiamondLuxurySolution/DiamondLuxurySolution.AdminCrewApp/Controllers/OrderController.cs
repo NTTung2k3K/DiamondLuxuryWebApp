@@ -6,6 +6,7 @@ using DiamondLuxurySolution.Application.Repository.Promotion;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Order;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 using static DiamondLuxurySolution.Utilities.Constants.Systemconstant;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
@@ -92,6 +93,15 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
+                //Status
+                var statuses = Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>().ToList();
+                ViewBag.ListStatus = statuses;
+                var listPayment = await _paymentApiService.GetAll();
+                ViewBag.ListPayment = listPayment.ResultObj;
+                var listPromotion = await _promotionApiService.GetAllOnTime();
+                ViewBag.ListPromotionOnTime = listPromotion.ResultObj;
+                var listProduct = await _productApiService.GetAllProduct();
+                ViewBag.ListProduct = listProduct.ResultObj;
                 var Order = await _OrderApiService.GetOrderById(OrderId);
                 if (Order is ApiErrorResult<OrderVm> errorResult)
                 {
@@ -111,7 +121,42 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     return View();
 
                 }
-                return View(Order.ResultObj);
+                List<OrderProductSupport> listExistProduct = new List<OrderProductSupport>();
+                foreach (var item in Order.ResultObj.ListOrderProduct)
+                {
+                    var existProduct = new OrderProductSupport()
+                    {
+                        ProductId = item.ProductId,
+                        Quantity = item.Quantity,
+                    };
+                    listExistProduct.Add(existProduct);
+                }
+                List<Guid> listPaymentExist = new List<Guid>();
+                foreach (var item in Order.ResultObj.OrdersPaymentVm)
+                {
+
+                    listPaymentExist.Add(item.PaymentId);
+                }
+
+                var updateVm = new UpdateOrderRequest()
+                {
+                    OrderId = Order.ResultObj.OrderId,
+                    Status = Order.ResultObj.Status.ToString(),
+                    CustomerId = Order.ResultObj.CustomerVm.CustomerId,
+                    Deposit = Order.ResultObj.Deposit,
+                    Description = Order.ResultObj.Description,
+                    DiscountId = Order.ResultObj.DiscountVm == null ? null : Order.ResultObj.DiscountVm.DiscountId,
+                    Email = Order.ResultObj.ShipEmail,
+                    Fullname = Order.ResultObj.CustomerVm.FullName,
+                    StaffVm = Order.ResultObj.StaffVm,
+                    ListExistOrderProduct = listExistProduct,
+                    PhoneNumber = Order.ResultObj.ShipPhoneNumber,
+                    PromotionId = Order.ResultObj.PromotionVm == null ? null : Order.ResultObj.PromotionVm.PromotionId,
+                    ShipAdress = Order.ResultObj.ShipAdress,
+                    ListPaymentId = listPaymentExist,
+                    
+                };
+                return View(updateVm);
             }
             catch
             {
@@ -123,28 +168,21 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
+                //Status
+                var statuses = Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>().ToList();
+                ViewBag.ListStatus = statuses;
+                var listPayment = await _paymentApiService.GetAll();
+                ViewBag.ListPayment = listPayment.ResultObj;
+                var listPromotion = await _promotionApiService.GetAllOnTime();
+                ViewBag.ListPromotionOnTime = listPromotion.ResultObj;
+                var listProduct = await _productApiService.GetAllProduct();
+                ViewBag.ListProduct = listProduct.ResultObj;
+
                 if (!ModelState.IsValid)
                 {
-                    var OrderVmCall = await _OrderApiService.GetOrderById(request.OrderId);
 
-                    OrderVm OrderVm = new OrderVm()
-                    {
-                        OrderId = request.OrderId,
-                        CustomerVm = OrderVmCall.ResultObj.CustomerVm,
-                        DiscountVm = OrderVmCall.ResultObj.DiscountVm,
-                        ListOrderProduct = OrderVmCall.ResultObj.ListOrderProduct,
-                        ListPromotionVm = OrderVmCall.ResultObj.ListPromotionVm,
-                        OrdersPaymentVm = OrderVmCall.ResultObj.OrdersPaymentVm,
-                        RemainAmount = OrderVmCall.ResultObj.RemainAmount,
-                        ShipAdress = request.ShipAdress,
-                        ShipEmail = request.ShipEmail,
-                        ShiperVm = OrderVmCall.ResultObj.ShiperVm,
-                        ShipName = request.ShipName,
-                        ShipPhoneNumber = request.ShipPhoneNumber,
-                        Status = request.Status,
-                        TotalAmount = OrderVmCall.ResultObj.TotalAmount,
-                    };
-                    return View(OrderVm);
+                   
+                    return View(request);
                 }
                 var status = await _OrderApiService.UpdateInfoOrder(request);
                 if (status is ApiErrorResult<bool> errorResult)
@@ -258,8 +296,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(CreateOrderRequest request)
+        public async Task<IActionResult> Create(CreateOrderByStaffRequest request)
         {
+            //Status
+            var statuses = Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>().ToList();
+            ViewBag.ListStatus = statuses;
+            var listPayment = await _paymentApiService.GetAll();
+            ViewBag.ListPayment = listPayment.ResultObj;
+            var listPromotion = await _promotionApiService.GetAllOnTime();
+            ViewBag.ListPromotionOnTime = listPromotion.ResultObj;
+            var listProduct = await _productApiService.GetAllProduct();
+            ViewBag.ListProduct = listProduct.ResultObj;
+
             if (!ModelState.IsValid)
             {
                 return View(request);
@@ -270,21 +318,19 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             Guid.TryParse(userIdString, out userId);
             // Chuyển đổi thành công
             request.StaffId = userId;
-            // Chuyển đổi thành công
+            if (request.ListOrderProduct != null && request.ListOrderProduct.Count > 0)
+            {
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true, // If needed
+                    WriteIndented = true // If needed
+                };
+                string listProductJson = System.Text.Json.JsonSerializer.Serialize(request.ListOrderProduct, options);
+                request.ListOrderProductJson = listProductJson;
+            }
 
 
-            //Status
-            var statuses = Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>().ToList();
-            ViewBag.ListStatus = statuses;
-            var listPayment = await _paymentApiService.GetAll();
-            ViewBag.ListPayment = listPayment.ResultObj;
-            var listPromotion = await _promotionApiService.GetAllOnTime();
-            ViewBag.ListPromotionOnTime = listPromotion.ResultObj;
-            var listProduct = await _productApiService.GetAll();
-            ViewBag.ListProduct = listProduct.ResultObj;
-
-
-            var status = await _OrderApiService.CreateOrder(request);
+            var status = await _OrderApiService.CreateOrderByStaff(request);
 
             if (status is ApiErrorResult<bool> errorResult)
             {
@@ -306,7 +352,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
             }
 
-            TempData["SuccessMsg"] = "Tạo mới thành công cho " + request.ShipName;
+            TempData["SuccessMsg"] = "Tạo mới thành công cho " + request.PhoneNumber;
 
             return RedirectToAction("Index", "Order");
         }

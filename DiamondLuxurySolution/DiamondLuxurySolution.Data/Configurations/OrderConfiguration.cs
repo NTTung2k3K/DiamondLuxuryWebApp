@@ -20,7 +20,7 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(o => o.ShipName).IsRequired().HasMaxLength(250);
             builder.Property(o => o.ShipPhoneNumber).IsRequired().HasMaxLength(250);
             builder.Property(o => o.ShipEmail).IsRequired().HasMaxLength(250);
-            builder.Property(o => o.ShipAdress).HasMaxLength(250);
+            builder.Property(o => o.ShipAdress).HasMaxLength(250).IsRequired(false);
             builder.Property(o => o.OrderDate).IsRequired();
             builder.Property(o => o.TotalAmout).HasColumnType("DECIMAL(15, 2)").IsRequired();
             builder.Property(o => o.Status).IsRequired();

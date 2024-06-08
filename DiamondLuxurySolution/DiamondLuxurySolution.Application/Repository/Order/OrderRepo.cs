@@ -7,7 +7,9 @@ using DiamondLuxurySolution.ViewModel.Models.Order;
 using DiamondLuxurySolution.ViewModel.Models.Platform;
 using DiamondLuxurySolution.ViewModel.Models.Product;
 using DiamondLuxurySolution.ViewModel.Models.Promotion;
+using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 using DiamondLuxurySolution.ViewModel.Models.Warranty;
+using Firebase.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PagedList;
@@ -148,12 +150,19 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     decimal total = await CalculateTotalPrice(request, totalPrice);
                     order.TotalAmout = total;
 
-                    decimal maxDeposit = total * 0.1M;
-                    if (request.Deposit < maxDeposit)
+                    if (request.Deposit != null && request.Deposit > 0)
                     {
-                        return new ApiErrorResult<bool>($"Số tiền đặt cọc phải lớn hơn hoặc bằng {maxDeposit}");
+                        decimal maxDeposit = total * 0.1M;
+                        if (request.Deposit < maxDeposit)
+                        {
+                            return new ApiErrorResult<bool>($"Số tiền đặt cọc phải lớn hơn hoặc bằng {maxDeposit}");
+                        }
+                        order.RemainAmount = total - (decimal)request.Deposit;
                     }
-                    order.RemainAmount = total - (decimal)request.Deposit;
+                    else
+                    {
+                        order.RemainAmount = 0;
+                    }
 
                     foreach (var paymentId in request.ListPaymentId)
                     {
@@ -295,7 +304,6 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             {
                 if (!Regex.IsMatch(request.PhoneNumber, "^(09|03|07|08|05)[0-9]{8,9}$")) errorList.Add("Số điện thoại không hợp lệ");
             }
-            if (string.IsNullOrEmpty(request.ShipAdress)) errorList.Add("Vui lòng nhập địa chỉ nhận hàng");
             if (errorList.Any()) return new ApiErrorResult<bool>("Lỗi thông tin", errorList);
             if (request.ListOrderProduct == null) return new ApiErrorResult<bool>("Đơn hàng không có sản phẩm");
             if (request.ListPaymentId == null) return new ApiErrorResult<bool>("Đơn hàng chưa có phương thức thanh toán");
@@ -369,11 +377,12 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         ShipName = request.Fullname,
                         ShipPhoneNumber = request.PhoneNumber,
                         Description = request.Description,
-                        Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString(),
+                        Status = request.Status,
                         OrderDate = DateTime.Now,
                         Deposit = (decimal)request.Deposit,
                         CustomerId = cusId,
-                        isShip = request.isShip
+                        isShip = request.isShip,
+                        StaffId = request.StaffId
                     };
 
 
@@ -415,13 +424,20 @@ namespace DiamondLuxurySolution.Application.Repository.Order
 
                     decimal total = await CalculateTotalPriceByStaff(request, totalPrice,cusId);
                     order.TotalAmout = total;
-
-                    decimal maxDeposit = total * 0.1M;
-                    if (request.Deposit < maxDeposit)
+                    if(request.Deposit != null && request.Deposit > 0)
                     {
-                        return new ApiErrorResult<bool>($"Số tiền đặt cọc phải lớn hơn hoặc bằng {maxDeposit}");
+                        decimal maxDeposit = total * 0.1M;
+                        if (request.Deposit < maxDeposit)
+                        {
+                            return new ApiErrorResult<bool>($"Số tiền đặt cọc phải lớn hơn hoặc bằng {maxDeposit}");
+                        }
+                        order.RemainAmount = total - (decimal)request.Deposit;
                     }
-                    order.RemainAmount = total - (decimal)request.Deposit;
+                    else
+                    {
+                        order.RemainAmount = 0;
+                    }
+                    
 
                     foreach (var paymentId in request.ListPaymentId)
                     {
@@ -508,6 +524,9 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 Status = order.Status,
                 TotalAmount = order.TotalAmout,
                 RemainAmount = order.RemainAmount,
+                Deposit = order.Deposit,
+                Description = order.Description,
+                
             };
             if (order.Customer != null)
             {
@@ -522,14 +541,62 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             }
             if (order.Shipper != null)
             {
-                orderVms.ShiperVm = new ViewModel.Models.User.Staff.StaffVm()
+                var user = await _userMananger.FindByIdAsync(order.ShipperId.ToString());
+                var staffVm = new StaffVm()
                 {
-                    StaffId = order.Customer.Id,
-                    FullName = order.Customer.Fullname,
-                    Email = order.Customer.Email,
-                    PhoneNumber = order.Customer.PhoneNumber,
-                    Status = order.Customer.Status
+                    StaffId = user.Id,
+                    Dob = (DateTime)(user.Dob ?? DateTime.MinValue),
+                    FullName = user.Fullname,
+                    PhoneNumber = user.PhoneNumber,
+                    Email = user.Email,
+                    CitizenIDCard = user.CitizenIDCard,
+                    Image = user.Image,
+                    Address = user.Address,
+                    Status = user.Status,
+                    Username = user.UserName
                 };
+
+                var listRoleOfUser = await _userMananger.GetRolesAsync(user);
+
+                if (listRoleOfUser.Count > 0)
+                {
+                    staffVm.ListRoleName = new List<string>();
+                    foreach (var role in listRoleOfUser)
+                    {
+                        staffVm.ListRoleName.Add(role);
+                    }
+                }
+                orderVms.ShiperVm = staffVm;
+
+            }
+            if (order.StaffId != null)
+            {
+                var user = await _userMananger.FindByIdAsync(order.StaffId.ToString());
+                var staffVm = new StaffVm()
+                {
+                    StaffId = user.Id,
+                    Dob = (DateTime)(user.Dob ?? DateTime.MinValue),
+                    FullName = user.Fullname,
+                    PhoneNumber = user.PhoneNumber,
+                    Email = user.Email,
+                    CitizenIDCard = user.CitizenIDCard,
+                    Image = user.Image,
+                    Address = user.Address,
+                    Status = user.Status,
+                    Username = user.UserName
+                };
+
+                var listRoleOfUser = await _userMananger.GetRolesAsync(user);
+
+                if (listRoleOfUser.Count > 0)
+                {
+                    staffVm.ListRoleName = new List<string>();
+                    foreach (var role in listRoleOfUser)
+                    {
+                        staffVm.ListRoleName.Add(role);
+                    }
+                }
+                orderVms.StaffVm = staffVm;
             }
             if (order.Discount != null)
             {
@@ -597,15 +664,15 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 return new ApiErrorResult<bool>("Không tìm thấy đơn hàng");
             }
             List<string> errorList = new List<string>();
-            if (string.IsNullOrEmpty(request.ShipName))
+            if (string.IsNullOrEmpty(request.Fullname))
             {
                 errorList.Add("Vui lòng nhập tên người nhận hàng");
             }
-            if (string.IsNullOrEmpty(request.ShipEmail))
+            if (string.IsNullOrEmpty(request.Email))
             {
                 errorList.Add("Vui lòng nhập email nhận hàng");
             }
-            if (string.IsNullOrEmpty(request.ShipPhoneNumber))
+            if (string.IsNullOrEmpty(request.PhoneNumber))
             {
                 errorList.Add("Vui lòng nhập số điện thoại người nhận hàng");
             }
@@ -626,9 +693,9 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 return new ApiErrorResult<bool>("Đơn hàng chưa có phương thức thanh toán");
             }
             order.ShipAdress = request.ShipAdress;
-            order.ShipPhoneNumber = request.ShipPhoneNumber;
-            order.ShipEmail = request.ShipEmail;
-            order.ShipName = request.ShipName;
+            order.ShipPhoneNumber = request.PhoneNumber;
+            order.ShipEmail = request.Email;
+            order.ShipName = request.Fullname;
 
 
 

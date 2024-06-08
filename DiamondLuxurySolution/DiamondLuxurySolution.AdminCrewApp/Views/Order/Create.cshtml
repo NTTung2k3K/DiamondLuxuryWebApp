@@ -43,11 +43,7 @@
                 <label asp-for="DiscountId" class="control-label m-2"></label>
                 <input asp-for="DiscountId" class="form-control" />
             </div>
-            <div class="form-group m-2">
-                <label asp-for="Deposit" class="control-label m-2"></label>
-                <input asp-for="Deposit" class="form-control" />
-            </div>
-
+            
             <div class="form-group m-2">
                 <label asp-for="Status" class="m-2 control-label">Trạng thái</label>
                 <!--Start dropdown list-->
@@ -174,14 +170,14 @@
                 <!--Promotion-->
                  <div class="form-group m-2">
                     <label asp-for="PromotionId" class="control-label m-2">Chương trình khuyến mãi hiện có</label>
-                    <select class="h-50 " name="ListPromotionId">
+                    <select class="h-50 " name="PromotionId">
                         @if (ViewBag.ListPromotionOnTime != null && ViewBag.ListPromotionOnTime.Count > 0)
                         {
                             @foreach (var promotion in ViewBag.ListPromotionOnTime)
                             {
                                 if (Model != null && Model.PromotionId != null)
                                 {
-                                    if (Model.PromotionId.ToString().Equals(promotion.GemId.ToString()))
+                                    if (Model.PromotionId.ToString().Equals(promotion.PromotionId.ToString()))
                                     {
                                         <option value="@promotion.PromotionId" selected>
                                             <div>
@@ -210,7 +206,7 @@
                         }
                         else
                         {
-                            <option>Không có</option>
+                            <option disabled>Không có</option>
                         }
 
 
@@ -250,6 +246,26 @@
 
 
                 @*Product end*@
+
+                <div class="form-group m-2">
+                    <label class="control-label m-2">Tổng cộng tạm tính: <span id="total" style="color: red">0</span></label>
+                </div>
+                @if(Model == null)
+                {
+
+                    <div class="form-group m-2">
+                        <label asp-for="Deposit" class="control-label m-2"></label>
+                        <input asp-for="Deposit" type="number" value="0" class="form-control" />
+                    </div>
+                }
+                else
+                {
+
+                    <div class="form-group m-2">
+                        <label asp-for="Deposit" class="control-label m-2"></label>
+                        <input asp-for="Deposit" type="number" class="form-control" />
+                    </div>
+                }
 
 
                 <div class="form-group m-2">
@@ -311,7 +327,7 @@
                     <input type="submit" value="Tạo mới" class="btn btn-success" />
                 </div>
                 <div class="col-md-7">
-                    <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí tin tức</a>
+                    <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
                 </div>
             </div>
         </form> 
@@ -351,15 +367,32 @@
                     updateAddButtonState(); // Update the add button state
                 }
             });
+            function calculateTotal() {
+                var total = 0;
+                $('#itemTable tbody tr').each(function () {
+                    var row = $(this);
+                    var quantity = row.find('input').val();
+                    var select = row.find('.select-subgem');
+                    var selectedOption = select.find('option:selected');
+                    var sellingPrice = selectedOption.data('price');
+
+                    if (!isNaN(quantity) && quantity.length !== 0 && !isNaN(sellingPrice)) {
+                        total += parseInt(quantity) * parseFloat(sellingPrice);
+                    }
+                });
+                $('#total').text(total);
+            }
+
 
             // Function to create a new row
             function createNewRow() {
                 return `<tr>
                                     <td></td>
                                     <td>
-                                                        <select class="h-50 select-subgem" name="ListOrderProduct[${index}].ProductId">
+                                                        <select class="h-50 select-subgem" name="ListOrderProduct[${index}].ProductId" >
                                         </select>
                                     </td>
+
                                             <td><input type="number" value="1" class="form-control" name="ListOrderProduct[${index}].Quantity" placeholder="Số lượng" /></td>
                                     <td class="text-center">
                                         <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default delete-item"><i class="ti ti-trash f-20"></i></a>
@@ -375,6 +408,7 @@
                 createOptions(); // Generate new options for the select dropdown
                 updateIndex(); // Update indices after a row is added
                 updateAddButtonState(); // Update the add button state
+                calculateTotal();
             });
 
             // Delete row when the delete button is clicked
@@ -396,6 +430,7 @@
                 updateIndex(); // Update indices after a row is removed
                 createOptions(); // Refresh the dropdown options
                 updateAddButtonState(); // Update the add button state
+                calculateTotal();
             });
 
             // Function to create options for the select dropdown
@@ -407,12 +442,16 @@
 
                     if (Array.isArray(fullSubgem) && fullSubgem.length > 0) {
                         fullSubgem.forEach(function (subgem) {
+                            debugger;
                             if (!selectedOptions.includes(subgem.productId) || selectedOption === subgem.productId) { // Check if the option is already selected or is the current value
                                 var option = $('<option/>');
                                 option.val(subgem.productId);
                                 option.text('Tên: ' + subgem.productName + ' | Giá: ' + subgem.sellingPrice + ' | Số lượng: ' + subgem.quantity );
                                 option.addClass('optionOfSubGem');
+                                option.data('price', subgem.sellingPrice);
                                 rowSelect.append(option);
+
+
                             }
                         });
                     } else {
@@ -424,12 +463,24 @@
                     }
                 });
             }
+            $(document).on('input', 'input[name^="ListOrderProduct"][name$="Quantity"]', function () {
+                calculateTotal(); // Recalculate total when quantity input changes
+            });
+            // Event handler when an option is selected
+            $(document).on('change', '.select-subgem', function () {
+                var selectedOption = $(this).val();
+                if (selectedOption) {
+                    selectedOptions.push(selectedOption); // Add the option to selectedOptions array
+                    updateAddButtonState(); // Update the add button state
+                }
+                calculateTotal(); // Update total price
+            });
 
             // Update the indices and names after adding or removing rows
             function updateIndex() {
                 $('#itemTable tbody tr').each(function (i, row) {
                     $(row).find('td:first').text(i + 1);
-                    $(row).find('.select-subgem').attr('name', `ListOrderProduct[${i}].Product`);
+                    $(row).find('.select-subgem').attr('name', `ListOrderProduct[${i}].ProductId`);
                     $(row).find('input').attr('name', `ListOrderProduct[${i}].Quantity`);
                 });
                 index = $('#itemTable tbody tr').length;
@@ -451,4 +502,5 @@
 
 
     </script>
+
 }

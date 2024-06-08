@@ -23,6 +23,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Order
         public string PhoneNumber { get; set; } = null!;
 
         [DisplayName("Email người đặt hàng")]
+        [Required(ErrorMessage = "Đơn hàng cần có Email người đặt")]
         public string? Email { get; set; } = null!;
 
         [DisplayName("Địa chỉ giao hàng")]
@@ -34,7 +35,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Order
         public string Status { get; set; }
         [DisplayName("Số tiền trả trước")]
         public decimal? Deposit { get; set; }
-
+        public string? ListOrderProductJson { get; set; }
         public Guid StaffId { get; set; }
         public Guid? CustomerId { get; set; }
         public virtual ICollection<OrderProductSupport> ListOrderProduct { get; set; } = new List<OrderProductSupport>();
