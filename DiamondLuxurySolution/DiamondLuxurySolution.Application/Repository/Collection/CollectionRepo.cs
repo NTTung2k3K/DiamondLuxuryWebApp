@@ -29,10 +29,6 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
         }
         public async Task<ApiResult<bool>> CreateCollection(CreateCollectionRequest request)
         {
-            if (string.IsNullOrEmpty(request.CollectionName))
-            {
-                return new ApiErrorResult<bool>("Vui lòng nhập tên bộ sưu tập");
-            }
             string collectionId = await GenerateUniqueCollectionIdAsync();
             var listProductCollection = new List<ProductsCollection>();
             if (request.ListProductId.Count > 0)
@@ -196,10 +192,6 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
             if (collection == null)
             {
                 return new ApiErrorResult<bool>("Không tìm thấy bộ sưu tập");
-            }
-            if (string.IsNullOrEmpty(request.CollectionName))
-            {
-                return new ApiErrorResult<bool>("Vui lòng nhập tên bộ sưu tập");
             }
             if (request.ListProductIdRemove.Count > 0 || request.ListProductIdAdd.Count > 0 || request.ProductId != null)
             {

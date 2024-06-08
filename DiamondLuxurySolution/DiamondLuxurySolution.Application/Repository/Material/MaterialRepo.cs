@@ -1,8 +1,6 @@
 ﻿using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
-using DiamondLuxurySolution.ViewModel.Models.About;
-using DiamondLuxurySolution.ViewModel.Models.Contact;
 using DiamondLuxurySolution.ViewModel.Models.Material;
 using Microsoft.EntityFrameworkCore;
 using PagedList;
@@ -131,16 +129,19 @@ namespace DiamondLuxurySolution.Application.Repository.Material
                 errorList.Add("Vui lòng nhập tên nguyên liệu");
             }
 
+            double price = 0;
             try
             {
-                if (request.Price <= 0)
+                price = Convert.ToDouble(request.Price);
+
+                if (price <= 0)
                 {
-                    errorList.Add("Gía tiền > 0");
+                    errorList.Add("Giá tiền > 0");
                 }
             }
             catch (FormatException)
             {
-                errorList.Add("Gía tiền không hợp lệ");
+                errorList.Add("Giá tiền không hợp lệ");
             }
             if (errorList.Any())
             {
@@ -154,8 +155,8 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             material.MaterialName = request.MaterialName;
             material.Description = request.Description != null ? request.Description : "";
             material.Color = request.Color != null ? request.Color : "";
-            material.Price = request.Price;
-            material.EffectDate = request.EffectDate;
+            material.Price = price;
+            material.EffectDate = (DateTime)request.EffectDate;
             material.Status = request.Status;
             if (request.MaterialImage != null)
             {
@@ -174,12 +175,6 @@ namespace DiamondLuxurySolution.Application.Repository.Material
         public async Task<ApiResult<PageResult<MaterialVm>>> ViewMaterialInCustomer(ViewMaterialRequest request)
         {
             var listMaterial = await _context.Materials.ToListAsync();
-            if (request.Keyword != null)
-            {
-                listMaterial = listMaterial.Where(x => x.MaterialName.Contains(request.Keyword)).ToList();
-
-            }
-            listMaterial = listMaterial.Where(x => x.Status).OrderByDescending(x => x.MaterialName).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 

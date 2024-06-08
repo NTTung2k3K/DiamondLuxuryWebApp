@@ -22,7 +22,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
-
                 ViewBag.txtLastSeachValue = request.Keyword;
                 if (!ModelState.IsValid)
                 {
@@ -122,13 +121,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
                     MaterialVm materialVm = new MaterialVm()
                     {
-                        MaterialId = request.MaterialId,
-                        MaterialName = request.MaterialName,
-                        Color = request.Color,
-                        Price = request.Price,
-                        EffectDate = request.EffectDate,
                         Description = request.Description,
-                        MaterialImage = request.MaterialImage.ToString(),
                         Status = request.Status
                     };
                     return View(materialVm);

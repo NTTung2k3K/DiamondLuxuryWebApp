@@ -17,7 +17,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             _staffApiService = staffApiService;
             _roleApiService = roleApiService;
         }
-
         [HttpGet]
         public async Task<IActionResult> Index(ViewStaffPaginationCommonRequest request)
         {

@@ -61,7 +61,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteCollection([FromBody] DeleteCollectionRequest request)
+        public async Task<IActionResult> DeleteCollection([FromQuery] DeleteCollectionRequest request)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
 
-        [HttpGet("ViewInCustomer")]
+        [HttpGet("ViewInCollection")]
         public async Task<IActionResult> ViewAllCollectionsInPaging([FromQuery] ViewCollectionRequest request)
         {
             try

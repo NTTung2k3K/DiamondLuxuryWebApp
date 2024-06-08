@@ -20,6 +20,7 @@ using DiamondLuxurySolution.AdminCrewApp.Service.About;
 using DiamondLuxurySolution.AdminCrewApp.Service.News;
 using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNewsCategoty;
 using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNewsCategory;
+using DiamondLuxurySolution.AdminCrewApp.Service.Collection;
 
 
 
@@ -47,13 +48,19 @@ builder.Services.AddTransient<ISlideApiService, SlideApiService>();
 builder.Services.AddTransient<IAboutApiService, AboutApiService>();
 builder.Services.AddTransient<IKnowledgeNewsCategoryApiService, KnowledgeNewsCategoryApiService>();
 builder.Services.AddTransient<ICategoryApiService, CategoryApiService>();
+builder.Services.AddTransient<ICollectionApiService, CollectionApiService>();
 
 builder.Services.AddDbContext<LuxuryDiamondShopContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("eShopSolutionDb"));
 });
 
-
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
