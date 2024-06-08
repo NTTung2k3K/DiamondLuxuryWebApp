@@ -11,6 +11,8 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
     public interface IPromotionApiService
     {
         public Task<ApiResult<List<PromotionVm>>> GetAll();
+        public Task<ApiResult<List<PromotionVm>>> GetAllOnTime();
+
         public Task<ApiResult<bool>> CreatePromotion(CreatePromotionRequest request);
         public Task<ApiResult<bool>> UpdatePromotion(UpdatePromotionRequest request);
         public Task<ApiResult<bool>> DeletePromotion(DeletePromotionRequest request);

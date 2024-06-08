@@ -21,8 +21,9 @@ namespace DiamondLuxurySolution.Data.Entities
         public string? ShipStatus { get; set; }
 
         public DateTime? LastChangePasswordTime { get; set; }
-
-        public List<Order> Orders { get; set; }
+        public List<Order> CustomerOrders { get; set; }
+        public List<Order> StaffOrders { get; set; }
+        public List<Order> ShipperOrders { get; set; }
         public List<KnowledgeNews> KnowledgeNews { get; set; }
         public List<News> News { get; set; }
     }

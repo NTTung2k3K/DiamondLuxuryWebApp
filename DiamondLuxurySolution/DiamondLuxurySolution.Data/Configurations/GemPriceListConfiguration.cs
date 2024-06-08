@@ -20,7 +20,7 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(g => g.Clarity).HasMaxLength(10);
             builder.Property(g => g.CaratWeight).HasMaxLength(10);
             builder.Property(g => g.Color).HasMaxLength(10);
-            builder.Property(g => g.Price).HasColumnType("decimal(10, 2)");
+            builder.Property(g => g.Price).HasColumnType("decimal(15, 2)");
             builder.HasOne(x => x.Gem).WithMany(x => x.GemPriceLists).HasForeignKey(x => x.GemId).IsRequired();
             builder.Property(g => g.Active).IsRequired();
             builder.Property(g => g.effectDate).IsRequired();

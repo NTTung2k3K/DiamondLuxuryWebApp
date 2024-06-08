@@ -469,7 +469,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 {
                     product.FrameId = null;
                 }
-               
+
 
                 // Process Thumbnail
                 if (request.ProductThumbnail != null)
@@ -535,7 +535,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 // Process SubGemPrice ..........................Fix percent sale
                 decimal totalSubGemPrice = 0;
                 var subgemList = _context.SubGemDetail.Where(x => x.ProductId == product.ProductId).ToList();
-                if(subgemList!=null && subgemList.Count > 0)
+                if (subgemList != null && subgemList.Count > 0)
                 {
                     foreach (var subgem in subgemList)
                     {
@@ -716,6 +716,118 @@ namespace DiamondLuxurySolution.Application.Repository.Product
             };
 
             return new ApiSuccessResult<PageResult<ProductVm>>(listResult, "Success");
+        }
+
+        public async Task<ApiResult<List<ProductVm>>> GetAll()
+        {
+            var listProduct = await _context.Products
+            .Include(p => p.Images)
+            .Include(p => p.SubGemDetails)
+            .ThenInclude(sg => sg.SubGem)
+            .Include(p => p.Category)
+            .Include(p => p.Gem)
+            .ThenInclude(x => x.InspectionCertificate)
+            .Include(x => x.Frame)
+            .ToListAsync();
+            List<ProductVm> listResultVm = new List<ProductVm>();
+            foreach (var product in listProduct)
+            {
+                var gem = product.Gem;
+                var listSubGem = product.SubGemDetails.ToList();
+                List<SubGemSupportDTO> listSubGemVm = listSubGem.Select(sg => new
+                SubGemSupportDTO
+                {
+                    SubGemId = sg.SubGemId,
+                    Quantity = sg.Quantity
+                }).ToList();
+
+                var productVms = new ProductVm
+                {
+                    ProductId = product.ProductId,
+                    ProductName = product.ProductName,
+                    Description = product.Description,
+                    ProductThumbnail = product.ProductThumbnail,
+                    IsHome = product.IsHome,
+                    IsSale = product.IsSale,
+                    PercentSale = product.PercentSale,
+                    Status = product.Status,
+                    CategoryVm = new CategoryVm
+                    {
+                        CategoryId = product.Category.CategoryId,
+                        CategoryName = product.Category.CategoryName,
+                        CategoryType = product.Category.CategoryType,
+                        CategoryImage = product.Category.CategoryImage,
+                        Status = product.Category.Status
+                    },
+                    Quantity = product.Quantity,
+                    GemVm = new GemVm
+                    {
+                        GemId = product.Gem.GemId,
+                        GemName = product.Gem.GemName,
+                        GemImage = product.Gem.GemImage,
+                        AcquisitionDate = product.Gem.AcquisitionDate,
+                        IsOrigin = product.Gem.IsOrigin,
+                        Active = product.Gem.Active,
+                        Fluoresence = product.Gem.Fluoresence,
+                        Polish = product.Gem.Polish,
+                        ProportionImage = product.Gem.ProportionImage,
+                        Symetry = product.Gem.Symetry,
+
+                        InspectionCertificateVm = product.Gem.InspectionCertificate != null ? new
+                InspectionCertificateVm()
+                        {
+                            InspectionCertificateId =
+                product.Gem.InspectionCertificate.InspectionCertificateId,
+                            DateGrading = product.Gem.InspectionCertificate.DateGrading,
+                            InspectionCertificateName =
+                product.Gem.InspectionCertificate.InspectionCertificateName,
+                            Logo = product.Gem.InspectionCertificate.Logo,
+                            Status = product.Gem.InspectionCertificate.Status
+                        } : null,
+                    },
+                    ProcessingPrice = product.ProductPriceProcessing,
+                    SellingPrice=product.SellingPrice,
+                    OriginalPrice=product.OriginalPrice,
+                    DateModify=product.DateModified,
+                     QuantitySold=product.SellingCount
+                };
+                if (product.Images != null)
+                {
+                    var imagePaths = product.Images.Select(x => x.ImagePath).ToList();
+                    productVms.Images = imagePaths;
+                }
+                if (product.SubGemDetails != null)
+                {
+                    productVms.ListSubGems = product.SubGemDetails.Select(x => new
+                    SubGemSupportDTO
+                    {
+                        SubGemId = x.SubGemId,
+                        Quantity = x.Quantity
+                    }).ToList();
+                }
+                if (product.FrameId != null)
+                {
+                    productVms.FrameVm = new ViewModel.Models.Frame.FrameVm()
+                    {
+                        FrameId = product.FrameId,
+                        NameFrame = product.Frame.FrameName,
+                        Size = product.Frame.Size,
+                        Weight = product.Frame.Weight,
+                    };
+                    var material = await _context.Materials.FindAsync(product.Frame.MaterialId);
+                    productVms.MaterialVm = new MaterialVm()
+                    {
+                        MaterialId = material.MaterialId,
+                        Color = material.Color,
+                        Description = material.Description,
+                        MaterialImage = material.MaterialImage,
+                        MaterialName = material.MaterialName,
+                        Status = material.Status,
+                    };
+                }
+                listResultVm.Add(productVms);
+            }
+            return new ApiSuccessResult<List<ProductVm>>(listResultVm, "Success");
         }
 
 

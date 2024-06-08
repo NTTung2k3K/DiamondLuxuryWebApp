@@ -19,8 +19,8 @@ namespace DiamondLuxurySolution.Data.Configurations
 
             builder.Property(od => od.Quantity).IsRequired();
             builder.Property(od => od.Discount).IsRequired();
-            builder.Property(od => od.UnitPrice).HasColumnType("DECIMAL(10, 2)").IsRequired();
-            builder.Property(od => od.TotalPrice).HasColumnType("DECIMAL(10, 2)").IsRequired();
+            builder.Property(od => od.UnitPrice).HasColumnType("DECIMAL(15, 2)").IsRequired();
+            builder.Property(od => od.TotalPrice).HasColumnType("DECIMAL(15, 2)").IsRequired();
 
             builder.HasOne(od => od.Product)
                    .WithMany(x => x.OrderDetails)
@@ -30,7 +30,7 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.HasOne(od => od.Order)
                    .WithMany(o => o.OrderDetails)
                    .HasForeignKey(od => od.OrderId)
-                   .IsRequired();
+                   .IsRequired().OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(od => od.Warranty)
                    .WithMany(x => x.OrderDetails)

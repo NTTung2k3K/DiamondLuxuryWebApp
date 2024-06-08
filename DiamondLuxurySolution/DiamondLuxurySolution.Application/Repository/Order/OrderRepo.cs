@@ -1,5 +1,7 @@
-﻿using DiamondLuxurySolution.Data.EF;
+﻿using DiamondLuxurySolution.Application.Repository.Discount;
+using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
+using DiamondLuxurySolution.Utilities.Constants;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Order;
 using DiamondLuxurySolution.ViewModel.Models.Platform;
@@ -21,11 +23,14 @@ namespace DiamondLuxurySolution.Application.Repository.Order
     public class OrderRepo : IOrderRepo
     {
         private readonly UserManager<AppUser> _userMananger;
+        private readonly RoleManager<AppRole> _roleManager;
+
         private readonly LuxuryDiamondShopContext _context;
-        public OrderRepo(LuxuryDiamondShopContext context, UserManager<AppUser> userMananger)
+        public OrderRepo(LuxuryDiamondShopContext context, UserManager<AppUser> userMananger, RoleManager<AppRole> roleManager)
         {
             _userMananger = userMananger;
             _context = context;
+            _roleManager = roleManager;
         }
         public async Task<ApiResult<bool>> ChangeStatusOrder(ChangeOrderStatusRequest request)
         {
@@ -61,230 +66,427 @@ namespace DiamondLuxurySolution.Application.Repository.Order
         public async Task<ApiResult<bool>> CreateOrder(CreateOrderRequest request)
         {
             List<string> errorList = new List<string>();
-            if (string.IsNullOrEmpty(request.ShipName))
-            {
-                errorList.Add("Vui lòng nhập tên người nhận hàng");
-            }
-            if (string.IsNullOrEmpty(request.ShipEmail))
-            {
-                errorList.Add("Vui lòng nhập email nhận hàng");
-            }
 
+            // Validate request
+            if (string.IsNullOrEmpty(request.ShipName)) errorList.Add("Vui lòng nhập tên người nhận hàng");
+            if (string.IsNullOrEmpty(request.ShipEmail)) errorList.Add("Vui lòng nhập email nhận hàng");
             if (string.IsNullOrWhiteSpace(request.ShipPhoneNumber))
             {
                 errorList.Add("Vui lòng nhập số điện thoại");
             }
             else
             {
-                if (!Regex.IsMatch(request.ShipPhoneNumber, "^(09|03|07|08|05)[0-9]{8,9}$"))
-                {
-                    errorList.Add("Số điện thoại không hợp lệ");
-                }
+                if (!Regex.IsMatch(request.ShipPhoneNumber, "^(09|03|07|08|05)[0-9]{8,9}$")) errorList.Add("Số điện thoại không hợp lệ");
             }
+            if (string.IsNullOrEmpty(request.ShipAdress)) errorList.Add("Vui lòng nhập địa chỉ nhận hàng");
+            if (errorList.Any()) return new ApiErrorResult<bool>("Lỗi thông tin", errorList);
+            if (request.ListOrderProduct == null) return new ApiErrorResult<bool>("Đơn hàng không có sản phẩm");
+            if (request.ListPaymentId == null) return new ApiErrorResult<bool>("Đơn hàng chưa có phương thức thanh toán");
+            if (request.CustomerId == Guid.Empty) return new ApiErrorResult<bool>("Đơn hàng chưa có người đặt");
 
-            if (string.IsNullOrEmpty(request.ShipAdress))
-            {
-                errorList.Add("Vui lòng nhập địa chỉ nhận hàng");
-            }
-            if (errorList.Any())
-            {
-                return new ApiErrorResult<bool>("Lỗi thông tin", errorList);
-            }
-            if (request.ListOrderProduct == null)
-            {
-                return new ApiErrorResult<bool>("Đơn hàng không có sản phẩm");
-            }
-            if (request.ListPaymentId == null)
-            {
-                return new ApiErrorResult<bool>("Đơn hàng chưa có phương thức thanh toán");
-            }
             Random rd = new Random();
+            string orderId = GenerateOrderId(rd);
 
-            string OrderId = "DMLOD" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
-            while (await _context.Orders.FindAsync(OrderId) != null)
+            while (await _context.Orders.FindAsync(orderId) != null)
             {
-                OrderId = "DMLOD" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
+                orderId = GenerateOrderId(rd);
             }
-            // Create Order
+
             var order = new DiamondLuxurySolution.Data.Entities.Order()
             {
-                OrderId = OrderId,
+                OrderId = orderId,
                 ShipAdress = request.ShipAdress,
                 ShipEmail = request.ShipEmail,
                 ShipName = request.ShipName,
                 ShipPhoneNumber = request.ShipPhoneNumber,
-                ShipPrice = 10000,
                 CustomerId = request.CustomerId,
+                Description = request.Description,
+                Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString(),
+                OrderDate = DateTime.Now,
+                Deposit = (decimal)request.Deposit,
             };
 
-
-
-
-
-
-            // Process OrderDetail
-            decimal totalPrice = 0;
-            foreach (var orderProduct in request.ListOrderProduct)
+            using (var transaction = await _context.Database.BeginTransactionAsync())
             {
-                var product = await _context.Products.FindAsync(orderProduct.ProductId);
-                if (product == null)
+                try
                 {
-                    return new ApiErrorResult<bool>("Không tìm thấy sản phẩm trong đơn đặt hàng");
-                }
-                // Process Warranty
-                var warranty = new DiamondLuxurySolution.Data.Entities.Warranty()
-                {
-                    WarrantyId = Guid.NewGuid(),
-                    DateActive = DateTime.Now,
-                    DateExpired = DateTime.Now.AddMonths(12),
-                    WarrantyName = $"Phiếu bảo hành cho sản phẩm {product.ProductName} | {product.ProductId}  ",
-                    Description = "Phiếu bảo hành có giá trị trong vòng 12 tháng",
-                    Status = true,
-                };
-                var orderDetail = new OrderDetail()
-                {
-                    OrderId = OrderId,
-                    ProductId = orderProduct.ProductId,
-                    Quantity = orderProduct.Quantity,
-                    UnitPrice = orderProduct.UnitPrice,
-                    TotalPrice = orderProduct.Quantity * orderProduct.UnitPrice,
-                    WarrantyId = warranty.WarrantyId
-                };
-                totalPrice += orderDetail.TotalPrice;
-                _context.Warrantys.Add(warranty);
-                _context.OrderDetails.Add(orderDetail);
-            }
+                    // Add and save the order first
+                    _context.Orders.Add(order);
+                    await _context.SaveChangesAsync();
 
-            bool isSale = false;
-
-            // Process Discount
-            decimal totalDiscount = 0;
-            if (request.DiscountId != null)
-            {
-                var discount = await _context.Discounts.FindAsync(request.DiscountId);
-                if (discount == null)
-                {
-                    return new ApiErrorResult<bool>("Không tìm thấy mã giảm giá");
-                }
-                totalDiscount = ((decimal)totalPrice * (decimal)discount.PercentSale);
-                isSale = true;
-                order.DiscountId = request.DiscountId;
-            }
-
-
-            // Process Sales 
-            decimal totalSales = 0;
-            if (request.ListPromotionId != null && isSale == false && request.ListPromotionId.Count > 0)
-            {
-                foreach (var promotionId in request.ListPromotionId)
-                {
-                    var promotion = await _context.Promotions.FindAsync(promotionId);
-                    if (promotion == null)
+                    decimal totalPrice = 0;
+                    foreach (var orderProduct in request.ListOrderProduct)
                     {
-                        return new ApiErrorResult<bool>("Không tìm thấy chương trình khuyến mãi");
-                    }
-                    decimal salesPrice = 0;
-                    if (promotion.StartDate.Date <= DateTime.Now.Date && DateTime.Now.Date <= promotion.EndDate.Date)
-                    {
-                        var discountPrice = ((decimal)totalPrice * (decimal)promotion.DiscountPercent);
-                        if (discountPrice >= promotion.MaxDiscount)
+                        var product = await _context.Products.FindAsync(orderProduct.ProductId);
+                        if (product == null) return new ApiErrorResult<bool>("Không tìm thấy sản phẩm trong đơn đặt hàng");
+
+                        var warranty = new DiamondLuxurySolution.Data.Entities.Warranty()
                         {
-                            discountPrice = (decimal)promotion.MaxDiscount;
-                        }
-                        isSale = true;
-                        salesPrice += discountPrice;
+                            WarrantyId = Guid.NewGuid(),
+                            DateActive = DateTime.Now,
+                            DateExpired = DateTime.Now.AddMonths(12),
+                            WarrantyName = $"Phiếu bảo hành cho sản phẩm {product.ProductName} | {product.ProductId}",
+                            Description = "Phiếu bảo hành có giá trị trong vòng 12 tháng",
+                            Status = true,
+                        };
+
+                        var orderDetail = new OrderDetail()
+                        {
+                            OrderId = orderId,
+                            ProductId = orderProduct.ProductId,
+                            Quantity = orderProduct.Quantity,
+                            UnitPrice = product.SellingPrice,
+                            TotalPrice = orderProduct.Quantity * product.SellingPrice,
+                            WarrantyId = warranty.WarrantyId
+                        };
+
+                        totalPrice += orderDetail.TotalPrice;
+                        _context.Warrantys.Add(warranty);
+                        _context.OrderDetails.Add(orderDetail);
                     }
-                    var campainDetail = new CampaignDetail()
+
+                    decimal total = await CalculateTotalPrice(request, totalPrice);
+                    order.TotalAmout = total;
+
+                    decimal maxDeposit = total * 0.1M;
+                    if (request.Deposit < maxDeposit)
                     {
-                        OrderId = order.OrderId,
-                        PromotionId = promotion.PromotionId,
-                        SalesPrice = salesPrice,
-                    };
-                    totalSales += salesPrice;
-                    _context.CampaignDetails.Add(campainDetail);
+                        return new ApiErrorResult<bool>($"Số tiền đặt cọc phải lớn hơn hoặc bằng {maxDeposit}");
+                    }
+                    order.RemainAmount = total - (decimal)request.Deposit;
+
+                    foreach (var paymentId in request.ListPaymentId)
+                    {
+                        var payment = await _context.Payments.FindAsync(paymentId);
+                        if (payment == null) return new ApiErrorResult<bool>("Không tìm thấy phương thức thanh toán");
+
+                        var orderPayment = new OrdersPayment()
+                        {
+                            OrderId = orderId,
+                            Message = $"Thanh toán bằng phương thức {payment.PaymentMethod}",
+                            PaymentTime = DateTime.Now,
+                            Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString(),
+                            OrdersPaymentId = Guid.NewGuid(),
+                            PaymentId = paymentId,
+                            PaymentAmount = (decimal)order.RemainAmount > 0 ? (decimal)request.Deposit : total
+                        };
+                        _context.OrdersPayments.Add(orderPayment);
+                    }
+
+                    if (request.isShip)
+                    {
+                        order.ShipperId = await AssignShipper();
+                    }
+
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+
+                    return new ApiSuccessResult<bool>(true, "Success");
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    return new ApiErrorResult<bool>(ex.Message);
                 }
             }
-            decimal total = totalPrice - (totalSales + totalDiscount);
+        }
 
-            order.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString();
-            order.TotalAmout = total + order.ShipPrice;
-            order.OrderDate = DateTime.Now;
-            order.Deposit = (decimal)request.Deposit;
+        private string GenerateOrderId(Random rd)
+        {
+            return "DMLOD" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
+        }
 
-            // Process Deposit
-
-            decimal maxDeposit = (decimal)order.TotalAmout * (decimal)0.1;
-            if (request.Deposit < maxDeposit)
+        private async Task<decimal> CalculateTotalPrice(CreateOrderRequest request, decimal totalPrice)
+        {
+            decimal total = totalPrice;
+            if (request.PromotionId != null)
             {
-                return new ApiErrorResult<bool>($"Số tiền đặt cọc phải lớn hơn hoặc bằng {maxDeposit}");
-            }
-            order.RemainAmount = (decimal)order.TotalAmout - (decimal)request.Deposit;
-
-            // Process Payment 
-            foreach (var paymentId in request.ListPaymentId)
-            {
-                var payment = await _context.Payments.FindAsync(paymentId);
-                if (payment == null)
+                var promotion = await _context.Promotions.FindAsync(request.PromotionId);
+                if (promotion != null && promotion.StartDate.Date <= DateTime.Now.Date && DateTime.Now.Date <= promotion.EndDate.Date)
                 {
-                    return new ApiErrorResult<bool>("Không tìm thấy phương thức thanh toán");
-                }
-                var orderPayment = new OrdersPayment()
-                {
-                    OrderId = OrderId,
-                    Message = $"Thanh toán bằng phương thức {payment.PaymentMethod}",
-                    PaymentTime = DateTime.Now,
-                    Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString(),
-                    OrdersPaymentId = Guid.NewGuid(),
-                    PaymentId = paymentId,
-                    PaymentAmount = order.RemainAmount > 0 ? order.Deposit : order.TotalAmout
-                };
-                _context.OrdersPayments.Add(orderPayment);
-            }
-            // Process Shipper
-            List<AppUser> shiperWaiting = new List<AppUser>();
-            List<AppUser> users = await _userMananger.Users.ToListAsync();
-            foreach (var user in users)
-            {
-                if (user.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Waiting))
-                {
-                    shiperWaiting.Add(user);
+                    decimal discountPrice = (decimal)totalPrice * (decimal)(promotion.DiscountPercent / 100);
+                    if (discountPrice > promotion.MaxDiscount)
+                    {
+                        discountPrice = (decimal)promotion.MaxDiscount;
+                    }
+                    total -= discountPrice;
                 }
             }
-            if (shiperWaiting.Count == 0)
+
+            var user = await _userMananger.FindByIdAsync(request.CustomerId.ToString());
+            if (user != null)
             {
-                order.ShipperId = null;
+                var userPoint = user.Point;
+                var discounts = await _context.Discounts.ToListAsync();
+                foreach (var discount in discounts)
+                {
+                    if (discount.From <= userPoint && userPoint <= discount.To)
+                    {
+                        total -= total * (decimal)discount.PercentSale / 100;
+                        break;
+                    }
+                }
+            }
+
+            return total;
+        }
+        private async Task<decimal> CalculateTotalPriceByStaff(CreateOrderByStaffRequest request, decimal totalPrice,Guid cusId)
+        {
+            decimal total = totalPrice;
+            if (request.PromotionId != null)
+            {
+                var promotion = await _context.Promotions.FindAsync(request.PromotionId);
+                if (promotion != null && promotion.StartDate.Date <= DateTime.Now.Date && DateTime.Now.Date <= promotion.EndDate.Date)
+                {
+                    decimal discountPrice = (decimal)totalPrice * (decimal)(promotion.DiscountPercent / 100);
+                    if (discountPrice > promotion.MaxDiscount)
+                    {
+                        discountPrice = (decimal)promotion.MaxDiscount;
+                    }
+                    total -= discountPrice;
+                }
+            }
+
+            var user = await _userMananger.FindByIdAsync(cusId.ToString());
+            if (user != null)
+            {
+                var userPoint = user.Point;
+                var discounts = await _context.Discounts.ToListAsync();
+                foreach (var discount in discounts)
+                {
+                    if (discount.From <= userPoint && userPoint <= discount.To)
+                    {
+                        total -= total * (decimal)discount.PercentSale / 100;
+                        break;
+                    }
+                }
+            }
+
+            return total;
+        }
+        private async Task<Guid?> AssignShipper()
+        {
+            var shippers = await _userMananger.Users
+                .Where(u => u.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Waiting))
+                .ToListAsync();
+
+            if (shippers.Any())
+            {
+                int index = new Random().Next(shippers.Count);
+                return shippers[index].Id;
+            }
+
+            return null;
+        }
+
+
+        public async Task<ApiResult<bool>> CreateOrderByStaff(CreateOrderByStaffRequest request)
+        {
+            List<string> errorList = new List<string>();
+
+            // Validate request
+            if (string.IsNullOrEmpty(request.Fullname)) errorList.Add("Vui lòng nhập tên người nhận hàng");
+            if (string.IsNullOrEmpty(request.Email)) errorList.Add("Vui lòng nhập email nhận hàng");
+            if (string.IsNullOrWhiteSpace(request.PhoneNumber))
+            {
+                errorList.Add("Vui lòng nhập số điện thoại");
             }
             else
             {
-                int random = new Random().Next(0, shiperWaiting.Count);
-                var shiper = shiperWaiting[random];
-                order.ShipperId = shiper.Id;
+                if (!Regex.IsMatch(request.PhoneNumber, "^(09|03|07|08|05)[0-9]{8,9}$")) errorList.Add("Số điện thoại không hợp lệ");
             }
+            if (string.IsNullOrEmpty(request.ShipAdress)) errorList.Add("Vui lòng nhập địa chỉ nhận hàng");
+            if (errorList.Any()) return new ApiErrorResult<bool>("Lỗi thông tin", errorList);
+            if (request.ListOrderProduct == null) return new ApiErrorResult<bool>("Đơn hàng không có sản phẩm");
+            if (request.ListPaymentId == null) return new ApiErrorResult<bool>("Đơn hàng chưa có phương thức thanh toán");
+            if (request.StaffId == Guid.Empty) return new ApiErrorResult<bool>("Đơn hàng chưa có nhân viên tạo");
+
+            Random rd = new Random();
+            string orderId = GenerateOrderId(rd);
+
+            while (await _context.Orders.FindAsync(orderId) != null)
+            {
+                orderId = GenerateOrderId(rd);
+            }
+            
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    Guid cusId = Guid.Empty;
+                    var userCheck = await _userMananger.FindByEmailAsync(request.Email.ToString());
+                    if (userCheck == null)
+                    {
+                        //
+                        var user = new AppUser()
+                        {
+                            Id = Guid.NewGuid(),
+                            Fullname = request.Fullname,
+                            Email = request.Email,
+                            PhoneNumber = request.PhoneNumber,
+                            Address = request.ShipAdress,
+                            UserName = "Kh" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9),
+                            Point=0
+                        };
+
+                        user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.New.ToString();
+                        var status = await _userMananger.CreateAsync(user, "Kh12345@");
 
 
-            // Add Order
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
+                        var customerRole = new AppRole()
+                        {
+                            Name = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer,
+                            Description = "Khách hàng mặc định"
+                        };
+                        var role = await _roleManager.FindByNameAsync(customerRole.Name);
+                        if (role == null)
+                        {
+                            var statusCreateRole = await _roleManager.CreateAsync(customerRole);
+                            if (!status.Succeeded)
+                            {
+                                return new ApiErrorResult<bool>("Lỗi hệ thống, không thể tạo role vui lòng thử lại");
+                            }
+                        }
 
-            return new ApiSuccessResult<bool>(true, "Success");
+                        var statusAddRole = await _userMananger.AddToRoleAsync(user, customerRole.Name);
+                        if (!statusAddRole.Succeeded)
+                        {
+                            return new ApiErrorResult<bool>("Lỗi hệ thống, không thể thêm role vào tải khoản vui lòng thử lại");
+                        }
+                        cusId = user.Id;
+                    }
+                    else
+                    {
+                        cusId = userCheck.Id;
+                    }
+
+
+                    var order = new DiamondLuxurySolution.Data.Entities.Order()
+                    {
+                        OrderId = orderId,
+                        ShipAdress = request.ShipAdress,
+                        ShipEmail = request.Email,
+                        ShipName = request.Fullname,
+                        ShipPhoneNumber = request.PhoneNumber,
+                        Description = request.Description,
+                        Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString(),
+                        OrderDate = DateTime.Now,
+                        Deposit = (decimal)request.Deposit,
+                        CustomerId = cusId,
+                        isShip = request.isShip
+                    };
+
+
+
+                    // Add and save the order first
+                    _context.Orders.Add(order);
+                    await _context.SaveChangesAsync();
+
+                    decimal totalPrice = 0;
+                    foreach (var orderProduct in request.ListOrderProduct)
+                    {
+                        var product = await _context.Products.FindAsync(orderProduct.ProductId);
+                        if (product == null) return new ApiErrorResult<bool>("Không tìm thấy sản phẩm trong đơn đặt hàng");
+
+                        var warranty = new DiamondLuxurySolution.Data.Entities.Warranty()
+                        {
+                            WarrantyId = Guid.NewGuid(),
+                            DateActive = DateTime.Now,
+                            DateExpired = DateTime.Now.AddMonths(12),
+                            WarrantyName = $"Phiếu bảo hành cho sản phẩm {product.ProductName} | {product.ProductId}",
+                            Description = "Phiếu bảo hành có giá trị trong vòng 12 tháng",
+                            Status = true,
+                        };
+
+                        var orderDetail = new OrderDetail()
+                        {
+                            OrderId = orderId,
+                            ProductId = orderProduct.ProductId,
+                            Quantity = orderProduct.Quantity,
+                            UnitPrice = product.SellingPrice,
+                            TotalPrice = orderProduct.Quantity * product.SellingPrice,
+                            WarrantyId = warranty.WarrantyId
+                        };
+
+                        totalPrice += orderDetail.TotalPrice;
+                        _context.Warrantys.Add(warranty);
+                        _context.OrderDetails.Add(orderDetail);
+                    }
+
+                    decimal total = await CalculateTotalPriceByStaff(request, totalPrice,cusId);
+                    order.TotalAmout = total;
+
+                    decimal maxDeposit = total * 0.1M;
+                    if (request.Deposit < maxDeposit)
+                    {
+                        return new ApiErrorResult<bool>($"Số tiền đặt cọc phải lớn hơn hoặc bằng {maxDeposit}");
+                    }
+                    order.RemainAmount = total - (decimal)request.Deposit;
+
+                    foreach (var paymentId in request.ListPaymentId)
+                    {
+                        var payment = await _context.Payments.FindAsync(paymentId);
+                        if (payment == null) return new ApiErrorResult<bool>("Không tìm thấy phương thức thanh toán");
+
+                        var orderPayment = new OrdersPayment()
+                        {
+                            OrderId = orderId,
+                            Message = $"Thanh toán bằng phương thức {payment.PaymentMethod}",
+                            PaymentTime = DateTime.Now,
+                            Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString(),
+                            OrdersPaymentId = Guid.NewGuid(),
+                            PaymentId = paymentId,
+                            PaymentAmount = (decimal)order.RemainAmount > 0 ? (decimal)request.Deposit : total
+                        };
+                        _context.OrdersPayments.Add(orderPayment);
+                    }
+
+                    if (request.isShip)
+                    {
+                        order.ShipperId = await AssignShipper();
+                    }
+
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+
+                    return new ApiSuccessResult<bool>(true, "Success");
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    return new ApiErrorResult<bool>(ex.Message);
+                }
+            }
         }
 
         public async Task<ApiResult<bool>> DeleteOrder(string OrderId)
         {
-            var order = await _context.Orders.FindAsync(OrderId);
+            var order = await _context.Orders
+                             .Include(o => o.OrderDetails)
+                             .ThenInclude(od => od.Warranty)
+                             .FirstOrDefaultAsync(o => o.OrderId == OrderId);
+
             if (order == null)
             {
                 return new ApiErrorResult<bool>("Không tìm thấy đơn hàng");
             }
+            foreach (var item in order.OrderDetails)
+            {
+                var warranty = item.Warranty;
+                _context.Warrantys.Remove(warranty);
+            }
+
+
             _context.Orders.Remove(order);
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
         }
 
+
         public async Task<ApiResult<OrderVm>> GetOrderById(string OrderId)
         {
             var order = _context.Orders.Include(x => x.Customer)
-                                              .Include(x => x.Discount).Include(x => x.CampaignDetails).ThenInclude(x => x.Promotion)
+                                              .Include(x => x.Discount).Include(x => x.Promotion)
                                               .Include(x => x.OrdersPayment).ThenInclude(x => x.Payment)
                                               .Include(x => x.Shipper)
                                               .Include(x => x.OrderDetails).ThenInclude(x => x.Warranty)
@@ -339,20 +541,6 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     PercentSale = order.Discount.PercentSale,
                     Status = order.Discount.Status
                 };
-            }
-            if (order.CampaignDetails != null)
-            {
-                orderVms.ListPromotionVm = order.CampaignDetails.Select(cd => new CampaignDetailSupportDTO()
-                {
-                    PromotionId = cd.Promotion.PromotionId,
-                    PromotionName = cd.Promotion.PromotionName,
-                    StartDate = cd.Promotion.StartDate,
-                    EndDate = cd.Promotion.EndDate,
-                    Description = cd.Promotion.Description,
-                    PromotionImage = cd.Promotion.PromotionImage,
-                    Status = cd.Promotion.Status,
-                    SalesPrice = cd.SalesPrice
-                }).ToList();
             }
 
             if (order.OrdersPayment != null)
@@ -486,8 +674,8 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         OrderId = order.OrderId,
                         ProductId = orderProduct.ProductId,
                         Quantity = orderProduct.Quantity,
-                        UnitPrice = orderProduct.UnitPrice,
-                        TotalPrice = orderProduct.Quantity * orderProduct.UnitPrice,
+                        UnitPrice = product.SellingPrice,
+                        TotalPrice = orderProduct.Quantity * product.SellingPrice,
                         WarrantyId = warranty.WarrantyId
                     };
                     totalPrice += OrderDetail.TotalPrice;
@@ -535,47 +723,30 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             }
             // Process Sale
             decimal totalSales = 0;
-            if (request.ListPromotionId != null && isSale == false && request.ListPromotionId.Count > 0)
+
+            var promotion = await _context.Promotions.FindAsync(request.PromotionId);
+            if (promotion == null)
             {
-                var campaignDetail = _context.CampaignDetails.Where(x => x.OrderId == order.OrderId);
-                foreach (var promotionId in request.ListPromotionId)
+                return new ApiErrorResult<bool>("Không tìm thấy chương trình khuyến mãi");
+            }
+            decimal salesPrice = 0;
+            if (promotion.StartDate.Date <= DateTime.Now.Date && DateTime.Now.Date <= promotion.EndDate.Date)
+            {
+                var discountPrice = ((decimal)totalPrice * (decimal)promotion.DiscountPercent);
+                if (discountPrice >= promotion.MaxDiscount)
                 {
-                    var promotion = await _context.Promotions.FindAsync(promotionId);
-                    if (promotion == null)
-                    {
-                        return new ApiErrorResult<bool>("Không tìm thấy chương trình khuyến mãi");
-                    }
-                    decimal salesPrice = 0;
-                    if (promotion.StartDate.Date <= DateTime.Now.Date && DateTime.Now.Date <= promotion.EndDate.Date)
-                    {
-                        var discountPrice = ((decimal)totalPrice * (decimal)promotion.DiscountPercent);
-                        if (discountPrice >= promotion.MaxDiscount)
-                        {
-                            discountPrice = (decimal)promotion.MaxDiscount;
-                        }
-                        isSale = true;
-                        salesPrice += discountPrice;
-                    }
-                    var campainDetail = new CampaignDetail()
-                    {
-                        OrderId = order.OrderId,
-                        PromotionId = promotion.PromotionId,
-                        SalesPrice = salesPrice,
-                    };
-                    _context.CampaignDetails.RemoveRange(campaignDetail);
-                    totalSales += salesPrice;
-                    _context.CampaignDetails.Add(campainDetail);
+                    discountPrice = (decimal)promotion.MaxDiscount;
                 }
+                isSale = true;
+                salesPrice += discountPrice;
             }
-            else
-            {
-                var campaignDetail = _context.CampaignDetails.Where(x => x.OrderId == order.OrderId);
-                _context.CampaignDetails.RemoveRange(campaignDetail);
-            }
+
+            totalSales += salesPrice;
+
             decimal total = totalPrice - (totalSales + totalDiscount);
 
             order.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString();
-            order.TotalAmout = total + order.ShipPrice;
+            order.TotalAmout = total;
             order.OrderDate = DateTime.Now;
             // Process Deposit
             decimal maxDeposit = (decimal)order.TotalAmout * (decimal)0.1;
@@ -619,10 +790,23 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             return new ApiSuccessResult<bool>(true, "Cập nhật đơn hàng thành công");
         }
 
+        public async Task<ApiResult<bool>> UpdateShipper(UpdateShipperRequest request)
+        {
+            var order = await _context.Orders.FindAsync(request.OrderId);
+            if (order == null)
+            {
+                return new ApiErrorResult<bool>("Không tìm thấy đơn hàng");
+            }
+            order.ShipperId = request.ShipperId;
+            await _context.SaveChangesAsync();
+            return
+                new ApiSuccessResult<bool>(true, "Success");
+        }
+
         public async Task<ApiResult<PageResult<OrderVm>>> ViewOrder(ViewOrderRequest request)
         {
             var listOrder = await _context.Orders.Include(x => x.Customer)
-                                              .Include(x => x.Discount).Include(x => x.CampaignDetails).ThenInclude(x => x.Promotion)
+                                              .Include(x => x.Discount).Include(x => x.Promotion)
                                               .Include(x => x.OrdersPayment).ThenInclude(x => x.Payment)
                                               .Include(x => x.Shipper)
                                               .Include(x => x.OrderDetails).ThenInclude(x => x.Warranty).ToListAsync();
@@ -690,20 +874,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         Status = order.Discount.Status
                     };
                 }
-                if (order.CampaignDetails != null)
-                {
-                    orderVms.ListPromotionVm = order.CampaignDetails.Select(cd => new CampaignDetailSupportDTO()
-                    {
-                        PromotionId = cd.Promotion.PromotionId,
-                        PromotionName = cd.Promotion.PromotionName,
-                        StartDate = cd.Promotion.StartDate,
-                        EndDate = cd.Promotion.EndDate,
-                        Description = cd.Promotion.Description,
-                        PromotionImage = cd.Promotion.PromotionImage,
-                        Status = cd.Promotion.Status,
-                        SalesPrice = cd.SalesPrice
-                    }).ToList();
-                }
+
 
                 if (order.OrdersPayment != null)
                 {

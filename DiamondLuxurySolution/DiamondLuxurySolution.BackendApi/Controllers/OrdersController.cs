@@ -44,6 +44,24 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpPost("CreateOrderByStaff")]
+        public async Task<ActionResult> CreateOrderByStaff([FromBody] CreateOrderByStaffRequest request)
+        {
+            try
+            {
+
+                var status = await _order.CreateOrderByStaff(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         [HttpPut("ChangeStatus")]
         public async Task<ActionResult> ChangeStatus([FromBody]ChangeOrderStatusRequest request)
         {
@@ -98,8 +116,27 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpPut("UpdateShipper")]
+        public async Task<ActionResult> UpdateShipper([FromBody] UpdateShipperRequest request)
+        {
+            try
+            {
+
+                var status = await _order.UpdateShipper(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpDelete("Delete")]
-        public async Task<ActionResult> DeleteOrder([FromBody]string OrderId)
+        public async Task<ActionResult> DeleteOrder([FromQuery]string OrderId)
         {
             try
             {

@@ -11,7 +11,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.Order
     {
         public string ProductId { get; set; }
         public int Quantity { get; set; }
-        public decimal UnitPrice { get; set; }
 
        
     }

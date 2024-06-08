@@ -28,7 +28,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Order
         public Guid CustomerId { get; set; }
         public virtual ICollection<OrderProductSupport> ListOrderProduct { get; set; } = new List<OrderProductSupport>();
 
-        public virtual ICollection<Guid>? ListPromotionId { get; set; } = new List<Guid>();
+        public Guid? PromotionId { get; set; }
 
 
         public virtual ICollection<Guid> ListPaymentId { get; set; } = new List<Guid>();

@@ -153,7 +153,33 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
             return new ApiSuccessResult<List<PromotionVm>>(listPromotionVm.ToList());
         }
 
+        public async Task<ApiResult<List<PromotionVm>>> GetAllOnTime()
+        {
+            var list = await _context.Promotions.ToListAsync();
+            var listPromotionVm = new List<PromotionVm>();
 
+            foreach (var item in list)
+            {
+                if(item.StartDate.Date <= DateTime.Now && DateTime.Now <= item.EndDate)
+                {
+                    var promotionVm = new PromotionVm()
+                    {
+                        PromotionId = item.PromotionId,
+                        PromotionName = item.PromotionName,
+                        Description = item.Description,
+                        PromotionImage = item.PromotionImage,
+                        StartDate = item.StartDate,
+                        EndDate = item.EndDate,
+                        BannerImage = item.BannerImage,
+                        DiscountPercent = item.DiscountPercent,
+                        MaxDiscount = item.MaxDiscount,
+                        Status = item.Status,
+                    };
+                    listPromotionVm.Add(promotionVm);
+                }
+            }
+            return new ApiSuccessResult<List<PromotionVm>>(listPromotionVm.ToList());
+        }
 
         public async Task<ApiResult<PromotionVm>> GetPromotionById(Guid PromotionId)
         {
