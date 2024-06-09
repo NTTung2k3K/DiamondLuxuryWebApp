@@ -2,6 +2,7 @@
 using DiamondLuxurySolution.AdminCrewApp.Service.Order;
 using DiamondLuxurySolution.AdminCrewApp.Service.Payment;
 using DiamondLuxurySolution.AdminCrewApp.Service.Product;
+using DiamondLuxurySolution.AdminCrewApp.Service.Promotion;
 using DiamondLuxurySolution.AdminCrewApp.Service.Staff;
 using DiamondLuxurySolution.Application.Repository.Promotion;
 using DiamondLuxurySolution.Data.Entities;

@@ -17,7 +17,6 @@ using DiamondLuxurySolution.AdminCrewApp.Service.Login;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using DiamondLuxurySolution.AdminCrewApp.Service.About;
-using DiamondLuxurySolution.Application.Repository.Promotion;
 using DiamondLuxurySolution.AdminCrewApp.Service.Promotion;
 using DiamondLuxurySolution.AdminCrewApp.Service.GemPriceList;
 using DiamondLuxurySolution.AdminCrewApp.Service.News;
@@ -50,20 +49,35 @@ builder.Services.AddTransient<INewsApiService, NewsApiService>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddTransient<IPlatformApiService, PlatformApiService>();
+
 builder.Services.AddTransient<IFrameApiService, FrameApiService>();
+
 builder.Services.AddTransient<IPaymentApiService, PaymentApiService>();
+
 builder.Services.AddTransient<IDiscountApiService, DiscountApiService>();
+
 builder.Services.AddTransient<IPromotionApiService, PromotionApiService>();
+
 builder.Services.AddTransient<IInspectionCertificateApiService, InspectionCertificateApiService>();
+
 builder.Services.AddTransient<IContactApiService, ContactApiService>();
+
 builder.Services.AddTransient<IGemApiService, GemApiService>();
+
 builder.Services.AddTransient<IMaterialApiService, MaterialApiService>();
+
 builder.Services.AddTransient<ISlideApiService, SlideApiService>();
+
 builder.Services.AddTransient<IAboutApiService, AboutApiService>();
+
 builder.Services.AddTransient<ICategoryApiService, CategoryApiService>();
+
 builder.Services.AddTransient<IGemPriceListApiService, GemPriceListApiService>();
+
 builder.Services.AddTransient<IWarrantyApiService, WarrantyApiService>();
+
 builder.Services.AddTransient<IKnowLedgeNewsApiService, KnowledgeNewsApiService>();
+
 builder.Services.AddTransient<IKnowledgeNewsCategoryApiService, KnowledgeNewsCategoryApiService>();
 
 

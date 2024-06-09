@@ -1,5 +1,4 @@
 ﻿using DiamondLuxurySolution.AdminCrewApp.Service.Promotion;
-using DiamondLuxurySolution.Application.Repository.Promotion;
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Promotion;
@@ -11,12 +10,10 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
     public class PromotionController : Controller
     {
-        private readonly LuxuryDiamondShopContext _context;
         private readonly IPromotionApiService _promotionApiService;
 
-        public PromotionController(LuxuryDiamondShopContext context, IPromotionApiService promotionApiService)
+        public PromotionController(IPromotionApiService promotionApiService)
         {
-            _context = context;
             _promotionApiService = promotionApiService;
         }
 

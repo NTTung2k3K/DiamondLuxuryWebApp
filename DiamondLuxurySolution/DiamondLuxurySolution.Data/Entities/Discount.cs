@@ -14,6 +14,8 @@ public partial class Discount
     public double PercentSale { get; set; }
     public int From { get; set; }
     public int To { get; set; }
+
+    
     public bool Status { get; set; }
     public List<Order> Orders { get; set; }
     
