@@ -332,7 +332,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 ViewBag.PaidTheRest = request.PaidTheRest;
                 ViewBag.Message = request.Message;
 
-             
+                
                 string userIdString = HttpContext.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_ID);
                 Guid userId;
 
