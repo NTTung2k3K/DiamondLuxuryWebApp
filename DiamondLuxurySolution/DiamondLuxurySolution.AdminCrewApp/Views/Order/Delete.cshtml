@@ -1,11 +1,11 @@
-﻿@model DiamondLuxurySolution.ViewModel.Models.News.NewsVm
+﻿@model DiamondLuxurySolution.ViewModel.Models.Order.OrderVm
 
 @{
     ViewData["Title"] = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Xóa tin tức </h1>
+<h1>Xóa sản phẩm </h1>
 @if (ViewBag.Errors != null)
 {
     foreach (var error in ViewBag.Errors)
@@ -16,76 +16,305 @@
 @if (Model != null)
 {
 
-    <h3 style="color: red">Bạn có muốn xóa tin tức này?</h3>
+    <h3 style="color: red">Bạn có muốn xóa sản phẩm này?</h3>
     <div>
         <hr />
         <dl class="row">
-            <dt class="col-sm-2">
-                Id của tin tức
+            <dt class="col-sm-3">
+                Mã đơn hàng
             </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.NewsId)
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.OrderId)
             </dd>
-            <dt class="col-sm-2">
-                Người viết
+            <dt class="col-sm-3">
+                Nhân viên phụ trách
             </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Writer.FullName)
+            <dd class="col-sm-9">
+                <p>
+                    @Html.DisplayFor(model => model.StaffVm.FullName)
+                </p>
             </dd>
-            <dt class="col-sm-2">
-                Tên tin tức
+            <dt class="col-sm-3">
+                Lần chỉnh sửa đơn hàng gần đây
             </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.NewName)
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Datemodified)
             </dd>
-            <dt class="col-sm-2">
-                Hình đại diện
+            <dt class="col-sm-3">
+                Người đặt
             </dt>
-            <dd class="col-sm-10">
-                @if (Model.Image != null && Model.Image != "")
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.ShipName)
+            </dd>
+            <dt class="col-sm-3">
+                Số điện thoại
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.ShipPhoneNumber)
+            </dd>
+            <dt class="col-sm-3">
+                Email
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.ShipEmail)
+            </dd>
+
+            <dt class="col-sm-3">
+                Địa chỉ giao hàng
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.Description != null)
                 {
-                    <img src="@Model.Image" style="style= height:100px; width:100px" />
+                    <div>
+                        <p>
+                            @Html.DisplayFor(model => model.ShipAdress)
+                        </p>
+                    </div>
                 }
                 else
                 {
-                    <h5>Chưa có hình ảnh</h5>
+                    <p>Không có</p>
                 }
             </dd>
-            <dt class="col-sm-2">
+            <dt class="col-sm-3">
+                Mô tả
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.Description != null)
+                {
+                    <div>
+                        <p>
+                            @Html.DisplayFor(model => model.Description)
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    <p>Không có</p>
+                }
+            </dd>
+
+            <dt class="col-sm-3">
                 Trạng thái
             </dt>
-            <dd class="col-sm-10">
-                @if (Model.Status)
+            <dd class="col-sm-9">
+                @if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()))
                 {
-                    <div style="color:green">Hoạt động</div>
+                    <p value="@Model.Status">
+                        Hủy đơn
+                    </p>
+                }
+                else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Confirmed.ToString()))
+                {
+                    <p value="@Model.Status">
+                        Đã xác nhận
+                    </p>
+                }
+                else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Deposit.ToString()))
+                {
+                    <p value="@Model.Status">
+                        Đặt cọc
+                    </p>
+                }
+                else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()))
+                {
+                    <p value="@Model.Status">
+                        Đang xử lý
+                    </p>
+                }
+                else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.ProcessOfPayment.ToString()))
+                {
+                    <p value="@Model.Status">
+                        Trong quá trình thanh toán
+                    </p>
+                }
+                else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Shipping.ToString()))
+                {
+                    <p value="@Model.Status">
+                        Đang vận chuyển
+                    </p>
+                }
+                else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
+                {
+                    <p value="@Model.Status">
+                        Thành công
+                    </p>
                 }
                 else
                 {
-                    <div style="color:red">Đã ẩn</div>
+                    <p value="@Model.Status">
+                        N/A
+                    </p>
                 }
 
             </dd>
-            <dt class="col-sm-2">
-                Lần chỉnh sửa gần nhất
+
+            <dt class="col-sm-3">
+                Chương trình khuyến mãi
             </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.DateModified)
+            <dd class="col-sm-9">
+                @if (Model.PromotionVm != null)
+                {
+                    <div>
+                        <p>
+                            @Html.DisplayFor(model => model.PromotionVm.PromotionName)
+                        </p>
+
+                        <p>
+                            <span>Từ ngày</span>
+                            @Html.DisplayFor(model => model.PromotionVm.StartDate)
+                        </p>
+
+                        <p>
+                            <span>Đến ngày</span>
+                            @Html.DisplayFor(model => model.PromotionVm.EndDate)
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    <p>Không có</p>
+                }
             </dd>
-            <dt class="col-sm-2">
-                Mô tả
+
+
+
+            <dt class="col-sm-3">
+                Mã giảm giá
             </dt>
-            <dd class="col-sm-10">
-                @Html.Raw(Model.Description)
+            <dd class="col-sm-9">
+                @if (Model.DiscountVm != null)
+                {
+                    <div>
+                        <p>
+                            @Html.DisplayFor(model => model.DiscountVm.DiscountName)
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    <p>Không có</p>
+                }
+            </dd>
+            <dt class="col-sm-3">
+                Sản phẩm
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.ListOrderProduct != null)
+                {
+                    foreach (var product in Model.ListOrderProduct)
+                    {
+                        <p>
+                            @product.ProductName &nbsp; Giá: @product.UnitPrice &nbsp; Số lượng @product.Quantity
+                        </p>
+                    }
+                }
+                else
+                {
+                    <p>Không có</p>
+                }
+            </dd>
+
+
+            <dt class="col-sm-3">
+                Số tiền giảm
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.TotalSale != null && Model.TotalSale != 0)
+                {
+                    @Html.DisplayFor(model => model.TotalSale)
+
+                    <span>đ</span>
+                }
+                else
+                {
+
+                    <span>0đ</span>
+
+                }
+            </dd>
+            <dt class="col-sm-3">
+                Tổng cộng
+            </dt>
+            <dd class="col-sm-9" style="color:red">
+                @Html.DisplayFor(model => model.TotalAmount)<span>đ</span>
+            </dd>
+
+            <dt class="col-sm-3">
+                Trả trước
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Deposit)
+            </dd>
+
+            <dt class="col-sm-3">
+                Còn lại
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.RemainAmount)
+            </dd>
+
+            <dt class="col-sm-3">
+                Số lần thanh toán
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.OrdersPaymentVm != null)
+                {
+                    foreach (var payment in Model.OrdersPaymentVm)
+                    {
+                        <p style="font-weight:bold">Thời gian: @payment.PaymentTime</p>
+                        <p>
+                            &nbsp;&nbsp; &nbsp;&nbsp; - Phương thức: @payment.PaymentMethod &nbsp;  &nbsp; Số tiền: @payment.PaymentAmount &nbsp; Lời nhắn: @(payment.Message != string.Empty ? payment.Message : "N/A")  &nbsp; Trạng thái: @if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                            {
+                                <span>Thành công</span>
+                            }
+                            else if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString()))
+                            {
+                                <span>Đang chờ</span>
+                            }
+                            else if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
+                            {
+                                <span>Thất bại</span>
+                            }
+                        </p>
+                    }
+                }
+                else
+                {
+                    <p>Không có</p>
+                }
+            </dd>
+
+            <dt class="col-sm-3">
+                Giao hàng
+            </dt>
+            <dd class="col-sm-9">
+                <div class="form-check form-switch ">
+                    <input class="form-check-input f-18 ml-3" type="checkbox" value="@Model.IsShip" disabled />
+                </div>
+            </dd>
+            <dt class="col-sm-3">
+                Nhân viên giao hàng
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.ShiperVm != null)
+                {
+                    @Html.DisplayFor(model => model.ShiperVm.FullName)
+                }
+                else
+                {
+                    <p>Không có</p>
+                }
             </dd>
         </dl>
-        <form asp-action="Delete" asp-controller="News" method="post">
-            <input type="hidden" name="NewsId" value="@Model.NewsId" />
+        <form asp-action="DeleteConfirmed" asp-controller="Order" method="post">
+            <input type="hidden" name="OrderId" value="@Model.OrderId" />
             <input type="submit" value="Xóa" class="btn btn-danger" />
-            <a class="m-5" asp-action="Index" asp-controller="News">Về trang quản lí tin tức</a>
+            <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
         </form>
     </div>
 }
 else
 {
-    <a class="m-5" asp-action="Index" asp-controller="News">Về trang quản lí tin tức</a>
+    <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
 }

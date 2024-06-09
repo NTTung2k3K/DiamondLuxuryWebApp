@@ -6,19 +6,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Chỉnh sửa đơn hàng</h1>
-@if (ViewBag.Errors != null)
-{
-    foreach (var error in ViewBag.Errors)
-    {
-        <h6 class="text-danger">@error</h6>
-    }
-}
+<h1>Thanh toán phần còn lại</h1>
+
 @if (Model != null)
 {
     <div class="row">
         <div class="col-md-10">
             <form asp-action="Edit" asp-controller="Order" method="post">
+                <h3 class="text-center m-4" style="color:brown">Thông tin đơn hàng</h3>
+
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group m-2">
                     <label asp-for="OrderId" class="control-label m-2">Mã đơn hàng</label>
@@ -27,27 +23,27 @@
 
                 <div class="form-group m-2">
                     <label asp-for="Fullname" class="control-label m-2">Tên người mua</label>
-                    <input asp-for="Fullname" class="form-control" />
+                    <input asp-for="Fullname" readonly class="form-control" />
                     <span asp-validation-for="Fullname" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="PhoneNumber" class="control-label m-2">Số điện thoại</label>
-                    <input asp-for="PhoneNumber" class="form-control" />
+                    <input asp-for="PhoneNumber" readonly class="form-control" />
                     <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="Email" class="control-label m-2">Email</label>
-                    <input asp-for="Email" class="form-control" />
+                    <input asp-for="Email" readonly class="form-control" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="ShipAdress" class="control-label m-2"></label>
-                    <input asp-for="ShipAdress" class="form-control" />
+                    <input asp-for="ShipAdress" readonly class="form-control" />
                     <span asp-validation-for="ShipAdress" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="DiscountId" class="control-label m-2"></label>
-                    <input asp-for="DiscountId" class="form-control" />
+                    <input asp-for="DiscountId" readonly class="form-control" />
                 </div>
 
                 <div class="form-group m-2">
@@ -55,7 +51,7 @@
                     <!--Start dropdown list-->
                     @if (Model != null)
                     {
-                        <select class="m-2 h-50" name="Status">
+                        <select class="m-2 h-50" name="Status" disabled>
                             @foreach (var item in ViewBag.ListStatus)
                             {
                                 bool isSelected = Model != null && Model.Status.ToString().Equals(item.ToString());
@@ -117,7 +113,7 @@
                     }
                     else
                     {
-                        <select class="m-2 h-50" name="Status">
+                        <select class="m-2 h-50" name="Status" disabled>
                             @foreach (var item in ViewBag.ListStatus)
                             {
 
@@ -176,7 +172,7 @@
                     <!--Promotion-->
                     <div class="form-group m-2">
                         <label asp-for="PromotionId" class="control-label m-2">Chương trình khuyến mãi hiện có</label>
-                        <select class="h-50 " name="PromotionId">
+                        <select class="h-50 " name="PromotionId" disabled>
                             @if (ViewBag.ListPromotionOnTime != null && ViewBag.ListPromotionOnTime.Count > 0)
                             {
                                 @foreach (var promotion in ViewBag.ListPromotionOnTime)
@@ -235,7 +231,6 @@
                                             <th>#</th>
                                             <th><span class="text-danger">*</span>Thông tin</th>
                                             <th><span class="text-danger">*</span>Số lượng</th>
-                                            <th class="text-center">Hành động</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -254,20 +249,15 @@
                                                     <input class="select-subgem" name="ListExistOrderProduct[@i].ProductId" value="@(Model.ListExistOrderProduct.ElementAt(i).ProductId)" type="hidden" />
 
                                                 </td>
-                                                <td><input type="number" value="@(Model.ListExistOrderProduct.ElementAt(i).Quantity)" class="form-control" name="ListExistOrderProduct[@i].Quantity" placeholder="Số lượng" /></td>
-                                                <td class="text-center">
-                                                    <a class="avtar avtar-s btn-link-danger btn-pc-default delete-item delete-subgem"><i class="ti ti-trash f-20"></i></a>
-                                                </td>
+                                                <td><input readonly type="number" value="@(Model.ListExistOrderProduct.ElementAt(i).Quantity)" class="form-control" name="ListExistOrderProduct[@i].Quantity" placeholder="Số lượng" /></td>
+
                                             </tr>
                                         }
                                         <!-- Khởi tạo tbody trống -->
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="d-flex justify-content-center mt-3">
-                                <hr class="mb-4 mt-0 border-secondary border-opacity-50">
-                                <button id="addItemBtn" type="button" class="btn btn-light-primary d-flex align-items-center gap-2"><i class="ti ti-plus"></i> Thêm</button>
-                            </div>
+
                         </div>
                     </div>
 
@@ -288,7 +278,7 @@
 
                         <div class="form-group m-2">
                             <label asp-for="Deposit" class="control-label m-2"></label>
-                            <input asp-for="Deposit" type="number" value="0" class="form-control" />
+                            <input asp-for="Deposit" disabled type="number" value="0" class="form-control" />
                         </div>
                     }
                     else
@@ -296,13 +286,15 @@
 
                         <div class="form-group m-2">
                             <label asp-for="Deposit" class="control-label m-2"></label>
-                            <input asp-for="Deposit" type="number" class="form-control" />
+                            <input asp-for="Deposit" disabled type="number" class="form-control" />
                         </div>
                     }
                     <div class="form-group m-2">
                         <label>Hình thức đã chọn</label>
                         <div>
-                            @{decimal remain = 0; }
+                            @{
+                                decimal remain = 0;
+                            }
                             @if (ViewBag.PaymentList != null)
                             {
                                 foreach (var payment in ViewBag.PaymentList)
@@ -331,37 +323,114 @@
                             }
                         </div>
                     </div>
-                    <div class="m-2">
-                        <p style="font-weight:bold">Số tiền đã trả: &nbsp; <span style="color:orange">@remain đ</span></p>
                     </div>
+                <div class="m-2">
+                    <p style="font-weight:bold">Số tiền đã trả: &nbsp; <span style="color:orange">@remain đ</span></p>
+                </div>
 
-                    @{
-                        remain = ViewBag.total - remain;
-                    }
-                    <div class="m-2">
-                        <p style="font-weight:bold">Số tiền còn lại: &nbsp; <span style="color:orange">@remain đ</span></p>
-                    </div>
-
+                @{
+                    remain = ViewBag.total - remain;
+                }
+                <div class="m-2">
+                    <p style="font-weight:bold">Số tiền còn lại: &nbsp; <span style="color:orange">@remain đ</span></p>
+                </div>
                     <div class="form-group m-2">
                         <label asp-for="Description" class="control-label m-2"></label>
-                        <input asp-for="Description" class="form-control" />
+                        <input asp-for="Description" disabled class="form-control" />
+                    </div>
+            </form>
+            
+            <form asp-action="PaidTheRest" asp-controller="Order" method="post">
+                <h3 class="text-center m-4" style="color:green">Thanh toán</h3>
+                @if (ViewBag.Errors != null)
+                {
+                    foreach (var error in ViewBag.Errors)
+                    {
+                        <h6 class="text-danger m-2">@error</h6>
+                    }
+                }
+                <div class="form-group row">
+                    <input asp-for="OrderId" type="hidden" class="form-control" />
+                    <div class="form-group m-2">
+                        <label asp-for="ListPaymentId" class="control-label m-2">Hình thức thanh toán</label>
+                        <select class="h-50 " name="PaymentId">
+                            @if (ViewBag.ListPayment != null && ViewBag.ListPayment.Count > 0)
+                            {
+                                @foreach (var payment in ViewBag.ListPayment)
+                                {
+                                    
+                                    if (ViewBag.PaymentId.ToString().Trim().Equals(payment.PaymentId.ToString().Trim()))
+                                    {
+                                        <option value="@payment.PaymentId" selected>
+                                            <div>
+                                                Tên: @payment.PaymentMethod &nbsp
+                                            </div>
+                                        </option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@payment.PaymentId">
+                                            <div>
+                                                Tên: @payment.PaymentMethod &nbsp
+                                            </div>
+                                        </option>
+                                    }
+
+                                }
+                            }
+                            else
+                            {
+                                <option>Không có</option>
+                            }
+
+                        </select>
+                        <br />
                     </div>
 
-                    <div class="form-group row">
-                        <div class="col-md-5">
-                            <input type="submit" value="Lưu" class="btn btn-success" />
+                    @if (ViewBag.PaidTheRest != null)
+                    {
+                        <div class="form-group m-2">
+                            <label class="control-label m-2">Số tiền thanh toán</label>
+                            <input name="PaidTheRest" value="@ViewBag.PaidTheRest" class="form-control" />
                         </div>
-                        <div class="col-md-7">
-                            <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
+                    }
+                    else
+                    {
+                        <div class="form-group m-2">
+                            <label class="control-label m-2">Số tiền thanh toán</label>
+                            <input name="PaidTheRest" value="0" class="form-control" />
                         </div>
+                    }
+
+                    @if (ViewBag.Message != null)
+                    {
+                        <div class="form-group m-2">
+                            <label class="control-label m-2">Lời nhắn</label>
+                            <input name="Message" value="@ViewBag.Message" class="form-control" />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group m-2">
+                            <label class="control-label m-2">Lời nhắn</label>
+                            <input name="Message" class="form-control" />
+                        </div>
+                    }
+
+                    <div class="col-md-5">
+                        <input type="submit" value="Xác nhận" class="btn btn-success" />
                     </div>
+                    <div class="col-md-7">
+                        <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
+                    </div>
+                </div>
             </form>
         </div>
     </div>
 }
 else
 {
-    <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí tin tức</a>
+    <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
 }
 <hr />
 
@@ -440,15 +509,15 @@ else
             // Thêm dòng mới và cập nhật tên các input
             function addRow() {
                 var newRow = `<tr class="added-row">
-                                                            <td></td>
-                                                            <td>
-                                                                <select class="h-50 control-index" name=""></select>
-                                                            </td>
-                                                            <td><input type="number" value="1" class="form-control control-index" name="" placeholder="Số lượng" /></td>
-                                                            <td class="text-center">
-                                                                <a class="avtar avtar-s btn-link-danger btn-pc-default delete-item huhu"><i class="ti ti-trash f-20"></i></a>
-                                                            </td>
-                                                        </tr>`;
+                                                                                    <td></td>
+                                                                                    <td>
+                                                                                        <select class="h-50 control-index" name=""></select>
+                                                                                    </td>
+                                                                                    <td><input type="number" value="1" class="form-control control-index" name="" placeholder="Số lượng" /></td>
+                                                                                    <td class="text-center">
+                                                                                        <a class="avtar avtar-s btn-link-danger btn-pc-default delete-item huhu"><i class="ti ti-trash f-20"></i></a>
+                                                                                    </td>
+                                                                                </tr>`;
                 $('#itemTable tbody').append(newRow);
                 createOptions();
                 updateIndexes();
@@ -529,30 +598,7 @@ else
                 row.remove();
                 // Update the indices
                 updateIndices();
-                calculateTotal();
             });
-
-
-            function calculateTotal() {
-                var total = 0;
-                $('#itemTable tbody tr').each(function () {
-                    var row = $(this);
-                    var quantity = row.find('input[type="number"]').val();
-                    var select = row.find('.control-index').filter('select');
-                    var selectedOption = select.find('option:selected');
-                    var sellingPrice = selectedOption.data('price');
-                    // Read data-price from the div if option is not available
-                    if (!sellingPrice) {
-                        sellingPrice = row.find('div').data('price');
-                    }
-
-                    if (!isNaN(quantity) && quantity.length !== 0 && !isNaN(sellingPrice)) {
-                        total += parseInt(quantity) * parseFloat(sellingPrice);
-                    }
-                });
-                $('#total').text(total);
-            }
-
 
             function updateIndices() {
                 // Get all the rows
@@ -568,7 +614,6 @@ else
                     subGemInput.attr('name', `ListExistOrderProduct[${index}].ProductId`);
                     quantityInput.attr('name', `ListExistOrderProduct[${index}].Quantity`);
                 });
-                calculateTotal();
             }
         });
     </script>

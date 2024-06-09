@@ -21,6 +21,9 @@ public partial class Order
     public string ShipAdress { get; set; }
 
     public DateTime OrderDate { get; set; }
+    public DateTime? Datemodified { get; set; }
+
+    public decimal? TotalSale { get; set; }
 
     public decimal TotalAmout { get; set; }
 

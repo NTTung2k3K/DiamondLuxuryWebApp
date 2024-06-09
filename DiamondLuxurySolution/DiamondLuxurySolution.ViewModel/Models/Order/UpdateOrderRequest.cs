@@ -40,7 +40,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Order
         [DisplayName("Số tiền trả trước")]
         public decimal? Deposit { get; set; }
         public string? ListOrderProductJson { get; set; }
-        public StaffVm StaffVm { get; set; }
+        public Guid? StaffId { get; set; }
         public Guid? CustomerId { get; set; }
         public virtual ICollection<OrderProductSupport> ListOrderProduct { get; set; } = new List<OrderProductSupport>();
         public virtual ICollection<OrderProductSupport> ListExistOrderProduct { get; set; } = new List<OrderProductSupport>();

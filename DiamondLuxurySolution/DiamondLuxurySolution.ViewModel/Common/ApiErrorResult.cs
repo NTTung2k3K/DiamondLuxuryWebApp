@@ -22,7 +22,7 @@ namespace DiamondLuxurySolution.ViewModel.Common
 
         public ApiErrorResult(string message, List<string> validationErrors)
         {
-            ValidationErrors = validationErrors;
+                ValidationErrors = validationErrors;
             Message = message;
             IsSuccessed = false;
         }

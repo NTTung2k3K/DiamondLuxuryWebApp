@@ -63,7 +63,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Order
 
         public async Task<ApiResult<PageResult<OrderVm>>> ViewOrder(ViewOrderRequest request)
         {
-            var data = await GetAsync<PageResult<OrderVm>>($"api/Orders/View?Keyword={request.pageIndex}&pageIndex={request.pageIndex}");
+            var data = await GetAsync<PageResult<OrderVm>>($"api/Orders/View?Keyword={request.Keyword}&pageIndex={request.pageIndex}");
             return data;
         }
     }

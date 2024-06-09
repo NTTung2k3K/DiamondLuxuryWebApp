@@ -6,6 +6,7 @@ using DiamondLuxurySolution.ViewModel.Models.Category;
 using DiamondLuxurySolution.ViewModel.Models.Gem;
 using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
 using DiamondLuxurySolution.ViewModel.Models.Material;
+using DiamondLuxurySolution.ViewModel.Models.Order;
 using DiamondLuxurySolution.ViewModel.Models.Platform;
 using DiamondLuxurySolution.ViewModel.Models.Product;
 using Microsoft.AspNetCore.Identity;
@@ -95,7 +96,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 }
                 foreach (var item in GemPriceList)
                 {
-                    if (item.effectDate.Date == DateTime.Now.Date)
+                    if (item.effectDate.Date <= DateTime.Now.Date && DateTime.Now.Date <= item.effectDate.Date.AddDays(7))
                     {
                         totalPriceGem += (decimal)item.Price;
                     }
@@ -184,7 +185,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     product.FrameId = frame.FrameId;
                     var frameWeight = frame.Weight;
                     var material = await _context.Materials.FindAsync(frame.MaterialId);
-                    if (material.EffectDate.Date.Equals(DateTime.Now.Date))
+                    if (material.EffectDate.Date<= DateTime.Now.Date && DateTime.Now.Date<= material.EffectDate.Date.AddDays(3))
                     {
                         totalFramePrice = (decimal)material.Price * (decimal)frameWeight;
                     }
@@ -361,14 +362,22 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 {
                     return new ApiErrorResult<bool>("Lỗi thông tin", errorList);
                 }
+                var listCheckDuplicate = new List<SubGemSupportDTO>();
+                foreach (var item in request.ListSubGems)
+                {
+                    listCheckDuplicate.Add(item);
+                }
+                foreach (var item in request.ExistingListSubGems)
+                {
+                    listCheckDuplicate.Add(item);
+                }
                 if (request.ListSubGems != null)
                 {
-                    if (HasDuplicates(request.ListSubGems))
+                    if (HasDuplicates(listCheckDuplicate))
                     {
                         return new ApiErrorResult<bool>("Kim cương phụ bị trùng, vui lòng chọn lại");
                     }
                 }
-
                 var product = await _context.Products.FindAsync(request.ProductId);
                 if (product == null)
                 {
@@ -391,7 +400,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 
                 foreach (var item in GemPriceList)
                 {
-                    if (item.effectDate.Date == DateTime.Now.Date)
+                    if (item.effectDate.Date <= DateTime.Now.Date && DateTime.Now.Date <= item.effectDate.Date.AddDays(7))
                     {
                         totalPriceGem += (decimal)item.Price;
                     }
@@ -455,7 +464,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                     product.FrameId = frame.FrameId;
                     var frameWeight = frame.Weight;
                     var material = await _context.Materials.FindAsync(frame.MaterialId);
-                    if (material.EffectDate.Date.Equals(DateTime.Now.Date))
+                    if (material.EffectDate.Date <= DateTime.Now.Date && DateTime.Now.Date <= material.EffectDate.Date.AddDays(3))
                     {
                         totalFramePrice = (decimal)material.Price * (decimal)frameWeight;
                     }
