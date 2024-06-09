@@ -31,7 +31,9 @@ namespace DiamondLuxurySolution.Utilities.Constants
             Confirmed,
             Shipping,
             Success,
-            Canceled
+            Canceled,
+            ProcessOfPayment,
+            Deposit,
         }
         public enum Status
         {

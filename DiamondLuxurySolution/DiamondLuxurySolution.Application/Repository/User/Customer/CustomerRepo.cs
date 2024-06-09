@@ -267,7 +267,8 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
                 Dob = request.Dob,
                 PhoneNumber = request.PhoneNumber.Trim(),
                 UserName = username,
-                Address = ""
+                Address = "",
+                Point =0
             };
             user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.New.ToString();
             var status = await _userManager.CreateAsync(user, request.Password);

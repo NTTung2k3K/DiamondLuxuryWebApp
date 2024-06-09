@@ -113,7 +113,23 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
-
+        [HttpGet("GetAllOnTime")]
+        public async Task<IActionResult> GetAllOnTime()
+        {
+            try
+            {
+                var status = await _promotion.GetAllOnTime();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
         [HttpGet("ViewInCustomer")]
         public async Task<IActionResult> ViewAllPromotionPaginationInCustomer([FromQuery] ViewPromotionRequest request)
