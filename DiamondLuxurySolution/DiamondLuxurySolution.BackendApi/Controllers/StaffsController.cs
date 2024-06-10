@@ -42,7 +42,23 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
-
+        [HttpGet("GetNumberCustomerToday")]
+        public async Task<ActionResult> GetNumberCustomerToday()
+        {
+            try
+            {
+                var status = await _Staff.ViewNewCustomerOnDay();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         [HttpGet("GetStaffById")]
         public async Task<ActionResult> GetStaffById([FromQuery] Guid StaffId)
         {

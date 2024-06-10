@@ -26,6 +26,7 @@ using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNewsCategoty;
 using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNewsCategory;
 using DiamondLuxurySolution.AdminCrewApp.Service.Product;
 using DiamondLuxurySolution.AdminCrewApp.Service.Order;
+using DiamondLuxurySolution.AdminCrewApp.Service.Home;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,6 +35,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<ILoginApiService, LoginApiService>();
+builder.Services.AddTransient<IHomeApiService, HomeApiService>();
 
 builder.Services.AddTransient<IOrderApiService, OrderApiService>();
 

@@ -1163,6 +1163,248 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             return new ApiSuccessResult<PageResult<OrderVm>>(listResult, "Success");
         }
 
+        public async Task<ApiResult<decimal>> TotalIncome()
+        {
+            var totalOrder = (decimal)_context.OrdersPayments.Where(x => x.Status == DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()).Sum(x => x.PaymentAmount);
+            return  new ApiSuccessResult<decimal>(totalOrder,"Success");
+        }
+
+        public async Task<ApiResult<int>> TotalOrder()
+        {
+            var totalOrder = _context.Orders.Count();
+            return new ApiSuccessResult<int>(totalOrder, "Success");
+        }
+
+        public async Task<ApiResult<int>> AllOrderToday()
+        {
+            var totalOrder = _context.Orders.Where(x=> x.OrderDate.Date==DateTime.Now.Date).Count();
+            return new ApiSuccessResult<int>(totalOrder, "Success");
+        }
+
+        public async Task<ApiResult<List<decimal>>> IncomeAYear()
+        {
+            var currentYear = DateTime.Now.Year;
+            var totalOrder = await _context.OrdersPayments.Where(x => x.Status == DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString() &&
+                    x.PaymentTime.Year == currentYear).GroupBy(x => x.PaymentTime.Month)
+                .Select(x => new
+                {
+                    Month = x.Key,
+                    TotalIncome = x.Sum(x => x.PaymentAmount)
+                }).ToListAsync();
+            var incomeByMonth = new List<decimal>(new decimal[12]);
+
+            foreach (var item in totalOrder)
+            {
+                incomeByMonth[item.Month - 1] = item.TotalIncome;
+            }
+
+            return new ApiSuccessResult<List<decimal>>(incomeByMonth, "Success");
+        }
+
+        public async Task<ApiResult<List<OrderVm>>> RecentTransaction()
+        {
+            var orders = await _context.Orders.Include(x => x.Customer).Include(x => x.OrdersPayment).ThenInclude(x => x.Payment).OrderByDescending(y => y.OrderDate).Take(8)
+                .ToListAsync();
+
+            List<OrderVm> listOrderVm = new List<OrderVm>();
+            foreach (var order in orders)
+            {
+                var orderVms = new OrderVm()
+                {
+                    OrderId = order.OrderId,
+                    ShipName = order.ShipName,
+                };
+
+                if (order.OrdersPayment != null)
+                {
+                    orderVms.OrdersPaymentVm = order.OrdersPayment.OrderByDescending(y => y.PaymentTime).Take(1).Select(op => new OrderPaymentSupportDTO()
+                    {
+                        PaymentId = op.PaymentId,
+                        PaymentMethod = op.Payment.PaymentMethod,
+                        PaymentTime = op.PaymentTime,
+                        Status = op.Status,
+                        PaymentAmount = op.PaymentAmount,
+                        Message = op.Message
+                    }).ToList();
+                }
+                listOrderVm.Add(orderVms);
+            }
+
+           
+            return new ApiSuccessResult<List<OrderVm>>(listOrderVm, "Success");
+        }
+
+        public async Task<ApiResult<List<OrderVm>>> RecentSuccessTransaction()
+        {
+            var orders = await _context.Orders.Include(x => x.Customer).Include(x => x.OrdersPayment).ThenInclude(x => x.Payment).Where(order => order.OrdersPayment.Any(payment => payment.Status == DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+     .OrderByDescending(y => y.OrderDate).Take(8)
+                .ToListAsync();
+
+            List<OrderVm> listOrderVm = new List<OrderVm>();
+            foreach (var order in orders)
+            {
+                var orderVms = new OrderVm()
+                {
+                    OrderId = order.OrderId,
+                    ShipAdress = order.ShipAdress,
+                    ShipEmail = order.ShipEmail,
+                    ShipPhoneNumber = order.ShipPhoneNumber,
+                    ShipName = order.ShipName,
+                    Status = order.Status,
+                    TotalAmount = order.TotalAmout,
+                    RemainAmount = order.RemainAmount,
+                    Deposit = order.Deposit,
+                    Description = order.Description,
+                    DateCreated = order.OrderDate,
+                    Datemodified = order.Datemodified,
+                    TotalSale = order.TotalSale,
+                    IsShip = order.isShip,
+                };
+
+                if (order.OrdersPayment != null)
+                {
+                    orderVms.OrdersPaymentVm = order.OrdersPayment.OrderByDescending(y => y.PaymentTime).Take(1).Select(op => new OrderPaymentSupportDTO()
+                    {
+                        PaymentId = op.PaymentId,
+                        PaymentMethod = op.Payment.PaymentMethod,
+                        PaymentTime = op.PaymentTime,
+                        Status = op.Status,
+                        PaymentAmount = op.PaymentAmount,
+                        Message = op.Message
+                    }).ToList();
+                }
+                listOrderVm.Add(orderVms);
+            }
+
+
+            return new ApiSuccessResult<List<OrderVm>>(listOrderVm, "Success");
+        }
+
+        public async Task<ApiResult<List<OrderVm>>> RecentWaitTransaction()
+        {
+            var orders = await _context.Orders.Include(x => x.Customer).Include(x => x.OrdersPayment).ThenInclude(x => x.Payment).Where(order => order.OrdersPayment.Any(payment => payment.Status == DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString()))
+     .OrderByDescending(y => y.OrderDate).Take(8)
+                .ToListAsync();
+
+            List<OrderVm> listOrderVm = new List<OrderVm>();
+            foreach (var order in orders)
+            {
+                var orderVms = new OrderVm()
+                {
+                    OrderId = order.OrderId,
+                    ShipAdress = order.ShipAdress,
+                    ShipEmail = order.ShipEmail,
+                    ShipPhoneNumber = order.ShipPhoneNumber,
+                    ShipName = order.ShipName,
+                    Status = order.Status,
+                    TotalAmount = order.TotalAmout,
+                    RemainAmount = order.RemainAmount,
+                    Deposit = order.Deposit,
+                    Description = order.Description,
+                    DateCreated = order.OrderDate,
+                    Datemodified = order.Datemodified,
+                    TotalSale = order.TotalSale,
+                    IsShip = order.isShip,
+                };
+
+                if (order.OrdersPayment != null)
+                {
+                    orderVms.OrdersPaymentVm = order.OrdersPayment.OrderByDescending(y => y.PaymentTime).Take(1).Select(op => new OrderPaymentSupportDTO()
+                    {
+                        PaymentId = op.PaymentId,
+                        PaymentMethod = op.Payment.PaymentMethod,
+                        PaymentTime = op.PaymentTime,
+                        Status = op.Status,
+                        PaymentAmount = op.PaymentAmount,
+                        Message = op.Message
+                    }).ToList();
+                }
+                listOrderVm.Add(orderVms);
+            }
+
+
+            return new ApiSuccessResult<List<OrderVm>>(listOrderVm, "Success");
+        }
+
+        public async Task<ApiResult<List<OrderVm>>> RecentFailTransaction()
+        {
+            var orders = await _context.Orders.Include(x => x.Customer).Include(x => x.OrdersPayment).ThenInclude(x => x.Payment).Where(order => order.OrdersPayment.Any(payment => payment.Status == DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
+     .OrderByDescending(y => y.OrderDate).Take(8)
+                .ToListAsync();
+
+            List<OrderVm> listOrderVm = new List<OrderVm>();
+            foreach (var order in orders)
+            {
+                var orderVms = new OrderVm()
+                {
+                    OrderId = order.OrderId,
+                    ShipAdress = order.ShipAdress,
+                    ShipEmail = order.ShipEmail,
+                    ShipPhoneNumber = order.ShipPhoneNumber,
+                    ShipName = order.ShipName,
+                    Status = order.Status,
+                    TotalAmount = order.TotalAmout,
+                    RemainAmount = order.RemainAmount,
+                    Deposit = order.Deposit,
+                    Description = order.Description,
+                    DateCreated = order.OrderDate,
+                    Datemodified = order.Datemodified,
+                    TotalSale = order.TotalSale,
+                    IsShip = order.isShip,
+                };
+
+                if (order.OrdersPayment != null)
+                {
+                    orderVms.OrdersPaymentVm = order.OrdersPayment.OrderByDescending(y => y.PaymentTime).Take(1).Select(op => new OrderPaymentSupportDTO()
+                    {
+                        PaymentId = op.PaymentId,
+                        PaymentMethod = op.Payment.PaymentMethod,
+                        PaymentTime = op.PaymentTime,
+                        Status = op.Status,
+                        PaymentAmount = op.PaymentAmount,
+                        Message = op.Message
+                    }).ToList();
+                }
+                listOrderVm.Add(orderVms);
+            }
+
+
+            return new ApiSuccessResult<List<OrderVm>>(listOrderVm, "Success");
+        }
+
+        public async Task<ApiResult<List<decimal>>> OrderByQuarter()
+        {
+            var currentYear = DateTime.Now.Year;
+
+            var orders = await _context.Orders
+                .Where(o => o.OrderDate.Year == currentYear)
+                .Include(o => o.OrdersPayment).Include(x => x.Customer).Include(x => x.OrdersPayment).ThenInclude(x => x.Payment)
+                .ToListAsync(); 
+
+            var quarterlyIncome = orders
+                .GroupBy(o => GetQuarter(o.OrderDate))
+                .Select(g => new
+                {
+                    Quarter = g.Key,
+                    TotalIncome = g.SelectMany(o => o.OrdersPayment)
+                                   .Where(op => op.Status == DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString())
+                                   .Sum(op => op.PaymentAmount)
+                })
+                .ToList();
+
+            var result = quarterlyIncome.Select(q => q.TotalIncome).ToList();
+
+            return new ApiSuccessResult<List<decimal>>(result,"Success");
+        }
+
+        private int GetQuarter(DateTime date)
+        {
+            return (date.Month - 1) / 3 + 1;
+        }
+
+
+
+
 
     }
 }

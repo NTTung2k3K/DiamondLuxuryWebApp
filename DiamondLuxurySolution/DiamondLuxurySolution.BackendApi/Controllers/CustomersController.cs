@@ -58,9 +58,9 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+       
 
 
-        
         [HttpPost("LoginCustomer")]
         public async Task<ActionResult> LoginCustomer([FromBody] LoginCustomerRequest request)
         {

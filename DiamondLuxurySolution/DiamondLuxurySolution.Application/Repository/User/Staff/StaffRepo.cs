@@ -808,5 +808,11 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             return new ApiSuccessResult<StaffVm>(staffVm, "Success");
         }
 
+        public async Task<ApiResult<int>> ViewNewCustomerOnDay()
+        {
+            var listUser = await _userManager.GetUsersInRoleAsync(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString());
+            listUser = listUser.Where(x => x.DateCreated.Value.Date==DateTime.Today).ToList();
+            return new ApiSuccessResult<int>(listUser.Count, "Success");
+        }
     }
 }

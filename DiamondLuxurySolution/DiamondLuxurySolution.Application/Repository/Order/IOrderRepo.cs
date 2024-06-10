@@ -16,6 +16,18 @@ namespace DiamondLuxurySolution.Application.Repository.Order
         public Task<ApiResult<bool>> UpdateShipper(UpdateShipperRequest request);
 
         public Task<ApiResult<bool>> DeleteOrder(string OrderId);
+
+        public Task<ApiResult<decimal>> TotalIncome();
+        public Task<ApiResult<int>> TotalOrder();
+        public Task<ApiResult<int>> AllOrderToday();
+        public Task<ApiResult<List<decimal>>> IncomeAYear();
+        public Task<ApiResult<List<OrderVm>>> RecentTransaction();
+        public Task<ApiResult<List<OrderVm>>> RecentSuccessTransaction();
+        public Task<ApiResult<List<OrderVm>>> RecentWaitTransaction();
+        public Task<ApiResult<List<OrderVm>>> RecentFailTransaction();
+        public Task<ApiResult<List<decimal>>> OrderByQuarter ();
+
+
         public Task<ApiResult<bool>> UpdateInfoOrder(UpdateOrderRequest request);
         public Task<ApiResult<bool>> ContinuePayment(ContinuePaymentRequest request);
 
