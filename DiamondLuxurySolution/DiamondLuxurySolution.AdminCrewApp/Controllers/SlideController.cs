@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class SlideController : Controller
+    public class SlideController : BaseController
     {
         private readonly ISlideApiService _SlideApiService;
         public SlideController(ISlideApiService slideApiService)

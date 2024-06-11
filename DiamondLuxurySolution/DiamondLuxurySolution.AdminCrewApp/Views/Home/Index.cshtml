@@ -174,7 +174,7 @@
                 </div>
                 <div class="bg-body p-3 mt-3 rounded">
                     <div class="mt-3 row align-items-center text-center">
-                        @if (ViewBag.TotalOrder != null && ViewBag.TotalOrder != 0)
+                        @if (ViewBag.OrderToday != null && ViewBag.OrderToday != 0)
                         {
                             <h5 style="color:green" class=" mb-1"><span style="color:green">+</span>@ViewBag.OrderToday</h5>
                         }
@@ -210,15 +210,15 @@
                         </div>
                     </div>
                     <div class="flex-grow-1 ms-3">
-                        <h6 class="mb-0">Khách hàng mới</h6>
+                        <h6 class="mb-0">Thu nhập hôm nay</h6>
                     </div>
 
                 </div>
                 <div class="bg-body p-3 mt-3 rounded">
                     <div class="mt-3 row align-items-center text-center">
-                        @if (ViewBag.CustomerToday != null && ViewBag.CustomerToday != 0)
+                        @if (ViewBag.IncomeToday != null && ViewBag.IncomeToday != 0)
                         {
-                            <h5 style="color:green" class=" mb-1"><span style="color:green">+</span>@ViewBag.CustomerToday</h5>
+                            <h5 style="color:green" class=" mb-1"><span style="color:green">+</span>@ViewBag.IncomeToday</h5>
                         }
                         else
                         {
@@ -325,15 +325,15 @@
                                                         <h6 class="mb-1">@i.PaymentMethod</h6>
                                                         @if (i.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
                                                         {
-                                                            <p class=" mb-0" style="color:green">@i.Status</p>
+                                                            <p class=" mb-0" style="color:green">Thành công</p>
                                                         }
                                                         else if (i.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
                                                         {
-                                                            <p class=" mb-0" style="color:red">@i.Status</p>
+                                                            <p class=" mb-0" style="color:red">Thất bại</p>
                                                         }
                                                         else
                                                         {
-                                                            <p class="mb-0" style="color:orange">@i.Status</p>
+                                                            <p class="mb-0" style="color:orange">Đang chờ</p>
                                                         }
                                                         <p class=" mb-0" style="color: orchid">@i.PaymentAmount</p>
                                                     </div>
@@ -372,15 +372,15 @@
                                                         <h6 class="mb-1">@i.PaymentMethod</h6>
                                                         @if (i.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
                                                         {
-                                                            <p class=" mb-0" style="color:green">@i.Status</p>
+                                                            <p class=" mb-0" style="color:green">Thành công</p>
                                                         }
                                                         else if (i.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
                                                         {
-                                                            <p class=" mb-0" style="color:red">@i.Status</p>
+                                                            <p class=" mb-0" style="color:red">Thất bại</p>
                                                         }
                                                         else
                                                         {
-                                                            <p class="mb-0" style="color:orange">@i.Status</p>
+                                                            <p class="mb-0" style="color:orange">Đang chờ</p>
                                                         }
                                                         <p class=" mb-0" style="color: orchid">@i.PaymentAmount</p>
                                                     </div>
@@ -419,15 +419,15 @@
                                                         <h6 class="mb-1">@i.PaymentMethod</h6>
                                                         @if (i.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
                                                         {
-                                                            <p class=" mb-0" style="color:green">@i.Status</p>
+                                                            <p class=" mb-0" style="color:green">Thành công</p>
                                                         }
                                                         else if (i.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
                                                         {
-                                                            <p class=" mb-0" style="color:red">@i.Status</p>
+                                                            <p class=" mb-0" style="color:red">Thất bại</p>
                                                         }
                                                         else
                                                         {
-                                                            <p class="mb-0" style="color:orange">@i.Status</p>
+                                                            <p class="mb-0" style="color:orange">Đang chờ</p>
                                                         }
                                                         <p class=" mb-0" style="color: orchid">@i.PaymentAmount</p>
                                                     </div>
@@ -466,15 +466,15 @@
                                                         <h6 class="mb-1">@i.PaymentMethod</h6>
                                                         @if (i.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
                                                         {
-                                                            <p class=" mb-0" style="color:green">@i.Status</p>
+                                                            <p class=" mb-0" style="color:green">Thành công</p>
                                                         }
                                                         else if (i.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
                                                         {
-                                                            <p class=" mb-0" style="color:red">@i.Status</p>
+                                                            <p class=" mb-0" style="color:red">Thất bại</p>
                                                         }
                                                         else
                                                         {
-                                                            <p class="mb-0" style="color:orange">@i.Status</p>
+                                                            <p class="mb-0" style="color:orange">Đang chờ</p>
                                                         }
                                                         <p class=" mb-0" style="color: orchid">@i.PaymentAmount</p>
                                                     </div>
@@ -517,7 +517,7 @@
                                 </div>
                             </div>
                             <h6 class="mb-0 text-center">
-                                $23,876
+                                @ViewBag.OrderByQuarter[0]
                             </h6>
                         </div>
                     </div>
@@ -534,7 +534,8 @@
                                 </div>
                             </div>
                             <h6 class="mb-0 text-center">
-                                $23,876
+                                @ViewBag.OrderByQuarter[1]
+
                             </h6>
                         </div>
                     </div>
@@ -551,7 +552,8 @@
                                 </div>
                             </div>
                             <h6 class="mb-0 text-center">
-                                $23,876 
+                                @ViewBag.OrderByQuarter[2]
+
                             </h6>
                         </div>
                     </div>
@@ -568,7 +570,8 @@
                                 </div>
                             </div>
                             <h6 class="mb-0 text-center">
-                                $23,876 
+                                @ViewBag.OrderByQuarter[3]
+
                             </h6>
                         </div>
                     </div>
@@ -577,4 +580,194 @@
         </div>
     </div>
 </div>
+@{
+    var incomeAYear = ViewBag.IncomeAYear as List<decimal>;
+    var orderByQuarter = ViewBag.OrderByQuarter as List<int>;
+}
 <!-- [ Main Content ] end -->
+@section Scripts{
+    <!-- [Page Specific JS] start -->
+    <script src="../assets/js/plugins/apexcharts.min.js"></script>
+    <!-- [Page Specific JS] end -->
+    <script>
+        var incomeAYearData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@incomeAYear));
+        var orderByQuater = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(orderByQuarter));
+
+        'use strict';
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                floatchart();
+            }, 500);
+        });
+
+        function floatchart() {
+            (function () {
+                
+                var options5 = {
+                    chart: {
+                        type: 'area',
+                        height: 300,
+                        toolbar: {
+                            show: false
+                        }
+                    },
+                    colors: ['#0d6efd'],
+                    fill: {
+                        type: 'gradient',
+                        gradient: {
+                            shadeIntensity: 1,
+                            type: 'vertical',
+                            inverseColors: false,
+                            opacityFrom: 0.5,
+                            opacityTo: 0
+                        }
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    stroke: {
+                        width: 1
+                    },
+                    plotOptions: {
+                        bar: {
+                            columnWidth: '45%',
+                            borderRadius: 4
+                        }
+                    },
+                    grid: {
+                        strokeDashArray: 4
+                    },
+                    series: [
+                        {
+                            name: 'Thu nhập',
+                            data: incomeAYearData,
+                        }
+                    ],
+                    xaxis: {
+                        categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                        axisBorder: {
+                            show: false
+                        },
+                        axisTicks: {
+                            show: false
+                        }
+                    },
+                    tooltip: {
+                        x: {
+                            formatter: function (val, opts) {
+                                return 'Tháng ' + val;
+                            }
+                        },
+                        y: {
+                            formatter: function (val) {
+                                return val.toFixed(2) + " đ";
+                            }
+                        }
+                    }
+                };
+                var chart = new ApexCharts(document.querySelector('#customer-rate-graph'), options5);
+                chart.render();
+                var options6 = {
+                    chart: {
+                        type: 'area',
+                        height: 60,
+                        stacked: true,
+                        sparkline: { enabled: true }
+                    },
+                    colors: ['#4680FF'],
+                    fill: {
+                        type: 'gradient',
+                        gradient: {
+                            shadeIntensity: 1,
+                            type: 'vertical',
+                            inverseColors: false,
+                            opacityFrom: 0.5,
+                            opacityTo: 0
+                        }
+                    },
+                    stroke: { curve: 'smooth', width: 2 },
+                    series: [{ data: [5, 25, 3, 10, 4, 50, 0] }]
+                };
+                var chart = new ApexCharts(document.querySelector('#total-tasks-graph'), options6);
+                chart.render();
+                var options7 = {
+                    chart: {
+                        type: 'area',
+                        height: 60,
+                        stacked: true,
+                        sparkline: { enabled: true }
+                    },
+                    colors: ['#DC2626'],
+                    fill: {
+                        type: 'gradient',
+                        gradient: {
+                            shadeIntensity: 1,
+                            type: 'vertical',
+                            inverseColors: false,
+                            opacityFrom: 0.5,
+                            opacityTo: 0
+                        }
+                    },
+                    stroke: { curve: 'smooth', width: 2 },
+                    series: [{ data: [0, 50, 4, 10, 3, 25, 5] }]
+                };
+                var chart = new ApexCharts(document.querySelector('#pending-tasks-graph'), options7);
+                chart.render();
+                var options8 = {
+                    chart: {
+                        height: 320,
+                        type: 'donut'
+                    },
+                    series: orderByQuater,
+                    colors: ['#4680FF', '#E58A00', '#2CA87F', '#4680FF'],
+                    labels: ['Quý 1', 'Quý 2', 'Quý 3', 'Quý 4'],
+                    fill: {
+                        opacity: [1, 1, 1, 0.3]
+                    },
+                    legend: {
+                        show: false
+                    },
+                    plotOptions: {
+                        pie: {
+                            donut: {
+                                size: '65%',
+                                labels: {
+                                    show: true,
+                                    name: {
+                                        show: true
+                                    },
+                                    value: {
+                                        show: true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    responsive: [
+                        {
+                            breakpoint: 480,
+                            options: {
+                                plotOptions: {
+                                    pie: {
+                                        donut: {
+                                            size: '65%',
+                                            labels: {
+                                                show: true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                };
+                var chart = new ApexCharts(document.querySelector('#total-income-graph'), options8);
+                chart.render();
+            })();
+        }
+
+    </script>
+}

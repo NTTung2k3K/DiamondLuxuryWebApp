@@ -25,9 +25,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Home
             return data;
         }
 
-        public async Task<ApiResult<List<decimal>>> OrderByQuarter()
+        public async Task<ApiResult<List<int>>> OrderByQuarter()
         {
-            var data = await GetAsync< List<decimal>>("api/Orders/GetOrderByQuarter");
+            var data = await GetAsync< List<int>>("api/Orders/GetOrderByQuarter");
             return data;
         }
 
@@ -70,6 +70,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Home
         public async Task<ApiResult<int>> ViewNewCustomerOnDay()
         {
             var data = await GetAsync<int>("api/Staffs/GetNumberCustomerToday");
+            return data;
+        }
+        public async Task<ApiResult<decimal>> IncomeToday()
+        {
+            var data = await GetAsync<decimal>($"api/Orders/GetIncomeToday");
             return data;
         }
     }

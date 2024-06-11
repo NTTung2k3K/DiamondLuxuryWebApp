@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class NewsController : Controller
+    public class NewsController : BaseController
     {
         private readonly INewsApiService _NewsApiService;
         private readonly IStaffApiService _staffApiService;

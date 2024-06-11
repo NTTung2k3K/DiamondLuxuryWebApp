@@ -10,6 +10,7 @@ using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 
 namespace DiamondLuxurySolution.ViewModel.Models.Order
 {
+   
     public class UpdateOrderRequest
     {
         public string OrderId { get; set; } = null!;
@@ -49,7 +50,9 @@ namespace DiamondLuxurySolution.ViewModel.Models.Order
         public Guid? PromotionId { get; set; }
 
         public virtual ICollection<Guid> ListPaymentId { get; set; } = new List<Guid>();
-
+        public List<OrderStatusSupportDTO>? StatusOrderPayment { get; set; } = new List<OrderStatusSupportDTO>();
+        public string? StatusOrderPaymentJson { get; set; }
     }
+   
 }
 

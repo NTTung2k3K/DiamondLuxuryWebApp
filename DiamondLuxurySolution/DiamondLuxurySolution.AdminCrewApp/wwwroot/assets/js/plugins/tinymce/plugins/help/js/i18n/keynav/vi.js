@@ -36,7 +36,7 @@ tinymce.Resource.add('tinymce.html-i18n.help-keynav.vi',
   '  <li>Núm điều tác chỉnh kích cỡ trình soạn thảo ở chân trang</li>\n' +
   '</ol>\n' +
   '\n' +
-  '<p>Nếu người dùng không thấy một phần UI, thì có nghĩa phần đó bị bỏ qua.</p>\n' +
+  '<p>Nếu người dùng không thấy một phần UI, thì có Nghỉa phần đó bị bỏ qua.</p>\n' +
   '\n' +
   '<p>Nếu ở chân trang có tính năng tập trung điều hướng bàn phím, mà không có thanh bên nào hiện hữu, thao tác ấn <strong>Shift+Tab</strong>\n' +
   '  sẽ chuyển hướng tập trung vào nhóm thanh công cụ đầu tiên, không phải cuối cùng.</p>\n' +

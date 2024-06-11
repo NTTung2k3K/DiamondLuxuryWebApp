@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class PaymentController : Controller
+    public class PaymentController : BaseController
     {
         private readonly IPaymentApiService _paymentApiService;
 

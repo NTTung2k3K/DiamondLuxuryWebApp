@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class MaterialController : Controller
+    public class MaterialController : BaseController
     {
         private readonly IMaterialApiService _materialApiService;
 

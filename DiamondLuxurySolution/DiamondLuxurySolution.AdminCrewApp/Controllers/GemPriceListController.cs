@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class GemPriceListController : Controller
+    public class GemPriceListController : BaseController
     {
         private readonly IGemApiService _gemApiService;
         private readonly IGemPriceListApiService _gemPriceListApiService;

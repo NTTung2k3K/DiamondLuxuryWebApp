@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class PromotionController : Controller
+    public class PromotionController : BaseController
     {
         private readonly IPromotionApiService _promotionApiService;
 

@@ -7,7 +7,7 @@ using static DiamondLuxurySolution.Utilities.Constants.Systemconstant;
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
 
-    public class RoleController : Controller
+    public class RoleController : BaseController
     {
         private readonly IRoleApiService _roleApiService;
 

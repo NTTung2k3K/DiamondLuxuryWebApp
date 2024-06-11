@@ -67,7 +67,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 var userId = user.ResultObj.StaffId;
 
                 HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_ID,userId.ToString());
-                HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_NAME, user.ResultObj.Username);
+                HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_NAME, user.ResultObj.FullName);
+                HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_EMAIL, user.ResultObj.Email);
+                HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_IMAGE, string.IsNullOrEmpty(user.ResultObj.Image)?"":user.ResultObj.Image);
 
                 return RedirectToAction("Index", "Home");
             }

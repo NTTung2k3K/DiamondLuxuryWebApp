@@ -32,11 +32,22 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
 
         public async Task<ApiResult<bool>> ChangePasswordStaff(ChangePasswordStaffRequest request)
         {
+
             var user = await _userManager.FindByIdAsync(request.StaffId.ToString());
             if (user == null)
             {
                 return new ApiErrorResult<bool>("Nhân viên không tồn tại");
             }
+            if(request.NewPassword == null || request.OldPassword == null || request.ConfirmNewPassword == null)
+            {
+                return new ApiErrorResult<bool>("Không có thông tin");
+            }
+            if (request.NewPassword.ToString().Equals(request.OldPassword.ToString()))
+            {
+                return new ApiErrorResult<bool>("Xác nhận mật khẩu không đúng");
+            }
+
+
             var comfirmPassword = await _userManager.CheckPasswordAsync(user, request.OldPassword);
             if (comfirmPassword == false)
             {
@@ -99,7 +110,10 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 Image = user.Image,
                 Address = user.Address,
                 Status = user.Status,
-                Username = user.UserName
+                Username = user.UserName,
+                DateCreated = user.DateCreated,
+                LastChangePasswordTime = user.LastChangePasswordTime != null ? user.LastChangePasswordTime : DateTime.MinValue,
+
             };
 
             var listRoleOfUser = await _userManager.GetRolesAsync(user);
@@ -792,7 +806,9 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 Image = user.Image,
                 Address = user.Address,
                 Status = user.Status,
-                Username = user.UserName
+                Username = user.UserName,
+                DateCreated = user.DateCreated,
+                LastChangePasswordTime = user.LastChangePasswordTime!=null?  user.LastChangePasswordTime : DateTime.MinValue,
             };
 
             var listRoleOfUser = await _userManager.GetRolesAsync(user);

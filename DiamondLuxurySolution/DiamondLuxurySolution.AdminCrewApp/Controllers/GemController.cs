@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class GemController : Controller
+    public class GemController : BaseController
     {
         private readonly IInspectionCertificateApiService _inspectionCertificateApiService;
         private readonly IGemApiService _gemApiService;

@@ -5,7 +5,7 @@ using DiamondLuxurySolution.ViewModel.Models.Role;
 using Microsoft.AspNetCore.Mvc;
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class DiscountController : Controller
+    public class DiscountController : BaseController
     {
         private readonly IDiscountApiService _discountApiService;
 

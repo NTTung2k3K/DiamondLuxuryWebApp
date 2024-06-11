@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class FrameController : Controller
+    public class FrameController : BaseController
     {
         private readonly IMaterialApiService _materialApiService;
         private readonly IFrameApiService _frameApiService;

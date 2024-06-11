@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class ContactController : Controller
+    public class ContactController : BaseController
     {
         private readonly IContactApiService _contactApiService;
 

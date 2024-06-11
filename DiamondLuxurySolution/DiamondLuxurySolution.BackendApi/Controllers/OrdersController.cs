@@ -85,7 +85,10 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         {
             try
             {
-
+                if (!string.IsNullOrEmpty(request.StatusOrderPaymentJson))
+                {
+                    request.StatusOrderPayment = (List<OrderStatusSupportDTO>?)JsonConvert.DeserializeObject<ICollection<OrderStatusSupportDTO>>(request.StatusOrderPaymentJson);
+                }
                 var status = await _order.UpdateInfoOrder(request);
                 if (status.IsSuccessed)
                 {
@@ -197,6 +200,24 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             {
 
                 var status = await _order.TotalOrder();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet("GetIncomeToday")]
+        public async Task<ActionResult> GetIncomeToday()
+        {
+            try
+            {
+
+                var status = await _order.IncomeToday();
                 if (status.IsSuccessed)
                 {
                     return Ok(status);

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly IHomeApiService _homeApiService;
 
@@ -23,8 +23,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             var orderToday = await _homeApiService.AllOrderToday();
             ViewBag.OrderToday = orderToday.ResultObj;
 
-            var customerToday = await _homeApiService.ViewNewCustomerOnDay();
-            ViewBag.CustomerToday = customerToday.ResultObj;
+            var incomeToday = await _homeApiService.IncomeToday();
+            ViewBag.IncomeToday = incomeToday.ResultObj;
 
             var incomeAYear = await _homeApiService.IncomeAYear();
             ViewBag.IncomeAYear = incomeAYear.ResultObj;

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
 /*    [Route("Catalog/[InspectionCertificate]")]
-*/    public class InspectionCertificateController : Controller
+*/    public class InspectionCertificateController : BaseController
     {
         private readonly IInspectionCertificateApiService _inspectionCertificateApiService;
 

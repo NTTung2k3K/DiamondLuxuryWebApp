@@ -89,7 +89,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     .AddCookie(options =>
     {
         options.LoginPath = "/Login/Index/";
-        options.AccessDeniedPath = "/Login/Forbidden/";
+        options.AccessDeniedPath = "/Error/Unauthorized/";
     });
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
@@ -116,6 +116,21 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
+app.UseStatusCodePages(async context =>
+{
+    if (context.HttpContext.Response.StatusCode == 404)
+    {
+        context.HttpContext.Response.Redirect("/Error/PageNotFound");
+    }
+    if (context.HttpContext.Response.StatusCode == 500)
+    {
+        context.HttpContext.Response.Redirect("/Error/InternalServerError");
+    }
+    if (context.HttpContext.Response.StatusCode == 401)
+    {
+        context.HttpContext.Response.Redirect("/Error/Unauthorized");
+    }
+});
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=Index}/{id?}");

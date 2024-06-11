@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using static DiamondLuxurySolution.Utilities.Constants.Systemconstant;
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class PlatformController : Controller
+    public class PlatformController : BaseController
     {
         private readonly IPlatformApiService _platformApiService;
 

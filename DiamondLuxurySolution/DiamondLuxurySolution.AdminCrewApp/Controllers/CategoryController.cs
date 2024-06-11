@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using static DiamondLuxurySolution.Utilities.Constants.Systemconstant;
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-	public class CategoryController : Controller
-	{
+	public class CategoryController : BaseController
+    {
 		private readonly ICategoryApiService _categoryApiService;
 
 		public CategoryController(ICategoryApiService categoryApiService)

@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-	public class WarrantyController : Controller
-	{
+	public class WarrantyController : BaseController
+    {
 		private readonly IWarrantyApiService _warrantyApiService;
 
 		public WarrantyController(IWarrantyApiService warrantyApiService)

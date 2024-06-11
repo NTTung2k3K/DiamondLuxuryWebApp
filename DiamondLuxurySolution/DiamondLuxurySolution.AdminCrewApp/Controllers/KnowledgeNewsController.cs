@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class KnowledgeNewsController : Controller
+    public class KnowledgeNewsController : BaseController
     {
         private readonly IKnowLedgeNewsApiService _knowledgeNewsApiService;
         private readonly IKnowledgeNewsCategoryApiService _knowledgeNewsCategoryApiService;

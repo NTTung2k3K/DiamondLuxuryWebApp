@@ -56,17 +56,37 @@ namespace DiamondLuxurySolution.Application.Repository.Role
             {
                 Fullname = "Admin1@",
                 Email = "Admin1@gmail.com",
-                Dob = DateTime.Now,
+                Dob = new DateTime(2003, 06, 20),
                 PhoneNumber = "0999999999",
                 UserName = "Admin1@",
                 Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Active.ToString(),
             };
 
-            var status = await _userManager.CreateAsync(user, "Admin1@");
+            await _userManager.CreateAsync(user, "Admin1@");
 
             var roleFindByName = await _roleManager.FindByNameAsync(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin);
             await _userManager.AddToRoleAsync(user, roleFindByName.Name);
-            _userManager.UpdateAsync(user);
+            await _userManager.UpdateAsync(user);
+
+
+            var manager = new AppUser()
+            {
+                Fullname = "Manager1@",
+                Email = "Manager@gmail.com",
+                Dob = new DateTime(2003,06,26),
+                PhoneNumber = "0999999991",
+                UserName = "Manager1@",
+                Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Active.ToString(),
+            };
+
+            await _userManager.CreateAsync(user, "Manager@");
+
+            roleFindByName = await _roleManager.FindByNameAsync(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager);
+            await _userManager.AddToRoleAsync(user, roleFindByName.Name);
+            await _userManager.UpdateAsync(user);
+
+
+
 
             return true;
         }
