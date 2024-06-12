@@ -1,4 +1,5 @@
 ﻿using DiamondLuxurySolution.AdminCrewApp.Service.Home;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
@@ -11,8 +12,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             _homeApiService = homeApiService;
         }
-
-        public async Task<IActionResult> Index()
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+        public async Task<IActionResult> Manager()
         {
             var totalIncome = await _homeApiService.TotalIncome();
             ViewBag.TotalIncome = totalIncome.ResultObj;
@@ -44,9 +45,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             var orderByQuarter = await _homeApiService.OrderByQuarter();
             ViewBag.OrderByQuarter = orderByQuarter.ResultObj;
 
-            
-            
+
+
             return View();
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin)]
+        public async Task<IActionResult> Admin()
+        {
+
+
+            return View();
+        }
+
+
     }
 }

@@ -1,12 +1,16 @@
 ﻿using DiamondLuxurySolution.AdminCrewApp.Service.IInspectionCertificate;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
 /*    [Route("Catalog/[InspectionCertificate]")]
-*/    public class InspectionCertificateController : BaseController
+*/    
+    
+    
+    public class InspectionCertificateController : BaseController
     {
         private readonly IInspectionCertificateApiService _inspectionCertificateApiService;
 
@@ -14,6 +18,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             _inspectionCertificateApiService = inspectionCertificateApiService;
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Index(ViewInspectionCertificateRequest request)
@@ -43,6 +48,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
         [HttpGet]
         public async Task<IActionResult> Detail(string InspectionCertificateId)
         {
@@ -74,6 +81,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Edit(string InspectionCertificateId)
@@ -106,6 +114,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateInspectionCertificateRequest request)
         {
@@ -150,6 +160,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         }
 
 
+        [Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Delete(string InspectionCertificateId)
@@ -182,6 +193,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpPost]
         public async Task<IActionResult> Delete(DeleteInspectionCertificateRequest request)
@@ -215,11 +227,15 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
         [HttpGet]
         public async Task<IActionResult> Create()
         {
             return View();
         }
+        [Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateInspectionCertificateRequest request)
         {

@@ -27,6 +27,7 @@ using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNewsCategory;
 using DiamondLuxurySolution.AdminCrewApp.Service.Product;
 using DiamondLuxurySolution.AdminCrewApp.Service.Order;
 using DiamondLuxurySolution.AdminCrewApp.Service.Home;
+using DiamondLuxurySolution.AdminCrewApp.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -82,9 +83,6 @@ builder.Services.AddTransient<IKnowLedgeNewsApiService, KnowledgeNewsApiService>
 
 builder.Services.AddTransient<IKnowledgeNewsCategoryApiService, KnowledgeNewsCategoryApiService>();
 
-
-
-
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -116,6 +114,8 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
+StaffSessionHelper.Configure(app.Services.GetRequiredService<IHttpContextAccessor>());
+
 app.UseStatusCodePages(async context =>
 {
     if (context.HttpContext.Response.StatusCode == 404)

@@ -323,7 +323,10 @@
                                             <span>Thất bại</span>
                                         }
                                     </p>
-                                    @(remain += payment.PaymentAmount)
+                                    @if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                                    {
+                                        remain += payment.PaymentAmount;
+                                    }
                                     <div class="row m-2">
                                         <div class="col-md-2">
                                             &nbsp;

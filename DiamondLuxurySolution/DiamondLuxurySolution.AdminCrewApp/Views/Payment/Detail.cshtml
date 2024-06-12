@@ -1,64 +1,71 @@
-﻿@model DiamondLuxurySolution.ViewModel.Models.Payment.PaymentVm
+﻿@using DiamondLuxurySolution.ViewModel.Models.User.Staff
+@model DiamondLuxurySolution.ViewModel.Models.Payment.PaymentVm
 
 @{
     ViewData["Title"] = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Chi tiết thanh toán</h1>
+<h1>Chi tiết phương thức thanh toán</h1>
 @if (ViewBag.Errors != null)
 {
     foreach (var error in ViewBag.Errors)
     {
-                                <h6 class="text-danger">@error</h6>
+        <h6 class="text-danger">@error</h6>
     }
 }
 @if (Model != null)
 {
 
-            <div>
-                <hr />
-                <dl class="row">
-                    <dt class="col-sm-2">
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.PaymentId)
-                    </dt>
-                    <dd class="col-sm-10">
+            </dt>
+            <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.PaymentId)
-                    </dd>
-                    <dt class="col-sm-2">
-                        Phương thức thanh toán
-                    </dt>
-                    <dd class="col-sm-10">
+            </dd>
+            <dt class="col-sm-2">
+                Phương thức thanh toán
+            </dt>
+            <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.PaymentMethod)
-                    </dd>
-                    <dt class="col-sm-2">
-                        Mô tả
-                    </dt>
-                    <dd class="col-sm-10">
+            </dd>
+            <dt class="col-sm-2">
+                Mô tả
+            </dt>
+            <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.Description)
-                    </dd>
-                    <dt class="col-sm-2">
-                        Hiển thị
-                    </dt>
-                    <dd class="col-sm-10">
-                        <div class="form-check form-switch ">
-                            <input class="form-check-input f-18 ml-3" type="checkbox" asp-for="Status" value="@Model.Status" disabled />
-                        </div>
-                    </dd>
-                </dl>
-            </div>
-                <div class="row">
-                    <div class="col-md-3">
-            @Html.ActionLink("Chỉnh sửa", "Edit", new { PaymentId = Model.PaymentId }, new { @class = "btn btn-warning" })
-                    </div>
-                    <div class="col-md-6">
-                        <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Payment")'">Về trang quản lí danh mục</button>
-                    </div>
+            </dd>
+            <dt class="col-sm-2">
+                Hiển thị
+            </dt>
+            <dd class="col-sm-10">
+                <div class="form-check form-switch ">
+                    <input class="form-check-input f-18 ml-3" type="checkbox" asp-for="Status" value="@Model.Status" disabled />
                 </div>
+            </dd>
+        </dl>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            @{
+                var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
+            }
+            @if (!staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
+            {
+                @Html.ActionLink("Chỉnh sửa", "Edit", new { PaymentId = Model.PaymentId }, new { @class = "btn btn-warning" })
+            }
+        </div>
+        <div class="col-md-6">
+            <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Payment")'">Về trang quản lí danh mục</button>
+        </div>
+    </div>
 }
 else
 {
-                <div>
-                        <a class="m-5" asp-action="Index" asp-controller="Payment">Về trang quản lí thanh toán</a>
-                </div>
+    <div>
+        <a class="m-5" asp-action="Index" asp-controller="Payment">Về trang quản lí thanh toán</a>
+    </div>
 }

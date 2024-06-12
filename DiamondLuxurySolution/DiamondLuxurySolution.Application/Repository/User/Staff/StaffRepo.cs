@@ -141,6 +141,11 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             {
                 return new ApiErrorResult<string>("Tải khoản hoặc mật khẩu không đúng");
             }
+            var role = await _userManager.GetRolesAsync(user);
+            if (role.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString()))
+            {
+                return new ApiErrorResult<string>("Tải khoản hoặc mật khẩu không đúng");
+            }
             var userPasswordConfirm = await _userManager.CheckPasswordAsync(user, request.Password.Trim());
             if (userPasswordConfirm == false)
             {
@@ -692,6 +697,11 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
         {
             var user = await _userManager.FindByNameAsync(Username.Trim().ToString());
             if (user == null)
+            {
+                return new ApiErrorResult<string>("Tài khoản không tồn tại");
+            }
+            var role = await _userManager.GetRolesAsync(user);
+            if (role.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString()))
             {
                 return new ApiErrorResult<string>("Tài khoản không tồn tại");
             }

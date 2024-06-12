@@ -3,6 +3,7 @@ using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
 using DiamondLuxurySolution.ViewModel.Models.Material;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
@@ -15,7 +16,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             _materialApiService = materialApiService;
         }
-       
+
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Index(ViewMaterialRequest request)
@@ -46,6 +48,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
         }
 
+        [Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Create()
@@ -53,6 +56,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             return View();
         }
 
+        [Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateMaterialRequest request)
@@ -82,6 +86,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
             return RedirectToAction("Index", "Material");
         }
+        [Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
         [HttpGet]
         public async Task<IActionResult> Edit(Guid MaterialId)
         {
@@ -113,6 +119,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateMaterialRequest request)
         {
@@ -156,6 +164,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
         }
 
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Detail(Guid MaterialId)
@@ -189,6 +198,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
         }
 
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Delete(Guid MaterialId)
@@ -221,6 +231,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpPost]
         public async Task<IActionResult> Delete(DeleteMaterialRequest request)

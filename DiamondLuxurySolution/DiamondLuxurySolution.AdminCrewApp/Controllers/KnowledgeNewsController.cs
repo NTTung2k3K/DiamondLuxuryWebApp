@@ -6,10 +6,13 @@ using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.GemPriceList;
 using DiamondLuxurySolution.ViewModel.Models.KnowledgeNews;
 using DiamondLuxurySolution.ViewModel.Models.News;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
+    [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
     public class KnowledgeNewsController : BaseController
     {
         private readonly IKnowLedgeNewsApiService _knowledgeNewsApiService;
