@@ -59,6 +59,24 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpGet("CountContactNotSolve")]
+        public async Task<ActionResult> CountContactNotSolve()
+        {
+            try
+            {
+                var status = await _contact.CountContactNotSolve();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
 
 
         [HttpDelete("Delete")]

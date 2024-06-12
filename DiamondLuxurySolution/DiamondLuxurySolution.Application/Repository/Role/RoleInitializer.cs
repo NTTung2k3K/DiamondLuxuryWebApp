@@ -59,6 +59,8 @@ namespace DiamondLuxurySolution.Application.Repository.Role
                     Fullname = "Admin1@",
                     Email = "Admin1@gmail.com",
                     Dob = new DateTime(2003, 06, 20),
+                    DateCreated = DateTime.Now,
+
                     PhoneNumber = "0999999999",
                     UserName = adminUserName,
                     Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Active.ToString(),
@@ -89,6 +91,8 @@ namespace DiamondLuxurySolution.Application.Repository.Role
                 {
                     Fullname = "Manager1@",
                     Email = "Manager1@gmail.com",
+                    DateCreated = DateTime.Now,
+
                     Dob = new DateTime(2003, 06, 29),
                     PhoneNumber = "0999999991",
                     UserName = managerUserName,
@@ -121,6 +125,8 @@ namespace DiamondLuxurySolution.Application.Repository.Role
                     Fullname = "Sale1@",
                     Email = "Sale1@gmail.com",
                     Dob = new DateTime(2003, 04, 12),
+                    DateCreated = DateTime.Now,
+
                     PhoneNumber = "0999999992",
                     UserName = saleUserName,
                     Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Active.ToString(),
@@ -152,6 +158,8 @@ namespace DiamondLuxurySolution.Application.Repository.Role
                     Fullname = "Shipper1",
                     Email = "Shipper1@gmail.com",
                     Dob = new DateTime(2003, 06, 21),
+                    DateCreated = DateTime.Now,
+
                     PhoneNumber = "0999999993",
                     UserName = shipperUserName,
                     Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Active.ToString(),
@@ -184,6 +192,7 @@ namespace DiamondLuxurySolution.Application.Repository.Role
                     Email = "Customer1@gmail.com",
                     Dob = new DateTime(2003, 06, 29),
                     PhoneNumber = "0999999994",
+                    DateCreated = DateTime.Now,
                     UserName = customerUserName,
                     Point = 10000,
                     Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Active.ToString(),

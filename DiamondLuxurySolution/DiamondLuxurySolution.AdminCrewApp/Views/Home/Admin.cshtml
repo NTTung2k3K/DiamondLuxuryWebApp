@@ -1,8 +1,289 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Admin";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Admin</h1>
 
+
+<!-- [ Main Content ] start -->
+<div class="row">
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="avtar bg-light-primary">
+                            <i class="ti ti-users f-24"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3 text-center">
+                        <p class="mb-1">Tổng khách hàng</p>
+                        <div class="align-items-center text-center">
+
+                            <h4 class="mb-0">@ViewBag.CountAllCustomer</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="avtar bg-light-warning">
+                            <i class="ti ti-notebook f-24"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <p class="mb-1">Số lượng bài viết</p>
+                        <div class=" align-items-center text-center">
+                            <h4 class="mb-0">@ViewBag.CountAllNews</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="avtar bg-light-success">
+                            <i class="ti ti-eye f-24"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <p class="mb-1">Khách hàng mới</p>
+                        <div class=" align-items-center text-center">
+                            @if (ViewBag.AllCustomerToday != null && ViewBag.AllCustomerToday >0)
+                            {
+                                <h4 class="mb-0" style="color:green">+@ViewBag.AllCustomerToday</h4>
+                            }else{
+                                <h4 class="mb-0">@ViewBag.AllCustomerToday</h4>
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="avtar bg-light-danger">
+                            <i class="ti ti-mail f-24"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <p class="mb-1">Yêu cầu hỗ trợ</p>
+                        <div class=" align-items-center text-center">
+                            @if (ViewBag.CountContactNotSolve != null && ViewBag.CountContactNotSolve > 0)
+                            {
+                                <h4 class="mb-0" style="color:green">+@ViewBag.CountContactNotSolve</h4>
+                            }
+                            else
+                            {
+                                <h4 class="mb-0">@ViewBag.CountContactNotSolve</h4>
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-12 col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Thống kê khách hàng</h5>
+                </div>
+                <div id="course-report-bar-chart"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@{
+    var listQuantityCustomer = ViewBag.CountAllCustomerInYear as List<int>;
+}
+<!-- [ Main Content ] end -->
+@section Scripts{
+  <script src="../assets/js/plugins/apexcharts.min.js"></script>
+  <script>
+        var listQuantityCustomer = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@listQuantityCustomer));
+
+        'use strict';
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                floatchart();
+            }, 500);
+            if (!!document.querySelector('.user-scroll')) {
+                new SimpleBar(document.querySelector('.user-scroll'));
+            }
+            if (!!document.querySelector('.feed-scroll')) {
+                new SimpleBar(document.querySelector('.feed-scroll'));
+            }
+            const datepicker_inline = new Datepicker(document.querySelector('#pc-datepicker-6'), {
+                buttonClass: 'btn'
+            });
+            peity.defaults.donut = {
+                delimiter: null,
+                fill: ["#ff9900", "#fff4dd", "#ffd592"],
+                height: null,
+                innerRadius: 11,
+                radius: 16,
+                width: null,
+            };
+            document.querySelectorAll(".donut").forEach((e) => peity(e, "donut"));
+        });
+
+        function floatchart() {
+            (function () {
+                var options = {
+                    chart: {
+                        type: 'area',
+                        height: 250,
+                        toolbar: {
+                            show: false
+                        }
+                    },
+                    colors: ['#e58a00', '#4680ff'],
+                    dataLabels: {
+                        enabled: false
+                    },
+                    legend: {
+                        show: true,
+                        position: 'top'
+                    },
+                    markers: {
+                        size: 1,
+                        colors: ['#fff', '#fff', '#fff'],
+                        strokeColors: ['#e58a00', '#4680ff'],
+                        strokeWidth: 1,
+                        shape: 'circle',
+                        hover: {
+                            size: 4
+                        }
+                    },
+                    stroke: {
+                        width: 2,
+                        curve: 'smooth'
+                    },
+                    fill: {
+                        type: 'gradient',
+                        gradient: {
+                            shadeIntensity: 1,
+                            type: 'vertical',
+                            inverseColors: false,
+                            opacityFrom: 0.5,
+                            opacityTo: 0
+                        }
+                    },
+                    grid: {
+                        show: false,
+                    },
+                    series: [
+                        {
+                            name: 'Revenue',
+                            data: [200, 320, 320, 275, 275, 400, 400, 300, 440, 320, 320, 275, 275, 400, 300, 440]
+                        },
+                        {
+                            name: 'Sales',
+                            data: [200, 250, 240, 300, 340, 320, 320, 400, 350, 250, 240, 300, 340, 320, 400, 350]
+                        }
+                    ],
+                    xaxis: {
+                        labels: {
+                            hideOverlappingLabels: true
+                        },
+                        axisBorder: {
+                            show: false
+                        },
+                        axisTicks: {
+                            show: false
+                        }
+                    }
+                };
+             
+                var course_report_bar_chart_options = {
+                    chart: {
+                        type: 'bar',
+                        height: 210,
+                        toolbar: {
+                            show: false
+                        }
+                    },
+                    plotOptions: {
+                        bar: {
+                            columnWidth: '60%',
+                            borderRadius: 3
+                        }
+                    },
+                    stroke: {
+                        show: true,
+                        width: 3,
+                        colors: ['transparent']
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    legend: {
+                        position: 'top',
+                        horizontalAlign: 'right',
+                        show: true,
+                        fontFamily: `'Public Sans', sans-serif`,
+                        offsetX: 10,
+                        offsetY: 10,
+                        labels: {
+                            useSeriesColors: false
+                        },
+                        markers: {
+                            width: 10,
+                            height: 10,
+                            radius: '50%',
+                            offsexX: 2,
+                            offsexY: 2
+                        },
+                        itemMargin: {
+                            horizontal: 15,
+                            vertical: 5
+                        }
+                    },
+                    colors: ['#4680ff', '#ffa21d'],
+                    series: [{
+                        name: 'Số lượng khách hàng',
+                        data: listQuantityCustomer
+                    }],
+                    grid: {
+                        borderColor: '#00000010',
+                    },
+                    yaxis: {
+                        show: false
+                    },
+                    tooltip: {
+                        x: {
+                            formatter: function (value) {
+                                var months = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
+                                return months[value - 1];
+                            }
+                        }
+                    },
+                    xaxis: {
+                        categories: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                    }
+                }
+                var chart = new ApexCharts(document.querySelector("#course-report-bar-chart"), course_report_bar_chart_options);
+                chart.render();
+
+            })();
+        }
+  </script>
+}

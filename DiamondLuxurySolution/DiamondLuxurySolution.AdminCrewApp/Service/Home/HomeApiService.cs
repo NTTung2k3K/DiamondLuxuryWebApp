@@ -77,5 +77,29 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Home
             var data = await GetAsync<decimal>($"api/Orders/GetIncomeToday");
             return data;
         }
+
+        public async Task<ApiResult<int>> CountContactNotSolve()
+        {
+            var data = await GetAsync<int>($"api/Contact/CountContactNotSolve");
+            return data;
+        }
+
+        public async Task<ApiResult<int>> CountAllNews()
+        {
+            var data = await GetAsync<int>($"api/News/CountAllNew");
+            return data;
+        }
+
+        public async Task<ApiResult<List<int>>> CountAllCustomerInYear()
+        {
+            var data = await GetAsync<List<int>> ($"api/Customers/CountAllCustomerInYear");
+            return data;
+        }
+
+        public async Task<ApiResult<int>> CountAllCustomer()
+        {
+            var data = await GetAsync<int>($"api/Staffs/CountAllCustomer");
+            return data;
+        }
     }
 }

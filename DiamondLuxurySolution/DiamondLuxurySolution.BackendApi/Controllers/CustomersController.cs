@@ -58,7 +58,24 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
-       
+
+        [HttpGet("CountAllCustomerInYear")]
+        public async Task<ActionResult> CountAllCustomerInYear()
+        {
+            try
+            {
+                var status = await _customer.CountAllCustomerInYear();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
 
         [HttpPost("LoginCustomer")]

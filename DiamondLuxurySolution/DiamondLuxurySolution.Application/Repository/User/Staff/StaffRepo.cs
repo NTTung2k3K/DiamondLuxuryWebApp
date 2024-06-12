@@ -217,6 +217,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 Status = request.Status.Trim(),
                 CitizenIDCard = request.CitizenIDCard,
                 Address = request.Address.Trim(),
+                DateCreated = DateTime.Now
             };
             if(request.Image != null)
             {
@@ -839,6 +840,19 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             var listUser = await _userManager.GetUsersInRoleAsync(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString());
             listUser = listUser.Where(x => x.DateCreated.Value.Date==DateTime.Today).ToList();
             return new ApiSuccessResult<int>(listUser.Count, "Success");
+        }
+
+        public async Task<ApiResult<int>> CountAllCustomer()
+        {
+            try
+            {
+                int customerCount = await _userManager.Users.CountAsync();
+                return new ApiSuccessResult<int>(customerCount, "Success");
+            }
+            catch (Exception ex)
+            {
+                return new ApiErrorResult<int>($"Error: {ex.Message}");
+            }
         }
     }
 }

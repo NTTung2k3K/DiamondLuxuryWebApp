@@ -116,10 +116,10 @@
                 </div>
 
                 <ul class="pc-navbar">
-                    @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin) || staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager))
+                    @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin))
                     {
                         <li class="pc-item">
-                            <a href="/Home/Index" class="pc-link">
+                            <a href="/Home/Admin" class="pc-link">
                                 <span class="pc-micon">
                                     <svg class="pc-icon">
                                         <use xlink:href="#custom-graph"></use>
@@ -129,6 +129,20 @@
                             </a>
                         </li>
                     }
+                    @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager))
+                    {
+                        <li class="pc-item">
+                            <a href="/Home/Manager" class="pc-link">
+                                <span class="pc-micon">
+                                    <svg class="pc-icon">
+                                        <use xlink:href="#custom-graph"></use>
+                                    </svg>
+                                </span>
+                                <span class="pc-mtext">Trang Chủ</span>
+                            </a>
+                        </li>
+                    }
+
                     @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin))
                     {
                         <li class="pc-item pc-hasmenu">

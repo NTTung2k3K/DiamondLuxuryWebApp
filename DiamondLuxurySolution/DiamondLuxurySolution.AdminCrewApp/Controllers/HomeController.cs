@@ -52,6 +52,20 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin)]
         public async Task<IActionResult> Admin()
         {
+            var allCustomerToday = await _homeApiService.ViewNewCustomerOnDay();
+            ViewBag.AllCustomerToday = allCustomerToday.ResultObj;
+
+            var sountContactNotSolve = await _homeApiService.CountContactNotSolve();
+            ViewBag.CountContactNotSolve = sountContactNotSolve.ResultObj;
+
+            var countAllNews = await _homeApiService.CountAllNews();
+            ViewBag.CountAllNews = countAllNews.ResultObj;
+
+            var countAllCustomerInYear = await _homeApiService.CountAllCustomerInYear();
+            ViewBag.CountAllCustomerInYear = countAllCustomerInYear.ResultObj;
+
+            var countAllCustomer = await _homeApiService.CountAllCustomer();
+            ViewBag.CountAllCustomer = countAllCustomer.ResultObj;
 
 
             return View();

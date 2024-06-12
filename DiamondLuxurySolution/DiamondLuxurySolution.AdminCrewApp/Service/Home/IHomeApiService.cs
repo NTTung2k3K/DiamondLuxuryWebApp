@@ -16,7 +16,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Home
         public Task<ApiResult<List<OrderVm>>> RecentWaitTransaction();
         public Task<ApiResult<List<OrderVm>>> RecentFailTransaction();
         public Task<ApiResult<List<int>>> OrderByQuarter();
+
+
+        //Admin
+
         public Task<ApiResult<int>> ViewNewCustomerOnDay();
+
+        public Task<ApiResult<int>> CountContactNotSolve();
+        public Task<ApiResult<int>> CountAllNews();
+        public Task<ApiResult<List<int>>> CountAllCustomerInYear();
+
+        public Task<ApiResult<int>> CountAllCustomer();
 
     }
 }
