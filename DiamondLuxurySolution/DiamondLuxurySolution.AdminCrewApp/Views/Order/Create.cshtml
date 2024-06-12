@@ -17,7 +17,7 @@
             }
         }
 
-         <form asp-action="Create" asp-controller="Order" method="post">
+        <form asp-action="Create" asp-controller="Order" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group m-2">
                 <label asp-for="Fullname" class="control-label m-2">Tên người mua</label>
@@ -43,7 +43,7 @@
                 <label asp-for="DiscountId" class="control-label m-2"></label>
                 <input asp-for="DiscountId" class="form-control" />
             </div>
-            
+
             <div class="form-group m-2">
                 <label asp-for="Status" class="m-2 control-label">Trạng thái</label>
                 <!--Start dropdown list-->
@@ -168,7 +168,7 @@
                 }
 
                 <!--Promotion-->
-                 <div class="form-group m-2">
+                <div class="form-group m-2">
                     <label asp-for="PromotionId" class="control-label m-2">Chương trình khuyến mãi hiện có</label>
                     <select class="h-50 " name="PromotionId">
                         @if (ViewBag.ListPromotionOnTime != null && ViewBag.ListPromotionOnTime.Count > 0)
@@ -215,7 +215,7 @@
                     <br />
                     <span asp-validation-for="PromotionId" class="text-danger"></span>
                 </div>
- 
+
 
 
                 @*Product here*@
@@ -250,7 +250,7 @@
                 <div class="form-group m-2">
                     <label class="control-label m-2">Tổng cộng tạm tính: <span id="total" style="color: red">0</span></label>
                 </div>
-                @if(Model == null)
+                @if (Model == null)
                 {
 
                     <div class="form-group m-2">
@@ -281,7 +281,7 @@
                                     {
                                         <option value="@payment.PaymentId" selected>
                                             <div>
-                                                Tên: @payment.PaymentMethod &nbsp
+                                                 @payment.PaymentMethod &nbsp
                                             </div>
                                         </option>
                                     }
@@ -289,7 +289,7 @@
                                     {
                                         <option value="@payment.PaymentId">
                                             <div>
-                                                Tên: @payment.PaymentMethod &nbsp
+                                                @payment.PaymentMethod &nbsp
                                             </div>
                                         </option>
                                     }
@@ -298,12 +298,15 @@
                                 {
                                     <option value="@payment.PaymentId">
                                         <div>
-                                            Tên: @payment.PaymentMethod &nbsp
+                                            @payment.PaymentMethod &nbsp
                                         </div>
                                     </option>
                                 }
                             }
+
+
                         }
+
                         else
                         {
                             <option>Không có</option>
@@ -312,25 +315,68 @@
 
 
                     </select>
+
+                    <div class="form-group ">
+                        <label asp-for="ListPaymentId" class="control-label m-2">Trạng thái giao dịch</label>
+                        <select name="TransactionStatus">
+                            @foreach (var trans in ViewBag.TransactionStatus)
+                            {
+                                if (Model != null && trans.ToString().Equals(Model.TransactionStatus.ToString()))
+                                {
+                                    <option selected value="@trans">
+
+                                        @if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                                        {
+                                            <span>Thành công</span>
+                                        }
+                                        else if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString()))
+                                        {
+                                            <span>Đang chờ</span>
+                                        }
+                                        else if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
+                                        {
+                                            <span>Thất bại</span>
+                                        }
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="@trans">
+                                        @if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                                        {
+                                            <span>Thành công</span>
+                                        }
+                                        else if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString()))
+                                        {
+                                            <span>Đang chờ</span>
+                                        }
+                                        else if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
+                                        {
+                                            <span>Thất bại</span>
+                                        }
+                                    </option>
+                                }
+                            }
+                        </select>
+                    </div>
                     <br />
-                    <span asp-validation-for="PromotionId" class="text-danger"></span>
                 </div>
 
 
                 <div class="form-group m-2">
                     <label asp-for="Description" class="control-label m-2"></label>
-                    <input asp-for="Description" class="form-control"  />
+                    <input asp-for="Description" class="form-control" />
                 </div>
 
                 <div class="form-group row">
-                <div class="col-md-5">
-                    <input type="submit" value="Tạo mới" class="btn btn-success" />
+                    <div class="col-md-5">
+                        <input type="submit" value="Tạo mới" class="btn btn-success" />
+                    </div>
+                    <div class="col-md-7">
+                        <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
+                    </div>
                 </div>
-                <div class="col-md-7">
-                    <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
-                </div>
-            </div>
-        </form> 
+        </form>
 
     </div>
 </div>
@@ -387,17 +433,17 @@
             // Function to create a new row
             function createNewRow() {
                 return `<tr>
-                                    <td></td>
-                                    <td>
-                                                        <select class="h-50 select-subgem" name="ListOrderProduct[${index}].ProductId" >
-                                        </select>
-                                    </td>
+                                                    <td></td>
+                                                    <td>
+                                                                        <select class="h-50 select-subgem" name="ListOrderProduct[${index}].ProductId" >
+                                                        </select>
+                                                    </td>
 
-                                            <td><input type="number" value="1" class="form-control" name="ListOrderProduct[${index}].Quantity" placeholder="Số lượng" /></td>
-                                    <td class="text-center">
-                                        <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default delete-item"><i class="ti ti-trash f-20"></i></a>
-                                    </td>
-                                </tr>`;
+                                                            <td><input type="number" value="1" class="form-control" name="ListOrderProduct[${index}].Quantity" placeholder="Số lượng" /></td>
+                                                    <td class="text-center">
+                                                        <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default delete-item"><i class="ti ti-trash f-20"></i></a>
+                                                    </td>
+                                                </tr>`;
             }
 
             // Add new row when the add button is clicked
@@ -446,7 +492,7 @@
                             if (!selectedOptions.includes(subgem.productId) || selectedOption === subgem.productId) { // Check if the option is already selected or is the current value
                                 var option = $('<option/>');
                                 option.val(subgem.productId);
-                                option.text('Tên: ' + subgem.productName + ' | Giá: ' + subgem.sellingPrice + ' | Số lượng: ' + subgem.quantity );
+                                option.text('Tên: ' + subgem.productName + ' | Giá: ' + subgem.sellingPrice + ' | Số lượng: ' + subgem.quantity);
                                 option.addClass('optionOfSubGem');
                                 option.data('price', subgem.sellingPrice);
                                 rowSelect.append(option);

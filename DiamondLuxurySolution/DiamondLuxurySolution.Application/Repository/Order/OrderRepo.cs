@@ -60,6 +60,10 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             {
                 return new ApiErrorResult<bool>("Số tiền không hợp lệ");
             }
+            if (request.PaidTheRest == null)
+            {
+                return new ApiErrorResult<bool>("Số tiền không hợp lệ");
+            }
             order.RemainAmount = (decimal)order.RemainAmount - (decimal)request.PaidTheRest;
             if (order.RemainAmount < 0)
             {
@@ -69,14 +73,14 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             {
                 order.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString();
             }
-          
+            
             var paymentDetail = new OrdersPayment()
             {
                 OrdersPaymentId = Guid.NewGuid(),
                 OrderId = order.OrderId,
                 PaymentAmount = (decimal)request.PaidTheRest,
                 PaymentTime = DateTime.Now,
-                Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString(),
+                Status = request.TransactionStatus.ToString(),
                 PaymentId = request.PaymentId,
                 Message = request.Message,
             };
@@ -428,7 +432,8 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                             PhoneNumber = request.PhoneNumber,
                             Address = request.ShipAdress,
                             UserName = "Kh" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9),
-                            Point=0
+                            Point = 0,
+                            DateCreated = DateTime.Now
                         };
 
                         user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.New.ToString();
@@ -550,8 +555,11 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     {
                         order.RemainAmount = 0;
                     }
-                    
-
+                    bool orderPaymentStatusSuccess = false;
+                    if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success))
+                    {
+                        orderPaymentStatusSuccess = true;
+                    }
                     foreach (var paymentId in request.ListPaymentId)
                     {
                         var payment = await _context.Payments.FindAsync(paymentId);
@@ -562,13 +570,16 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                             OrderId = orderId,
                             Message = $"Thanh toán bằng phương thức {payment.PaymentMethod}",
                             PaymentTime = DateTime.Now,
-                            Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString(),
+                            Status = orderPaymentStatusSuccess==true? DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString(): request.TransactionStatus.ToString(),
                             OrdersPaymentId = Guid.NewGuid(),
                             PaymentId = paymentId,
                             PaymentAmount = (decimal)order.RemainAmount > 0 ? (decimal)request.Deposit : total
                         };
                         _context.OrdersPayments.Add(orderPayment);
                     }
+
+
+
 
                     if (request.ShipAdress != null)
                     {
@@ -739,7 +750,9 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     PaymentTime = op.PaymentTime,
                     Status = op.Status,
                     PaymentAmount = op.PaymentAmount,
-                    Message = op.Message
+                    Message = op.Message,
+                    OrderPaymentId = op.OrdersPaymentId
+                    
                 }).ToList();
             }
             if (order.OrderDetails != null)
@@ -998,7 +1011,25 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             {
                 order.RemainAmount = 0;
             }
+            if(request.StatusOrderPayment != null && request.StatusOrderPayment.Count> 0) 
+            {
+                foreach (var item in request.StatusOrderPayment)
+                {
+                    var orderPayment =  await _context.OrdersPayments.FindAsync(item.OrderPaymentId);
+                    if (orderPayment != null) 
+                    {
+                        orderPayment.Status = item.Status.ToString();
+                    }
+                }
+            }
 
+            bool orderPaymentStatusSuccess = false;
+            if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success))
+            {
+                orderPaymentStatusSuccess = true;
+                var listPayment = _context.OrdersPayments.Where(x => x.OrderId == order.OrderId).ToList();
+                listPayment.ForEach(x => x.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString());
+            }
 
             if (request.ShipAdress != null)
             {
@@ -1163,6 +1194,258 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             return new ApiSuccessResult<PageResult<OrderVm>>(listResult, "Success");
         }
 
+        public async Task<ApiResult<decimal>> TotalIncome()
+        {
+            var totalOrder = (decimal)_context.OrdersPayments.Where(x => x.Status == DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()).Sum(x => x.PaymentAmount);
+            return  new ApiSuccessResult<decimal>(totalOrder,"Success");
+        }
 
+        public async Task<ApiResult<int>> TotalOrder()
+        {
+            var totalOrder = _context.Orders.Count();
+            return new ApiSuccessResult<int>(totalOrder, "Success");
+        }
+
+        public async Task<ApiResult<int>> AllOrderToday()
+        {
+            var totalOrder = _context.Orders.Where(x=> x.OrderDate.Date==DateTime.Now.Date).Count();
+            return new ApiSuccessResult<int>(totalOrder, "Success");
+        }
+
+        public async Task<ApiResult<List<decimal>>> IncomeAYear()
+        {
+            var currentYear = DateTime.Now.Year;
+            var totalOrder = await _context.OrdersPayments.Where(x => x.Status == DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString() &&
+                    x.PaymentTime.Year == currentYear).GroupBy(x => x.PaymentTime.Month)
+                .Select(x => new
+                {
+                    Month = x.Key,
+                    TotalIncome = x.Sum(x => x.PaymentAmount)
+                }).ToListAsync();
+            var incomeByMonth = new List<decimal>(new decimal[12]);
+
+            foreach (var item in totalOrder)
+            {
+                incomeByMonth[item.Month - 1] = item.TotalIncome;
+            }
+
+            return new ApiSuccessResult<List<decimal>>(incomeByMonth, "Success");
+        }
+
+        public async Task<ApiResult<List<OrderVm>>> RecentTransaction()
+        {
+            var orders = await _context.Orders.Include(x => x.Customer).Include(x => x.OrdersPayment).ThenInclude(x => x.Payment).OrderByDescending(y => y.OrderDate).Take(8)
+                .ToListAsync();
+
+            List<OrderVm> listOrderVm = new List<OrderVm>();
+            foreach (var order in orders)
+            {
+                var orderVms = new OrderVm()
+                {
+                    OrderId = order.OrderId,
+                    ShipName = order.ShipName,
+                };
+
+                if (order.OrdersPayment != null)
+                {
+                    orderVms.OrdersPaymentVm = order.OrdersPayment.OrderByDescending(y => y.PaymentTime).Take(1).Select(op => new OrderPaymentSupportDTO()
+                    {
+                        PaymentId = op.PaymentId,
+                        PaymentMethod = op.Payment.PaymentMethod,
+                        PaymentTime = op.PaymentTime,
+                        Status = op.Status,
+                        PaymentAmount = op.PaymentAmount,
+                        Message = op.Message
+                    }).ToList();
+                }
+                listOrderVm.Add(orderVms);
+            }
+
+           
+            return new ApiSuccessResult<List<OrderVm>>(listOrderVm, "Success");
+        }
+
+        public async Task<ApiResult<List<OrderVm>>> RecentSuccessTransaction()
+        {
+            var orders = await _context.Orders.Include(x => x.Customer).Include(x => x.OrdersPayment).ThenInclude(x => x.Payment).Where(order => order.OrdersPayment.Any(payment => payment.Status == DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+     .OrderByDescending(y => y.OrderDate).Take(8)
+                .ToListAsync();
+
+            List<OrderVm> listOrderVm = new List<OrderVm>();
+            foreach (var order in orders)
+            {
+                var orderVms = new OrderVm()
+                {
+                    OrderId = order.OrderId,
+                    ShipAdress = order.ShipAdress,
+                    ShipEmail = order.ShipEmail,
+                    ShipPhoneNumber = order.ShipPhoneNumber,
+                    ShipName = order.ShipName,
+                    Status = order.Status,
+                    TotalAmount = order.TotalAmout,
+                    RemainAmount = order.RemainAmount,
+                    Deposit = order.Deposit,
+                    Description = order.Description,
+                    DateCreated = order.OrderDate,
+                    Datemodified = order.Datemodified,
+                    TotalSale = order.TotalSale,
+                    IsShip = order.isShip,
+                };
+
+                if (order.OrdersPayment != null)
+                {
+                    orderVms.OrdersPaymentVm = order.OrdersPayment.OrderByDescending(y => y.PaymentTime).Take(1).Select(op => new OrderPaymentSupportDTO()
+                    {
+                        PaymentId = op.PaymentId,
+                        PaymentMethod = op.Payment.PaymentMethod,
+                        PaymentTime = op.PaymentTime,
+                        Status = op.Status,
+                        PaymentAmount = op.PaymentAmount,
+                        Message = op.Message
+                    }).ToList();
+                }
+                listOrderVm.Add(orderVms);
+            }
+
+
+            return new ApiSuccessResult<List<OrderVm>>(listOrderVm, "Success");
+        }
+
+        public async Task<ApiResult<List<OrderVm>>> RecentWaitTransaction()
+        {
+            var orders = await _context.Orders.Include(x => x.Customer).Include(x => x.OrdersPayment).ThenInclude(x => x.Payment).Where(order => order.OrdersPayment.Any(payment => payment.Status == DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString()))
+     .OrderByDescending(y => y.OrderDate).Take(8)
+                .ToListAsync();
+
+            List<OrderVm> listOrderVm = new List<OrderVm>();
+            foreach (var order in orders)
+            {
+                var orderVms = new OrderVm()
+                {
+                    OrderId = order.OrderId,
+                    ShipAdress = order.ShipAdress,
+                    ShipEmail = order.ShipEmail,
+                    ShipPhoneNumber = order.ShipPhoneNumber,
+                    ShipName = order.ShipName,
+                    Status = order.Status,
+                    TotalAmount = order.TotalAmout,
+                    RemainAmount = order.RemainAmount,
+                    Deposit = order.Deposit,
+                    Description = order.Description,
+                    DateCreated = order.OrderDate,
+                    Datemodified = order.Datemodified,
+                    TotalSale = order.TotalSale,
+                    IsShip = order.isShip,
+                };
+
+                if (order.OrdersPayment != null)
+                {
+                    orderVms.OrdersPaymentVm = order.OrdersPayment.OrderByDescending(y => y.PaymentTime).Take(1).Select(op => new OrderPaymentSupportDTO()
+                    {
+                        PaymentId = op.PaymentId,
+                        PaymentMethod = op.Payment.PaymentMethod,
+                        PaymentTime = op.PaymentTime,
+                        Status = op.Status,
+                        PaymentAmount = op.PaymentAmount,
+                        Message = op.Message
+                    }).ToList();
+                }
+                listOrderVm.Add(orderVms);
+            }
+
+
+            return new ApiSuccessResult<List<OrderVm>>(listOrderVm, "Success");
+        }
+
+        public async Task<ApiResult<List<OrderVm>>> RecentFailTransaction()
+        {
+            var orders = await _context.Orders.Include(x => x.Customer).Include(x => x.OrdersPayment).ThenInclude(x => x.Payment).Where(order => order.OrdersPayment.Any(payment => payment.Status == DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
+     .OrderByDescending(y => y.OrderDate).Take(8)
+                .ToListAsync();
+
+            List<OrderVm> listOrderVm = new List<OrderVm>();
+            foreach (var order in orders)
+            {
+                var orderVms = new OrderVm()
+                {
+                    OrderId = order.OrderId,
+                    ShipAdress = order.ShipAdress,
+                    ShipEmail = order.ShipEmail,
+                    ShipPhoneNumber = order.ShipPhoneNumber,
+                    ShipName = order.ShipName,
+                    Status = order.Status,
+                    TotalAmount = order.TotalAmout,
+                    RemainAmount = order.RemainAmount,
+                    Deposit = order.Deposit,
+                    Description = order.Description,
+                    DateCreated = order.OrderDate,
+                    Datemodified = order.Datemodified,
+                    TotalSale = order.TotalSale,
+                    IsShip = order.isShip,
+                };
+
+                if (order.OrdersPayment != null)
+                {
+                    orderVms.OrdersPaymentVm = order.OrdersPayment.OrderByDescending(y => y.PaymentTime).Take(1).Select(op => new OrderPaymentSupportDTO()
+                    {
+                        PaymentId = op.PaymentId,
+                        PaymentMethod = op.Payment.PaymentMethod,
+                        PaymentTime = op.PaymentTime,
+                        Status = op.Status,
+                        PaymentAmount = op.PaymentAmount,
+                        Message = op.Message
+                    }).ToList();
+                }
+                listOrderVm.Add(orderVms);
+            }
+
+
+            return new ApiSuccessResult<List<OrderVm>>(listOrderVm, "Success");
+        }
+
+        public async Task<ApiResult<List<int>>> OrderByQuarter()
+        {
+            var currentYear = DateTime.Now.Year;
+
+            var orders = await _context.Orders
+                .Where(o => o.OrderDate.Year == currentYear)
+                .ToListAsync();
+
+            var quarterlyOrderCounts = orders
+                .GroupBy(o => GetQuarter(o.OrderDate))
+                .Select(g => new
+                {
+                    Quarter = g.Key,
+                    OrderCount = g.Count()
+                })
+                .OrderBy(q => q.Quarter)
+                .ToList();
+
+            var result = new List<int> { 0, 0, 0, 0 };
+            foreach (var item in quarterlyOrderCounts)
+            {
+                result[item.Quarter - 1] = item.OrderCount;
+            }
+
+            return new ApiSuccessResult<List<int>>(result, "Success");
+        }
+
+        private int GetQuarter(DateTime date)
+        {
+            if (date.Month <= 3) return 1;
+            if (date.Month <= 6) return 2;
+            if (date.Month <= 9) return 3;
+            return 4;
+        }
+
+        public async Task<ApiResult<decimal>> IncomeToday()
+        {
+            var orders =  _context.OrdersPayments.Where(x => x.Status == 
+                                DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString() 
+                                && x.PaymentTime.Date.Equals(DateTime.Today.Date)).Sum(x => x.PaymentAmount);
+            return new ApiSuccessResult<decimal>(orders, "Success");
+
+
+        }
     }
 }

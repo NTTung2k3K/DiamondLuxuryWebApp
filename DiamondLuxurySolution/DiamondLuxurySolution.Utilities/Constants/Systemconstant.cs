@@ -13,7 +13,9 @@ namespace DiamondLuxurySolution.Utilities.Constants
             public const string BaseAddress = "Address:Base";
             public const int PAGE_SIZE = 10;
             public const string USER_ID = "UserId";
+            public const string USER_EMAIL = "UserEmail";
             public const string USER_NAME = "Username";
+            public const string USER_IMAGE = "UserImage";
 
         }
         public class UserRoleDefault

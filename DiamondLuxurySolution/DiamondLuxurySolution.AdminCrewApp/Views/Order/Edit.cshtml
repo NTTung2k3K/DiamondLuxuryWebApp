@@ -305,6 +305,7 @@
                             @{decimal remain = 0; }
                             @if (ViewBag.PaymentList != null)
                             {
+                                var index = 0;
                                 foreach (var payment in ViewBag.PaymentList)
                                 {
                                     <p style="font-weight:bold">Thời gian: @payment.PaymentTime</p>
@@ -313,7 +314,7 @@
                                         {
                                             <span>Thành công</span>
                                         }
-                                        else if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString()))
+                                             else if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString()))
                                         {
                                             <span>Đang chờ</span>
                                         }
@@ -322,8 +323,65 @@
                                             <span>Thất bại</span>
                                         }
                                     </p>
-                                    @(remain += payment.PaymentAmount)
+                                    @if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                                    {
+                                        remain += payment.PaymentAmount;
+                                    }
+                                    <div class="row m-2">
+                                        <div class="col-md-2">
+                                            &nbsp;
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="form-check form-switch">
+                                                <span>Trạng thái thanh toán</span>
+                                                <input type="hidden" name="StatusOrderPayment[@index].OrderPaymentId" value="@payment.OrderPaymentId" />
+                                                <select name="StatusOrderPayment[@index].Status">
+                                                    @foreach (var trans in ViewBag.TransactionStatus)
+                                                    {
+                                                        if (trans.ToString().Equals(payment.Status.ToString()))
+                                                        {
+                                                            <option selected value="@trans">
+
+                                                                @if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                                                                {
+                                                                    <span>Thành công</span>
+                                                                }
+                                                                else if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString()))
+                                                                {
+                                                                    <span>Đang chờ</span>
+                                                                }
+                                                                else if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
+                                                                {
+                                                                    <span>Thất bại</span>
+                                                                }
+                                                            </option>
+                                                        }
+                                                        else
+                                                        {
+                                                         <option value="@trans">
+                                                                @if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                                                                {
+                                                                    <span>Thành công</span>
+                                                                }
+                                                                else if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString()))
+                                                                {
+                                                                    <span>Đang chờ</span>
+                                                                }
+                                                                else if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
+                                                                {
+                                                                    <span>Thất bại</span>
+                                                                }
+                                                            </option>   
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                index++;
+
                                 }
+
                             }
                             else
                             {

@@ -32,11 +32,22 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
 
         public async Task<ApiResult<bool>> ChangePasswordStaff(ChangePasswordStaffRequest request)
         {
+
             var user = await _userManager.FindByIdAsync(request.StaffId.ToString());
             if (user == null)
             {
                 return new ApiErrorResult<bool>("Nhân viên không tồn tại");
             }
+            if(request.NewPassword == null || request.OldPassword == null || request.ConfirmNewPassword == null)
+            {
+                return new ApiErrorResult<bool>("Không có thông tin");
+            }
+            if (request.NewPassword.ToString().Equals(request.OldPassword.ToString()))
+            {
+                return new ApiErrorResult<bool>("Xác nhận mật khẩu không đúng");
+            }
+
+
             var comfirmPassword = await _userManager.CheckPasswordAsync(user, request.OldPassword);
             if (comfirmPassword == false)
             {
@@ -99,7 +110,10 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 Image = user.Image,
                 Address = user.Address,
                 Status = user.Status,
-                Username = user.UserName
+                Username = user.UserName,
+                DateCreated = user.DateCreated,
+                LastChangePasswordTime = user.LastChangePasswordTime != null ? user.LastChangePasswordTime : DateTime.MinValue,
+
             };
 
             var listRoleOfUser = await _userManager.GetRolesAsync(user);
@@ -124,6 +138,11 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
 
             var user = await _userManager.FindByNameAsync(request.UserName.Trim());
             if (user == null)
+            {
+                return new ApiErrorResult<string>("Tải khoản hoặc mật khẩu không đúng");
+            }
+            var role = await _userManager.GetRolesAsync(user);
+            if (role.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString()))
             {
                 return new ApiErrorResult<string>("Tải khoản hoặc mật khẩu không đúng");
             }
@@ -198,6 +217,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 Status = request.Status.Trim(),
                 CitizenIDCard = request.CitizenIDCard,
                 Address = request.Address.Trim(),
+                DateCreated = DateTime.Now
             };
             if(request.Image != null)
             {
@@ -681,6 +701,11 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             {
                 return new ApiErrorResult<string>("Tài khoản không tồn tại");
             }
+            var role = await _userManager.GetRolesAsync(user);
+            if (role.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString()))
+            {
+                return new ApiErrorResult<string>("Tài khoản không tồn tại");
+            }
             Random rd = new Random();
             string code = ""+rd.Next(0,9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString();
             user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.ChangePasswordRequest.ToString();
@@ -792,7 +817,9 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 Image = user.Image,
                 Address = user.Address,
                 Status = user.Status,
-                Username = user.UserName
+                Username = user.UserName,
+                DateCreated = user.DateCreated,
+                LastChangePasswordTime = user.LastChangePasswordTime!=null?  user.LastChangePasswordTime : DateTime.MinValue,
             };
 
             var listRoleOfUser = await _userManager.GetRolesAsync(user);
@@ -808,5 +835,24 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             return new ApiSuccessResult<StaffVm>(staffVm, "Success");
         }
 
+        public async Task<ApiResult<int>> ViewNewCustomerOnDay()
+        {
+            var listUser = await _userManager.GetUsersInRoleAsync(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString());
+            listUser = listUser.Where(x => x.DateCreated.Value.Date==DateTime.Today).ToList();
+            return new ApiSuccessResult<int>(listUser.Count, "Success");
+        }
+
+        public async Task<ApiResult<int>> CountAllCustomer()
+        {
+            try
+            {
+                int customerCount = await _userManager.Users.CountAsync();
+                return new ApiSuccessResult<int>(customerCount, "Success");
+            }
+            catch (Exception ex)
+            {
+                return new ApiErrorResult<int>($"Error: {ex.Message}");
+            }
+        }
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class PostController : Controller
+    public class PostController : BaseController
     {
 
         public readonly IWebHostEnvironment _env; 

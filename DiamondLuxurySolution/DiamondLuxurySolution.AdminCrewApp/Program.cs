@@ -26,6 +26,8 @@ using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNewsCategoty;
 using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNewsCategory;
 using DiamondLuxurySolution.AdminCrewApp.Service.Product;
 using DiamondLuxurySolution.AdminCrewApp.Service.Order;
+using DiamondLuxurySolution.AdminCrewApp.Service.Home;
+using DiamondLuxurySolution.AdminCrewApp.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,6 +36,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<ILoginApiService, LoginApiService>();
+builder.Services.AddTransient<IHomeApiService, HomeApiService>();
 
 builder.Services.AddTransient<IOrderApiService, OrderApiService>();
 
@@ -80,14 +83,11 @@ builder.Services.AddTransient<IKnowLedgeNewsApiService, KnowledgeNewsApiService>
 
 builder.Services.AddTransient<IKnowledgeNewsCategoryApiService, KnowledgeNewsCategoryApiService>();
 
-
-
-
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
         options.LoginPath = "/Login/Index/";
-        options.AccessDeniedPath = "/Login/Forbidden/";
+        options.AccessDeniedPath = "/Error/Unauthorized/";
     });
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
@@ -114,6 +114,23 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
+StaffSessionHelper.Configure(app.Services.GetRequiredService<IHttpContextAccessor>());
+
+app.UseStatusCodePages(async context =>
+{
+    if (context.HttpContext.Response.StatusCode == 404)
+    {
+        context.HttpContext.Response.Redirect("/Error/PageNotFound");
+    }
+    if (context.HttpContext.Response.StatusCode == 500)
+    {
+        context.HttpContext.Response.Redirect("/Error/InternalServerError");
+    }
+    if (context.HttpContext.Response.StatusCode == 401)
+    {
+        context.HttpContext.Response.Redirect("/Error/Unauthorized");
+    }
+});
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=Index}/{id?}");

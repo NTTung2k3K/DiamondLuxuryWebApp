@@ -15,18 +15,18 @@ using Azure.Core;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.AdminCrewApp.Service.Staff;
+using DiamondLuxurySolution.AdminCrewApp.Models;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
     [AllowAnonymous]
     public class LoginController : Controller
     {
-
         private readonly IConfiguration _configuration;
         private readonly ILoginApiService _loginApiService;
         private readonly IStaffApiService _staffApiService;
 
-        public LoginController( IConfiguration configuration,ILoginApiService loginApiService, IStaffApiService staffApiService)
+        public LoginController(IConfiguration configuration, ILoginApiService loginApiService, IStaffApiService staffApiService)
         {
             _configuration = configuration;
             _staffApiService = staffApiService;
@@ -44,7 +44,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(LoginStaffRequest request)
         {
-           
+
 
             var apiResult = await _loginApiService.LoginStaff(request);
 
@@ -66,20 +66,37 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 var user = await _staffApiService.GetStaffByUsername(request.UserName);
                 var userId = user.ResultObj.StaffId;
 
-                HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_ID,userId.ToString());
-                HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_NAME, user.ResultObj.Username);
+                HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_ID, userId.ToString());
+                HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_NAME, user.ResultObj.FullName);
+                HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_EMAIL, user.ResultObj.Email);
+                HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_IMAGE, string.IsNullOrEmpty(user.ResultObj.Image) ? "" : user.ResultObj.Image);
 
-                return RedirectToAction("Index", "Home");
+                StaffSessionHelper.SetObjectAsJson("Staff", user.ResultObj);
+
+
+                if (user.ResultObj.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin)){
+                    return RedirectToAction("Admin", "Home");
+                }
+                if (user.ResultObj.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)){
+                    return RedirectToAction("Manager", "Home");
+                }
+                if (user.ResultObj.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)){
+                    return RedirectToAction("Index", "Product");
+                }
+                if (user.ResultObj.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.DeliveryStaff)){
+                    return RedirectToAction("DeliveryStaff", "Index");
+                }
+
             }
 
             ViewBag.Error = "Tài khoản hoặc mật khẩu không đúng";
             return View((object)request.UserName);
         }
-      
+
         [HttpGet]
         public async Task<IActionResult> ForgotPassword()
         {
-            
+
             return View();
         }
         [HttpPost]
@@ -145,7 +162,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
             }
 
-            return RedirectToAction("Index","Login");
+            return RedirectToAction("Index", "Login");
         }
 
         private ClaimsPrincipal ValidateToken(string jwtToken)

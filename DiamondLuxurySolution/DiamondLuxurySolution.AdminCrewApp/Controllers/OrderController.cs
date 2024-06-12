@@ -8,13 +8,15 @@ using DiamondLuxurySolution.Application.Repository.Promotion;
 using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Order;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using static DiamondLuxurySolution.Utilities.Constants.Systemconstant;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class OrderController : Controller
+    [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
+    public class OrderController : BaseController
     {
         private readonly IOrderApiService _OrderApiService;
         private readonly IStaffApiService _staffApiService;
@@ -99,6 +101,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
+                var transactionStatus = Enum.GetValues(typeof(TransactionStatus)).Cast<TransactionStatus>().ToList();
+                ViewBag.TransactionStatus = transactionStatus;
+
                 //Status
                 var statuses = Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>().ToList();
                 ViewBag.ListStatus = statuses;
@@ -181,6 +186,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
+                var transactionStatus = Enum.GetValues(typeof(TransactionStatus)).Cast<TransactionStatus>().ToList();
+                ViewBag.TransactionStatus = transactionStatus;
+
                 //Status
                 var statuses = Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>().ToList();
                 ViewBag.ListStatus = statuses;
@@ -201,6 +209,16 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 Guid.TryParse(userIdString, out userId);
                 // Chuyển đổi thành công
                 request.StaffId = userId;
+                    if (request.StatusOrderPayment != null && request.StatusOrderPayment.Count > 0)
+                    {
+                        var options = new JsonSerializerOptions
+                        {
+                            PropertyNameCaseInsensitive = true, // If needed
+                            WriteIndented = true // If neededf
+                        };
+                        string listSubGemsJson = System.Text.Json.JsonSerializer.Serialize(request.StatusOrderPayment, options);
+                        request.StatusOrderPaymentJson = listSubGemsJson;
+                    }
                 var status = await _OrderApiService.UpdateInfoOrder(request);
                 if (status is ApiErrorResult<bool> errorResult)
                 {
@@ -234,6 +252,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
+                var transactionStatus = Enum.GetValues(typeof(TransactionStatus)).Cast<TransactionStatus>().ToList();
+                ViewBag.TransactionStatus = transactionStatus;
+
                 //Status
                 var statuses = Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>().ToList();
                 ViewBag.ListStatus = statuses;
@@ -249,25 +270,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 var Order = await _OrderApiService.GetOrderById(OrderId);
                 ViewBag.Total = Order.ResultObj.TotalAmount;
                 ViewBag.TotalSale = Order.ResultObj.TotalSale;
+                ViewBag.TransStatus = "";
 
-                if (Order is ApiErrorResult<OrderVm> errorResult)
-                {
-                    List<string> listError = new List<string>();
-                    if (Order.Message != null)
-                    {
-                        listError.Add(errorResult.Message);
-                    }
-                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-                    {
-                        foreach (var error in listError)
-                        {
-                            listError.Add(error);
-                        }
-                    }
-                    ViewBag.Errors = listError;
-                    return View();
-
-                }
+                
                 List<OrderProductSupport> listExistProduct = new List<OrderProductSupport>();
                 foreach (var item in Order.ResultObj.ListOrderProduct)
                 {
@@ -303,7 +308,26 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     PromotionId = Order.ResultObj.PromotionVm == null ? null : Order.ResultObj.PromotionVm.PromotionId,
                     ShipAdress = Order.ResultObj.ShipAdress,
                     ListPaymentId = listPaymentExist,
+                    
                 };
+                if (Order is ApiErrorResult<OrderVm> errorResult)
+                {
+                    List<string> listError = new List<string>();
+                    if (Order.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
+                    }
+                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                    {
+                        foreach (var error in listError)
+                        {
+                            listError.Add(error);
+                        }
+                    }
+                    ViewBag.Errors = listError;
+                    return View(updateVm);
+
+                }
                 return View(updateVm);
             }
             catch
@@ -320,6 +344,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
+                var transactionStatus = Enum.GetValues(typeof(TransactionStatus)).Cast<TransactionStatus>().ToList();
+                ViewBag.TransactionStatus = transactionStatus;
+
                 //Status
                 var statuses = Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>().ToList();
                 ViewBag.ListStatus = statuses;
@@ -332,8 +359,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 ViewBag.PaymentId = request.PaymentId.ToString();
                 ViewBag.PaidTheRest = request.PaidTheRest;
                 ViewBag.Message = request.Message;
+                ViewBag.TransStatus = request.TransactionStatus;
 
-                
+
                 string userIdString = HttpContext.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_ID);
                 Guid userId;
 
@@ -478,6 +506,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
+            var transactionStatus = Enum.GetValues(typeof(TransactionStatus)).Cast<TransactionStatus>().ToList();
+            ViewBag.TransactionStatus = transactionStatus;
+
             //Status
             var statuses = Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>().ToList();
             ViewBag.ListStatus = statuses;
@@ -495,6 +526,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             //Status
             var statuses = Enum.GetValues(typeof(OrderStatus)).Cast<OrderStatus>().ToList();
+            var transactionStatus = Enum.GetValues(typeof(TransactionStatus)).Cast<TransactionStatus>().ToList();
+            ViewBag.TransactionStatus = transactionStatus;
+
             ViewBag.ListStatus = statuses;
             var listPayment = await _paymentApiService.GetAll();
             ViewBag.ListPayment = listPayment.ResultObj;
