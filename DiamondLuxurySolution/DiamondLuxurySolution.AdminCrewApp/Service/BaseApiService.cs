@@ -33,7 +33,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                 foreach (var property in properties)
                 {
                     var propertyValue = property.GetValue(obj);
-
                     if (propertyValue is IFormFile formFile)
                     {
                         // Handle IFormFile
@@ -81,21 +80,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                         multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
                     }
                 }
-
                 // Post the content
                 var response = await client.PostAsync(url, multipartFormDataContent);
                 var body = await response.Content.ReadAsStringAsync();
-
                 // Log the response content for debugging
                 Console.WriteLine($"Response Status Code: {response.StatusCode}");
                 Console.WriteLine($"Response Body: {body}");
-
                 if (!response.IsSuccessStatusCode)
                 {
                     var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
                     return objectResult;
                 }
-
                 return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
             }
         }

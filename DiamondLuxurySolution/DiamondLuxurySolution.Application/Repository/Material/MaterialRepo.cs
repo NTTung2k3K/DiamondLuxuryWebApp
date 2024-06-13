@@ -1,8 +1,6 @@
 ﻿using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
-using DiamondLuxurySolution.ViewModel.Models.About;
-using DiamondLuxurySolution.ViewModel.Models.Contact;
 using DiamondLuxurySolution.ViewModel.Models.Material;
 using Microsoft.EntityFrameworkCore;
 using PagedList;
@@ -126,10 +124,18 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             {
                 errorList.Add("Vui lòng nhập tên nguyên liệu");
             }
+<<<<<<< HEAD
+
+            double price = 0;
+            try
+            {
+                price = Convert.ToDouble(request.Price);
+=======
             decimal price = 0;
             try
             {
                 price = Convert.ToDecimal(request.Price);
+>>>>>>> 2e5d1b1cdbf13f91692badfd0af8a9ec99d8f362
 
                 if (price <= 0)
                 {
@@ -153,8 +159,12 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             material.Description = request.Description != null ? request.Description : "";
             material.Color = request.Color != null ? request.Color : "";
             material.Price = price;
+<<<<<<< HEAD
+            material.EffectDate = (DateTime)request.EffectDate;
+=======
             material.EffectDate = DateTime.Parse(request.EffectDate);
             material.Price = request.Price;
+>>>>>>> 2e5d1b1cdbf13f91692badfd0af8a9ec99d8f362
             material.Status = request.Status;
             if (request.MaterialImage != null)
             {
@@ -173,12 +183,6 @@ namespace DiamondLuxurySolution.Application.Repository.Material
         public async Task<ApiResult<PageResult<MaterialVm>>> ViewMaterialInCustomer(ViewMaterialRequest request)
         {
             var listMaterial = await _context.Materials.ToListAsync();
-            if (request.Keyword != null)
-            {
-                listMaterial = listMaterial.Where(x => x.MaterialName.Contains(request.Keyword)).ToList();
-
-            }
-            listMaterial = listMaterial.Where(x => x.Status).OrderByDescending(x => x.MaterialName).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 

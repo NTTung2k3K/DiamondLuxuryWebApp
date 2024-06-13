@@ -61,7 +61,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteCollection([FromBody] DeleteCollectionRequest request)
+        public async Task<IActionResult> DeleteCollection([FromQuery] DeleteCollectionRequest request)
         {
             try
             {
@@ -77,7 +77,6 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
-
         [HttpGet("GetById")]
         public async Task<IActionResult> FindById([FromQuery] string CollectionId)
         {
@@ -95,9 +94,26 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpPost("GetProductsByListId")]
+        public async Task<IActionResult> GetProductsByListId([FromBody]List<string> ListProductsId)
+        {
+            try
+            {
+                var status = await _collection.GetProductsByListId(ListProductsId);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
 
-        [HttpGet("ViewInCustomer")]
+        [HttpGet("ViewInCollection")]
         public async Task<IActionResult> ViewAllCollectionsInPaging([FromQuery] ViewCollectionRequest request)
         {
             try

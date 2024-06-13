@@ -24,7 +24,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
-
                 ViewBag.txtLastSeachValue = request.Keyword;
                 if (!ModelState.IsValid)
                 {
