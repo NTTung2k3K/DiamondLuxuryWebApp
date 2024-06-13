@@ -1,5 +1,6 @@
 ﻿using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.About;
+using DiamondLuxurySolution.ViewModel.Models.Gem;
 using DiamondLuxurySolution.ViewModel.Models.Warranty;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,8 @@ namespace DiamondLuxurySolution.Application.Repository.Warranty
 {
     public interface IWarrantyRepo
     {
-        public Task<ApiResult<bool>> CreateWarranty(CreateWarrantyRequest request);
+		public Task<ApiResult<List<WarrantyVm>>> GetAll();
+		public Task<ApiResult<bool>> CreateWarranty(CreateWarrantyRequest request);
         public Task<ApiResult<bool>> UpdateWarranty(UpdateWarrantyRequest request);
         public Task<ApiResult<bool>> DeleteWarranty(DeleteWarrantyRequest request);
         public Task<ApiResult<WarrantyVm>> GetWarrantyById(Guid WarrantyId);

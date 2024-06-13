@@ -16,7 +16,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Staff
 
         public async Task<ApiResult<bool>> ChangePasswordStaff(ChangePasswordStaffRequest request)
         {
-            var data = await PostAsync<bool>("api/Staffs/ChangePasswordStaff", request);
+            var data = await PutAsync<bool>("api/Staffs/ChangePasswordStaff", request);
             return data;
         }
 
@@ -47,6 +47,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Staff
         public async Task<ApiResult<StaffVm>> GetStaffById(Guid StaffId)
         {
             var data = await GetAsync<StaffVm>("api/Staffs/GetStaffById?StaffId="+StaffId);
+            return data;
+        }
+
+        public async Task<ApiResult<StaffVm>> GetStaffByUsername(string Username)
+        {
+            var data = await GetAsync<StaffVm>("api/Staffs/GetStaffByUsername?Username=" + Username);
             return data;
         }
 

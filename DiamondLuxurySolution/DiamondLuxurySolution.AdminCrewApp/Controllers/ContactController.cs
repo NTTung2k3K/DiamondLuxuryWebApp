@@ -2,11 +2,14 @@
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Contact;
 using DiamondLuxurySolution.ViewModel.Models.Platform;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class ContactController : Controller
+    [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin)]
+
+    public class ContactController : BaseController
     {
         private readonly IContactApiService _contactApiService;
 
@@ -87,16 +90,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 if (status is ApiErrorResult<bool> errorResult)
                 {
                     List<string> listError = new List<string>();
-                    if (status.Message != null)
+
+                    if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
                     {
-                        listError.Add(errorResult.Message);
-                    }
-                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-                    {
-                        foreach (var error in listError)
+                        foreach (var error in errorResult.ValidationErrors)
                         {
                             listError.Add(error);
                         }
+                    }
+                    else if (status.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
                     }
                     ViewBag.Errors = listError;
                     return View();

@@ -1,0 +1,54 @@
+/*****************************
+32. Progress Bar
+*****************************/
+
+
+.skill-progress{
+	&__single{
+		@extend %posrelative;
+		&:not(:last-child){
+			margin-bottom: 4rem;
+		}
+	}
+	&__title{
+		color: #ffffff;
+		font-size: 1.2rem;
+		font-weight: 400;
+		margin-left: 5rem;
+		position: absolute;
+		text-align: center;
+		text-transform: uppercase;
+		z-index: 2;
+		line-height: 1.6;
+	}
+	.progress {
+		overflow: visible;
+		--bs-progress-height: 1.8rem;
+		--bs-progress-font-size: 1.1rem;
+		--bs-progress-bg: #f3f3f3;
+		--bs-progress-border-radius: 3px;
+		--bs-progress-box-shadow: none;
+		--bs-progress-bar-color: #fff;
+		--bs-progress-bar-bg: #444444;
+	}
+	.progress-bar {
+	    margin-left: 2px;
+	    position: relative;
+	    overflow: visible;
+ 
+		span {
+		    background: $color-dark-6;
+		    border: 3px solid $color-gray-4;
+		    border-radius: 50%;
+		    font-weight: 700;
+		    height: 4rem;
+		    left: -1.2rem;
+		    padding-top: 0;
+		    position: absolute;
+		    text-align: center;
+		    top: -1.3rem;
+		    width: 4rem;
+		    line-height: 3.3rem;
+		}
+	}
+}

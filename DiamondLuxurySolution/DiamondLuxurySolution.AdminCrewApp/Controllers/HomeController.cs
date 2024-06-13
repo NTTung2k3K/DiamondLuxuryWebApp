@@ -1,32 +1,76 @@
-using DiamondLuxurySolution.AdminCrewApp.Models;
+﻿using DiamondLuxurySolution.AdminCrewApp.Service.Home;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IHomeApiService _homeApiService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IHomeApiService homeApiService)
         {
-            _logger = logger;
+            _homeApiService = homeApiService;
         }
-
-        public IActionResult Index()
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+        public async Task<IActionResult> Manager()
         {
+            var totalIncome = await _homeApiService.TotalIncome();
+            ViewBag.TotalIncome = totalIncome.ResultObj;
+
+            var totalOrder = await _homeApiService.TotalOrder();
+            ViewBag.TotalOrder = totalOrder.ResultObj;
+
+            var orderToday = await _homeApiService.AllOrderToday();
+            ViewBag.OrderToday = orderToday.ResultObj;
+
+            var incomeToday = await _homeApiService.IncomeToday();
+            ViewBag.IncomeToday = incomeToday.ResultObj;
+
+            var incomeAYear = await _homeApiService.IncomeAYear();
+            ViewBag.IncomeAYear = incomeAYear.ResultObj;
+
+            var recentTransaction = await _homeApiService.RecentTransaction();
+            ViewBag.RecentTransaction = recentTransaction.ResultObj;
+
+            var recentSuccessTransaction = await _homeApiService.RecentSuccessTransaction();
+            ViewBag.RecentSuccessTransaction = recentSuccessTransaction.ResultObj;
+
+            var recentFailTransaction = await _homeApiService.RecentFailTransaction();
+            ViewBag.RecentFailTransaction = recentFailTransaction.ResultObj;
+
+            var recentWaitTransaction = await _homeApiService.RecentWaitTransaction();
+            ViewBag.RecentWaitTransaction = recentWaitTransaction.ResultObj;
+
+            var orderByQuarter = await _homeApiService.OrderByQuarter();
+            ViewBag.OrderByQuarter = orderByQuarter.ResultObj;
+
+
+
+            return View();
+        }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin)]
+        public async Task<IActionResult> Admin()
+        {
+            var allCustomerToday = await _homeApiService.ViewNewCustomerOnDay();
+            ViewBag.AllCustomerToday = allCustomerToday.ResultObj;
+
+            var sountContactNotSolve = await _homeApiService.CountContactNotSolve();
+            ViewBag.CountContactNotSolve = sountContactNotSolve.ResultObj;
+
+            var countAllNews = await _homeApiService.CountAllNews();
+            ViewBag.CountAllNews = countAllNews.ResultObj;
+
+            var countAllCustomerInYear = await _homeApiService.CountAllCustomerInYear();
+            ViewBag.CountAllCustomerInYear = countAllCustomerInYear.ResultObj;
+
+            var countAllCustomer = await _homeApiService.CountAllCustomer();
+            ViewBag.CountAllCustomer = countAllCustomer.ResultObj;
+
+
             return View();
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

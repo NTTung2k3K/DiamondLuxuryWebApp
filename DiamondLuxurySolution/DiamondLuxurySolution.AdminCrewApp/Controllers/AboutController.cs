@@ -2,12 +2,17 @@
 using DiamondLuxurySolution.AdminCrewApp.Service.Slide;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.About;
+using DiamondLuxurySolution.ViewModel.Models.Material;
 using DiamondLuxurySolution.ViewModel.Models.Slide;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class AboutController : Controller
+   
+    [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
+    public class AboutController : BaseController
     {
         private readonly IAboutApiService _AboutApiService;
         public AboutController(IAboutApiService aboutApiService)
@@ -70,7 +75,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
-                return View();
+                return RedirectToAction("InternalServerError", "Error");
             }
         }
 
@@ -111,7 +116,19 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             try
             {
 
+                if (!ModelState.IsValid)
+                {
 
+                    AboutVm aboutVm = new AboutVm()
+                    {
+                       AboutId = request.AboutId,
+                       AboutName = request.AboutName,
+                       Description = request.Description,
+                       Status = request.Status,
+
+                    };
+                    return View(aboutVm);
+                }
                 var status = await _AboutApiService.UpdateAbout(request);
                 if (status is ApiErrorResult<bool> errorResult)
                 {
@@ -216,7 +233,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateAboutRequest request)
         {
-
 
             var status = await _AboutApiService.CreateAbout(request);
 

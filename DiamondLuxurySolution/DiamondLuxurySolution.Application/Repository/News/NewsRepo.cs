@@ -53,7 +53,7 @@ namespace DiamondLuxurySolution.Application.Repository.News
                 DateCreated = DateTime.Now,
                 DateModified = DateTime.Now,
                 Description = request.Description != null ? request.Description : "",
-                IsOutstanding = request.IsOutstanding,
+                Status = request.Status,
                 Id = (Guid)writer.Id,
                 Writer = writer,
             };
@@ -98,9 +98,14 @@ namespace DiamondLuxurySolution.Application.Repository.News
 
             news.Title = request.Title;
             news.DateModified = DateTime.Now;
-            news.Image = request.Image != null ? await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Image) : "";
+            if(request.Image != null && request.Image.Length > 0)
+            {
+                var firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Image);
+                news.Image = firebaseUrl;
+            }
+
             news.Description = !string.IsNullOrWhiteSpace(request.Description) ? request.Description : "";
-            news.IsOutstanding = request.IsOutstanding;
+            news.Status = request.Status;
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
         }
@@ -155,7 +160,7 @@ namespace DiamondLuxurySolution.Application.Repository.News
                 Description = news.Description,
                 Image = news.Image,
                 Title = news.Title,
-                IsOutstanding = news.IsOutstanding,
+                Status = news.Status,
                 Writer = writer
             };
             return new ApiSuccessResult<NewsVm>(newsVm, "Success");
@@ -211,7 +216,7 @@ namespace DiamondLuxurySolution.Application.Repository.News
                     Description = item.Description,
                     Title = item.Title,
                     Image = item.Image,
-                    IsOutstanding = item.IsOutstanding,
+                    Status = item.Status,
                     Writer = writer
                 };
                 listNewsVm.Add(newsVm);
@@ -225,6 +230,13 @@ namespace DiamondLuxurySolution.Application.Repository.News
                 PageIndex = pageIndex
             };
             return new ApiSuccessResult<PageResult<NewsVm>>(listResult, "Success");
+        }
+
+        public async Task<ApiResult<int>> CountAllNews()
+        {
+            var allNews = _context.News.Count();
+            var allKnowledgeNews = _context.KnowledgeNews.Count();
+            return new ApiSuccessResult<int>(allNews + allKnowledgeNews, "Success");
         }
     }
 }

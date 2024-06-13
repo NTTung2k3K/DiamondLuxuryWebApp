@@ -1,0 +1,242 @@
+/*****************************
+33. Post CSS
+*****************************/
+
+// Blog Carousel 
+
+.blog{
+	&__thumb{
+		display: block;
+		margin-bottom: 2rem;
+		img{
+			width: 100%;
+		}
+	}
+	&__meta{
+		@include flexbox;
+		@include align-items(center);
+		@include justify-content(space-between);
+		p{
+		    font-size: 1.4rem;
+		    text-transform: capitalize;
+		    margin-bottom: 6px;
+			a{
+				@extend %primary-color;
+			} 
+		}
+	}
+	&__title{
+		font-size: 18px;
+		margin-bottom: 2rem;
+		font-weight: 500;
+		line-height: 1.5;
+		a{
+			display: block;
+			@extend %white-color;
+			letter-spacing: 1.5px;
+		}
+	}
+	.read-more{
+		@extend %primary-color;
+		font-weight: 700;
+		font-size: 1.6rem;
+	}
+}
+
+
+// Single Post
+
+.post{
+    background: $bg-color-2;
+    padding: 1.5rem;
+	&-media{
+		margin-bottom: 2rem;
+		.image{
+			img{
+				width: 100%;
+			}
+		}
+	}
+	.entry-meta{
+		@include flexbox;
+		@include justify-content(space-between);
+		span{
+		    font-size: 1.4rem;
+		}
+	} 
+    &-title{
+	    font-size: 1.8rem;
+	    margin: 2rem 0;
+	    text-transform: capitalize;
+	    a{
+	    	@extend %body-color;
+	    	&:hover{
+	    		@extend %primary-color;
+	    	}
+	    }
+    }
+	&-content{
+		margin-bottom: 3rem;
+		blockquote{
+			background: $bg-color;
+			border: 1px solid $border-color;
+			border-left: 5px solid $primary-color;
+			font-size: 1.4rem;
+			font-style: italic;
+			margin: 4rem 0 4rem 4rem;
+			padding: 3rem 4.5rem;
+			line-height: 1.8;
+			@extend %body-color;
+		}
+	}
+	.footer-meta{
+		@include flexbox;
+		@include align-items(center);
+		margin-bottom: 3rem;
+		border-top: 1px solid $border-color;
+		border-bottom: 1px solid $border-color;
+		padding: 1.5rem 0;
+		@include breakpoint(xsmall) {
+			@include flex-direction(column);
+			@include align-items(flex-start);
+		}
+		span{
+			padding: 0 5px;
+			@include breakpoint(xsmall) {
+				display: none;
+			}
+		}
+		*{
+			font-size: 1.3rem;
+			color: #999;
+		}
+		a{
+			&:hover{
+				@extend %primary-color;
+			}
+		}
+	}
+	&-gallery{
+		.single-post-gallery{
+			margin: 0 1rem;
+			img{
+				width: 100%;
+			}
+		}
+		.slick{
+			&-btn{
+				@include textBoxCenter(40);
+				font-size: 2rem;
+				background: rgba(0,0,0,.6);
+				color: $color-white-light-1;
+				@include border-radius(50%);
+				@extend %invisible;	
+				z-index: 99;		
+			}
+			&-prev{
+				left: 3rem;
+			}
+			&-next{
+				right: 3rem;
+			}
+		}
+		&:hover{
+			.slick{
+				&-btn{
+					@extend %visible;
+				}
+				&-prev{
+					left: 1.5rem;
+				}
+				&-next{
+					right: 1.5rem;
+				}
+			}
+		}
+	}
+	&.sticky{
+		.post-title{
+			font-size: 2rem;
+		}
+		.post-details{
+			.post{
+				&-title{
+					font-size: 2.6rem;
+				}
+			}
+		}
+	}
+	&.listview{
+		@include flexbox;
+		@include flex-wrap(wrap);
+		.post{
+			&-media{
+				@include flex-basis(35rem);
+				max-width: 35rem;
+				margin-bottom: 0;
+				@include breakpoint(large){
+					@include flex-basis(30rem);
+					max-width: 30rem;
+				}
+				@include breakpoint(small){
+					@include flex-basis(100%);
+					max-width: 100%;
+					margin-bottom: 2rem;
+				}
+			}
+			&-info{
+				@include flex-basis(calc(100% - 35rem));
+				max-width: calc(100% - 35rem);
+				padding-left: 2rem;
+				@include breakpoint(large){
+					@include flex-basis(calc(100% - 30rem));
+					max-width: calc(100% - 30rem);
+				}
+				@include breakpoint(small){
+					@include flex-basis(100%);
+					max-width: 100%;
+					padding-left: 0;
+				}
+			}
+			&-gallery{
+				width: 100%;
+			}
+		}
+	}
+	&-details{
+		.post{
+			&-title{
+				font-size: 2.4rem;
+			}
+		}
+	}
+}
+
+.single-post{
+	height: 100%;
+}
+.related-posts-wrap{
+	h3{
+		font-size: 2rem;
+		margin: 0 0 3rem;
+		text-transform: uppercase;
+		line-height: 1;
+	}
+}
+.related-post{
+	&__thumb{
+		display: block;
+		margin-bottom: 3rem;
+	}
+	h4{
+		font-size: 1.4rem;
+		text-transform: uppercase;
+		a{
+			color: $heading-color;
+		}
+	}
+	span{
+		font-size: 1.2rem;
+		font-style: italic;
+	}
+}

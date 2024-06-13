@@ -17,6 +17,8 @@ namespace DiamondLuxurySolution.Application.Repository.News
         public Task<ApiResult<bool>> DeleteNews(DeleteNewsRequest request);
         public Task<ApiResult<NewsVm>> GetNewsById(int NewsId);
         public Task<ApiResult<PageResult<NewsVm>>> ViewNews(ViewNewsRequest request);
+        public Task<ApiResult<int>> CountAllNews();
+
 
 
     }

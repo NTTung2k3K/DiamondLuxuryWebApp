@@ -1,19 +1,17 @@
-﻿using Azure.Core;
-using DiamondLuxurySolution.Data.EF;
+﻿using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
+using DiamondLuxurySolution.Utilities.Helper;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.User.Customer;
 using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using PagedList;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-
 namespace DiamondLuxurySolution.Application.Repository.User.Staff
 {
     public class StaffRepo : IStaffRepo
@@ -22,21 +20,34 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly LuxuryDiamondShopContext _context;
+        private readonly IConfiguration _configuarion;
 
-        public StaffRepo(LuxuryDiamondShopContext context, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
+        public StaffRepo( LuxuryDiamondShopContext context, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _context = context;
+            _configuarion = configuration;
         }
 
         public async Task<ApiResult<bool>> ChangePasswordStaff(ChangePasswordStaffRequest request)
         {
+
             var user = await _userManager.FindByIdAsync(request.StaffId.ToString());
             if (user == null)
             {
                 return new ApiErrorResult<bool>("Nhân viên không tồn tại");
             }
+            if(request.NewPassword == null || request.OldPassword == null || request.ConfirmNewPassword == null)
+            {
+                return new ApiErrorResult<bool>("Không có thông tin");
+            }
+            if (request.NewPassword.ToString().Equals(request.OldPassword.ToString()))
+            {
+                return new ApiErrorResult<bool>("Xác nhận mật khẩu không đúng");
+            }
+
+
             var comfirmPassword = await _userManager.CheckPasswordAsync(user, request.OldPassword);
             if (comfirmPassword == false)
             {
@@ -99,7 +110,10 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 Image = user.Image,
                 Address = user.Address,
                 Status = user.Status,
-                Username = user.UserName
+                Username = user.UserName,
+                DateCreated = user.DateCreated,
+                LastChangePasswordTime = user.LastChangePasswordTime != null ? user.LastChangePasswordTime : DateTime.MinValue,
+
             };
 
             var listRoleOfUser = await _userManager.GetRolesAsync(user);
@@ -115,25 +129,51 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             return new ApiSuccessResult<StaffVm>(staffVm, "Success");
         }
 
-        public async Task<ApiResult<bool>> LoginStaff(LoginStaffRequest request)
+        public async Task<ApiResult<string>> LoginStaff(LoginStaffRequest request)
         {
             if (string.IsNullOrEmpty(request.UserName.Trim()) || string.IsNullOrEmpty(request.Password.Trim()))
             {
-                return new ApiErrorResult<bool>("Tải khoản hoặc mật khẩu không đúng");
+                return new ApiErrorResult<string>("Tải khoản hoặc mật khẩu không đúng");
             }
 
             var user = await _userManager.FindByNameAsync(request.UserName.Trim());
             if (user == null)
             {
-                return new ApiErrorResult<bool>("Tải khoản hoặc mật khẩu không đúng");
+                return new ApiErrorResult<string>("Tải khoản hoặc mật khẩu không đúng");
+            }
+            var role = await _userManager.GetRolesAsync(user);
+            if (role.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString()))
+            {
+                return new ApiErrorResult<string>("Tải khoản hoặc mật khẩu không đúng");
             }
             var userPasswordConfirm = await _userManager.CheckPasswordAsync(user, request.Password.Trim());
             if (userPasswordConfirm == false)
             {
-                return new ApiErrorResult<bool>("Tải khoản hoặc mật khẩu không đúng");
+                return new ApiErrorResult<string>("Tải khoản hoặc mật khẩu không đúng");
             }
+            var authClaim = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Name, user.Fullname),
+                new Claim(ClaimTypes.Email,user.Email),
+            };
+            var roles = await _userManager.GetRolesAsync(user);
+            foreach (var item in roles)
+            {
+                authClaim.Add(new Claim(ClaimTypes.Role, item.ToString()));
+            }
+            var authKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuarion["Jwt:Key"]));
+            var token = new JwtSecurityToken(
+                    issuer: _configuarion["Jwt:Issuer"],
+                    audience: _configuarion["Jwt:Audience"],
+                    claims: authClaim,
+                    expires: DateTime.Now.AddHours(1),
+                    signingCredentials: new SigningCredentials(authKey, SecurityAlgorithms.HmacSha512Signature)
+                );
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return new ApiSuccessResult<bool>(true, "Success");
+            var ApiSuccess = new ApiSuccessResult<string>(tokenString, "Success");
+
+            return ApiSuccess;
         }
 
         public async Task<ApiResult<bool>> RegisterStaffAccount(CreateStaffAccountRequest request)
@@ -177,6 +217,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 Status = request.Status.Trim(),
                 CitizenIDCard = request.CitizenIDCard,
                 Address = request.Address.Trim(),
+                DateCreated = DateTime.Now
             };
             if(request.Image != null)
             {
@@ -658,18 +699,41 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             var user = await _userManager.FindByNameAsync(Username.Trim().ToString());
             if (user == null)
             {
-                return new ApiErrorResult<string>("Email không tồn tại");
+                return new ApiErrorResult<string>("Tài khoản không tồn tại");
             }
-            string code = DiamondLuxurySolution.Utilities.Helper.RandomHelper.GenerateRandomString(8);
+            var role = await _userManager.GetRolesAsync(user);
+            if (role.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString()))
+            {
+                return new ApiErrorResult<string>("Tài khoản không tồn tại");
+            }
+            Random rd = new Random();
+            string code = ""+rd.Next(0,9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString();
             user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.ChangePasswordRequest.ToString();
             var statusUser = await _userManager.UpdateAsync(user);
             if (!statusUser.Succeeded)
             {
                 return new ApiErrorResult<string>("Lỗi hệ thống, cập nhật thông tin thất bại vui lòng thử lại");
             }
+            SendEmail(code,user.Email);
 
             return new ApiSuccessResult<string>(code, "Success");
         }
+        public void SendEmail(string code, string toEmail)
+        {
+            // Correct relative path from current directory to the HTML file
+            string relativePath = @"..\..\DiamondLuxurySolution\DiamondLuxurySolution.Utilities\FormSendEmail\SendCode.html";
+            // Combine the relative path with the current directory to get the full path
+            string path = Path.GetFullPath(relativePath);
+
+            if (!System.IO.File.Exists(path))
+            {
+                return;
+            }
+            string contentCustomer = System.IO.File.ReadAllText(path);
+            contentCustomer = contentCustomer.Replace("{{VerifyCode}}", code);
+            DoingMail.SendMail("LuxuryDiamond", "Yêu cầu thay đổi mật khẩu", contentCustomer, toEmail);
+        }
+
 
         public async Task<ApiResult<bool>> ForgotpassworStaffdChange(ForgotPasswordStaffChangeRequest request)
         {
@@ -733,6 +797,62 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 return new ApiErrorResult<bool>("Lỗi hệ thống, cập nhật thông tin thất bại vui lòng thử lại");
             }
             return new ApiSuccessResult<bool>(true, "Success");
+        }
+
+        public async Task<ApiResult<StaffVm>> GetStaffByUsername(string Username)
+        {
+            var user = await _userManager.FindByNameAsync(Username.ToString());
+            if (user == null)
+            {
+                return new ApiErrorResult<StaffVm>("Nhân viên không tồn tại");
+            }
+            var staffVm = new StaffVm()
+            {
+                StaffId = user.Id,
+                Dob = (DateTime)(user.Dob ?? DateTime.MinValue),
+                FullName = user.Fullname,
+                PhoneNumber = user.PhoneNumber,
+                Email = user.Email,
+                CitizenIDCard = user.CitizenIDCard,
+                Image = user.Image,
+                Address = user.Address,
+                Status = user.Status,
+                Username = user.UserName,
+                DateCreated = user.DateCreated,
+                LastChangePasswordTime = user.LastChangePasswordTime!=null?  user.LastChangePasswordTime : DateTime.MinValue,
+            };
+
+            var listRoleOfUser = await _userManager.GetRolesAsync(user);
+
+            if (listRoleOfUser.Count > 0)
+            {
+                staffVm.ListRoleName = new List<string>();
+                foreach (var role in listRoleOfUser)
+                {
+                    staffVm.ListRoleName.Add(role);
+                }
+            }
+            return new ApiSuccessResult<StaffVm>(staffVm, "Success");
+        }
+
+        public async Task<ApiResult<int>> ViewNewCustomerOnDay()
+        {
+            var listUser = await _userManager.GetUsersInRoleAsync(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString());
+            listUser = listUser.Where(x => x.DateCreated.Value.Date==DateTime.Today).ToList();
+            return new ApiSuccessResult<int>(listUser.Count, "Success");
+        }
+
+        public async Task<ApiResult<int>> CountAllCustomer()
+        {
+            try
+            {
+                int customerCount = await _userManager.Users.CountAsync();
+                return new ApiSuccessResult<int>(customerCount, "Success");
+            }
+            catch (Exception ex)
+            {
+                return new ApiErrorResult<int>($"Error: {ex.Message}");
+            }
         }
     }
 }

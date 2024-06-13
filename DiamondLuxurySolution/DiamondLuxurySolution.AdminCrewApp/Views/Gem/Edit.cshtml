@@ -5,10 +5,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<h1>Chỉnh sửa</h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
 @if (Model != null)
 {
+    <h1>Chỉnh sửa khuyến mãi</h1>
     <div class="row">
         <div class="col-md-6">
+            
             <form asp-action="Edit" asp-controller="Gem" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -17,7 +27,7 @@
                     <input asp-for="GemId" class="form-control" readonly />
                 </div>
                 <div class="form-group m-2">
-                    <label asp-for="GemName" class="control-label m-2"></label>
+                    <label asp-for="GemName" class="control-label m-2">Tên kim cương</label>
                     <input asp-for="GemName" class="form-control" />
                     <span asp-validation-for="GemName" class="text-danger"></span>
                 </div>
@@ -40,17 +50,17 @@
                     <span asp-validation-for="GemImage" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">
-                    <label asp-for="Symetry" class="control-label m-2"></label>
+                    <label asp-for="Symetry" class="control-label m-2">Độ đối xứng</label>
                     <input asp-for="Symetry" class="form-control" />
                     <span asp-validation-for="Symetry" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">
-                    <label asp-for="Polish" class="control-label m-2"></label>
+                    <label asp-for="Polish" class="control-label m-2">Độ bóng</label>
                     <input asp-for="Polish" class="form-control" />
                     <span asp-validation-for="Polish" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">
-                    <label class="control-label m-2">Hình kim cương hiện tại</label>
+                    <label class="control-label m-2">Hình tỷ lệ hiện tại</label>
                     @if (string.IsNullOrEmpty(Model.ProportionImage) || Model.ProportionImage.Length <= 0)
                     {
                         <label style="color:orangered;">Không có hình ảnh</label>
@@ -63,7 +73,7 @@
                     }
                 </div>
                 <div class="form-group m-2">
-                    <label asp-for="ProportionImage" class="control-label m-2">Hình kim cương mới</label>
+                    <label asp-for="ProportionImage" class="control-label m-2">Hình tỷ lệ mới</label>
                     <input asp-for="ProportionImage" class="form-control" type="file" />
                     <span asp-validation-for="ProportionImage" class="text-danger"></span>
                 </div>
@@ -76,7 +86,7 @@
                     <input class="form-check-input f-18" type="checkbox" asp-for="Fluoresence">
                 </div>
                 <div class="form-group m-2">
-                    <label asp-for="AcquisitionDate" class="control-label m-2"></label>
+                    <label asp-for="AcquisitionDate" class="control-label m-2">Ngày nhập</label>
                     <input asp-for="AcquisitionDate" class="form-control" type="date" />
                     <span asp-validation-for="AcquisitionDate" class="text-danger"></span>
                 </div>
@@ -99,7 +109,7 @@
 }
 else
 {
-    <a class="m-5 btn btn-secondary" asp-action="Index">Về trang quản lí kim cương</a>
+    <a class="btn btn-secondary" asp-action="Index">Về trang quản lí kim cương</a>
 }
 
 @section Scripts {

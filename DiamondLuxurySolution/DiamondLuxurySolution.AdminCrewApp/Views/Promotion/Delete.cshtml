@@ -1,0 +1,112 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Promotion.PromotionVm
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Xóa </h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if (Model != null)
+{
+
+<h3>Bạn có muốn xóa khuyến mãi này?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PromotionId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PromotionId)
+        </dd>
+        <dt class = "col-sm-2">
+            Tên khuyến mãi
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PromotionName)
+        </dd>
+        <dt class = "col-sm-2">
+            Mô tả
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            Hinh khuyến mãi
+        </dt>
+        <dd class = "col-sm-10">
+            @if (Model.PromotionImage != "")
+                {
+                    <img src="@Model.PromotionImage" style="style= height:100px; width:100px" />
+                }
+                else
+                {
+                    <h5>Chưa có hình ảnh</h5>
+                }
+        </dd>
+        <dt class = "col-sm-2">
+            Ngày bắt đầu
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+        <dt class = "col-sm-2">
+            Ngày kết thúc
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EndDate)
+        </dd>
+        <dt class = "col-sm-2">
+            Hình ảnh biểu ngữ
+        </dt>
+        <dd class = "col-sm-10">
+                @if (Model.BannerImage != "")
+                {
+                    <img src="@Model.BannerImage" style="style= height:100px; width:100px" />
+                }
+                else
+                {
+                    <h5>Chưa có hình ảnh</h5>
+                }
+        </dd>
+        <dt class = "col-sm-2">
+            Phần trăm giảm giá
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DiscountPercent)
+        </dd>
+        <dt class = "col-sm-2">
+            Giảm giá tối đa
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MaxDiscount)
+        </dd>
+        <dt class="col-sm-2">
+            Hiển thị
+        </dt>
+            <dd class="col-sm-10">
+            <div class="form-check form-switch ">
+                <input class="form-check-input f-18 ml-3" type="checkbox" asp-for="Status" value="@Model.Status" disabled />
+            </div>
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete" asp-controller="Promotion" method="post">
+        <input type="hidden" name="PromotionId" value="@Model.PromotionId" />
+        <input type="submit" value="Xóa" class="btn btn-danger" />
+        <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Promotion")'">Về trang quản lí khuyến mãi</button>
+
+    </form>
+</div>
+}
+else
+{
+    <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Promotion")'">Về trang quản lí khuyến mãi</button>
+}

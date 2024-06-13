@@ -152,8 +152,13 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             material.MaterialName = request.MaterialName;
             material.Description = request.Description != null ? request.Description : "";
             material.Color = request.Color != null ? request.Color : "";
+<<<<<<< HEAD
             material.Price = price;
             material.EffectDate = DateTime.Parse(request.EffectDate);
+=======
+            material.Price = request.Price;
+            material.EffectDate = (DateTime)request.EffectDate;
+>>>>>>> ab1161713e5312992752fa39bc33406b42bf4661
             material.Status = request.Status;
             if (request.MaterialImage != null)
             {

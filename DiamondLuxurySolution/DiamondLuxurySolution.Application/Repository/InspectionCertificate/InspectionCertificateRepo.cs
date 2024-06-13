@@ -1,5 +1,6 @@
 ﻿using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.ViewModel.Common;
+using DiamondLuxurySolution.ViewModel.Models.Contact;
 using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
 using Microsoft.EntityFrameworkCore;
 using PagedList;
@@ -192,6 +193,20 @@ namespace DiamondLuxurySolution.Application.Repository.InspectionCertificate
                 PageIndex = pageIndex
             };
             return new ApiSuccessResult<PageResult<InspectionCertificateVm>>(listResult, "Success");
+        }
+
+        public async Task<ApiResult<List<InspectionCertificateVm>>> GetAll()
+        {
+            var list = await _context.InspectionCertificates.ToListAsync();
+            var rs = list.Select(x => new InspectionCertificateVm()
+            {
+                InspectionCertificateId = x.InspectionCertificateId,
+                InspectionCertificateName = x.InspectionCertificateName,
+                DateGrading = x.DateGrading,
+                Logo= x.Logo,
+                Status = x.Status,
+            }).ToList();
+            return new ApiSuccessResult<List<InspectionCertificateVm>>(rs);
         }
     }
 }

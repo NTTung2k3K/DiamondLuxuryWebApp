@@ -1,0 +1,63 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.KnowledgeNewsCategory.KnowledgeNewsCategoryVm
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h1>Chỉnh sửa Loại Kiến Thức Tin Tức</h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-md-6">
+
+            <form asp-action="Edit" asp-controller="KnowledgeNewsCategory" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group m-2">
+                    <label asp-for="KnowledgeNewCatagoryId" class="control-label  m-2">Id Kiến Thức Tin Tức</label>
+                    <input asp-for="KnowledgeNewCatagoryId" class="form-control" readonly />
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="KnowledgeNewCatagoriesName" class="control-label m-2">Tên Kiến Thức Tin Tức</label>
+                    <input name="KnowledgeNewCatagoriesName" class="form-control" value="@Html.Encode(Model.KnowledgeNewCatagoriesName)" />
+
+                    <span asp-validation-for="KnowledgeNewCatagoriesName" class="text-danger"></span>
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="Description" class="control-label m-2">Mô Tả</label>
+                    <input asp-for="Description" class="form-control" />
+
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        <input type="submit" value="Lưu" class="btn btn-primary" />
+                    </div>
+                    <div class="col-md-7">
+                        <a class="m-6 btn btn-secondary" asp-action="Index">Về trang quản lí Kiến Thức Tin Tức</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <a class="m-5" asp-action="Index" asp-controller="KnowledgeNewsCategory">Về trang quản lí Kiến Thức Tin Tức</a>
+
+}
+<hr />
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

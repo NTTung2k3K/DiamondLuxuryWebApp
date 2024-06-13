@@ -12,12 +12,13 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
 {
     public interface IStaffRepo
     {
-        public Task<ApiResult<bool>> LoginStaff(LoginStaffRequest request);
+        public Task<ApiResult<string>> LoginStaff(LoginStaffRequest request);
         public Task<ApiResult<bool>> RegisterStaffAccount(CreateStaffAccountRequest request);
       
 
         public Task<ApiResult<bool>> UpdateStaffAccount(UpdateStaffAccountRequest request);
         public Task<ApiResult<StaffVm>> GetStaffById(Guid StaffId);
+        public Task<ApiResult<StaffVm>> GetStaffByUsername(string Username);
 
         public Task<ApiResult<bool>> DeleteStaff(Guid StaffId);
         
@@ -26,6 +27,9 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
         public Task<ApiResult<bool>> ForgotpassworStaffdChange(ForgotPasswordStaffChangeRequest request);
 
         public Task<ApiResult<bool>> ChangeStatusCustomer(ChangeStatusCustomerRequest request);
+        public Task<ApiResult<int>> ViewNewCustomerOnDay();
+
+        public Task<ApiResult<int>> CountAllCustomer();
 
         public Task<ApiResult<PageResult<CustomerVm>>> ViewCustomerPagination(ViewStaffPaginationCommonRequest request);
         public Task<ApiResult<PageResult<StaffVm>>> ViewSalesStaffPagination(ViewStaffPaginationCommonRequest request);

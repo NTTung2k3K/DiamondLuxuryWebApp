@@ -1,0 +1,101 @@
+/*****************************
+40. About CSS
+*****************************/
+
+.about-text, .skill-progress{
+	p{
+		color: $body-color;
+	}
+}
+.skill-progress, .about-text{
+	@include breakpoint(large){
+		padding: 8rem 0;
+	}
+	@include breakpoint(medium){
+		padding: 6rem 0;
+	}
+}
+.about-text-2{
+	@include breakpoint(large){
+		padding: 0;
+	}	
+}
+.about-img-2{
+	@include breakpoint(large){
+		padding: 0;
+	}
+}
+.fact-area{
+	.row{
+		[class^="col"]{
+			&:nth-child(odd){
+				.fact{
+					background-color: $color-dark-6; 
+				}
+			}
+			&:nth-child(even){
+				.fact{
+					background-color: $color-gray-6;
+				}
+			}
+		}
+	}
+	@include breakpoint(medium){
+		.row{
+			[class^="col"]{
+				&:nth-child(1),
+				&:nth-child(4){
+					.fact{
+						background-color: $color-dark-6;
+					}
+				}
+				&:nth-child(2),
+				&:nth-child(3){
+					.fact{
+						background-color: $color-gray-6;
+					}
+				}
+			}
+		}
+	}
+	@include breakpoint(xsmall){
+		.row{
+			[class^="col"]{
+				&:nth-child(odd){
+					.fact{
+						background-color: $color-dark-6;
+					}
+				}
+				&:nth-child(even){
+					.fact{
+						background-color: $color-gray-6;
+					}
+				}
+			}
+		}
+	}
+}
+.fact{
+	padding: 9rem 1.5rem;
+	text-align: center;
+	@include flexbox;
+	@include align-items(center);
+	@include justify-content(center);
+	&__icon{
+		margin-right: 2rem;
+	}
+	&__content{
+		text-align: left;
+		h3{
+			font-size: 3rem;
+			line-height: 1;
+			margin-bottom: 0;
+		}
+		p{
+			font-size: 1.2rem;
+			font-weight: 700;
+			margin-bottom: 0;
+			@extend %body-color;
+		}
+	}
+}

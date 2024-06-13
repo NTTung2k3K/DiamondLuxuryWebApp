@@ -1,4 +1,5 @@
 ﻿using DiamondLuxurySolution.ViewModel.Common;
+using DiamondLuxurySolution.ViewModel.Models;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
@@ -21,6 +22,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
+            var session = _httpContextAccessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
             client.Timeout = TimeSpan.FromMinutes(5);
             using (var multipartFormDataContent = new MultipartFormDataContent())
             {
@@ -57,6 +60,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                         string stringContent = propertyValue.ToString();
                         multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
                     }
+
                     else if (propertyValue is IEnumerable<Guid> guidList)
                     {
                         // Add each Guid in the list separately
@@ -97,20 +101,127 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
         }
 
 
+        protected async Task<ApiResult<TResponse>> PostAsyncHasImageAndListImage<TResponse>(string url, object obj, List<IFormFile> files)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
+            var session = _httpContextAccessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
+            client.Timeout = TimeSpan.FromMinutes(5);
+            using (var multipartFormDataContent = new MultipartFormDataContent())
+            {
+                // Get the properties of the object
+                var properties = obj.GetType().GetProperties();
+
+                // Add properties of the object to the multipart form data
+                foreach (var property in properties)
+                {
+                    var propertyValue = property.GetValue(obj);
+                    if (propertyValue != null)
+                    {
+                        if (propertyValue is IFormFile formFile)
+                        {
+                            // Handle IFormFile
+                            if (formFile.Length > 0)
+                            {
+                                using (var stream = new MemoryStream())
+                                {
+                                    await formFile.CopyToAsync(stream);
+                                    var fileContent = new ByteArrayContent(stream.ToArray());
+                                    fileContent.Headers.ContentType = new MediaTypeHeaderValue(formFile.ContentType);
+                                    multipartFormDataContent.Add(fileContent, property.Name, formFile.FileName);
+                                }
+                            }
+                        }
+                        else if (propertyValue is DateTime dateTime)
+                        {
+                            // Convert DateTime to string in a specific format (e.g., ISO 8601)
+                            string stringContent = dateTime.ToString("o"); // "o" stands for the round-trip format, which is ISO 8601
+                            multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
+                        }
+                        else if (propertyValue is Guid || propertyValue is Guid?)
+                        {
+                            // Convert Guid to string
+                            string stringContent = propertyValue.ToString();
+                            multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
+                        }
+                        else if (propertyValue is IEnumerable<Guid> guidList)
+                        {
+                            // Add each Guid in the list separately
+                            foreach (var guid in guidList)
+                            {
+                                multipartFormDataContent.Add(new StringContent(guid.ToString(), Encoding.UTF8, "application/json"), $"{property.Name}[]");
+                            }
+                        }
+                        else if (propertyValue is string strValue)
+                        {
+                            // Handle string values directly without JSON serialization
+                            multipartFormDataContent.Add(new StringContent(strValue, Encoding.UTF8, "text/plain"), property.Name);
+                        }
+                        else
+                        {
+
+                            // Convert other property values to JSON and then to plain text
+                            string stringContent = JsonConvert.SerializeObject(propertyValue);
+                            multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
+                        }
+                    }
+
+
+                }
+
+                // Add IFormFile to the multipart form data
+                foreach (var file in files)
+                {
+                    if (file.Length > 0)
+                    {
+                        using (var stream = new MemoryStream())
+                        {
+                            await file.CopyToAsync(stream);
+                            var fileContent = new ByteArrayContent(stream.ToArray());
+                            fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+                            multipartFormDataContent.Add(fileContent, "Images", file.FileName);
+                        }
+                    }
+                }
+
+                // Post the content
+                var response = await client.PostAsync(url, multipartFormDataContent);
+                var body = await response.Content.ReadAsStringAsync();
+
+                // Log the response content for debugging
+                Console.WriteLine($"Response Status Code: {response.StatusCode}");
+                Console.WriteLine($"Response Body: {body}");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
+                    return objectResult;
+                }
+
+                return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
+            }
+        }
 
         protected async Task<ApiResult<TResponse>> PostAsync<TResponse>(string url, Object obj)
         {
             var json = JsonConvert.SerializeObject(obj, new JsonSerializerSettings
             {
                 DateFormatHandling = DateFormatHandling.IsoDateFormat, // Ensure DateTime is serialized in ISO 8601 format
+<<<<<<< HEAD
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc, // Handle DateTime in UTC format if necessary
                 TypeNameHandling = TypeNameHandling.All
+=======
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc // Handle DateTime in UTC format if necessary
+
+>>>>>>> ab1161713e5312992752fa39bc33406b42bf4661
             });
 
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
             var client = _httpClientFactory.CreateClient();
             client.Timeout = TimeSpan.FromMinutes(5);
-
+            var session = _httpContextAccessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
             var response = await client.PostAsync(url, httpContent);
             var body = await response.Content.ReadAsStringAsync();
@@ -125,11 +236,124 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                 return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
             }
         }
+
+        protected async Task<ApiResult<TResponse>> PutAsyncHasImageAndListImage<TResponse>(string url, object obj, List<IFormFile>? files)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
+            var session = _httpContextAccessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
+            client.Timeout = TimeSpan.FromMinutes(5);
+            using (var multipartFormDataContent = new MultipartFormDataContent())
+            {
+                // Get the properties of the object
+                var properties = obj.GetType().GetProperties();
+
+                // Add properties of the object to the multipart form data
+                foreach (var property in properties)
+                {
+                    var propertyValue = property.GetValue(obj);
+                    if (propertyValue != null)
+                    {
+                        if (propertyValue is IFormFile formFile)
+                        {
+                            // Handle IFormFile
+                            if (formFile.Length > 0)
+                            {
+                                using (var stream = new MemoryStream())
+                                {
+                                    await formFile.CopyToAsync(stream);
+                                    var fileContent = new ByteArrayContent(stream.ToArray());
+                                    fileContent.Headers.ContentType = new MediaTypeHeaderValue(formFile.ContentType);
+                                    multipartFormDataContent.Add(fileContent, property.Name, formFile.FileName);
+                                }
+                            }
+                        }
+                        else
+ if (propertyValue is DateTime dateTime)
+                        {
+                            // Convert DateTime to string in a specific format (e.g., ISO 8601)
+                            string stringContent = dateTime.ToString("o"); // "o" stands for the round-trip format, which is ISO 8601
+                            multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
+                        }
+                        else if (propertyValue is Guid || propertyValue is Guid?)
+                        {
+                            // Convert Guid to string
+                            string stringContent = propertyValue.ToString();
+                            multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
+                        }
+                        else if (propertyValue is IEnumerable<Guid> guidList)
+                        {
+                            // Add each Guid in the list separately
+                            foreach (var guid in guidList)
+                            {
+                                multipartFormDataContent.Add(new StringContent(guid.ToString(), Encoding.UTF8, "application/json"), $"{property.Name}[]");
+                            }
+                        }
+                        else if (propertyValue is string strValue)
+                        {
+                            // Handle string values directly without JSON serialization
+                            multipartFormDataContent.Add(new StringContent(strValue, Encoding.UTF8, "text/plain"), property.Name);
+                        }
+                        else if (propertyValue is IEnumerable<string> stringList)
+                        {
+                            // Handle list of strings
+                            foreach (var str in stringList)
+                            {
+                                multipartFormDataContent.Add(new StringContent(str, Encoding.UTF8, "text/plain"), $"{property.Name}[]");
+                            }
+                        }
+                        else
+                        {
+
+                            // Convert other property values to JSON and then to plain text
+                            string stringContent = JsonConvert.SerializeObject(propertyValue);
+                            multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
+                        }
+                    }
+
+
+                }
+
+                // Add IFormFile to the multipart form data
+                foreach (var file in files)
+                {
+                    if (file.Length > 0)
+                    {
+                        using (var stream = new MemoryStream())
+                        {
+                            await file.CopyToAsync(stream);
+                            var fileContent = new ByteArrayContent(stream.ToArray());
+                            fileContent.Headers.ContentType = new MediaTypeHeaderValue(file.ContentType);
+                            multipartFormDataContent.Add(fileContent, "Images", file.FileName);
+                        }
+                    }
+                }
+
+                // Post the content
+                var response = await client.PutAsync(url, multipartFormDataContent);
+                var body = await response.Content.ReadAsStringAsync();
+
+                // Log the response content for debugging
+                Console.WriteLine($"Response Status Code: {response.StatusCode}");
+                Console.WriteLine($"Response Body: {body}");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
+                    return objectResult;
+                }
+
+                return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
+            }
+        }
+
         protected async Task<ApiResult<TResponse>> GetAsync<TResponse>(string url)
         {
             var client = _httpClientFactory.CreateClient();
             client.Timeout = TimeSpan.FromMinutes(5);
-
+            var session = _httpContextAccessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
             var response = await client.GetAsync(url);
             var body = await response.Content.ReadAsStringAsync();
@@ -148,18 +372,32 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
         }
         protected async Task<ApiResult<TResponse>> PutAsync<TResponse>(string url, Object obj)
         {
-            var json = JsonConvert.SerializeObject(obj, new JsonSerializerSettings
+            string json = null;
+            if (obj != null)
             {
+<<<<<<< HEAD
                 DateFormatHandling = DateFormatHandling.IsoDateFormat, // Ensure DateTime is serialized in ISO 8601 format
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc, // Handle DateTime in UTC format if necessary
                 TypeNameHandling = TypeNameHandling.All
             });
+=======
+                json = JsonConvert.SerializeObject(obj, new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Include, // Ensure null values are included in the serialized JSON
+                    DateFormatHandling = DateFormatHandling.IsoDateFormat, // Ensure DateTime is serialized in ISO 8601 format
+                    DateTimeZoneHandling = DateTimeZoneHandling.Utc // Handle DateTime in UTC format if necessary
+                });
+            }
+>>>>>>> ab1161713e5312992752fa39bc33406b42bf4661
 
-            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var httpContent = obj != null ? new StringContent(json, Encoding.UTF8, "application/json") : null;
             var client = _httpClientFactory.CreateClient();
             client.Timeout = TimeSpan.FromMinutes(5);
 
+            
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
+            var session = _httpContextAccessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
             var response = await client.PutAsync(url, httpContent);
             var body = await response.Content.ReadAsStringAsync();
             var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
@@ -173,12 +411,14 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                 return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
             }
         }
+
         protected async Task<ApiResult<TResponse>> PutAsyncHasImage<TResponse>(string url, object obj)
         {
             var client = _httpClientFactory.CreateClient();
             client.Timeout = TimeSpan.FromMinutes(5);
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
-
+            var session = _httpContextAccessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
             using (var multipartFormDataContent = new MultipartFormDataContent())
             {
                 // Get the properties of the object
@@ -266,11 +506,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
             }
 
             client.Timeout = TimeSpan.FromMinutes(5);
-
+            var session = _httpContextAccessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
 
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
 
-            Console.WriteLine($"DELETE URL: {url}");
 
             var response = await client.DeleteAsync(url);
 
@@ -281,7 +521,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
             }
 
             var body = await response.Content.ReadAsStringAsync();
-            Console.WriteLine($"Response Body: {body}");
 
             var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
 
@@ -307,7 +546,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
             var client = _httpClientFactory.CreateClient();
             client.Timeout = TimeSpan.FromMinutes(5);
-
+            var session = _httpContextAccessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
             var response = await client.PatchAsync(url, httpContent);
             var body = await response.Content.ReadAsStringAsync();

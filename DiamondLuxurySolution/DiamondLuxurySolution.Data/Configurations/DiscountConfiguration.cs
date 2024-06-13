@@ -20,7 +20,9 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(d => d.DiscountName).HasMaxLength(250);
             builder.Property(d => d.Description).HasMaxLength(250);
             builder.Property(d => d.PercentSale).IsRequired();
-        }
+			builder.Property(d => d.From).IsRequired();
+			builder.Property(d => d.To).IsRequired();
+		}
     }
 
 }

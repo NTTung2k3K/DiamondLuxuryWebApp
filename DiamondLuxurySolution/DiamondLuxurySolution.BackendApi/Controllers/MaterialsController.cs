@@ -1,6 +1,7 @@
 ﻿using DiamondLuxurySolution.Application.Repository.About;
 using DiamondLuxurySolution.Application.Repository.Material;
 using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Models.About;
 using DiamondLuxurySolution.ViewModel.Models.Material;
 using Microsoft.AspNetCore.Http;
@@ -132,5 +133,23 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
-    }
+
+		[HttpGet("GetAll")]
+		public async Task<IActionResult> GetAll()
+		{
+			try
+			{
+				var status = await _material.GetAll();
+				if (status.IsSuccessed)
+				{
+					return Ok(status);
+				}
+				return BadRequest(status);
+			}
+			catch (Exception e)
+			{
+				return BadRequest(e.Message);
+			}
+		}
+	}
 }

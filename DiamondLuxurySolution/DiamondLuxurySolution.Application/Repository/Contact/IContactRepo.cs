@@ -14,6 +14,8 @@ namespace DiamondLuxurySolution.Application.Repository.Contact
         public Task<ApiResult<bool>> CreateContact(CreateContactRequest request);
         public Task<ApiResult<bool>> UpdateContact(UpdateContactRequest request);
         public Task<ApiResult<bool>> DeleteContact(DeleteContactRequest request);
+        public Task<ApiResult<int>> CountContactNotSolve();
+
         public Task<ApiResult<ContactVm>> GetContactById(int ContactId);
         public Task<ApiResult<PageResult<ContactVm>>> ViewContactInPaging(ViewContactRequest request);
     }

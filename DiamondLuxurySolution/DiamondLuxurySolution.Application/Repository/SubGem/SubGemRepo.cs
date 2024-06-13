@@ -1,4 +1,5 @@
-﻿using DiamondLuxurySolution.Data.EF;
+﻿using Azure.Core;
+using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Material;
 using DiamondLuxurySolution.ViewModel.Models.SubGem;
@@ -67,6 +68,7 @@ namespace DiamondLuxurySolution.Application.Repository.SubGem
 
         public async Task<ApiResult<List<SubGemVm>>> GetAll()
         {
+<<<<<<< HEAD
             var list = await _context.SubGems.ToListAsync();
             var rs = list.Select(x => new SubGemVm()
             {
@@ -78,6 +80,21 @@ namespace DiamondLuxurySolution.Application.Repository.SubGem
             }).ToList();
             return new ApiSuccessResult<List<SubGemVm>>(rs);
         }
+=======
+            var subGem = await _context.SubGems.ToListAsync();
+
+            var listSubGemVm = subGem.Select(x => new SubGemVm()
+            {
+                SubGemName = x.SubGemName,
+                Description = x.Description,
+                SubGemId = x.SubGemId,
+                SubGemPrice = x.SubGemPrice,
+                Active = x.Active
+            }).ToList();
+            return new ApiSuccessResult<List<SubGemVm>> (listSubGemVm, "Success");
+        }
+
+>>>>>>> ab1161713e5312992752fa39bc33406b42bf4661
         public async Task<ApiResult<SubGemVm>> GetSubGemById(Guid SubGemId)
         {
             var subGem = await _context.SubGems.FindAsync(SubGemId);

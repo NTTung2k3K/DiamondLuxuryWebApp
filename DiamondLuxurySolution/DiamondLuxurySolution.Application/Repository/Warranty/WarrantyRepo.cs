@@ -39,8 +39,8 @@ namespace DiamondLuxurySolution.Application.Repository.Warranty
             {
                 WarrantyId = Guid.NewGuid(),
                 WarrantyName = request.WarrantyName,
-                DateActive = request.DateActive,
-                DateExpired = request.DateExpired,
+                DateActive = (DateTime)request.DateActive,
+                DateExpired = (DateTime)request.DateExpired,
                 Description = request.Description != null ? request.Description : "",
                 Status = request.Status,
             };
@@ -63,7 +63,22 @@ namespace DiamondLuxurySolution.Application.Repository.Warranty
             return new ApiSuccessResult<bool>(false, "Success");
         }
 
-        public async Task<ApiResult<WarrantyVm>> GetWarrantyById(Guid WarrantyId)
+		public async Task<ApiResult<List<WarrantyVm>>> GetAll()
+		{
+			var list = await _context.Warrantys.ToListAsync();
+			var rs = list.Select(x => new WarrantyVm()
+			{
+				WarrantyId = x.WarrantyId,
+                DateActive = x.DateActive,
+                DateExpired = x.DateExpired,
+                Description = x.Description,
+                Status = x.Status,
+                WarrantyName = x.WarrantyName,
+			}).ToList();
+			return new ApiSuccessResult<List<WarrantyVm>>(rs);
+		}
+
+		public async Task<ApiResult<WarrantyVm>> GetWarrantyById(Guid WarrantyId)
         {
             var warranty = await _context.Warrantys.FindAsync(WarrantyId);
             if (warranty == null)
@@ -106,8 +121,8 @@ namespace DiamondLuxurySolution.Application.Repository.Warranty
             
             warranty.WarrantyName = request.WarrantyName;
             warranty.Description = request.Description != null ? request.Description : "";
-            warranty.DateActive = request.DateActive;
-            warranty.DateExpired = request.DateExpired;
+            warranty.DateActive = (DateTime)request.DateActive;
+            warranty.DateExpired = (DateTime)request.DateExpired;
             warranty.Status = request.Status;
 
             await _context.SaveChangesAsync();

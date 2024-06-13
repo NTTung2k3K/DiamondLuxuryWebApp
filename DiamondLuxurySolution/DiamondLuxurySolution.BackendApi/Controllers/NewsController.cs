@@ -18,7 +18,23 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             _context = context;
             _news = news;
         }
-
+        [HttpGet("CountAllNew")]
+        public async Task<ActionResult> CountAllNew()
+        {
+            try
+            {
+                var status = await _news.CountAllNews();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
 
         [HttpPost("Create")]
@@ -59,7 +75,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteNews([FromBody] DeleteNewsRequest request)
+        public async Task<IActionResult> DeleteNews([FromQuery] DeleteNewsRequest request)
         {
             try
             {

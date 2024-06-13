@@ -1,5 +1,6 @@
 ﻿using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.KnowledgeNewsCategory;
+using DiamondLuxurySolution.ViewModel.Models.Slide;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace DiamondLuxurySolution.Application.Repository.KnowledgeNewCatagory
 {
     public interface IKnowledgeNewCatagoryRepo
     {
+        public Task<ApiResult<List<KnowledgeNewsCategoryVm>>> GetAll();
         public Task<ApiResult<bool>> CreateKnowledgeNewsCategory(CreateKnowledgeNewsCategoryRequest request);
         public Task<ApiResult<bool>> UpdateKnowledgeNewsCategory(UpdateKnowledgeNewsCategoryRequest request);
         public Task<ApiResult<bool>> DeleteKnowledgeNewsCategory(DeleteKnowledgeNewsCategoryRequest request);

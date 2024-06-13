@@ -1,12 +1,13 @@
 ﻿using DiamondLuxurySolution.AdminCrewApp.Service.Payment;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Payment;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class PaymentController : Controller
+    public class PaymentController : BaseController
     {
         private readonly IPaymentApiService _paymentApiService;
 
@@ -14,6 +15,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             _paymentApiService = paymentApiService;
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Index(ViewPaymentRequest request)
@@ -43,6 +45,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
         [HttpGet]
         public async Task<IActionResult> Detail(Guid PaymentId)
         {
@@ -74,6 +78,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Edit(Guid PaymentId)
@@ -106,6 +111,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
         [HttpPost]
         public async Task<IActionResult> Edit(UpdatePaymentRequest request)
         {
@@ -123,25 +130,25 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 }
 
                 var status = await _paymentApiService.UpdatePayment(request);
-                if (status is ApiErrorResult<bool> errorResult)
-                {
-                    List<string> listError = new List<string>();
-                    if (status.Message != null)
-                    {
-                        listError.Add(errorResult.Message);
-                    }
-                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-                    {
-                        foreach (var error in listError)
-                        {
-                            listError.Add(error);
-                        }
-                    }
-                    ViewBag.Errors = listError;
-                    return View();
+				if (status is ApiErrorResult<bool> errorResult)
+				{
+					List<string> listError = new List<string>();
 
-                }
-                return RedirectToAction("Index", "Payment");
+					if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+					{
+						foreach (var error in errorResult.ValidationErrors)
+						{
+							listError.Add(error);
+						}
+					}
+					else if (status.Message != null)
+					{
+						listError.Add(errorResult.Message);
+					}
+					ViewBag.Errors = listError;
+					return View();
+				}
+				return RedirectToAction("Index", "Payment");
             }
             catch
             {
@@ -150,6 +157,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         }
 
 
+
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Delete(Guid PaymentId)
@@ -183,7 +192,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
         }
 
-        [HttpPost]
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
         [HttpPost]
         public async Task<IActionResult> Delete(DeletePaymentRequest request)
         {
@@ -229,6 +239,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Create()
@@ -236,6 +247,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
             return View();
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
         [HttpPost]
         public async Task<IActionResult> Create(CreatePaymentRequest request)
         {
@@ -246,25 +259,25 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
             var status = await _paymentApiService.CreatePayment(request);
 
-            if (status is ApiErrorResult<bool> errorResult)
-            {
-                List<string> listError = new List<string>();
-                if (status.Message != null)
-                {
-                    listError.Add(errorResult.Message);
-                }
-                else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-                {
-                    foreach (var error in listError)
-                    {
-                        listError.Add(error);
-                    }
-                }
-                ViewBag.Errors = listError;
-                return View(request);
+			if (status is ApiErrorResult<bool> errorResult)
+			{
+				List<string> listError = new List<string>();
 
-            }
-            TempData["SuccessMsg"] = "Tạo mới thành công cho " + request.PaymentMethod;
+				if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+				{
+					foreach (var error in errorResult.ValidationErrors)
+					{
+						listError.Add(error);
+					}
+				}
+				else if (status.Message != null)
+				{
+					listError.Add(errorResult.Message);
+				}
+				ViewBag.Errors = listError;
+				return View();
+			}
+			TempData["SuccessMsg"] = "Tạo mới thành công cho " + request.PaymentMethod;
 
             return RedirectToAction("Index", "Payment");
         }

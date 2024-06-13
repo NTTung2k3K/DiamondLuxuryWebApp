@@ -1,0 +1,51 @@
+/*****************************
+31. Accordion CSS
+*****************************/
+
+.accordion{
+	--bs-accordion-inner-border-radius: 0;
+	--bs-accordion-border-radius: 0;
+	--bs-accordion-color: var(--bs-body-color);
+	--bs-accordion-bg: var(--bg-color-2);
+	--bs-accordion-btn-color: var(--bs-body-color);
+	--bs-accordion-btn-padding-x: 2rem;
+	--bs-accordion-btn-padding-y: 1rem;
+	--bs-accordion-body-padding-y: 2.5rem;
+	--bs-accordion-body-padding-y: 2rem;
+	--bs-accordion-active-bg: var(--bg-color-2);
+	--bs-accordion-active-color: var(--bs-primary);
+	--bs-accordion-btn-focus-box-shadow: none;
+	&-item{
+		margin-bottom: 1rem;
+		&.open{
+			border-color: $primary-color !important;
+			&:not(:first-of-type){
+				border-top: 1px solid $primary-color;
+			}	
+		}
+	}
+	&-button{
+		font-size: 1.5rem;
+		text-transform: capitalize;
+		line-height: 2;
+		overflow-wrap: break-word;
+	    @include white-space(normal);
+		@include breakpoint(xsmall){
+			padding: 1rem;
+		}
+		&:hover{
+			@extend %primary-color;	
+		}
+		&.collapsed{
+			border-bottom-width: 0;
+		}
+		&:after{
+			filter: brightness(100);
+		}
+	}
+	&-body{
+		@include breakpoint(xsmall){
+			padding: 1rem 1.5rem;
+		}
+	}
+}

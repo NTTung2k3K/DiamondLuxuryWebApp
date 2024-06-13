@@ -1,0 +1,72 @@
+﻿@using DiamondLuxurySolution.ViewModel.Models.GemPriceList
+@model List<GemPriceListVm>
+
+<div class="table-container">
+	<table id="section0" class="target-section">
+	</table>
+	@{
+		var currentDate = DateTime.Now;
+		var caratWeights = new[]
+		{
+	"3.6 MM", "3.9 MM", "4.1 MM", "4.5 MM", "5.0 MM", "5.2 MM", "5.3 MM",
+	"5.4 MM", "6.0 MM", "6.2 MM", "6.3 MM(<1CT)", "6.3 MM(>1CT)", "6.8 MM",
+	"7.2 MM", "8.1 MM", "9.0 MM(<3CT)"
+	};
+		var colors = new[] { "D", "E", "F", "J" };
+
+		// Group diamonds by CaratWeight, Color, and Clarity, then select the one with the closest effectDate
+		var groupedDiamonds = Model
+		.Where(d => d.Active && caratWeights.Contains(d.CaratWeight) && colors.Contains(d.Color))
+		.GroupBy(d => new { d.CaratWeight, d.Color, d.Clarity })
+		.Select(g => new
+		{
+			g.Key.CaratWeight,
+			g.Key.Color,
+			g.Key.Clarity,
+			ClosestDiamond = g.OrderBy(d => Math.Abs((d.effectDate - currentDate).TotalDays)).FirstOrDefault()
+		})
+		.ToList();
+
+		int sectionCounter = 1; // Initialize the counter
+	}
+
+	@foreach (var caratWeight in caratWeights)
+	{
+		<table id="section @sectionCounter" class="target-section">
+			<strong>Bảng Kim Cương @caratWeight</strong>
+			<br>
+			<thead style="border: 1px solid #ddd;">
+				<tr style="border: 1px solid #ddd">
+					<th style="border: 1px solid #ddd;">@caratWeight</th>
+					<th style="border: 1px solid #ddd;">IF</th>
+					<th style="border: 1px solid #ddd;">VVS1</th>
+					<th style="border: 1px solid #ddd;">VVS2</th>
+					<th style="border: 1px solid #ddd;">VS1</th>
+					<th style="border: 1px solid #ddd;">VS2</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var color in colors)
+				{
+					<tr style="border: 1px solid #ddd">
+						<td style="border: 1px solid #ddd;">@color</td>
+						@foreach (var clarity in new[] { "IF", "VVS1", "VVS2", "VS1", "VS2" })
+						{
+							var diamond = groupedDiamonds.FirstOrDefault(d => d.CaratWeight == caratWeight && d.Color == color && d.Clarity == clarity)?.ClosestDiamond;
+							if (diamond != null)
+							{
+								<td style="border: 1px solid #ddd;">@diamond.Price.ToString("N0")</td>
+							}
+							else
+							{
+								<td style="border: 1px solid #ddd;">Không có giá</td>
+							}
+						}
+					</tr>
+				}
+			</tbody>
+		</table>
+		<br />
+		sectionCounter++; // Increment the counter for the next section
+	}
+</div>
