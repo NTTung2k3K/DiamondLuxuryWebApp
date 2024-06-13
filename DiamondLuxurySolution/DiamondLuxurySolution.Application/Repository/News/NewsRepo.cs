@@ -231,6 +231,13 @@ namespace DiamondLuxurySolution.Application.Repository.News
             };
             return new ApiSuccessResult<PageResult<NewsVm>>(listResult, "Success");
         }
+
+        public async Task<ApiResult<int>> CountAllNews()
+        {
+            var allNews = _context.News.Count();
+            var allKnowledgeNews = _context.KnowledgeNews.Count();
+            return new ApiSuccessResult<int>(allNews + allKnowledgeNews, "Success");
+        }
     }
 }
 

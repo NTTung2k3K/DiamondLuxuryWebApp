@@ -132,6 +132,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
 
+<<<<<<< HEAD
 		[HttpGet("GetAll")]
 		public async Task<IActionResult> GetAll()
 		{
@@ -150,4 +151,26 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 			}
 		}
 	}
+=======
+
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var status = await _product.GetAll();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+    }
+>>>>>>> 069f83278a6dabe707cbf3e1dec9c917d6e3d4ff
 }

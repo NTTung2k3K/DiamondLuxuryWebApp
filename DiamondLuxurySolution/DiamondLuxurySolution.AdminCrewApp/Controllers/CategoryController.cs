@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using static DiamondLuxurySolution.Utilities.Constants.Systemconstant;
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-	public class CategoryController : Controller
+
+	public class CategoryController : BaseController
 	{
 		private readonly ICategoryApiService _categoryApiService;
 
@@ -17,6 +18,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 		{
 			_categoryApiService = categoryApiService;
 		}
+		[Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
 
 
 		[HttpGet]
@@ -47,6 +49,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 				return View();
 			}
 		}
+		[Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
+
 		[HttpGet]
 		public async Task<IActionResult> Detail(int CategoryId)
 		{
@@ -78,8 +82,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 				return View();
 			}
 		}
-
-		[HttpGet]
+		[Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+        [HttpGet]
 		public async Task<IActionResult> Edit(int CategoryId)
 		{
 			try
@@ -110,7 +114,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 				return View();
 			}
 		}
-		[HttpPost]
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
+        [HttpPost]
 		public async Task<IActionResult> Edit(UpdateCategoryRequest request)
 		{
 			try
@@ -145,8 +151,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 		}
 
 
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
-		[HttpGet]
+        [HttpGet]
 		public async Task<IActionResult> Delete(int CategoryId)
 		{
 			try
@@ -177,8 +184,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 				return View();
 			}
 		}
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
-		[HttpPost]
+        [HttpPost]
 		public async Task<IActionResult> Delete(DeleteCategoryRequest request)
 		{
 			try
@@ -212,13 +220,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 				return View();
 			}
 		}
-		[HttpGet]
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
+        [HttpGet]
 		public async Task<IActionResult> Create()
 		{
 
 			return View();
 		}
-		[HttpPost]
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
+        [HttpPost]
 		public async Task<IActionResult> Create(CreateCategoryRequest request)
 		{
 

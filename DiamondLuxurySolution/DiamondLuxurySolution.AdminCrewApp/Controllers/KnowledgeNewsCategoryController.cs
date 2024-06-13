@@ -3,11 +3,14 @@ using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNewsCategoty;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.About;
 using DiamondLuxurySolution.ViewModel.Models.KnowledgeNewsCategory;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class KnowledgeNewsCategoryController : Controller
+    [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
+    public class KnowledgeNewsCategoryController : BaseController
     {
         private readonly IKnowledgeNewsCategoryApiService _knowledgeNewsCategoryApiService;
         public KnowledgeNewsCategoryController(IKnowledgeNewsCategoryApiService knowledgeNewsCategoryApiService)

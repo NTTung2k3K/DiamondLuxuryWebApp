@@ -22,6 +22,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
+            var session = _httpContextAccessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
             client.Timeout = TimeSpan.FromMinutes(5);
             using (var multipartFormDataContent = new MultipartFormDataContent())
             {
@@ -103,6 +105,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
+            var session = _httpContextAccessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
             client.Timeout = TimeSpan.FromMinutes(5);
             using (var multipartFormDataContent = new MultipartFormDataContent())
             {
@@ -211,7 +215,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
             var client = _httpClientFactory.CreateClient();
             client.Timeout = TimeSpan.FromMinutes(5);
-
+            var session = _httpContextAccessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
             var response = await client.PostAsync(url, httpContent);
             var body = await response.Content.ReadAsStringAsync();
@@ -231,6 +236,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
+            var session = _httpContextAccessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
             client.Timeout = TimeSpan.FromMinutes(5);
             using (var multipartFormDataContent = new MultipartFormDataContent())
             {
@@ -340,7 +347,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
         {
             var client = _httpClientFactory.CreateClient();
             client.Timeout = TimeSpan.FromMinutes(5);
-
+            var session = _httpContextAccessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
             var response = await client.GetAsync(url);
             var body = await response.Content.ReadAsStringAsync();
@@ -374,7 +382,10 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
             var client = _httpClientFactory.CreateClient();
             client.Timeout = TimeSpan.FromMinutes(5);
 
+            
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
+            var session = _httpContextAccessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
             var response = await client.PutAsync(url, httpContent);
             var body = await response.Content.ReadAsStringAsync();
             var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
@@ -394,7 +405,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
             var client = _httpClientFactory.CreateClient();
             client.Timeout = TimeSpan.FromMinutes(5);
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
-
+            var session = _httpContextAccessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
             using (var multipartFormDataContent = new MultipartFormDataContent())
             {
                 // Get the properties of the object
@@ -485,7 +497,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
             }
 
             client.Timeout = TimeSpan.FromMinutes(5);
-
+            var session = _httpContextAccessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
 
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
 
@@ -524,7 +537,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
             var client = _httpClientFactory.CreateClient();
             client.Timeout = TimeSpan.FromMinutes(5);
-
+            var session = _httpContextAccessor.HttpContext.Session.GetString("token");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
             var response = await client.PatchAsync(url, httpContent);
             var body = await response.Content.ReadAsStringAsync();

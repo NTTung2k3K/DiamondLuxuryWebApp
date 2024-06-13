@@ -17,43 +17,48 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = DiamondLuxurySolution.WebApp
 build_property.RootNamespace = DiamondLuxurySolution.WebApp
-build_property.ProjectDir = D:\Hoc_Ki_5\SWP391\DiamondLuxuryWebApp\DiamondLuxurySolution\DiamondLuxurySolution.WebApp\
+build_property.ProjectDir = D:\DiamondLuxuryWebAppProject\DiamondLuxuryWebApp\DiamondLuxurySolution\DiamondLuxurySolution.WebApp\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = true
-build_property.MSBuildProjectDirectory = D:\Hoc_Ki_5\SWP391\DiamondLuxuryWebApp\DiamondLuxurySolution\DiamondLuxurySolution.WebApp
+build_property.MSBuildProjectDirectory = D:\DiamondLuxuryWebAppProject\DiamondLuxuryWebApp\DiamondLuxurySolution\DiamondLuxurySolution.WebApp
 build_property._RazorSourceGeneratorDebug = 
 
+<<<<<<< HEAD
 [D:/Hoc_Ki_5/SWP391/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/DiamondJewelry/Detail.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlhbW9uZEpld2VscnlcRGV0YWlsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Hoc_Ki_5/SWP391/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/DiamondJewelry/Index.cshtml]
+=======
+[D:/DiamondLuxuryWebAppProject/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/DiamondJewelry/Index.cshtml]
+>>>>>>> 069f83278a6dabe707cbf3e1dec9c917d6e3d4ff
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlhbW9uZEpld2VscnlcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Hoc_Ki_5/SWP391/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/Home/Index.cshtml]
+[D:/DiamondLuxuryWebAppProject/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Hoc_Ki_5/SWP391/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/Shared/Components/BGKC_GemPriceList/Default.cshtml]
+[D:/DiamondLuxuryWebAppProject/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/Shared/Components/BGKC_GemPriceList/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQkdLQ19HZW1QcmljZUxpc3RcRGVmYXVsdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Hoc_Ki_5/SWP391/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/Shared/Components/BGKC_Slide/Default.cshtml]
+[D:/DiamondLuxuryWebAppProject/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/Shared/Components/BGKC_Slide/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcQkdLQ19TbGlkZVxEZWZhdWx0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Hoc_Ki_5/SWP391/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/Shared/Components/Pager/Default.cshtml]
+[D:/DiamondLuxuryWebAppProject/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/Shared/Components/Pager/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcUGFnZXJcRGVmYXVsdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Hoc_Ki_5/SWP391/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/Shared/Components/Slide/Default.cshtml]
+[D:/DiamondLuxuryWebAppProject/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/Shared/Components/Slide/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcU2xpZGVcRGVmYXVsdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+<<<<<<< HEAD
 [D:/Hoc_Ki_5/SWP391/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/Shared/Components/TSC_Product/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcVFNDX1Byb2R1Y3RcRGVmYXVsdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -91,13 +96,17 @@ build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXENvbXBvbmVudHNcVFNL
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Hoc_Ki_5/SWP391/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/Shared/_Layout.cshtml]
+=======
+[D:/DiamondLuxuryWebAppProject/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/Shared/_Layout.cshtml]
+>>>>>>> 069f83278a6dabe707cbf3e1dec9c917d6e3d4ff
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Hoc_Ki_5/SWP391/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/TablePrice/Index.cshtml]
+[D:/DiamondLuxuryWebAppProject/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/TablePrice/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGFibGVQcmljZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+<<<<<<< HEAD
 [D:/Hoc_Ki_5/SWP391/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/TSC_Product/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFNDX1Byb2R1Y3RcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -131,9 +140,12 @@ build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVFNLQ19Wb25nVGF5XEluZGV4LmNz
 build_metadata.AdditionalFiles.CssScope = 
 
 [D:/Hoc_Ki_5/SWP391/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/_ViewImports.cshtml]
+=======
+[D:/DiamondLuxuryWebAppProject/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/_ViewImports.cshtml]
+>>>>>>> 069f83278a6dabe707cbf3e1dec9c917d6e3d4ff
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/Hoc_Ki_5/SWP391/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/_ViewStart.cshtml]
+[D:/DiamondLuxuryWebAppProject/DiamondLuxuryWebApp/DiamondLuxurySolution/DiamondLuxurySolution.WebApp/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
