@@ -1,7 +1,7 @@
 ﻿using DiamondLuxurySolution.WebApp.Service.Slide;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DiamondLuxurySolution.WebApp.Repository.Components.BGKC_Slide
+namespace DiamondLuxurySolution.WebApp.Repository.Components.BangGiaKimCuong.BGKC_Slide
 {
     public class BGKC_SlideViewComponent : ViewComponent
     {

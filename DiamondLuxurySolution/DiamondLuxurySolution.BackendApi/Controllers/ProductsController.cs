@@ -1,6 +1,7 @@
 ﻿using DiamondLuxurySolution.Application.Repository.Gem;
 using DiamondLuxurySolution.Application.Repository.Product;
 using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Models;
 using DiamondLuxurySolution.ViewModel.Models.Gem;
 using DiamondLuxurySolution.ViewModel.Models.Product;
@@ -131,6 +132,26 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
 
+<<<<<<< HEAD
+		[HttpGet("GetAll")]
+		public async Task<IActionResult> GetAll()
+		{
+			try
+			{
+				var status = await _product.GetAll();
+				if (status.IsSuccessed)
+				{
+					return Ok(status);
+				}
+				return BadRequest(status);
+			}
+			catch (Exception e)
+			{
+				return BadRequest(e.Message);
+			}
+		}
+	}
+=======
 
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
@@ -151,4 +172,5 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
     }
+>>>>>>> 069f83278a6dabe707cbf3e1dec9c917d6e3d4ff
 }

@@ -11,5 +11,5 @@ namespace DiamondLuxurySolution.ViewModel.Models.Product
     public class ViewProductRequest : PagingRequestBase
     {
         public string? Keyword { get; set; }
-    }
+	}
 }
