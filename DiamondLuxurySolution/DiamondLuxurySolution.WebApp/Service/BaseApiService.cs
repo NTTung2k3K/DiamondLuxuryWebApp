@@ -205,13 +205,13 @@ namespace DiamondLuxurySolution.WebApp.Services
             {
                 DateFormatHandling = DateFormatHandling.IsoDateFormat, // Ensure DateTime is serialized in ISO 8601 format
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc // Handle DateTime in UTC format if necessary
-            });
 
+            });
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
             var client = _httpClientFactory.CreateClient();
             client.Timeout = TimeSpan.FromMinutes(5);
-
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
+
             var response = await client.PostAsync(url, httpContent);
             var body = await response.Content.ReadAsStringAsync();
             var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);

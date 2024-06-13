@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "+TY31CzDG6neGHl6gcTz4AY5MsUbuCnfFn/SWcwviWM=",
+  "Hash": "R+BtLTHtAAqbOznyBWdU7RUoPcoydYENYNjwqKxF9IU=",
   "Source": "DiamondLuxurySolution.WebApp",
   "BasePath": "_content/DiamondLuxurySolution.WebApp",
   "Mode": "Default",
@@ -6475,6 +6475,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Identity": "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\mycss\\mycheckbox.css",
+      "SourceId": "DiamondLuxurySolution.WebApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\",
+      "BasePath": "_content/DiamondLuxurySolution.WebApp",
+      "RelativePath": "mycss/mycheckbox.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\mycss\\mycheckbox.css"
     },
     {
       "Identity": "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\scss\\base\\_mixins.scss",

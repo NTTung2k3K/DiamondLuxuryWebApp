@@ -30,6 +30,7 @@ using DiamondLuxurySolution.Application.Repository.Role;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using DiamondLuxurySolution.Application.Repository.User;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -94,10 +95,18 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddIdentity<AppUser, AppRole>()
-
-.AddEntityFrameworkStores<LuxuryDiamondShopContext>()
-        .AddDefaultTokenProviders();
+builder.Services.AddIdentity<AppUser, AppRole>(options =>
+{
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 1;
+})
+.AddEntityFrameworkStores<LuxuryDiamondShopContext>().AddEntityFrameworkStores<LuxuryDiamondShopContext>()
+        .AddDefaultTokenProviders()
+        .AddErrorDescriber<CustomIdentityErrorDescriber>();
 
 
 var app = builder.Build();
@@ -110,7 +119,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -12,6 +12,17 @@ namespace DiamondLuxurySolution.WebApp.Controllers
         // Trang chinh
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_NAME) == null)
+            {
+                var customerName = Request.Cookies["CustomerName"];
+                var customerId = Request.Cookies["CustomerId"];
+
+                if (!string.IsNullOrEmpty(customerName) && !string.IsNullOrEmpty(customerId))
+                {
+                    HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_NAME, customerName);
+                    HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_ID, customerId);
+                }
+            }
             return View();
         }
 

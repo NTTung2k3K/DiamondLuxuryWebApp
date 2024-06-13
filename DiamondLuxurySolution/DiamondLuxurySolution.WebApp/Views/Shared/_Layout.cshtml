@@ -1,4 +1,8 @@
-﻿<!doctype html>
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+
+
+<!doctype html>
 <html class="no-js" lang="zxx">
 
 <head>
@@ -53,6 +57,8 @@
 
     <!-- Main JS -->
     <script src="../assets/js/main.js" defer></script>
+
+    @RenderSection("StyleCss", false)
 </head>
 
 <body>
@@ -65,7 +71,7 @@
             <div class="header-top header-top-1">
                 <div class="container">
                     <div class="row no-gutters align-items-center">
-                        <div class="col-lg-3 d-flex align-items-center flex-column flex-lg-row">
+                        <div class="col-lg-3 text-center">
                             <ul class="social social-round mr--20">
                                 <li class="social__item">
                                     <a href="https://plus.google.com" target="_blank" rel="noopener noreferrer"
@@ -93,29 +99,58 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-lg-7">
-                            <p class="header-text">
-                                Miễn phí vận chuyển cho tất cả các đơn hàng trong nước với mã phiếu
-                                giảm giá <span>“LuxuryDiamondBoiz2024”</span>
+                        <div class="col-lg-6">
+                            <p class="header-text text-center">
+                                Miễn phí vận chuyển cho tất cả các đơn hàng trong nước<span></span>
                             </p>
                         </div>
-                        <div class="col-lg-2">
-                            <div class="header-top-nav d-flex justify-content-lg-end justify-content-center">
-                                <div class="user-info header-top-nav__item">
-                                    <div class="dropdown header-top__dropdown">
-                                        <a class="dropdown-toggle" id="userID" data-bs-toggle="dropdown"
-                                           aria-haspopup="true" aria-expanded="false">
-                                            Tài Khoản Của Tôi
-                                            <i class="fa fa-angle-down"></i>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="userID">
-                                            <a class="dropdown-item" href="dangki.html">Đăng Ký</a>
-                                            <a class="dropdown-item" href="dangnhap.html">Đăng Nhập</a>
+                        @if (string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_NAME)))
+                        {
+                            <div class="col-lg-3">
+                                <div class="header-top-nav d-flex justify-content-lg-end justify-content-center">
+                                    <div class="user-info header-top-nav__item">
+                                        <div class="dropdown header-top__dropdown">
+                                            <a class="dropdown-toggle" id="userID" data-bs-toggle="dropdown"
+                                               aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa fa-user mr--10"></i>
+                                                Tài Khoản Của Tôi
+                                                <i class="fa fa-angle-down"></i>
+                                            </a>
+                                            <div class="dropdown-menu text-center" aria-labelledby="userID">
+                                                <a class="dropdown-item" href="/Account/Login">Đăng Nhập</a>
+                                                <a class="dropdown-item" href="/Account/Register">Đăng Ký</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        }
+                        else
+                        {
+                            <div class="col-lg-3">
+                                <div class="header-top-nav d-flex justify-content-lg-end justify-content-center">
+                                    <div class="user-info header-top-nav__item">
+                                        <div class="dropdown header-top__dropdown">
+                                            <a class="dropdown-toggle" id="userID" data-bs-toggle="dropdown"
+                                               aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa fa-user mr--10"></i>
+                                                Xin chào, @HttpContextAccessor.HttpContext.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_NAME).ToString()
+                                                <i class="fa fa-angle-down"></i>
+                                            </a>
+                                            <div class="dropdown-menu text-center" aria-labelledby="userID">
+                                                <a class="dropdown-item" href="/Account/Login">Tài khoản của tôi</a>
+                                                <div class="d-flex justify-content-center">
+                                                    <form class="text-center" asp-action="Logout" asp-controller="Account" method="post">
+                                                        <input type="submit" class="dropdown-item w-100 center-text-input" value="Đăng xuất" />
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
                     </div>
                 </div>
             </div>
@@ -135,7 +170,7 @@
                             </div>
                         </div>
                         <div class="col-lg-2 col-12 order-lg-2 order-1 text-center">
-                            <a href="trangchu.html" class="logo-box mb-md--30">
+                            <a href="/Home/Index" class="logo-box mb-md--30">
                                 <img src="../assets/img/logo/LOGO.png" alt="logo">
                             </a>
                         </div>
@@ -586,7 +621,7 @@
             });
         }
     </script>
-
+    @RenderSection("Scripts", false)
 </body>
 
 </html>

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using static DiamondLuxurySolution.Utilities.Constants.Systemconstant;
 using Microsoft.AspNetCore.Authorization;
+using DiamondLuxurySolution.AdminCrewApp.Models;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
@@ -89,6 +90,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             HttpContext.Session.Remove("token");
+            StaffSessionHelper.SetObjectAsJson("Staff", null);
             return RedirectToAction("Index", "Login");
         }
     }

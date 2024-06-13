@@ -1,6 +1,7 @@
 ﻿using Azure.Core;
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
+using DiamondLuxurySolution.Utilities.Helper;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.User.Customer;
 using Firebase.Auth;
@@ -14,6 +15,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Policy;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -26,6 +28,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly LuxuryDiamondShopContext _context;
+        private readonly SignInManager<AppUser> _signInManager;
 
         public CustomerRepo(LuxuryDiamondShopContext context, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
@@ -88,7 +91,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
                     monthlyCounts[customerCount.Month - 1] = customerCount.Count;
                 }
 
-                return new ApiSuccessResult<List<int>>(monthlyCounts,"Success");
+                return new ApiSuccessResult<List<int>>(monthlyCounts, "Success");
             }
             catch (Exception ex)
             {
@@ -179,7 +182,9 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
                 return new ApiErrorResult<string>("Không hợp lệ");
 
             }
-            string code = DiamondLuxurySolution.Utilities.Helper.RandomHelper.GenerateRandomString(8);
+            Random rd = new Random();
+            string code = "" + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString();
+
             user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.ChangePasswordRequest.ToString();
             var statusUser = await _userManager.UpdateAsync(user);
             if (!statusUser.Succeeded)
@@ -187,7 +192,54 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
                 return new ApiErrorResult<string>("Lỗi hệ thống, cập nhật thông tin thất bại vui lòng thử lại");
             }
 
+
+            SendEmailForgot(code, user.Email);
+
             return new ApiSuccessResult<string>(code, "Success");
+        }
+        public void SendEmailForgot(string code, string toEmail)
+        {
+            // Correct relative path from current directory to the HTML file
+            string relativePath = @"..\..\DiamondLuxurySolution\DiamondLuxurySolution.Utilities\FormSendEmail\SendCodeCustomer.html";
+            // Combine the relative path with the current directory to get the full path
+            string path = Path.GetFullPath(relativePath);
+
+            if (!System.IO.File.Exists(path))
+            {
+                return;
+            }
+            string contentCustomer = System.IO.File.ReadAllText(path);
+            contentCustomer = contentCustomer.Replace("{{VerifyCode}}", code);
+            DoingMail.SendMail("LuxuryDiamond", "Yêu cầu thay đổi mật khẩu", contentCustomer, toEmail);
+        }
+        public async Task<ApiResult<CustomerVm>> GetCustomerByEmail(string Email)
+        {
+            var user = await _userManager.FindByEmailAsync(Email.ToString());
+            if (user == null)
+            {
+                return new ApiErrorResult<CustomerVm>("Khách hàng không tồn tại");
+            }
+            var customerVm = new CustomerVm()
+            {
+                CustomerId = user.Id,
+                Dob = user.Dob != null ? (DateTime)user.Dob : DateTime.MinValue,
+                FullName = user.Fullname,
+                PhoneNumber = user.PhoneNumber,
+                Email = user.Email,
+                Status = user.Status,
+                Address = user.Address
+            };
+            var listRoleOfUser = await _userManager.GetRolesAsync(user);
+
+            if (listRoleOfUser.Count > 0)
+            {
+                customerVm.ListRoleName = new List<string>();
+                foreach (var role in listRoleOfUser)
+                {
+                    customerVm.ListRoleName.Add(role);
+                }
+            }
+            return new ApiSuccessResult<CustomerVm>(customerVm, "Success");
         }
 
         public async Task<ApiResult<CustomerVm>> GetCustomerById(Guid CustomerId)
@@ -233,6 +285,11 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
             }
             var user = await _userManager.FindByEmailAsync(request.Email.Trim());
             if (user == null)
+            {
+                return new ApiErrorResult<bool>("Tải khoản hoặc mật khẩu không đúng");
+            }
+            var role = await _userManager.GetRolesAsync(user);
+            if (!role.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString()))
             {
                 return new ApiErrorResult<bool>("Tải khoản hoặc mật khẩu không đúng");
             }
@@ -296,7 +353,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
                 PhoneNumber = request.PhoneNumber.Trim(),
                 UserName = username,
                 Address = "",
-                Point =0,
+                Point = 0,
                 DateCreated = DateTime.Now
             };
             user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.New.ToString();
@@ -333,9 +390,27 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
             {
                 return new ApiErrorResult<bool>("Lỗi hệ thống, không thể thêm role vào tải khoản vui lòng thử lại");
             }
+
+
+            SendEmail(request.FullName, request.Email);
+
             return new ApiSuccessResult<bool>(true, "Đăng kí thành công");
         }
+        public void SendEmail(string code, string toEmail)
+        {
+            // Correct relative path from current directory to the HTML file
+            string relativePath = @"..\..\DiamondLuxurySolution\DiamondLuxurySolution.Utilities\FormSendEmail\Welcome.html";
+            // Combine the relative path with the current directory to get the full path
+            string path = Path.GetFullPath(relativePath);
 
+            if (!System.IO.File.Exists(path))
+            {
+                return;
+            }
+            string contentCustomer = System.IO.File.ReadAllText(path);
+            contentCustomer = contentCustomer.Replace("{{Username}}", code);
+            DoingMail.SendMail("LuxuryDiamond", "Chào mứng đến với Diamond Luxury", contentCustomer, toEmail);
+        }
         public async Task<ApiResult<bool>> UpdateCustomerAccount(UpdateCustomerRequest request)
         {
             var user = await _userManager.FindByIdAsync(request.CustomerId.ToString());
