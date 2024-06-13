@@ -75,12 +75,9 @@ builder.Services.AddTransient<ISlideApiService, SlideApiService>();
 builder.Services.AddTransient<IAboutApiService, AboutApiService>();
 
 builder.Services.AddTransient<ICategoryApiService, CategoryApiService>();
-<<<<<<< HEAD
 builder.Services.AddTransient<ICollectionApiService, CollectionApiService>();
-=======
 builder.Services.AddTransient<IInspectionCertificateApiService, InspectionCertificateApiService>();
 builder.Services.AddTransient<ISubGemApiService, SubGemApiService>();
->>>>>>> 2e5d1b1cdbf13f91692badfd0af8a9ec99d8f362
 
 builder.Services.AddTransient<IGemPriceListApiService, GemPriceListApiService>();
 
@@ -90,7 +87,6 @@ builder.Services.AddTransient<IKnowLedgeNewsApiService, KnowledgeNewsApiService>
 
 builder.Services.AddTransient<IKnowledgeNewsCategoryApiService, KnowledgeNewsCategoryApiService>();
 
-<<<<<<< HEAD
 
 
 builder.Services.AddSession(options =>
@@ -99,8 +95,7 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
-=======
->>>>>>> 2e5d1b1cdbf13f91692badfd0af8a9ec99d8f362
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {

@@ -2,12 +2,9 @@
 using DiamondLuxurySolution.AdminCrewApp.Service.About;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.About;
-<<<<<<< HEAD
-=======
 using DiamondLuxurySolution.ViewModel.Models.Material;
 using DiamondLuxurySolution.ViewModel.Models.Slide;
 using Microsoft.AspNetCore.Authorization;
->>>>>>> 2e5d1b1cdbf13f91692badfd0af8a9ec99d8f362
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text.Json;

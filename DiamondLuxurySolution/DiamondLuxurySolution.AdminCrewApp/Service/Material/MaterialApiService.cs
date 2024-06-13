@@ -13,9 +13,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Material
         }
 
         public async Task<ApiResult<bool>> CreateMaterial(CreateMaterialRequest request)
-<<<<<<< HEAD
-        {   
-=======
         {
     /*        if (request.EffectDate != null)
             {
@@ -23,7 +20,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Material
                 request.EffectDate = date;
 
             }*/
->>>>>>> 2e5d1b1cdbf13f91692badfd0af8a9ec99d8f362
             var data = await PostAsyncHasImage<bool>("api/Materials/Create", request);
             return data;
         }
