@@ -281,7 +281,7 @@
 											<span style="font-size : 25px; color: #996A18">@Model.GemVm.GemName</span>
 										</div>
 									</div>
-									@if (Model.ListSubGems != null)
+									@if (Model.ListSubGems != null && Model.ListSubGems.Count() > 0)
 									{
 										<div class="form-group mb--20" style="display : flex;">
 											<div class="col-md-6">
@@ -437,16 +437,32 @@
 									</tr>
 									<tr>
 										<th>Loại đá tấm</th>
-										@foreach (var subGem in @Model.ListSubGems)
+										@if (@Model.ListSubGems != null && @Model.ListSubGems.Count() > 0)
 										{
-											<td>@subGem.SubGemName</td>
+											@foreach (var subGem in @Model.ListSubGems)
+											{
+												<td>@subGem.SubGemName</td>
+											}
 										}
+										else
+										{
+											<td>Không có</td>
+										}
+										
 									</tr>
 									<tr>
 										<th>Số lượng đá tấm</th>
-										@foreach (var subGem in @Model.ListSubGems)
+										
+										@if (@Model.ListSubGems != null && @Model.ListSubGems.Count() > 0)
 										{
-											<td>@subGem.Quantity</td>
+											@foreach (var subGem in @Model.ListSubGems)
+											{
+												<td>@subGem.Quantity</td>
+											}
+										}
+										else
+										{
+											<td>Không có</td>
 										}
 									</tr>
 									<tr>
