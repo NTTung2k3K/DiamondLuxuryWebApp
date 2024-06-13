@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Firebase.Auth;
+using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 
 namespace DiamondLuxurySolution.WebApp.Controllers
 {
@@ -103,6 +104,98 @@ namespace DiamondLuxurySolution.WebApp.Controllers
 
             return RedirectToAction("Login", "Account");
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> ProfileAndEdit()
+        {
+
+            string userIdString = HttpContext.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_ID);
+            Guid userId;
+
+            Guid.TryParse(userIdString, out userId);
+            // Chuyển đổi thành công
+            var staff = await _accountApiService.GetCustomerById(userId);
+            if (staff is ApiErrorResult<CustomerVm> errorResult)
+            {
+                return View(errorResult);
+            }
+            return View(staff.ResultObj);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ProfileAndEdit(UpdateCustomerRequest request)
+        {
+
+            var status = await _accountApiService.UpdateCustomerAccount(request);
+
+            if (status is ApiErrorResult<bool> errorResult)
+            {
+                List<string> listError = new List<string>();
+
+                if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                {
+                    foreach (var error in errorResult.ValidationErrors)
+                    {
+                        listError.Add(error);
+                    }
+                }
+                else if (status.Message != null)
+                {
+                    listError.Add(errorResult.Message);
+                }
+                ViewBag.Errors = listError;
+                return View(request);
+            }
+
+            TempData["SuccessMsg"] = "Tạo mới thành công cho " + request.FullName;
+
+            return RedirectToAction("Profile", "Account");
+        }
+
+        [HttpGet]
+        public IActionResult ChangePasswordInfo()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePasswordInfo(ChangePasswordCustomerRequest request)
+        {
+            string userIdString = HttpContext.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_ID);
+            Guid userId;
+
+            Guid.TryParse(userIdString, out userId);
+            // Chuyển đổi thành công
+            request.CustomerId = userId;
+
+            var status = await _accountApiService.ChangePasswordCustomer(request);
+
+            if (status is ApiErrorResult<bool> errorResult)
+            {
+                List<string> listError = new List<string>();
+
+                if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                {
+                    foreach (var error in errorResult.ValidationErrors)
+                    {
+                        listError.Add(error);
+                    }
+                }
+                else if (status.Message != null)
+                {
+                    listError.Add(errorResult.Message);
+                }
+                ViewBag.Errors = listError;
+                return View(request);
+            }
+
+            TempData["SuccessMsg"] = "Tạo mới thành công";
+
+            return RedirectToAction("Profile", "Account");
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Logout()
