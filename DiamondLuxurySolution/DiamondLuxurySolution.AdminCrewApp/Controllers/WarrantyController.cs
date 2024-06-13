@@ -4,12 +4,13 @@ using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Material;
 using DiamondLuxurySolution.ViewModel.Models.Promotion;
 using DiamondLuxurySolution.ViewModel.Models.Warranty;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-	public class WarrantyController : Controller
-	{
+	public class WarrantyController : BaseController
+    {
 		private readonly IWarrantyApiService _warrantyApiService;
 
 		public WarrantyController(IWarrantyApiService warrantyApiService)
@@ -17,8 +18,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 			_warrantyApiService = warrantyApiService;
 		}
 
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
 
-		[HttpGet]
+        [HttpGet]
 		public async Task<IActionResult> Index(ViewWarrantyRequest request)
 		{
 			try
@@ -46,6 +48,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 				return View();
 			}
 		}
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
 
         [HttpGet]
         public async Task<IActionResult> Detail(Guid WarrantyId)
@@ -78,6 +81,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
 
         [HttpGet]
         public async Task<IActionResult> Edit(Guid WarrantyId)
@@ -110,6 +114,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
+
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateWarrantyRequest request)
         {
@@ -162,6 +168,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
         }
 
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
 
         [HttpGet]
         public async Task<IActionResult> Delete(Guid WarrantyId)
@@ -194,6 +201,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
 
         [HttpPost]
         public async Task<IActionResult> Delete(DeleteWarrantyRequest request)
@@ -228,6 +236,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         }
 
 
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
 
         [HttpGet]
         public async Task<IActionResult> Create()
@@ -235,6 +244,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
             return View();
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateWarrantyRequest request)
         {

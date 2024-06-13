@@ -13,11 +13,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.IInspectionCertificate
 
         public async Task<ApiResult<bool>> CreateInspectionCertificate(CreateInspectionCertificateRequest request)
         {
-            if(request.DateGrading != null)
-            {
-                DateTime date = (DateTime)request.DateGrading;
-                request.DateGrading = date;
-            }
             var data = await PostAsyncHasImage<bool>("api/InspectionCertificates/Create", request);
             return data;
         }

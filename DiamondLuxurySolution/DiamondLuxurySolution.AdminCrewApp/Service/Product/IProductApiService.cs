@@ -13,6 +13,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Product
         public Task<ApiResult<ProductVm>> GetProductById(string ProductId);
         public Task<ApiResult<PageResult<ProductVm>>> ViewProduct(ViewProductRequest request);
         public Task<ApiResult<List<SubGemVm>>> GetAll();
+        public Task<ApiResult<List<ProductVm>>> GetAllProduct();
 
     }
 }

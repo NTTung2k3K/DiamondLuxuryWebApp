@@ -1,0 +1,773 @@
+﻿@{
+    ViewData["Title"] = "Manager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- [ Main Content ] start -->
+<div class="row">
+
+    <div class="col-md-6 col-xxl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="avtar avtar-s bg-light-primary">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path opacity="0.4"
+                                      d="M13 9H7"
+                                      stroke="#4680FF"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path d="M22.0002 10.9702V13.0302C22.0002 13.5802 21.5602 14.0302 21.0002 14.0502H19.0402C17.9602 14.0502 16.9702 13.2602 16.8802 12.1802C16.8202 11.5502 17.0602 10.9602 17.4802 10.5502C17.8502 10.1702 18.3602 9.9502 18.9202 9.9502H21.0002C21.5602 9.9702 22.0002 10.4202 22.0002 10.9702Z"
+                                      stroke="#4680FF"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path d="M17.48 10.55C17.06 10.96 16.82 11.55 16.88 12.18C16.97 13.26 17.96 14.05 19.04 14.05H21V15.5C21 18.5 19 20.5 16 20.5H7C4 20.5 2 18.5 2 15.5V8.5C2 5.78 3.64 3.88 6.19 3.56C6.45 3.52 6.72 3.5 7 3.5H16C16.26 3.5 16.51 3.50999 16.75 3.54999C19.33 3.84999 21 5.76 21 8.5V9.95001H18.92C18.36 9.95001 17.85 10.17 17.48 10.55Z"
+                                      stroke="#4680FF"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-0">Đã thu về</h6>
+                    </div>
+                </div>
+
+                <div class="bg-body p-3 mt-3 rounded">
+                    <div class="mt-3 row align-items-center">
+                      
+                        <h5 class="mb-1 text-center"> @(ViewBag.TotalIncome != null && ViewBag.TotalIncome != 0 ? ViewBag.TotalIncome : 0)<span>đ</span></h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xxl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="avtar avtar-s bg-light-warning">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 7V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V7C3 4 4.5 2 8 2H16C19.5 2 21 4 21 7Z"
+                                      stroke="#E58A00"
+                                      stroke-width="1.5"
+                                      stroke-miterlimit="10"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path opacity="0.6"
+                                      d="M14.5 4.5V6.5C14.5 7.6 15.4 8.5 16.5 8.5H18.5"
+                                      stroke="#E58A00"
+                                      stroke-width="1.5"
+                                      stroke-miterlimit="10"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path opacity="0.6"
+                                      d="M8 13H12"
+                                      stroke="#E58A00"
+                                      stroke-width="1.5"
+                                      stroke-miterlimit="10"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path opacity="0.6"
+                                      d="M8 17H16"
+                                      stroke="#E58A00"
+                                      stroke-width="1.5"
+                                      stroke-miterlimit="10"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-0">Tổng đơn</h6>
+                    </div>
+
+                </div>
+                <div class="bg-body p-3 mt-3 rounded">
+                    <div class="mt-3 row align-items-center text-center">
+                        <h5 class="mb-1">@(ViewBag.TotalOrder != null && ViewBag.TotalOrder != 0 ? ViewBag.TotalOrder : 0)</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xxl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="avtar avtar-s bg-light-success">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M8 2V5"
+                                      stroke="#2ca87f"
+                                      stroke-width="1.5"
+                                      stroke-miterlimit="10"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path d="M16 2V5"
+                                      stroke="#2ca87f"
+                                      stroke-width="1.5"
+                                      stroke-miterlimit="10"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path opacity="0.4"
+                                      d="M3.5 9.08984H20.5"
+                                      stroke="#2ca87f"
+                                      stroke-width="1.5"
+                                      stroke-miterlimit="10"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path d="M21 8.5V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V8.5C3 5.5 4.5 3.5 8 3.5H16C19.5 3.5 21 5.5 21 8.5Z"
+                                      stroke="#2ca87f"
+                                      stroke-width="1.5"
+                                      stroke-miterlimit="10"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path opacity="0.4"
+                                      d="M15.6947 13.7002H15.7037"
+                                      stroke="#2ca87f"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path opacity="0.4"
+                                      d="M15.6947 16.7002H15.7037"
+                                      stroke="#2ca87f"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path opacity="0.4"
+                                      d="M11.9955 13.7002H12.0045"
+                                      stroke="#2ca87f"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path opacity="0.4"
+                                      d="M11.9955 16.7002H12.0045"
+                                      stroke="#2ca87f"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path opacity="0.4"
+                                      d="M8.29431 13.7002H8.30329"
+                                      stroke="#2ca87f"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path opacity="0.4"
+                                      d="M8.29395 16.7002H8.30293"
+                                      stroke="#2ca87f"
+                                      stroke-width="2"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-0">Đơn hàng hôm nay</h6>
+                    </div>
+                </div>
+                <div class="bg-body p-3 mt-3 rounded">
+                    <div class="mt-3 row align-items-center text-center">
+                        @if (ViewBag.OrderToday != null && ViewBag.OrderToday != 0)
+                        {
+                            <h5 style="color:green" class=" mb-1"><span style="color:green">+</span>@ViewBag.OrderToday</h5>
+                        }
+                        else
+                        {
+                            <h5 class=" mb-1">0</h5>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6 col-xxl-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="avtar avtar-s bg-light-danger">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                                      stroke="#DC2626"
+                                      stroke-width="1.5"
+                                      stroke-miterlimit="10"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                                <path opacity="0.4"
+                                      d="M8.4707 10.7402L12.0007 14.2602L15.5307 10.7402"
+                                      stroke="#DC2626"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h6 class="mb-0">Thu nhập hôm nay</h6>
+                    </div>
+
+                </div>
+                <div class="bg-body p-3 mt-3 rounded">
+                    <div class="mt-3 row align-items-center text-center">
+                        @if (ViewBag.IncomeToday != null && ViewBag.IncomeToday != 0)
+                        {
+                            <h5 style="color:green" class=" mb-1"><span style="color:green">+</span>@ViewBag.IncomeToday</h5>
+                        }
+                        else
+                        {
+                            <h5 class=" mb-1">0</h5>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <div class="flex-grow-1">
+                        <h5 class="mb-0">Thống kê thu nhập</h5>
+                    </div>
+                  
+                </div>
+                <div id="customer-rate-graph"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body border-bottom pb-0">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Các giao dịch gần đây</h5>
+                </div>
+                <ul class="nav nav-tabs analytics-tab" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active"
+                                id="analytics-tab-1"
+                                data-bs-toggle="tab"
+                                data-bs-target="#analytics-tab-1-pane"
+                                type="button"
+                                role="tab"
+                                aria-controls="analytics-tab-1-pane"
+                                aria-selected="true">
+                            Tất cả giao dịch
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link"
+                                id="analytics-tab-2"
+                                data-bs-toggle="tab"
+                                data-bs-target="#analytics-tab-2-pane"
+                                type="button"
+                                role="tab"
+                                aria-controls="analytics-tab-2-pane"
+                                aria-selected="false">
+                            Thành công
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link"
+                                id="analytics-tab-3"
+                                data-bs-toggle="tab"
+                                data-bs-target="#analytics-tab-3-pane"
+                                type="button"
+                                role="tab"
+                                aria-controls="analytics-tab-3-pane"
+                                aria-selected="false">
+                            Chờ
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link"
+                                id="analytics-tab-4"
+                                data-bs-toggle="tab"
+                                data-bs-target="#analytics-tab-4-pane"
+                                type="button"
+                                role="tab"
+                                aria-controls="analytics-tab-4-pane"
+                                aria-selected="false">
+                            Thất bại
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active"
+                     id="analytics-tab-1-pane"
+                     role="tabpanel"
+                     aria-labelledby="analytics-tab-1"
+                     tabindex="0">
+
+                    <ul class="list-group list-group-flush">
+                        @if (ViewBag.RecentTransaction != null)
+                        {
+                            foreach (var item in ViewBag.RecentTransaction)
+                            {
+                                <li class="list-group-item">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1 ms-3">
+                                            <div class="row g-1">
+                                                <div class="col-6">
+                                                    <h6 class="mb-0">@item.ShipName</h6>
+                                                    <a href="/Order/Detail?OrderId=@item.OrderId">@item.OrderId</a>
+                                                </div>
+                                                @foreach (var i in item.OrdersPaymentVm)
+                                                {
+                                                    <div class="col-6 text-end">
+                                                        <h6 class="mb-1">@i.PaymentMethod</h6>
+                                                        @if (i.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                                                        {
+                                                            <p class=" mb-0" style="color:green">Thành công</p>
+                                                        }
+                                                        else if (i.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
+                                                        {
+                                                            <p class=" mb-0" style="color:red">Thất bại</p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p class="mb-0" style="color:orange">Đang chờ</p>
+                                                        }
+                                                        <p class=" mb-0" style="color: orchid">@i.PaymentAmount</p>
+                                                    </div>
+                                                }
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <p>Không có</p>
+                        }
+                    </ul>
+                </div>
+                <div class="tab-pane fade" id="analytics-tab-2-pane" role="tabpanel" aria-labelledby="analytics-tab-2" tabindex="0">
+                    <ul class="list-group list-group-flush">
+                        @if (ViewBag.RecentSuccessTransaction != null)
+                        {
+                            foreach (var item in ViewBag.RecentSuccessTransaction)
+                            {
+                                <li class="list-group-item">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1 ms-3">
+                                            <div class="row g-1">
+                                                <div class="col-6">
+                                                    <h6 class="mb-0">@item.ShipName</h6>
+                                                    <a href="/Order/Detail?OrderId=@item.OrderId">@item.OrderId</a>
+
+                                                </div>
+                                                @foreach (var i in item.OrdersPaymentVm)
+                                                {
+                                                    <div class="col-6 text-end">
+                                                        <h6 class="mb-1">@i.PaymentMethod</h6>
+                                                        @if (i.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                                                        {
+                                                            <p class=" mb-0" style="color:green">Thành công</p>
+                                                        }
+                                                        else if (i.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
+                                                        {
+                                                            <p class=" mb-0" style="color:red">Thất bại</p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p class="mb-0" style="color:orange">Đang chờ</p>
+                                                        }
+                                                        <p class=" mb-0" style="color: orchid">@i.PaymentAmount</p>
+                                                    </div>
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <p>Không có</p>
+                        }
+                    </ul>
+                </div>
+                <div class="tab-pane fade" id="analytics-tab-3-pane" role="tabpanel" aria-labelledby="analytics-tab-3" tabindex="0">
+                    <ul class="list-group list-group-flush">
+                        @if (ViewBag.RecentWaitTransaction != null)
+                        {
+                            foreach (var item in ViewBag.RecentWaitTransaction)
+                            {
+                                <li class="list-group-item">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1 ms-3">
+                                            <div class="row g-1">
+                                                <div class="col-6">
+                                                    <h6 class="mb-0">@item.ShipName</h6>
+                                                    <a href="/Order/Detail?OrderId=@item.OrderId">@item.OrderId</a>
+
+                                                </div>
+                                                @foreach (var i in item.OrdersPaymentVm)
+                                                {
+                                                    <div class="col-6 text-end">
+                                                        <h6 class="mb-1">@i.PaymentMethod</h6>
+                                                        @if (i.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                                                        {
+                                                            <p class=" mb-0" style="color:green">Thành công</p>
+                                                        }
+                                                        else if (i.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
+                                                        {
+                                                            <p class=" mb-0" style="color:red">Thất bại</p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p class="mb-0" style="color:orange">Đang chờ</p>
+                                                        }
+                                                        <p class=" mb-0" style="color: orchid">@i.PaymentAmount</p>
+                                                    </div>
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <p>Không có</p>
+                        }
+                    </ul>
+                </div>
+                <div class="tab-pane fade" id="analytics-tab-4-pane" role="tabpanel" aria-labelledby="analytics-tab-3" tabindex="0">
+                    <ul class="list-group list-group-flush">
+                        @if (ViewBag.RecentFailTransaction != null)
+                        {
+                            foreach (var item in ViewBag.RecentFailTransaction)
+                            {
+                                <li class="list-group-item">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1 ms-3">
+                                            <div class="row g-1">
+                                                <div class="col-6">
+                                                    <h6 class="mb-0">@item.ShipName</h6>
+                                                    <a href="/Order/Detail?OrderId=@item.OrderId">@item.OrderId</a>
+
+                                                </div>
+                                                @foreach (var i in item.OrdersPaymentVm)
+                                                {
+                                                    <div class="col-6 text-end">
+                                                        <h6 class="mb-1">@i.PaymentMethod</h6>
+                                                        @if (i.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                                                        {
+                                                            <p class=" mb-0" style="color:green">Thành công</p>
+                                                        }
+                                                        else if (i.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
+                                                        {
+                                                            <p class=" mb-0" style="color:red">Thất bại</p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p class="mb-0" style="color:orange">Đang chờ</p>
+                                                        }
+                                                        <p class=" mb-0" style="color: orchid">@i.PaymentAmount</p>
+                                                    </div>
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <p>Không có</p>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between">
+                    <h5 class="mb-0">Tổng đơn theo quý</h5>
+
+                </div>
+                <div id="total-income-graph"></div>
+                <div class="row g-3 mt-3">
+                    <div class="col-sm-6">
+                        <div class="bg-body p-3 rounded">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="flex-shrink-0">
+                                    <span class="p-1 d-block bg-primary rounded-circle">
+                                        <span class="visually-hidden">New alerts</span>
+                                    </span>
+                                </div>
+                                <div class="flex-grow-1 ms-2">
+                                    <p class="mb-0">Quý 1</p>
+                                </div>
+                            </div>
+                            <h6 class="mb-0 text-center">
+                                @ViewBag.OrderByQuarter[0]
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="bg-body p-3 rounded">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="flex-shrink-0">
+                                    <span class="p-1 d-block bg-warning rounded-circle">
+                                        <span class="visually-hidden">New alerts</span>
+                                    </span>
+                                </div>
+                                <div class="flex-grow-1 ms-2">
+                                    <p class="mb-0">Quý 2</p>
+                                </div>
+                            </div>
+                            <h6 class="mb-0 text-center">
+                                @ViewBag.OrderByQuarter[1]
+
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="bg-body p-3 rounded">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="flex-shrink-0">
+                                    <span class="p-1 d-block bg-success rounded-circle">
+                                        <span class="visually-hidden">New alerts</span>
+                                    </span>
+                                </div>
+                                <div class="flex-grow-1 ms-2">
+                                    <p class="mb-0">Quý 3</p>
+                                </div>
+                            </div>
+                            <h6 class="mb-0 text-center">
+                                @ViewBag.OrderByQuarter[2]
+
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="bg-body p-3 rounded">
+                            <div class="d-flex align-items-center mb-2">
+                                <div class="flex-shrink-0">
+                                    <span class="p-1 d-block bg-light-primary rounded-circle">
+                                        <span class="visually-hidden">New alerts</span>
+                                    </span>
+                                </div>
+                                <div class="flex-grow-1 ms-2">
+                                    <p class="mb-0">Quý 4</p>
+                                </div>
+                            </div>
+                            <h6 class="mb-0 text-center">
+                                @ViewBag.OrderByQuarter[3]
+
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@{
+    var incomeAYear = ViewBag.IncomeAYear as List<decimal>;
+    var orderByQuarter = ViewBag.OrderByQuarter as List<int>;
+}
+<!-- [ Main Content ] end -->
+@section Scripts{
+    <!-- [Page Specific JS] start -->
+    <script src="../assets/js/plugins/apexcharts.min.js"></script>
+    <!-- [Page Specific JS] end -->
+    <script>
+        var incomeAYearData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@incomeAYear));
+        var orderByQuater = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(orderByQuarter));
+
+        'use strict';
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                floatchart();
+            }, 500);
+        });
+
+        function floatchart() {
+            (function () {
+                
+                var options5 = {
+                    chart: {
+                        type: 'area',
+                        height: 300,
+                        toolbar: {
+                            show: false
+                        }
+                    },
+                    colors: ['#0d6efd'],
+                    fill: {
+                        type: 'gradient',
+                        gradient: {
+                            shadeIntensity: 1,
+                            type: 'vertical',
+                            inverseColors: false,
+                            opacityFrom: 0.5,
+                            opacityTo: 0
+                        }
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    stroke: {
+                        width: 1
+                    },
+                    plotOptions: {
+                        bar: {
+                            columnWidth: '45%',
+                            borderRadius: 4
+                        }
+                    },
+                    grid: {
+                        strokeDashArray: 4
+                    },
+                    series: [
+                        {
+                            name: 'Thu nhập',
+                            data: incomeAYearData,
+                        }
+                    ],
+                    xaxis: {
+                        categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+                        axisBorder: {
+                            show: false
+                        },
+                        axisTicks: {
+                            show: false
+                        }
+                    },
+                    tooltip: {
+                        x: {
+                            formatter: function (val, opts) {
+                                return 'Tháng ' + val;
+                            }
+                        },
+                        y: {
+                            formatter: function (val) {
+                                return val.toFixed(2) + " đ";
+                            }
+                        }
+                    }
+                };
+                var chart = new ApexCharts(document.querySelector('#customer-rate-graph'), options5);
+                chart.render();
+                var options6 = {
+                    chart: {
+                        type: 'area',
+                        height: 60,
+                        stacked: true,
+                        sparkline: { enabled: true }
+                    },
+                    colors: ['#4680FF'],
+                    fill: {
+                        type: 'gradient',
+                        gradient: {
+                            shadeIntensity: 1,
+                            type: 'vertical',
+                            inverseColors: false,
+                            opacityFrom: 0.5,
+                            opacityTo: 0
+                        }
+                    },
+                    stroke: { curve: 'smooth', width: 2 },
+                    series: [{ data: [5, 25, 3, 10, 4, 50, 0] }]
+                };
+                var chart = new ApexCharts(document.querySelector('#total-tasks-graph'), options6);
+                chart.render();
+                var options7 = {
+                    chart: {
+                        type: 'area',
+                        height: 60,
+                        stacked: true,
+                        sparkline: { enabled: true }
+                    },
+                    colors: ['#DC2626'],
+                    fill: {
+                        type: 'gradient',
+                        gradient: {
+                            shadeIntensity: 1,
+                            type: 'vertical',
+                            inverseColors: false,
+                            opacityFrom: 0.5,
+                            opacityTo: 0
+                        }
+                    },
+                    stroke: { curve: 'smooth', width: 2 },
+                    series: [{ data: [0, 50, 4, 10, 3, 25, 5] }]
+                };
+                var chart = new ApexCharts(document.querySelector('#pending-tasks-graph'), options7);
+                chart.render();
+                var options8 = {
+                    chart: {
+                        height: 320,
+                        type: 'donut'
+                    },
+                    series: orderByQuater,
+                    colors: ['#4680FF', '#E58A00', '#2CA87F', '#4680FF'],
+                    labels: ['Quý 1', 'Quý 2', 'Quý 3', 'Quý 4'],
+                    fill: {
+                        opacity: [1, 1, 1, 0.3]
+                    },
+                    legend: {
+                        show: false
+                    },
+                    plotOptions: {
+                        pie: {
+                            donut: {
+                                size: '65%',
+                                labels: {
+                                    show: true,
+                                    name: {
+                                        show: true
+                                    },
+                                    value: {
+                                        show: true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    responsive: [
+                        {
+                            breakpoint: 480,
+                            options: {
+                                plotOptions: {
+                                    pie: {
+                                        donut: {
+                                            size: '65%',
+                                            labels: {
+                                                show: true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                };
+                var chart = new ApexCharts(document.querySelector('#total-income-graph'), options8);
+                chart.render();
+            })();
+        }
+
+    </script>
+}

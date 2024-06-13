@@ -30,6 +30,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Product
             return data;
         }
 
+        public async Task<ApiResult<List<ProductVm>>> GetAllProduct()
+        {
+            var data = await GetAsync<List<ProductVm>>("api/Products/GetAll");
+            return data;
+        }
+
         public async Task<ApiResult<ProductVm>> GetProductById(string ProductId)
         {
             var data = await GetAsync<ProductVm>("api/Products/GetProductById?ProductId=" + ProductId);
@@ -56,5 +62,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Product
             var data = await GetAsync<PageResult<ProductVm>> ($"api/Products/ViewProduct?Keyword={request.Keyword}&pageIndex={request.pageIndex}");
             return data;
         }
+
+       
     }
 }

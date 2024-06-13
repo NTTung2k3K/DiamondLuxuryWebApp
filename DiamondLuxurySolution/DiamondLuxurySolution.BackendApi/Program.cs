@@ -103,6 +103,7 @@ builder.Services.AddIdentity<AppUser, AppRole>()
 .AddEntityFrameworkStores<LuxuryDiamondShopContext>()
         .AddDefaultTokenProviders();
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -122,5 +123,9 @@ using (var scope = app.Services.CreateScope())
     var roleInitializer = scope.ServiceProvider.GetRequiredService<IRoleInitializer>();
     roleInitializer.CreateDefaultRole().Wait();
     roleInitializer.CreateAdminAccount().Wait();
+    roleInitializer.CreateManagerAccount().Wait();
+    await roleInitializer.CreateCustomerAccount();
+    roleInitializer.CreateSaleStaffAccount().Wait();
+    roleInitializer.CreateShipperAccount().Wait();
 }
 app.Run();

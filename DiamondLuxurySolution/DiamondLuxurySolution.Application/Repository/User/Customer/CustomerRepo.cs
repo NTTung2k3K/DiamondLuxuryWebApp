@@ -5,6 +5,7 @@ using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.User.Customer;
 using Firebase.Auth;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using PagedList;
@@ -67,7 +68,34 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
             return new ApiSuccessResult<bool>("Cập nhật mật khẩu thành công");
         }
 
+        public async Task<ApiResult<List<int>>> CountAllCustomerInYear()
+        {
+            try
+            {
+                var currentYear = DateTime.UtcNow.Year;
+                var customerCounts = await _userManager.Users
+                    .Where(user => user.DateCreated.Value.Year == currentYear)
+                    .GroupBy(user => user.DateCreated.Value.Month)
+                    .Select(g => new { Month = g.Key, Count = g.Count() })
+                    .ToListAsync();
 
+                // Initialize a list with 12 zeros (for each month)
+                var monthlyCounts = Enumerable.Repeat(0, 12).ToList();
+
+                // Fill the counts in the correct month positions
+                foreach (var customerCount in customerCounts)
+                {
+                    monthlyCounts[customerCount.Month - 1] = customerCount.Count;
+                }
+
+                return new ApiSuccessResult<List<int>>(monthlyCounts,"Success");
+            }
+            catch (Exception ex)
+            {
+                // Handle exception, log the error
+                return new ApiErrorResult<List<int>>($"Error: {ex.Message}");
+            }
+        }
 
         public async Task<ApiResult<bool>> DeleteCustomer(Guid CustomerId)
         {
@@ -267,7 +295,9 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
                 Dob = request.Dob,
                 PhoneNumber = request.PhoneNumber.Trim(),
                 UserName = username,
-                Address = ""
+                Address = "",
+                Point =0,
+                DateCreated = DateTime.Now
             };
             user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.New.ToString();
             var status = await _userManager.CreateAsync(user, request.Password);

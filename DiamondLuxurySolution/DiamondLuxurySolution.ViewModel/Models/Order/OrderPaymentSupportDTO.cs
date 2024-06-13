@@ -15,5 +15,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Order
         public decimal PaymentAmount { get; set; }
         public string Message { get; set; }
         public string Status { get; set; }
+        public Guid? OrderPaymentId { get; set; }
+
     }
 }
