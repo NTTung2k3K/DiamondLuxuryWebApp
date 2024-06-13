@@ -1,6 +1,7 @@
 ﻿using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Collection;
 using DiamondLuxurySolution.ViewModel.Models.Contact;
+using DiamondLuxurySolution.ViewModel.Models.Product;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Service.Collection
 {
@@ -12,5 +13,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Collection
         public Task<ApiResult<bool>> DeleteCollection(DeleteCollectionRequest request);
         public Task<ApiResult<CollectionVm>> GetCollectionById(string CollectiontId);
         public Task<ApiResult<PageResult<CollectionVm>>> ViewCollectionInPaging(ViewCollectionRequest request);
+        public Task<ApiResult<List<ProductVm>>> GetProductsByListId(List<string> ListProductsId);
     }
 }

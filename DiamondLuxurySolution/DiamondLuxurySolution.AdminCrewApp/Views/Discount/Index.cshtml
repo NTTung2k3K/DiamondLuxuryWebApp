@@ -15,19 +15,19 @@
 	<div class="col-md-3">
 	</div>
 	<div class="col-md-5">
-			<form asp-action="Index" asp-controller="Discount" method="get" class="d-flex">
-				<div class="search">
-					<input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm danh mục" />
-					<button type="submit">Tìm kiếm</button>
-				</div>
-			</form>
+		<form asp-action="Index" asp-controller="Discount" method="get" class="d-flex">
+			<div class="search">
+				<input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm danh mục" />
+				<button type="submit">Tìm kiếm</button>
+			</div>
+		</form>
 	</div>
 </div>
 @if (ViewBag.Errors != null)
 {
 	foreach (var error in ViewBag.Errors)
 	{
-				<h6 class="text-danger">@error</h6>
+		<h6 class="text-danger">@error</h6>
 	}
 }
 
@@ -36,9 +36,6 @@
 	<table class="table">
 		<thead>
 			<tr class="text-center">
-				<th>
-					<label>ID chiết khấu</label>
-				</th>
 				<th>
 					<label>Tên chiết khấu</label>
 				</th>
@@ -58,7 +55,6 @@
 			@foreach (var item in Model.Items)
 			{
 				<tr class="text-center">
-					<td>@item.DiscountId</td>
 					<td>@item.DiscountName</td>
 					<td>@item.Description</td>
 					<td>@item.PercentSale</td>
@@ -75,20 +71,20 @@
 							<span class="badge bg-danger rounded-pill">Chưa hoạt động</span>
 						</td>
 					}
-						<td class="text-center">
+					<td class="text-center">
 						@Html.ActionLink("Chỉnh sửa", "Edit", new { DiscountId = item.DiscountId }, new { @class = "btn btn-warning" })
 						@Html.ActionLink("Xem chi tiết", "Detail", new { DiscountId = item.DiscountId }, new { @class = "btn btn-info" })
 						@Html.ActionLink("Xóa", "Delete", new { DiscountId = item.DiscountId }, new { @class = "btn btn-danger" })
-						</td>
+					</td>
 				</tr>
 			}
-						</tbody>
-					</table>
-					<div class="d-flex justify-content-center align-items-center">
+		</tbody>
+	</table>
+	<div class="d-flex justify-content-center align-items-center">
 		@await Component.InvokeAsync("Pager", Model)
-					</div>
+	</div>
 }
 else
 {
-					<h1>Không có thông tin</h1>
+	<h1>Không có thông tin</h1>
 }

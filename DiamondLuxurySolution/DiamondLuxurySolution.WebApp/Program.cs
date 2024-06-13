@@ -1,8 +1,16 @@
+using DiamondLuxurySolution.WebApp.Service.GemPriceList;
+using DiamondLuxurySolution.WebApp.Service.Slide;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpClient();
+builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
+builder.Services.AddTransient<ISlideApiService,SlideApiService>();
+builder.Services.AddTransient<IGemPriceListApiService, GemPriceListApiService>();
 
 builder.Services.AddAuthentication().AddGoogle(options =>
 {
@@ -15,6 +23,8 @@ builder.Services.AddAuthentication().AddGoogle(options =>
     options.ClientSecret = builder.Configuration.GetSection("FacebookLogin:AppSecret").Value;
     options.Scope.Remove("email");
 });
+builder.Services.AddRazorPages()
+    .AddRazorRuntimeCompilation();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

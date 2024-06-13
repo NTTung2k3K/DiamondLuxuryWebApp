@@ -77,13 +77,29 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
-
         [HttpGet("GetById")]
         public async Task<IActionResult> FindById([FromQuery] string CollectionId)
         {
             try
             {
                 var status = await _collection.GetCollectionById(CollectionId);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpPost("GetProductsByListId")]
+        public async Task<IActionResult> GetProductsByListId([FromBody]List<string> ListProductsId)
+        {
+            try
+            {
+                var status = await _collection.GetProductsByListId(ListProductsId);
                 if (status.IsSuccessed)
                 {
                     return Ok(status);

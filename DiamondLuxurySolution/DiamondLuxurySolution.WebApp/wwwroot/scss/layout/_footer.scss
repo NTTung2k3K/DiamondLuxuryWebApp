@@ -1,0 +1,92 @@
+/*****************************
+11. Footer CSS
+*****************************/
+
+.footer{
+	&-widget{
+		.widget-title{
+			@extend %white-color;
+			font-size: 2rem;
+			text-transform: capitalize;
+			margin-bottom: 2rem;
+			@include breakpoint(small){
+				margin-bottom: 1.5rem;
+			}
+		}
+		.widget-menu{
+			li{
+				&:not(:last-child){
+					margin-bottom: 1rem;
+				}
+			}
+			a{
+				@extend %body-color;
+				font-weight: 400;
+				line-height: 1;
+				display: block;
+				&:hover{
+					padding-left: 7px;
+				} 
+			}
+		}
+		.widget-product{
+			.product-box{
+				margin-top: 0;
+				&:not(:last-child){
+					border-bottom: 1px solid $border-color;
+					margin-bottom: 1.5rem;
+					padding-bottom: 1.5rem;
+				}
+			}
+		}
+	}
+	&-menu{
+		border-top: 1px solid $border-color;
+		border-bottom: 1px solid $border-color;
+		text-align: center;
+		@include breakpoint(small){
+			text-align: left;
+			padding-top: 2.4rem;
+			padding-bottom: 2.4rem;
+		}
+		li{
+			display: inline-block;
+			padding: 1.5rem 0;
+			&:not(:last-child){
+				margin-right: 4.5rem;
+				@include breakpoint(medium){
+					margin-right: 1rem;
+				}
+				@include breakpoint(small){
+					margin-right: 0;
+				}
+			}
+			@include breakpoint(small){
+				display: block;
+				padding: 0;
+				&:not(:last-child){
+					margin-bottom: 1rem;
+				}
+			}
+		}
+		a{
+			display: block;
+			@extend %body-color;
+		}
+	}
+	a{
+		&:hover{
+			@extend %white-color;
+		}
+	}
+}
+.copyright-text{
+	line-height: 1;
+	a{
+		@extend %primary-color;
+		&:hover{
+			@extend %primary-color;
+			text-decoration: underline;
+		}
+	}
+}

@@ -1,0 +1,218 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Product.ProductVm
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chi tiết sản phẩm</h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if (Model != null)
+{
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-3">
+                Id của sản phẩm
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.ProductId)
+            </dd>
+            <dt class="col-sm-3">
+                Tên
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.ProductName)
+            </dd>
+            <dt class="col-sm-3">
+                Mô tả
+            </dt>
+            <dd class="col-sm-8">
+                @Html.Raw(Model.Description)
+            </dd>
+            <dt class="col-sm-3">
+                Lần chỉnh sửa gần nhất
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.DateModify)
+            </dd>
+            <dt class="col-sm-3">
+                Số lượng đã mua
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.QuantitySold)
+            </dd>
+            <dt class="col-sm-3">
+                Hình đại diện
+            </dt>
+            <dd class="col-sm-8">
+                @if (Model.ProductThumbnail != null && Model.ProductThumbnail != "")
+                {
+                    <img src="@Model.ProductThumbnail" style="style= height:100px; width:100px" />
+                }
+                else
+                {
+                    <h5>Chưa có hình ảnh</h5>
+                }
+            </dd>
+
+            <dt class="col-sm-3">
+                Trạng thái
+            </dt>
+            <dd class="col-sm-8">
+                @if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString()))
+                {
+                    <p>Hết hàng</p>
+                }
+                @if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()))
+                {
+                    <p>Đang bán</p>
+                }
+                @if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Sales.ToString()))
+                {
+                    <p>Giảm giá</p>
+                }
+                @if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))
+                {
+                    <p>Sắp có hàng</p>
+                }
+            </dd>
+            <dt class="col-sm-3">
+                Hiển thị ở trang chủ
+            </dt>
+            <dd class="col-sm-8">
+                @if (Model.IsHome)
+                {
+                    <div style="color:green">Hoạt động</div>
+                }
+                else
+                {
+                    <div style="color:red">Đã ẩn</div>
+                }
+            </dd>
+            <dt class="col-sm-3">
+                Hiển thị ở dạng giảm giá
+            </dt>
+            <dd class="col-sm-8">
+                @if (Model.IsHome)
+                {
+                    <div style="color:green">Hoạt động</div>
+                }
+                else
+                {
+                    <div style="color:red">Đã ẩn</div>
+                }
+            </dd>
+            
+            <dt class="col-sm-3">
+                Giá giá công
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.ProcessingPrice)
+            </dd>
+            <dt class="col-sm-3">
+                Giá gốc
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.OriginalPrice)
+            </dd>
+            <dt class="col-sm-3">
+                Giá bán
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.SellingPrice)
+            </dd>
+            <dt class="col-sm-3">
+                Phần trăm giảm giá
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.PercentSale)<span>%</span>
+            </dd>
+            <dt class="col-sm-3">
+                Kim cương chính
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.GemVm.GemName)
+            </dd>
+            <dt class="col-sm-3">
+                Kim cương phụ
+            </dt>
+            <dd class="col-sm-8">
+                @if (Model.ListSubGems != null && Model.ListSubGems.Count > 0)
+                {
+                    foreach(var subgem in Model.ListSubGems)
+                    {
+                        <p>@subgem.SubGemName &nbsp <span style="font-weight:bold">Số lượng: </span><span>@subgem.Quantity</span></p>
+                    }
+                }
+                else
+                {
+                    <p>Không có</p>
+                }
+            </dd>
+            <dt class="col-sm-3">
+                Loại
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.CategoryVm.CategoryName)
+            </dd>
+            <dt class="col-sm-3">
+                Khung
+            </dt>
+            <dd class="col-sm-8">
+                @if(Model.FrameVm != null)
+                {
+                    @Html.DisplayFor(model => model.FrameVm.NameFrame)
+                }
+                else
+                {
+                    <p>Không có</p>
+                }
+            </dd>
+            <dt class="col-sm-3">
+                Số lượng
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Quantity)
+            </dd>
+            <dt class="col-sm-3">
+                Hình ảnh phụ
+            </dt>
+            <dd class="col-sm-8">
+                @if (Model.Images != null && Model.Images.Count > 0)
+                {
+                    foreach (var image in Model.Images)
+                    {
+                        <img src="@image" style="style= height:100px; width:100px" />
+                    }
+                }
+                else
+                {
+                    <p>Không có</p>
+                }
+            </dd>
+        </dl>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            @Html.ActionLink("Chỉnh sửa", "Edit", new { ProductId = Model.ProductId }, new { @class = "btn btn-warning" })
+        </div>
+        <div class="col-md-6">
+            <a class="m-5" asp-action="Index" asp-controller="Product">Về trang quản lí sản phẩm</a>
+        </div>
+    </div>
+}
+else
+{
+    <div>
+        <a class="m-5" asp-action="Index" asp-controller="Product">Về trang quản lí sản phẩm</a>
+    </div>
+}
+
+

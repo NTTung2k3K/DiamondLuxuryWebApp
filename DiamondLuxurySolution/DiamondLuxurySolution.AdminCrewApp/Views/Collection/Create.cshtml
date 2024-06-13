@@ -1,52 +1,253 @@
-﻿@model DiamondLuxurySolution.ViewModel.Models.Collection.CreateCollectionRequest
+﻿@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Models.Product
+@model DiamondLuxurySolution.ViewModel.Models.Collection.CreateCollectionRequest
 
 @{
     ViewData["Title"] = "Create";
 }
-
-<h1>Tạo mới bộ sưu tập</h1>
-<hr />
-<div class="row">
-    <div class="col-md-6">
-        @if (ViewBag.Errors != null)
-        {
-            foreach (var error in ViewBag.Errors)
-            {
-                <h6 class="m-2 text-danger">@error</h6>
-            }
+<head>
+    <!-- Thư viện jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Thư viện DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+</head>
+<body>
+    <h1>Tạo mới bộ sưu tập</h1>
+    <hr />
+    <form id="collectionForm" asp-action="Create" asp-controller="Collection" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-6">
+                @if (ViewBag.Errors != null)
+                {
+                    foreach (var error in ViewBag.Errors)
+                    {
+                        <h6 class="m-2 text-danger">@error</h6>
+                    }
+                }
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group m-2">
+                    <label asp-for="CollectionName" class="control-label mb-1">Tên bộ sưu tập</label>
+                    <input id="collectionName" type="text" name="CollectionName" class="form-control" />
+                    <span asp-validation-for="CollectionName" class="text-danger"></span>
+                </div>
+                <div class="form-group m-2 mt-2">
+                    <label asp-for="Description" class="control-label mb-1 mt-3">Mô tả bộ sưu tập</label>
+                    <input id="collectionDescription" type="text" asp-for="Description" class="form-control" />
+                </div>
+                <div class="form-group m-2 mt-2">
+                    <label asp-for="Thumbnail" class="control-label mb-1 mt-3">Hình ảnh</label>
+                    <input id="thumbnail" type="file" asp-for="Thumbnail" class="form-control" />
+                </div>
+                <div class="form-check form-switch m-4">
+                    <label asp-for="Status" class="control-label m-1">Hiển thị</label>
+                    <input id="isVisible" class="form-check-input f-18" type="checkbox" asp-for="Status">
+                </div>
+                <div class="form-group row col-md-12">
+                    <div class="col-md-5 col-sm-5" style="align-self: center">
+                        <input onclick="clearSessionStorage()" type="submit" value="Tạo mới" class="btn btn-success" />
+                    </div>
+                    <div class="col-md-7 col-sm-7">
+                        <a class="m-6 btn btn-secondary" asp-action="Index">Về trang quản lí bộ sưu tập</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5" style="text-align: center;">
+                @{
+                    var products = ViewBag.ProductsVm as List<ProductVm>;
+                    if (products.Count() > 0)
+                    {
+                        <div class="col-md-12" style="text-align:center; margin-top: 29px">
+                            <!-- [ basic-table ] start -->
+                            <div class="card">
+                                <div class="card-header" style="padding:12.8px 12px; border-bottom: 1px solid #ccc">
+                                    <h4 style="margin: 0">Danh sách sản phẩm</h4>
+                                </div>
+                                <div class="card-body table-border-style" style="padding: 12px">
+                                    <div class=" table-responsive datatable-container">
+                                        <table class="table table-striped" id="sort" style="width:100%">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th>
+                                                        <label>Tên sản phẩm</label>
+                                                        <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
+                                                    </th>
+                                                    <th>
+                                                        <label>Ảnh đại diện</label>
+                                                    </th>
+                                                    <th>
+                                                        <label>Sale</label>
+                                                        <label onclick="sortTable(2)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
+                                                    </th>
+                                                    <th>
+                                                        <label>Action</label>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    int index = 0;
+                                                }
+                                                @foreach (var product in products)
+                                                {
+                                                    <tr id="row-@index" class="text-center">
+                                                        <input class="form-control" type="hidden" name="ListProduct" value="@product.ProductId" />
+                                                        <td>
+                                                            @product.ProductName
+                                                        </td>
+                                                        @if (string.IsNullOrEmpty(product.ProductThumbnail))
+                                                        {
+                                                            <td>Không có hình ảnh</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>
+                                                                <img src="@product.ProductThumbnail" style="height:100px; width:100px" />
+                                                            </td>
+                                                        }
+                                                        <td>@product.SellingPrice<span>%</span></td>
+                                                        <td>
+                                                            <button type="button" class="btn btn-danger" onclick="deleteRow('row-@index')">Xóa</button>
+                                                        </td>
+                                                        <!-- <td>
+                                                            <form asp-action="RemoveProduct" asp-controller="Collection" method="post" style="display:inline;">
+                                                                <input type="hidden" name="productId" value="" />
+                                                                <button type="submit" class="btn btn-danger">Xóa</button>
+                                                            </form>
+                                                        </td>
+                                                        -->
+                                                    </tr>
+                                                    index++;
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ basic-table ] end -->
+                    }
+                    else
+                    {
+                        <div class="col-md-12" style="text-align:center; margin-top: 29px">
+                            <div class="card" style="border: 1px solid #ccc">
+                                <div class="card-header" style="padding:12.8px 12px; border-bottom: 1px solid #ccc">
+                                    <h4 style="margin: 0">Danh sách sản phẩm</h4>
+                                </div>
+                                <div class="card-body">
+                                    Không có sản phẩm
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                <a onclick="addProduct()" asp-action="IndexProductsCreate" class="btn btn-primary">
+                    Thêm sản phẩm
+                </a>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <input id="ListProductId" class="form-control" type="hidden" name="ListProductId" value="" />
+    </form>
+</body>
+@section CssStyle {
+    <style>
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 0.5em 0.5em;
+            font-size: 0.8em;
         }
-        <form asp-action="Create" asp-controller="Collection" method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group m-2">
-                <label asp-for="CollectionName" class="control-label mb-1">Tên bộ sưu tập</label>
-                <input type="text" name="CollectionName" class="form-control" />
-                <span asp-validation-for="CollectionName" class="text-danger"></span>
-            </div>
-            <div class="form-group m-2 mt-2">
-                <label asp-for="Description" class="control-label mb-1 mt-3">Mô tả bộ sưu tập</label>
-                <input type="text" asp-for="Description" class="form-control" />
-            </div>
-            <div class="form-group m-2 mt-2">
-                <label asp-for="Thumbnail" class="control-label mb-1 mt-3">Hình ảnh</label>
-                <input type="file" asp-for="Thumbnail" class="form-control" />
-            </div>
-            <div class="form-check form-switch m-4">
-                <label asp-for="Status" class="control-label m-1">Hiển thị</label>
-                <input class="form-check-input f-18" type="checkbox" asp-for="Status">
-            </div>
-            <div class="form-group row">
-                <div class="col-md-5">
-                    <input type="submit" value="Tạo mới" class="btn btn-success" />
-                </div>
-                <div class="col-md-7 mt-2">
-                    <a class="m-6 btn btn-secondary" asp-action="Index">Về trang quản lí bộ sưu tập</a>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
+
+        .dataTables_wrapper .dataTables_info {
+            font-size: 0.8em;
+            color: #555;
+            padding-top: 0.5em;
+        }
+
+        .dataTables_wrapper .dataTables_length {
+            font-size: 0.8em;
+            color: #555;
+            padding-top: 0.5em;
+        }
+
+        .dataTables_wrapper .dataTables_paginate {
+            width: auto;
+            display: inline-block;
+        }
+
+    </style>
+}
 @section Scripts {
+    <script type="text/javascript" charset="utf8" src="~/assets/js/Test.js"></script>
     <script>
+        function deleteRow(rowId) {
+            var row = document.getElementById(rowId);
+            row.parentNode.removeChild(row);
+        }
+        function addProduct() {
+            debugger
+            var collectionName = document.getElementById('collectionName').value;
+            var collectionDescription = document.getElementById('collectionDescription').value;
+            var isVisible = document.getElementById('isVisible').checked;
+            //var isVisibleCheckbox = document.getElementById('isVisible');
+            //var isVisible = isVisibleCheckbox.checked ? 'true' : 'false';
+            var fileInput = document.getElementById('thumbnail').value
+            
+
+            sessionStorage.setItem('thumbnail', thumbnail);
+            sessionStorage.setItem('collectionName', collectionName);
+            sessionStorage.setItem('collectionDescription', collectionDescription);
+            sessionStorage.setItem('isVisible', isVisible);
+            sessionStorage.setItem('thumbnail', thumbnail);
+        }
+
+        window.onload = function () {
+            debugger
+            if (sessionStorage.getItem('collectionName') || sessionStorage.getItem('collectionDescription') || sessionStorage.getItem('isVisible')) {
+                if (sessionStorage.getItem('collectionName')) {
+                    document.getElementById('collectionName').value = sessionStorage.getItem('collectionName');
+                }
+                if (sessionStorage.getItem('collectionDescription')) {
+                    document.getElementById('collectionDescription').value = sessionStorage.getItem('collectionDescription');
+                }
+                if (sessionStorage.getItem('isVisible')) {
+                    document.getElementById('isVisible').checked = sessionStorage.getItem('isVisible') === 'true';
+                }
+            } else {
+                clearSessionStorage();
+            }
+        };
+
+        function clearSessionStorage() {
+            sessionStorage.removeItem('collectionName');
+            sessionStorage.removeItem('collectionDescription');
+            sessionStorage.removeItem('isVisible');
+            sessionStorage.removeItem('thumbnail');
+        }
+        $(document).ready(function () {
+            var table = $('#sort').DataTable({
+                "ordering": false,
+                "pagingType": "full_numbers",
+                "language": {
+                    "paginate": {
+                        "next": "Next",
+                        "previous": "Previous",
+                        "First": false
+                    }
+                },
+                "pageLength": 3,
+                "lengthMenu": [[3, 10, 20, -1], [3, 10, 15, "All"]]
+            });
+            $('#collectionForm').on('submit', function () {
+                debugger
+                var allProductIds = [];
+                table.rows().every(function () {
+                    var row = $(this.node());
+                    var productId = row.find('input[name="ListProduct"]').val();
+                    allProductIds.push(productId);
+                });
+                $('#ListProductId').val(allProductIds.join(','));
+            });
+        });
 
     </script>
 }

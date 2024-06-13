@@ -8,9 +8,11 @@ using DiamondLuxurySolution.ViewModel.Models.Gem;
 using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
 using DiamondLuxurySolution.ViewModel.Models.Material;
 using DiamondLuxurySolution.ViewModel.Models.Product;
+using DiamondLuxurySolution.ViewModel.Models.Slide;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -29,11 +31,16 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
         }
         public async Task<ApiResult<bool>> CreateCollection(CreateCollectionRequest request)
         {
+            if (string.IsNullOrWhiteSpace(request.CollectionName))
+            {
+                return new ApiErrorResult<bool>("Vui lòng nhập tên bộ sưu tập");
+            }
             string collectionId = await GenerateUniqueCollectionIdAsync();
             var listProductCollection = new List<ProductsCollection>();
-            if (request.ListProductId.Count > 0)
+            List<string> listProductId = JsonConvert.DeserializeObject<List<string>>(request.ListProductId.First());
+            if (listProductId.First() != null)
             {
-                foreach (var x in request.ListProductId)
+                foreach (var x in listProductId)
                 {
                     var productCollection = new ProductsCollection
                     {
@@ -59,7 +66,18 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
             return new ApiSuccessResult<bool>(true, "Success");
         }
 
-
+        public async Task<ApiResult<List<ProductVm>>> GetProductsByListId(List<string> ListProductsId)
+        {
+            var list = await _context.Products.Where(p => ListProductsId.Contains(p.ProductId)).ToListAsync();
+            var rs = list.Select(x => new ProductVm()
+            {
+                ProductId = x.ProductId,
+                ProductName = x.ProductName,
+                SellingPrice = x.SellingPrice,
+                ProductThumbnail = x.ProductThumbnail,
+            }).ToList();
+            return new ApiSuccessResult<List<ProductVm>>(rs);
+        }
 
         #region Id tự tạo
         public async Task<string> GenerateUniqueCollectionIdAsync()
@@ -84,6 +102,11 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                 return new ApiErrorResult<bool>("Không tìm thấy bộ sưu tập");
             }
             _context.Collections.Remove(collection);
+            var productCollection = _context.ProductsCollections.Where(x => x.CollectionId == request.CollectionId);
+            if (productCollection.Any())
+            {
+                _context.ProductsCollections.RemoveRange(productCollection);
+            }
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(false, "Success");
         }
@@ -157,7 +180,7 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                             Symetry = product.Gem.Symetry
                         },
 
-                       
+
                     };
                     if (product.Images != null)
                     {
@@ -172,7 +195,7 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                             Quantity = x.Quantity
                         }).ToList();
                     }
-                  
+
                     listProductVm.Add(productVms);
                 }
                 catch (Exception e)
@@ -193,72 +216,137 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
             {
                 return new ApiErrorResult<bool>("Không tìm thấy bộ sưu tập");
             }
-            if (request.ListProductIdRemove.Count > 0 || request.ListProductIdAdd.Count > 0 || request.ProductId != null)
+            List<string> listProductsIdAdd = JsonConvert.DeserializeObject<List<string>>(request.ListProductsIdAdd.First());
+
+            if (listProductsIdAdd.First() != null)
             {
+                List<string> listProductsIdDelete = JsonConvert.DeserializeObject<List<string>>(request.ListProductsIdDelete.First());
                 var productCollection = _context.ProductsCollections.Where(x => x.CollectionId == request.CollectionId);
                 if (productCollection.Any())
                 {
-                    List<Data.Entities.Product> existingProduct = new List<Data.Entities.Product>();
-                    //Tim list product hien tai trong collection
-                    foreach (var x in productCollection)
+                    _context.ProductsCollections.RemoveRange(productCollection);
+                }
+                if (listProductsIdDelete.First() != null)
+                {
+                    listProductsIdAdd.RemoveAll(productId => listProductsIdDelete.Contains(productId));
+                }
+                foreach (var productId in listProductsIdAdd)
+                {
+                    if (productId.StartsWith('P') && productId.Length == 7)
                     {
-                        var product = await _context.Products.FindAsync(x.ProductId);
-                        if (product != null)
+                        _context.ProductsCollections.Add(new ProductsCollection
                         {
-                            existingProduct.Add(product);
-                        }
-                    }
-                    //Xoa 1 product khoi collection
-                    var productRemove = productCollection.SingleOrDefault(p => p.ProductId == request.ProductId);
-                    if(productRemove != null)
-                    {
-                        _context.ProductsCollections.Remove(productRemove);
-                    }
-
-                    //Khi xoa 1 luot product khoi collection
-                    if (request.ListProductIdRemove.Count > 0)
-                    {
-                        var productsDeleteFromCollection = productCollection
-                        .Where(pc => existingProduct.Any(p => p.ProductId == pc.ProductId)).ToList();
-                        if (productsDeleteFromCollection.Any())
-                        {
-                            // Xoa cac product da xoa tu collection
-                            _context.ProductsCollections.RemoveRange(productsDeleteFromCollection);
-                        }
-                    }
-                    //Khi them product vao collection
-                    if (request.ListProductIdAdd.Count > 0)
-                    {
-                        foreach (var productId in request.ListProductIdAdd)
-                        {
-                            // Kiem tra product co ton tai trong collection khong roi moi add
-                            if (!existingProduct.Any(p => p.ProductId == productId))
-                            {
-                                _context.ProductsCollections.Add(new ProductsCollection
-                                {
-                                    CollectionId = request.CollectionId,
-                                    ProductId = productId
-                                });
-                            }
-                            else
-                            {
-                                return new ApiErrorResult<bool>("Sản phẩm đã tồn tại trong collection rồi");
-                            }
-                        }
+                            CollectionId = request.CollectionId,
+                            ProductId = productId
+                        });
                     }
                 }
-            }
 
-            collection.Thumbnail = !string.IsNullOrWhiteSpace(request.Thumbnail?.ToString())
-                 ? await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Thumbnail) : "";
+                /*      if (listProductsIdDelete.First() != null)
+                      {
+                          var productCollection = _context.ProductsCollections.Where(x => x.CollectionId == request.CollectionId);
+                          foreach (var productId in listProductsIdDelete)
+                          {
+                              if (productId.StartsWith('P') && productId.Length == 7)
+                              {
+                                  _context.ProductsCollections.Remove(new ProductsCollection
+                                  {
+                                      CollectionId = request.CollectionId,
+                                      ProductId = productId
+                                  });
+                              }
+                          }
+                      }*/
+            }
+            if (request.Thumbnail != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Thumbnail);
+                collection.Thumbnail = firebaseUrl;
+            }
+            if (request.WantImgEmpty)
+            {
+                collection.Thumbnail = "";
+            }
             collection.CollectionName = request.CollectionName;
             collection.Status = request.Status;
             collection.Description = !string.IsNullOrWhiteSpace(request.Description) ? request.Description : "";
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
         }
+        #region Update Truyen 2 List Cach 2
+        /*  public async Task<ApiResult<bool>> UpdateCollection(UpdateCollectionRequest request)
+          {
+              var collection = await _context.Collections.FindAsync(request.CollectionId);
+              if (collection == null)
+              {
+                  return new ApiErrorResult<bool>("Không tìm thấy bộ sưu tập");
+              }
+              if (request.ListProductIdRemove.Count > 0 || request.ListProductIdAdd.Count > 0 || request.ProductId != null)
+              {
+                  var productCollection = _context.ProductsCollections.Where(x => x.CollectionId == request.CollectionId);
+                  if (productCollection.Any())
+                  {
+                      List<Data.Entities.Product> existingProduct = new List<Data.Entities.Product>();
+                      //Tim list product hien tai trong collection
+                      foreach (var x in productCollection)
+                      {
+                          var product = await _context.Products.FindAsync(x.ProductId);
+                          if (product != null)
+                          {
+                              existingProduct.Add(product);
+                          }
+                      }
+                      //Xoa 1 product khoi collection
+                 *//*     var productRemove = productCollection.SingleOrDefault(p => p.ProductId == request.ProductId);
+                      if (productRemove != null)
+                      {
+                          _context.ProductsCollections.Remove(productRemove);
+                      }*//*
 
+                      //Khi xoa 1 luot product khoi collection
+                      if (request.ListProductIdRemove.Count > 0)
+                      {
+                          var productsDeleteFromCollection = productCollection
+                          .Where(pc => existingProduct.Any(p => p.ProductId == pc.ProductId)).ToList();
+                          if (productsDeleteFromCollection.Any())
+                          {
+                              // Xoa cac product da xoa tu collection
+                              _context.ProductsCollections.RemoveRange(productsDeleteFromCollection);
+                          }
+                      }
+                      //Khi them product vao collection
+                      if (request.ListProductIdAdd.Count > 0)
+                      {
+                          foreach (var productId in request.ListProductIdAdd)
+                          {
+                              // Kiem tra product co ton tai trong collection khong roi moi add
+                              if (!existingProduct.Any(p => p.ProductId == productId))
+                              {
+                                  _context.ProductsCollections.Add(new ProductsCollection
+                                  {
+                                      CollectionId = request.CollectionId,
+                                      ProductId = productId
+                                  });
+                              }
+                              else
+                              {
+                                  return new ApiErrorResult<bool>("Sản phẩm đã tồn tại trong collection rồi");
+                              }
+                          }
+                      }
+                  }
+              }
 
+              collection.Thumbnail = !string.IsNullOrWhiteSpace(request.Thumbnail?.ToString())
+                   ? await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Thumbnail) : "";
+              collection.CollectionName = request.CollectionName;
+              collection.Status = request.Status;
+              collection.Description = !string.IsNullOrWhiteSpace(request.Description) ? request.Description : "";
+              await _context.SaveChangesAsync();
+              return new ApiSuccessResult<bool>(true, "Success");
+          }
+  */
+        #endregion 
         public async Task<ApiResult<PageResult<CollectionVm>>> ViewCollectionInPaging(ViewCollectionRequest request)
         {
             var listCollection = await _context.Collections.ToListAsync();
@@ -267,13 +355,12 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                 listCollection = listCollection.Where(x => x.CollectionName.Contains(request.Keyword)).ToList();
 
             }
-            listCollection = listCollection.Where(x => x.Status).OrderByDescending(x => x.CollectionName).ToList();
+            listCollection = listCollection.OrderByDescending(x => x.CollectionName).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 
             var listPaging = listCollection.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
 
-            var listProductVm = new List<ProductVm>();
             var listCollectionVm = new List<CollectionVm>();
             foreach (var collection in listPaging)
             {
@@ -284,9 +371,11 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                     Description = collection.Description,
                     Thumbnail = collection.Thumbnail,
                     Status = collection.Status,
-                    
+
                 };
                 var listProductsCollection = _context.ProductsCollections.Where(x => x.CollectionId == collection.CollectionId).ToList();
+
+                var listProductVm = new List<ProductVm>();
                 foreach (var item in listProductsCollection)
                 {
                     try
@@ -339,7 +428,7 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                                 Symetry = product.Gem.Symetry
                             },
 
-                           
+
                         };
                         if (product.Images != null)
                         {
@@ -354,7 +443,7 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                                 Quantity = x.Quantity
                             }).ToList();
                         }
-                      
+
                         listProductVm.Add(productVms);
                     }
                     catch (Exception e)
@@ -366,6 +455,7 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                 CollectionVm.ListProducts = listProductVm;
                 listCollectionVm.Add(CollectionVm);
             }
+
             var listResult = new PageResult<CollectionVm>()
             {
                 Items = listCollectionVm,

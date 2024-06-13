@@ -1,0 +1,118 @@
+﻿@using DiamondLuxurySolution.ViewModel.Models.GemPriceList
+@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Common
+
+@model PageResult<GemPriceListVm>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <a asp-action="Create" asp-controller="GemPriceList" class="btn btn-success">Tạo mới</a>
+    </div>
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <form asp-action="Index" asp-controller="GemPriceList" method="get" class="d-flex">
+
+            <div class="search">
+                <input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm giá kim cương theo trọng lượng" />
+                <button type="submit">Tìm kiếm</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+
+
+@if (Model.Items != null && Model.Items.Count > 0)
+{
+
+    <table class="table">
+        <thead>
+            <tr class="text-center">
+                <th>
+                    <label>Tên kim cương</label>
+                </th>
+                <th>
+                    <label>Trọng lượng Carat</label>
+                </th>
+                <th>
+                    <label>Giá</label>
+                </th>
+                <th>
+                    <label>Ngày ảnh hưởng</label>
+                </th>
+                <th>
+                    <label>Hiển thị</label>
+                </th>
+                <th>
+                    <label>Hình kim cương</label>
+                </th>
+                <th>Cài đặt</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr class="text-center">
+                    <td>@item.GemVm.GemName</td>
+                    <td>@item.CaratWeight</td>
+                    <td>@item.Price</td>
+                    <td>@item.effectDate</td>
+                    @if (item.Active == true)
+                    {
+                        <td>
+                            <span class="badge bg-success rounded-pill">Hoạt động</span>
+
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <span class="badge bg-danger rounded-pill">Chưa hoạt động</span>
+
+                        </td>
+
+                    }
+                    @if (string.IsNullOrEmpty(item.GemVm.GemImage))
+                    {
+                        <td>Không có hình ảnh</td>
+                    }
+                    else
+                    {
+
+                        <td>
+                            <img src="@item.GemVm.GemImage" style="height:100px; width:100px" />
+                        </td>
+                    }
+
+                    <td class="text-center">
+                        @Html.ActionLink("Chỉnh sửa", "Edit", new { GemPriceListId = item.GemPriceListId }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Xem chi tiết", "Detail", new { GemPriceListId = item.GemPriceListId }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Xóa", "Delete", new { GemPriceListId = item.GemPriceListId }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center align-items-center">
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
+}
+else
+{
+    <h1>Không có thông tin</h1>
+} 
+
+

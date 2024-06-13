@@ -1,6 +1,7 @@
 ﻿using DiamondLuxurySolution.Application.Repository.About;
 using DiamondLuxurySolution.Application.Repository.Frame;
 using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Models.About;
 using DiamondLuxurySolution.ViewModel.Models.Frame;
 using Microsoft.AspNetCore.Http;
@@ -78,6 +79,24 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
 
+        [HttpGet("GetAll")]
+        public async Task<ActionResult> GetAllFrame()
+        {
+            try
+            {
+                var status = await _frame.GetAll();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpGet("GetById")]
         public async Task<IActionResult> FindById([FromQuery] string FrameId)
         {
@@ -95,6 +114,8 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+       
 
 
         [HttpGet("ViewInFrame")]

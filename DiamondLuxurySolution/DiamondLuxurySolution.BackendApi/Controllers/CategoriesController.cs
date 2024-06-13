@@ -22,6 +22,23 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
 
+        [HttpGet("GetAll")]
+        public async Task<ActionResult> GetAllCategory()
+        {
+            try
+            {
+                var status = await _category.GetAll();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
         [HttpPost("Create")]
         public async Task<ActionResult> CreateCategory([FromForm] CreateCategoryRequest request)

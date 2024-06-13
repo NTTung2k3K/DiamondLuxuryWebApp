@@ -1,49 +1,592 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿<!doctype html>
+<html class="no-js" lang="zxx">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - DiamondLuxurySolution.WebApp</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/DiamondLuxurySolution.WebApp.styles.css" asp-append-version="true" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="meta description">
+
+    <!-- Favicons -->
+
+    <link rel="shortcut icon" href="../assets/img/logo/LOGO.png" type="../image/x-icon">
+
+    <link rel="apple-touch-icon" href="../assets/img/icon.png">
+
+    <!-- Title -->
+    <title>Diamond Luxury - Đẳng Cấp Kim Cương</title>
+
+    <!-- ************************* CSS Files ************************* -->
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="../assets/css/font-awesome.min.css">
+
+    <!-- Elegent Icon CSS -->
+    <link rel="stylesheet" href="../assets/css/elegent-icons.css">
+
+    <!-- All Plugins CSS css -->
+    <link rel="stylesheet" href="../assets/css/plugins.css">
+
+    <!-- style css -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+
+    <!-- modernizr JS
+    ============================================ -->
+    <script src="../assets/js/vendor/modernizr-2.8.3.min.js" defer></script>
+    <!--[if lt IE 9]>
+    <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- ************************* JS Files ************************* -->
+    <!-- jQuery JS -->
+    <script src="../assets/js/vendor/jquery.min.js" defer></script>
+
+    <!-- Bootstrap and Popper Bundle JS -->
+    <script src="../assets/js/bootstrap.bundle.min.js" defer></script>
+
+    <!-- All Plugins Js -->
+    <script src="../assets/js/plugins.js" defer></script>
+    <!-- Ajax Mail Js -->
+    <script src="../assets/js/ajax-mail.js" defer></script>
+
+    <!-- Main JS -->
+    <script src="../assets/js/main.js" defer></script>
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">DiamondLuxurySolution.WebApp</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+
+
+    <!-- Main Wrapper Start -->
+    <div class="wrapper bg--shaft">
+        <!-- Header Area Start -->
+        <header class="header headery-style-1">
+            <div class="header-top header-top-1">
+                <div class="container">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-lg-3 d-flex align-items-center flex-column flex-lg-row">
+                            <ul class="social social-round mr--20">
+                                <li class="social__item">
+                                    <a href="https://plus.google.com" target="_blank" rel="noopener noreferrer"
+                                       class="social__link">
+                                        <i class="fa fa-google-plus"></i>
+                                    </a>
+                                </li>
+                                <li class="social__item">
+                                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
+                                       class="social__link">
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
+                                </li>
+                                <li class="social__item">
+                                    <a href="https://youtube.com" target="_blank" rel="noopener noreferrer"
+                                       class="social__link">
+                                        <i class="fa fa-youtube"></i>
+                                    </a>
+                                </li>
+                                <li class="social__item">
+                                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
+                                       class="social__link">
+                                        <i class="fa fa-instagram"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-7">
+                            <p class="header-text">
+                                Miễn phí vận chuyển cho tất cả các đơn hàng trong nước với mã phiếu
+                                giảm giá <span>“LuxuryDiamondBoiz2024”</span>
+                            </p>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="header-top-nav d-flex justify-content-lg-end justify-content-center">
+                                <div class="user-info header-top-nav__item">
+                                    <div class="dropdown header-top__dropdown">
+                                        <a class="dropdown-toggle" id="userID" data-bs-toggle="dropdown"
+                                           aria-haspopup="true" aria-expanded="false">
+                                            Tài Khoản Của Tôi
+                                            <i class="fa fa-angle-down"></i>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="userID">
+                                            <a class="dropdown-item" href="dangki.html">Đăng Ký</a>
+                                            <a class="dropdown-item" href="dangnhap.html">Đăng Nhập</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+            <div class="header-middle header-top-1">
+                <div class="container">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col-lg-5 col-md-4 col-sm-6 order-lg-1 order-2">
+                            <div class="contact-info">
+                                <img src="../assets/img/icons/icon_phone.png" alt="Phone Icon">
+                                <p>Liên Hệ Hỗ Trợ: <br>(012) 800 456 789</p>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - DiamondLuxurySolution.WebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+                            </div>
+                            <br>
+                            <div class="contact-info">
+                                <img src="../assets/img/icons/location.png" alt="Phone Icon">
+                                <p>Hệ Thống Showroom: <br>Cơ Sở HCM: Vinhomes Grand Park Quận 9</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-12 order-lg-2 order-1 text-center">
+                            <a href="trangchu.html" class="logo-box mb-md--30">
+                                <img src="../assets/img/logo/LOGO.png" alt="logo">
+                            </a>
+                        </div>
+                        <div class="col-lg-5 col-md-7 col-sm-5 order-lg-3 order-3">
+                            <div class="header-toolbar">
+                                <div class="search-form-wrapper search-hide">
+                                    <form action="timkiem.html" class="search-form" method="GET"
+                                          onsubmit="return checkSearchQuery()">
+                                        <input type="text" name="query" id="search" class="search-form__input"
+                                               placeholder="Tìm Kiếm">
+                                        <button type="submit" class="search-form__submit">
+                                            <i class="icon_search"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                                <ul class="header-toolbar-icons">
+                                    <li class="search-box">
+                                        <a href="#" class="bordered-icon search-btn" aria-expanded="false">
+                                            <i class="icon_search"></i>
+                                        </a>
+                                    </li>
+                                    <li class="mini-cart-icon">
+                                        <div class="mini-cart mini-cart--1">
+                                            <a class="mini-cart__dropdown-toggle bordered-icon" id="cartDropdown">
+                                                <span class="mini-cart__count">0</span>
+                                                <i class="icon_cart_alt mini-cart__icon"></i>
+                                                <span class="mini-cart__ammount">
+                                                    Chi Tiết <i class="fa fa-angle-down"></i>
+                                                </span>
+                                            </a>
+                                            <div class="mini-cart__dropdown-menu">
+                                                <div class="mini-cart__content" id="miniCart">
+                                                    <div class="mini-cart__item">
+                                                        <div class="mini-cart__item--single">
+                                                            <div class="mini-cart__item--image">
+                                                                <img src="assets/img/pic_product/giohang/kim-cuong-3.9.png"
+                                                                     alt="product">
+                                                            </div>
+                                                            <div class="mini-cart__item--content">
+                                                                <h4 class="mini-cart__item--name">
+                                                                    <a href="product- .html">
+                                                                        Kim Cương
+                                                                        3ly9<br>-<small>D</small><br>-<small>VVS1</small>
+                                                                    </a>
+                                                                    </a>
+                                                                </h4>
+                                                                <p class="mini-cart__item--quantity">x1</p>
+                                                                <p class="mini-cart__item--price">11.500.000đ</p>
+                                                            </div>
+                                                            <a class="mini-cart__item--remove" href="">
+                                                                <i class="icon_close"></i>
+                                                            </a>
+                                                        </div>
+                                                        <div class="mini-cart__item--single">
+                                                            <div class="mini-cart__item--image">
+                                                                <img src="assets/img/pic_product/giohang/4ly1.png"
+                                                                     alt="product">
+                                                            </div>
+                                                            <div class="mini-cart__item--content">
+                                                                <h4 class="mini-cart__item--name">
+                                                                    <a href="product-details.html">
+                                                                        Kim Cương Tự Nhiên
+                                                                        4ly1<br>-<small>D</small><br>-<small>VVS1</small>
+                                                                    </a>
+                                                                </h4>
+                                                                <p class="mini-cart__item--quantity">x1</p>
+                                                                <p class="mini-cart__item--price">16,147,000đ</p>
+                                                            </div>
+                                                            <a class="mini-cart__item--remove" href="">
+                                                                <i class="icon_close"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mini-cart__calculation">
+                                                        <p>
+                                                            <span class="mini-cart__calculation--item">Tổng phụ :</span>
+                                                            <span class="mini-cart__calculation--ammount">1,070,000đ</span>
+                                                        </p>
+                                                        <p>
+                                                            <span class="mini-cart__calculation--item">
+                                                                Thuế Môi Trường
+                                                                (-2.00) :
+                                                            </span>
+                                                            <span class="mini-cart__calculation--ammount">40,000đ</span>
+                                                        </p>
+                                                        <p>
+                                                            <span class="mini-cart__calculation--item">
+                                                                Thuế VAT (20%)
+                                                                :
+                                                            </span>
+                                                            <span class="mini-cart__calculation--ammount">214.000đ</span>
+                                                        </p>
+                                                        <p>
+                                                            <span class="mini-cart__calculation--item">Tổng :</span>
+                                                            <span class="mini-cart__calculation--ammount">
+                                                                1,288,000đ
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                    <div class="mini-cart__btn">
+                                                        <a href="gioHang.html" class="btn btn-fullwidth btn-style-1">
+                                                            Xem
+                                                            Giỏ Hàng
+                                                        </a>
+                                                        <a href="thanhtoan.html"
+                                                           class="btn btn-fullwidth btn-style-1">Thanh Toán</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        @RenderBody()
+        <!-- Footer Start -->
+        <footer class="footer border-top ptb--40 ptb-md--30">
+            <div class="container">
+                <div class="row mb--40 mb-md--30">
+                    <div class="col-lg-3 col-md-6 mb-md--30">
+                        <div class="footer-widget">
+                            <h3 class="widget-title">Về Diamond Luxury</h3>
+                            <ul class="widget-menu">
+                                <li>Address: Vinhomes Grand Park <br> Q. Thủ Đức</li>
+                                <li>Số Điện Thoại: (012) 800 456 789</li>
+                                <li>Email: diamondluxuryservice@gmail.com</li>
+                            </ul>
+                            <br>
+                            <ul class="social social-round">
+                                <h3 class="widget-title">Theo Dõi Chúng Tôi</h3>
+                                <li class="social__item">
+                                    <a class="social__link" href="https://facebook.com" target="_blank"
+                                       rel="noopener noreferrer">
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
+                                </li>
+                                <li class="social__item">
+                                    <a class="social__link" href="https://youtube.com" target="_blank"
+                                       rel="noopener noreferrer">
+                                        <i class="fa fa-youtube"></i>
+                                    </a>
+                                </li>
+                                <li class="social__item">
+                                    <a class="social__link" href="https://instagram.com" target="_blank"
+                                       rel="noopener noreferrer">
+                                        <i class="fa fa-instagram"></i>
+                                    </a>
+                                </li>
+                                <li class="social__item">
+                                    <a class="social__link" href="https://plus.google.com" target="_blank"
+                                       rel="noopener noreferrer">
+                                        <i class="fa fa-google-plus"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-md--30">
+                        <div class="footer-widget">
+                            <h3 class="widget-title">Thông Tin Công Ty</h3>
+                            <ul class="widget-menu">
+                                <li><a href="gioithieu.html">Giới Thiệu</a></li>
+                                <li><a href="CauHoiThuongGap.html">Câu Hỏi Thường Gặp</a></li>
+                                <li><a href="banggiakimcuong.html">Bảng Giá Kim Cương</a></li>
+                                <li><a href="huongdandoninhan.html">Hướng dẫn đo size: Nhẫn kim cương</a></li>
+                                <li><a href="huongdandodaychuyen.html">Hướng dẫn đo size: Dây chuyền</a></li>
+                                <li><a href="huongdandovongtay.html">Hướng dẫn đo size: Lắc & vòng tay</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 mb-md--30">
+                        <div class="footer-widget">
+                            <h3 class="widget-title">Chính Sách Liên Quan</h3>
+                            <ul class="widget-menu">
+                                <li><a href="ChinhSachBaoHanh.html">Chính Sách Bảo Hành</a></li>
+                                <li><a href="ChinhSachBaoMat.html">Chính Sách Bảo Mật</a></li>
+                                <li><a href="ChinhSachDoiTra.html">Chính Sách Đổi Trả</a></li>
+                                <li><a href="DieuKhoanSuDung.html">Điều Khoản &amp; Điều Kiện</a></li>
+                                <li><a href="PhieuQuaTang.html">Phiếu Quà Tặng</a></li>
+                                <li><a href="ThongTinKhuyenMai.html">Khuyến Mãi</a></li>
+                                <li><a href="lienhe.html">Liên Hệ</a></li>
+                                <li><a href="HuongDanMuaHang.html">Hướng Dẫn Mua Hàng </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-widget">
+                            <h3 class="widget-title">Vị Trí Của Chúng Tôi</h3>
+                            <div id="google-map" style="width:100%;height:200px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb--40 mb-md--30">
+                    <div class="col-12">
+                        <ul class="footer-menu text-center">
+                            <li>
+                                <a>
+                                    "Tinh hoa của sự lấp lánh: Nơi bạn tìm thấy sự hoàn hảo trong từng viên kim
+                                    cương."
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <div>
+                            <img src="../assets/img/others/payment.jpg" alt="payment">
+                        </div>
+                        <p class="copyright-text">&copy; Bản Quyền Của DiamondBoiz</a> </p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Footer End -->
+        <!-- Scroll To Top Start -->
+        <a class="scroll-to-top" href=""><i class="fa fa-angle-double-up"></i></a>
+        <!-- Scroll To Top End -->
+
+    </div>
+    <!-- Main Wrapper End -->
+
+    <script>
+        function checkSearchQuery() {
+            var query = document.getElementById('search').value.trim().toLowerCase();
+            var diamondKeywords = [
+                'kim cương', 'nhẫn kim cương', 'bông tai kim cương', 'vòng cổ kim cương',
+                'trang sức kim cương', 'diamond', 'ring', 'earrings', 'necklace', 'jewelry'
+            ];
+
+            // Kiểm tra xem từ khóa có nằm trong danh sách từ khóa liên quan đến kim cương hay không
+            var hasMeaningfulKeyword = diamondKeywords.some(function (keyword) {
+                return query.includes(keyword);
+            });
+
+            if (hasMeaningfulKeyword) {
+                document.querySelector('.search-form').action = 'timkiem.html';
+            } else {
+                document.querySelector('.search-form').action = 'search_no_results.html';
+            }
+            return true; // Tiếp tục submit form
+        }
+    </script>
+
+
+
+    <!-- Google Map -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxvP66_Xk1ts77oL2Z7EpDxhDD_jMg-D0"></script>
+    <script>
+        // When the window has finished loading create our google map below
+        google.maps.event.addDomListener(window, 'load', init);
+
+        function init() {
+            // Basic options for a simple Google Map
+            // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
+            var mapOptions = {
+                // How zoomed in you want the map to start at (always required)
+                zoom: 12,
+
+                scrollwheel: false,
+
+                // The latitude and longitude to center the map (always required)
+                center: new google.maps.LatLng(10.833507, 106.798556), // Vinhomes Grand Park
+
+                // How you would like to style the map.
+                // This is where you would paste any style found on
+
+                styles: [{
+                    "featureType": "water",
+                    "elementType": "geometry",
+                    "stylers": [{
+                        "color": "#e9e9e9"
+                    },
+                    {
+                        "lightness": 17
+                    }
+                    ]
+                },
+                {
+                    "featureType": "landscape",
+                    "elementType": "geometry",
+                    "stylers": [{
+                        "color": "#f5f5f5"
+                    },
+                    {
+                        "lightness": 20
+                    }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "geometry.fill",
+                    "stylers": [{
+                        "color": "#ffffff"
+                    },
+                    {
+                        "lightness": 17
+                    }
+                    ]
+                },
+                {
+                    "featureType": "road.highway",
+                    "elementType": "geometry.stroke",
+                    "stylers": [{
+                        "color": "#ffffff"
+                    },
+                    {
+                        "lightness": 29
+                    },
+                    {
+                        "weight": 0.2
+                    }
+                    ]
+                },
+                {
+                    "featureType": "road.arterial",
+                    "elementType": "geometry",
+                    "stylers": [{
+                        "color": "#ffffff"
+                    },
+                    {
+                        "lightness": 18
+                    }
+                    ]
+                },
+                {
+                    "featureType": "road.local",
+                    "elementType": "geometry",
+                    "stylers": [{
+                        "color": "#ffffff"
+                    },
+                    {
+                        "lightness": 16
+                    }
+                    ]
+                },
+                {
+                    "featureType": "poi",
+                    "elementType": "geometry",
+                    "stylers": [{
+                        "color": "#f5f5f5"
+                    },
+                    {
+                        "lightness": 21
+                    }
+                    ]
+                },
+                {
+                    "featureType": "poi.park",
+                    "elementType": "geometry",
+                    "stylers": [{
+                        "color": "#dedede"
+                    },
+                    {
+                        "lightness": 21
+                    }
+                    ]
+                },
+                {
+                    "elementType": "labels.text.stroke",
+                    "stylers": [{
+                        "visibility": "on"
+                    },
+                    {
+                        "color": "#ffffff"
+                    },
+                    {
+                        "lightness": 16
+                    }
+                    ]
+                },
+                {
+                    "elementType": "labels.text.fill",
+                    "stylers": [{
+                        "saturation": 36
+                    },
+                    {
+                        "color": "#333333"
+                    },
+                    {
+                        "lightness": 40
+                    }
+                    ]
+                },
+                {
+                    "elementType": "labels.icon",
+                    "stylers": [{
+                        "visibility": "off"
+                    }]
+                },
+                {
+                    "featureType": "transit",
+                    "elementType": "geometry",
+                    "stylers": [{
+                        "color": "#f2f2f2"
+                    },
+                    {
+                        "lightness": 19
+                    }
+                    ]
+                },
+                {
+                    "featureType": "administrative",
+                    "elementType": "geometry.fill",
+                    "stylers": [{
+                        "color": "#fefefe"
+                    },
+                    {
+                        "lightness": 20
+                    }
+                    ]
+                },
+                {
+                    "featureType": "administrative",
+                    "elementType": "geometry.stroke",
+                    "stylers": [{
+                        "color": "#fefefe"
+                    },
+                    {
+                        "lightness": 17
+                    },
+                    {
+                        "weight": 1.2
+                    }
+                    ]
+                }
+                ]
+            };
+
+            // Get the HTML DOM element that will contain your map
+            // We are using a div with id="map" seen below in the <body>
+            var mapElement = document.getElementById('google-map');
+
+            // Create the Google Map using our element and options defined above
+            var map = new google.maps.Map(mapElement, mapOptions);
+
+            // Let's also add a marker while we're at it
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(10.833507, 106.798556), // Vinhomes Grand Park
+                map: map,
+                title: 'Vinhomes',
+                icon: "assets/img/icons/marker.png",
+                animation: google.maps.Animation.BOUNCE
+            });
+        }
+    </script>
+
 </body>
+
 </html>

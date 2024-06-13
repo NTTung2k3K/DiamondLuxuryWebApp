@@ -8,7 +8,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
- <div class="row mb-4">
+<div class="row mb-4">
     <div class="col-md-4">
         <a asp-action="Create" asp-controller="About" class="btn btn-success">Tạo mới</a>
     </div>
@@ -18,12 +18,13 @@
         <form asp-action="Index" asp-controller="About" method="get" class="d-flex">
 
             <div class="search">
-                <input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm About" />
+                <input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm thông tin liên hệ" />
                 <button type="submit">Tìm kiếm</button>
             </div>
         </form>
     </div>
 </div>
+
 @if (ViewBag.Errors != null)
 {
     foreach (var error in ViewBag.Errors)
@@ -31,7 +32,7 @@
         <h6 class="text-danger">@error</h6>
     }
 }
-@if (Model.Items != null && Model.Items.Count > 0)
+@if (Model != null && Model.Items != null && Model.Items.Count > 0)
 {
     <table class="table" id="sort">
         <thead>
@@ -54,42 +55,41 @@
             </tr>
         </thead>
         <tbody>
-        @foreach (var item in Model.Items)
-        {
+            @foreach (var item in Model.Items)
+            {
                 <tr class="text-center">
                     <td>@item.AboutName</td>
                     <td>@item.Description</td>
-                @if (string.IsNullOrEmpty(item.AboutImage))
-                {
+                    @if (string.IsNullOrEmpty(item.AboutImage))
+                    {
                         <td>Không có hình ảnh</td>
-                }
-                else
-                {
+                    }
+                    else
+                    {
                         <td>
                             <img src="@item.AboutImage" style="height:100px; width:100px" />
                         </td>
-                }
-                @if (item.Status == true)
-                {
+                    }
+                    @if (item.Status == true)
+                    {
                         <td>
                             <span class="badge bg-success rounded-pill">Hoạt động</span>
                         </td>
-                }
-                else
-                {
+                    }
+                    else
+                    {
                         <td>
                             <span class="badge bg-danger rounded-pill">Chưa hoạt động</span>
                         </td>
 
-                }
+                    }
                     <td class="text-center">
-                    @Html.ActionLink("Chỉnh sửa", "Edit", new { AboutId = item.AboutId }, new { @class = "btn btn-warning" })
-                    @Html.ActionLink("Xem chi tiết", "Detail", new { AboutId = item.AboutId }, new { @class = "btn btn-info" })
-                    @Html.ActionLink("Xóa", "Delete", new { AboutId = item.AboutId }, new { @class = "btn btn-danger" })
+                        @Html.ActionLink("Chỉnh sửa", "Edit", new { AboutId = item.AboutId }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Xem chi tiết", "Detail", new { AboutId = item.AboutId }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Xóa", "Delete", new { AboutId = item.AboutId }, new { @class = "btn btn-danger" })
                     </td>
                 </tr>
-        }
-
+            }
         </tbody>
     </table>
     <div class="d-flex justify-content-center align-items-center">
@@ -100,8 +100,9 @@ else
 {
     <h1>Không có thông tin</h1>
 }
-
+    </div>
+</div>
 @section scripts
 {
     <script src="~/assets/js/Test.js"></script>
-}   
+}

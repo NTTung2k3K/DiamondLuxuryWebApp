@@ -1,0 +1,476 @@
+/*****************************
+20. Navigation CSS
+*****************************/
+
+.mainmenu{
+	&__item{
+		display: inline-block;
+		&:first-child{
+			a{
+				padding-left: 0;
+			}
+		}
+		&.active{
+			& > a{
+				@extend %primary-color;
+				&:after{
+					@extend %primary-color;
+				}
+			}
+		}
+		& > a{
+		    padding: 2rem 2.2rem;
+		    color: #fff;
+		    font-size: 1.8rem;
+		    line-height: 2.5rem;
+		    text-transform: capitalize;
+		    font-weight: 400;
+		    display: block;
+		    font-family: $heading-font;
+		   	&:hover{
+		   		@extend %primary-color;
+				&:after{
+					@extend %primary-color;
+				}
+		   	}
+		}
+		&.menu-item-has-children{
+			& > a{
+				position: relative;
+				&:after{
+					@include breakpoint(largeonly){
+						position: absolute;
+						content: '\f107';
+						right: 0;
+						top: 50%;
+						font-family: fontAwesome;
+						color: #fff;
+						@include transform(translateY(-50%));
+						@include transition(all .3s);
+					}
+				}
+			}
+			& > ul{
+				@include breakpoint(largeonly){
+					position: absolute;
+					left: 0;
+					top: 6.5rem;
+					visibility: hidden;
+					opacity: 0;
+					background: $color-dark-4;
+					width: 100%;
+					padding: 30px 0;
+					@include box-shadow(0 0 50px 0 rgba(0,0,0,0.1));
+					@include transform-origin(top);
+					z-index: 9; 
+					pointer-events:none;
+				}
+				&.sub-menu{
+					@include breakpoint(largeonly){
+						width: 20rem;
+						@include white-space(nowrap);
+						@include transform-origin(center top 0);
+						@include transform(perspective(600px) rotateX(-90deg));
+						@include transition(all 0.5s ease 0s);	
+					}
+					ul{
+						@include breakpoint(largeonly){
+							position: absolute;
+							left: 100%;
+							top: 15rem;
+							background: $bg-color;
+							visibility: hidden;
+							opacity: 0;
+							backface-visbility: hidden;
+							@include transition(all .3s ease-in-out 0s);
+							@include transform(perspective(600px) rotateX(0deg));
+							
+						}
+					}
+					li{
+						&:hover{
+							ul{
+								@include breakpoint(largeonly){
+									visibility: visible;
+									opacity: 1;
+									top: 0;
+									backface-visbility: hidden;
+								}
+							}
+						}
+						&.menu-item-has-children{
+							& > a{
+								position: relative;
+								&:after{
+									@include breakpoint(largeonly){
+										position: absolute;
+										content: '\f105';
+										right: 1rem;
+										top: 50%;
+										font-family: fontAwesome;
+										color: #fff;
+										@include transform(translateY(-50%));
+									}
+								}
+							}
+						}
+						a{
+							text-transform: capitalize;
+						}
+					}
+				}
+				&.megamenu{
+					@include breakpoint(largeonly){
+						@include flexbox;
+						@include justify-content(space-evenly);
+						@include transform(scale(1, 0));
+						width: 100%;
+						padding: 3rem;
+					}
+					&.five-column{
+						> li{
+							@include breakpoint(largeonly){
+								@include flex-basis(16.66666667%);
+								&:nth-child(2n+2){
+									background: url(../img/others/line_menu.png) right top no-repeat;
+								}
+							}
+						}
+					}
+					li{
+						a{
+							&.megamenu-title{
+							    font-size: 1.8rem;
+							    line-height: 2.6rem;
+							    text-transform: capitalize;
+							    color: #fff;
+							    font-family: $heading-font;
+							    font-weight: 500;
+							    margin-bottom: 2.8rem;
+							    display: block;
+							}
+						    font-size: 1.4rem;
+						    font-weight: 400;
+						    line-height: 2.6rem;
+						    text-transform: capitalize;
+						    color: $body-color;
+						    &:hover{
+						    	color: #fff;
+						    }
+						}
+					}
+				}
+			}
+			&:hover{
+				& > ul{
+					pointer-events: visible;
+					&.megamenu{
+						@include breakpoint(largeonly){
+							visibility: visible;
+							opacity: 1;
+							@include transform(scale(1,1));
+						}
+					}
+					&.sub-menu{
+						@include breakpoint(largeonly){
+							visibility: visible;
+							opacity: 1;
+							@include transform(perspective(600px) rotateX(0deg));
+						}
+					}
+				}
+			}
+		}
+	}
+	li{
+		& > {
+
+		}
+		&.has-children{
+			@extend %posrelative;
+		}	
+		a{
+			display: block;
+		}
+		ul{
+			@include transition(all .3s cubic-bezier(.07,.81,.96,.66));
+		}
+	}
+	.sub-menu{
+		@include breakpoint(largeonly){
+			text-align: left;
+			padding: 1.5rem 0 !important;
+			@include white-space(nowrap);
+			min-width: 200px;
+		}
+		a{
+			@include breakpoint(largeonly){
+				color: $body-color;
+				padding: .5rem 1.5rem;
+				&:hover{
+					color: #fff;
+				}
+			}
+		}
+	}
+}
+
+
+/***********************
+Mobile Menu
+************************/
+.mobile-menu{
+	@include flex(1 0 100%);
+	.mean-bar{
+	    position: relative;
+	    background-color: transparent;
+	    overflow: hidden;
+	    @include box-sizing(border-box);
+	    *{
+	    	@include box-sizing(border-box);
+	    }
+	    &:before{
+		    @extend %pseudo;
+		    content: "Menu";
+		    left: 4rem;
+		    top: 1.5rem;
+		    font-size: 1.6rem;
+		    font-weight: 500;
+		    color: #fff;
+		    text-transform: uppercase;
+	    }
+	    &:after{
+		    @extend %fontAwesome;
+		    content: '\f107';
+		    right: 2rem;
+		    top: 1.5rem;
+		    font-size: 2rem;
+		    font-weight: 500;
+		    color: #fff;
+		    z-index: -1;
+	    }
+		.meanmenu-reveal {
+		    position: absolute;
+	        padding: 16px 15px 11px;
+	        right: auto !important;
+	        left: 0 !important;
+		    display: block;
+		    width: 100%;
+		    height: 100%;
+		    span{
+		    	position: relative;	
+		    	&.menu-bar{
+				    height: 2px;
+				    width: 20px;
+				    background-color: #fff;
+				    display: block;
+				    margin: 8px 0;
+		    	}
+		    	&:before,
+		    	&:after{
+				    content: "";
+				    position: absolute;
+				    left: 0;
+				    width: 100%;
+				    height: 100%;
+				    background-color: #fff;
+		    	}
+		    	&:before{
+		    		top: -6px;
+		    	}
+		    	&:after{
+		    		bottom: -6px;
+		    	}
+		    	&.menu-close{
+				    height: 2px;
+				    width: 20px;
+				    background-color: transparent;
+				    display: block;
+				    margin: 8px 0;
+				    &:before{
+					    top: 0;
+					    -webkit-transform: rotate(45deg);
+					    -ms-transform: rotate(45deg);
+					    transform: rotate(45deg);
+				    }
+				    &:after{
+					    bottom: 0;
+					    -webkit-transform: rotate(-45deg);
+					    -ms-transform: rotate(-45deg);
+					    transform: rotate(-45deg);
+				    }
+		    	}
+		    }
+		}
+		.mean-nav{
+			background-color: $bg-color-2;
+			& > ul{
+				border: 1px solid $border-color;
+				border-top: 0;
+				overflow-x: hidden;
+				overflow-y: auto;
+				max-height: 300px;
+			    li{
+				    position: relative;
+				    display: block;
+				    float: left;
+				    width: 100%;
+				    margin: 0;
+				    padding: 0;
+				    a{
+					    font-size: 13px;
+					    display: block;
+					    @extend %white-color;
+					    font-weight: 400;
+					    text-transform: uppercase;
+					    line-height: 44px;
+					    position: relative;
+					    border-top: 1px solid $border-color;
+					    padding: 0 40px 0 20px;
+					    width: 100%;
+					    opacity: 1;
+					    font-family: $body-font;
+				    }	
+				    ul{
+					    position: static;
+					    background-color: rgba(0, 0, 0, 0.03);
+					    margin: 0;
+					    padding: 0 !important;
+					    width: 100%;
+					    -webkit-box-shadow: none;
+					    box-shadow: none;
+					    margin: 0;
+					    display: none;
+					    float: left;
+					    width: 100%;
+					    opacity: 1;
+					    visibility: visible;
+					    z-index: 1;
+					    -webkit-transition: none;
+					    -o-transition: none;
+					    transition: none;
+
+					    &.megamenu{
+					    	width: 100%;
+					    	left: 0;
+					    	margin-left: 0;
+					    	li{
+					    		max-width: 100%;
+								padding: 0;
+					    		@include flex-basis(100%);
+									a{
+
+								    	&.megamenu-title{
+								    		padding: 8px 40px 8px 30px;
+								    		text-transform: uppercase;
+								    		font-family: $body-font;
+								    	}
+
+										font-size: 1.3rem;
+										margin-bottom: 0;
+										padding: 0 40px;
+										opacity: 1;
+										font-weight: 400;
+									}
+					    	}
+					    }
+					    &.sub-menu{
+					    	li{
+					    		a{
+					    			padding-left: 30px;
+					    		}
+					    		ul{
+					    			a{
+					    				padding-left: 40px;
+					    			}
+					    		}
+					    	}
+					    }
+				    }
+			    }
+			}
+			ul{
+				li{
+					a{
+						&.mean-expand{
+						    position: absolute;
+						    right: -1px;
+						    top: 0;
+						    font-size: 20px !important;
+						    @extend %white-color;
+						    line-height: 44px;
+						    height: 45px;
+						    width: 40px;
+						    text-align: center;
+						    padding: 0 !important;
+						    border: none !important;
+						    background: rgba(0,0,0,0);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+/***********************
+Vertical Menu
+************************/
+
+.vertical-menu{
+	&__item{
+		
+	}
+	&__link{
+	    padding: 10px 0px 10px 0px;
+	    font-size: 18px;
+	    text-transform: capitalize;
+	}
+	.sub-menu{
+		display: none;
+		& > li {
+			padding-left: 1rem;
+			& > a{
+				font-size: 1.6rem;
+			}
+			ul{
+				padding-left: 1rem;
+			}
+		}
+		a{
+			font-size: 14px;
+			padding: 10px;
+		}
+	}
+	li{
+		&.vertical-has-children{
+			& > a{
+				@extend %posrelative;
+				&:after{
+					@extend %fontAwesome;
+					right: 0;
+					top: 16px;
+					cursor: pointer;
+					font-size: 1.4rem;
+					color: $body-color;
+					content: '\f067';
+					@extend %basetransition;
+				}
+				&.menu-open{
+					&:after{
+						content: '\f068';	
+					}
+				}
+			}
+		}
+	}
+	a{
+		font-family: $heading-font;
+		font-weight: 400;
+		display: block;
+		color: $body-color;
+		&:hover{
+			color: #fff;
+		}
+	}
+}

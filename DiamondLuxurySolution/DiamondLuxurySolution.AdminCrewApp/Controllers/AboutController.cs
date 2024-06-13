@@ -18,38 +18,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         }
 
 
-
-
-        [HttpGet]
-        public async Task<IActionResult> TestView(ViewAboutRequest request)
-        {
-            try
-            {
-
-                ViewBag.txtLastSeachValue = request.Keyword;
-                if (!ModelState.IsValid)
-                {
-                    return View();
-                }
-                if (TempData["FailMsg"] != null)
-                {
-                    ViewBag.FailMsg = TempData["FailMsg"];
-                }
-                if (TempData["SuccessMsg"] != null)
-                {
-                    ViewBag.SuccessMsg = TempData["SuccessMsg"];
-                }
-
-                var about = await _AboutApiService.ViewAboutInManager(request);
-                return View(about.ResultObj);
-
-                // Chuyển hướng người dùng đến action Create
-            }
-            catch
-            {
-                return View();
-            }
-        }
         [HttpGet]
         public async Task<IActionResult> Index(ViewAboutRequest request)
         {
@@ -256,49 +224,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> SaveSelectedId(string selectedIds)
-        {
-            try
-            {
-                HttpContext.Session.SetString("SelectedIds", selectedIds);
-                return RedirectToAction("Create", "About");
-            }
-            catch (Exception)
-            {
-                return View();
-            }
-        }
 
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            var selectedIdsString = HttpContext.Session.GetString("SelectedIds");
-            List<int> listSelectedId = new List<int>();
-            if (selectedIdsString.Any())
-            {
-                // Tách chuỗi thành các phần tử riêng lẻ và chuyển đổi thành số nguyên
-                var selectedIdsArray = selectedIdsString.Split(',').Select(int.Parse).ToList();
-                // Giờ bạn có thể sử dụng selectedIdsArray như là một danh sách List<int>
-                listSelectedId = selectedIdsArray.ToList();
-            }
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateAboutRequest request)
         {
-            var selectedIdsString = HttpContext.Session.GetString("SelectedIds");
-            List<int> listSelectedId = new List<int>();
-            if (selectedIdsString.Any())
-            {
-                // Tách chuỗi thành các phần tử riêng lẻ và chuyển đổi thành số nguyên
-                var selectedIdsArray = selectedIdsString.Split(',').Select(int.Parse).ToList();
-                // Giờ bạn có thể sử dụng selectedIdsArray như là một danh sách List<int>
-                listSelectedId = selectedIdsArray.ToList();
-            }
-            // Sau khi có danh sách số nguyên, bạn có thể gán cho request.ListId như sau:
-            var status = await _AboutApiService.CreateAbout(request);
 
+            var status = await _AboutApiService.CreateAbout(request);
             if (status is ApiErrorResult<bool> errorResult)
             {
                 List<string> listError = new List<string>();

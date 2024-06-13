@@ -2,6 +2,7 @@
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Collection;
 using DiamondLuxurySolution.ViewModel.Models.Contact;
+using DiamondLuxurySolution.ViewModel.Models.Product;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Service.Collection
 {
@@ -22,13 +23,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Collection
             var data = await DeleteAsync<bool>($"api/Collections/Delete?CollectionId={request.CollectionId}");
             return data;
         }
-/*
-        public async Task<ApiResult<List<ContactVm>>> GetAll()
+        /*
+                public async Task<ApiResult<List<ContactVm>>> GetAll()
+                {
+                    var data = await GetAsync<List<ContactVm>>("api/Contact/GetAll");
+                    return data;
+                }*/
+        public async Task<ApiResult<List<ProductVm>>> GetProductsByListId(List<string> ListProductsId)
         {
-            var data = await GetAsync<List<ContactVm>>("api/Contact/GetAll");
+            var data = await PostAsync<List<ProductVm>>($"api/Collections/GetProductsByListId",ListProductsId);
             return data;
-        }*/
-
+        }
         public async Task<ApiResult<CollectionVm>> GetCollectionById(string CollectionId)
         {
             var data = await GetAsync<CollectionVm>($"api/Collections/GetById?CollectionId={CollectionId}");

@@ -1,4 +1,5 @@
-﻿using DiamondLuxurySolution.Data.EF;
+﻿using Azure.Core;
+using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.About;
@@ -61,6 +62,22 @@ namespace DiamondLuxurySolution.Application.Repository.Category
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(false, "Success");
+        }
+
+        public async Task<ApiResult<List<CategoryVm>>> GetAll()
+        {
+            var category = await _context.Categories.ToListAsync();
+
+            var rs = category.Select(x => new CategoryVm()
+            {
+                CategoryId = x.CategoryId,
+                CategoryName = x.CategoryName,
+                CategoryImage = x.CategoryImage,
+                CategoryType = x.CategoryType,
+                Status = x.Status,
+            }).ToList();
+
+            return new ApiSuccessResult<List<CategoryVm>>(rs, "Success");
         }
 
         public async Task<ApiResult<CategoryVm>> GetCategoryById(int CategoryId)

@@ -1,6 +1,7 @@
 ﻿using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.About;
 using DiamondLuxurySolution.ViewModel.Models.Collection;
+using DiamondLuxurySolution.ViewModel.Models.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
         public Task<ApiResult<bool>> DeleteCollection(DeleteCollectionRequest request);
         public Task<ApiResult<CollectionVm>> GetCollectionById(string CollectionId);
         public Task<ApiResult<PageResult<CollectionVm>>> ViewCollectionInPaging(ViewCollectionRequest request);
+        public Task<ApiResult<List<ProductVm>>> GetProductsByListId(List<string> ListProductsId);
 
     }
 }

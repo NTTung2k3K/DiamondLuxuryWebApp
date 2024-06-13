@@ -10,8 +10,8 @@ namespace DiamondLuxurySolution.ViewModel.Models.Collection
 {
     public class CreateCollectionRequest
     {
-        [Required(ErrorMessage ="Cần đặt tên cho bộ sưu tập")]
-        public string? CollectionName { get; set; } = null!;
+        [Required(ErrorMessage = "Cần đặt tên cho bộ sưu tập")]
+        public string? CollectionName { get; set; }
 
         public string? Description { get; set; }
 

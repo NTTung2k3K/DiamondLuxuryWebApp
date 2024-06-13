@@ -1,0 +1,498 @@
+/*****************************
+25. Product CSS
+*****************************/
+
+.product-carousel{
+	.slick-list{
+	    margin-bottom: -160px;
+	    padding-bottom: 160px;
+	    margin-left: -15px;
+	    margin-right: -15px;
+	    margin-top: -10px;
+	}
+	&:hover{
+		z-index: 99;
+	}
+}
+.product{
+	&-img{
+		position: relative;
+		img{
+			@extend %basetransition;
+		}
+		.primary-image{
+			margin: 0 auto;
+		}
+		.secondary-image{
+			@extend %posabsolute;
+			left: 50%;
+			top: 0;
+			@include transform(translateX(-50%));
+			@extend %invisible;
+		}
+		&-overlay{
+			@extend %posabsolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			@include flexbox;
+			@include flex-direction(column);
+			@include justify-content(space-between);
+			padding: 2rem 1.2rem 1.2rem;
+
+			.btn{
+				@extend %invisible;
+			}
+		}
+	}
+	&-label{
+		@extend %white-color;
+		font-weight: 400;
+		text-align: center;
+		width: 50px;
+		text-transform: uppercase;
+		font-size: 1.2rem;
+		line-height: 2.3rem;
+		padding: 0 1rem;
+		background: $bg-color-2;
+		border-radius: 3px;
+		&.discount{
+			@extend %primary-bg-color;
+		}
+	}
+	&-content{
+		padding: .3rem 0 0;
+		& > span{
+			color: $body-color;
+			font-size: 1.3rem;
+		    margin: 1rem 0px;
+		    display: inline-block;
+		}
+		h4{
+			padding-bottom: 1rem;
+			margin-bottom: 1.5rem;
+			background: url(../img/others/line.png) no-repeat center bottom;
+			a{
+				@extend %white-color;
+				display: block;
+				text-transform: capitalize;
+				font-size: 1.6rem;
+				font-weight: 400;
+				font-family: $heading-font;
+				line-height: 1.7;
+			}
+		}
+	}
+	&-price-wrapper {
+	    display: block;
+	    transition: all 0.3s ease 0s;
+	    & > span{
+		    color: $primary-color;
+		    margin: 0 2px;
+		    font-size: 1.8rem;
+		    font-weight: 500;
+
+		    &.product-price-old{
+		    	text-decoration: line-through;
+		    	color: $body-color;
+		    	font-size: 1.4rem;
+		    	font-weight: 400;
+		    }
+	    }
+	}
+	&-rating{
+		i{
+			color: $color-gray-6;
+			display: inline-block;
+			font-size: 1.3rem;
+			&.theme-star{
+				@extend %primary-color
+			}
+		}
+	}
+	&-action{
+		@include flexbox;
+		@include flex-wrap(wrap);
+		@include justify-content(center);
+		margin: 0;
+		a{
+			min-width: 3.5rem;
+			min-height: 3.5rem;
+			line-height: 3.5rem;
+			background-color: $color-dark-3;
+			@extend %body-color;
+			text-align: center;
+			@include border-radius(3px);
+			&.add_cart{
+				padding: 0 2rem;
+				font-size: 1.2rem;
+				margin: 0 1rem;
+				@extend %posrelative;
+				&:before{
+					@extend %fontAwesome;
+					left: 50%;
+					top: 50%;
+					@include transform(translate(-50%, -50%));
+					content: '\f07a';
+					display: none;
+				}
+				span{
+					font-size: 1.2rem;
+				}
+			}
+			&:hover{
+				@extend %primary-bg-color;
+				color: #fff !important;
+			}
+		}
+	}
+}
+.mirora-product{
+    padding: 1.5rem;
+    margin: 8px 4px 0;
+    background: $bg-color;
+    border-radius: 4px;
+    position: relative;
+    text-align: left;
+    transition: all 0.4s ease-out 0s;
+    word-wrap: break-word;
+    z-index: 1;
+    @include breakpoint(medium) {
+    	padding: 1rem;
+    }
+    &:hover{
+    	@include box-shadow(0 0 15px rgba(0, 0, 0, 0.3));
+		z-index: 3;
+    	.mirora_product_action{
+			top: 88%;
+			opacity: 1;
+			visibility: visible;
+			box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.3);
+			z-index: 999;
+    	}
+		.primary-image{
+			@extend %invisible;
+		}
+		.secondary-image{
+			@extend %visible;
+		}
+		.single-image{
+			.primary-image{
+				@extend %visible;
+			}
+		}
+		.product-img-overlay{
+			.btn{
+				@extend %visible;
+			}
+		}
+		.product-price-wrapper{
+			@extend %invisible;
+		}
+    }
+}
+
+.mirora_product_action{
+	width: 100%;
+	top: 40%;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.4s ease;
+	padding: 0 1rem 2rem;
+	border-radius: 0px 0px 4px 4px;
+	margin: 0 -1.5rem;
+	background: $bg-color;
+	@include breakpoint(medium){
+		margin: 0 -1rem;
+	}
+	&:after{
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+
+	}
+	& > p{
+	    padding-bottom: 2rem;
+	    font-size: 1.3rem;
+	    background: url(../img/others/line.png) no-repeat bottom center;
+	    margin-bottom: 2rem;
+	    margin-top: 1rem;
+	}
+}
+
+
+
+.mirora-product-list{
+	overflow: hidden;
+	margin: 0 1.5rem;
+	padding: 1.5rem 0;
+	@include breakpoint(medium) {
+		padding: 1rem 0;
+	}
+	.product{
+		&-img{
+			float: left;
+			width: 40%;
+			max-width: 60rem;
+			@include breakpoint(xsmall){
+				width: 100%;
+				float: none;
+				max-width: 100%;
+				img{
+					width: 100%;
+				}
+			}
+			img{
+				width: 100%;
+			}
+		}
+		&-content{
+			width: 60%;
+			float: left;
+			padding:0 0 0 3rem;
+			@include breakpoint(xsmall){
+				width: 100%;
+				float: none;
+				max-width: 100%;
+				padding-left: 0;
+			}
+			h4{
+				background: none;
+				padding-bottom: 0;
+			}
+		}
+		&-desc{
+			margin-top: 1rem;
+		}
+		&-action{
+			padding: 0;
+			@include justify-content(flex-start);
+			margin-top: 2rem;
+			a{
+				margin-right: 1rem;
+				min-width: 4rem;
+				height: 4rem;
+				line-height: 4rem;
+
+				&.add_cart{
+					padding: 0 3.5rem;
+					margin-left: 0;
+				}
+			}
+		}
+	}
+	&:hover{
+		.primary-image{
+			@extend %invisible;
+		}
+		.secondary-image{
+			@extend %visible;
+		}
+		.single-image{
+			.primary-image{
+				@extend %visible;
+			}
+		}
+		.product-img-overlay{
+			.btn{
+				@extend %visible;
+			}
+		}	
+	}
+}
+
+.refine-search{
+	h3{
+		font-size: 2.1rem;
+		margin-bottom: 2rem;
+	}
+	.cat-list{
+		li{
+			&:not(:last-child){
+				margin-bottom: .6rem;
+			}
+		}
+		a{
+			@extend %body-color;
+			line-height: 1;
+		}
+	}
+}
+
+
+.widget-product{
+	.product{
+		@include flexbox;
+		&:not(:last-child){
+			padding-bottom: 10px;
+			margin-bottom: 10px;
+			border-bottom: 1px solid $border-color;
+		}
+		&-img{
+			@include flex-basis(8rem);
+			height: 8rem;
+			max-width: 8rem;
+			margin-top: .6rem;
+		}
+		&-content{
+			padding-left: 1.5rem;
+			@include flex-basis(calc(100% - 8rem));
+			max-width: calc(100% - 8rem);
+		}
+		&-title{
+			margin-bottom: 0;
+			background: none;
+			padding-bottom: .5rem;
+			a{
+				@extend %white-color;
+				display: block;
+				text-transform: capitalize;
+				font-size: 1.6rem;
+				font-weight: 400;
+				font-family: $heading-font;
+			}
+		}
+		&-rating{
+			padding-bottom: .5rem;
+			i{
+				@extend %primary-color;
+				font-size: 1.2rem;
+			}
+		}
+		&-price-wrapper{
+			line-height: 1;
+			& > span{
+				@extend %primary-color;
+				font-size: 1.4rem;
+				font-weight: 500;
+				&.product-price-old{
+					color: $body-color;
+					text-decoration: line-through;
+					font-weight: 400;
+				}
+			}
+		}
+	}
+}
+
+
+// Product Ratings
+
+.ratings{
+	i{
+		color: $color-gray-6;
+		display: inline-block;
+		font-size: 1.3rem;
+		&.rated{
+			@extend %primary-color
+		}
+	}
+}
+
+.product-modal{
+	.product{
+		&-thumb-large{
+			margin-bottom: 1rem;
+			img{
+				width: 100%;
+			}
+		}
+		&-thumbnail{
+			.thumb-menu{
+				.slick-list{
+					margin: 0 -.5rem;
+				}
+			}
+			.thumb-menu-item{
+				padding: 0 .5rem;
+				a{
+					padding: 0;
+				}
+			}
+		}
+		&-title{
+			@extend %white-color;
+			font-size: 2.4rem;
+			margin-bottom:2rem;
+		}
+		&-detail-list{
+			li{
+				line-height: 1;
+				&:not(:last-child){
+					margin-bottom: .7rem;
+				}
+				a{
+					@extend %primary-color;
+				}
+			}
+		}
+		&-price{
+			.sale-price{
+				@extend %sale-price-common;
+				@extend %sale-price-3;
+				@extend %primary-color;
+			}
+			.regular-price{
+				@extend %regular-price-common;
+				@extend %regular-price-2;
+			}
+		}
+		&-options{
+			h3{
+				@extend %white-color;
+				font-size: 2.1rem;
+				margin-bottom: 1rem;
+			}
+			.form-group{
+				label{
+					sup{
+						color: $color-red;
+						font-size: 1rem;
+					}
+					font-size: 1.3rem;
+				}
+				select{
+				    background: $color-dark;
+				    border-color: $color-dark;
+				    color:$body-color;
+				    height: 3.4rem;
+				    padding: .6rem 1.2rem;
+				    width: 100%;
+				    @include border-radius(5px);
+				}
+			}
+		}
+		&-action{
+			&-top{
+				@include flexbox;
+			}
+			&-bottom{
+				a{
+					@extend %white-color;
+					display: block;
+					&:not(:last-child){
+						margin-bottom: .6rem;
+					}
+				}
+			}
+		}
+		&-tags{
+			a{
+				color: $body-color;
+			}
+		}
+
+	}
+}
+ 
+.product-hover-down{
+	.slick-list{
+		margin-left: -1.5rem;
+		margin-right: -1.5rem;
+	    margin-bottom: -160px;
+	    padding-bottom: 160px;
+	}
+}
