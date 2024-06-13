@@ -24,12 +24,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Discount
             return data;
         }
 
-        public async Task<ApiResult<List<DiscountVm>>> GetAll()
-        {
-            var data = await GetAsync<List<DiscountVm>>("api/Discounts/GetAll");
-            return data;
-        }
-
         public async Task<ApiResult<DiscountVm>> GetDiscountById(string DiscountId)
         {
             var data = await GetAsync<DiscountVm>($"api/Discounts/GetById?discountId={DiscountId}");

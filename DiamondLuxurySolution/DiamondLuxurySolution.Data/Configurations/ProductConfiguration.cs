@@ -24,8 +24,8 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(p => p.IsSale).IsRequired();
             builder.Property(p => p.DateCreate).IsRequired();
             builder.Property(p => p.DateModified).IsRequired();
-            builder.Property(p => p.OriginalPrice).IsRequired().HasColumnType("decimal(10, 2)");
-            builder.Property(p => p.SellingPrice).IsRequired().HasColumnType("decimal(10, 2)");
+            builder.Property(p => p.OriginalPrice).IsRequired().HasColumnType("decimal(15, 2)");
+            builder.Property(p => p.SellingPrice).IsRequired().HasColumnType("decimal(15, 2)");
             builder.Property(p => p.SellingCount);
             builder.Property(p => p.PercentSale).IsRequired();
 

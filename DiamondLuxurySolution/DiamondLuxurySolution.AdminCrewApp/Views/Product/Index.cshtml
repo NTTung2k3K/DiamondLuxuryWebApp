@@ -1,0 +1,143 @@
+﻿@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Common
+@using DiamondLuxurySolution.ViewModel.Models.Product
+@using DiamondLuxurySolution.ViewModel.Models.User.Staff
+
+@model PageResult<ProductVm>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
+}
+<div class="row mb-4">
+    <div class="col-md-4">
+
+    @if (!staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
+    {
+            <a asp-action="Create" asp-controller="Product" class="btn btn-success">Tạo mới</a>
+    }
+    </div>
+
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-5">
+        <form asp-action="Index" asp-controller="Product" method="get" class="d-flex">
+
+            <div class="search">
+                <input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm tin tức" />
+                <button type="submit">Tìm kiếm</button>
+            </div>
+        </form>
+    </div>
+</div>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+
+@if (Model != null && Model != null && Model.Items != null && Model.Items.Count > 0)
+{
+
+    <table class="table">
+        <thead>
+            <tr class="text-center">
+                <th>
+                    <label>Id</label>
+                </th>
+                <th>
+                    <label>Tên sản phẩm</label>
+                </th>
+                <th>
+                    <label>Ảnh đại diện</label>
+                </th>
+
+                <th>
+                    <label>Sale</label>
+                </th>
+                <th>
+                    <label>Trạng thái</label>
+                </th>
+                <th>
+                    <label>Số lượng</label>
+                </th>
+                <th>Cài đặt</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr class="text-center">
+                    <td>@item.ProductId</td>
+                    <td>@item.ProductName</td>
+                    @if (string.IsNullOrEmpty(item.ProductThumbnail))
+                    {
+                        <td>Không có hình ảnh</td>
+                    }
+                    else
+                    {
+                        <td>
+                            <img src="@item.ProductThumbnail" style="height:100px; width:100px" />
+                        </td>
+                    }
+                    <td>@item.PercentSale<span>%</span></td>
+
+                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-gray-500 rounded-pill">Hết hàng</span>
+                        </td>
+                    }
+                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-success rounded-pill">Đang bán</span>
+                        </td>
+                    }
+                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Sales.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-red-500 rounded-pill">Đang Sale</span>
+                        </td>
+                    }
+                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-yellow-500 rounded-pill">Sắp có hàng</span>
+                        </td>
+                    }
+
+
+                    <td>@item.Quantity</td>
+
+                    <td class="text-center">
+                        @if (!staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
+                        {
+                            @Html.ActionLink("Chỉnh sửa", "Edit", new { ProductId = item.ProductId }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Xem chi tiết", "Detail", new { ProductId = item.ProductId }, new { @class = "btn btn-info" })
+                            @Html.ActionLink("Xóa", "Delete", new { ProductId = item.ProductId }, new { @class = "btn btn-danger" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Xem chi tiết", "Detail", new { ProductId = item.ProductId }, new { @class = "btn btn-info" })
+                        }
+
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center align-items-center">
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
+}
+else
+{
+    <h1>Không có thông tin</h1>
+}

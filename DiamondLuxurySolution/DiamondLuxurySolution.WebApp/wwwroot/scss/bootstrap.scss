@@ -1,0 +1,101 @@
+$body-color:  #afafaf;
+$primary-color: #a8741a;
+$border-color:  #2d2d2d;
+$white: #fff;
+$black: #000;
+
+$font-family-base: 'Rubik', sans-serif;
+$font-size-base: 1.5rem;
+$line-height-base: 1.6;
+$font-weight-base: 400;
+
+// scss-docs-start headings-variables
+$headings-font-family: 'Prata', sans-serif;
+$headings-font-weight: 500;
+$headings-line-height: $line-height-base;
+$headings-color: #ffffff;
+
+$grid-gutter-width:  30px; 
+$link-decoration: none;
+
+$theme-colors: (
+  "primary":    $primary-color,
+  "secondary":  #6c757d,
+  "success":    #198754,
+  "info":       #0dcaf0,
+  "warning":    #ffc107,
+  "danger":     #dc3545,
+  "light":      #f8f9fa,
+  "dark":       #343a40
+);
+
+// Tooltip
+
+$tooltip-color: $white;
+$tooltip-bg: $primary-color;
+$tooltip-arrow-color:  $primary-color;
+$tooltip-padding-y: 5px;
+$tooltip-padding-x: 10px;
+$tooltip-font-size: 1.4rem;
+
+// Progress bars
+
+// scss-docs-start progress-variables
+$progress-height: 1.8rem;
+$progress-font-size: 1.1rem;
+$progress-bg: #f3f3f3;
+$progress-border-radius: 3px;
+$progress-bar-bg: #444444;
+
+// Modal
+$zindex-modal: -9;
+$modal-md:  95%;
+$modal-content-bg:  #242424;
+$modal-content-border-color:  rgba($black, .2);
+$modal-content-border-width: 1px;
+$modal-content-border-radius:  4px;
+$modal-dialog-margin-y-sm-up: 75px;
+
+// Close
+
+// scss-docs-start close-variables
+$btn-close-width: auto;
+$btn-close-height: auto;
+$btn-close-padding-x: 0;
+$btn-close-padding-y: 0;
+$btn-close-color:  red;
+$btn-close-bg: none;
+$btn-close-opacity: 1;
+
+// scss-docs-start accordion-variables
+$accordion-padding-y:  1rem;
+$accordion-padding-x: 2rem;
+$accordion-color: $body-color;
+$accordion-bg: #343434;
+$accordion-border-width: 1px;
+$accordion-border-color:  $border-color;
+$accordion-border-radius: 0;
+
+$accordion-body-padding-y: 2rem;
+$accordion-body-padding-x:  2.5rem;
+
+$accordion-button-padding-y: $accordion-padding-y;
+$accordion-button-padding-x: $accordion-padding-x;
+$accordion-button-color:  $accordion-color;
+$accordion-button-bg: $accordion-bg;
+$accordion-button-active-bg: $accordion-bg;
+$accordion-button-active-color:  $accordion-color;
+
+$accordion-button-focus-border-color: none;
+$accordion-button-focus-box-shadow: none;
+
+$accordion-icon-width:                    1.25rem;
+$accordion-icon-color:                    $accordion-color;
+$accordion-icon-active-color:             $accordion-button-active-color;
+$accordion-icon-transition:               transform .2s ease-in-out;
+$accordion-icon-transform:                rotate(-180deg);
+
+
+
+
+@import "node_modules/bootstrap/scss/bootstrap"; 

@@ -1,0 +1,68 @@
+/*****************************
+35. Comment CSS
+*****************************/
+
+.comment{
+	&-reply-title{
+		margin-bottom: 3rem;
+	}
+	&-notes{
+		font-size: 1.2rem;
+		color: $body-color;
+		margin-bottom: 1rem;
+	}
+	.single-comment{
+		border: 1px solid $border-color;
+		margin: 0 0 20px;
+		padding: 30px;
+		width: 100%;
+		background-color: $bg-color-2;
+		@include flexbox;
+	}
+	&-avatar{
+		@include flex-basis(5rem);
+		height: 5rem;
+		margin-right: 2.5rem;
+	}
+	&-info{
+		@include flex-basis(calc(100% - 7.5rem));
+	}
+	&-meta{
+		margin-bottom: 1.5rem;
+		@extend %posrelative;
+	}
+	&-author{
+		a{
+			@extend %body-color;
+		}
+	}
+	&-date{
+		font-size: 1.3rem;
+		font-style: italic;
+	}
+	&-content{
+
+	}
+	.reply{
+	    border: 1px solid $primary-color;
+	    @extend %primary-color;
+	    display: inline-block;
+	    font-size: 1.3rem;
+	    font-weight: bold;
+	    padding: .6rem 1.8rem;
+	    text-transform: uppercase;
+	    @include border-radius(35px);
+	    @extend %posabsolute;
+	    right: 0;
+	    top: 0;
+	    &:hover{
+	    	@extend %primary-bg-color;
+	    	color: #fff !important;
+	    }
+	}
+	.children{
+		margin-left: 2rem;
+	}
+
+}
+

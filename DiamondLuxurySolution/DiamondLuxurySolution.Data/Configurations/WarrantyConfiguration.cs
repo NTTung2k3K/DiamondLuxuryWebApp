@@ -21,6 +21,10 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(w => w.Description).HasMaxLength(250);
             builder.Property(w => w.DateActive).IsRequired();
             builder.Property(w => w.DateExpired).IsRequired();
+            builder.HasMany(w => w.OrderDetails)
+               .WithOne(od => od.Warranty)
+               .HasForeignKey(od => od.WarrantyId)
+               .OnDelete(DeleteBehavior.Cascade);
         }
     }
 

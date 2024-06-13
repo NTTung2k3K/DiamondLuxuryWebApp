@@ -6,11 +6,13 @@ using DiamondLuxurySolution.ViewModel.Models.Frame;
 using DiamondLuxurySolution.ViewModel.Models.Gem;
 using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
 using DiamondLuxurySolution.ViewModel.Models.Material;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class FrameController : Controller
+
+    public class FrameController : BaseController
     {
         private readonly IMaterialApiService _materialApiService;
         private readonly IFrameApiService _frameApiService;
@@ -20,6 +22,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             _materialApiService = materialApiService;
             _frameApiService = frameApiService;
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Index(ViewFrameRequest request)
@@ -49,6 +52,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Detail(string FrameId)
@@ -82,6 +86,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
         }
 
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Delete(string FrameId)
@@ -114,6 +119,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpPost]
         public async Task<IActionResult> Delete(DeleteFrameRequest request)
@@ -149,6 +155,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Edit(string FrameId)
@@ -185,6 +192,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateFrameRequest request)
@@ -193,6 +201,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             {
                 if (!ModelState.IsValid)
                 {
+                    var listMaterial = await _materialApiService.GetAll();
+                    ViewBag.ListMaterial = listMaterial.ResultObj.ToList();
                     var frame = await _frameApiService.GetFrameById(request.FrameId);
                     var material = await _materialApiService.GetMaterialById(frame.ResultObj.MaterialVm.MaterialId);
                     var materialVm = new MaterialVm()
@@ -216,8 +226,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     return View(frameVm);
                 }
 
-                var listMaterial = await _materialApiService.GetAll();
-                ViewBag.ListMaterial = listMaterial.ResultObj.ToList();
+                
 
                 var status = await _frameApiService.UpdateFrame(request);
                 if (status is ApiErrorResult<bool> errorResult)
@@ -236,6 +245,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         listError.Add(errorResult.Message);
                     }
                     ViewBag.Errors = listError;
+                    var listMaterial = await _materialApiService.GetAll();
+                    ViewBag.ListMaterial = listMaterial.ResultObj.ToList();
                     var frame = await _frameApiService.GetFrameById(request.FrameId);
                     var material = await _materialApiService.GetMaterialById(frame.ResultObj.MaterialVm.MaterialId);
                     var materialVm = new MaterialVm()
@@ -256,7 +267,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         NameFrame = request.NameFrame,
                         MaterialVm = materialVm,
                     };
-                    return View(frameVm);
+
+					return View(frameVm);
 
                 }
                 return RedirectToAction("Index", "Frame");
@@ -267,6 +279,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
         }
 
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Create()
@@ -276,6 +289,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
             return View();
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateFrameRequest request)
         {

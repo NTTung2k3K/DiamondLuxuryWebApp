@@ -1,5 +1,6 @@
 ﻿using DiamondLuxurySolution.Application.Repository.Promotion;
 using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Models.Promotion;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -59,7 +60,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeletePromotion([FromBody] DeletePromotionRequest request)
+        public async Task<IActionResult> DeletePromotion([FromQuery] DeletePromotionRequest request)
         {
             try
             {
@@ -94,6 +95,41 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
 
+
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var status = await _promotion.GetAll();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet("GetAllOnTime")]
+        public async Task<IActionResult> GetAllOnTime()
+        {
+            try
+            {
+                var status = await _promotion.GetAllOnTime();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
         [HttpGet("ViewInCustomer")]
         public async Task<IActionResult> ViewAllPromotionPaginationInCustomer([FromQuery] ViewPromotionRequest request)

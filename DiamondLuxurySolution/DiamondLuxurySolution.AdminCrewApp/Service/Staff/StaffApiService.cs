@@ -16,7 +16,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Staff
 
         public async Task<ApiResult<bool>> ChangePasswordStaff(ChangePasswordStaffRequest request)
         {
-            var data = await PostAsync<bool>("api/Staffs/ChangePasswordStaff", request);
+            var data = await PutAsync<bool>("api/Staffs/ChangePasswordStaff", request);
             return data;
         }
 

@@ -7,6 +7,7 @@ using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,18 +38,47 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
             {
                 percentSale = Convert.ToDouble(request.PercentSale);
 
-                if (percentSale < 0 || percentSale > 2)
+                if (percentSale < 0 || percentSale > 3)
                 {
-                     errorList.Add("% Chiết khấu phải >= 0 và <=2");
+                     errorList.Add("% Chiết khấu phải >= 0 và <=3");
                 }
             }
             catch (FormatException)
             {
                 errorList.Add("% chiết khấu không hợp lệ");
-				return new ApiErrorResult<bool>("Chiết khấu không hợp lệ, phải nhập số", errorList);
 			}
 
-            if (errorList.Any())
+			int from = 0; 
+			try
+			{
+				from = Convert.ToInt32(request.From);
+
+				if (percentSale < 0)
+				{
+					errorList.Add("Bắt đầu chiết khấu phải >= 0");
+				}
+			}
+			catch (FormatException)
+			{
+				errorList.Add("Bắt đầu chiết khấu không hợp lệ");
+			}
+
+			int to = 0;
+			try
+			{
+				to = Convert.ToInt32(request.To);
+
+				if (percentSale < 0)
+				{
+					errorList.Add("Đến chiết khấu phải >= 0");
+				}
+			}
+			catch (FormatException)
+			{
+				errorList.Add("Đến chiết khấu không hợp lệ");
+			}
+
+			if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
@@ -58,6 +88,8 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
                 DiscountName = request.DiscountName,
                 Description = request.Description != null ? request.Description : "",
                 PercentSale = percentSale,
+                To = to,
+                From = from,
                 Status = request.Status,
             };
             _context.Discounts.Add(discount);
@@ -107,6 +139,8 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
                 DiscountName = discount.DiscountName,
                 Description = discount.Description,
                 PercentSale = discount.PercentSale,
+                To = discount.To,
+                From = discount.From,
                 Status = discount.Status,
 
             };
@@ -131,16 +165,47 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
             {
                 percentSale = Convert.ToDouble(request.PercentSale);
 
-				if (percentSale < 0 || percentSale > 2)
+				if (percentSale < 0 || percentSale > 3)
 				{
-					errorList.Add("% Chiết khấu phải >= 0 và <=2");
+					errorList.Add("% Chiết khấu phải >= 0 và <=3");
 				}
 			}
             catch (FormatException)
             {
                 errorList.Add("% chiết khấu không hợp lệ");
             }
-            if (errorList.Any())
+
+			int from = 0;
+			try
+			{
+				from = Convert.ToInt32(request.From);
+
+				if (percentSale < 0)
+				{
+					errorList.Add("Bắt đầu chiết khấu phải >= 0");
+				}
+			}
+			catch (FormatException)
+			{
+				errorList.Add("Bắt đầu chiết khấu không hợp lệ");
+			}
+
+			int to = 0;
+			try
+			{
+				to = Convert.ToInt32(request.To);
+
+				if (percentSale < 0)
+				{
+					errorList.Add("Đến chiết khấu phải >= 0");
+				}
+			}
+			catch (FormatException)
+			{
+				errorList.Add("Đến chiết khấu không hợp lệ");
+			}
+
+			if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
@@ -153,6 +218,8 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
             discount.DiscountName = request.DiscountName;
             discount.Description = request.Description != null ? request.Description : "";
             discount.PercentSale = percentSale;
+            discount.From = from;
+            discount.To = to;
             discount.Status = request.Status;
 
             await _context.SaveChangesAsync();
@@ -180,6 +247,8 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
                 DiscountName = x.DiscountName,
                 Description = x.Description,
                 PercentSale = x.PercentSale,
+                From = x.From,
+                To = x.To, 
                 Status = x.Status,
             }).ToList();
             var listResult = new PageResult<DiscountVm>()
@@ -212,6 +281,8 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
                 DiscountName = x.DiscountName,
                 Description = x.Description,
                 PercentSale = x.PercentSale,
+                From = x.From,
+                To = x.To,
                 Status = x.Status,
             }).ToList();
             var listResult = new PageResult<DiscountVm>()

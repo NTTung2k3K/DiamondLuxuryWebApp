@@ -11,9 +11,11 @@ namespace DiamondLuxurySolution.Utilities.Constants
         public class AppSettings
         {
             public const string BaseAddress = "Address:Base";
-            public const int PAGE_SIZE = 10;
+            public const int PAGE_SIZE = 12;
             public const string USER_ID = "UserId";
+            public const string USER_EMAIL = "UserEmail";
             public const string USER_NAME = "Username";
+            public const string USER_IMAGE = "UserImage";
 
         }
         public class UserRoleDefault
@@ -31,7 +33,9 @@ namespace DiamondLuxurySolution.Utilities.Constants
             Confirmed,
             Shipping,
             Success,
-            Canceled
+            Canceled,
+            ProcessOfPayment,
+            Deposit,
         }
         public enum Status
         {
@@ -42,7 +46,8 @@ namespace DiamondLuxurySolution.Utilities.Constants
         {
             Selling,
             OutOfStock,
-            Sales
+            Sales,
+            Coming
         }
         public enum TransactionStatus
         {

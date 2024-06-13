@@ -1,5 +1,6 @@
 ﻿using DiamondLuxurySolution.Application.Repository.Warranty;
 using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Models.Warranty;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpPost("Create")]
-        public async Task<ActionResult> CreateWarranty([FromForm] CreateWarrantyRequest request)
+        public async Task<ActionResult> CreateWarranty([FromBody] CreateWarrantyRequest request)
         {
             try
             {
@@ -41,7 +42,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<ActionResult> UpdateWarranty([FromForm] UpdateWarrantyRequest request)
+        public async Task<ActionResult> UpdateWarranty([FromBody] UpdateWarrantyRequest request)
         {
             try
             {
@@ -60,7 +61,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteWarranty([FromBody] DeleteWarrantyRequest request)
+        public async Task<IActionResult> DeleteWarranty([FromQuery] DeleteWarrantyRequest request)
         {
             try
             {
@@ -95,8 +96,26 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
 
+		[HttpGet("GetAll")]
+		public async Task<IActionResult> GetAll()
+		{
+			try
+			{
+				var status = await _warranty.GetAll();
+				if (status.IsSuccessed)
+				{
+					return Ok(status);
+				}
+				return BadRequest(status);
+			}
+			catch (Exception e)
+			{
+				return BadRequest(e.Message);
+			}
+		}
 
-        [HttpGet("ViewInCustomer")]
+
+		[HttpGet("ViewInCustomer")]
         public async Task<IActionResult> ViewAllWarrantyPaginationInCustomer([FromQuery] ViewWarrantyRequest request)
         {
             try

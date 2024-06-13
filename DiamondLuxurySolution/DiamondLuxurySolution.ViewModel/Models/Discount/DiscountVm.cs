@@ -11,15 +11,15 @@ namespace DiamondLuxurySolution.ViewModel.Models.Discount
     {
         public string DiscountId { get; set; }
 
-        [Required(ErrorMessage = "Cần nhập tên mã giảm giá")]
         public string DiscountName { get; set; }
 
-        [Required(ErrorMessage = "Cần nhập mô tả mã giảm giá")]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "Cần nhập phần trăm chiết khấu")]
         public double PercentSale { get; set; }
 
-        public bool Status { get; set; }
+		public int From { get; set; }
+		public int To { get; set; }
+
+		public bool Status { get; set; }
     }
 }

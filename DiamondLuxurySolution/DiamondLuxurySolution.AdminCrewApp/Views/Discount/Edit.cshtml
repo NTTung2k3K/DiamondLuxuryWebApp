@@ -39,6 +39,16 @@
                         <input asp-for="PercentSale" class="form-control" />
                     <span asp-validation-for="PercentSale" class="text-danger"></span>
             </div>
+                <div class="form-group m-2">
+                    <label asp-for="From" class="control-label">Điểm bắt đầu chiết khấu</label>
+                    <input asp-for="From" class="form-control" />
+                    <span asp-validation-for="From" class="text-danger"></span>
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="To" class="control-label">Điểm đến chiết khấu</label>
+                    <input asp-for="To" class="form-control" />
+                    <span asp-validation-for="To" class="text-danger"></span>
+                </div>
             <div class="form-check form-switch m-4">
                 <label asp-for="Status" class="control-label mt-1">Hiển thị</label>
                     <input class="form-check-input f-20" type="checkbox" asp-for="Status">
