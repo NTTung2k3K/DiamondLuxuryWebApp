@@ -32,6 +32,10 @@ namespace DiamondLuxurySolution.ViewModel.Models.User.Staff
         public string? Image { get; set; }
         [Required(ErrorMessage = "Vui lòng chọn trạng thái")]
         public string Status { get; set; }
+        public DateTime? DateCreated { get; set; }
+        public DateTime? LastChangePasswordTime { get; set; }
+
+
         [Required(ErrorMessage = "Vui lòng nhập mật khẩu")]
         public string Password { get; set; }
         [Required(ErrorMessage = "Vui lòng nhập lại mật khẩu")]

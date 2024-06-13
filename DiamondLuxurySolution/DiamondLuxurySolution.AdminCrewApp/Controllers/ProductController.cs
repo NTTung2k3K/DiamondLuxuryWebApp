@@ -5,6 +5,7 @@ using DiamondLuxurySolution.AdminCrewApp.Service.Product;
 using DiamondLuxurySolution.AdminCrewApp.Service.Staff;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Product;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text.Json;
@@ -30,6 +31,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             _staffApiService = staffApiService;
             _ProductApiService = ProductApiService;
         }
+
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Index(ViewProductRequest request)
@@ -59,6 +62,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
         [HttpGet]
         public async Task<IActionResult> Detail(string ProductId)
         {
@@ -90,6 +95,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+
+
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Edit(string ProductId)
@@ -129,6 +137,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateProductRequest request)
         {
@@ -182,7 +192,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     var options = new JsonSerializerOptions
                     {
                         PropertyNameCaseInsensitive = true, // If needed
-                        WriteIndented = true // If needed
+                        WriteIndented = true // If neededf
                     };
                     string listSubGemsJson = System.Text.Json.JsonSerializer.Serialize(request.ListSubGems, options);
                     request.ListSubGemsJson = listSubGemsJson;
@@ -258,6 +268,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         }
 
 
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Delete(string ProductId)
@@ -290,6 +301,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpPost]
         public async Task<IActionResult> Delete(DeleteProductRequest request)
@@ -325,6 +338,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -336,6 +350,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             ViewBag.ListStatus = statuses;
             return View();
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
         [HttpPost]
         public async Task<IActionResult> Create(CreateProductRequest request)
         {

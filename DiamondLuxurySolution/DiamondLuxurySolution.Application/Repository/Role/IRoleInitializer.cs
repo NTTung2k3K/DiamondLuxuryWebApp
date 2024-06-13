@@ -8,8 +8,11 @@ namespace DiamondLuxurySolution.Application.Repository.Role
 {
     public interface IRoleInitializer
     {
-        Task<bool> CreateDefaultRole();
-         Task<bool> CreateAdminAccount();
-
+        Task CreateDefaultRole();
+        Task CreateAdminAccount();
+        Task CreateManagerAccount();
+        Task CreateSaleStaffAccount();
+        Task CreateShipperAccount();
+        Task CreateCustomerAccount();
     }
 }

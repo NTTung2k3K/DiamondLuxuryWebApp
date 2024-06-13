@@ -2,11 +2,14 @@
 using DiamondLuxurySolution.AdminCrewApp.Service.Platform;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Platform;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static DiamondLuxurySolution.Utilities.Constants.Systemconstant;
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class PlatformController : Controller
+    [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
+    public class PlatformController : BaseController
     {
         private readonly IPlatformApiService _platformApiService;
 

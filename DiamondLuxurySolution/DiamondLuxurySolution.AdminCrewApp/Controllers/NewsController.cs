@@ -4,11 +4,13 @@ using DiamondLuxurySolution.AdminCrewApp.Service.Staff;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.News;
 using DiamondLuxurySolution.ViewModel.Models.Role;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class NewsController : Controller
+    [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin+", "+ DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+    public class NewsController : BaseController
     {
         private readonly INewsApiService _NewsApiService;
         private readonly IStaffApiService _staffApiService;

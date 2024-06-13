@@ -2,6 +2,9 @@
 using DiamondLuxurySolution.AdminCrewApp.Service.About;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.About;
+using DiamondLuxurySolution.ViewModel.Models.Material;
+using DiamondLuxurySolution.ViewModel.Models.Slide;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Text.Json;
@@ -9,7 +12,10 @@ using System.Text.Json;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class AboutController : Controller
+   
+    [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
+    public class AboutController : BaseController
     {
         private readonly IAboutApiService _AboutApiService;
         public AboutController(IAboutApiService aboutApiService)
@@ -74,7 +80,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
-                return View();
+                return RedirectToAction("InternalServerError", "Error");
             }
         }
 
