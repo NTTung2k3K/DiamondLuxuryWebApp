@@ -87,7 +87,10 @@ builder.Services.AddTransient<IKnowLedgeNewsApiService, KnowledgeNewsApiService>
 
 builder.Services.AddTransient<IKnowledgeNewsCategoryApiService, KnowledgeNewsCategoryApiService>();
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> 9eeb65ab699c12ee5dbdb1cca29ce8f859d5b02f
 
 builder.Services.AddSession(options =>
 {
