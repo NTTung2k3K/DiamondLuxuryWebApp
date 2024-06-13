@@ -113,7 +113,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateCollectionRequest request)
         {
-            
+
             if (request.ListProductId.First() != null)
             {
                 string listProductsString = request.ListProductId.First().ToString();
@@ -306,9 +306,14 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         listError.Add(errorResult.Message);
                     }
                     ViewBag.Errors = listError;
+                    TempData["ErrorMessage"] = "Cập nhật bộ sưu tập không thành công.";
                     return View();
-
                 }
+                if (status is ApiSuccessResult<bool> && request.ListProductsIdAdd.First() != null)
+                {
+                    TempData["SuccessMessage"] = "Cập nhật bộ sưu tập thành công!";
+                }
+
                 return RedirectToAction("Edit", "Collection", new { CollectionId = request.CollectionId });
             }
             catch
