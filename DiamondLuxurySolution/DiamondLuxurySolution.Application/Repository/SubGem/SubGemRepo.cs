@@ -1,6 +1,7 @@
 ﻿using Azure.Core;
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.ViewModel.Common;
+using DiamondLuxurySolution.ViewModel.Models.Material;
 using DiamondLuxurySolution.ViewModel.Models.SubGem;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -22,22 +23,32 @@ namespace DiamondLuxurySolution.Application.Repository.SubGem
         }
         public async Task<ApiResult<bool>> CreateSubGem(CreateSubGemRequest request)
         {
-            if (string.IsNullOrWhiteSpace(request.SubGemName))
+            List<string> errorList = new List<string>();
+            decimal price = 0;
+            try
             {
-                return new ApiErrorResult<bool>("Vui lòng nhập tên kim cương phụ");
+                price = Convert.ToDecimal(request.SubGemPrice);
+                if (price < 0)
+                {
+                    errorList.Add("Vui lòng nhập giá cho kim cương phụ phải > 0");
+                }
             }
-            if (request.SubGemPrice <= 0)
+            catch (Exception)
             {
-                return new ApiErrorResult<bool>("Vui lòng nhập giá cho kim cương phụ");
+                errorList.Add("Giá nhập sai định dạng");
             }
-
+            if (errorList.Any())
+            {
+                return new ApiErrorResult<bool>("", errorList);
+            }
             var subGem = new DiamondLuxurySolution.Data.Entities.SubGem
             {
                 Description = !string.IsNullOrEmpty(request.Description) ? request.Description.Trim() : "",
                 SubGemName = request.SubGemName.Trim(),
-                SubGemPrice = request.SubGemPrice,
+                SubGemPrice = price,
                 Active = request.Active
             };
+
             _context.SubGems.Add(subGem);
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
@@ -57,6 +68,19 @@ namespace DiamondLuxurySolution.Application.Repository.SubGem
 
         public async Task<ApiResult<List<SubGemVm>>> GetAll()
         {
+<<<<<<< HEAD
+            var list = await _context.SubGems.ToListAsync();
+            var rs = list.Select(x => new SubGemVm()
+            {
+                SubGemId = x.SubGemId,
+                SubGemName = x.SubGemName,
+                SubGemPrice = x.SubGemPrice,
+                Description = x.Description,
+                Active = x.Active
+            }).ToList();
+            return new ApiSuccessResult<List<SubGemVm>>(rs);
+        }
+=======
             var subGem = await _context.SubGems.ToListAsync();
 
             var listSubGemVm = subGem.Select(x => new SubGemVm()
@@ -70,6 +94,7 @@ namespace DiamondLuxurySolution.Application.Repository.SubGem
             return new ApiSuccessResult<List<SubGemVm>> (listSubGemVm, "Success");
         }
 
+>>>>>>> ab1161713e5312992752fa39bc33406b42bf4661
         public async Task<ApiResult<SubGemVm>> GetSubGemById(Guid SubGemId)
         {
             var subGem = await _context.SubGems.FindAsync(SubGemId);
@@ -95,16 +120,22 @@ namespace DiamondLuxurySolution.Application.Repository.SubGem
             {
                 return new ApiErrorResult<bool>("Không tìm thấy kim cương phụ");
             }
-            if (string.IsNullOrWhiteSpace(request.SubGemName))
+            List<string> errorList = new List<string>();
+            decimal price = 0;
+            try
             {
-                return new ApiErrorResult<bool>("Vui lòng nhập tên cho kim cương phụ");
+                price = Convert.ToDecimal(request.SubGemPrice);
+                if (price < 0)
+                {
+                    errorList.Add("Vui lòng nhập giá cho kim cương phụ phải > 0");
+                }
             }
-            if (request.SubGemPrice <= 0)
+            catch (Exception)
             {
-                return new ApiErrorResult<bool>("Vui lòng nhập giá cho kim cương phụ");
+                errorList.Add("Giá nhập sai định dạng");
             }
             subGem.SubGemName = request.SubGemName.Trim();
-            subGem.SubGemPrice = request.SubGemPrice;
+            subGem.SubGemPrice = price;
             subGem.Description = !string.IsNullOrWhiteSpace(request.Description) ? request.Description.Trim() : "";
             subGem.Active = request.Active;
             await _context.SaveChangesAsync();
@@ -124,8 +155,8 @@ namespace DiamondLuxurySolution.Application.Repository.SubGem
             int pageIndex = request.pageIndex ?? 1;
 
             var listPaging = listSubGem.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
-           
-            var listSubGemVm = listPaging.Select(x => new SubGemVm() 
+
+            var listSubGemVm = listPaging.Select(x => new SubGemVm()
             {
                 SubGemName = x.SubGemName,
                 Description = x.Description,

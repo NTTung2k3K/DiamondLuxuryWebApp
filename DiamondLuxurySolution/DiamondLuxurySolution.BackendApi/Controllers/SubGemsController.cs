@@ -21,6 +21,8 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             _context = context;
             _subGem = Subgem;
         }
+<<<<<<< HEAD
+=======
         [HttpGet("GetAll")]
         public async Task<ActionResult> GetAllSubGem()
         {
@@ -39,9 +41,10 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
 
+>>>>>>> ab1161713e5312992752fa39bc33406b42bf4661
 
         [HttpPost("Create")]
-        public async Task<ActionResult> CreateSubGem([FromForm] CreateSubGemRequest request)
+        public async Task<ActionResult> CreateSubGem([FromBody] CreateSubGemRequest request)
         {
             try
             {
@@ -59,7 +62,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<ActionResult> UpdateSubGem([FromForm] UpdateSubGemRequest request)
+        public async Task<ActionResult> UpdateSubGem([FromBody] UpdateSubGemRequest request)
         {
             try
             {
@@ -78,7 +81,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpDelete("Delete")]
-        public async Task<IActionResult> DeleteSubGem([FromBody] DeleteSubGemRequest request)
+        public async Task<IActionResult> DeleteSubGem([FromQuery] DeleteSubGemRequest request)
         {
             try
             {
@@ -114,7 +117,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
 
-        [HttpGet("ViewSubGemsInCustomer")]
+        [HttpGet("ViewInCustomer")]
         public async Task<IActionResult> ViewAllSubGemsInCustomer([FromQuery] ViewSubGemRequest request)
         {
             try
@@ -132,7 +135,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
 
-        [HttpGet("ViewSubGemsInManager")]
+        [HttpGet("ViewInManager")]
         public async Task<IActionResult> ViewAllSubGemsInManager([FromQuery] ViewSubGemRequest request)
         {
             try

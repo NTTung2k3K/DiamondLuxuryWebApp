@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="Price" class="control-label">Giá vật liệu</label>
-                    <input type="number" asp-for="Price" class="form-control" />
+                    <input asp-for="Price" class="form-control" />
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">
@@ -62,7 +62,11 @@
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="MaterialImage" class="control-label m-2">Hình ảnh Mới</label>
+<<<<<<< HEAD
+                    <input asp-for="MaterialImage" class="form-control" type="file" value="@Model.MaterialName" />
+=======
                     <input asp-for="MaterialImage" class="form-control" type="file" value="@Model.MaterialImage"/>
+>>>>>>> ab1161713e5312992752fa39bc33406b42bf4661
                 </div>
                 <div class="form-check form-switch m-4">
                     <label asp-for="Status" class="control-label mt-1">Hiển thị</label>
@@ -84,24 +88,10 @@ else
 {
     <a class="m-5 btn btn-secondary" asp-action="Index">Về trang quản lí vật liệu</a>
 }
-<script>
-    var currentImage = document.getElementById('currentImage').value;
-    // Đặt giá trị của input hidden thành URL của hình ảnh hiện tại
-    document.getElementById('newImage').addEventListener('change', function () {
-        var newImage = this.value;
-        if (newImage) {
-            // Nếu người dùng chọn một hình ảnh mới, cập nhật giá trị của input hidden thành URL của hình ảnh mới
-            document.getElementById('currentImage').value = newImage;
-        }
-        else {
-            // Nếu người dùng không chọn hình ảnh mới, giữ nguyên giá trị của input hidden
-            document.getElementById('currentImage').value = currentImage;
-        }
-    });
-</script>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
     }
 }

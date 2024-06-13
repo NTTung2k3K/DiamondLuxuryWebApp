@@ -208,8 +208,13 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
             var json = JsonConvert.SerializeObject(obj, new JsonSerializerSettings
             {
                 DateFormatHandling = DateFormatHandling.IsoDateFormat, // Ensure DateTime is serialized in ISO 8601 format
+<<<<<<< HEAD
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc, // Handle DateTime in UTC format if necessary
+                TypeNameHandling = TypeNameHandling.All
+=======
                 DateTimeZoneHandling = DateTimeZoneHandling.Utc // Handle DateTime in UTC format if necessary
 
+>>>>>>> ab1161713e5312992752fa39bc33406b42bf4661
             });
 
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
@@ -370,6 +375,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
             string json = null;
             if (obj != null)
             {
+<<<<<<< HEAD
+                DateFormatHandling = DateFormatHandling.IsoDateFormat, // Ensure DateTime is serialized in ISO 8601 format
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc, // Handle DateTime in UTC format if necessary
+                TypeNameHandling = TypeNameHandling.All
+            });
+=======
                 json = JsonConvert.SerializeObject(obj, new JsonSerializerSettings
                 {
                     NullValueHandling = NullValueHandling.Include, // Ensure null values are included in the serialized JSON
@@ -377,6 +388,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                     DateTimeZoneHandling = DateTimeZoneHandling.Utc // Handle DateTime in UTC format if necessary
                 });
             }
+>>>>>>> ab1161713e5312992752fa39bc33406b42bf4661
 
             var httpContent = obj != null ? new StringContent(json, Encoding.UTF8, "application/json") : null;
             var client = _httpClientFactory.CreateClient();
@@ -466,16 +478,13 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                 // Put the content
                 var response = await client.PutAsync(url, multipartFormDataContent);
                 var body = await response.Content.ReadAsStringAsync();
-                var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
-
-                if (objectResult.IsSuccessed == false)
+                if (!response.IsSuccessStatusCode)
                 {
+                    var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
                     return objectResult;
                 }
-                else
-                {
-                    return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
-                }
+
+                return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
             }
         }
 

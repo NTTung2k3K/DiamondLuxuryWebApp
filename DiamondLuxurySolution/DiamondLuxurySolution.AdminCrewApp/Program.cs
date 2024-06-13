@@ -9,6 +9,7 @@ using DiamondLuxurySolution.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using DiamondLuxurySolution.AdminCrewApp.Service.Payment;
 using DiamondLuxurySolution.AdminCrewApp.Service.Gem;
+using DiamondLuxurySolution.AdminCrewApp.Service.SubGem;
 using DiamondLuxurySolution.AdminCrewApp.Service.Material;
 using DiamondLuxurySolution.AdminCrewApp.Service.Slide;
 using DiamondLuxurySolution.AdminCrewApp.Service.Frame;
@@ -74,6 +75,11 @@ builder.Services.AddTransient<ISlideApiService, SlideApiService>();
 builder.Services.AddTransient<IAboutApiService, AboutApiService>();
 
 builder.Services.AddTransient<ICategoryApiService, CategoryApiService>();
+<<<<<<< HEAD
+builder.Services.AddTransient<IInspectionCertificateApiService, InspectionCertificateApiService>();
+builder.Services.AddTransient<ISubGemApiService, SubGemApiService>();
+=======
+>>>>>>> ab1161713e5312992752fa39bc33406b42bf4661
 
 builder.Services.AddTransient<IGemPriceListApiService, GemPriceListApiService>();
 
