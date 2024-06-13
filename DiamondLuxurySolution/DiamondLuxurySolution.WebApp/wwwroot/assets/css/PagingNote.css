@@ -1,0 +1,14 @@
+﻿.page-link {
+    width: 3.5rem !important;
+    height: 3.5rem !important;
+    line-height: 0rem !important;
+    align-content: center;
+    align-self: center;
+    align-items: center;
+    border-radius: 100% !important;
+}
+
+.page-item.active .page-link {
+    background-color: #a8741a !important;
+    border-color: white !important;
+}

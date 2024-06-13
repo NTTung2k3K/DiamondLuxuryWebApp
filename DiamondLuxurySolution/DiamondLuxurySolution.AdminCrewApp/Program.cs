@@ -9,6 +9,7 @@ using DiamondLuxurySolution.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using DiamondLuxurySolution.AdminCrewApp.Service.Payment;
 using DiamondLuxurySolution.AdminCrewApp.Service.Gem;
+using DiamondLuxurySolution.AdminCrewApp.Service.SubGem;
 using DiamondLuxurySolution.AdminCrewApp.Service.Material;
 using DiamondLuxurySolution.AdminCrewApp.Service.Slide;
 using DiamondLuxurySolution.AdminCrewApp.Service.Frame;
@@ -75,6 +76,8 @@ builder.Services.AddTransient<IAboutApiService, AboutApiService>();
 
 builder.Services.AddTransient<ICategoryApiService, CategoryApiService>();
 builder.Services.AddTransient<ICollectionApiService, CollectionApiService>();
+builder.Services.AddTransient<IInspectionCertificateApiService, InspectionCertificateApiService>();
+builder.Services.AddTransient<ISubGemApiService, SubGemApiService>();
 
 builder.Services.AddTransient<IGemPriceListApiService, GemPriceListApiService>();
 
@@ -84,6 +87,10 @@ builder.Services.AddTransient<IKnowLedgeNewsApiService, KnowledgeNewsApiService>
 
 builder.Services.AddTransient<IKnowledgeNewsCategoryApiService, KnowledgeNewsCategoryApiService>();
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9eeb65ab699c12ee5dbdb1cca29ce8f859d5b02f
 
 builder.Services.AddSession(options =>
 {

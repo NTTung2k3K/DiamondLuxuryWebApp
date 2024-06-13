@@ -21,16 +21,16 @@ namespace DiamondLuxurySolution.Application.Repository.InspectionCertificate
         }
         public async Task<ApiResult<bool>> CreateInspectionCertificate(CreateInspectionCertificateRequest request)
         {
-            if (string.IsNullOrEmpty(request.InspectionCertificateName))
+            List<string> errorList = new List<string>();
+            if (string.IsNullOrWhiteSpace(request.InspectionCertificateName))
             {
-                return new ApiErrorResult<bool>("Vui lòng nhập tên giấy chứng nhận");
+                errorList.Add("Vui lòng nhập tên giấy chứng nhận");
             }
-            
             var inspectionCertificate = new DiamondLuxurySolution.Data.Entities.InspectionCertificate
             {
                 InspectionCertificateId = await GenerateUniqueInspectionCertificateIdAsync(),
                 InspectionCertificateName = request.InspectionCertificateName,
-                DateGrading = request.DateGrading,
+                DateGrading = DateTime.Now,
                 Status = request.Status,
             };
             if (request.Logo != null)
@@ -39,9 +39,12 @@ namespace DiamondLuxurySolution.Application.Repository.InspectionCertificate
                 inspectionCertificate.Logo = firebaseUrl;
             } else
             {
-                inspectionCertificate.Logo = "";
+                errorList.Add("Vui lòng nhập hình ảnh giấy chứng nhận");
             }
-
+            if(errorList.Any())
+            {
+                return new ApiErrorResult<bool>();
+            }
             _context.InspectionCertificates.Add(inspectionCertificate);
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
@@ -96,11 +99,11 @@ namespace DiamondLuxurySolution.Application.Repository.InspectionCertificate
 
         public async Task<ApiResult<bool>> UpdateInspectionCertificate(UpdateInspectionCertificateRequest request)
         {
-            if (string.IsNullOrEmpty(request.InspectionCertificateName))
+            List<string> errorList = new List<string>();
+            if (string.IsNullOrWhiteSpace(request.InspectionCertificateName))
             {
-                return new ApiErrorResult<bool>("Vui lòng nhập tên giấy chứng nhận");
+                errorList.Add("Vui lòng nhập tên giấy chứng nhận");
             }
-            
             var inspectionCertificate = await _context.InspectionCertificates.FindAsync(request.InspectionCertificateId);
             if (inspectionCertificate == null)
             {
@@ -117,7 +120,11 @@ namespace DiamondLuxurySolution.Application.Repository.InspectionCertificate
             }
             else
             {
-                inspectionCertificate.Logo = "";
+                errorList.Add("Vui lòng nhập hình ảnh giấy chứng nhận");
+            }
+            if (errorList.Any())
+            {
+                return new ApiErrorResult<bool>();
             }
 
             await _context.SaveChangesAsync();

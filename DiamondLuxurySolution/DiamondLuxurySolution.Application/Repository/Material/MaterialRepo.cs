@@ -22,15 +22,11 @@ namespace DiamondLuxurySolution.Application.Repository.Material
         public async Task<ApiResult<bool>> CreateMaterial(CreateMaterialRequest request)
         {
             var errorList = new List<string>();
-            if (string.IsNullOrEmpty(request.MaterialName))
-            {
-                errorList.Add("Vui lòng nhập tên nguyên liệu");
-            }
 
-            double price = 0;
+            decimal price = 0;
             try
             {
-                price = Convert.ToDouble(request.Price);
+                price = Convert.ToDecimal(request.Price);
 
                 if (price <= 0)
                 {
@@ -43,7 +39,7 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             }
             if (errorList.Any())
             {
-                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
+                return new ApiErrorResult<bool>("", errorList);
             }
             var material = new Data.Entities.Material
             {
@@ -52,7 +48,7 @@ namespace DiamondLuxurySolution.Application.Repository.Material
                 Color = request.Color != null ? request.Color : "",
                 Description = request.Description != null ? request.Description : "",
                 Status = request.Status,
-                EffectDate = (DateTime)request.EffectDate,
+                EffectDate = DateTime.Parse(request.EffectDate),
                 Price = price,
             };
             if (request.MaterialImage != null)
@@ -129,11 +125,11 @@ namespace DiamondLuxurySolution.Application.Repository.Material
                 errorList.Add("Vui lòng nhập tên nguyên liệu");
             }
 
-            double price = 0;
+
+            decimal price = 0;
             try
             {
-                price = Convert.ToDouble(request.Price);
-
+                price = Convert.ToDecimal(request.Price);
                 if (price <= 0)
                 {
                     errorList.Add("Giá tiền > 0");
@@ -145,7 +141,7 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             }
             if (errorList.Any())
             {
-                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
+                return new ApiErrorResult<bool>("", errorList);
             }
             var material = await _context.Materials.FindAsync(request.MaterialId);
             if (material == null)
@@ -156,7 +152,8 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             material.Description = request.Description != null ? request.Description : "";
             material.Color = request.Color != null ? request.Color : "";
             material.Price = price;
-            material.EffectDate = (DateTime)request.EffectDate;
+            material.EffectDate = DateTime.Parse(request.EffectDate);
+            material.Price = request.Price;
             material.Status = request.Status;
             if (request.MaterialImage != null)
             {

@@ -24,10 +24,9 @@ namespace DiamondLuxurySolution.ViewModel.Models.Material
         public bool Status { get; set; }
 
         [Required(ErrorMessage = "Cần nhập ngày ảnh hưởng")]
-        public DateTime? EffectDate { get; set; }
+        public string EffectDate { get; set; }
 
         [Required(ErrorMessage = "Cần nhập giá")]
-        public string Price { get; set; }
-
+        public string? Price { get; set; }
     }
 }
