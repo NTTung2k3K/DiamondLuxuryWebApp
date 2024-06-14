@@ -16,6 +16,15 @@ namespace DiamondLuxurySolution.Utilities.Constants
             public const string USER_EMAIL = "UserEmail";
             public const string USER_NAME = "Username";
             public const string USER_IMAGE = "UserImage";
+            public const string CUSTOMER_NAME = "CusName";
+            public const string CUSTOMER_ID = "CusId";
+            public const string FACEBOOK_PLATFORM = "Facebook";
+            public const string GOOGLE_PLATFORM = "Google";
+            public const string DEFAULT_PLATFORM = "Default";
+            public const string PLATFORM = "Platform";
+
+
+
 
         }
         public class UserRoleDefault

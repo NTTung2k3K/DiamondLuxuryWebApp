@@ -1,0 +1,384 @@
+﻿@{
+    ViewData["Title"] = "ViewDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section StyleCss {
+    <link href="../mycss/mycheckbox.css" rel="stylesheet" />
+    <style>
+        #backTo:hover {
+            background-color: rgb(168, 116, 26, 0.5) !important;
+            color: white !important;
+        }
+    </style>
+}
+@model DiamondLuxurySolution.ViewModel.Models.Order.OrderVm
+<div class="header-bottom header-top-1 position-relative navigation-wrap fixed-header">
+    <div class="container position-static">
+        <div class="row">
+            <div class="col-12 position-static">
+                <nav class="main-navigation">
+                    <ul class="mainmenu col-12">
+                        <li class="mainmenu__item active">
+                            <a href="/Home/Index" class="mainmenu__link" style="color: white;">Trang Chủ</a>
+                        </li>
+                        <li class="mainmenu__item menu-item-has-children has-children">
+                            <a href="#" class="mainmenu__link">Kim Cương</a>
+                            <ul class="sub-menu">
+                                <li><a href="#">Kim Cương Tự Nhiên</a></li>
+                                <li><a href="#">Kim Cương Nhân Tạo</a></li>
+                            </ul>
+                        </li>
+                        <li class="mainmenu__item menu-item-has-children">
+                            <a href="/DiamondJewelry/Index" class="mainmenu__link">Trang Sức Kim Cương</a>
+                            <ul class="megamenu three-column">
+                                <li>
+                                    <a class="megamenu-title" href="NhanKimCuong.html">Nhẫn Kim Cương</a>
+                                    <ul>
+                                        <li>
+                                            <a href="NhanKimCuongNam.html">Nhẫn Kim Cương Nam</a>
+                                        </li>
+                                        <li>
+                                            <a href="NhanKimCuongNu.html">Nhẫn Kim Cương Nữ</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a class="megamenu-title" href="VongTayKimCuong.html">
+                                        Vòng Tay Kim
+                                        Cương
+                                    </a>
+                                    <a class="megamenu-title" href="LacTayKimCuong copy.html">
+                                        Lắc Tay Kim
+                                        Cương
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="megamenu-title" href="HoaTayKimCuong.html">
+                                        Hoa Tai Kim
+                                        Cương
+                                    </a>
+                                    <a class="megamenu-title" href="MatDayChuyenKimCuong.html">
+                                        Mặt Dây
+                                        Chuyền KC
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="mainmenu__item menu-item-has-children">
+                            <a href="trangsuccuoi.html" class="mainmenu__link">Trang Sức Cưới</a>
+                            <ul class="megamenu">
+                                <li>
+                                    <a class="megamenu-title" href="nhanCuoiKimCuong.html">
+                                        Nhẫn Cưới Kim
+                                        Cương
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="megamenu-title" href="nhanKCcauhon.html">
+                                        Nhẫn Kim Cương Cầu
+                                        Hôn
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="mainmenu__item menu-item-has-children has-children">
+                            <a href="BoSuuTap.html" class="mainmenu__link">Bộ Sưu Tập</a>
+                            <ul class="sub-menu">
+                                <li class="menu-item-has-children has-children">
+                                    <a href="BoSuuTapQuyOng.html">BST Quý Ông</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="DangCapUyQuyen.html">Đẳng Cấp & Uy Quyền</a></li>
+                                        <li><a href="SangTrongBanLinh.html">Sang Trọng Và Bản Lĩnh</a></li>
+                                        <li>
+                                            <a href="PhongThuyThanhCong.html">Phong Thủy Và Thành Công</a>
+                                        </li>
+                                        <li>
+                                            <a href="PhongCachThoiTrang.html">Phong Cách Và Thời Trang</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children has-children">
+                                    <a href="BosuuTapNhanCuoi.html">BST Nhẫn Cưới</a>
+                                </li>
+                                <li class="menu-item-has-children has-children">
+                                    <a href="BosuuTapNhanCauHon.html">BST Nhẫn Cầu Hôn</a>
+                                </li>
+                                <li class="menu-item-has-children has-children">
+                                    <a href="BosuuTapDayChuyen.html">BST Dây Chuyền</a>
+                                </li>
+                                <li class="menu-item-has-children has-children">
+                                    <a href="BosuuTapKimCuong.html">BST Kim Cương</a>
+                                </li>
+                                <li class="menu-item-has-children has-children">
+                                    <a href="BosuuTapBanChayNhat.html">BST Bán Chạy Nhất</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="mainmenu__item">
+                            <a href="/TablePrice/Index" class="mainmenu__link">Bảng Giá Kim Cương</a>
+                        </li>
+                        <li class="mainmenu__item menu-item-has-children has-children">
+                            <a class="mainmenu__link" href="#">Kiến Thức</a>
+                            <ul class="sub-menu">
+                                <li class="menu-item">
+                                    <a href="kienthuckimcuong.html">Kiến Thức Kim Cương</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="kienthuctrangsuc.html">Kiến Thức Trang Sức</a>
+                                </li>
+                                <li class="menu-item-has-children has-children">
+                                    <a href="#">Hướng Dẫn Chọn Ni</a>
+                                    <ul class="sub-menu">
+                                        <li class="menu-item-has-children">
+                                            <a href="huongdandovongtay.html">Hướng Dẫn Đo Vòng Tay</a>
+                                        </li>
+                                        <li class="menu-item-has-children">
+                                            <a href="huongdandoninhan.html">Hướng Dẫn Đo Ni Nhẫn</a>
+                                        </li>
+                                        <li class="menu-item-has-children">
+                                            <a href="huongdandodaychuyen.html">Hướng Dẫn Đo Dây Chuyền</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="mainmenu__item menu-item-has-children has-children">
+                            <a href="#" class="mainmenu__link">Thông Tin</a>
+                            <ul class="sub-menu">
+                                <li><a href="ThongTinKhuyenMai.html">Thông Tin Khuyến Mãi</a></li>
+                                <li><a href="TinTuc.html">Tin Tức</a></li>
+                                <li><a href="CauHoiThuongGap.html">Các Câu Hỏi Thường Gặp</a></li>
+                            </ul>
+                        </li>
+                        <li class="mainmenu__item">
+                            <a href="gioithieu.html" class="mainmenu__link">Giới Thiệu</a>
+                        </li>
+                        <li class="mainmenu__item">
+                            <a href="lienhe.html" class="mainmenu__link">Liên Hệ</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="row no-gutters">
+            <div class="col-12">
+                <div class="mobile-menu"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="page-title">Đơn hàng</h1>
+                <ul class="breadcrumb justify-content-center">
+                    <li><a href="/Home/Index">Trang Chủ</a></li>
+                    <li><a href="/Account/Profile">Tài khoản cá nhân</a></li>
+                    <li><a href="/Order/ViewAll?CustomerId=@Model.CustomerVm.CustomerId">Đơn hàng</a></li>
+                    <li class="current"><a href="/Order/ViewDetail?OrderId=@Model.OrderId">Chi tiết đơn hàng</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row d-flex justify-content-center m-2">
+    <div class="col-lg-6 mt-md--30">
+        <div class="order-details">
+            <h3 class="heading-tertiary text-center" style="font-weight:bold; color:#a8741a">Đơn Hàng <span>#@Model.OrderId</span></h3>
+            <div class="m-3">
+                <p>
+                    <span style="font-weight:bold">Người đặt: &nbsp;</span>
+                    <span>@(Model.ShipName)</span>
+                </p>
+                 <p>
+                    <span style="font-weight:bold">Số điện thoại: &nbsp;</span>
+                    <span>@(Model.ShipPhoneNumber)</span>
+                </p>
+                 <p>
+                    <span style="font-weight:bold">Email: &nbsp;</span>
+                    <span>@(Model.ShipEmail)</span>
+                </p>
+                <p>
+                    <span style="font-weight:bold">Địa chỉ giao hàng: &nbsp;</span>
+                    <span>@(Model.ShipAdress??"Không có")</span>
+                </p>
+                <p>
+                    <span style="font-weight:bold">Mô tả: &nbsp;</span>
+                    <span>@(Model.Description ?? "Không có")</span>
+                </p>
+                <p>
+                    <span style="font-weight:bold">Mã giảm giá: &nbsp;</span>
+                    <span>@(Model.DiscountVm != null ? Model.DiscountVm.DiscountName : "Không có")</span>
+                </p>
+                <p>
+                    <span style="font-weight:bold">Chương trình khuyến mãi: &nbsp;</span>
+                    <span>@(Model.PromotionVm != null ? Model.PromotionVm.PromotionName : "Không có")</span>
+                </p>
+                <p>
+                    <span style="font-weight:bold">Trả trước: &nbsp;</span>
+                    <span>@(Model.Deposit != 0 ? Model.Deposit?.ToString("N0") + "₫" : "Thanh toán 100%")</span>
+                </p>
+                @if(Model.Deposit != 0)
+                {
+                    <p>
+                        <span style="font-weight:bold">Số tiền còn lại: &nbsp;</span>
+                        <span>@(Model.RemainAmount != 0 ? Model.RemainAmount : "Không có")</span>
+                    </p>
+                }
+            </div>
+
+            <div class="order-table table-content table-responsive mb--30">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Sản Phẩm</th>
+                            <th>Số Lượng</th>
+                            <th>Tổng Cộng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ListOrderProduct)
+                        {
+                            <tr>
+                                <td>@item.ProductName</td>
+                                <td>@item.Quantity</td>
+                                <td>@((item.UnitPrice * item.Quantity).ToString("N0") + "₫")</td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+                <table class="table" id="">
+                    <tfoot>
+                        <tr class="cart-subtotal">
+                            <th>Tổng đơn hàng được giảm</th>
+                            <td>@(Model.TotalSale?.ToString("N0") + "₫" ?? "0")</td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <table class="table">
+                    <tr class="order-total">
+                        <th>Tổng Chi Phí</th>
+                        <td><span class="order-total-ammount">@(Model.TotalAmount.ToString("N0") + "₫")</span></td>
+                    </tr>
+                </table>
+                <table class="table">
+                    <tr class="order-total">
+                        <th>Trạng thái đơn hàng</th>
+                        <td>
+                            @if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()))
+                            {
+                                <p style="margin-top:0; color:red" value="@Model.Status">
+                                    Hủy đơn
+                                </p>
+                            }
+                            else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Confirmed.ToString()))
+                            {
+                                <p style="margin-top:0; color:#a8741a" value="@Model.Status">
+                                    Đã xác nhận
+                                </p>
+                            }
+                            else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Deposit.ToString()))
+                            {
+                                <p style="margin-top:0; color:aqua" value="@Model.Status">
+                                    Đặt cọc
+                                </p>
+                            }
+                            else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()))
+                            {
+                                <p style="margin-top:0; color:cornflowerblue" value="@Model.Status">
+                                    Đang xử lý
+                                </p>
+                            }
+                            else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.ProcessOfPayment.ToString()))
+                            {
+                                <p style="margin-top:0; color:darkmagenta" value="@Model.Status">
+                                    Trong quá trình thanh toán
+                                </p>
+                            }
+                            else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Shipping.ToString()))
+                            {
+                                <p style="margin-top:0; color:dimgrey" value="@Model.Status">
+                                    Đang vận chuyển
+                                </p>
+                            }
+                            else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
+                            {
+                                <p style="margin-top:0; color:green" value="@Model.Status">
+                                    Thành công
+                                </p>
+                            }
+                            else
+                            {
+                                <p style="margin-top:0" value="@Model.Status">
+                                    N/A
+                                </p>
+                            }
+
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="checkout-payment">
+                @foreach (var payment in Model.OrdersPaymentVm)
+                {
+                    <h4 style="color: #a8741a; font-weight:bold" class="mb--10"> Ngày: @payment.PaymentTime</h4>
+                   
+                        <div class="payment-group m-2">
+                            <div class="">
+                                <span>Phương thức thanh toán: </span>
+                                <label class="payment-label" for="cash">@payment.PaymentMethod</label>
+                            </div>
+                            <div class="payment-info">
+                            <p>Số tiền: @(payment.PaymentAmount.ToString("N0")+"₫")</p>
+
+                                <p>
+                                    Trạng thái thanh toán:
+                                    @if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                                    {
+                                        <span style="color:green">Thành công</span>
+                                    }
+                                    else if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString()))
+                                    {
+                                        <span style="color:#a8741a;">
+                                            Đang chờ
+                                        </span>
+                                    }
+                                    else if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
+                                    {
+                                        <span style="color:red">Thất bại</span>
+                                    }
+
+                                </p>
+                            
+                            </div>
+                        </div>
+
+
+                }
+                <div class="payment-btn-group text-center mt--20">
+                    <a href="/Order/ViewAll?CustomerId=@Model.CustomerVm.CustomerId" class="btn" id="backTo" style="background-color:#a8741a">Xem tất cả đơn hàng</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#back_btn").click(function () {
+                window.history.back();
+            });
+        });
+    </script>
+
+}

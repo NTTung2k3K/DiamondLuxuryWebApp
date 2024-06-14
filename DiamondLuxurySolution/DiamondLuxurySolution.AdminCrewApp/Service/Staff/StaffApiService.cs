@@ -32,9 +32,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Staff
             return data;
         }
 
-        public async Task<ApiResult<string>> ForgotpasswordStaffSendCode(string Username)
+        public async Task<ApiResult<string>> ForgotpasswordStaffSendCode(string Username)   
         {
-            var data = await PostAsync<string>("api/ForgotStaffPassword/SendCode/",Username);
+            var data = await PostAsync<string>("api/ForgotStaffPassword/SendCode",Username);
             return data;
         }
 

@@ -15,6 +15,8 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
         public Task<ApiResult<bool>> Register(RegisterCustomerAccountRequest request);
         public Task<ApiResult<bool>> UpdateCustomerAccount(UpdateCustomerRequest request);
         public Task<ApiResult<CustomerVm>> GetCustomerById(Guid CustomerId);
+        public Task<ApiResult<CustomerVm>> GetCustomerByEmail(string Email);
+
         public Task<ApiResult<bool>> DeleteCustomer(Guid CustomerId);
         public Task<ApiResult<List<int>>> CountAllCustomerInYear();
 

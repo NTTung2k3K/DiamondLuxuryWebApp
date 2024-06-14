@@ -1,4 +1,5 @@
-﻿using DiamondLuxurySolution.Application.Repository.Discount;
+﻿using Azure.Core;
+using DiamondLuxurySolution.Application.Repository.Discount;
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.Utilities.Constants;
@@ -69,11 +70,11 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             {
                 return new ApiErrorResult<bool>("Thanh toán bị dư " + Math.Abs(order.RemainAmount));
             }
-            if (order.RemainAmount == 0)
+            if (order.RemainAmount == 0 && request.TransactionStatus.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success))
             {
                 order.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString();
             }
-            
+
             var paymentDetail = new OrdersPayment()
             {
                 OrdersPaymentId = Guid.NewGuid(),
@@ -116,7 +117,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     return new ApiErrorResult<bool>("Sản phẩm bị trùng, vui lòng chọn lại");
                 }
             }
-            if(request.ListOrderProduct.Count <= 0)
+            if (request.ListOrderProduct.Count <= 0)
             {
                 return new ApiErrorResult<bool>("Đơn hàng cần có sản phẩm, vui lòng chọn sản phẩm");
 
@@ -200,6 +201,12 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                             }
                         }
                     }
+                    var promotion = await _context.Promotions.FindAsync(request.PromotionId);
+                    if (promotion != null && promotion.StartDate.Date <= DateTime.Now.Date && DateTime.Now.Date <= promotion.EndDate.Date)
+                    {
+                        order.PromotionId = promotion.PromotionId;
+                    }
+
                     order.TotalSale = totalPrice - total;
 
                     if (request.Deposit != null && request.Deposit > 0)
@@ -292,7 +299,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
 
             return total;
         }
-        private async Task<decimal> CalculateTotalPriceByStaff(CreateOrderByStaffRequest request, decimal totalPrice,Guid cusId)
+        private async Task<decimal> CalculateTotalPriceByStaff(CreateOrderByStaffRequest request, decimal totalPrice, Guid cusId)
         {
             decimal total = totalPrice;
             if (request.PromotionId != null)
@@ -414,7 +421,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             {
                 orderId = GenerateOrderId(rd);
             }
-            
+
             using (var transaction = await _context.Database.BeginTransactionAsync())
             {
                 try
@@ -523,7 +530,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         _context.OrderDetails.Add(orderDetail);
                     }
 
-                    decimal total = await CalculateTotalPriceByStaff(request, totalPrice,cusId);
+                    decimal total = await CalculateTotalPriceByStaff(request, totalPrice, cusId);
                     order.TotalAmout = total;
 
                     var userCheckPoint = await _userMananger.FindByIdAsync(cusId.ToString());
@@ -539,6 +546,11 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                                 break;
                             }
                         }
+                    }
+                    var promotion = await _context.Promotions.FindAsync(request.PromotionId);
+                    if (promotion != null && promotion.StartDate.Date <= DateTime.Now.Date && DateTime.Now.Date <= promotion.EndDate.Date)
+                    {
+                        order.PromotionId = promotion.PromotionId;
                     }
                     order.TotalSale = totalPrice - total;
 
@@ -570,7 +582,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                             OrderId = orderId,
                             Message = $"Thanh toán bằng phương thức {payment.PaymentMethod}",
                             PaymentTime = DateTime.Now,
-                            Status = orderPaymentStatusSuccess==true? DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString(): request.TransactionStatus.ToString(),
+                            Status = orderPaymentStatusSuccess == true ? DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString() : request.TransactionStatus.ToString(),
                             OrdersPaymentId = Guid.NewGuid(),
                             PaymentId = paymentId,
                             PaymentAmount = (decimal)order.RemainAmount > 0 ? (decimal)request.Deposit : total
@@ -632,7 +644,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             var order = _context.Orders.Include(x => x.Customer)
                                               .Include(x => x.Discount).Include(x => x.Promotion)
                                               .Include(x => x.OrdersPayment).ThenInclude(x => x.Payment)
-                                              .Include(x => x.Shipper)
+                                              .Include(x => x.Shipper).Include(x => x.Promotion)
                                               .Include(x => x.OrderDetails).ThenInclude(x => x.Warranty)
                                               .FirstOrDefault(x => x.OrderId == OrderId);
 
@@ -668,6 +680,23 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     Email = order.Customer.Email,
                     PhoneNumber = order.Customer.PhoneNumber,
                     Status = order.Customer.Status
+                };
+            }
+            if (order.Promotion != null)
+            {
+                orderVms.PromotionVm = new PromotionVm()
+                {
+                    PromotionName = order.Promotion.PromotionName,
+                    BannerImage = order.Promotion.BannerImage,
+                    Description = order.Promotion.Description,
+                    DiscountPercent = order.Promotion.DiscountPercent,
+                    EndDate = order.Promotion.EndDate,
+                    MaxDiscount = order.Promotion.MaxDiscount,
+                    PromotionId = order.Promotion.PromotionId,
+                    PromotionImage = order.Promotion.PromotionImage,
+                    StartDate = order.Promotion.StartDate,
+                    Status = order.Promotion.Status,
+
                 };
             }
             if (order.Shipper != null)
@@ -752,7 +781,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     PaymentAmount = op.PaymentAmount,
                     Message = op.Message,
                     OrderPaymentId = op.OrdersPaymentId
-                    
+
                 }).ToList();
             }
             if (order.OrderDetails != null)
@@ -810,7 +839,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             {
                 errorList.Add("Vui lòng nhập số điện thoại người nhận hàng");
             }
-           
+
             if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Lỗi thông tin", errorList);
@@ -957,7 +986,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         UnitPrice = product.SellingPrice,
                         TotalPrice = orderDetail.Quantity * product.SellingPrice,
                         WarrantyId = warranty.WarrantyId,
-                        
+
                     };
                     await _context.Warrantys.AddAsync(warranty);
                     await _context.OrderDetails.AddAsync(orderDetailEntity);
@@ -1011,14 +1040,23 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             {
                 order.RemainAmount = 0;
             }
-            if(request.StatusOrderPayment != null && request.StatusOrderPayment.Count> 0) 
+            var checkSuccess = true;
+            var checkMoney = (decimal)order.TotalAmout;
+            if (request.StatusOrderPayment != null && request.StatusOrderPayment.Count > 0)
             {
                 foreach (var item in request.StatusOrderPayment)
                 {
-                    var orderPayment =  await _context.OrdersPayments.FindAsync(item.OrderPaymentId);
-                    if (orderPayment != null) 
+                    var orderPayment = await _context.OrdersPayments.FindAsync(item.OrderPaymentId);
+                    if (orderPayment != null)
                     {
                         orderPayment.Status = item.Status.ToString();
+                    }
+                    if (item.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString())){
+                        checkMoney -= orderPayment.PaymentAmount;
+                    }
+                    if (!item.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                    {
+                        checkSuccess = false;
                     }
                 }
             }
@@ -1036,6 +1074,13 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 order.isShip = true;
                 order.ShipperId = await AssignShipper();
             }
+           
+            if(checkMoney==0 &&  checkSuccess!= false)
+            {
+                order.RemainAmount = 0;
+                order.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString();
+            }
+            
             await _context.SaveChangesAsync();
 
             return new ApiSuccessResult<bool>(true, "Success");
@@ -1071,7 +1116,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             var listOrder = await _context.Orders.Include(x => x.Customer)
                                               .Include(x => x.Discount).Include(x => x.Promotion)
                                               .Include(x => x.OrdersPayment).ThenInclude(x => x.Payment)
-                                              .Include(x => x.Shipper)
+                                              .Include(x => x.Shipper).Include(x => x.Promotion)
                                               .Include(x => x.OrderDetails).ThenInclude(x => x.Warranty).ToListAsync();
 
             if (request.Keyword != null)
@@ -1102,7 +1147,25 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     Status = order.Status,
                     TotalAmount = order.TotalAmout,
                     RemainAmount = order.RemainAmount,
+                    DateCreated = order.OrderDate,
+                    Datemodified = order.Datemodified
                 };
+                if (order.Promotion != null)
+                {
+                    orderVms.PromotionVm = new PromotionVm()
+                    {
+                        PromotionName = order.Promotion.PromotionName,
+                        BannerImage = order.Promotion.BannerImage,
+                        Description = order.Promotion.Description,
+                        DiscountPercent = order.Promotion.DiscountPercent,
+                        EndDate = order.Promotion.EndDate,
+                        MaxDiscount = order.Promotion.MaxDiscount,
+                        PromotionId = order.Promotion.PromotionId,
+                        PromotionImage = order.Promotion.PromotionImage,
+                        StartDate = order.Promotion.StartDate,
+                        Status = order.Promotion.Status,
+                    };
+                }
                 if (order.Customer != null)
                 {
                     orderVms.CustomerVm = new ViewModel.Models.User.Customer.CustomerVm()
@@ -1197,7 +1260,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
         public async Task<ApiResult<decimal>> TotalIncome()
         {
             var totalOrder = (decimal)_context.OrdersPayments.Where(x => x.Status == DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()).Sum(x => x.PaymentAmount);
-            return  new ApiSuccessResult<decimal>(totalOrder,"Success");
+            return new ApiSuccessResult<decimal>(totalOrder, "Success");
         }
 
         public async Task<ApiResult<int>> TotalOrder()
@@ -1208,7 +1271,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
 
         public async Task<ApiResult<int>> AllOrderToday()
         {
-            var totalOrder = _context.Orders.Where(x=> x.OrderDate.Date==DateTime.Now.Date).Count();
+            var totalOrder = _context.Orders.Where(x => x.OrderDate.Date == DateTime.Now.Date).Count();
             return new ApiSuccessResult<int>(totalOrder, "Success");
         }
 
@@ -1261,7 +1324,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 listOrderVm.Add(orderVms);
             }
 
-           
+
             return new ApiSuccessResult<List<OrderVm>>(listOrderVm, "Success");
         }
 
@@ -1440,10 +1503,164 @@ namespace DiamondLuxurySolution.Application.Repository.Order
 
         public async Task<ApiResult<decimal>> IncomeToday()
         {
-            var orders =  _context.OrdersPayments.Where(x => x.Status == 
-                                DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString() 
+            var orders = _context.OrdersPayments.Where(x => x.Status ==
+                                DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()
                                 && x.PaymentTime.Date.Equals(DateTime.Today.Date)).Sum(x => x.PaymentAmount);
             return new ApiSuccessResult<decimal>(orders, "Success");
+
+
+        }
+
+        public async Task<ApiResult<PageResult<OrderVm>>> GetListOrderOfCustomer(ViewOrderRequest request)
+        {
+            var user = await _userMananger.FindByIdAsync(request.CustomerId.ToString());
+            if (user == null)
+            {
+                return new ApiErrorResult<PageResult<OrderVm>>("Khách hàng không tồn tại");
+            }
+
+            var listOrder = await _context.Orders.Include(x => x.Customer)
+                                              .Include(x => x.Discount).Include(x => x.Promotion)
+                                              .Include(x => x.OrdersPayment).ThenInclude(x => x.Payment)
+                                              .Include(x => x.Shipper).Include(x => x.Promotion)
+                                              .Include(x => x.OrderDetails).ThenInclude(x => x.Warranty)
+                                              .Where(x => x.CustomerId == user.Id).ToListAsync();
+
+            if (listOrder == null)
+            {
+                return new ApiSuccessResult<PageResult<OrderVm>>(null, "Không tìm thấy đơn hàng");
+            }
+            listOrder = listOrder.OrderByDescending(x => x.OrderDate).ToList();
+
+            int pageIndex = request.pageIndex ?? 1;
+
+            var listPaging = listOrder.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
+
+            List<OrderVm> listOrderVm = new List<OrderVm>();
+            foreach (var order in listPaging)
+            {
+
+                var orderVms = new OrderVm()
+                {
+                    OrderId = order.OrderId,
+                    ShipAdress = order.ShipAdress,
+                    ShipEmail = order.ShipEmail,
+                    ShipPhoneNumber = order.ShipPhoneNumber,
+                    ShipName = order.ShipName,
+                    Status = order.Status,
+                    TotalAmount = order.TotalAmout,
+                    RemainAmount = order.RemainAmount,
+                    DateCreated = order.OrderDate,
+                    Datemodified = order.Datemodified
+                };
+                if (order.Customer != null)
+                {
+                    orderVms.CustomerVm = new ViewModel.Models.User.Customer.CustomerVm()
+                    {
+                        CustomerId = order.Customer.Id,
+                        FullName = order.Customer.Fullname,
+                        Email = order.Customer.Email,
+                        PhoneNumber = order.Customer.PhoneNumber,
+                        Status = order.Customer.Status
+                    };
+                }
+                if (order.Shipper != null)
+                {
+                    orderVms.ShiperVm = new ViewModel.Models.User.Staff.StaffVm()
+                    {
+                        StaffId = order.Customer.Id,
+                        FullName = order.Customer.Fullname,
+                        Email = order.Customer.Email,
+                        PhoneNumber = order.Customer.PhoneNumber,
+                        Status = order.Customer.Status
+                    };
+                }
+                if (order.Discount != null)
+                {
+                    orderVms.DiscountVm = new ViewModel.Models.Discount.DiscountVm()
+                    {
+                        DiscountId = order.Discount.DiscountId,
+                        Description = order.Discount.Description,
+                        DiscountName = order.Discount.DiscountName,
+                        PercentSale = order.Discount.PercentSale,
+                        Status = order.Discount.Status
+                    };
+                }
+
+
+                if (order.OrdersPayment != null)
+                {
+                    orderVms.OrdersPaymentVm = order.OrdersPayment.Select(op => new OrderPaymentSupportDTO()
+                    {
+                        PaymentId = op.PaymentId,
+                        PaymentMethod = op.Payment.PaymentMethod,
+                        PaymentTime = op.PaymentTime,
+                        Status = op.Status,
+                        PaymentAmount = op.PaymentAmount,
+                        Message = op.Message
+                    }).ToList();
+                }
+
+                if (order.Promotion != null)
+                {
+                    orderVms.PromotionVm = new PromotionVm()
+                    {
+                        PromotionName = order.Promotion.PromotionName,
+                        BannerImage = order.Promotion.BannerImage,
+                        Description = order.Promotion.Description,
+                        DiscountPercent = order.Promotion.DiscountPercent,
+                        EndDate = order.Promotion.EndDate,
+                        MaxDiscount = order.Promotion.MaxDiscount,
+                        PromotionId = order.Promotion.PromotionId,
+                        PromotionImage = order.Promotion.PromotionImage,
+                        StartDate = order.Promotion.StartDate,
+                        Status = order.Promotion.Status,
+                    };
+                }
+
+                if (order.OrderDetails != null)
+                {
+                    List<OrderProductSupportVm> listOrderSupport = new List<OrderProductSupportVm>();
+                    foreach (var orderDetail in order.OrderDetails)
+                    {
+                        var product = await _context.Products.FindAsync(orderDetail.ProductId);
+
+                        var warranty = await _context.Warrantys.FindAsync(orderDetail.WarrantyId);
+                        var warrantyVm = new WarrantyVm()
+                        {
+                            WarrantyId = warranty.WarrantyId,
+                            Description = warranty.Description,
+                            DateActive = warranty.DateActive,
+                            DateExpired = warranty.DateExpired,
+                            Status = warranty.Status,
+                            WarrantyName = warranty.WarrantyName
+                        };
+                        var orderProductSupport = new OrderProductSupportVm()
+                        {
+                            ProductId = orderDetail.ProductId,
+                            Quantity = orderDetail.Quantity,
+                            ProductName = product.ProductName,
+                            ProductThumbnail = product.ProductThumbnail,
+                            Warranty = warrantyVm,
+                            UnitPrice = orderDetail.UnitPrice,
+                        };
+                        listOrderSupport.Add(orderProductSupport);
+                    }
+
+                    orderVms.ListOrderProduct = listOrderSupport;
+                }
+                listOrderVm.Add(orderVms);
+
+            }
+
+            var listResult = new PageResult<OrderVm>()
+            {
+                Items = listOrderVm,
+                PageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE,
+                TotalRecords = listOrder.Count,
+                PageIndex = pageIndex
+            };
+            return new ApiSuccessResult<PageResult<OrderVm>>(listResult, "Success");
 
 
         }

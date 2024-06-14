@@ -174,6 +174,24 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpGet("GetFullOrderByCustomerId")]
+        public async Task<ActionResult> GetFullOrderByCustomerId([FromQuery]ViewOrderRequest request)
+        {
+            try
+            {
+
+                var status = await _order.GetListOrderOfCustomer(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
         [HttpGet("GetTotalIncome")]
         public async Task<ActionResult> GetTotalIncome()

@@ -10,5 +10,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.Order
     public class ViewOrderRequest : PagingRequestBase
     {
         public string? Keyword { get; set; }
+        public Guid? CustomerId { get; set; }
     }
 }

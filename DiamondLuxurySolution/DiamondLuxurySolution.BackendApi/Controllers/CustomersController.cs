@@ -58,6 +58,23 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpGet("GetCustomerByEmail")]
+        public async Task<ActionResult> GetCustomerByEmail([FromQuery] string Email)
+        {
+            try
+            {
+                var status = await _customer.GetCustomerByEmail(Email);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
         [HttpGet("CountAllCustomerInYear")]
         public async Task<ActionResult> CountAllCustomerInYear()
@@ -148,9 +165,9 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-        [HttpPost("ForgotCustomerPassword/SendCode/{Email}")]
-        public async Task<ActionResult> ForgotpasswordCustomerCode(string Email)
+        
+        [HttpPost("ForgotCustomerPassword/SendCode")]
+        public async Task<ActionResult> ForgotpasswordCustomerCode([FromBody] string Email)
         {
             try
             {
