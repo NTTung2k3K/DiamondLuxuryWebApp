@@ -17,9 +17,12 @@ namespace DiamondLuxurySolution.ViewModel.Models.Collection
         public string? Thumbnail { get; set; }
 
         public bool Status { get; set; }
+        public bool WantImgEmpty { get; set; }
         public string? Description { get; set; }
 
         public ICollection<DiamondLuxurySolution.ViewModel.Models.Product.ProductVm> ListProducts
             = new List<ProductVm>();
+        public virtual ICollection<string> ListProductsIdAdd { get; set; } = new List<string>();
+        public virtual ICollection<string> ListProductsIdDelete { get; set; } = new List<string>();
     }
 }

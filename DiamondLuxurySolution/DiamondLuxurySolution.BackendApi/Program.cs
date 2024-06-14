@@ -41,7 +41,6 @@ builder.Services.AddDbContext<LuxuryDiamondShopContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("LuxuryDiamondDb"));
 });
-
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
@@ -75,7 +74,12 @@ builder.Services.AddScoped<IRoleInitializer, RoleInitializer>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

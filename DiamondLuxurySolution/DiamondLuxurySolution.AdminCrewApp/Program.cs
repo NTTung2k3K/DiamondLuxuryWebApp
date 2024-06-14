@@ -9,6 +9,7 @@ using DiamondLuxurySolution.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using DiamondLuxurySolution.AdminCrewApp.Service.Payment;
 using DiamondLuxurySolution.AdminCrewApp.Service.Gem;
+using DiamondLuxurySolution.AdminCrewApp.Service.SubGem;
 using DiamondLuxurySolution.AdminCrewApp.Service.Material;
 using DiamondLuxurySolution.AdminCrewApp.Service.Slide;
 using DiamondLuxurySolution.AdminCrewApp.Service.Frame;
@@ -24,11 +25,11 @@ using DiamondLuxurySolution.AdminCrewApp.Service.Warranty;
 using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNews;
 using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNewsCategoty;
 using DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNewsCategory;
+using DiamondLuxurySolution.AdminCrewApp.Service.Collection;
 using DiamondLuxurySolution.AdminCrewApp.Service.Product;
 using DiamondLuxurySolution.AdminCrewApp.Service.Order;
 using DiamondLuxurySolution.AdminCrewApp.Service.Home;
 using DiamondLuxurySolution.AdminCrewApp.Models;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -74,6 +75,9 @@ builder.Services.AddTransient<ISlideApiService, SlideApiService>();
 builder.Services.AddTransient<IAboutApiService, AboutApiService>();
 
 builder.Services.AddTransient<ICategoryApiService, CategoryApiService>();
+builder.Services.AddTransient<ICollectionApiService, CollectionApiService>();
+builder.Services.AddTransient<IInspectionCertificateApiService, InspectionCertificateApiService>();
+builder.Services.AddTransient<ISubGemApiService, SubGemApiService>();
 
 builder.Services.AddTransient<IGemPriceListApiService, GemPriceListApiService>();
 
@@ -82,6 +86,13 @@ builder.Services.AddTransient<IWarrantyApiService, WarrantyApiService>();
 builder.Services.AddTransient<IKnowLedgeNewsApiService, KnowledgeNewsApiService>();
 
 builder.Services.AddTransient<IKnowledgeNewsCategoryApiService, KnowledgeNewsCategoryApiService>();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

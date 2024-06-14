@@ -33,7 +33,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                 foreach (var property in properties)
                 {
                     var propertyValue = property.GetValue(obj);
-
                     if (propertyValue is IFormFile formFile)
                     {
                         // Handle IFormFile
@@ -81,21 +80,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                         multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
                     }
                 }
-
                 // Post the content
                 var response = await client.PostAsync(url, multipartFormDataContent);
                 var body = await response.Content.ReadAsStringAsync();
-
                 // Log the response content for debugging
                 Console.WriteLine($"Response Status Code: {response.StatusCode}");
                 Console.WriteLine($"Response Body: {body}");
-
                 if (!response.IsSuccessStatusCode)
                 {
                     var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
                     return objectResult;
                 }
-
                 return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
             }
         }
@@ -208,8 +203,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
             var json = JsonConvert.SerializeObject(obj, new JsonSerializerSettings
             {
                 DateFormatHandling = DateFormatHandling.IsoDateFormat, // Ensure DateTime is serialized in ISO 8601 format
-                DateTimeZoneHandling = DateTimeZoneHandling.Utc // Handle DateTime in UTC format if necessary
-
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc, // Handle DateTime in UTC format if necessary
+                TypeNameHandling = TypeNameHandling.All
             });
 
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
@@ -264,8 +259,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                                 }
                             }
                         }
-                        else
- if (propertyValue is DateTime dateTime)
+                        else if (propertyValue is DateTime dateTime)
                         {
                             // Convert DateTime to string in a specific format (e.g., ISO 8601)
                             string stringContent = dateTime.ToString("o"); // "o" stands for the round-trip format, which is ISO 8601
@@ -362,27 +356,21 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
             {
                 return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
             }
-
-
         }
         protected async Task<ApiResult<TResponse>> PutAsync<TResponse>(string url, Object obj)
         {
             string json = null;
-            if (obj != null)
+            json = JsonConvert.SerializeObject(obj, new JsonSerializerSettings
             {
-                json = JsonConvert.SerializeObject(obj, new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Include, // Ensure null values are included in the serialized JSON
-                    DateFormatHandling = DateFormatHandling.IsoDateFormat, // Ensure DateTime is serialized in ISO 8601 format
-                    DateTimeZoneHandling = DateTimeZoneHandling.Utc // Handle DateTime in UTC format if necessary
-                });
-            }
+                NullValueHandling = NullValueHandling.Include, // Ensure null values are included in the serialized JSON
+                DateFormatHandling = DateFormatHandling.IsoDateFormat, // Ensure DateTime is serialized in ISO 8601 format
+                DateTimeZoneHandling = DateTimeZoneHandling.Utc // Handle DateTime in UTC format if necessary
+            });
 
             var httpContent = obj != null ? new StringContent(json, Encoding.UTF8, "application/json") : null;
             var client = _httpClientFactory.CreateClient();
             client.Timeout = TimeSpan.FromMinutes(5);
 
-            
             client.BaseAddress = new Uri(_configuration[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.BaseAddress]);
             var session = _httpContextAccessor.HttpContext.Session.GetString("token");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
@@ -466,16 +454,13 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                 // Put the content
                 var response = await client.PutAsync(url, multipartFormDataContent);
                 var body = await response.Content.ReadAsStringAsync();
-                var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
-
-                if (objectResult.IsSuccessed == false)
+                if (!response.IsSuccessStatusCode)
                 {
+                    var objectResult = JsonConvert.DeserializeObject<ApiErrorResult<TResponse>>(body);
                     return objectResult;
                 }
-                else
-                {
-                    return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
-                }
+
+                return JsonConvert.DeserializeObject<ApiSuccessResult<TResponse>>(body);
             }
         }
 

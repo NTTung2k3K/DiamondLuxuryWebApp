@@ -11,11 +11,11 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 {
     public interface IProductRepo
     {
-        public Task<ApiResult<bool>> CreateProduct(CreateProductRequest request);
+        public Task<ApiResult<List<ProductVm>>> GetAll();
+		public Task<ApiResult<bool>> CreateProduct(CreateProductRequest request);
         public Task<ApiResult<bool>> UpdateProduct(UpdateProductRequest request);
         public Task<ApiResult<bool>> DeleteProduct(DeleteProductRequest request);
         public Task<ApiResult<ProductVm>> GetProductById(string ProductId);
         public Task<ApiResult<PageResult<ProductVm>>> ViewProduct(ViewProductRequest request);
-        public Task<ApiResult<List<ProductVm>>> GetAll();
     }
 }

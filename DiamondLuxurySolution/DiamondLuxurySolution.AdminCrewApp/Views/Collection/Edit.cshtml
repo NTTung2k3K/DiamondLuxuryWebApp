@@ -1,0 +1,336 @@
+﻿@using DiamondLuxurySolution.ViewModel.Models.Product
+@model DiamondLuxurySolution.ViewModel.Models.Collection.CollectionVm
+
+@{
+    ViewData["Title"] = "Edit";
+}
+<head>
+    <!-- Thư viện jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Thư viện DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+</head>
+<div class="row">
+    <div class="col-md-6">
+        <h1>Chỉnh sửa</h1>
+    </div>
+    <div class="col-md-6">
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div id="alert-box" class="alert alert-success alert-dismissible fade show" role="alert" style="width: 500px">
+                @TempData["SuccessMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div id="alert-box" class="alert alert-danger alert-dismissible fade show" role="alert" style="width: 500px">
+                @TempData["ErrorMessage"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+    </div>
+</div>
+@if (Model != null)
+{
+    <form id="collectionForm" asp-action="Edit" asp-controller="Collection" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-md-6">
+                @if (ViewBag.Errors != null)
+                {
+                    foreach (var error in ViewBag.Errors)
+                    {
+                        <h6 class="text-danger">@error</h6>
+                    }
+                }
+                <div class="form-group m-2">
+                    <input asp-for="CollectionId" class="form-control" type="hidden" />
+                    <label asp-for="CollectionId" class="control-label">Id bộ sưu tập</label>
+                    <input asp-for="CollectionId" class="form-control" readonly />
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="CollectionName" class="control-label">Tên bộ sưu tập</label>
+                    <input asp-for="CollectionName" class="form-control" />
+                    <span asp-validation-for="CollectionName" class="text-danger"></span>
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="Description" class="control-label">Mô tả bộ sưu tập</label>
+                    <input asp-for="Description" class="form-control" />
+                </div>
+                <div class="form-group m-2">
+                    <label class="control-label m-2">Hình ảnh hiện tại</label>
+                    @if (string.IsNullOrEmpty(Model.Thumbnail) || Model.Thumbnail.Length <= 0)
+                    {
+                        <label style="color:orangered;">Không có hình ảnh</label>
+                    }
+                    else
+                    {
+                        <label>
+                            <img src="@Model.Thumbnail" style="height:100px; width:100px" />
+                        </label>
+                    }
+                </div>
+                <div class="form-group m-2">
+                    <div class="col-md-6">
+                        <label asp-for="Thumbnail" class="control-label m-2">Hình ảnh Mới</label>
+                        <input asp-for="Thumbnail" class="form-control" type="file" value="@Model.Thumbnail" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="WantImgEmpty" class="control-label mt-1">Để trống ảnh</label>
+                    <input class="form-check-input f-18" type="checkbox" asp-for="WantImgEmpty">
+                </div>
+                <div class="form-check form-switch m-4">
+                    <label asp-for="Status" class="control-label mt-1">Hiển thị</label>
+                    <input class="form-check-input f-18" type="checkbox" asp-for="Status">
+                    <input type="hidden" id="ListProductsIdDelete" name="ListProductsIdDelete" />
+                </div>
+                @* @foreach (var product in Model.ListProducts)
+            {
+            <input type="hidden" name="ListProductsIdUpdate" value="@product.ProductId" /> <!-- Tạo input ẩn cho mỗi ID sản phẩm -->
+            } *@
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <input type="submit" value="Lưu" class="btn btn-primary" />
+                    </div>
+                    <div class="col-md-6">
+                        <a class="m-6 btn btn-secondary" asp-action="Index">Về trang quản lí bộ sưu tập</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5" style="text-align: center;">
+                @{
+                    var products = ViewBag.ProductsVm as List<ProductVm>;
+                    if (Model.ListProducts.Count() > 0)
+                    {
+                        <div class="col-md-12" style="text-align:center; margin-top: 29px">
+                            <!-- [ basic-table ] start -->
+                            <div class="card">
+                                <div class="card-header" style="padding:12.8px 12px; border-bottom: 1px solid #ccc">
+                                    <h4 style="margin: 0">Danh sách sản phẩm</h4>
+                                </div>
+                                <div id="cardBodyContent" class="card-body table-border-style" style="padding: 12px">
+                                    <div class=" table-responsive datatable-container">
+                                        <table class="table table-striped" id="sort" style="width:100%">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th>
+                                                        <label>Tên sản phẩm</label>
+                                                        <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer; width:70%; display:inline"></label>
+                                                    </th>
+                                                    <th>
+                                                        Ảnh đại diện
+                                                    </th>
+                                                    <th>
+                                                        <label>Xóa</label>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    int index = 0;
+                                                }
+                                                @foreach (var product in Model.ListProducts)
+                                                {
+                                                    <tr id="row-@index" class="text-center">
+                                                        <input type="hidden" name="ListProductsId" value="@product.ProductId" />
+                                                        <td>
+                                                            @product.ProductName
+                                                        </td>
+                                                        @if (string.IsNullOrEmpty(product.ProductThumbnail))
+                                                        {
+                                                            <td>Không có hình ảnh</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td>
+                                                                <img src="@product.ProductThumbnail" style="height:100px; width:100px" />
+                                                            </td>
+                                                        }
+                                                        <td>
+                                                            <input class="form-check-input f-18"
+                                                                   type="checkbox" name="selectedIds" value="@product.ProductId"
+                                                                   onclick="saveSelectedIds('@product.ProductId')" />
+                                                        </td>
+                                                        @* <td>
+                                        <button type="button" class="btn btn-danger" onclick="deleteRow('row-@index')">Xóa</button>
+                                        </td> *@
+                                                    </tr>
+                                                    index++;
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- [ basic-table ] end -->
+                    }
+                    else
+                    {
+                        <div class="col-md-12" style="text-align:center; margin-top: 29px">
+                            <div class="card" style="border: 1px solid #ccc">
+                                <div class="card-header" style="padding:12.8px 12px; border-bottom: 1px solid #ccc">
+                                    <h4 style="margin: 0">Danh sách sản phẩm</h4>
+                                </div>
+                                <div class="card-body">
+                                    Không có sản phẩm
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                <button type="button" id="IndexUpdate" class="btn btn-primary" style="display: inline-block; width: 150px; margin-top: 33px">
+                    Thêm sản phẩm
+                </button>
+                <button id="confirmDelete" type="submit" class="btn btn-primary" style="display: inline-block; width: 150px; margin-top: 33px">
+                    Xác nhận xóa
+                </button>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+        <input id="ListProductsIdAdd" class="form-control" type="hidden" name="ListProductsIdAdd" value="" />
+    </form>
+}
+else
+{
+    <a class="m-5 btn btn-secondary" asp-action="Index">Về trang quản lí bộ sưu tập</a>
+}
+
+@section CssStyle {
+    <style>
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 0.5em 0.5em;
+            font-size: 0.8em;
+        }
+
+        .dataTables_wrapper .dataTables_info {
+            font-size: 0.8em;
+            color: #555;
+            padding-top: 0.5em;
+        }
+
+        .dataTables_wrapper .dataTables_length {
+            font-size: 0.8em;
+            color: #555;
+            padding-top: 0.5em;
+        }
+
+        .dataTables_wrapper .dataTables_paginate {
+            width: auto;
+            display: inline-block;
+        }
+
+        .dataTables_wrapper .dataTables_empty {
+        }
+    </style>
+}
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript" charset="utf8" src="~/assets/js/Test.js"></script>
+    <script>
+        setTimeout(function () {
+            var alertBox = document.getElementById('alert-box');
+            if (alertBox) {
+                // Sử dụng phương thức close() của Bootstrap để ẩn thông báo
+                var alert = new bootstrap.Alert(alertBox);
+                alert.close();
+            }
+        }, 5000);
+        $(document).ready(function () {
+            var table = $('#sort').DataTable({
+                "ordering": false,
+                "searching": false,
+                "pagingType": "full_numbers",
+                "language": {
+                    "paginate": {
+                        "next": "Next",
+                        "previous": "Previous",
+                        "First": false
+                    }
+                },
+                "pageLength": 1,
+                "lengthMenu": [[1, 5, -1], [1, 5, "All"]]
+            });
+
+            var selectedIds = [];
+            $('#IndexUpdate').click(function () {
+                debugger
+                var allProductIds = [];
+                // Lấy tất cả các hàng từ tất cả các trang
+                table.rows().every(function () {
+                    var row = $(this.node());
+                    var productId = row.find('input[name="ListProductsId"]').val();
+                    allProductIds.push(productId);
+                });
+                //$('input[name="ListProductsIdAdd"]').each(function () {
+                //    selectedIds.push($(this).val());
+                //});
+                var form = $('<form action="/Collection/SaveSelectedIdIndexProductsUpdate" method="POST"></form>');
+                var input = $('<input type="hidden" name="listIdSelected" />').val(allProductIds.join(','));
+                form.append(input);
+                $('body').append(form);
+                form.submit();
+            });
+            $('#collectionForm').on('submit', function () {
+                debugger
+                var allProductIds = [];
+                // Lấy tất cả các hàng từ tất cả các trang
+                table.rows().every(function () {
+                    var row = $(this.node());
+                    var productId = row.find('input[name="ListProductsId"]').val();
+                    allProductIds.push(productId);
+                });
+                // Gán giá trị vào input ẩn
+                $('#ListProductsIdAdd').val(allProductIds.join(','));
+            });
+        });
+
+        var selectedIdsDelete = [];
+        function saveSelectedIds(ProductId) {
+            debugger
+            var id = ProductId;
+            if ($('input[name="selectedIds"][value="' + id + '"]').is(':checked')) {
+                selectedIdsDelete.push(id);
+            } else {
+                var index = selectedIdsDelete.indexOf(id);
+                if (index !== -1) {
+                    selectedIdsDelete.splice(index, 1);
+                }
+            }
+        }
+        $('input[name="selectedIds"]').change(saveSelectedIds);
+        $('#confirmDelete').click(function () {
+            submitForm();
+        });
+        function submitForm() {
+            debugger
+            // Lưu selectedIdsDelete vào trường input ẩn
+            $('#ListProductsIdDelete').val(selectedIdsDelete);
+
+            // Gửi form
+            $('#collectionForm').submit();
+        }
+
+        /*
+         function deleteRow(rowId) {
+             var row = document.getElementById(rowId);
+             row.parentNode.removeChild(row);
+             var table = $('#sort').DataTable();
+             table.row('#' + rowId).remove().draw(false);
+             checkTableEmpty();
+         }
+        function checkTableEmpty() {
+        var table = $('#sort').DataTable();
+        if (table.data().count() === 0) {
+         // Cập nhật nội dung của thẻ card-body
+         document.getElementById('cardBodyContent').innerHTML = '<h6>Không có sản phẩm</h6>';
+        }
+        }
+        */
+    </script>
+}

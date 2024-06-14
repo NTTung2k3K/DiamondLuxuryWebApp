@@ -14,7 +14,7 @@
 }
 @if (Model != null)
 {
-   
+
     <div class="row">
         <div class="col-md-6">
             @if (ViewBag.Errors != null)
@@ -34,12 +34,12 @@
                 <div class="form-group m-2">
                     <label asp-for="InspectionCertificateName" class="control-label">Tên giấy chứng nhận</label>
                     <input asp-for="InspectionCertificateName" class="form-control" value="@Html.Encode(Model.InspectionCertificateName)" />
-                    <label asp-for="InspectionCertificateName" class="control-label"></label>
-                    <input asp-for="InspectionCertificateName" class="form-control"/>
+                    <span asp-validation-for="InspectionCertificateName" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="DateGrading" class="control-label">Ngày khởi tạo</label>
                     <input asp-for="DateGrading" class="form-control" />
+                    <span asp-validation-for="DateGrading" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">
                     <label class="control-label m-2">Logo hiện tại</label>
@@ -57,6 +57,7 @@
                 <div class="form-group m-2">
                     <label asp-for="Logo" class="control-label m-2">Logo Mới</label>
                     <input asp-for="Logo" class="form-control" type="file" />
+                    <span asp-validation-for="Logo" class="text-danger"></span>
                 </div>
                 <div class="form-check form-switch m-4">
                     <label asp-for="Status" class="control-label mt-1">Hiển thị</label>

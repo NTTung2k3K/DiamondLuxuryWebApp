@@ -1,7 +1,7 @@
 ﻿using DiamondLuxurySolution.WebApp.Service.GemPriceList;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DiamondLuxurySolution.WebApp.Repository.Components.BGKC_GemPriceList
+namespace DiamondLuxurySolution.WebApp.Repository.Components.BangGiaKimCuong.BGKC_GemPriceList
 {
     public class BGKC_GemPriceListViewComponent : ViewComponent
     {
