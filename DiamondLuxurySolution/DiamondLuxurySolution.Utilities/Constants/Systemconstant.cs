@@ -20,6 +20,9 @@ namespace DiamondLuxurySolution.Utilities.Constants
             public const string CUSTOMER_ID = "CusId";
             public const string FACEBOOK_PLATFORM = "Facebook";
             public const string GOOGLE_PLATFORM = "Google";
+            public const string DEFAULT_PLATFORM = "Default";
+            public const string PLATFORM = "Platform";
+
 
 
 

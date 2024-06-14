@@ -16,11 +16,15 @@ namespace DiamondLuxurySolution.WebApp.Controllers
             {
                 var customerName = Request.Cookies["CustomerName"];
                 var customerId = Request.Cookies["CustomerId"];
+                var platform = Request.Cookies[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM];
+
 
                 if (!string.IsNullOrEmpty(customerName) && !string.IsNullOrEmpty(customerId))
                 {
                     HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_NAME, customerName);
                     HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_ID, customerId);
+                    HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM, platform);
+
                 }
             }
             return View();

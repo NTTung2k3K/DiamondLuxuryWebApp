@@ -1,5 +1,6 @@
 ﻿using Azure.Core;
 using DiamondLuxurySolution.ViewModel.Common;
+using DiamondLuxurySolution.ViewModel.Models.Order;
 using DiamondLuxurySolution.ViewModel.Models.User.Customer;
 using DiamondLuxurySolution.WebApp.Services;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
@@ -39,6 +40,12 @@ namespace DiamondLuxurySolution.WebApp.Service.Account
         public async Task<ApiResult<CustomerVm>> GetCustomerById(Guid CustomerId)
         {
             var data = await GetAsync<CustomerVm>("api/Customers/GetCustomerById?CustomerId=" + CustomerId);
+            return data;
+        }
+
+        public async Task<ApiResult<PageResult<OrderVm>>> GetListOrderOfCustomer(ViewOrderRequest request)
+        {
+            var data = await GetAsync<PageResult<OrderVm>>("api/Orders/GetFullOrderByCustomerId?CustomerId=" + request.CustomerId+"&pageIndex="+request.pageIndex);
             return data;
         }
 

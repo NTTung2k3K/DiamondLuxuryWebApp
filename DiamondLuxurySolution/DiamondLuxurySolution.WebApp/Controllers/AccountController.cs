@@ -14,6 +14,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Firebase.Auth;
 using DiamondLuxurySolution.ViewModel.Models.User.Staff;
+using DiamondLuxurySolution.ViewModel.Models.Order;
 
 namespace DiamondLuxurySolution.WebApp.Controllers
 {
@@ -59,8 +60,10 @@ namespace DiamondLuxurySolution.WebApp.Controllers
                     };
                     Response.Cookies.Append("CustomerName", customer.ResultObj.FullName, option);
                     Response.Cookies.Append("CustomerId", customer.ResultObj.CustomerId.ToString(), option);
-                }
+                    Response.Cookies.Append(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.DEFAULT_PLATFORM);
 
+                }
+                HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.DEFAULT_PLATFORM);
                 HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_NAME, customer.ResultObj.FullName);
                 HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_ID, customer.ResultObj.CustomerId.ToString());
                 return RedirectToAction("Index", "Home");
@@ -107,7 +110,48 @@ namespace DiamondLuxurySolution.WebApp.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> ProfileAndEdit()
+        [InternalRedirect]
+        public async Task<IActionResult> Profile()
+        {
+
+
+            string userIdString = HttpContext.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_ID);
+            Guid userId;
+
+
+
+            Guid.TryParse(userIdString, out userId);
+            // Chuyển đổi thành công
+            var orderRequest = new ViewOrderRequest();
+            orderRequest.CustomerId = userId;
+            var listOrderRaw = await _accountApiService.GetListOrderOfCustomer(orderRequest);
+            var listOrder = listOrderRaw.ResultObj;
+            ViewBag.ListOrder = listOrder.Items.OrderByDescending(x => x.Datemodified).Take(8).ToList();
+
+            var staff = await _accountApiService.GetCustomerById(userId);
+            if (staff is ApiErrorResult<CustomerVm> errorResult)
+            {
+                return View(errorResult);
+            }
+            //Convert to UpdateCustomerRequest
+            var updateCustomerRequest = new UpdateCustomerRequest()
+            {
+                CustomerId = staff.ResultObj.CustomerId,
+                PhoneNumber = staff.ResultObj.PhoneNumber ?? null,
+                Address = staff.ResultObj.Address ?? null,
+                Dob = staff.ResultObj.Dob != DateTime.MinValue ? staff.ResultObj.Dob : DateTime.MinValue,
+                FullName = staff.ResultObj.FullName ?? null,
+                Email = staff.ResultObj.Email ?? null,
+            };
+
+
+
+            return View(updateCustomerRequest);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Profile(UpdateCustomerRequest request)
         {
 
             string userIdString = HttpContext.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_ID);
@@ -115,19 +159,16 @@ namespace DiamondLuxurySolution.WebApp.Controllers
 
             Guid.TryParse(userIdString, out userId);
             // Chuyển đổi thành công
-            var staff = await _accountApiService.GetCustomerById(userId);
-            if (staff is ApiErrorResult<CustomerVm> errorResult)
-            {
-                return View(errorResult);
-            }
-            return View(staff.ResultObj);
 
-        }
+            var orderRequest = new ViewOrderRequest();
+            orderRequest.CustomerId = userId;
 
-        [HttpPost]
-        public async Task<IActionResult> ProfileAndEdit(UpdateCustomerRequest request)
-        {
+            var listOrderRaw = await _accountApiService.GetListOrderOfCustomer(orderRequest);
+            var listOrder = listOrderRaw.ResultObj;
+            ViewBag.ListOrder = listOrder.Items.OrderByDescending(x => x.Datemodified).Take(8).ToList();
 
+
+            request.CustomerId = userId;
             var status = await _accountApiService.UpdateCustomerAccount(request);
 
             if (status is ApiErrorResult<bool> errorResult)
@@ -202,9 +243,12 @@ namespace DiamondLuxurySolution.WebApp.Controllers
         {
             HttpContext.Session.Remove(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_NAME);
             HttpContext.Session.Remove(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_ID);
+            HttpContext.Session.Remove(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM);
 
             Response.Cookies.Delete("CustomerName");
             Response.Cookies.Delete("CustomerId");
+            Response.Cookies.Delete(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM);
+
 
             return RedirectToAction("Index", "Home");
         }
@@ -341,6 +385,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
 
                         HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_NAME, userExist.Fullname);
                         HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_ID, userExist.Id.ToString());
+                        HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.FACEBOOK_PLATFORM);
 
                         return RedirectToAction("Index", "Home");
                     }
@@ -348,6 +393,8 @@ namespace DiamondLuxurySolution.WebApp.Controllers
                     {
                         string emailFromExternalProvider = info.Principal.FindFirst(ClaimTypes.Email)?.Value;
                         var userExist = await _userManager.FindByEmailAsync(emailFromExternalProvider);
+                        HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.GOOGLE_PLATFORM);
+
                         HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_NAME, userExist.Fullname);
                         HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_ID, userExist.Id.ToString());
 

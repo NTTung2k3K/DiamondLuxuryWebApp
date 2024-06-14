@@ -1,0 +1,249 @@
+﻿@{
+    ViewData["Title"] = "ViewAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Common
+@using DiamondLuxurySolution.ViewModel.Models.Order
+
+@model PageResult<OrderVm>
+
+<div class="header-bottom header-top-1 position-relative navigation-wrap fixed-header">
+    <div class="container position-static">
+        <div class="row">
+            <div class="col-12 position-static">
+                <nav class="main-navigation">
+                    <ul class="mainmenu col-12">
+                        <li class="mainmenu__item active">
+                            <a href="/Home/Index" class="mainmenu__link" style="color: white;">Trang Chủ</a>
+                        </li>
+                        <li class="mainmenu__item menu-item-has-children has-children">
+                            <a href="#" class="mainmenu__link">Kim Cương</a>
+                            <ul class="sub-menu">
+                                <li><a href="#">Kim Cương Tự Nhiên</a></li>
+                                <li><a href="#">Kim Cương Nhân Tạo</a></li>
+                            </ul>
+                        </li>
+                        <li class="mainmenu__item menu-item-has-children">
+                            <a href="/DiamondJewelry/Index" class="mainmenu__link">Trang Sức Kim Cương</a>
+                            <ul class="megamenu three-column">
+                                <li>
+                                    <a class="megamenu-title" href="NhanKimCuong.html">Nhẫn Kim Cương</a>
+                                    <ul>
+                                        <li>
+                                            <a href="NhanKimCuongNam.html">Nhẫn Kim Cương Nam</a>
+                                        </li>
+                                        <li>
+                                            <a href="NhanKimCuongNu.html">Nhẫn Kim Cương Nữ</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a class="megamenu-title" href="VongTayKimCuong.html">
+                                        Vòng Tay Kim
+                                        Cương
+                                    </a>
+                                    <a class="megamenu-title" href="LacTayKimCuong copy.html">
+                                        Lắc Tay Kim
+                                        Cương
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="megamenu-title" href="HoaTayKimCuong.html">
+                                        Hoa Tai Kim
+                                        Cương
+                                    </a>
+                                    <a class="megamenu-title" href="MatDayChuyenKimCuong.html">
+                                        Mặt Dây
+                                        Chuyền KC
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="mainmenu__item menu-item-has-children">
+                            <a href="trangsuccuoi.html" class="mainmenu__link">Trang Sức Cưới</a>
+                            <ul class="megamenu">
+                                <li>
+                                    <a class="megamenu-title" href="nhanCuoiKimCuong.html">
+                                        Nhẫn Cưới Kim
+                                        Cương
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="megamenu-title" href="nhanKCcauhon.html">
+                                        Nhẫn Kim Cương Cầu
+                                        Hôn
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="mainmenu__item menu-item-has-children has-children">
+                            <a href="BoSuuTap.html" class="mainmenu__link">Bộ Sưu Tập</a>
+                            <ul class="sub-menu">
+                                <li class="menu-item-has-children has-children">
+                                    <a href="BoSuuTapQuyOng.html">BST Quý Ông</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="DangCapUyQuyen.html">Đẳng Cấp & Uy Quyền</a></li>
+                                        <li><a href="SangTrongBanLinh.html">Sang Trọng Và Bản Lĩnh</a></li>
+                                        <li>
+                                            <a href="PhongThuyThanhCong.html">Phong Thủy Và Thành Công</a>
+                                        </li>
+                                        <li>
+                                            <a href="PhongCachThoiTrang.html">Phong Cách Và Thời Trang</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children has-children">
+                                    <a href="BosuuTapNhanCuoi.html">BST Nhẫn Cưới</a>
+                                </li>
+                                <li class="menu-item-has-children has-children">
+                                    <a href="BosuuTapNhanCauHon.html">BST Nhẫn Cầu Hôn</a>
+                                </li>
+                                <li class="menu-item-has-children has-children">
+                                    <a href="BosuuTapDayChuyen.html">BST Dây Chuyền</a>
+                                </li>
+                                <li class="menu-item-has-children has-children">
+                                    <a href="BosuuTapKimCuong.html">BST Kim Cương</a>
+                                </li>
+                                <li class="menu-item-has-children has-children">
+                                    <a href="BosuuTapBanChayNhat.html">BST Bán Chạy Nhất</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="mainmenu__item">
+                            <a href="/TablePrice/Index" class="mainmenu__link">Bảng Giá Kim Cương</a>
+                        </li>
+                        <li class="mainmenu__item menu-item-has-children has-children">
+                            <a class="mainmenu__link" href="#">Kiến Thức</a>
+                            <ul class="sub-menu">
+                                <li class="menu-item">
+                                    <a href="kienthuckimcuong.html">Kiến Thức Kim Cương</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="kienthuctrangsuc.html">Kiến Thức Trang Sức</a>
+                                </li>
+                                <li class="menu-item-has-children has-children">
+                                    <a href="#">Hướng Dẫn Chọn Ni</a>
+                                    <ul class="sub-menu">
+                                        <li class="menu-item-has-children">
+                                            <a href="huongdandovongtay.html">Hướng Dẫn Đo Vòng Tay</a>
+                                        </li>
+                                        <li class="menu-item-has-children">
+                                            <a href="huongdandoninhan.html">Hướng Dẫn Đo Ni Nhẫn</a>
+                                        </li>
+                                        <li class="menu-item-has-children">
+                                            <a href="huongdandodaychuyen.html">Hướng Dẫn Đo Dây Chuyền</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="mainmenu__item menu-item-has-children has-children">
+                            <a href="#" class="mainmenu__link">Thông Tin</a>
+                            <ul class="sub-menu">
+                                <li><a href="ThongTinKhuyenMai.html">Thông Tin Khuyến Mãi</a></li>
+                                <li><a href="TinTuc.html">Tin Tức</a></li>
+                                <li><a href="CauHoiThuongGap.html">Các Câu Hỏi Thường Gặp</a></li>
+                            </ul>
+                        </li>
+                        <li class="mainmenu__item">
+                            <a href="gioithieu.html" class="mainmenu__link">Giới Thiệu</a>
+                        </li>
+                        <li class="mainmenu__item">
+                            <a href="lienhe.html" class="mainmenu__link">Liên Hệ</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="row no-gutters">
+            <div class="col-12">
+                <div class="mobile-menu"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="page-title">Đơn hàng</h1>
+                <ul class="breadcrumb justify-content-center">
+                    <li><a href="/Home/Index">Trang Chủ</a></li>
+                    <li><a href="/Account/Profile">Tài khoản cá nhân</a></li>
+                    <li class="current"><a href="gioithieu.html">Đơn hàng</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt--30">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 account-table table-content table-responsive" style="overflow-x:hidden">
+
+            @if (Model != null && Model != null && Model.Items != null && Model.Items.Count > 0)
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="border:none">#</th>
+                            <th style="border:none">Mã đơn hàng</th>
+                            <th style="border:none">Ngày đặt</th>
+                            <th style="border:none">Tổng tiền</th>
+                            <th style="border:none">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var index = 0;
+                        }
+                        @foreach (var order in Model.Items)
+                        {
+                            <tr style="border:none">
+                                <td style="border:none">@(++index)</td>
+                                <td style="border:none" class="p--10 wide-column">@order.OrderId</td>
+                                <td style="border:none">@order.Datemodified</td>
+                                <td style="border:none" class="wide-column">@(order.TotalAmount.ToString("N0")+"₫")</td>
+                                <td style="border:none"><a href="/Order/ViewDetail?OrderId=@order.OrderId" class="btn btn-medium btn-style-1">Xem</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+            }
+            else
+            {
+                <!-- Main content wrapper start -->
+                <div class="main-content-wrapper">
+                    <div class="wishlist-area pt--10 pb--80 pt-md--30 pb-md--60">
+                        <div class="container">
+                            <!-- Wishlist Area Start -->
+                            <h3 style="text-align: center; border:none ">Chưa Có Sản Phẩm Nào Trong Giỏ Hàng</h3>
+                            <div style="text-align: center; margin-bottom: 40px;margin-top: 40px;">
+                                <img src="../assets/img/pic_product/empty_cart.png" alt="Empty Cart">
+                            </div>
+
+                            <a href="/Home/Index" class="btn add-to-cart btn-medium btn-style-2"
+                               style="display: block; margin: 0 auto; text-align: center; width: fit-content;">
+                                Mua sắm ngay
+                            </a>
+                            <!-- Wishlist Area End -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main content wrapper end -->
+            }
+         
+
+        </div>
+        <div class="col-md-2"></div>
+        <div class="d-flex justify-content-center align-items-center">
+            @await Component.InvokeAsync("Pager", Model)
+        </div>
+    </div>

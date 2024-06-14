@@ -27,6 +27,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
         public Task<ApiResult<List<OrderVm>>> RecentFailTransaction();
         public Task<ApiResult<List<int>>> OrderByQuarter ();
         public Task<ApiResult<decimal>> IncomeToday();
+        public Task<ApiResult<PageResult<OrderVm>>> GetListOrderOfCustomer(ViewOrderRequest request);
 
 
         public Task<ApiResult<bool>> UpdateInfoOrder(UpdateOrderRequest request);

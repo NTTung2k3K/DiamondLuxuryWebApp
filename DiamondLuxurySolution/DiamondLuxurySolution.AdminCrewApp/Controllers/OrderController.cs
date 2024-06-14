@@ -66,14 +66,13 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
-                var status = await _OrderApiService.GetOrderById(OrderId);
                 var Order = await _OrderApiService.GetOrderById(OrderId);
                 ViewBag.PaymentList = Order.ResultObj.OrdersPaymentVm;
 
-                if (status is ApiErrorResult<OrderVm> errorResult)
+                if (Order is ApiErrorResult<OrderVm> errorResult)
                 {
                     List<string> listError = new List<string>();
-                    if (status.Message != null)
+                    if (Order.Message != null)
                     {
                         listError.Add(errorResult.Message);
                     }
@@ -88,7 +87,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     return View();
 
                 }
-                return View(status.ResultObj);
+                return View(Order.ResultObj);
             }
             catch
             {

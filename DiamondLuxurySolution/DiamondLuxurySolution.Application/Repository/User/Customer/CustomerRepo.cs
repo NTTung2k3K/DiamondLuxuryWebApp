@@ -419,33 +419,80 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
             {
                 return new ApiErrorResult<bool>("Khách hàng không tồn tại");
             }
-            if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.IsValidEmail(request.Email.Trim()))
+            
+            if (!string.IsNullOrEmpty(request.PhoneNumber))
             {
-                errorList.Add("Email không hợp lệ");
+                if (DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ContainsLetters(request.PhoneNumber.Trim()))
+                {
+                    errorList.Add("Số điện thoại không hợp lệ");
+                }
             }
-            if (DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ContainsLetters(request.PhoneNumber.Trim()))
+            if (!string.IsNullOrEmpty(request.PhoneNumber))
             {
-                errorList.Add("Số điện thoại không hợp lệ");
+                if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ValidPhoneNumber(request.PhoneNumber.Trim()))
+                {
+                    errorList.Add("Số điện thoại không hợp lệ");
+                }
             }
-            if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ValidPhoneNumber(request.PhoneNumber.Trim()))
-            {
-                errorList.Add("Số điện thoại không hợp lệ");
-            }
+            
             if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
-            user.PhoneNumber = request.PhoneNumber.Trim();
-            user.Fullname = request.FullName.Trim();
-            user.Dob = request.Dob;
-            user.Email = request.Email.Trim();
-            user.Status = request.Status.Trim();
+            if (!string.IsNullOrWhiteSpace(request.PhoneNumber))
+            {
+                user.PhoneNumber = request.PhoneNumber.Trim();
+            }
+            if (request.Dob != DateTime.MinValue)
+            {
+                user.Dob = request.Dob;
+            }
+            if (!string.IsNullOrWhiteSpace(request.Address))
+            {
+                user.Address = request.Address.Trim();
+            }
 
             var statusUser = await _userManager.UpdateAsync(user);
             if (!statusUser.Succeeded)
             {
                 return new ApiErrorResult<bool>("Lỗi hệ thống, cập nhật thông tin thất bại vui lòng thử lại");
             }
+            // Update Password
+            if (!string.IsNullOrEmpty(request.OldPassword) && !string.IsNullOrEmpty(request.NewPassword) && !string.IsNullOrEmpty(request.ConfirmPassword))
+            {
+                var comfirmPassword = await _userManager.CheckPasswordAsync(user, request.OldPassword);
+                if (comfirmPassword == false)
+                {
+                    return new ApiErrorResult<bool>("Sai mật khẩu hiện tại");
+                }
+                var changePasswordResult = await _userManager.ChangePasswordAsync(user, request.OldPassword, request.NewPassword);
+
+                if (!changePasswordResult.Succeeded)
+                {
+                    var errorApi = new ApiErrorResult<bool>("Lỗi thông tin");
+                    errorApi.ValidationErrors = new List<string>();
+                    foreach (var item in changePasswordResult.Errors)
+                    {
+                        errorApi.ValidationErrors.Add(item.Description);
+                    }
+                    return errorApi;
+                }
+                user.LastChangePasswordTime = DateTime.Now;
+
+                var statusUserChangePassword = await _userManager.UpdateAsync(user);
+                if (!statusUserChangePassword.Succeeded)
+                {
+                    return new ApiErrorResult<bool>("Lỗi hệ thống, thay đổi mật khẩu thất bại vui lòng thử lại");
+                }
+                return new ApiSuccessResult<bool>("Cập nhật mật khẩu thành công");
+            }
+
+
+
+
+
+
+
             return new ApiSuccessResult<bool>("Cập nhật thông tin thành công");
 
         }

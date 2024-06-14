@@ -3,6 +3,7 @@ using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.WebApp.Service.Account;
 using DiamondLuxurySolution.WebApp.Service.GemPriceList;
+using DiamondLuxurySolution.WebApp.Service.Order;
 using DiamondLuxurySolution.WebApp.Service.Slide;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Identity;
@@ -21,6 +22,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IAccountApiService, AccountApiService>();
+builder.Services.AddTransient<IOrderApiService, OrderApiService>();
 
 builder.Services.AddTransient<ISlideApiService, SlideApiService>();
 builder.Services.AddTransient<IGemPriceListApiService, GemPriceListApiService>();
