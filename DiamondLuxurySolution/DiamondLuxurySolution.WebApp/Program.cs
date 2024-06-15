@@ -1,11 +1,11 @@
-<<<<<<< HEAD
+
 using DiamondLuxurySolution.WebApp.Service.Contact;
-=======
+
 using DiamondLuxurySolution.Application.Repository.User;
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.WebApp.Service.Account;
->>>>>>> 56a838ef1a88137fdb5fb14a09bb76f46ccd8a57
+
 using DiamondLuxurySolution.WebApp.Service.GemPriceList;
 using DiamondLuxurySolution.WebApp.Service.Order;
 using DiamondLuxurySolution.WebApp.Service.Product;
@@ -31,11 +31,11 @@ builder.Services.AddTransient<IOrderApiService, OrderApiService>();
 
 builder.Services.AddTransient<ISlideApiService, SlideApiService>();
 builder.Services.AddTransient<IGemPriceListApiService, GemPriceListApiService>();
-<<<<<<< HEAD
+
 builder.Services.AddTransient<IContactApiService, ContactApiService>();
-=======
+
 builder.Services.AddTransient<IProductApiService, ProductApiService>();
->>>>>>> 56a838ef1a88137fdb5fb14a09bb76f46ccd8a57
+
 
 
 builder.Services.AddIdentity<AppUser, AppRole>()
