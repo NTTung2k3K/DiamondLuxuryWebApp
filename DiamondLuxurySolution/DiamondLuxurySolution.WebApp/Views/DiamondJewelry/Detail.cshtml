@@ -6,6 +6,10 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@{
+	var sizes = Enumerable.Range(4, 29).ToList(); // Tạo danh sách các kích thước từ 4 đến 32
+}
+
 <div class="header-bottom header-top-1 position-relative navigation-wrap fixed-header">
 	<div class="container position-static">
 		<div class="row">
@@ -296,11 +300,82 @@
 										</div>
 									}
 								</div>
-								<a href="huongdandovongtay.html">
-									<p class="product-details-availability" style="margin-bottom: 15px;">
-										<i class="fa fa-check-circle"></i> Hướng Dẫn Chọn Ni
-									</p>
-								</a>
+								<style>
+									.dropdown {
+										position: relative;
+										display: inline-block;
+									}
+
+									.dropdown-content {
+										display: none;
+										position: absolute;
+										background-color: #f9f9f9;
+										min-width: 200px; /* Độ rộng tối thiểu của khung */
+										box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+										z-index: 1;
+									}
+
+										.dropdown-content table {
+											width: 100%;
+											border-collapse: collapse;
+											font-size: 12px; /* Nhỏ chữ */
+											table-layout: fixed; /* Cố định độ rộng của bảng */
+										}
+
+											.dropdown-content table td {
+												padding: 8px;
+												cursor: pointer;
+												text-align: center;
+												border: 1px solid #ddd;
+												color: black; /* Chỉnh màu số thành màu đen */
+											}
+
+												.dropdown-content table td:hover {
+													background-color: #f1f1f1;
+												}
+
+									.dropdown:hover .dropdown-content {
+										display: block;
+									}
+
+									.dropdown-toggle {
+										min-width: 100px; /* Độ rộng tối thiểu của nút */
+										text-align: center;
+										font-size: 15px;
+										padding: 10px;
+										margin-right: 20px;
+									}
+								</style>
+								<div style="display: flex;">
+									<div class="dropdown">
+										<button id="dropdown-toggle" class="dropdown-toggle">Ni (size)</button>
+										<div class="dropdown-content">
+											<input type="hidden" id="niSize" name="properties[nisize]" value="">
+											<table>
+												<tbody>
+													@for (int i = 0; i < sizes.Count; i += 5)
+													{
+														<tr>
+															@for (int j = 0; j < 5; j++)
+															{
+																if (i + j < sizes.Count)
+																{
+																	<td onclick="selectSize('@sizes[i + j]')">@sizes[i + j]</td>
+																}
+															}
+														</tr>
+													}
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<a href="huongdandovongtay.html">
+										<p class="product-details-availability" style="margin-bottom: 15px; margin-bottom: 20px; margin-top: 6px;">
+											<i class="fa fa-check-circle"></i> Hướng Dẫn Chọn Ni
+										</p>
+									</a>
+								</div>
+								
 								<div class="product-details-action-wrapper mb--20">
 									<div class="product-details-action-top d-flex align-items-center mb--20">
 										<div class="quantity-controls">
@@ -519,3 +594,9 @@
 	</div>
 </div>
 <!-- Main Content Wrapper End -->
+<script>
+	function selectSize(size) {
+		document.getElementById('dropdown-toggle').innerText = size;
+		document.getElementById('niSize').value = size;
+	}
+</script>
