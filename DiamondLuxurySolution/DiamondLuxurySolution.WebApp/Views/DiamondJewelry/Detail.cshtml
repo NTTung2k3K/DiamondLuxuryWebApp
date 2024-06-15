@@ -365,34 +365,36 @@
 										}
 									</tr>
 									<tr>
-										<th>Loại đá tấm</th>
-										@if (@Model.ListSubGems != null && @Model.ListSubGems.Count() > 0)
-										{
-											@foreach (var subGem in @Model.ListSubGems)
+										<th>Loại kim cương phụ</th>
+										<td>
+											@if (@Model.ListSubGems != null && @Model.ListSubGems.Count() > 0)
 											{
-												<td>@subGem.SubGemName</td>
+												@foreach (var subGem in @Model.ListSubGems)
+												{
+													<span>@subGem.SubGemName | </span>
+												}
 											}
-										}
-										else
-										{
-											<td>Không có</td>
-										}
-										
+											else
+											{
+												<p>Không có</p>
+											}
+										</td>																				
 									</tr>
 									<tr>
-										<th>Số lượng đá tấm</th>
-										
-										@if (@Model.ListSubGems != null && @Model.ListSubGems.Count() > 0)
-										{
-											@foreach (var subGem in @Model.ListSubGems)
+										<th>Số lượng kim cương phụ</th>										
+										<td>
+											@if (@Model.ListSubGems != null && @Model.ListSubGems.Count() > 0)
 											{
-												<td>@subGem.Quantity</td>
+												@foreach (var subGem in @Model.ListSubGems)
+												{
+													<span>@subGem.Quantity | </span>
+												}
 											}
-										}
-										else
-										{
-											<td>Không có</td>
-										}
+											else
+											{
+												<p>Không có</p>
+											}
+										</td>
 									</tr>
 									<tr>
 										<th>Màu đá</th>
@@ -417,10 +419,11 @@
 								 aria-labelledby="nav-details-tab">
 								<div class="product-details-additional-info">
 									<h4>
-										Lắc tay vòng tay kim cương nữ vàng trắng 18K VT 0159 có phần trung tâm
+										@Model.ProductName @Model.CategoryVm.CategoryType @Model.MaterialVm.MaterialName @Model.ProductId  
+										có phần trung tâm
 										là một cụm hình hoa được tạo ra từ các viên kim cương nhỏ li ti, tạo
-										điểm nhấn lấp lánh cho tay người đeo. Phần dây đeo được làm từ vàng
-										trắng cao cấp, gia công tỉ mĩ với các đường cắt độc đáo.
+										điểm nhấn lấp lánh cho người đeo. Phần dây đeo được làm từ @Model.MaterialVm.MaterialName
+										cao cấp, gia công tỉ mĩ với các đường cắt độc đáo.
 										Mẫu giấy chứng nhận GIA tại Diamond Luxury
 									</h4>
 									<div class="table-content table-responsive" style="text-align: center;">
@@ -428,10 +431,10 @@
 											 src="../assets/img/Banggiakimcuong/bang-gia-kim-cuong-xac-nhan-GIA.jpg">
 									</div>
 									<h4>
-										Chiếc vòng tay vừa thể hiện sự sang trọng và tinh tế trong từng chi
+										Chiếc @Model.CategoryVm.CategoryName vừa thể hiện sự sang trọng và tinh tế trong từng chi
 										tiết, vừa làm nổi bật phong cách cá nhân của người đeo trong bất kỳ dịp
-										đặc biệt nào. Để sở hữu chiếc lắc tay mã VT 0159 và tham khảo thêm nhiều
-										mẫu vòng tay kim cương khác, quý khách hãy liên hệ ngay Cao Hùng
+										đặc biệt nào. Để sở hữu chiếc @Model.CategoryVm.CategoryName mã @Model.ProductId và tham khảo thêm nhiều
+										mẫu @Model.CategoryVm.CategoryName kim cương khác, quý khách hãy liên hệ ngay Luxury
 										Diamond.
 									</h4>
 								</div>
