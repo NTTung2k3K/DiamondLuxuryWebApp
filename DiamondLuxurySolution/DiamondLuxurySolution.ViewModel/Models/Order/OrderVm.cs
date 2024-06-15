@@ -28,15 +28,26 @@ namespace DiamondLuxurySolution.ViewModel.Models.Order
         public string ShipAdress { get; set; }
 
         public string? Status { get; set; }
+        public bool? IsShip { get; set; }
+
         public decimal RemainAmount { get; set; }
         public decimal TotalAmount { get; set; }
+        public decimal? TotalSale { get; set; }
 
+        public decimal? Deposit { get; set; }
+        public DateTime? DateCreated { get; set; }
+        public DateTime? Datemodified { get; set; }
+
+
+        public string? Description { get; set; }
         public CustomerVm CustomerVm { get; set; }
         public StaffVm ShiperVm { get; set; }
+        public StaffVm StaffVm { get; set; }
+
 
         public virtual ICollection<OrderProductSupportVm> ListOrderProduct { get; set; } = new List<OrderProductSupportVm>();
 
-        public List<CampaignDetailSupportDTO> ListPromotionVm { get; set; }
+        public PromotionVm PromotionVm { get; set; }
         public List<OrderPaymentSupportDTO> OrdersPaymentVm { get; set; }
     }
 }

@@ -1681,7 +1681,8 @@
       "DiamondLuxurySolution.ViewModel/1.0.0": {
         "dependencies": {
           "DiamondLuxurySolution.Data": "1.0.0",
-          "Microsoft.AspNetCore.Http": "2.1.34"
+          "Microsoft.AspNetCore.Http": "2.1.34",
+          "Microsoft.AspNetCore.Identity": "2.1.39"
         },
         "runtime": {
           "DiamondLuxurySolution.ViewModel.dll": {}

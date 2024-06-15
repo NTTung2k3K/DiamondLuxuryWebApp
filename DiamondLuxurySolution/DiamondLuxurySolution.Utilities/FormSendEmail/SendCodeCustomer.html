@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quên Mật Khẩu</title>
+    <style>
+        body {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .email-container {
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .email-content {
+            background-color: #ffffff;
+            border: 1px solid #dedede;
+            border-radius: 3px;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .email-header {
+            background-color: #ffffff;
+            color: #000000;
+            padding: 36px 48px;
+            border-radius: 3px 3px 0 0;
+            text-align: center;
+        }
+
+            .email-header h1 {
+                font-size: 30px;
+                font-weight: 300;
+                margin: 0;
+            }
+
+        .email-logo {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+            .email-logo img {
+                width: 230px;
+                height: 230px;
+            }
+
+        .email-body {
+            padding: 48px;
+            padding-top: 0;
+            text-align: center;
+        }
+
+            .email-body h2 {
+                color: #000000;
+                font-size: 18px;
+                font-weight: bold;
+                margin: 0 0 18px;
+            }
+
+            .email-body p {
+                color: #000000;
+                font-size: 14px;
+                line-height: 150%;
+                margin: 0 0 16px;
+            }
+
+        .code {
+            font-size: 24px;
+            font-weight: bold;
+            color: #000000;
+            margin: 20px 0;
+        }
+
+        .form-group {
+            margin-top: 20px;
+        }
+
+            .form-group p {
+                margin-top: 20px;
+            }
+
+            .form-group a {
+                color: #007bff;
+                text-decoration: none;
+            }
+
+                .form-group a:hover {
+                    text-decoration: underline;
+                }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-content">
+            <div class="email-header">
+                <h1 style="font-weight:bold;">DIAMOND LUXURY</h1>
+            </div>
+            <div class="email-logo">
+                <img src="https://firebasestorage.googleapis.com/v0/b/diamondluxuryproject.appspot.com/o/Logo%2FLOGO.png?alt=media&token=b65b5609-5d08-408a-848f-c5b05be38b11" alt="Logo">
+            </div>
+            <div class="email-body">
+                <h1 style="color:#a8741a">Quên mật khẩu</h2>
+                <p>Vui lòng sử dụng mã xác thực dưới đây để thay đổi mật khẩu của bạn</p>
+                <div class="code">{{VerifyCode}}</div>
+                <div class="form-group">
+                    <p>Không chia sẻ mã code này với bất kỳ ai.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

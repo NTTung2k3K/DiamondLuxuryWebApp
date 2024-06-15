@@ -1,4 +1,5 @@
-﻿@model DiamondLuxurySolution.ViewModel.Models.Category.CategoryVm
+﻿@using DiamondLuxurySolution.ViewModel.Models.User.Staff
+@model DiamondLuxurySolution.ViewModel.Models.Category.CategoryVm
 
 @{
     ViewData["Title"] = "Detail";
@@ -10,7 +11,7 @@
 {
     foreach (var error in ViewBag.Errors)
     {
-                <h6 class="text-danger">@error</h6>
+        <h6 class="text-danger">@error</h6>
     }
 }
 @if (Model != null)
@@ -26,13 +27,13 @@
                 @Html.DisplayFor(model => model.CategoryId)
             </dd>
             <dt class="col-sm-2">
-                Tên danh mục 
+                Tên danh mục
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.CategoryName)
             </dd>
             <dt class="col-sm-2">
-                Loại danh mục 
+                Loại danh mục
             </dt>
             <dd class="col-sm-10">
                 @Html.DisplayFor(model => model.CategoryType)
@@ -43,11 +44,11 @@
             <dd class="col-sm-10">
                 @if (Model.CategoryImage != null)
                 {
-                        <img src="@Model.CategoryImage" style="style= height:100px; width:100px" />
+                    <img src="@Model.CategoryImage" style="style= height:100px; width:100px" />
                 }
                 else
                 {
-                        <h5>Chưa co hình ảnh</h5>
+                    <h5>Chưa co hình ảnh</h5>
                 }
             </dd>
             <dt class="col-sm-2">
@@ -60,18 +61,24 @@
             </dd>
         </dl>
     </div>
-        <div class="row">
-            <div class="col-md-3">
-            @Html.ActionLink("Chỉnh sửa", "Edit", new { CategoryId = Model.CategoryId }, new { @class = "btn btn-warning" })
-            </div>
-            <div class="col-md-7">
-                <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Category")'">Về trang quản lí danh mục</button>
-            </div>
+    <div class="row">
+        <div class="col-md-3">
+            @{
+                var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
+            }
+            @if (!staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
+            {
+                @Html.ActionLink("Chỉnh sửa", "Edit", new { CategoryId = Model.CategoryId }, new { @class = "btn btn-warning" })
+            }
         </div>
+        <div class="col-md-7">
+            <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Category")'">Về trang quản lí danh mục</button>
+        </div>
+    </div>
 }
 else
 {
-        <div>
-            <a class="m-5" asp-action="Index" asp-controller="Category">Về trang quản lí danh mục</a>
-        </div>
+    <div>
+        <a class="m-5" asp-action="Index" asp-controller="Category">Về trang quản lí danh mục</a>
+    </div>
 }

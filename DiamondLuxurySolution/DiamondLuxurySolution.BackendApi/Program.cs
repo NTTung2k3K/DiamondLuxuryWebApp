@@ -30,6 +30,7 @@ using DiamondLuxurySolution.Application.Repository.Role;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using DiamondLuxurySolution.Application.Repository.User;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,7 +41,6 @@ builder.Services.AddDbContext<LuxuryDiamondShopContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("LuxuryDiamondDb"));
 });
-
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
@@ -74,7 +74,12 @@ builder.Services.AddScoped<IRoleInitializer, RoleInitializer>();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -94,10 +99,19 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddIdentity<AppUser, AppRole>()
+builder.Services.AddIdentity<AppUser, AppRole>(options =>
+{
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 1;
+})
+.AddEntityFrameworkStores<LuxuryDiamondShopContext>().AddEntityFrameworkStores<LuxuryDiamondShopContext>()
+        .AddDefaultTokenProviders()
+        .AddErrorDescriber<CustomIdentityErrorDescriber>();
 
-.AddEntityFrameworkStores<LuxuryDiamondShopContext>()
-        .AddDefaultTokenProviders();
 
 var app = builder.Build();
 
@@ -109,7 +123,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
@@ -118,5 +132,9 @@ using (var scope = app.Services.CreateScope())
     var roleInitializer = scope.ServiceProvider.GetRequiredService<IRoleInitializer>();
     roleInitializer.CreateDefaultRole().Wait();
     roleInitializer.CreateAdminAccount().Wait();
+    roleInitializer.CreateManagerAccount().Wait();
+    await roleInitializer.CreateCustomerAccount();
+    roleInitializer.CreateSaleStaffAccount().Wait();
+    roleInitializer.CreateShipperAccount().Wait();
 }
 app.Run();

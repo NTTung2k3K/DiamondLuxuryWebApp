@@ -2,10 +2,14 @@
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Discount;
 using DiamondLuxurySolution.ViewModel.Models.Role;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class DiscountController : Controller
+
+    [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin+", "+ DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
+    public class DiscountController : BaseController
     {
         private readonly IDiscountApiService _discountApiService;
 

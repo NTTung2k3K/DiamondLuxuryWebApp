@@ -20,16 +20,24 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(o => o.ShipName).IsRequired().HasMaxLength(250);
             builder.Property(o => o.ShipPhoneNumber).IsRequired().HasMaxLength(250);
             builder.Property(o => o.ShipEmail).IsRequired().HasMaxLength(250);
-            builder.Property(o => o.ShipAdress).HasMaxLength(250);
+            builder.Property(o => o.ShipAdress).HasMaxLength(250).IsRequired(false);
             builder.Property(o => o.OrderDate).IsRequired();
-            builder.Property(o => o.TotalAmout).HasColumnType("DECIMAL(10, 2)").IsRequired();
-            builder.Property(o => o.ShipPrice).HasColumnType("DECIMAL(10, 2)").IsRequired();
+            builder.Property(o => o.TotalAmout).HasColumnType("DECIMAL(15, 2)").IsRequired();
             builder.Property(o => o.Status).IsRequired();
             builder.HasOne(o => o.Customer)
-                   .WithMany(x => x.Orders)
+                   .WithMany(x => x.CustomerOrders)
                    .HasForeignKey(o => o.CustomerId)
-                   .IsRequired();
+                   .IsRequired(false);
+            builder.HasOne(o => o.Staff)
+                   .WithMany(x => x.StaffOrders)
+                   .HasForeignKey(o => o.StaffId)
+                   .IsRequired(false);
+            builder.HasOne(o => o.Shipper)
+                   .WithMany(x => x.ShipperOrders)
+                   .HasForeignKey(o => o.ShipperId)
+                   .IsRequired(false);
             builder.HasOne(x => x.Discount).WithMany(x => x.Orders).HasForeignKey(x => x.DiscountId).IsRequired(false);
+            builder.HasOne(x => x.Promotion).WithMany(x => x.Orders).HasForeignKey(o => o.PromotionId).IsRequired(false);
         }
     }
 

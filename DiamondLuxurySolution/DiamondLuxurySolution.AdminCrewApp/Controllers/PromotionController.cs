@@ -2,13 +2,16 @@
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Promotion;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class PromotionController : Controller
+    [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
+    public class PromotionController : BaseController
     {
         private readonly IPromotionApiService _promotionApiService;
 

@@ -1,10 +1,12 @@
 ﻿using Azure.Core;
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
+using DiamondLuxurySolution.Utilities.Helper;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.User.Customer;
 using Firebase.Auth;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using PagedList;
@@ -13,6 +15,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Policy;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -25,6 +28,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly LuxuryDiamondShopContext _context;
+        private readonly SignInManager<AppUser> _signInManager;
 
         public CustomerRepo(LuxuryDiamondShopContext context, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager)
         {
@@ -67,7 +71,34 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
             return new ApiSuccessResult<bool>("Cập nhật mật khẩu thành công");
         }
 
+        public async Task<ApiResult<List<int>>> CountAllCustomerInYear()
+        {
+            try
+            {
+                var currentYear = DateTime.UtcNow.Year;
+                var customerCounts = await _userManager.Users
+                    .Where(user => user.DateCreated.Value.Year == currentYear)
+                    .GroupBy(user => user.DateCreated.Value.Month)
+                    .Select(g => new { Month = g.Key, Count = g.Count() })
+                    .ToListAsync();
 
+                // Initialize a list with 12 zeros (for each month)
+                var monthlyCounts = Enumerable.Repeat(0, 12).ToList();
+
+                // Fill the counts in the correct month positions
+                foreach (var customerCount in customerCounts)
+                {
+                    monthlyCounts[customerCount.Month - 1] = customerCount.Count;
+                }
+
+                return new ApiSuccessResult<List<int>>(monthlyCounts, "Success");
+            }
+            catch (Exception ex)
+            {
+                // Handle exception, log the error
+                return new ApiErrorResult<List<int>>($"Error: {ex.Message}");
+            }
+        }
 
         public async Task<ApiResult<bool>> DeleteCustomer(Guid CustomerId)
         {
@@ -151,7 +182,9 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
                 return new ApiErrorResult<string>("Không hợp lệ");
 
             }
-            string code = DiamondLuxurySolution.Utilities.Helper.RandomHelper.GenerateRandomString(8);
+            Random rd = new Random();
+            string code = "" + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString();
+
             user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.ChangePasswordRequest.ToString();
             var statusUser = await _userManager.UpdateAsync(user);
             if (!statusUser.Succeeded)
@@ -159,7 +192,54 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
                 return new ApiErrorResult<string>("Lỗi hệ thống, cập nhật thông tin thất bại vui lòng thử lại");
             }
 
+
+            SendEmailForgot(code, user.Email);
+
             return new ApiSuccessResult<string>(code, "Success");
+        }
+        public void SendEmailForgot(string code, string toEmail)
+        {
+            // Correct relative path from current directory to the HTML file
+            string relativePath = @"..\..\DiamondLuxurySolution\DiamondLuxurySolution.Utilities\FormSendEmail\SendCodeCustomer.html";
+            // Combine the relative path with the current directory to get the full path
+            string path = Path.GetFullPath(relativePath);
+
+            if (!System.IO.File.Exists(path))
+            {
+                return;
+            }
+            string contentCustomer = System.IO.File.ReadAllText(path);
+            contentCustomer = contentCustomer.Replace("{{VerifyCode}}", code);
+            DoingMail.SendMail("LuxuryDiamond", "Yêu cầu thay đổi mật khẩu", contentCustomer, toEmail);
+        }
+        public async Task<ApiResult<CustomerVm>> GetCustomerByEmail(string Email)
+        {
+            var user = await _userManager.FindByEmailAsync(Email.ToString());
+            if (user == null)
+            {
+                return new ApiErrorResult<CustomerVm>("Khách hàng không tồn tại");
+            }
+            var customerVm = new CustomerVm()
+            {
+                CustomerId = user.Id,
+                Dob = user.Dob != null ? (DateTime)user.Dob : DateTime.MinValue,
+                FullName = user.Fullname,
+                PhoneNumber = user.PhoneNumber,
+                Email = user.Email,
+                Status = user.Status,
+                Address = user.Address
+            };
+            var listRoleOfUser = await _userManager.GetRolesAsync(user);
+
+            if (listRoleOfUser.Count > 0)
+            {
+                customerVm.ListRoleName = new List<string>();
+                foreach (var role in listRoleOfUser)
+                {
+                    customerVm.ListRoleName.Add(role);
+                }
+            }
+            return new ApiSuccessResult<CustomerVm>(customerVm, "Success");
         }
 
         public async Task<ApiResult<CustomerVm>> GetCustomerById(Guid CustomerId)
@@ -205,6 +285,11 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
             }
             var user = await _userManager.FindByEmailAsync(request.Email.Trim());
             if (user == null)
+            {
+                return new ApiErrorResult<bool>("Tải khoản hoặc mật khẩu không đúng");
+            }
+            var role = await _userManager.GetRolesAsync(user);
+            if (!role.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString()))
             {
                 return new ApiErrorResult<bool>("Tải khoản hoặc mật khẩu không đúng");
             }
@@ -267,7 +352,9 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
                 Dob = request.Dob,
                 PhoneNumber = request.PhoneNumber.Trim(),
                 UserName = username,
-                Address = ""
+                Address = "",
+                Point = 0,
+                DateCreated = DateTime.Now
             };
             user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.New.ToString();
             var status = await _userManager.CreateAsync(user, request.Password);
@@ -303,9 +390,27 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
             {
                 return new ApiErrorResult<bool>("Lỗi hệ thống, không thể thêm role vào tải khoản vui lòng thử lại");
             }
+
+
+            SendEmail(request.FullName, request.Email);
+
             return new ApiSuccessResult<bool>(true, "Đăng kí thành công");
         }
+        public void SendEmail(string code, string toEmail)
+        {
+            // Correct relative path from current directory to the HTML file
+            string relativePath = @"..\..\DiamondLuxurySolution\DiamondLuxurySolution.Utilities\FormSendEmail\Welcome.html";
+            // Combine the relative path with the current directory to get the full path
+            string path = Path.GetFullPath(relativePath);
 
+            if (!System.IO.File.Exists(path))
+            {
+                return;
+            }
+            string contentCustomer = System.IO.File.ReadAllText(path);
+            contentCustomer = contentCustomer.Replace("{{Username}}", code);
+            DoingMail.SendMail("LuxuryDiamond", "Chào mứng đến với Diamond Luxury", contentCustomer, toEmail);
+        }
         public async Task<ApiResult<bool>> UpdateCustomerAccount(UpdateCustomerRequest request)
         {
             var user = await _userManager.FindByIdAsync(request.CustomerId.ToString());
@@ -314,33 +419,80 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
             {
                 return new ApiErrorResult<bool>("Khách hàng không tồn tại");
             }
-            if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.IsValidEmail(request.Email.Trim()))
+            
+            if (!string.IsNullOrEmpty(request.PhoneNumber))
             {
-                errorList.Add("Email không hợp lệ");
+                if (DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ContainsLetters(request.PhoneNumber.Trim()))
+                {
+                    errorList.Add("Số điện thoại không hợp lệ");
+                }
             }
-            if (DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ContainsLetters(request.PhoneNumber.Trim()))
+            if (!string.IsNullOrEmpty(request.PhoneNumber))
             {
-                errorList.Add("Số điện thoại không hợp lệ");
+                if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ValidPhoneNumber(request.PhoneNumber.Trim()))
+                {
+                    errorList.Add("Số điện thoại không hợp lệ");
+                }
             }
-            if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ValidPhoneNumber(request.PhoneNumber.Trim()))
-            {
-                errorList.Add("Số điện thoại không hợp lệ");
-            }
+            
             if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
-            user.PhoneNumber = request.PhoneNumber.Trim();
-            user.Fullname = request.FullName.Trim();
-            user.Dob = request.Dob;
-            user.Email = request.Email.Trim();
-            user.Status = request.Status.Trim();
+            if (!string.IsNullOrWhiteSpace(request.PhoneNumber))
+            {
+                user.PhoneNumber = request.PhoneNumber.Trim();
+            }
+            if (request.Dob != DateTime.MinValue)
+            {
+                user.Dob = request.Dob;
+            }
+            if (!string.IsNullOrWhiteSpace(request.Address))
+            {
+                user.Address = request.Address.Trim();
+            }
 
             var statusUser = await _userManager.UpdateAsync(user);
             if (!statusUser.Succeeded)
             {
                 return new ApiErrorResult<bool>("Lỗi hệ thống, cập nhật thông tin thất bại vui lòng thử lại");
             }
+            // Update Password
+            if (!string.IsNullOrEmpty(request.OldPassword) && !string.IsNullOrEmpty(request.NewPassword) && !string.IsNullOrEmpty(request.ConfirmPassword))
+            {
+                var comfirmPassword = await _userManager.CheckPasswordAsync(user, request.OldPassword);
+                if (comfirmPassword == false)
+                {
+                    return new ApiErrorResult<bool>("Sai mật khẩu hiện tại");
+                }
+                var changePasswordResult = await _userManager.ChangePasswordAsync(user, request.OldPassword, request.NewPassword);
+
+                if (!changePasswordResult.Succeeded)
+                {
+                    var errorApi = new ApiErrorResult<bool>("Lỗi thông tin");
+                    errorApi.ValidationErrors = new List<string>();
+                    foreach (var item in changePasswordResult.Errors)
+                    {
+                        errorApi.ValidationErrors.Add(item.Description);
+                    }
+                    return errorApi;
+                }
+                user.LastChangePasswordTime = DateTime.Now;
+
+                var statusUserChangePassword = await _userManager.UpdateAsync(user);
+                if (!statusUserChangePassword.Succeeded)
+                {
+                    return new ApiErrorResult<bool>("Lỗi hệ thống, thay đổi mật khẩu thất bại vui lòng thử lại");
+                }
+                return new ApiSuccessResult<bool>("Cập nhật mật khẩu thành công");
+            }
+
+
+
+
+
+
+
             return new ApiSuccessResult<bool>("Cập nhật thông tin thành công");
 
         }

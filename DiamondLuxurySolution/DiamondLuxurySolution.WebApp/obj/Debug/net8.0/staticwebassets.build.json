@@ -1,6 +1,10 @@
 {
   "Version": 1,
+<<<<<<< HEAD
   "Hash": "2eWTmo1mR+4jCg9DhjobzFW/iTLvzTyXAOKqmApe3+M=",
+=======
+  "Hash": "3pFkA9RENON6+Zi8zgR96A9MEiJll457Enwrg7iMYOs=",
+>>>>>>> 56a838ef1a88137fdb5fb14a09bb76f46ccd8a57
   "Source": "DiamondLuxurySolution.WebApp",
   "BasePath": "_content/DiamondLuxurySolution.WebApp",
   "Mode": "Default",
@@ -112,7 +116,30 @@
       "OriginalItemSpec": "wwwroot\\assets\\css\\main.css"
     },
     {
+<<<<<<< HEAD
       "Identity": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\assets\\css\\plugins.css",
+=======
+      "Identity": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\assets\\css\\PagingNote.css",
+      "SourceId": "DiamondLuxurySolution.WebApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\",
+      "BasePath": "_content/DiamondLuxurySolution.WebApp",
+      "RelativePath": "assets/css/PagingNote.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\css\\PagingNote.css"
+    },
+    {
+      "Identity": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\assets\\css\\plugins.css",
+>>>>>>> 56a838ef1a88137fdb5fb14a09bb76f46ccd8a57
       "SourceId": "DiamondLuxurySolution.WebApp",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\",
@@ -5280,7 +5307,87 @@
       "OriginalItemSpec": "wwwroot\\assets\\img\\slider\\slider3-mirora3-1620x909.jpg"
     },
     {
+<<<<<<< HEAD
       "Identity": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\assets\\js\\ajax-mail.js",
+=======
+      "Identity": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\assets\\img\\Trangsuckimcuong\\nhan-cuoi.png",
+      "SourceId": "DiamondLuxurySolution.WebApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\",
+      "BasePath": "_content/DiamondLuxurySolution.WebApp",
+      "RelativePath": "assets/img/Trangsuckimcuong/nhan-cuoi.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\img\\Trangsuckimcuong\\nhan-cuoi.png"
+    },
+    {
+      "Identity": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\assets\\img\\Trangsuckimcuong\\nhan-kim-cuong-cau-hon.png",
+      "SourceId": "DiamondLuxurySolution.WebApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\",
+      "BasePath": "_content/DiamondLuxurySolution.WebApp",
+      "RelativePath": "assets/img/Trangsuckimcuong/nhan-kim-cuong-cau-hon.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\img\\Trangsuckimcuong\\nhan-kim-cuong-cau-hon.png"
+    },
+    {
+      "Identity": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\assets\\img\\Trangsuckimcuong\\nhan-nam.png",
+      "SourceId": "DiamondLuxurySolution.WebApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\",
+      "BasePath": "_content/DiamondLuxurySolution.WebApp",
+      "RelativePath": "assets/img/Trangsuckimcuong/nhan-nam.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\img\\Trangsuckimcuong\\nhan-nam.png"
+    },
+    {
+      "Identity": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\assets\\img\\Trangsuckimcuong\\nhan-nu.png",
+      "SourceId": "DiamondLuxurySolution.WebApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\",
+      "BasePath": "_content/DiamondLuxurySolution.WebApp",
+      "RelativePath": "assets/img/Trangsuckimcuong/nhan-nu.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\img\\Trangsuckimcuong\\nhan-nu.png"
+    },
+    {
+      "Identity": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\assets\\js\\ajax-mail.js",
+>>>>>>> 56a838ef1a88137fdb5fb14a09bb76f46ccd8a57
       "SourceId": "DiamondLuxurySolution.WebApp",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\",
@@ -6477,7 +6584,30 @@
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
     },
     {
+<<<<<<< HEAD
       "Identity": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\scss\\base\\_mixins.scss",
+=======
+      "Identity": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\mycss\\mycheckbox.css",
+      "SourceId": "DiamondLuxurySolution.WebApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\",
+      "BasePath": "_content/DiamondLuxurySolution.WebApp",
+      "RelativePath": "mycss/mycheckbox.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\mycss\\mycheckbox.css"
+    },
+    {
+      "Identity": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\scss\\base\\_mixins.scss",
+>>>>>>> 56a838ef1a88137fdb5fb14a09bb76f46ccd8a57
       "SourceId": "DiamondLuxurySolution.WebApp",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\",

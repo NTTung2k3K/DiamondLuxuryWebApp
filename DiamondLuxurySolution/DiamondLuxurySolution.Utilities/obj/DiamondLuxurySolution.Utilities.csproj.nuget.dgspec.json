@@ -235,6 +235,10 @@
             "Microsoft.AspNetCore.Http": {
               "target": "Package",
               "version": "[2.1.34, )"
+            },
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.1.39, )"
             }
           },
           "imports": [
