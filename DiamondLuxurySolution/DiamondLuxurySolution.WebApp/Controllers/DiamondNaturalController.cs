@@ -2,7 +2,7 @@
 
 namespace DiamondLuxurySolution.WebApp.Controllers
 {
-	public class TSKC_LacTayController : Controller
+	public class DiamondNaturalController : Controller
 	{
 		public IActionResult Index()
 		{

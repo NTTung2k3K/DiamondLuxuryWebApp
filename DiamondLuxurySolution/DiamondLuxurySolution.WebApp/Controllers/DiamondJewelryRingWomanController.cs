@@ -2,7 +2,7 @@
 
 namespace DiamondLuxurySolution.WebApp.Controllers
 {
-	public class TSKC_NhanNuController : Controller
+	public class DiamondJewelryRingWomanController : Controller
 	{
 		public IActionResult Index()
 		{
