@@ -6,10 +6,23 @@ namespace DiamondLuxurySolution.WebApp.Models
     {
         public string ProductId { get; set; }
         public string ProductName { get; set; }
+        public string ProductImage { get; set; }
+        public decimal Price { get; set; }
+
         public int Quantity { get; set; }
         public int? Ni { get; set; }
     }
-
+    public class CartRemoveItemRequestModel
+    {
+        public string productId { get; set; }
+        public int? ni { get; set; }
+    }
+    public class CartUpdateItemRequestModel
+    {
+        public string productId { get; set; }
+        public int Quantity { get; set; }
+        public int? ni { get; set; }
+    }
     public static class CartSessionHelper
     {
         private static IHttpContextAccessor _httpContextAccessor;
@@ -33,24 +46,41 @@ namespace DiamondLuxurySolution.WebApp.Models
         public static void AddToCart(CartItem item)
         {
             var cart = GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
-            var existingItem = cart.FirstOrDefault(i => i.ProductId == item.ProductId && i.Ni == item.Ni);
 
-            if (existingItem != null)
+            if(item.Ni != null)
             {
-                existingItem.Quantity += item.Quantity;
+                var existingItem = cart.FirstOrDefault(i => i.ProductId == item.ProductId && i.Ni == item.Ni);
+
+                if (existingItem != null)
+                {
+                    existingItem.Quantity += item.Quantity;
+                }
+                else
+                {
+                    cart.Add(item);
+                }
             }
             else
             {
-                cart.Add(item);
+                var existingItem = cart.FirstOrDefault(i => i.ProductId == item.ProductId && i.Ni == item.Ni);
+
+                if (existingItem != null)
+                {
+                    existingItem.Quantity += item.Quantity;
+                }
+                else
+                {
+                    cart.Add(item);
+                }
             }
 
             SetObjectAsJson("Cart", cart);
         }
 
-        public static void RemoveFromCart(string productId, int? ni)
+        public static void RemoveFromCart(CartRemoveItemRequestModel request)
         {
             var cart = GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
-            var itemToRemove = cart.FirstOrDefault(i => i.ProductId == productId && i.Ni == ni);
+            var itemToRemove = cart.FirstOrDefault(i => i.ProductId == request.productId && i.Ni == request.ni);
 
             if (itemToRemove != null)
             {
@@ -59,24 +89,48 @@ namespace DiamondLuxurySolution.WebApp.Models
             }
         }
 
-        public static void UpdateQuantity(string productId, int? ni, int quantity)
+        public static void UpdateQuantity(CartUpdateItemRequestModel request)
         {
             var cart = GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();
-            var itemToUpdate = cart.FirstOrDefault(i => i.ProductId == productId && i.Ni == ni);
-
-            if (itemToUpdate != null)
+            if(request.ni != null)
             {
-                if (quantity > 0)
-                {
-                    itemToUpdate.Quantity = quantity;
-                }
-                else
-                {
-                    cart.Remove(itemToUpdate);
-                }
+                var itemToUpdate = cart.FirstOrDefault(i => i.ProductId == request.productId && i.Ni == request.ni);
 
-                SetObjectAsJson("Cart", cart);
+                if (itemToUpdate != null)
+                {
+                    if (request.Quantity > 0)
+                    {
+                        itemToUpdate.Quantity = request.Quantity;
+                    }
+                    else
+                    {
+                        cart.Remove(itemToUpdate);
+                    }
+
+                    SetObjectAsJson("Cart", cart);
+                }
             }
+            else
+            {
+                var itemToUpdate = cart.FirstOrDefault(i => i.ProductId == request.productId);
+
+                if (itemToUpdate != null)
+                {
+                    if (request.Quantity > 0)
+                    {
+                        itemToUpdate.Quantity = request.Quantity;
+                    }
+                    else
+                    {
+                        cart.Remove(itemToUpdate);
+                    }
+
+                    SetObjectAsJson("Cart", cart);
+                }
+            }
+
+
+
         }
 
         public static List<CartItem> GetCart()
