@@ -5,34 +5,55 @@ namespace DiamondLuxurySolution.WebApp.Controllers
 {
     public class CartController : Controller
     {
-        public IActionResult AddToCart(string productId, string productName, int quantity, int? ni)
-        {
-            var item = new CartItem
+		[HttpPost]
+		public IActionResult AddToCart([FromBody] CartItem cartItem)
+		{
+
+            if (cartItem == null)
             {
-                ProductId = productId,
-                ProductName = productName,
-                Quantity = quantity,
-                Ni = ni
-            };
+                return Json(new { success = false, message = "Có lỗi xảy ra" });
+            }
+            try
+			{
+				
 
-            CartSessionHelper.AddToCart(item);
+				CartSessionHelper.AddToCart(cartItem);
+				return Json(new { success = true, message = "Đã thêm vào giỏ hàng" });
+			}
+			catch (Exception ex)
+			{
+				return Json(new { success = false, message = "Lỗi: " + ex.Message });
+			}
+		}
+		[HttpPost]
+		public IActionResult RemoveFromCart([FromBody] CartRemoveItemRequestModel request)
+		{
+			try
+			{
+				CartSessionHelper.RemoveFromCart(request);
+				return Json(new { success = true, message = "Item removed from cart successfully!" });
+			}
+			catch (Exception ex)
+			{
+				return Json(new { success = false, message = "Error removing item from cart: " + ex.Message });
+			}
+		}
 
-            return RedirectToAction("Index");
-        }
+		[HttpPost]
+		public IActionResult UpdateQuantity( [FromBody] CartUpdateItemRequestModel request)
+		{
+			try
+			{
+				CartSessionHelper.UpdateQuantity(request);
+				return Json(new { success = true, message = "Item quantity updated successfully!" });
+			}
+			catch (Exception ex)
+			{
+				return Json(new { success = false, message = "Error updating item quantity: " + ex.Message });
+			}
+		}
 
-        public IActionResult RemoveFromCart(string productId, int? ni)
-        {
-            CartSessionHelper.RemoveFromCart(productId, ni);
-            return RedirectToAction("Index");
-        }
-
-        public IActionResult UpdateQuantity(string productId, int? ni, int quantity)
-        {
-            CartSessionHelper.UpdateQuantity(productId, ni, quantity);
-            return RedirectToAction("Index");
-        }
-
-        public IActionResult Cart()
+		public IActionResult View()
         {
             var cart = CartSessionHelper.GetCart();
             return View(cart);
