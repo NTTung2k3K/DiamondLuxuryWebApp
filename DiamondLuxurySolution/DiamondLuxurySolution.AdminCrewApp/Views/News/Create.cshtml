@@ -44,79 +44,6 @@
                     <textarea asp-for="Description" id="editor"></textarea>
                 </div>
             </div>
-            <div class="form-group m-2">
-                <label asp-for="Status" class="m-2 control-label">Trạng thái</label>
-                <!--Start dropdown list-->
-                @if (Model != null)
-                {
-                    <select class="m-2 h-50" name="Status">
-                        @foreach (var item in ViewBag.ListStatus)
-                        {
-                            bool isSelected = Model != null && Model.Status.ToString().Equals(item.ToString());
-                            string selectedAttribute = isSelected ? "selected=\"selected\"" : "";
-
-                            if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()))
-                            {
-                                <!option value="@item" @selectedAttribute >
-                                Bán
-                                </!option>
-                            }
-                            else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString()))
-                            {
-                                <!option value="@item" @selectedAttribute >
-                                Hết hàng
-                                </!option>
-                            }
-                            else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))
-                            {
-                                <!option value="@item" @selectedAttribute>
-                                Sắp có hàng
-                                </!option>
-                            }
-                            else
-                            {
-                                <!option value="@item" @selectedAttribute>
-                                Giảm giá
-                                </!option>
-                            }
-                        }
-                    </select>
-
-
-
-                }
-                else
-                {
-                    <select class="m-2 h-50" name="Status">
-                        @foreach (var item in ViewBag.ListStatus)
-                        {
-                            if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()))
-                            {
-                                <option value="@item">
-                                    <span class="badge bg-danger rounded-pill">Bán</span>
-                                </option>
-                            }
-                            else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString()))
-                            {
-                                <option value="@item">
-                                    <span class="badge bg-success rounded-pill">Hết hàng</span>
-                                </option>
-                            }
-                            else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))
-                            {
-                                <option value="@item">
-                                    <span class="badge  bg-yellow-500 rounded-pill">Sắp có hàng</span>
-                                </option>
-                            }
-                            else
-                            {
-                                <option value="@item">
-                                    <span class="badge bg-info rounded-pill">Giảm giá</span>
-                                </option>
-                            }
-                        }
-                    </select>
-                }
            
             <div class="form-group row">
                 <div class="col-md-5">
@@ -233,7 +160,7 @@
             };
         }
 
-       
+
         ClassicEditor
             .create(document.querySelector('#editor'), {
                 // Toolbar của bạn (nếu bạn muốn)

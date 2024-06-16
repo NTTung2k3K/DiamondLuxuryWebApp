@@ -472,15 +472,15 @@
 									</tr>
 									<tr>
 										<th>Loại vàng</th>
-										<td>@Model.MaterialVm.Color</td>
+										<td>@(Model.MaterialVm != null ? Model.MaterialVm.Color : "Không có") </td>
 									</tr>
 									<tr>
 										<th>Tuổi vàng</th>
-										<td>@Model.MaterialVm.MaterialName</td>
+										<td>@(Model.MaterialVm != null ? Model.MaterialVm.MaterialName : "Không có")</td>
 									</tr>
 									<tr>
 										<th>Trọng lượng vàng</th>
-										<td>@Model.FrameVm.Weight</td>
+										<td>@(Model.FrameVm != null ? Model.FrameVm.Weight: "Không có")</td>
 									</tr>
 								</table>
 

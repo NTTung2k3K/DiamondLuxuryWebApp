@@ -140,6 +140,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         ProductId = item.ProductId,
                         Quantity = item.Quantity,
+                        Size = item.Size
                     };
                     listExistProduct.Add(existProduct);
                 }
@@ -185,6 +186,16 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
+                var listOrder = new List<OrderProductSupport>();
+                foreach (var item in request.ListExistOrderProduct)
+                {
+                    if(item.Quantity == 0)
+                    {
+                        continue;
+                    }
+                    listOrder.Add(item);
+                }
+                request.ListExistOrderProduct = listOrder;
                 var transactionStatus = Enum.GetValues(typeof(TransactionStatus)).Cast<TransactionStatus>().ToList();
                 ViewBag.TransactionStatus = transactionStatus;
 
@@ -197,11 +208,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 ViewBag.ListPromotionOnTime = listPromotion.ResultObj;
                 var listProduct = await _productApiService.GetAllProduct();
                 ViewBag.ListProduct = listProduct.ResultObj;
-                
-                if (!ModelState.IsValid)
-                {
-                    return View(request);
-                }
+
+                var Order = await _OrderApiService.GetOrderById(request.OrderId);
+                ViewBag.Total = Order.ResultObj.TotalAmount;
+                ViewBag.TotalSale = Order.ResultObj.TotalSale;
+
+               
                 string userIdString = HttpContext.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_ID);
                 Guid userId;
 

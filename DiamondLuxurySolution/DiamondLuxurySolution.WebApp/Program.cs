@@ -1,6 +1,7 @@
 using DiamondLuxurySolution.Application.Repository.User;
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
+using DiamondLuxurySolution.WebApp.Models;
 using DiamondLuxurySolution.WebApp.Service.Account;
 using DiamondLuxurySolution.WebApp.Service.GemPriceList;
 using DiamondLuxurySolution.WebApp.Service.Order;
@@ -57,6 +58,10 @@ builder.Services.AddAuthentication().AddGoogle(options =>
 });
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
+
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -72,6 +77,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseSession();
+CartSessionHelper.Configure(app.Services.GetRequiredService<IHttpContextAccessor>());
 
 app.MapControllerRoute(
     name: "default",

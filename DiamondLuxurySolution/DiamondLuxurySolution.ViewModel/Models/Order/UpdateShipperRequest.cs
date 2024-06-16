@@ -9,6 +9,5 @@ namespace DiamondLuxurySolution.ViewModel.Models.Order
     public class UpdateShipperRequest
     {
         public string OrderId { get; set; }
-        public Guid ShipperId { get; set; }
     }
 }

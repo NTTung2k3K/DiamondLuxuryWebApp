@@ -20,8 +20,10 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(od => od.Quantity).IsRequired();
             builder.Property(od => od.UnitPrice).HasColumnType("DECIMAL(15, 2)").IsRequired();
             builder.Property(od => od.TotalPrice).HasColumnType("DECIMAL(15, 2)").IsRequired();
+			builder.Property(od => od.Size).IsRequired(false);
 
-            builder.HasOne(od => od.Product)
+
+			builder.HasOne(od => od.Product)
                    .WithMany(x => x.OrderDetails)
                    .HasForeignKey(od => od.ProductId)
                    .IsRequired();
