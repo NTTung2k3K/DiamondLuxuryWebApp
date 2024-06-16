@@ -1,8 +1,12 @@
+
+using DiamondLuxurySolution.WebApp.Service.Contact;
+
 using DiamondLuxurySolution.Application.Repository.User;
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.WebApp.Models;
 using DiamondLuxurySolution.WebApp.Service.Account;
+
 using DiamondLuxurySolution.WebApp.Service.GemPriceList;
 using DiamondLuxurySolution.WebApp.Service.Order;
 using DiamondLuxurySolution.WebApp.Service.Product;
@@ -28,7 +32,11 @@ builder.Services.AddTransient<IOrderApiService, OrderApiService>();
 
 builder.Services.AddTransient<ISlideApiService, SlideApiService>();
 builder.Services.AddTransient<IGemPriceListApiService, GemPriceListApiService>();
+
+builder.Services.AddTransient<IContactApiService, ContactApiService>();
+
 builder.Services.AddTransient<IProductApiService, ProductApiService>();
+
 
 
 builder.Services.AddIdentity<AppUser, AppRole>()
