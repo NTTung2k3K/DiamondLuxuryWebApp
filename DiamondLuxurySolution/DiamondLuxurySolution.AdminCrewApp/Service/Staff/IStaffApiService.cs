@@ -1,5 +1,6 @@
 ﻿using DiamondLuxurySolution.AdminCrewApp.Services;
 using DiamondLuxurySolution.ViewModel.Common;
+using DiamondLuxurySolution.ViewModel.Models.Order;
 using DiamondLuxurySolution.ViewModel.Models.User.Customer;
 using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 
@@ -28,5 +29,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Staff
         public Task<ApiResult<PageResult<StaffVm>>> ViewDeliveryStaffPagination(ViewStaffPaginationCommonRequest request);
         public Task<ApiResult<PageResult<StaffVm>>> ViewAdminPagination(ViewStaffPaginationCommonRequest request);
         public Task<ApiResult<PageResult<StaffVm>>> ViewManagerPagination(ViewStaffPaginationCommonRequest request);
+        public Task<ApiResult<PageResult<OrderVm>>> ViewOrderForDeliveryStaff(ViewOrderForDeliveryStaff request);
+        public Task<ApiResult<bool>> UpdateStatusOrderForDeliveryStaff(UpdateStatusOrderForDeliveryStaff request);
     }
 }
