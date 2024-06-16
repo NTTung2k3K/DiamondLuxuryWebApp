@@ -2,12 +2,16 @@
 using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.Utilities.Helper;
 using DiamondLuxurySolution.ViewModel.Common;
+using DiamondLuxurySolution.ViewModel.Models.Order;
+using DiamondLuxurySolution.ViewModel.Models.Promotion;
 using DiamondLuxurySolution.ViewModel.Models.User.Customer;
 using DiamondLuxurySolution.ViewModel.Models.User.Staff;
+using DiamondLuxurySolution.ViewModel.Models.Warranty;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using PagedList;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -22,7 +26,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
         private readonly LuxuryDiamondShopContext _context;
         private readonly IConfiguration _configuarion;
 
-        public StaffRepo( LuxuryDiamondShopContext context, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IConfiguration configuration)
+        public StaffRepo(LuxuryDiamondShopContext context, UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -38,7 +42,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             {
                 return new ApiErrorResult<bool>("Nhân viên không tồn tại");
             }
-            if(request.NewPassword == null || request.OldPassword == null || request.ConfirmNewPassword == null)
+            if (request.NewPassword == null || request.OldPassword == null || request.ConfirmNewPassword == null)
             {
                 return new ApiErrorResult<bool>("Không có thông tin");
             }
@@ -83,7 +87,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 return new ApiErrorResult<bool>("Nhân viên không tồn tại");
             }
             user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Terminated.ToString();
-            var status =  await _userManager.DeleteAsync(user);
+            var status = await _userManager.DeleteAsync(user);
             if (!status.Succeeded)
             {
                 return new ApiErrorResult<bool>("Không thể xóa nhân viên");
@@ -183,7 +187,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             {
                 errorList.Add("Password không trùng khớp");
             }
-            
+
             if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ValidPhoneNumber(request.PhoneNumber))
             {
                 errorList.Add("Số điện thoại không hợp lệ");
@@ -219,7 +223,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 Address = request.Address.Trim(),
                 DateCreated = DateTime.Now
             };
-            if(request.Image != null)
+            if (request.Image != null)
             {
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Image);
                 user.Image = firebaseUrl;
@@ -247,7 +251,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 if (roleFindById.Name == DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.DeliveryStaff)
                 {
                     user.ShipStatus = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Waiting.ToString();
-                  await  _userManager.UpdateAsync(user);
+                    await _userManager.UpdateAsync(user);
                 }
 
             }
@@ -390,7 +394,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                     CitizenIDCard = item.CitizenIDCard,
                     Address = item.Address,
                     Image = item.Image,
-                    
+
                 };
                 var appUser = await _userManager.FindByIdAsync(item.Id.ToString());
                 var roles = await _userManager.GetRolesAsync(appUser);
@@ -707,14 +711,14 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 return new ApiErrorResult<string>("Tài khoản không tồn tại");
             }
             Random rd = new Random();
-            string code = ""+rd.Next(0,9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString();
+            string code = "" + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString();
             user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.ChangePasswordRequest.ToString();
             var statusUser = await _userManager.UpdateAsync(user);
             if (!statusUser.Succeeded)
             {
                 return new ApiErrorResult<string>("Lỗi hệ thống, cập nhật thông tin thất bại vui lòng thử lại");
             }
-            SendEmail(code,user.Email);
+            SendEmail(code, user.Email);
 
             return new ApiSuccessResult<string>(code, "Success");
         }
@@ -819,7 +823,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 Status = user.Status,
                 Username = user.UserName,
                 DateCreated = user.DateCreated,
-                LastChangePasswordTime = user.LastChangePasswordTime!=null?  user.LastChangePasswordTime : DateTime.MinValue,
+                LastChangePasswordTime = user.LastChangePasswordTime != null ? user.LastChangePasswordTime : DateTime.MinValue,
             };
 
             var listRoleOfUser = await _userManager.GetRolesAsync(user);
@@ -838,7 +842,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
         public async Task<ApiResult<int>> ViewNewCustomerOnDay()
         {
             var listUser = await _userManager.GetUsersInRoleAsync(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString());
-            listUser = listUser.Where(x => x.DateCreated.Value.Date==DateTime.Today).ToList();
+            listUser = listUser.Where(x => x.DateCreated.Value.Date == DateTime.Today).ToList();
             return new ApiSuccessResult<int>(listUser.Count, "Success");
         }
 
@@ -854,5 +858,107 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 return new ApiErrorResult<int>($"Error: {ex.Message}");
             }
         }
+
+        public async Task<ApiResult<PageResult<OrderVm>>> ViewOrderForDeliveryStaff(ViewOrderForDeliveryStaff request)
+        {
+            var listOrder = await _context.Orders.Where(o => o.ShipperId.Equals(request.shipperId))
+                                                .Include(x => x.Shipper)
+                                                .Include(x => x.OrderDetails).ToListAsync();
+
+            /*            var listOrder = await _context.Orders.Include(x => x.Customer)
+                                                          .Include(x => x.Discount).Include(x => x.Promotion)
+                                                          .Include(x => x.OrdersPayment).ThenInclude(x => x.Payment)
+                                                          .Include(x => x.Shipper).Include(x => x.Promotion)
+                                                          .Include(x => x.OrderDetails).ThenInclude(x => x.Warranty).ToListAsync();*/
+
+            if (request.Keyword != null)
+            {
+                listOrder = listOrder.Where(x =>
+                 x.ShipName.Contains(request.Keyword) ||
+                 x.ShipEmail.Contains(request.Keyword) ||
+                 x.ShipPhoneNumber.Contains(request.Keyword) ||
+                 x.OrderId.Equals(request.Keyword)).ToList();
+            }
+            listOrder = listOrder.OrderBy(x => x.ShipName).ToList();
+
+            int pageIndex = request.pageIndex ?? 1;
+
+            var listPaging = listOrder.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
+            var listOrderVm = new List<OrderVm>();
+
+            foreach (var order in listPaging)
+            {
+
+                var orderVms = new OrderVm()
+                {
+                    OrderId = order.OrderId,
+                    ShipAdress = order.ShipAdress,
+                    ShipPhoneNumber = order.ShipPhoneNumber,
+                    ShipName = order.ShipName,
+                    Status = order.Status,
+                    TotalAmount = order.TotalAmout,
+                    DateCreated = order.OrderDate,
+                };
+
+                if (order.Shipper != null)
+                {
+                    orderVms.ShiperVm = new ViewModel.Models.User.Staff.StaffVm()
+                    {
+                        StaffId = order.Customer.Id,
+                        FullName = order.Customer.Fullname,
+                        Email = order.Customer.Email,
+                        PhoneNumber = order.Customer.PhoneNumber,
+                        Status = order.Customer.Status
+                    };
+                }
+
+                if (order.OrderDetails != null)
+                {
+                    List<OrderProductSupportVm> listOrderSupport = new List<OrderProductSupportVm>();
+                    foreach (var orderDetail in order.OrderDetails)
+                    {
+                        var product = await _context.Products.FindAsync(orderDetail.ProductId);
+
+                        var orderProductSupport = new OrderProductSupportVm()
+                        {
+                            Quantity = orderDetail.Quantity,
+                            ProductName = product.ProductName,
+                            ProductThumbnail = product.ProductThumbnail,
+                            UnitPrice = orderDetail.UnitPrice,
+                        };
+                        listOrderSupport.Add(orderProductSupport);
+                    }
+                    orderVms.ListOrderProduct = listOrderSupport;
+                }
+                listOrderVm.Add(orderVms);
+            }
+            var listResult = new PageResult<OrderVm>()
+            {
+                Items = listOrderVm,
+                PageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE,
+                TotalRecords = listOrder.Count,
+                PageIndex = pageIndex
+            };
+            return new ApiSuccessResult<PageResult<OrderVm>>(listResult, "Success");
+        }
+
+        public async Task<ApiResult<bool>> UpdateStatusOrderForDeliveryStaff(UpdateStatusOrderForDeliveryStaff request)
+        {
+            var order = await _context.Orders.FindAsync(request.orderId);
+            if (order == null)
+            {
+                return new ApiErrorResult<bool>("Không tìm thấy đơn hàng");
+            }
+            var shipper = await _userManager.FindByIdAsync(order.ShipperId.ToString());
+            if (shipper == null)
+            {
+                return new ApiErrorResult<bool>("Không tìm thấy nhân viên giao hàng");
+            }
+
+            order.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success);
+            shipper.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Waiting);
+            return new ApiSuccessResult<bool>(true, "Success");
+        }
     }
+
 }

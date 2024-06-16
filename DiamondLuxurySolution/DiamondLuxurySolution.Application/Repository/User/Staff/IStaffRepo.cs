@@ -1,4 +1,5 @@
 ﻿using DiamondLuxurySolution.ViewModel.Common;
+using DiamondLuxurySolution.ViewModel.Models.Order;
 using DiamondLuxurySolution.ViewModel.Models.User.Customer;
 using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 using Microsoft.AspNetCore.Identity;
@@ -36,8 +37,8 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
         public Task<ApiResult<PageResult<StaffVm>>> ViewDeliveryStaffPagination(ViewStaffPaginationCommonRequest request);
         public Task<ApiResult<PageResult<StaffVm>>> ViewAdminPagination(ViewStaffPaginationCommonRequest request);
         public Task<ApiResult<PageResult<StaffVm>>> ViewManagerPagination(ViewStaffPaginationCommonRequest request);
-
-
+        public Task<ApiResult<PageResult<OrderVm>>> ViewOrderForDeliveryStaff(ViewOrderForDeliveryStaff request);
+        public Task<ApiResult<bool>> UpdateStatusOrderForDeliveryStaff(UpdateStatusOrderForDeliveryStaff request);
 
     }
 }
