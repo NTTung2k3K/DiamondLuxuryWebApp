@@ -83,6 +83,7 @@
                         <tr>
                             <th>Sản Phẩm</th>
                             <th>Số Lượng</th>
+                            <th>Ni</th>
                             <th>Tổng Cộng</th>
                         </tr>
                     </thead>
@@ -92,6 +93,8 @@
                             <tr>
                                 <td>@item.ProductName</td>
                                 <td>@item.Quantity</td>
+                                <td>@(item.Size != null ? item.Size :"Không có")</td>
+
                                 <td>@((item.UnitPrice * item.Quantity).ToString("N0") + "₫")</td>
                             </tr>
                         }

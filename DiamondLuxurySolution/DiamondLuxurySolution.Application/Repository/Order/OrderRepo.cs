@@ -176,7 +176,8 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                             Quantity = orderProduct.Quantity,
                             UnitPrice = product.SellingPrice,
                             TotalPrice = orderProduct.Quantity * product.SellingPrice,
-                            WarrantyId = warranty.WarrantyId
+                            WarrantyId = warranty.WarrantyId,
+                            Size = orderProduct.Size,
                         };
 
                         totalPrice += orderDetail.TotalPrice;
@@ -369,14 +370,28 @@ namespace DiamondLuxurySolution.Application.Repository.Order
         }
         private async Task<Guid?> AssignShipper()
         {
-            var shippers = await _userMananger.Users
-                .Where(u => u.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Waiting))
-                .ToListAsync();
+            List<AppUser> listShipper = await _userMananger.Users.ToListAsync();
+            List<AppUser> listShipperWaiting = new List<AppUser>();
 
-            if (shippers.Any())
+            foreach (var shipper in listShipper)
             {
-                int index = new Random().Next(shippers.Count);
-                return shippers[index].Id;
+                var role = await _userMananger.GetRolesAsync(shipper);
+                if (role.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.DeliveryStaff.ToString()))
+                {
+                    if (shipper.ShipStatus != null)
+                    {
+                        if (shipper.ShipStatus.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Waiting.ToString()))
+                        {
+                            listShipperWaiting.Add(shipper);
+                        }
+                    }
+                }
+            }
+
+            if (listShipperWaiting.Any())
+            {
+                int index = new Random().Next(listShipperWaiting.Count);
+                return listShipperWaiting[index].Id;
             }
 
             return null;
@@ -522,7 +537,8 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                             Quantity = orderProduct.Quantity,
                             UnitPrice = product.SellingPrice,
                             TotalPrice = orderProduct.Quantity * product.SellingPrice,
-                            WarrantyId = warranty.WarrantyId
+                            WarrantyId = warranty.WarrantyId,
+                            Size = orderProduct.Size,
                         };
 
                         totalPrice += orderDetail.TotalPrice;
@@ -596,7 +612,8 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     if (request.ShipAdress != null)
                     {
                         order.isShip = true;
-                        order.ShipperId = await AssignShipper();
+                        var shipper = await AssignShipper();
+                        order.ShipperId = shipper;
                     }
 
                     await _context.SaveChangesAsync();
@@ -808,6 +825,8 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         ProductThumbnail = product.ProductThumbnail,
                         Warranty = warrantyVm,
                         UnitPrice = orderDetail.UnitPrice,
+                        Size = orderDetail.Size,
+
                     };
                     listOrderSupport.Add(orderProductSupport);
                 }
@@ -927,34 +946,133 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             {
                 cusId = userCheck.Id;
             }
-            // Process SubGem
 
-            var exitingProductDetail = await _context.OrderDetails.Where(x => x.OrderId == order.OrderId)
-                .Select(x => new OrderProductSupport()
-                {
-                    Quantity = x.Quantity,
-                    ProductId = x.ProductId,
-                })
+
+
+            // Start Process SubGem
+            // Retrieve existing product details from the database
+            var existingProductDetails = await _context.OrderDetails.Include(x => x.Warranty)
+                .Where(x => x.OrderId == order.OrderId)
                 .ToListAsync();
 
-            var difference = exitingProductDetail
-                .Except(request.ListExistOrderProduct, new OrderProductSupportComparer())
-                .ToList();
-            List<OrderDetail> listRemove = new List<OrderDetail>();
-            foreach (var item in difference)
+            List <DiamondLuxurySolution.Data.Entities.Warranty> listRemoveWarranty = new List<DiamondLuxurySolution.Data.Entities.Warranty>();
+            foreach(var warranty in  existingProductDetails)
             {
-                var removeObject = _context.OrderDetails.Where(x => x.ProductId == item.ProductId && x.OrderId == order.OrderId);
-                listRemove.AddRange(removeObject);
+                listRemoveWarranty.Add(warranty.Warranty);
             }
-            _context.OrderDetails.RemoveRange(listRemove);
-            if (difference.Count == 0)
+
+            _context.Warrantys.RemoveRange(listRemoveWarranty);
+
+            _context.OrderDetails.RemoveRange(existingProductDetails);
+            await _context.SaveChangesAsync();
+
+            if (request.ListExistOrderProduct != null)
             {
-                foreach (var item in request.ListExistOrderProduct)
+                foreach (var orderDetail in request.ListExistOrderProduct)
                 {
-                    var existingSubgem = _context.OrderDetails.Where(x => x.ProductId == item.ProductId && x.OrderId == order.OrderId);
-                    existingSubgem.First().Quantity = item.Quantity;
+                    var product = await _context.Products.FindAsync(orderDetail.ProductId);
+                    if (product == null)
+                    {
+                        return new ApiErrorResult<bool>("Không tìm thấy kim cương phụ");
+                    }
+                    if (orderDetail.Quantity <= 0)
+                    {
+                        return new ApiErrorResult<bool>($"Kim cương phụ cần có số lượng");
+                    }
+                    var warranty = new DiamondLuxurySolution.Data.Entities.Warranty()
+                    {
+                        WarrantyId = Guid.NewGuid(),
+                        DateActive = DateTime.Now,
+                        DateExpired = DateTime.Now.AddMonths(12),
+                        WarrantyName = $"Phiếu bảo hành cho sản phẩm {product.ProductName} | {product.ProductId}",
+                        Description = "Phiếu bảo hành có giá trị trong vòng 12 tháng",
+                        Status = true,
+                    };
+                    var orderDetailEntity = new OrderDetail
+                    {
+                        ProductId = orderDetail.ProductId,
+                        Quantity = orderDetail.Quantity,
+                        OrderId = order.OrderId,
+                        UnitPrice = product.SellingPrice,
+                        TotalPrice = orderDetail.Quantity * product.SellingPrice,
+                        WarrantyId = warranty.WarrantyId,
+                        Size = orderDetail.Size,
+
+                    };
+                    await _context.Warrantys.AddAsync(warranty);
+                    await _context.OrderDetails.AddAsync(orderDetailEntity);
                 }
             }
+            await _context.SaveChangesAsync();
+
+
+
+
+
+            /*
+            // Create a list to store items that need to be deleted
+            var itemsToDelete = new List<OrderProductSupport>();
+
+            // Find items to delete and update the rest
+            foreach (var product in request.ListExistOrderProduct)
+            {
+                // No ni
+                if (product.Size == null && product.OldSize != null)
+                {
+                    var existingProductA = existingProductDetails
+                   .FirstOrDefault(x => x.ProductId == product.ProductId && x.Size == product.OldSize);
+
+                    existingProductA.Quantity = product.Quantity;
+                    existingProductA.Size = product.Size;
+                }
+                if (product.Size != null && product.OldSize != null)
+                {
+                    var existingProductB = existingProductDetails
+                   .FirstOrDefault(x => x.ProductId == product.ProductId && x.Size == product.OldSize);
+
+                    existingProductB.Quantity = product.Quantity;
+                    existingProductB.Size = product.Size;
+                }
+
+                var existingProduct = existingProductDetails
+                    .FirstOrDefault(x => x.ProductId == product.ProductId && );
+
+                if (existingProduct == null)
+                {
+                    // Add to delete list if not found in existing products
+                    itemsToDelete.Add(product);
+                }
+                else
+                {
+                    // Update quantity and size
+                    product.Quantity = existingProduct.Quantity;
+                    product.Size = product.Size ?? product.OldSize;
+                }
+            }
+
+            // Remove items that are not in the existing product details
+            foreach (var item in itemsToDelete)
+            {
+                request.ListExistOrderProduct.Remove(item);
+            }*/
+
+            // Update the database with the new product details
+            foreach (var updatedProduct in request.ListExistOrderProduct)
+            {
+                var orderDetail = existingProductDetails
+                    .FirstOrDefault(x => x.ProductId == updatedProduct.ProductId);
+
+                if (orderDetail != null)
+                {
+                    orderDetail.Quantity = updatedProduct.Quantity;
+                    orderDetail.Size = updatedProduct.Size;
+                }
+            }
+
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+
+            //End
 
             if (request.ListOrderProduct != null)
             {
@@ -986,15 +1104,16 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         UnitPrice = product.SellingPrice,
                         TotalPrice = orderDetail.Quantity * product.SellingPrice,
                         WarrantyId = warranty.WarrantyId,
-
+                        Size = orderDetail.Size,
                     };
                     await _context.Warrantys.AddAsync(warranty);
                     await _context.OrderDetails.AddAsync(orderDetailEntity);
                 }
             }
             _context.Orders.Update(order);
+
             await _context.SaveChangesAsync();
-            // Process SubGemPrice ..........................Fix percent sale
+            // Process SubGemPrice
             decimal totalPrice = 0;
             var orderDetailList = _context.OrderDetails.Where(x => x.OrderId == order.OrderId).ToList();
             if (orderDetailList != null && orderDetailList.Count > 0)
@@ -1051,7 +1170,8 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     {
                         orderPayment.Status = item.Status.ToString();
                     }
-                    if (item.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString())){
+                    if (item.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                    {
                         checkMoney -= orderPayment.PaymentAmount;
                     }
                     if (!item.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
@@ -1074,13 +1194,13 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 order.isShip = true;
                 order.ShipperId = await AssignShipper();
             }
-           
-            if(checkMoney==0 &&  checkSuccess!= false)
+
+            if (checkMoney == 0 && checkSuccess != false)
             {
                 order.RemainAmount = 0;
                 order.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString();
             }
-            
+
             await _context.SaveChangesAsync();
 
             return new ApiSuccessResult<bool>(true, "Success");
@@ -1090,25 +1210,38 @@ namespace DiamondLuxurySolution.Application.Repository.Order
         {
             public bool Equals(OrderProductSupport x, OrderProductSupport y)
             {
+                // Check if the products are equal based on ProductId, Quantity, and Size
                 return x.ProductId == y.ProductId;
             }
 
             public int GetHashCode(OrderProductSupport obj)
             {
-                return obj.ProductId.GetHashCode();
+                // Generate a hash code based on ProductId, Quantity, and Size
+                unchecked
+                {
+                    int hashCode = obj.ProductId.GetHashCode();
+                    return hashCode;
+                }
             }
         }
-        public async Task<ApiResult<bool>> UpdateShipper(UpdateShipperRequest request)
+        public async Task<ApiResult<string>> UpdateShipper(UpdateShipperRequest request)
         {
             var order = await _context.Orders.FindAsync(request.OrderId);
             if (order == null)
             {
-                return new ApiErrorResult<bool>("Không tìm thấy đơn hàng");
+                return new ApiErrorResult<string>("Không tìm thấy đơn hàng");
             }
-            order.ShipperId = request.ShipperId;
+
+            order.ShipperId = await AssignShipper();
+
+            if (order.ShipperId == null)
+            {
+                return new ApiErrorResult<string>("Chưa có nhân viên giao hàng");
+            }
+            var shipper = await _userMananger.FindByIdAsync(order.ShipperId.ToString());
             await _context.SaveChangesAsync();
             return
-                new ApiSuccessResult<bool>(true, "Success");
+                new ApiSuccessResult<string>(shipper.Fullname, "Success");
         }
 
         public async Task<ApiResult<PageResult<OrderVm>>> ViewOrder(ViewOrderRequest request)
@@ -1237,6 +1370,8 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                             ProductThumbnail = product.ProductThumbnail,
                             Warranty = warrantyVm,
                             UnitPrice = orderDetail.UnitPrice,
+                            Size = orderDetail.Size,
+
                         };
                         listOrderSupport.Add(orderProductSupport);
                     }
@@ -1643,6 +1778,8 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                             ProductThumbnail = product.ProductThumbnail,
                             Warranty = warrantyVm,
                             UnitPrice = orderDetail.UnitPrice,
+                            Size = orderDetail.Size,
+
                         };
                         listOrderSupport.Add(orderProductSupport);
                     }

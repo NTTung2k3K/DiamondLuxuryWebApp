@@ -11,9 +11,10 @@ namespace DiamondLuxurySolution.Application.Repository.Order
     public interface IOrderRepo
     {
         public Task<ApiResult<bool>> CreateOrder(CreateOrderRequest request);
+
         public Task<ApiResult<bool>> CreateOrderByStaff(CreateOrderByStaffRequest request);
 
-        public Task<ApiResult<bool>> UpdateShipper(UpdateShipperRequest request);
+        public Task<ApiResult<string>> UpdateShipper(UpdateShipperRequest request);
 
         public Task<ApiResult<bool>> DeleteOrder(string OrderId);
 

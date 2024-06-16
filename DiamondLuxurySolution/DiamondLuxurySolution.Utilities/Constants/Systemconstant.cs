@@ -79,6 +79,7 @@ namespace DiamondLuxurySolution.Utilities.Constants
         {
             Waiting,
             Working,
+
         }
         public enum CustomerStatus
         {

@@ -10,7 +10,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
     [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.DeliveryStaff)]
 
-
     public class DeliveryStaffController : BaseController
     {
         private readonly IStaffApiService _staffApiService;

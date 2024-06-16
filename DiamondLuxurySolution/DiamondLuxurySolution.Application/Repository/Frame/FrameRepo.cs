@@ -74,7 +74,6 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
             {
                 FrameId = await GenerateUniqueIdAsync(),
                 FrameName = request.NameFrame.Trim(),
-                Size = size,
                 Weight = weight,
                 Material = material,
             };
@@ -141,7 +140,6 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
             };
             var frameVm = new FrameVm
             {
-                Size = frame.Size,
                 Weight = frame.Weight,
                 NameFrame = frame.FrameName,
                 MaterialVm = materialVm,
@@ -213,7 +211,6 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
             }
 
             frame.Weight = weight;
-            frame.Size = size;
             frame.FrameName = request.NameFrame.Trim();
             frame.Material = material;
 
@@ -253,7 +250,6 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
                 {
                    FrameId = item.FrameId,
                    NameFrame = item.FrameName,
-                   Size = item.Size,
                    Weight = item.Weight,
                    MaterialVm = materialVm
                 };
@@ -292,7 +288,6 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
                 {
                     FrameId = frame.FrameId,
                     NameFrame = frame.FrameName,
-                    Size = frame.Size,
                     Weight = frame.Weight,
                     MaterialVm = materialVm
                 };
