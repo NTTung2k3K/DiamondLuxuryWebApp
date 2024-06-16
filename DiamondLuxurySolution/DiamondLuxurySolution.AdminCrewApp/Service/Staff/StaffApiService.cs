@@ -1,6 +1,7 @@
 ﻿using Azure.Core;
 using DiamondLuxurySolution.AdminCrewApp.Services;
 using DiamondLuxurySolution.ViewModel.Common;
+using DiamondLuxurySolution.ViewModel.Models.Order;
 using DiamondLuxurySolution.ViewModel.Models.User.Customer;
 using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 using static DiamondLuxurySolution.Utilities.Constants.Systemconstant;
@@ -101,6 +102,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Staff
         public async Task<ApiResult<PageResult<StaffVm>>> ViewSalesStaffPagination(ViewStaffPaginationCommonRequest request)
         {
             var data = await GetAsync<PageResult<StaffVm>>($"api/Staffs/ViewSalesStaff?Keyword={request.Keyword}&pageIndex={request.pageIndex}");
+            return data;
+        }
+
+        public async Task<ApiResult<PageResult<OrderVm>>> ViewOrderForDeliveryStaff(ViewOrderForDeliveryStaff request)
+        {
+            var data = await PostAsync<PageResult<OrderVm>>("api/Staffs/ViewOrderForDeliveryStaff", request);
+            return data;
+        }
+        public async Task<ApiResult<bool>> UpdateStatusOrderForDeliveryStaff(UpdateStatusOrderForDeliveryStaff request)
+        {
+            var data = await PutAsync<bool>("api/Staffs/UpdateStatusOrderForDeliveryStaff", request);
             return data;
         }
     }

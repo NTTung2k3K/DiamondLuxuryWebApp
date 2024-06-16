@@ -204,7 +204,7 @@
     </div>
     <div class="row">
         <div class="col-md-3">
-            <button id="completeOrderBtn" data-order-id="@Model.OrderId">Complete Order</button>
+            <button id="completeOrderBtn" data-order-id="@Model.OrderId">Xác nhận giao thành công đơn hàng</button>
         </div>
         <div class="col-md-6">
             <a class="m-5" asp-action="IndexOrder" asp-controller="DeliveryStaff">Về trang danh sách đơn hàng</a>
@@ -228,7 +228,7 @@ else
 
                 $.ajax({
                     url: '/DeliveryStaff/UpdateStatusOrderForDeliveryStaff',
-                    type: 'POST',
+                    type: 'PUT',
                     contentType: 'application/json',
                     data: JSON.stringify(orderId),
                     success: function(response) {
