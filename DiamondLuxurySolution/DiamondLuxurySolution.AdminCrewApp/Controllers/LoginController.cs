@@ -84,7 +84,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     return RedirectToAction("Index", "Product");
                 }
                 if (user.ResultObj.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.DeliveryStaff)){
+<<<<<<< HEAD
                     return RedirectToAction("IndexOrder", "DeliveryStaff");
+=======
+                    return RedirectToAction("Index", "DeliveryStaff");
+>>>>>>> f397645168e73a9c87550d8f8ae8c35aa3a77c9c
                 }
 
             }

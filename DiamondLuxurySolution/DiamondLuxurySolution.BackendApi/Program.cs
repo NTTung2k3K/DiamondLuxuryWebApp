@@ -115,6 +115,10 @@ builder.Services.AddIdentity<AppUser, AppRole>(options =>
 
 var app = builder.Build();
 
+app.UseCors(builder =>
+       builder.WithOrigins("https://localhost:9002")  // Allow requests from this origin
+              .AllowAnyMethod()                      // Allow any HTTP method
+              .AllowAnyHeader());
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

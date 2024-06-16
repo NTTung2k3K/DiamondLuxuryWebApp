@@ -97,7 +97,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 				}
 				foreach (var item in GemPriceList)
 				{
-					if (item.effectDate.Date == DateTime.Now.Date)
+					if (item.effectDate.Date<= DateTime.Now.Date && DateTime.Now.Date <=item.effectDate.Date.AddDays(7))
 					{
 						totalPriceGem += (decimal)item.Price;
 					}
@@ -186,7 +186,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 					product.FrameId = frame.FrameId;
 					var frameWeight = frame.Weight;
 					var material = await _context.Materials.FindAsync(frame.MaterialId);
-					if (material.EffectDate.Date.Equals(DateTime.Now.Date))
+                    if (material.EffectDate.Date <= DateTime.Now.Date && DateTime.Now.Date <= material.EffectDate.Date.AddDays(3))
 					{
 						totalFramePrice = (decimal)material.Price * (decimal)frameWeight;
 					}
@@ -333,7 +333,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 					{
 						FrameId = product.FrameId,
 						NameFrame = product.Frame.FrameName,
-						Size = product.Frame.Size,
 						Weight = product.Frame.Weight,
 					};
 					var material = await _context.Materials.FindAsync(product.Frame.MaterialId);
@@ -714,7 +713,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 					{
 						FrameId = product.FrameId,
 						NameFrame = product.Frame.FrameName,
-						Size = product.Frame.Size,
 						Weight = product.Frame.Weight,
 					};
 					var material = await _context.Materials.FindAsync(product.Frame.MaterialId);
@@ -834,7 +832,6 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 					{
 						FrameId = product.Frame.FrameId,
 						NameFrame = product.Frame.FrameName,
-						Size = product.Frame.Size,
 						Weight = product.Frame.Weight,
 						MaterialVm = product.Frame.Material != null ? new MaterialVm
 						{

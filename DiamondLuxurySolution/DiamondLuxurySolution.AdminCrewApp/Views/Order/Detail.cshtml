@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Chi tiết tin tức</h1>
+<h1>Chi tiết sản phẩm</h1>
 @if (ViewBag.Errors != null)
 {
     foreach (var error in ViewBag.Errors)
@@ -61,7 +61,7 @@
                 Địa chỉ giao hàng
             </dt>
             <dd class="col-sm-9">
-                @if (Model.Description != null)
+                @if (Model.ShipAdress != null)
                 {
                     <div>
                         <p>
@@ -143,7 +143,7 @@
                     <p value="@Model.Status">
                         N/A
                     </p>
-                }  
+                }
 
             </dd>
 
@@ -154,19 +154,19 @@
                 @if (Model.PromotionVm != null)
                 {
                     <div>
-                        <p>
+                        <span style="color:forestgreen">
                             @Html.DisplayFor(model => model.PromotionVm.PromotionName)
-                        </p>
+                        </span>
 
-                        <p>
+                        <span>
                             <span>Từ ngày</span>
                             @Html.DisplayFor(model => model.PromotionVm.StartDate)
-                        </p>
+                        </span>
 
-                        <p>
+                        <span>
                             <span>Đến ngày</span>
                             @Html.DisplayFor(model => model.PromotionVm.EndDate)
-                        </p>
+                        </span>
                     </div>
                 }
                 else
@@ -203,7 +203,7 @@
                     foreach (var product in Model.ListOrderProduct)
                     {
                         <p>
-                            @product.ProductName &nbsp; Giá: @product.UnitPrice &nbsp; Số lượng @product.Quantity
+                            @product.ProductName &nbsp; Giá: @product.UnitPrice.ToString("N0")₫ &nbsp; Số lượng @product.Quantity &nbsp; Ni: @(product.Size != null ? product.Size : "Không có")
                         </p>
                     }
                 }
@@ -213,43 +213,48 @@
                 }
             </dd>
 
-          
+
             <dt class="col-sm-3">
                 Số tiền giảm
             </dt>
             <dd class="col-sm-9">
-                @if(Model.TotalSale != null && Model.TotalSale!= 0)
+                @if (Model.TotalSale != null && Model.TotalSale != 0)
                 {
-                    @Html.DisplayFor(model => model.TotalSale)
+                    <p>
+                        @Model.TotalSale?.ToString("N0")₫
+                    </p>
 
-                    <span>đ</span>
                 }
                 else
                 {
-
-                    <span>0đ</span>
-
+                    <span>0₫</span>
                 }
             </dd>
             <dt class="col-sm-3">
                 Tổng cộng
             </dt>
             <dd class="col-sm-9" style="color:red">
-                @Html.DisplayFor(model => model.TotalAmount)<span>đ</span>
+                <p>
+                    @Model.TotalAmount.ToString("N0")₫
+                </p>
             </dd>
 
             <dt class="col-sm-3">
                 Trả trước
             </dt>
             <dd class="col-sm-9">
-                @Html.DisplayFor(model => model.Deposit)
+                <p>
+                    @Model.Deposit?.ToString("N0")₫
+                </p>
             </dd>
 
             <dt class="col-sm-3">
                 Còn lại
             </dt>
             <dd class="col-sm-9">
-                @Html.DisplayFor(model => model.RemainAmount)
+                <p>
+                    @Model.RemainAmount.ToString("N0")₫
+                </p>
             </dd>
 
             <dt class="col-sm-3">
@@ -262,7 +267,7 @@
                     {
                         <p style="font-weight:bold">Thời gian: @payment.PaymentTime</p>
                         <p>
-                            &nbsp;&nbsp; &nbsp;&nbsp; - Phương thức: @payment.PaymentMethod &nbsp;  &nbsp; Số tiền: @payment.PaymentAmount &nbsp; Lời nhắn: @(payment.Message != string.Empty ? payment.Message : "N/A")  &nbsp; Trạng thái: @if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                            &nbsp;&nbsp; &nbsp;&nbsp; - Phương thức: @payment.PaymentMethod &nbsp;  &nbsp; Số tiền: @payment.PaymentAmount.ToString("N0")₫ &nbsp; Lời nhắn: @(string.IsNullOrWhiteSpace(payment.Message) ? payment.Message : "Không có")  &nbsp; Trạng thái: @if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
                             {
                                 <span>Thành công</span>
                             }
@@ -294,7 +299,7 @@
             <dt class="col-sm-3">
                 Nhân viên giao hàng
             </dt>
-            <dd class="col-sm-9">
+            <dd class="col-sm-9" id="shipperName">
                 @if (Model.ShiperVm != null)
                 {
                     @Html.DisplayFor(model => model.ShiperVm.FullName)
@@ -310,14 +315,20 @@
         <div class="col-md-3">
             @Html.ActionLink("Chỉnh sửa", "Edit", new { OrderId = Model.OrderId }, new { @class = "btn btn-warning" })
         </div>
-        @if (Model != null && Model.RemainAmount > 0)
+        @if (Model != null && Model.RemainAmount > 0 && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
         {
             <div class="col-md-3">
                 @Html.ActionLink("Tiếp tục thanh toán", "PaidTheRest", new { OrderId = Model.OrderId }, new { @class = "btn btn-info" })
             </div>
         }
-       
-        <div class="col-md-6">
+        @if (!string.IsNullOrEmpty(Model.ShipAdress))
+        {
+            <div class="col-md-3 ">
+                <button class="btn btn-primary" id="UpdateShipperBtn">Cập nhật nhân viên giao hàng</button>
+            </div>
+        }
+
+        <div class="col-md-3">
             <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí tin tức</a>
         </div>
     </div>
@@ -329,4 +340,42 @@ else
     </div>
 }
 
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#UpdateShipperBtn").on('click',function(){
+                var orderId = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.OrderId));
 
+                console.log("BA")
+
+                var requestData = {
+                    OrderId: orderId
+                };
+                console.log("A")
+                $.ajax({
+                    url: "https://localhost:9000/api/Orders/UpdateShipper",
+                    type: "PUT",
+                    contentType: 'application/json',
+                    data: JSON.stringify(requestData),
+                    success: function (response) {
+
+                        if (response.isSuccessed) {
+                            alert('Cập nhật thành công: ' + response.resultObj);
+                            $("#shipperName").text(response.resultObj);
+                            // Handle success scenario
+                        } else {
+                            alert('Cập nhật thất bại: ' + response.message);
+                            // Handle failure scenario
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                        alert('Có lỗi xảy ra trong quá trình gửi yêu cầu.');
+                        // Handle other errors
+                    }
+                })
+            })
+        })    
+    </script>
+}

@@ -1,0 +1,228 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Contact.CreateContactRequest
+
+@{
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<style>
+	.footer-widget-1
+	{
+		border: 1px solid white;
+		height:100%
+	}
+	p1
+	{
+		font-size: 1.7rem;
+		text-align:center;
+		display: flex;
+		justify-content: center;
+	}
+	.form-control
+	{
+		font-size: 2rem;
+	}
+	.badges {
+	  display: flex;
+	  flex-direction: column;
+	  gap: 1rem; /* 16px */
+	  align-items: center;
+	  flex-wrap: wrap;
+	  justify-content: center;
+	}
+	.badges .green {
+		background-color: rgba(34, 197, 94, 0.10);
+		color: rgb(34 197 94);
+		border: 1px rgb(34 197 94) solid;
+		font-size: 2rem;
+		border-radius: 5px;
+		padding: 10px;
+		margin-top: 20px;
+	}
+	.badges .red {
+	  background-color: rgba(239, 68, 68, 0.10);
+	  color: rgb(239 68 68);
+	  border: 1px rgb(239 68 68) solid;
+	  margin: 20px 0px;
+	}
+</style>
+
+
+	<!-- Breadcumb area Start -->
+		<div class="breadcrumb-area" style="background-color: black;">
+			<div class="container">
+				<div class="row">
+					<div class="col-12 text-center">
+						<h1 class="page-title">Liên Hệ Với Chúng Tôi</h1>
+						<ul class="breadcrumb justify-content-center">
+							<li><a href="/Home/Index">Trang Chủ</a></li>
+							<li class="current"><a href="/Contact/Create">Liên Hệ</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- Breadcumb area End -->
+		<div class="main-content-wrapper" style="background-color: black;">
+			<div class="container">
+				<div class="row ptb--10 ptb-md--60">
+							<div class="col-lg-3 mb-md--30">
+								<div class="footer-widget-1" >
+									<h3 class="widget-title-1" style="background: rgba(232, 190, 111, 0.95);color:black;font-size: 3rem;text-align:center;font-weight: bold;">Địa Chỉ <i class="fa fa-solid fa-location-arrow"></i></h3>
+									<div class="widget-content-1 mb--20">
+										<p1 style="font-size: 1.8rem;">Showroom Hồ Chí Minh:<br>Vinhomes Grand Park Quận 9<br><br>Các Showroom Khác:<br>Đang Cập Nhật</p1>
+									</div>
+
+								</div>
+							</div>
+							<div class="col-lg-3 mb-md--30">
+								<div class="footer-widget-1">
+									<h3 class="widget-title-1" style="background: rgba(232, 190, 111, 0.95);color:black;font-size: 3rem;text-align:center;font-weight: bold;">Giờ Làm Việc <i class="fa fa-solid fa-clock-o"></i></h3>
+									<div class="widget-content-1 mb--20">
+										<p1 style="font-size: 2.7rem;">Thứ 2 - Chủ Nhật<br>10h-20h</p1>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-3 mb-md--30">
+								<div class="footer-widget-1">
+									<h3 class="widget-title-1" style="background: rgba(232, 190, 111, 0.95);color:black;font-size: 3rem;text-align:center;font-weight: bold;">Hotline <i class="fa fa-solid fa-phone"></i></h3>
+									<div class="widget-content-1 mb--20">
+										<p1 style="font-size: 3rem;">0332595856<br>0938536930</p1>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-3 mb-md--30">
+								<div class="footer-widget-1">
+									<h3 class="widget-title-1" style="background: rgba(232, 190, 111, 0.95);color:black; font-size: 3rem;text-align:center;font-weight: bold;">Email <i class="fa fa-solid fa-envelope-open" style="height: 26px;overflow: hidden;"></i></h3>
+									<div class="widget-content-1 mb--20">
+										<p1>diamondluxuryservice@gmail.com</p1>
+									</div>
+								</div>
+							</div>
+				</div>
+
+<div class="contact-area ptb--50 ptb-md--60">
+    <div class="container">
+        <div class="row">
+            <div class="col-12" style="border: 5px solid #fff;padding: 10px;">
+                <h2 class="heading-secondary border-bottom mb--30" style="text-align:center;">Liên hệ với chúng tôi thông qua form sau</h2>
+                @if (ViewBag.Errors != null)
+                {
+                    foreach (var error in ViewBag.Errors)
+                    {
+						<div class="badges">
+								<h3 class="red">Error: @error!</h3>
+						</div>
+					}
+                }
+                <form id="contactForm" asp-action="Create" asp-controller="Contact" method="post">
+                    <div class="row mb--20">
+                        <div class="col-md-2 text-md-right">
+                            <label asp-for="ContactNameUser">Họ Và Tên <sup>*</sup></label>
+                        </div>
+                        <div class="col-md-10">
+                            <input asp-for="ContactNameUser" class="form-control form__input form__input--3" />
+                            <span asp-validation-for="ContactNameUser" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb--20">
+                        <div class="col-md-2 text-md-right">
+                            <label asp-for="ContactEmailUser">Email<sup>*</sup></label>
+                        </div>
+                        <div class="col-md-10">
+                            <input asp-for="ContactEmailUser" class="form-control form__input form__input--3" />
+                            <span asp-validation-for="ContactEmailUser" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb--20">
+                        <div class="col-md-2 text-md-right">
+                            <label asp-for="ContactPhoneUser">Số Điện Thoại<sup>*</sup></label>
+                        </div>
+                        <div class="col-md-10">
+                            <input asp-for="ContactPhoneUser" class="form-control form__input form__input--3" />
+                            <span asp-validation-for="ContactPhoneUser" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mb--20">
+                        <div class="col-md-2 text-md-right">
+                            <label asp-for="Content">Mô Tả <sup>*</sup></label>
+                        </div>
+                        <div class="col-md-10">
+                            <textarea asp-for="Content" class="form-control form__input form__input--3 form__input--textarea"></textarea>
+                            <span asp-validation-for="Content" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-12 text-center">
+                            <input type="submit" value="Gửi Yêu Cầu" class="btn btn-success form__submit" style="padding:5px;" />
+                        </div>
+                    </div>
+                    <div class="form__output"></div>
+                </form>
+                @if (TempData["SuccessMsg"] != null)
+                {
+					<div class="badges">
+						<div id="successMessage" class="green">
+                        @TempData["SuccessMsg"]
+						</div>
+					</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            var isValid = true;
+            var name = document.getElementById('ContactNameUser');
+            var email = document.getElementById('ContactEmailUser');
+            var phone = document.getElementById('ContactPhoneUser');
+            var content = document.getElementById('Content');
+
+            // Clear previous error messages    
+            document.querySelectorAll('.text-danger').forEach(function(span) {
+                span.textContent = '';
+            });
+
+            // Validate name
+            if (name.value.trim() === '') {
+                name.nextElementSibling.textContent = 'Cần nhập họ và tên.';
+                isValid = false;
+            }
+			// Validate email
+			if (email.value.trim() === '') {
+                email.nextElementSibling.textContent = 'Cần nhập email.';
+                isValid = false;
+            }
+
+
+            // Validate phone
+            if (phone.value.trim() === '') {
+                phone.nextElementSibling.textContent = 'Cần nhập số điện thoại.';
+                isValid = false;
+            } else if (!/^\d{10}$/.test(phone.value)) {
+                phone.nextElementSibling.textContent = 'Số điện thoại không hợp lệ.';
+                isValid = false;
+            }
+
+            // Validate content
+            if (content.value.trim() === '') {
+                content.nextElementSibling.textContent = 'Cần nhập nội dung.';
+                isValid = false;
+            }
+
+            if (!isValid) {
+                event.preventDefault(); // Prevent form submission if validation fails
+            }    
+        });
+    </script>
+}
