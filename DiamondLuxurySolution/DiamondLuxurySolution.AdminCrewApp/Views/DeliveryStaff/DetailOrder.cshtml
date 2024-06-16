@@ -1,0 +1,245 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Order.OrderVm
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chi tiết tin tức</h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if (Model != null)
+{
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-3">
+                Mã đơn hàng
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.OrderId)
+            </dd>
+            <dt class="col-sm-3">
+                Người đặt
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.ShipName)
+            </dd>
+            <dt class="col-sm-3">
+                Số điện thoại
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.ShipPhoneNumber)
+            </dd>
+            <dt class="col-sm-3">
+                Địa chỉ giao hàng
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.Description != null)
+                {
+                    <div>
+                        <p>
+                            @Html.DisplayFor(model => model.ShipAdress)
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    <p>Không có</p>
+                }
+            </dd>
+            <dt class="col-sm-3">
+                Trạng thái
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()))
+                {
+                    <p value="@Model.Status">
+                        Hủy đơn
+                    </p>
+                }
+                else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Confirmed.ToString()))
+                {
+                    <p value="@Model.Status">
+                        Đã xác nhận
+                    </p>
+                }
+                else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Deposit.ToString()))
+                {
+                    <p value="@Model.Status">
+                        Đặt cọc
+                    </p>
+                }
+                else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()))
+                {
+                    <p value="@Model.Status">
+                        Đang xử lý
+                    </p>
+                }
+                else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.ProcessOfPayment.ToString()))
+                {
+                    <p value="@Model.Status">
+                        Trong quá trình thanh toán
+                    </p>
+                }
+                else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Shipping.ToString()))
+                {
+                    <p value="@Model.Status">
+                        Đang vận chuyển
+                    </p>
+                }
+                else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
+                {
+                    <p value="@Model.Status">
+                        Thành công
+                    </p>
+                }
+                else
+                {
+                    <p value="@Model.Status">
+                        N/A
+                    </p>
+                }
+
+            </dd>
+            <dt class="col-sm-3">
+                Mã giảm giá
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.DiscountVm != null)
+                {
+                    <div>
+                        <p>
+                            @Html.DisplayFor(model => model.DiscountVm.DiscountName)
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    <p>Không có</p>
+                }
+            </dd>
+            <dt class="col-sm-3">
+                Sản phẩm
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.ListOrderProduct != null)
+                {
+                    foreach (var product in Model.ListOrderProduct)
+                    {
+                        <p>
+                            @product.ProductName &nbsp; Giá: @product.UnitPrice &nbsp; Số lượng @product.Quantity
+                        </p>
+                    }
+                }
+                else
+                {
+                    <p>Không có</p>
+                }
+            </dd>
+            <dt class="col-sm-3">
+                Số tiền giảm
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.TotalSale != null && Model.TotalSale != 0)
+                {
+                    @Html.DisplayFor(model => model.TotalSale)
+
+                    <span>đ</span>
+                }
+                else
+                {
+
+                    <span>0đ</span>
+
+                }
+            </dd>
+            <dt class="col-sm-3">
+                Tổng cộng
+            </dt>
+            <dd class="col-sm-9" style="color:red">
+                @Html.DisplayFor(model => model.TotalAmount)<span>đ</span>
+            </dd>
+
+            <dt class="col-sm-3">
+                Trả trước
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Deposit)
+            </dd>
+
+            <dt class="col-sm-3">
+                Còn lại
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.RemainAmount)
+            </dd>
+            <dt class="col-sm-3">
+                Giao hàng
+            </dt>
+            <dd class="col-sm-9">
+                <div class="form-check form-switch ">
+                    <input class="form-check-input f-18 ml-3" type="checkbox" value="@Model.IsShip" disabled />
+                </div>
+            </dd>
+            <dt class="col-sm-3">
+                Nhân viên giao hàng
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.ShiperVm != null)
+                {
+                    @Html.DisplayFor(model => model.ShiperVm.FullName)
+                }
+                else
+                {
+                    <p>Không có</p>
+                }
+            </dd>
+        </dl>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <button id="completeOrderBtn" data-order-id="@Model.OrderId">Complete Order</button>
+        </div>
+        <div class="col-md-6">
+            <a class="m-5" asp-action="IndexOrder" asp-controller="DeliveryStaff">Về trang danh sách đơn hàng</a>
+        </div>
+    </div>
+}
+else
+{
+    <div>
+        <a class="m-5" asp-action="IndexOrder" asp-controller="DeliveryStaff">Về trang danh sách đơn hàng</a>
+    </div>
+}
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        debugger
+        $(document).ready(function() {
+            $("#completeOrderBtn").click(function() {
+                var orderId = $(this).data("order-id");
+
+                $.ajax({
+                    url: '/DeliveryStaff/UpdateStatusOrderForDeliveryStaff',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(orderId),
+                    success: function(response) {
+                        alert(response.message);
+                        // Optionally, you can also update the UI to reflect the order completion
+                    },
+                    error: function(xhr, status, error) {
+                        alert("An error occurred: " + error);
+                    }
+                });
+            });
+        });
+    </script>
+}
