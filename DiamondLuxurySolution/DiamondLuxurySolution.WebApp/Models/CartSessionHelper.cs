@@ -132,7 +132,10 @@ namespace DiamondLuxurySolution.WebApp.Models
 
 
         }
-
+        public static void ClearCart()
+        {
+            _httpContextAccessor.HttpContext.Session.Remove("Cart");
+        }
         public static List<CartItem> GetCart()
         {
             return GetObjectFromJson<List<CartItem>>("Cart") ?? new List<CartItem>();

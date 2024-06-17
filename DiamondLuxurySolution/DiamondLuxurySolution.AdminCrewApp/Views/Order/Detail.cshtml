@@ -1,11 +1,21 @@
-﻿@model DiamondLuxurySolution.ViewModel.Models.Order.OrderVm
+﻿@using DiamondLuxurySolution.ViewModel.Models.User.Staff
+@model DiamondLuxurySolution.ViewModel.Models.Order.OrderVm
 
 @{
     ViewData["Title"] = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Chi tiết sản phẩm</h1>
+<div class="row">
+    <h1 class="col-md-9">Chi tiết sản phẩm</h1>
+    <div class="col-md-3 ">
+        <button class="btn btn-success" id="acceptOrder">Phụ trách đơn hàng</button>
+        @{
+            var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
+        }
+        <input type="hidden" value="@staffVm.StaffId" id="StaffId" />
+    </div>
+</div>
 @if (ViewBag.Errors != null)
 {
     foreach (var error in ViewBag.Errors)
@@ -29,7 +39,7 @@
             </dt>
             <dd class="col-sm-9">
                 <p>
-                    @Html.DisplayFor(model => model.StaffVm.FullName)
+                    @(Model.StaffVm == null ? "Không có" :Model.StaffVm.FullName)
                 </p>
             </dd>
             <dt class="col-sm-3">
@@ -117,7 +127,7 @@
                 else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()))
                 {
                     <p value="@Model.Status">
-                        Đang xử lý
+                        Đang chờ xử lý
                     </p>
                 }
                 else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.ProcessOfPayment.ToString()))
@@ -329,7 +339,7 @@
         }
 
         <div class="col-md-3">
-            <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí tin tức</a>
+            <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
         </div>
     </div>
 }
@@ -346,13 +356,9 @@ else
         $(document).ready(function () {
             $("#UpdateShipperBtn").on('click',function(){
                 var orderId = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.OrderId));
-
-                console.log("BA")
-
                 var requestData = {
                     OrderId: orderId
                 };
-                console.log("A")
                 $.ajax({
                     url: "https://localhost:9000/api/Orders/UpdateShipper",
                     type: "PUT",
@@ -376,6 +382,42 @@ else
                     }
                 })
             })
+
+            $("#acceptOrder").on('click', function () {
+                var orderId = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.OrderId));
+                var staffId = $('#StaffId').val();
+                
+                var requestData = {
+                    OrderId: orderId,
+                    StaffId: staffId
+                };
+                debugger;
+                $.ajax({
+                    url: "https://localhost:9000/api/Orders/AcceptProcessOrder",
+                    type: "PUT",
+                    contentType: 'application/json',
+                    data: JSON.stringify(requestData),
+                    success: function (response) {
+
+                        if (response.isSuccessed) {
+                            alert('Phụ trách đơn hàng thành công'); 
+                            window.location.reload();
+                            // Handle success scenario
+                        } else {
+                            alert('Cập nhật thất bại: ' + response.message);
+                            // Handle failure scenario
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(error);
+                        alert('Có lỗi xảy ra trong quá trình gửi yêu cầu.');
+                        // Handle other errors
+                    }
+                })
+            })
+
+
+
         })    
     </script>
 }

@@ -163,7 +163,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     DiscountId = Order.ResultObj.DiscountVm == null ? null : Order.ResultObj.DiscountVm.DiscountId,
                     Email = Order.ResultObj.ShipEmail,
                     Fullname = Order.ResultObj.CustomerVm.FullName,
-                    StaffId = Order.ResultObj.StaffVm.StaffId,
+                    StaffId = Order.ResultObj.StaffVm == null ? null : Order.ResultObj.StaffVm.StaffId,
                     ListExistOrderProduct = listExistProduct,
                     PhoneNumber = Order.ResultObj.ShipPhoneNumber,
                     PromotionId = Order.ResultObj.PromotionVm == null ? null : Order.ResultObj.PromotionVm.PromotionId,
