@@ -1,4 +1,5 @@
-﻿using DiamondLuxurySolution.ViewModel.Common;
+﻿using DiamondLuxurySolution.Data.Entities;
+using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Order;
 using DiamondLuxurySolution.ViewModel.Models.User.Customer;
 using DiamondLuxurySolution.WebApp.Models;
@@ -7,7 +8,10 @@ using DiamondLuxurySolution.WebApp.Service.Order;
 using DiamondLuxurySolution.WebApp.Service.Payment;
 using DiamondLuxurySolution.WebApp.Service.Promotion;
 using Microsoft.AspNetCore.Mvc;
+using PayPal;
+using PayPal.Api;
 using System.Text.Json;
+using Payment = PayPal.Api.Payment;
 
 namespace DiamondLuxurySolution.WebApp.Controllers
 {
@@ -18,7 +22,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
         private readonly IPromotionApiService _promotionApiService;
         private readonly IOrderApiService _orderApiService;
 
-        public PayController(ICustomerApiService customerApiService, IPaymentApiService paymentApiService,IPromotionApiService promotionApiService,IOrderApiService orderApiService)
+        public PayController(ICustomerApiService customerApiService, IPaymentApiService paymentApiService, IPromotionApiService promotionApiService, IOrderApiService orderApiService)
         {
             _customerApiService = customerApiService;
             _paymentApiService = paymentApiService;
@@ -47,7 +51,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
             var listPromotion = await _promotionApiService.GetAllOnTime();
             ViewBag.ListPromotionOnTime = listPromotion.ResultObj;
 
-            if(listPromotion.ResultObj != null && listPromotion.ResultObj.Count > 0)
+            if (listPromotion.ResultObj != null && listPromotion.ResultObj.Count > 0)
             {
                 ViewBag.FistPromotion = listPromotion.ResultObj.First().DiscountPercent;
             }
@@ -60,10 +64,193 @@ namespace DiamondLuxurySolution.WebApp.Controllers
                 ShipName = customer.ResultObj.FullName,
                 ShipPhoneNumber = customer.ResultObj.PhoneNumber,
             };
-            
+
 
             return View(orderVm);
         }
+
+        //Paypal start
+
+        public async Task<ActionResult> PaymentWithPaypal(string OrderId, string Cancel = null)
+        {
+            // Getting the APIContext  
+            APIContext apiContext = PaypalConfiguration.GetAPIContext();
+            try
+            {
+                // A resource representing a Payer that funds a payment Payment Method as paypal  
+                // Payer Id will be returned when payment proceeds or click to pay  
+                string payerId = Request.Query["PayerID"];
+                if (string.IsNullOrEmpty(payerId))
+                {
+                    // This section will be executed first because PayerID doesn't exist  
+                    // it is returned by the create function call of the payment class  
+                    // Creating a payment  
+                    // baseURL is the url on which paypal sends back the data.  
+                    string baseURI = $"{Request.Scheme}://{Request.Host}/Pay/PaymentWithPayPal?";
+                    // Here we are generating guid for storing the paymentID received in session  
+                    // which will be used in the payment execution  
+                    var guid = Convert.ToString((new Random()).Next(100000));
+                    // Store OrderId in session
+                    HttpContext.Session.SetString("OrderId", OrderId);
+                    // CreatePayment function gives us the payment approval url  
+                    // on which payer is redirected for paypal account payment  
+                    Payment createdPayment = await this.CreatePayment(apiContext, baseURI + "guid=" + guid, OrderId);
+                    // Get links returned from paypal in response to Create function call  
+                    var links = createdPayment.links.GetEnumerator();
+                    string paypalRedirectUrl = null;
+                    while (links.MoveNext())
+                    {
+                        Links lnk = links.Current;
+                        if (lnk.rel.ToLower().Trim().Equals("approval_url"))
+                        {
+                            // Saving the paypal redirect URL to which user will be redirected for payment  
+                            paypalRedirectUrl = lnk.href;
+                        }
+                    }
+                    // Saving the paymentID in the key guid  
+                    HttpContext.Session.SetString(guid, createdPayment.id);
+
+                    return Redirect(paypalRedirectUrl);
+                }
+                else
+                {
+                    // This function executes after receiving all parameters for the payment  
+                    var guid = Request.Query["guid"];
+                    // Retrieve OrderId from session
+                    var orderId = HttpContext.Session.GetString("OrderId");
+                    var executedPayment = ExecutePayment(apiContext, payerId, HttpContext.Session.GetString(guid) as string);
+                    // If executed payment failed then we will show payment failure message to user  
+                    if (executedPayment.state.ToLower() != "approved")
+                    {
+                        return View("FailureView");
+                    }
+                }
+            }
+            catch (PaymentsException ex)
+            {
+                // Log detailed error message from PayPal
+                Console.WriteLine($"PayPal PaymentsException: {ex.Response}");
+                return View("FailureView");
+            }
+            catch (Exception ex)
+            {
+                // Log general exception
+                Console.WriteLine($"Exception: {ex.Message}");
+                return View("FailureView");
+            }
+            // On successful payment, show success page to user.  
+            return View("SuccessView");
+        }
+
+        private PayPal.Api.Payment payment;
+        private Payment ExecutePayment(APIContext apiContext, string payerId, string paymentId)
+        {
+            var paymentExecution = new PaymentExecution()
+            {
+                payer_id = payerId
+            };
+            this.payment = new Payment()
+            {
+                id = paymentId
+            };
+            return this.payment.Execute(apiContext, paymentExecution);
+        }
+        private async Task<Payment> CreatePayment(APIContext apiContext, string redirectUrl, string OrderId)
+        {
+            // Create item list and add item objects to it  
+            var itemList = new ItemList()
+            {
+                items = new List<Item>()
+            };
+
+            // Adding Item Details like name, currency, price etc  
+            var order = await _orderApiService.GetOrderById(OrderId);
+            foreach (var item in order.ResultObj.ListOrderProduct)
+            {
+                itemList.items.Add(new Item()
+                {
+                    name = item.ProductName,
+                    currency = "USD",
+                    price = Math.Round(item.UnitPrice * item.Quantity / 23500, 2).ToString("F2"),
+                    quantity = item.Quantity.ToString(),
+                    sku = item.ProductId
+                });
+            }
+
+            // Calculate subtotal
+            var subtotal = itemList.items.Sum(x => Convert.ToDecimal(x.price) * Convert.ToInt32(x.quantity));
+
+            var payer = new Payer()
+            {
+                payment_method = "paypal"
+            };
+
+            // Configure Redirect Urls here with RedirectUrls object  
+            var redirUrls = new RedirectUrls()
+            {
+                cancel_url = $"{redirectUrl}&Cancel=true&OrderId={OrderId}",
+                return_url = $"{redirectUrl}&OrderId={OrderId}"
+            };
+
+            // Adding Tax, shipping and Subtotal details  
+            var details = new Details()
+            {
+                tax = "0",
+                shipping = "0",
+                subtotal = subtotal.ToString("F2")
+            };
+
+            // Final amount with details  
+            var amount = new Amount()
+            {
+                currency = "USD",
+                total = subtotal.ToString("F2"), // Total must be equal to sum of tax, shipping and subtotal.  
+                details = details
+            };
+
+            var transactionList = new List<Transaction>();
+            // Adding description about the transaction  
+            var paypalOrderId = DateTime.Now.Ticks;
+            transactionList.Add(new Transaction()
+            {
+                description = $"Hóa đơn #{order.ResultObj.OrderId}",
+                invoice_number = paypalOrderId.ToString(), // Generate an Invoice No    
+                amount = amount,
+                item_list = itemList
+            });
+
+            this.payment = new Payment()
+            {
+                intent = "sale",
+                payer = payer,
+                transactions = transactionList,
+                redirect_urls = redirUrls
+            };
+
+            // Create a payment using an APIContext  
+            try
+            {
+                return this.payment.Create(apiContext);
+            }
+            catch (PaymentsException ex)
+            {
+                // Log detailed error message from PayPal
+                Console.WriteLine($"PayPal PaymentsException: {ex.Response}");
+                throw;
+            }
+            catch (Exception ex)
+            {
+                // Log general exception
+                Console.WriteLine($"Exception: {ex.Message}");
+                throw;
+            }
+        }
+
+
+
+        //Paypal End
+
+
 
         [HttpPost]
         public async Task<IActionResult> Info(CreateOrderRequest request, string country, string billing_streetAddress)
@@ -93,7 +280,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
                 };
                 listOrderProductVm.Add(product);
             }
-            
+
             var orderVm = new CreateOrderRequest()
             {
                 ShipAdress = request.ShipAdress + ",Quận " + billing_streetAddress + ", " + country,
@@ -138,7 +325,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
             TempData["SuccessMsg"] = "Tạo mới thành công";
 
             CartSessionHelper.ClearCart();
-            return RedirectToAction("ViewDetail", "Order", new { OrderId = status.ResultObj});
+            return RedirectToAction("ViewDetail", "Order", new { OrderId = status.ResultObj });
 
         }
     }

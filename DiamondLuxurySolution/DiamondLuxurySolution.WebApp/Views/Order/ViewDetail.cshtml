@@ -210,9 +210,20 @@
 
 
                 }
-                <div class="payment-btn-group text-center mt--20">
-                    <a href="/Order/ViewAll?CustomerId=@Model.CustomerVm.CustomerId" class="btn" id="backTo" style="background-color:#a8741a">Xem tất cả đơn hàng</a>
+                <div class="row">
+
+                    <div class="text-center mt--20 col-md-6">
+                        @if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Confirmed.ToString()))
+                        {
+                            <a href="/Pay/PaymentWithPayPal?OrderId=@Model.OrderId" class="btn  btn-success">Thanh toán bằng Paypal</a>
+                        }
+                    </div>
+
+                    <div class="payment-btn-group text-center mt--20 col-md-6">
+                        <a href="/Order/ViewAll?CustomerId=@Model.CustomerVm.CustomerId" class="btn" id="backTo" style="background-color:#a8741a">Xem tất cả đơn hàng</a>
+                    </div>
                 </div>
+               
 
             </div>
         </div>

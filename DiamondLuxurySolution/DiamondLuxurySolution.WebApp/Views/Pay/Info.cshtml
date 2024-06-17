@@ -36,6 +36,13 @@
                                     <div class="checkout-form">
 
                                         <div class="row mb--30">
+                                            @if (ViewBag.Errors != null)
+                                            {
+                                                foreach (var error in ViewBag.Errors)
+                                                {
+                                                    <h4 class="text-danger">@error</h4>
+                                                }
+                                            }
 
                                             <div class="form__group col-md-12 mb-sm--30">
                                                 <label for="billing_fname" class="form__label">Họ và tên<span style="color:red">*</span></label>
