@@ -11,8 +11,8 @@ namespace DiamondLuxurySolution.WebApp.Models
         static PaypalConfiguration()
         {
             var config = GetConfig();
-            ClientId = "AQC-MSJ7__GRgh5itsIt82fSZ34jXEBweBsxpdndfrm1qXjng-Q7KvyGdmh-QEbI38VcX1vu0xY1HMew";
-            ClientSecret = "ENOK9Pk7uPQmlzHVoTqXJe1O3xZD-72CkYEPh4YnZoeh_49p1rEMeD0dDE-dcrZsQBNQiQEhZ2p3hUDL";
+            ClientId = "Ab0FrSf3h2e5PZfDr6C6-3F2kIALEfoLiSmIxqpDgcjjLOG9ta2_6Cw2_h7Q4hrIdHH7r2IH16usE9W-";
+            ClientSecret = "EE6CNZbhMXDQ4oUxU0EkKFhoNF7IcLUrOOdM34MkPvXfbFg8qm1Vazl4NqxMWxHubMsF-4tEvyrzQTkM";
         }
         // getting properties from the web.config  
         public static Dictionary<string, string> GetConfig()

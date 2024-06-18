@@ -5,7 +5,7 @@ namespace DiamondLuxurySolution.Data.Entities;
 
 public partial class Warranty
 {
-    public Guid WarrantyId { get; set; }
+    public string WarrantyId { get; set; }
 
     public string? WarrantyName { get; set; }
 

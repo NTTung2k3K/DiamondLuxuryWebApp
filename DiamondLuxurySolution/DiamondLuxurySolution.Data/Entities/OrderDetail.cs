@@ -9,7 +9,7 @@ public partial class OrderDetail
 
     public string OrderId { get; set; } = null!;
 
-    public Guid WarrantyId { get; set; }
+    public string WarrantyId { get; set; }
 
     public int Quantity { get; set; }
 

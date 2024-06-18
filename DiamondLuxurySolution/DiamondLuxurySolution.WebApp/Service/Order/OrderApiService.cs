@@ -26,5 +26,13 @@ namespace DiamondLuxurySolution.WebApp.Service.Order
             var data = await GetAsync<OrderVm>($"api/Orders/GetById?OrderId={OrderId}");
             return data;
         }
+
+        public async Task<ApiResult<string>> ChangeStatusOrder(ChangeOrderStatusRequest request)
+        {
+
+            var data = await PutAsync<string>("api/Orders/ChangeStatus", request);
+            return data;
+        }
+
     }
 }

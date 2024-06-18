@@ -38,16 +38,24 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             _context = context;
             _roleManager = roleManager;
         }
-        public async Task<ApiResult<bool>> ChangeStatusOrder(ChangeOrderStatusRequest request)
+        public async Task<ApiResult<string>> ChangeStatusOrder(ChangeOrderStatusRequest request)
         {
             var order = await _context.Orders.FindAsync(request.OrderId);
             if (order == null)
             {
-                return new ApiErrorResult<bool>("Không tìm thấy đơn hàng");
+                return new ApiErrorResult<string>("Không tìm thấy đơn hàng");
             }
-            order.Status = request.Status;
-            _context.SaveChanges();
-            return new ApiSuccessResult<bool>("Success");
+
+            
+
+            var listOrderPayment =   _context.OrdersPayments.Where(x => x.OrderId == request.OrderId).OrderByDescending(x => x.OpenPaymentTime).FirstOrDefault();
+            if (listOrderPayment == null)
+            {
+                return new ApiErrorResult<string>("Không tìm thấy thông tin thanh toán");
+            }
+            listOrderPayment.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString();
+            await _context.SaveChangesAsync();
+            return new ApiSuccessResult<string>(order.OrderId,"Success");
         }
 
         public async Task<ApiResult<bool>> ContinuePayment(ContinuePaymentRequest request)
@@ -159,9 +167,10 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         var product = await _context.Products.FindAsync(orderProduct.ProductId);
                         if (product == null) return new ApiErrorResult<string>("Không tìm thấy sản phẩm trong đơn đặt hàng");
 
+                        string WarrantyId = "W" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
                         var warranty = new DiamondLuxurySolution.Data.Entities.Warranty()
                         {
-                            WarrantyId = Guid.NewGuid(),
+                            WarrantyId = WarrantyId,
                             DateActive = DateTime.Now,
                             DateExpired = DateTime.Now.AddMonths(12),
                             WarrantyName = $"Phiếu bảo hành cho sản phẩm {product.ProductName} | {product.ProductId}",
@@ -178,6 +187,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                             TotalPrice = orderProduct.Quantity * product.SellingPrice,
                             WarrantyId = warranty.WarrantyId,
                             Size = orderProduct.Size,
+                            
                         };
 
                         totalPrice += orderDetail.TotalPrice;
@@ -237,7 +247,8 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                             Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString(),
                             OrdersPaymentId = Guid.NewGuid(),
                             PaymentId = paymentId,
-                            PaymentAmount = (decimal)order.RemainAmount > 0 ? (decimal)request.Deposit : total
+                            PaymentAmount = (decimal)order.RemainAmount > 0 ? (decimal)request.Deposit : total,
+                            OpenPaymentTime = DateTime.Now
                         };
                         _context.OrdersPayments.Add(orderPayment);
                     }
@@ -519,10 +530,11 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     {
                         var product = await _context.Products.FindAsync(orderProduct.ProductId);
                         if (product == null) return new ApiErrorResult<bool>("Không tìm thấy sản phẩm trong đơn đặt hàng");
+                        string WarrantyId = "W" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
 
                         var warranty = new DiamondLuxurySolution.Data.Entities.Warranty()
                         {
-                            WarrantyId = Guid.NewGuid(),
+                            WarrantyId = WarrantyId,
                             DateActive = DateTime.Now,
                             DateExpired = DateTime.Now.AddMonths(12),
                             WarrantyName = $"Phiếu bảo hành cho sản phẩm {product.ProductName} | {product.ProductId}",
@@ -797,8 +809,9 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     Status = op.Status,
                     PaymentAmount = op.PaymentAmount,
                     Message = op.Message,
-                    OrderPaymentId = op.OrdersPaymentId
-
+                    OrderPaymentId = op.OrdersPaymentId,
+                    OpenPaymentTime = op.OpenPaymentTime,
+                    
                 }).ToList();
             }
             if (order.OrderDetails != null)
@@ -979,9 +992,11 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     {
                         return new ApiErrorResult<bool>($"Kim cương phụ cần có số lượng");
                     }
+                        string WarrantyId = "W" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
+
                     var warranty = new DiamondLuxurySolution.Data.Entities.Warranty()
                     {
-                        WarrantyId = Guid.NewGuid(),
+                        WarrantyId = WarrantyId,
                         DateActive = DateTime.Now,
                         DateExpired = DateTime.Now.AddMonths(12),
                         WarrantyName = $"Phiếu bảo hành cho sản phẩm {product.ProductName} | {product.ProductId}",
@@ -1087,9 +1102,11 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     {
                         return new ApiErrorResult<bool>($"Kim cương phụ cần có số lượng");
                     }
+                    string WarrantyId = "W" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
+
                     var warranty = new DiamondLuxurySolution.Data.Entities.Warranty()
                     {
-                        WarrantyId = Guid.NewGuid(),
+                        WarrantyId = WarrantyId,
                         DateActive = DateTime.Now,
                         DateExpired = DateTime.Now.AddMonths(12),
                         WarrantyName = $"Phiếu bảo hành cho sản phẩm {product.ProductName} | {product.ProductId}",

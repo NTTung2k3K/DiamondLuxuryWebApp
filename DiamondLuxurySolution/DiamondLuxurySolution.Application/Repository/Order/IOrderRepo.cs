@@ -36,7 +36,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
         public Task<ApiResult<bool>> UpdateInfoOrder(UpdateOrderRequest request);
         public Task<ApiResult<bool>> ContinuePayment(ContinuePaymentRequest request);
 
-        public Task<ApiResult<bool>> ChangeStatusOrder(ChangeOrderStatusRequest request);
+        public Task<ApiResult<string>> ChangeStatusOrder(ChangeOrderStatusRequest request);
         public Task<ApiResult<OrderVm>> GetOrderById(string OrderId);
         public Task<ApiResult<PageResult<OrderVm>>> ViewOrder(ViewOrderRequest request);
     }

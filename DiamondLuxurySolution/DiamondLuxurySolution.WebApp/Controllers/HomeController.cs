@@ -16,7 +16,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
             {
                 var customerName = Request.Cookies["CustomerName"];
                 var customerId = Request.Cookies["CustomerId"];
-                var platform = Request.Cookies[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM];
+                var platform = Request.Cookies[DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM.ToString()];
 
 
                 if (!string.IsNullOrEmpty(customerName) && !string.IsNullOrEmpty(customerId))
