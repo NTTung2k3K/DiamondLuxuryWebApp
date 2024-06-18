@@ -31,7 +31,10 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         {
             try
             {
-               
+                if (!string.IsNullOrEmpty(request.ListOrderProductJson))
+                {
+                    request.ListOrderProduct = (List<OrderProductSupport>?)JsonConvert.DeserializeObject<ICollection<OrderProductSupport>>(request.ListOrderProductJson);
+                }
                 var status = await _order.CreateOrder(request);
                 if (status.IsSuccessed)
                 {
@@ -74,6 +77,25 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                     return Ok(status);
                 }
                 return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut("AcceptProcessOrder")]
+        public async Task<ActionResult> AcceptProcessOrder([FromBody] AcceptProcessOrder request)
+        {
+            try
+            {
+
+                var status = await _order.AcceptProcessOrder(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return Ok(status);
             }
             catch (Exception e)
             {

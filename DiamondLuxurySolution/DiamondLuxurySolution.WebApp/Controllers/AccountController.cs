@@ -60,7 +60,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
                     };
                     Response.Cookies.Append("CustomerName", customer.ResultObj.FullName, option);
                     Response.Cookies.Append("CustomerId", customer.ResultObj.CustomerId.ToString(), option);
-                    Response.Cookies.Append(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.DEFAULT_PLATFORM);
+                    Response.Cookies.Append(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM.ToString(), DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.DEFAULT_PLATFORM.ToString(),option);
 
                 }
                 HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.DEFAULT_PLATFORM);

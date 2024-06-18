@@ -130,7 +130,7 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
             var list = await _context.Promotions.ToListAsync();
             var listPromotionVm = new List<PromotionVm>();
 
-            foreach (var item in listPromotionVm)
+            foreach (var item in list)
             {
                 var promotionVm = new PromotionVm()
                 {
@@ -157,7 +157,7 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
 
             foreach (var item in list)
             {
-                if(item.StartDate.Date <= DateTime.Now && DateTime.Now <= item.EndDate)
+                if(item.StartDate.Date <= DateTime.Now && DateTime.Now <= item.EndDate && item.Status==true)
                 {
                     var promotionVm = new PromotionVm()
                     {
