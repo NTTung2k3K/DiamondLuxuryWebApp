@@ -27,6 +27,8 @@ namespace DiamondLuxurySolution.Utilities.Constants
 
 
         }
+
+
         public class UserRoleDefault
         {
             public const string Customer = "Khách hàng";

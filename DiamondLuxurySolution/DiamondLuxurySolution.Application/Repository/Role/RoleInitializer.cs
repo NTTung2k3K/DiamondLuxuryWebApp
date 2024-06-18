@@ -60,7 +60,6 @@ namespace DiamondLuxurySolution.Application.Repository.Role
                     Email = "Admin1@gmail.com",
                     Dob = new DateTime(2003, 06, 20),
                     DateCreated = DateTime.Now,
-
                     PhoneNumber = "0999999999",
                     UserName = adminUserName,
                     Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Active.ToString(),

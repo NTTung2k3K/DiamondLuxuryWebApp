@@ -140,5 +140,8 @@ using (var scope = app.Services.CreateScope())
     await roleInitializer.CreateCustomerAccount();
     roleInitializer.CreateSaleStaffAccount().Wait();
     roleInitializer.CreateShipperAccount().Wait();
+
+
+
 }
 app.Run();
