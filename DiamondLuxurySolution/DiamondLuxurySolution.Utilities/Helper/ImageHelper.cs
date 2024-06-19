@@ -43,12 +43,12 @@ namespace DiamondLuxurySolution.Utilities.Helper
 
         private static async Task<string> UploadToFirebase(Stream stream, string fileName)
         {
-            var auth = new FirebaseAuthProvider(new FirebaseConfig("AIzaSyBnfKuDQXxO2K6e2O0_S6HVZhcPBdI3zgs"));
+            var auth = new FirebaseAuthProvider(new FirebaseConfig("AIzaSyDf-QdQ7AYvJhbKBCjdDv_mDQa1mJEm7p8"));
             var a = await auth.SignInWithEmailAndPasswordAsync("DiamondLuxuryDeveloper@gmail.com", "Hello123@");
             var cancellation = new CancellationTokenSource();
 
             var task = new FirebaseStorage(
-                "diamondluxuryproject.appspot.com",
+                "diamondluxuryshop-980cd.appspot.com",
                 new FirebaseStorageOptions
                 {
                     AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),

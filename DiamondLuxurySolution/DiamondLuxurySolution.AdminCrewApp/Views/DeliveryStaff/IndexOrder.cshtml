@@ -1,6 +1,7 @@
 ﻿@using DiamondLuxurySolution.Data.Entities
 @using DiamondLuxurySolution.ViewModel.Common
 @using DiamondLuxurySolution.ViewModel.Models.Order
+@using DiamondLuxurySolution.ViewModel.Models.User.Staff
 
 @model PageResult<OrderVm>
 
@@ -8,15 +9,39 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section CssStyle{
+    <link rel="stylesheet" href="../assets/css/Shipper.css" />
 
+}
 <div class="row mb-4">
     <div class="col-md-4">
+        <h3 style="display:inline-block">Nhận đơn</h3>
+        @{
+            var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
+        }
+
+        @if (ViewBag.ShipperWorking.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Working.ToString()))
+        {
+            <div class="toggle-switch">
+                <input data-shipperId="@staffVm.StaffId" class="toggle-input" id="toggle" type="checkbox"  />
+                <label class="toggle-label m-2" for="toggle"></label>
+            </div>
+        }
+        else
+        {
+            <div class="toggle-switch">
+                <input data-shipperId="@staffVm.StaffId" class="toggle-input" id="toggle" type="checkbox" checked />
+                <label class="toggle-label m-2" for="toggle"></label>
+            </div>
+        }
+
     </div>
     <div class="col-md-3">
+      
+
     </div>
     <div class="col-md-5">
         <form asp-action="Index" asp-controller="Order" method="get" class="d-flex">
-
             <div class="search">
                 <input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm đơn hàng" />
                 <button type="submit">Tìm kiếm</button>
@@ -63,7 +88,7 @@
                     <td>@item.OrderId</td>
                     <td>@item.ShipName</td>
                     <td>@item.ShipPhoneNumber</td>
-                    <td>@item.TotalAmount</td>
+                    <td>@item.TotalAmount.ToString("N0")₫</td>
                     @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()))
                     {
                         <td>
@@ -121,3 +146,33 @@ else
 {
     <h1>Không có thông tin</h1>
 }
+
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".toggle-input").change(function () {
+                var shipperId = $(this).data("shipperid");
+
+                var requestData = {
+                    shipperId: shipperId,
+                };
+                debugger;
+                $.ajax({
+                    url: 'https://localhost:9000/api/Staffs/UpdateStatusShipperWorking',
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(requestData),
+                    success: function (response) {
+                        alert("Cập nhật thành công");
+                    },
+                    error: function (xhr, status, error) {
+                        alert("An error occurred: " + error);
+                    }
+                });
+            });
+        });
+    </script>
+}
+

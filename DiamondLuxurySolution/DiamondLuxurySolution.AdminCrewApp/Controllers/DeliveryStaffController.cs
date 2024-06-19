@@ -35,6 +35,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             Guid.TryParse(userIdString, out userId);
             // Chuyển đổi thành công
             request.shipperId = userId;
+
+            var shipper = await _staffApiService.GetStaffById(userId);
+            ViewBag.ShipperWorking = shipper.ResultObj.ShipStatus;
             try
             {
 
@@ -72,7 +75,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     return View(request);
                 }
                 
-              
                 var status = await _staffApiService.UpdateStatusOrderForDeliveryStaff(request);
                 if (status is ApiErrorResult<bool> errorResult)
                 {

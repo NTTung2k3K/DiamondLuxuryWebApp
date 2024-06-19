@@ -342,14 +342,30 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 {
                     return Ok(status);
                 }
-                return BadRequest(status);
+                return Ok(status);
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
-
+        [HttpPut("UpdateStatusShipperWorking")]
+        public async Task<ActionResult> UpdateStatusOrderForDeliveryStaff([FromBody] UpdateShipperWorkingRequest request)
+        {
+            try
+            {
+                var status = await _Staff.UpdateStatusShipperWorking(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return Ok(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
         [HttpPost("ViewOrderForDeliveryStaff")]
         public async Task<ActionResult> ViewOrderForDeliveryStaff([FromBody] ViewOrderForDeliveryStaff request)

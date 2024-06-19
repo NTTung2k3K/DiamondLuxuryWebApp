@@ -253,11 +253,6 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         _context.OrdersPayments.Add(orderPayment);
                     }
 
-                    if (request.ShipAdress != null)
-                    {
-                        order.isShip = true;
-                        order.ShipperId = await AssignShipper();
-                    }
 
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
@@ -1206,7 +1201,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 listPayment.ForEach(x => x.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString());
             }
 
-            if (request.ShipAdress != null)
+            if (request.ShipAdress != null && request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Shipping.ToString()))
             {
                 order.isShip = true;
                 order.ShipperId = await AssignShipper();

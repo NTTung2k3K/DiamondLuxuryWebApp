@@ -12,7 +12,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.Frame
     {
         public string FrameId { get; set; }
         public string NameFrame { get; set; }
-        public double Size {  get; set; }
         public double Weight {  get; set; }
 
         public virtual MaterialVm MaterialVm { get; set; }

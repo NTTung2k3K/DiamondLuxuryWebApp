@@ -117,7 +117,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 Username = user.UserName,
                 DateCreated = user.DateCreated,
                 LastChangePasswordTime = user.LastChangePasswordTime != null ? user.LastChangePasswordTime : DateTime.MinValue,
-
+                ShipStatus = user.ShipStatus,
             };
 
             var listRoleOfUser = await _userManager.GetRolesAsync(user);
@@ -904,11 +904,11 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 {
                     orderVms.ShiperVm = new ViewModel.Models.User.Staff.StaffVm()
                     {
-                        StaffId = order.Customer.Id,
-                        FullName = order.Customer.Fullname,
-                        Email = order.Customer.Email,
-                        PhoneNumber = order.Customer.PhoneNumber,
-                        Status = order.Customer.Status
+                        StaffId = order.Shipper.Id,
+                        FullName = order.Shipper.Fullname,
+                        Email = order.Shipper.Email,
+                        PhoneNumber = order.Shipper.PhoneNumber,
+                        Status = order.Shipper.Status
                     };
                 }
 
@@ -955,9 +955,37 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 return new ApiErrorResult<bool>("Không tìm thấy nhân viên giao hàng");
             }
 
-            order.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success);
-            shipper.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Waiting);
+            order.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString();
+            await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
+        }
+
+        public async Task<ApiResult<bool>> UpdateStatusShipperWorking(UpdateShipperWorkingRequest request)
+        {
+            var shipper = await _userManager.FindByIdAsync(request.ShipperId);
+            if (shipper == null)
+            {
+                return new ApiErrorResult<bool>("Không tìm thấy nhân viên giao hàng");
+            }
+            if (shipper.ShipStatus == null)
+            {
+                shipper.ShipStatus = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Working.ToString();
+                await _context.SaveChangesAsync();
+                return new ApiSuccessResult<bool>("Cập nhật thành công");
+            }
+
+            if (shipper.ShipStatus.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Working.ToString()))
+            {
+                shipper.ShipStatus = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Waiting.ToString();
+            }
+            else
+            if (shipper.ShipStatus.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Waiting.ToString()))
+            {
+                shipper.ShipStatus = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Working.ToString();
+            }
+            await _context.SaveChangesAsync();
+            return new ApiSuccessResult<bool>("Cập nhật thành công");
+
         }
     }
 
