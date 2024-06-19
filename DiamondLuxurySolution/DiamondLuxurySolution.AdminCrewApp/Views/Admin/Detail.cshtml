@@ -160,13 +160,13 @@
             @Html.ActionLink("Chỉnh sửa", "Edit", new { StaffId = Model.StaffId }, new { @class = "btn btn-warning" })
         </div>
         <div class="col-md-6">
-            <a class="m-5" asp-action="Index" asp-controller="Admin">Về trang quản lí quản trị viên</a>
+            <a class="m-6 btn btn-secondary" href="/Admin">Về trang quản lí quản trị viên</a>
         </div>
     </div>
 }
 else
 {
     <div>
-        <a class="m-5" asp-action="Index" asp-controller="Admin">Về trang quản lí quản trị viên</a>
+        <a class="m-6 btn btn-secondary" href="/Admin">Về trang quản lí quản trị viên</a>
     </div>
 }
