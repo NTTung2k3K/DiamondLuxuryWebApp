@@ -52,19 +52,7 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
                 errorList.Add("Trọng lượng không hợp lệ");
             }
 
-            try
-            {
-                size = Convert.ToDouble(request.Size);
-
-                if (size <= 0)
-                {
-                    errorList.Add("Kích thước khung phải lớn > 0");
-                }
-            }
-            catch (FormatException)
-            {
-                errorList.Add("Kích thước khung không hợp lệ");
-            }
+            
 
             if (errorList.Any())
             {
@@ -163,10 +151,7 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
             }
 
             var errorList = new List<string>();
-            if (string.IsNullOrWhiteSpace(request.Size))
-            {
-                errorList.Add("Vui lòng nhập kích thước");
-            }
+            
             if (string.IsNullOrWhiteSpace(request.Weight))
             {
                 errorList.Add("Vui lòng nhập trọng lượng");
@@ -175,20 +160,8 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
             {
                 errorList.Add("Vui lòng nhập tên khung");
             }
-            double size = 0, weight = 0;
-            try
-            {
-                size = Convert.ToDouble(request.Size);
-
-                if (size <= 0)
-                {
-                    errorList.Add("Kích thước phải > 0");
-                }
-            }
-            catch (FormatException)
-            {
-                errorList.Add("Kích thước không hợp lệ");
-            }
+            double  weight = 0;
+            
 
             try
             {

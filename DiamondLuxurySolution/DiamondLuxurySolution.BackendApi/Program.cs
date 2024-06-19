@@ -70,6 +70,7 @@ builder.Services.AddTransient<IPaymentRepo, PaymentRepo>();
 builder.Services.AddTransient<IContactRepo, ContactRepo>();
 builder.Services.AddTransient<IFrameRepo, FrameRepo>();
 builder.Services.AddScoped<IRoleInitializer, RoleInitializer>();
+builder.Services.AddScoped<IPaymentInitializer, PayInitializer>();
 builder.Services.AddScoped<ICategoryInitializer, CategoryInitializer>();
 
 builder.Services.AddControllers();
@@ -141,6 +142,9 @@ using (var scope = app.Services.CreateScope())
     await roleInitializer.CreateCustomerAccount();
     roleInitializer.CreateSaleStaffAccount().Wait();
     roleInitializer.CreateShipperAccount().Wait();
+
+    var paymentInitializer = scope.ServiceProvider.GetRequiredService<IPaymentInitializer>();
+    paymentInitializer.CreateDefaultPayment().Wait();
 
 	var categoryInitializer = scope.ServiceProvider.GetRequiredService<ICategoryInitializer>();
     categoryInitializer.CreateDefaultCategory().Wait();

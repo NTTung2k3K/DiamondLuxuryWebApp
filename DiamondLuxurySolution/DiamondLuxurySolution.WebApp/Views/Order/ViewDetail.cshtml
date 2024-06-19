@@ -222,14 +222,18 @@
                 <div class="row">
 
                     <div class="text-center mt--20 col-md-6">
-                        @if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Confirmed.ToString()) && Model.RemainAmount > 0)
+                        @if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Confirmed.ToString()))
                         {
-                            <a href="/Pay/PaymentWithPaypalAndDeposit?OrderId=@Model.OrderId" class="btn  btn-success">Thanh toán bằng Paypal</a>
+                            if(Model.RemainAmount > 0)
+                            {
+                                <a href="/Pay/PaymentWithPaypalAndDeposit?OrderId=@Model.OrderId" class="btn  btn-success">Thanh toán bằng Paypal</a>
+                            }
+
+                            {
+                                <a href="/Pay/PaymentWithPayPal?OrderId=@Model.OrderId" class="btn  btn-success">Thanh toán bằng Paypal</a>
+                            }
                         }
-                        else
-                        {
-                            <a href="/Pay/PaymentWithPayPal?OrderId=@Model.OrderId" class="btn  btn-success">Thanh toán bằng Paypal</a>
-                        }
+                        
                     </div>
 
                     <div class="payment-btn-group text-center mt--20 col-md-6">

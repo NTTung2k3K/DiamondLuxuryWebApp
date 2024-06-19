@@ -356,7 +356,22 @@
                     @* <form asp-controller="Staff" asp-action="Logout" method="post" class="text-center" style="display:flex; justify-content:center">
                     <div>
                     <button type="submit" class="pc-link btn btn-danger btn-sm mt-5" style="color: white; border-radius:25px;"> *@
-                    @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin))
+                    
+                    @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.DeliveryStaff))
+                    {
+                        <li class="pc-item">
+                            <a href="/DeliveryStaff/IndexOrder" class="pc-link">
+                                <span class="pc-micon">
+                                    <svg class="pc-icon">
+                                        <use xlink:href="#custom-graph"></use>
+                                    </svg>
+                                </span>
+                                <span class="pc-mtext">Đơn hàng</span>
+                            </a>
+                        </li>
+                    }
+                        
+                        @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin))
                     {
                         <li class="pc-item">
                             <a href="/Home/Admin" class="pc-link">

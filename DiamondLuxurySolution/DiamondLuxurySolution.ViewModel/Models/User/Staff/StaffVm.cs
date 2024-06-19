@@ -45,7 +45,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.User.Staff
         public List<string>? ListRoleName{ get; set; }
 
 
-
+        public string? ShipStatus { get; set; }
 
 
     }

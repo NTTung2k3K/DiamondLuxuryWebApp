@@ -25,6 +25,20 @@
                 @Html.DisplayFor(model => model.OrderId)
             </dd>
             <dt class="col-sm-3">
+                Nhân viên phụ trách
+            </dt>
+            <dd class="col-sm-9">
+                <p>
+                    @(Model.StaffVm == null ? "Không có" : Model.StaffVm.FullName)
+                </p>
+            </dd>
+            <dt class="col-sm-3">
+                Lần chỉnh sửa đơn hàng gần đây
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Datemodified)
+            </dd>
+            <dt class="col-sm-3">
                 Người đặt
             </dt>
             <dd class="col-sm-9">
@@ -37,10 +51,17 @@
                 @Html.DisplayFor(model => model.ShipPhoneNumber)
             </dd>
             <dt class="col-sm-3">
+                Email
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.ShipEmail)
+            </dd>
+
+            <dt class="col-sm-3">
                 Địa chỉ giao hàng
             </dt>
             <dd class="col-sm-9">
-                @if (Model.Description != null)
+                @if (Model.ShipAdress != null)
                 {
                     <div>
                         <p>
@@ -53,6 +74,24 @@
                     <p>Không có</p>
                 }
             </dd>
+            <dt class="col-sm-3">
+                Mô tả
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.Description != null)
+                {
+                    <div>
+                        <p>
+                            @Html.DisplayFor(model => model.Description)
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    <p>Không có</p>
+                }
+            </dd>
+
             <dt class="col-sm-3">
                 Trạng thái
             </dt>
@@ -78,7 +117,7 @@
                 else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()))
                 {
                     <p value="@Model.Status">
-                        Đang xử lý
+                        Đang chờ xử lý
                     </p>
                 }
                 else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.ProcessOfPayment.ToString()))
@@ -107,6 +146,37 @@
                 }
 
             </dd>
+
+            <dt class="col-sm-3">
+                Chương trình khuyến mãi
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.PromotionVm != null)
+                {
+                    <div>
+                        <span style="color:forestgreen">
+                            @Html.DisplayFor(model => model.PromotionVm.PromotionName)
+                        </span>
+
+                        <span>
+                            <span>Từ ngày</span>
+                            @Html.DisplayFor(model => model.PromotionVm.StartDate)
+                        </span>
+
+                        <span>
+                            <span>Đến ngày</span>
+                            @Html.DisplayFor(model => model.PromotionVm.EndDate)
+                        </span>
+                    </div>
+                }
+                else
+                {
+                    <p>Không có</p>
+                }
+            </dd>
+
+
+
             <dt class="col-sm-3">
                 Mã giảm giá
             </dt>
@@ -133,7 +203,7 @@
                     foreach (var product in Model.ListOrderProduct)
                     {
                         <p>
-                            @product.ProductName &nbsp; Giá: @product.UnitPrice &nbsp; Số lượng @product.Quantity
+                            @product.ProductName &nbsp; Giá: @product.UnitPrice.ToString("N0")₫ &nbsp; Số lượng @product.Quantity &nbsp; Ni: @(product.Size != null ? product.Size : "Không có")
                         </p>
                     }
                 }
@@ -142,55 +212,86 @@
                     <p>Không có</p>
                 }
             </dd>
+
+
             <dt class="col-sm-3">
                 Số tiền giảm
             </dt>
             <dd class="col-sm-9">
                 @if (Model.TotalSale != null && Model.TotalSale != 0)
                 {
-                    @Html.DisplayFor(model => model.TotalSale)
+                    <p>
+                        @Model.TotalSale?.ToString("N0")₫
+                    </p>
 
-                    <span>đ</span>
                 }
                 else
                 {
-
-                    <span>0đ</span>
-
+                    <span>0₫</span>
                 }
             </dd>
             <dt class="col-sm-3">
                 Tổng cộng
             </dt>
             <dd class="col-sm-9" style="color:red">
-                @Html.DisplayFor(model => model.TotalAmount)<span>đ</span>
+                <p>
+                    @Model.TotalAmount.ToString("N0")₫
+                </p>
             </dd>
 
             <dt class="col-sm-3">
                 Trả trước
             </dt>
             <dd class="col-sm-9">
-                @Html.DisplayFor(model => model.Deposit)
+                <p>
+                    @Model.Deposit?.ToString("N0")₫
+                </p>
             </dd>
 
             <dt class="col-sm-3">
                 Còn lại
             </dt>
             <dd class="col-sm-9">
-                @Html.DisplayFor(model => model.RemainAmount)
+                <p>
+                    @Model.RemainAmount.ToString("N0")₫
+                </p>
             </dd>
+
             <dt class="col-sm-3">
-                Giao hàng
+                Số lần thanh toán
             </dt>
             <dd class="col-sm-9">
-                <div class="form-check form-switch ">
-                    <input class="form-check-input f-18 ml-3" type="checkbox" value="@Model.IsShip" disabled />
-                </div>
+                @if (Model.OrdersPaymentVm != null)
+                {
+                    foreach (var payment in Model.OrdersPaymentVm)
+                    {
+                        <p style="font-weight:bold">Thời gian: @payment.PaymentTime</p>
+                        <p>
+                            &nbsp;&nbsp; &nbsp;&nbsp; - Phương thức: @payment.PaymentMethod &nbsp;  &nbsp; Số tiền: @payment.PaymentAmount.ToString("N0")₫ &nbsp; Lời nhắn: @(string.IsNullOrWhiteSpace(payment.Message) ? payment.Message : "Không có")  &nbsp; Trạng thái: @if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                            {
+                                <span>Thành công</span>
+                            }
+                            else if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString()))
+                            {
+                                <span>Đang chờ</span>
+                            }
+                            else if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
+                            {
+                                <span>Thất bại</span>
+                            }
+                        </p>
+                    }
+                }
+                else
+                {
+                    <p>Không có</p>
+                }
             </dd>
+
             <dt class="col-sm-3">
                 Nhân viên giao hàng
             </dt>
-            <dd class="col-sm-9">
+            <dd class="col-sm-9" id="shipperName">
                 @if (Model.ShiperVm != null)
                 {
                     @Html.DisplayFor(model => model.ShiperVm.FullName)
@@ -203,8 +304,8 @@
         </dl>
     </div>
     <div class="row">
-        <div class="col-md-3">
-            <button id="completeOrderBtn" data-order-id="@Model.OrderId">Xác nhận giao thành công đơn hàng</button>
+        <div class="col-md-4">
+            <button id="completeOrderBtn" class="btn btn-success" data-order-id="@Model.OrderId">Xác nhận giao thành công đơn hàng</button>
         </div>
         <div class="col-md-6">
             <a class="m-5" asp-action="IndexOrder" asp-controller="DeliveryStaff">Về trang danh sách đơn hàng</a>
@@ -214,24 +315,27 @@
 else
 {
     <div>
-        <a class="m-5" asp-action="IndexOrder" asp-controller="DeliveryStaff">Về trang danh sách đơn hàng</a>
+        <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí tin tức</a>
     </div>
 }
 
 @section Scripts {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
-        debugger
         $(document).ready(function() {
             $("#completeOrderBtn").click(function() {
                 var orderId = $(this).data("order-id");
-
+                debugger;
+                var requestData = {
+                    orderId: orderId
+                };
                 $.ajax({
-                    url: '/DeliveryStaff/UpdateStatusOrderForDeliveryStaff',
+                    url: 'https://localhost:9000/api/Staffs/UpdateStatusOrderForDeliveryStaff',
                     type: 'PUT',
                     contentType: 'application/json',
-                    data: JSON.stringify(orderId),
+                    data: JSON.stringify(requestData),
                     success: function(response) {
+                        debugger;
                         alert(response.message);
                         // Optionally, you can also update the UI to reflect the order completion
                     },

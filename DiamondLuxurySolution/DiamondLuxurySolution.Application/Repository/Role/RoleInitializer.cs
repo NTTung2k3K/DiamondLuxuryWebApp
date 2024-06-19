@@ -159,7 +159,8 @@ namespace DiamondLuxurySolution.Application.Repository.Role
                     DateCreated = DateTime.Now,
                     PhoneNumber = "0999999993",
                     UserName = shipperUserName,
-                    Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Waiting.ToString(),
+                    Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Active.ToString(),
+                    ShipStatus = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Waiting.ToString(),
                 };
 
                 var result = await _userManager.CreateAsync(shipper, "Shipper1@");
