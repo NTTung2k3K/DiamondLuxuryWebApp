@@ -23,6 +23,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using static DiamondLuxurySolution.Application.Repository.Product.ProductRepo;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using PuppeteerSharp;
+using PuppeteerSharp.Media;
 
 namespace DiamondLuxurySolution.Application.Repository.Order
 {
@@ -1823,6 +1828,86 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             order.StaffId = request.StaffId;
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
+
+        }
+        private async Task GeneratePdfAsync(string htmlContent, string filePath)
+        {
+            // Create a new instance of BrowserFetcher
+            var browserFetcher = new BrowserFetcher();
+            // Download the revision if it does not already exist
+            await browserFetcher.DownloadAsync();
+
+            // Launch a headless browser
+            using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true }))
+            {
+                // Open a new page
+                using (var page = await browser.NewPageAsync())
+                {
+                    // Set the HTML content of the page
+                    await page.SetContentAsync(htmlContent);
+
+                    // Generate the PDF and save it to the specified path
+                    await page.PdfAsync(filePath, new PdfOptions
+                    {
+                        Format = PaperFormat.A4
+                    });
+                }
+            }
+        }
+
+        public async Task<ApiResult<bool>> ExportFileInspecertificateAndWarranty(ExportFileRequest request)
+        {
+            var order = _context.Orders.Include(x => x.OrderDetails).ThenInclude(x => x.Product).ThenInclude(x => x.Gem).ThenInclude(x => x.InspectionCertificate).Include(x => x.OrderDetails).ThenInclude(x => x.Product).ThenInclude(x => x.Gem).ThenInclude(x => x.GemPriceLists).FirstOrDefault(x => x.OrderId == request.OrderId);
+            if (order == null)
+            {
+                return new ApiErrorResult<bool>("Không tìm thấy đơn hàng");
+            }
+
+            foreach (var item in order.OrderDetails)
+            {
+                string relativePath = @"..\..\DiamondLuxurySolution\DiamondLuxurySolution.Utilities\FormDiamond\InspectCertificate.html";
+                // Combine the relative path with the current directory to get the full path
+                string path = Path.GetFullPath(relativePath);
+
+                if (!System.IO.File.Exists(path))
+                {
+                    return new ApiErrorResult<bool>("Không tìm thấy file");
+                }
+                
+
+                string contentCustomer = System.IO.File.ReadAllText(path);
+                contentCustomer = contentCustomer.Replace("{{DateTimeNow}}", DateTime.Now.Date.ToString());
+
+                var inspectionCertificate = item.Product.Gem.InspectionCertificate.InspectionCertificateId;
+                contentCustomer = contentCustomer.Replace("{{CINumber}}", inspectionCertificate.ToString());
+                var cut = item.Product.Gem.GemPriceLists.First().Cut;
+                contentCustomer = contentCustomer.Replace("{{Cut}}", cut.ToString());
+                var caratWeight = item.Product.Gem.GemPriceLists.First().CaratWeight;
+                contentCustomer = contentCustomer.Replace("{{CaratWeight}}", caratWeight.ToString());
+                var color = item.Product.Gem.GemPriceLists.First().Color;
+                contentCustomer = contentCustomer.Replace("{{Color}}", color.ToString());
+                var clarity = item.Product.Gem.GemPriceLists.First().Clarity;
+                contentCustomer = contentCustomer.Replace("{{Color}}", clarity.ToString());
+                var polish = item.Product.Gem.Polish;
+                contentCustomer = contentCustomer.Replace("{{Color}}", polish.ToString());
+                var symetry = item.Product.Gem.Symetry;
+                contentCustomer = contentCustomer.Replace("{{Symetry}}", symetry.ToString());
+                var fluorescenceRaw = item.Product.Gem.Fluoresence;
+                var fluorescence = fluorescenceRaw ? "Có" : "Không";
+                contentCustomer = contentCustomer.Replace("{{Symetry}}", fluorescence.ToString());
+                var isOriginRaw = item.Product.Gem.IsOrigin;
+                var isOrigin = isOriginRaw ? "Origin" : "Synthetic";
+                contentCustomer = contentCustomer.Replace("{{Origin}}", isOrigin.ToString());
+
+                string userSelectedPath = request.PathUser; // Path provided by user
+                string pdfFilePath = Path.Combine(userSelectedPath, $"InspectCertificate_{item.Product.Gem.GemId}.pdf");
+
+                await GeneratePdfAsync(contentCustomer, pdfFilePath);
+            }
+
+
+
+            return new ApiErrorResult<bool>("Không tìm thấy file");
 
         }
     }

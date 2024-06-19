@@ -2653,6 +2653,22 @@
           "lib/net451/PayPal.dll": {}
         }
       },
+      "PuppeteerSharp/18.0.1": {
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "7.0.0",
+          "Microsoft.Extensions.Logging": "8.0.0",
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/PuppeteerSharp.dll": {
+            "assemblyVersion": "18.0.1.0",
+            "fileVersion": "18.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/PuppeteerSharp.dll": {}
+        }
+      },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
       "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
       "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
@@ -3537,7 +3553,8 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.1",
           "Microsoft.Extensions.Hosting.Abstractions": "8.0.0",
           "PagedList": "1.17.0",
-          "PagedList.Mvc": "4.5.0"
+          "PagedList.Mvc": "4.5.0",
+          "PuppeteerSharp": "18.0.1"
         },
         "runtime": {
           "DiamondLuxurySolution.Application.dll": {}
@@ -6560,6 +6577,13 @@
       "sha512": "sha512-b3vq6Lc9CwSooCX2tsZ02zb7E/K/cA6EILCoMynue+ZeVuitJNqt0YwxPnp7uN0Pccob02oDlpAjRLH+GRCRxA==",
       "path": "paypal/1.9.1",
       "hashPath": "paypal.1.9.1.nupkg.sha512"
+    },
+    "PuppeteerSharp/18.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-aKCjiCqsi2/NmBd8wLABCaUd7s/UxfnYacfrq000WdNL9/pVslN8tTsu6jUbKAjwvYBl9BTWJRFH9O41OTRMEA==",
+      "path": "puppeteersharp/18.0.1",
+      "hashPath": "puppeteersharp.18.0.1.nupkg.sha512"
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
       "type": "package",

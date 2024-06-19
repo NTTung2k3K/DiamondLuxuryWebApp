@@ -39,7 +39,7 @@
             </dt>
             <dd class="col-sm-9">
                 <p>
-                    @(Model.StaffVm == null ? "Không có" :Model.StaffVm.FullName)
+                    @(Model.StaffVm == null ? "Không có" : Model.StaffVm.FullName)
                 </p>
             </dd>
             <dt class="col-sm-3">
@@ -337,6 +337,12 @@
                 <button class="btn btn-primary" id="UpdateShipperBtn">Cập nhật nhân viên giao hàng</button>
             </div>
         }
+        @if (Model != null && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()))
+        {
+            <div class="col-md-3">
+                <button id="selectFolderButton" data-order-id="@Model.OrderId" class="btn btn-primary">Xuất phiếu bảo hành và giấy chứng nhận</button>
+            </div>
+        }
 
         <div class="col-md-3">
             <a class="m-6" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
@@ -354,7 +360,7 @@ else
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
-            $("#UpdateShipperBtn").on('click',function(){
+            $("#UpdateShipperBtn").on('click', function () {
                 var orderId = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.OrderId));
                 var requestData = {
                     OrderId: orderId
@@ -386,7 +392,7 @@ else
             $("#acceptOrder").on('click', function () {
                 var orderId = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.OrderId));
                 var staffId = $('#StaffId').val();
-                
+
                 var requestData = {
                     OrderId: orderId,
                     StaffId: staffId
@@ -400,7 +406,7 @@ else
                     success: function (response) {
 
                         if (response.isSuccessed) {
-                            alert('Phụ trách đơn hàng thành công'); 
+                            alert('Phụ trách đơn hàng thành công');
                             window.location.reload();
                             // Handle success scenario
                         } else {
@@ -417,7 +423,64 @@ else
             })
 
 
+        });
 
-        })    
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#selectFolderButton').on('click', async function () {
+                try {
+                    const dirHandle = await window.showDirectoryPicker();
+                    const folderPath = await getFolderPath(dirHandle);
+
+                    const orderId = $(this).data('order-id'); // Retrieve the order ID from the button's data attribute
+                    saveFolderPath(folderPath, orderId);
+                } catch (error) {
+                    console.error('Error selecting directory:', error);
+                }
+            });
+
+            async function getFolderPath(directoryHandle) {
+                const parts = [];
+                let currentHandle = directoryHandle;
+                while (currentHandle) {
+                    parts.unshift(currentHandle.name);
+                    currentHandle = currentHandle.kind === 'directory' ? currentHandle.root : null;
+                }
+                return parts.join('/');
+            }
+
+            function saveFolderPath(folderPath, orderId) {
+                const url = "https://localhost:9000/api/Orders/ExportFileToFolder"; // Adjust the URL to your action
+                const token = $('input[name="__RequestVerificationToken"]').val();
+
+                var requestData = {
+                    OrderId: orderId,
+                    PathUser: folderPath
+                };
+                debugger;
+                $.ajax({
+                    url: url,
+                    type: 'PUT', // Use 'POST' if that's what your action expects
+                    contentType: 'application/json',
+                    data: JSON.stringify(requestData),
+                    success: function (response) {
+                        if (response.success) {
+                            alert('File saved successfully!');
+                            window.location.reload(); // Reload the page if needed
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        debugger;
+
+                        console.error('Error saving folder path:', error);
+                        alert('An error occurred while processing your request.');
+                    }
+                });
+            }
+        });
     </script>
 }

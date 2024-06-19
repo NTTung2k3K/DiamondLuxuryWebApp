@@ -82,6 +82,10 @@
             "PagedList.Mvc": {
               "target": "Package",
               "version": "[4.5.0, )"
+            },
+            "PuppeteerSharp": {
+              "target": "Package",
+              "version": "[18.0.1, )"
             }
           },
           "imports": [

@@ -2762,6 +2762,24 @@
           }
         }
       },
+      "PuppeteerSharp/18.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "1.1.0",
+          "Microsoft.Extensions.Logging": "2.0.2",
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/PuppeteerSharp.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/PuppeteerSharp.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
         "type": "package",
         "runtimeTargets": {
@@ -4667,7 +4685,8 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.1",
           "Microsoft.Extensions.Hosting.Abstractions": "8.0.0",
           "PagedList": "1.17.0",
-          "PagedList.Mvc": "4.5.0"
+          "PagedList.Mvc": "4.5.0",
+          "PuppeteerSharp": "18.0.1"
         },
         "compile": {
           "bin/placeholder/DiamondLuxurySolution.Application.dll": {}
@@ -9413,6 +9432,19 @@
         "lib/net40/PagedList.Mvc.dll",
         "pagedlist.mvc.4.5.0.nupkg.sha512",
         "pagedlist.mvc.nuspec"
+      ]
+    },
+    "PuppeteerSharp/18.0.1": {
+      "sha512": "aKCjiCqsi2/NmBd8wLABCaUd7s/UxfnYacfrq000WdNL9/pVslN8tTsu6jUbKAjwvYBl9BTWJRFH9O41OTRMEA==",
+      "type": "package",
+      "path": "puppeteersharp/18.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/PuppeteerSharp.dll",
+        "lib/netstandard2.0/PuppeteerSharp.xml",
+        "puppeteersharp.18.0.1.nupkg.sha512",
+        "puppeteersharp.nuspec"
       ]
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
