@@ -41,7 +41,6 @@ namespace DiamondLuxurySolution.Utilities.Helper
         }
 
 
-       
 		private static async Task<string> UploadToFirebase(Stream stream, string fileName)
 		{
 			var auth = new FirebaseAuthProvider(new FirebaseConfig("AIzaSyDf-QdQ7AYvJhbKBCjdDv_mDQa1mJEm7p8"));
@@ -58,6 +57,7 @@ namespace DiamondLuxurySolution.Utilities.Helper
 				.Child("images")
 				.Child(fileName)
 				.PutAsync(stream, cancellation.Token);
+
 			task.Progress.ProgressChanged += (s, e) => Console.WriteLine($"Progress: {e.Percentage} %");
 
 			try
