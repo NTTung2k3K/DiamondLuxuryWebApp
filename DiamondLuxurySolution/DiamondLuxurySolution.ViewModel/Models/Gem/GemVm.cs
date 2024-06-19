@@ -1,4 +1,6 @@
-﻿using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
+﻿using DiamondLuxurySolution.ViewModel.Models.GemPriceList;
+using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
+using DiamondLuxurySolution.ViewModel.Models.Material;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,5 +32,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Gem
 
         public InspectionCertificateVm InspectionCertificateVm { get; set; }
 
-    }
+		public virtual GemPriceListVm GemPriceListVm { get; set; }
+
+	}
 }

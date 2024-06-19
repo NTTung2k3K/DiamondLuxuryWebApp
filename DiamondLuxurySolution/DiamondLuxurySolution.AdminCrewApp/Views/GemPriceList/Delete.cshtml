@@ -28,12 +28,6 @@
                 @Html.DisplayFor(model => model.GemPriceListId)
             </dd>
             <dt class="col-sm-3 mb-3">
-                Tên kim cương
-            </dt>
-            <dd class="col-sm-9">
-                @Html.DisplayFor(model => model.GemVm.GemName)
-            </dd>
-            <dt class="col-sm-3 mb-3">
                 Giát cắt
             </dt>
             <dd class="col-sm-9">
@@ -76,19 +70,6 @@
                 <div class="form-check form-switch ">
                     <input class="form-check-input f-18 ml-3" type="checkbox" asp-for="Active" value="@Model.Active" disabled />
                 </div>
-            </dd>
-            <dt class="col-sm-3 mb-3">
-                Hình kim cương
-            </dt>
-            <dd class="col-sm-9">
-                @if (Model.GemVm.GemImage != null)
-                {
-                    <img src="@Model.GemVm.GemImage" style="style= height:100px; width:100px" />
-                }
-                else
-                {
-                    <h5>Chưa có logo</h5>
-                }
             </dd>
         </dl>
         <form asp-action="Delete" asp-controller="GemPriceList" method="post">

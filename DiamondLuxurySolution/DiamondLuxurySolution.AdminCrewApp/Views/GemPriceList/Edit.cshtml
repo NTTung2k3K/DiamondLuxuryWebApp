@@ -60,39 +60,6 @@
 					<label asp-for="Active" class="control-label m-1">Hiển thị</label>
 					<input class="form-check-input f-18" type="checkbox" asp-for="Active">
 				</div>
-				<div class="form-group m-2">
-					<label asp-for="GemVm.GemId" class="control-label m-2">Tên kim cương</label>
-					<select class="h-50" multiple name="GemId[]"
-							style="height: 150px; width: 100%; padding: 8px; font-size: 16px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9;">
-						@foreach (var gem in ViewBag.ListGem)
-						{
-							if (Model != null && Model.GemVm.GemId != null)
-							{
-								string selectedCheck = Model.GemVm.GemId.ToString().Contains(@gem.GemId.ToString()) ? "selected=\"selected\"" : "";
-								if (string.IsNullOrEmpty(selectedCheck))
-								{
-									<option value="@gem.GemId">
-										@gem.GemName
-									</option>
-								}
-								else
-								{
-									<option value="@gem.GemId" selected>
-										@gem.GemName
-									</option>
-								}
-							}
-							else
-							{
-								<option value="@gem.GemId">
-									@gem.GemName
-								</option>
-							}
-						}
-					</select>
-					<br />
-					<span asp-validation-for="GemVm.GemId" class="text-danger"></span>
-				</div>
 
 				<div class="form-group row">
 					<div class="col-md-5">

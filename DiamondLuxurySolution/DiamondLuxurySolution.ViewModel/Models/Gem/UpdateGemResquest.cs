@@ -25,5 +25,8 @@ namespace DiamondLuxurySolution.ViewModel.Models.Gem
         [Required(ErrorMessage = "Cần nhập ngày nhận kim cương")]
         public DateTime? AcquisitionDate { get; set; }
         public bool Active { get; set; }
-    }
+
+		[Required(ErrorMessage = "Cần chọn mã giá kim cương")]
+		public int GemPriceListId { get; set; }
+	}
 }

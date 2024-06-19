@@ -16,7 +16,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.About
 
         public string? Description { get; set; }
 
-        [Required(ErrorMessage = "Cần Thêm Hình Ảnh")]
         public IFormFile? AboutImage { get; set; }
 
         public bool Status { get; set; }

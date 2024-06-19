@@ -15,7 +15,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.InspectionCertificate
         public string InspectionCertificateName { get; set; }
 
         [Required(ErrorMessage = "Cần nhập hình ảnh giấy chứng nhận")]
-        public IFormFile Logo { get; set; }
+        public IFormFile? Logo { get; set; }
 
         public bool Status { get; set; }
     }

@@ -41,10 +41,6 @@ namespace DiamondLuxurySolution.Application.Repository.Category
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.CategoryImage);
                 category.CategoryImage = firebaseUrl;
             }
-            else
-            {
-                category.CategoryImage = "";
-            }
 
             _context.Categories.Add(category);
             await _context.SaveChangesAsync();
@@ -115,10 +111,6 @@ namespace DiamondLuxurySolution.Application.Repository.Category
             {
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.CategoryImage);
                 category.CategoryImage = firebaseUrl;
-            }
-            else
-            {
-                category.CategoryImage = "";
             }
             category.CategoryName = request.CategoryName;
             category.CategoryType = request.CategoryType != null ? request.CategoryType : "";

@@ -18,8 +18,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.InspectionCertificate
         [Required(ErrorMessage = "Cần ngày khởi tạo của giấy chứng nhận")]
         public DateTime DateGrading { get; set; }
 
-        [Required(ErrorMessage = "Cần hình của giấy chứng nhận")]
-        public IFormFile Logo { get; set; }
+        public IFormFile? Logo { get; set; }
 
         public bool Status { get; set; }
     }

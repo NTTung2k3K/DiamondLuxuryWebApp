@@ -21,7 +21,7 @@
         <hr />
         <dl class="row">
             <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.AboutId)
+                AboutID
             </dt>
             <dd class="col-sm-8">
                 @Html.DisplayFor(model => model.AboutId)
@@ -68,7 +68,7 @@
                     <input type="submit" value="Xóa" class="btn btn-danger" />
                 </div>
                 <div class="col-sm-8">
-                    <a asp-action="Index" class="btn btn-secondary">Về trang quản lý About</a>
+                    <a asp-action="Index" class="btn btn-secondary">Về trang quản lý thông tin liên hệ</a>
                 </div>
             </div>
         </form>
@@ -76,5 +76,5 @@
 }
 else
 {
-    <a class="m-3 btn btn-secondary" asp-action="Index">Về trang quản lí About</a>
+    <a class="m-3 btn btn-secondary" asp-action="Index">Về trang quản lí thông tin liên hệ</a>
 }

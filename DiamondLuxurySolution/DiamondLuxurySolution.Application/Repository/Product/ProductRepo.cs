@@ -36,7 +36,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 		}
 		public async Task<ApiResult<bool>> CreateProduct(CreateProductRequest request)
 		{
-			try
+			/*try
 			{
 
 				if (string.IsNullOrEmpty(request.ProductName))
@@ -211,7 +211,9 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 			catch (Exception e)
 			{
 				return new ApiErrorResult<bool>(e.Message);
-			}
+			}*/
+
+			return null;
 		}
 
 		public async Task<ApiResult<bool>> DeleteProduct(DeleteProductRequest request)
@@ -228,7 +230,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 
 		public async Task<ApiResult<ProductVm>> GetProductById(string ProductId)
 		{
-			try
+			/*try
 			{
 				var product = await _context.Products
 					.Include(p => p.Images)
@@ -355,7 +357,9 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 			catch (Exception e)
 			{
 				return new ApiErrorResult<ProductVm>(e.Message);
-			}
+			}*/
+
+			return null;
 		}
 
 		private bool HasDuplicates(ICollection<SubGemSupportDTO> list)
@@ -364,7 +368,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 		}
 		public async Task<ApiResult<bool>> UpdateProduct(UpdateProductRequest request)
 		{
-			try
+			/*try
 			{
 				if (string.IsNullOrEmpty(request.ProductName))
 				{
@@ -595,7 +599,8 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 			catch (Exception e)
 			{
 				return new ApiErrorResult<bool>(e.Message);
-			}
+			}*/
+			return null;
 		}
 
 		public async Task<ApiResult<PageResult<ProductVm>>> ViewProduct(ViewProductRequest request)
