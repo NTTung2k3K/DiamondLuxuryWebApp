@@ -5,6 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <h1>Tạo mới tin tức</h1>
 <hr />
 <div class="row">
@@ -39,11 +40,7 @@
                 <input asp-for="ShipAdress" class="form-control" />
                 <span asp-validation-for="ShipAdress" class="text-danger"></span>
             </div>
-            <div class="form-group m-2">
-                <label asp-for="DiscountId" class="control-label m-2"></label>
-                <input asp-for="DiscountId" class="form-control" />
-            </div>
-
+            
             <div class="form-group m-2">
                 <label asp-for="Status" class="m-2 control-label">Trạng thái</label>
                 <!--Start dropdown list-->
@@ -76,7 +73,7 @@
                             else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()))
                             {
                                 <!option value="@item" @selectedAttribute>
-                                Đang xử lý
+                                Đang chờ xử lý
                                 </!option>
                             }
                             else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.ProcessOfPayment.ToString()))
@@ -136,7 +133,7 @@
                             else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()))
                             {
                                 <!option value="@item" >
-                                Đang xử lý
+                                Đang chờ xử lý
                                 </!option>
                             }
                             else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.ProcessOfPayment.ToString()))
@@ -181,7 +178,7 @@
                                     {
                                         <option value="@promotion.PromotionId" selected>
                                             <div>
-                                                Tên: @promotion.PromotionName &nbsp; Bắt đầu: @promotion.StartDate, Kết thúc: @promotion.EndDate; Giảm tối đa: @promotion.MaxDiscount
+                                                Tên: @promotion.PromotionName &nbsp; Bắt đầu: @promotion.StartDate, Kết thúc: @promotion.EndDate; Giảm tối đa: @promotion.MaxDiscount.ToString("N0")₫
                                             </div>
                                         </option>
                                     }
@@ -189,7 +186,7 @@
                                     {
                                         <option value="@promotion.PromotionId">
                                             <div>
-                                                Tên: @promotion.PromotionName &nbsp; Bắt đầu: @promotion.StartDate, Kết thúc: @promotion.EndDate; Giảm tối đa: @promotion.MaxDiscount
+                                                Tên: @promotion.PromotionName &nbsp; Bắt đầu: @promotion.StartDate, Kết thúc: @promotion.EndDate; Giảm tối đa: @promotion.MaxDiscount.ToString("N0")₫
                                             </div>
                                         </option>
                                     }
@@ -198,7 +195,7 @@
                                 {
                                     <option value="@promotion.PromotionId">
                                         <div>
-                                            Tên: @promotion.PromotionName &nbsp; Bắt đầu: @promotion.StartDate, Kết thúc: @promotion.EndDate; Giảm tối đa: @promotion.MaxDiscount
+                                            Tên: @promotion.PromotionName &nbsp; Bắt đầu: @promotion.StartDate, Kết thúc: @promotion.EndDate; Giảm tối đa: @promotion.MaxDiscount.ToString("N0")₫
                                         </div>
                                     </option>
                                 }
@@ -229,6 +226,8 @@
                                         <th>#</th>
                                         <th><span class="text-danger">*</span>Tên</th>
                                         <th><span class="text-danger">*</span>Số lượng</th>
+                                        <th>Ni (size)</th>
+
                                         <th class="text-center">Hành động</th>
                                     </tr>
                                 </thead>
@@ -248,7 +247,7 @@
                 @*Product end*@
 
                 <div class="form-group m-2">
-                    <label class="control-label m-2">Tổng cộng tạm tính: <span id="total" style="color: red">0</span></label>
+                    <label class="control-label m-2">Tổng cộng tạm tính: <span id="total" style="color: red">0₫</span></label>
                 </div>
                 @if (Model == null)
                 {
@@ -380,9 +379,103 @@
 
     </div>
 </div>
+
+<!-- Add this HTML somewhere in your body -->
+<div id="sizeModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="size-grid">
+            <button class="size-button">4</button>
+            <button class="size-button">5</button>
+            <button class="size-button">6</button>
+            <button class="size-button">7</button>
+            <button class="size-button">8</button>
+            <button class="size-button">9</button>
+            <button class="size-button">10</button>
+            <button class="size-button">11</button>
+            <button class="size-button">12</button>
+            <button class="size-button">13</button>
+            <button class="size-button">14</button>
+            <button class="size-button">15</button>
+            <button class="size-button">16</button>
+            <button class="size-button">17</button>
+            <button class="size-button">18</button>
+            <button class="size-button">19</button>
+            <button class="size-button">20</button>
+            <button class="size-button">21</button>
+            <button class="size-button">22</button>
+            <button class="size-button">23</button>
+            <button class="size-button">24</button>
+            <button class="size-button">25</button>
+            <button class="size-button">26</button>
+            <button class="size-button">27</button>
+            <button class="size-button">28</button>
+            <button class="size-button">29</button>
+            <button class="size-button">30</button>
+            <button class="size-button">31</button>
+            <button class="size-button">32</button>
+        </div>
+    </div>
+</div>
+
+
 @{
     var fullSubgemJson = Json.Serialize(ViewBag.ListProduct);
 }
+@section CssStyle {
+
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000000;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+        .size-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .size-button {
+            padding: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+}
+
+
 @section Scripts {
     <script src="~/assets/js/plugins/dropzone-amd-module.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -394,23 +487,12 @@
             var controlSelectNumber = 0;
             // Function to update the state of the add button
             debugger;
-            function updateAddButtonState() {
-                var totalOptions = fullSubgem.length;
-
-                debugger;
-                if (controlSelectNumber >= totalOptions) {
-                    $('#addItemBtn').prop('disabled', true).text('Đã sản phẩm');
-                } else {
-                    $('#addItemBtn').prop('disabled', false).html('<i class="ti ti-plus"></i> Thêm');
-                }
-            }
-
+            
             // Event handler when an option is selected
             $(document).on('change', '.select-subgem', function () {
                 var selectedOption = $(this).val();
                 if (selectedOption) {
                     selectedOptions.push(selectedOption); // Add the option to selectedOptions array
-                    updateAddButtonState(); // Update the add button state
                 }
             });
             function calculateTotal() {
@@ -426,7 +508,11 @@
                         total += parseInt(quantity) * parseFloat(sellingPrice);
                     }
                 });
-                $('#total').text(total);
+
+                var formattedTotal = total.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+                $('#total').text(formattedTotal+"₫");
+
+
             }
 
 
@@ -440,6 +526,7 @@
                                                     </td>
 
                                                             <td><input type="number" value="1" class="form-control" name="ListOrderProduct[${index}].Quantity" placeholder="Số lượng" /></td>
+                                                                             <td><input type="text" readonly class="form-control size-input" name="ListOrderProduct[${index}].Size" placeholder="Chọn size" /></td>
                                                     <td class="text-center">
                                                         <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default delete-item"><i class="ti ti-trash f-20"></i></a>
                                                     </td>
@@ -453,7 +540,6 @@
                 index++;
                 createOptions(); // Generate new options for the select dropdown
                 updateIndex(); // Update indices after a row is added
-                updateAddButtonState(); // Update the add button state
                 calculateTotal();
             });
 
@@ -475,7 +561,6 @@
                 $(this).closest('tr').remove();
                 updateIndex(); // Update indices after a row is removed
                 createOptions(); // Refresh the dropdown options
-                updateAddButtonState(); // Update the add button state
                 calculateTotal();
             });
 
@@ -488,17 +573,17 @@
 
                     if (Array.isArray(fullSubgem) && fullSubgem.length > 0) {
                         fullSubgem.forEach(function (subgem) {
-                            debugger;
-                            if (!selectedOptions.includes(subgem.productId) || selectedOption === subgem.productId) { // Check if the option is already selected or is the current value
+                            var formattedPrice = subgem.sellingPrice.toLocaleString('en-US', {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                            });
                                 var option = $('<option/>');
                                 option.val(subgem.productId);
-                                option.text('Tên: ' + subgem.productName + ' | Giá: ' + subgem.sellingPrice + ' | Số lượng: ' + subgem.quantity);
+                            option.text('Tên: ' + subgem.productName + ' | Giá: ' + formattedPrice + '₫' + ' | Số lượng còn: ' + subgem.quantity);
                                 option.addClass('optionOfSubGem');
                                 option.data('price', subgem.sellingPrice);
                                 rowSelect.append(option);
 
-
-                            }
                         });
                     } else {
                         console.error('Dữ liệu từ ViewBag.FullSubgem không hợp lệ.');
@@ -522,26 +607,41 @@
                 calculateTotal(); // Update total price
             });
 
+
+            function showSizeModal(sizeInput) {
+                currentSizeInput = sizeInput;
+                $('#sizeModal').show();
+            }
+            $(document).on('focus', '.size-input', function () {
+                showSizeModal(this);
+            });
+
+            $('.size-button').on('click', function () {
+                if (currentSizeInput) {
+                    $(currentSizeInput).val($(this).text());
+                    $('#sizeModal').hide();
+                    calculateTotal();
+                }
+            });
+
+            $('.close').on('click', function () {
+                $('#sizeModal').hide();
+            });
+
             // Update the indices and names after adding or removing rows
             function updateIndex() {
                 $('#itemTable tbody tr').each(function (i, row) {
                     $(row).find('td:first').text(i + 1);
                     $(row).find('.select-subgem').attr('name', `ListOrderProduct[${i}].ProductId`);
-                    $(row).find('input').attr('name', `ListOrderProduct[${i}].Quantity`);
+                    $(row).find('input[name$=".Quantity"]').attr('name', `ListOrderProduct[${i}].Quantity`);
+                    $(row).find('input[name$=".Size"]').attr('name', `ListOrderProduct[${i}].Size`);
                 });
-                index = $('#itemTable tbody tr').length;
 
-                // Check if the number of rows equals the total options
-                if (index >= fullSubgem.length) {
-                    $('#addItemBtn').prop('disabled', true).text('Đã hết sản phẩm');
-                } else {
-                    $('#addItemBtn').prop('disabled', false).html('<i class="ti ti-plus"></i> Thêm');
-                }
+               
             }
 
             // Initial setup
             createOptions();
-            updateAddButtonState(); // Check the add button state on page load
         });
 
 

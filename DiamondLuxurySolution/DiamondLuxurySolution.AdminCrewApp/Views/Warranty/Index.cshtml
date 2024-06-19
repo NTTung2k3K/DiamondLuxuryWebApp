@@ -39,7 +39,7 @@
         <thead>
             <tr class="text-center">
                 <th>
-                    <label>Tên phiếu bảo hành</label>
+                    <label>Mã phiếu bảo hành</label>
                 </th>
                 <th>
                     <label>Ngày bắt đầu</label>
@@ -57,7 +57,7 @@
             @foreach (var item in Model.Items)
             {
                 <tr class="text-center">
-                    <td>@item.WarrantyName</td>
+                    <td>@item.WarrantyId</td>
                     <td>@item.DateActive</td>
                     <td>@item.DateExpired</td>
                     @if (item.Status == true)

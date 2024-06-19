@@ -1,113 +1,123 @@
-﻿@model IEnumerable<DiamondLuxurySolution.ViewModel.Models.Order.OrderVm>
+﻿@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Common
+@using DiamondLuxurySolution.ViewModel.Models.Order
+
+@model PageResult<OrderVm>
 
 @{
-    ViewData["Title"] = "IndexOrder";
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>IndexOrder</h1>
+<div class="row mb-4">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-5">
+        <form asp-action="Index" asp-controller="Order" method="get" class="d-flex">
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ShipName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ShipPhoneNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ShipEmail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ShipAdress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsShip)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RemainAmount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalAmount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalSale)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Deposit)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateCreated)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Datemodified)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.OrderId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ShipName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ShipPhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ShipEmail)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ShipAdress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsShip)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RemainAmount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalAmount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalSale)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Deposit)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateCreated)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Datemodified)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
+            <div class="search">
+                <input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm đơn hàng" />
+                <button type="submit">Tìm kiếm</button>
+            </div>
+        </form>
+    </div>
+</div>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
 }
-    </tbody>
-</table>
+
+@if (Model != null && Model != null && Model.Items != null && Model.Items.Count > 0)
+{
+
+    <table class="table">
+        <thead>
+            <tr class="text-center">
+                <th>
+                    <label>Mã đơn hàng</label>
+                </th>
+                <th>
+                    <label>Tên ngưởi đặt</label>
+                </th>
+                <th>
+                    <label>Số điện thoại</label>
+                </th>
+                <th>
+                    <label>Tổng tiền</label>
+                </th>
+                <th>
+                    <label>Trạng thái</label>
+                </th>
+                <th>Cài đặt</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr class="text-center">
+                    <td>@item.OrderId</td>
+                    <td>@item.ShipName</td>
+                    <td>@item.ShipPhoneNumber</td>
+                    <td>@item.TotalAmount</td>
+                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-pink-500 rounded-pill">Đang xử lý</span>
+                        </td>
+                    }
+                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.ProcessOfPayment.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-teal-500 rounded-pill">Trong quá trình thanh toán</span>
+                        </td>
+                    }
+                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Deposit.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-blue-500 rounded-pill">Đặt cọc</span>
+                        </td>
+                    }
+                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-danger rounded-pill">Hủy đơn</span>
+                        </td>
+                    }
+                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Shipping.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-cyan-500 rounded-pill">Đang vận chuyển</span>
+                        </td>
+                    }
+                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-success rounded-pill">Thành công</span>
+                        </td>
+                    }
+                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Confirmed.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-purple-500 rounded-pill">Đã chấp nhận</span>
+                        </td>
+                    }
+                    <td class="text-center">
+                        @Html.ActionLink("Xem chi tiết", "DetailOrder", new { OrderId = item.OrderId }, new { @class = "btn btn-info" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center align-items-center">
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
+}
+else
+{
+    <h1>Không có thông tin</h1>
+}

@@ -2,7 +2,7 @@
 
 namespace DiamondLuxurySolution.WebApp.Controllers
 {
-	public class TSKC_DayChuyenController : Controller
+	public class DiamondArtificialController : Controller
 	{
 		public IActionResult Index()
 		{

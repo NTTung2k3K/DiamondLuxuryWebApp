@@ -27,17 +27,19 @@ namespace DiamondLuxurySolution.Application.Repository.Warranty
                 errorList.Add("Vui lòng nhập tên phiếu bảo hành");
             }
             if (request.DateActive > request.DateExpired)
-            { 
+            {
                 errorList.Add("Ngày tạo phiếu bảo hành với nhỏ hơn ngày hết hạn");
             }
             if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
+            Random rd = new Random();
+            string WarrantyId = "W" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
 
             var warranty = new DiamondLuxurySolution.Data.Entities.Warranty
             {
-                WarrantyId = Guid.NewGuid(),
+                WarrantyId = WarrantyId,
                 WarrantyName = request.WarrantyName,
                 DateActive = (DateTime)request.DateActive,
                 DateExpired = (DateTime)request.DateExpired,
@@ -63,22 +65,22 @@ namespace DiamondLuxurySolution.Application.Repository.Warranty
             return new ApiSuccessResult<bool>(false, "Success");
         }
 
-		public async Task<ApiResult<List<WarrantyVm>>> GetAll()
-		{
-			var list = await _context.Warrantys.ToListAsync();
-			var rs = list.Select(x => new WarrantyVm()
-			{
-				WarrantyId = x.WarrantyId,
+        public async Task<ApiResult<List<WarrantyVm>>> GetAll()
+        {
+            var list = await _context.Warrantys.ToListAsync();
+            var rs = list.Select(x => new WarrantyVm()
+            {
+                WarrantyId = x.WarrantyId,
                 DateActive = x.DateActive,
                 DateExpired = x.DateExpired,
                 Description = x.Description,
                 Status = x.Status,
                 WarrantyName = x.WarrantyName,
-			}).ToList();
-			return new ApiSuccessResult<List<WarrantyVm>>(rs);
-		}
+            }).ToList();
+            return new ApiSuccessResult<List<WarrantyVm>>(rs);
+        }
 
-		public async Task<ApiResult<WarrantyVm>> GetWarrantyById(Guid WarrantyId)
+        public async Task<ApiResult<WarrantyVm>> GetWarrantyById(string WarrantyId)
         {
             var warranty = await _context.Warrantys.FindAsync(WarrantyId);
             if (warranty == null)
@@ -118,7 +120,7 @@ namespace DiamondLuxurySolution.Application.Repository.Warranty
             {
                 return new ApiErrorResult<bool>("Không tìm thấy phiếu bảo hành");
             }
-            
+
             warranty.WarrantyName = request.WarrantyName;
             warranty.Description = request.Description != null ? request.Description : "";
             warranty.DateActive = (DateTime)request.DateActive;

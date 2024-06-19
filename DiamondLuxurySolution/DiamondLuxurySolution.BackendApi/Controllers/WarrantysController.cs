@@ -79,7 +79,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
         [HttpGet("GetById")]
-        public async Task<IActionResult> FindById([FromQuery] Guid WarrantyId)
+        public async Task<IActionResult> FindById([FromQuery] string WarrantyId)
         {
             try
             {

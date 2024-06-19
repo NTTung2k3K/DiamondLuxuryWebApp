@@ -8,5 +8,9 @@ namespace DiamondLuxurySolution.WebApp.Service.Order
         public Task<ApiResult<OrderVm>> GetOrderById(string OrderId);
         public Task<ApiResult<PageResult<OrderVm>>> GetListOrderOfCustomer(ViewOrderRequest request);
 
+        public Task<ApiResult<string>> CreateOrder(CreateOrderRequest request);
+
+        public Task<ApiResult<string>> ChangeStatusOrder(ChangeOrderStatusRequest request);
+
     }
 }

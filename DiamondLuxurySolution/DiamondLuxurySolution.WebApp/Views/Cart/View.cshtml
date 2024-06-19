@@ -1,0 +1,295 @@
+﻿@model List<DiamondLuxurySolution.WebApp.Models.CartItem>
+@{
+    ViewData["Title"] = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="page-title">Đơn hàng</h1>
+            </div>
+        </div>
+    </div>
+    @if (Model.Count > 0)
+    {
+        <!-- Main content wrapper start -->
+        <div class="main-content-wrapper">
+            <div class="wishlist-area pt--40 pb--80 pt-md--30 pb-md--60">
+                <div class="container">
+                    <!-- Wishlist Area Start -->
+                    <div class="wishlist-wrapper bg--2">
+                        <div class="row">
+                            <div class="col-12" style="
+                            padding: 0px;
+                                                ">
+                                <form action="#" class="form form--cart">
+                                    <div class="wishlist-table table-content table-responsive">
+                                        <table class="table table-custom">
+                                            <thead>
+                                                <tr>
+                                                    <th style="background-color: rgb(255, 255, 255); color: black;">
+                                                        Sản
+                                                        Phẩm
+                                                    </th>
+                                                    <th style="background-color: rgb(255, 255, 255); color: black;">
+                                                        Tên
+                                                    </th>
+                                                    <th style="background-color: rgb(255, 255, 255); color: black;">
+                                                        Đơn giá
+                                                    </th>
+                                                    <th style="background-color: rgb(255, 255, 255); color: black;">
+                                                        Ni
+                                                    </th>
+                                                    <th style="background-color: rgb(252, 254, 255); color: black;">
+                                                        Số
+                                                        Lượng
+                                                    </th>
+                                                    <th style="background-color: rgb(252, 254, 255); color: black;">
+                                                        Thành tiền
+                                                    </th>
+
+                                                    <th style="background-color: rgb(252, 254, 255); color: black;">
+                                                        Xóa
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    decimal total = 0;
+                                                }
+                                                @foreach (var item in Model)
+                                                {
+                                                    total += item.Price * item.Quantity;
+                                                    <tr>
+
+                                                        <td>
+                                                            <a href="/DiamondJewelry/Detail?ProductId=@item.ProductId">
+                                                                <img src="@item.ProductImage" alt="product">
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <h3><a href="/DiamondJewelry/Detail?ProductId=@item.ProductId">@item.ProductName</a></h3>
+                                                        </td>
+                                                        <td class="cart-product-price">@item.Price.ToString("N0")₫</td>
+                                                        <td class="cart-product-price">@(item.Ni == null ? "Không có" : item.Ni)</td>
+
+                                                        <td>
+                                                            <div class="quantity-controls">
+                                                                <button type="button" class="quantity-decrease"
+                                                                        data-product-id="@item.ProductId" data-ni="@item.Ni"  style="font-size: 20px; background-color:#2d2d2d;border: 2px solid #a8741a;">
+                                                                    -
+                                                                </button>
+                                                                <input type="text" class="quantity-input" value="@item.Quantity" size="2"
+                                                                       readonly style="width:22%; ;text-align: center;">
+                                                                <button type="button" class="quantity-increase" data-product-id="@item.ProductId" data-ni="@item.Ni"
+                                                                        style="font-size: 20px;background-color:#2d2d2d;border: 2px solid #a8741a;">
+                                                                    +
+                                                                </button>
+                                                            </div>
+
+                                                        </td>
+                                                        <td class="cart-product-price">@((item.Price*item.Quantity).ToString("N0"))₫</td>
+
+                                                        <td>
+                                                            <a type="button" class="remove-from-cart-item" data-product-id="@item.ProductId" data-ni="@item.Ni">
+                                                                <i class="fa fa-times"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="total-cart"
+                                         style="text-align: right; font-size: large; margin: 15px; margin-right: 20px;">
+                                        <div class="total-content"
+                                             style="display: inline-block; border: 2px solid #ffffff; padding: 5px; border-radius: 5px;">
+                                            Tổng cộng tạm tính: <span>@total.ToString("N0")₫</span>
+                                        </div>
+                                    </div>
+
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <nav style="display: flex;justify-content: space-between;">
+                        <a href="/DiamondJewelry/Index" class="btn add-to-cart btn-medium btn-bordered" style="margin: 10px;">
+                            Tiếp
+                            Tục
+                            Mua Sắm
+                        </a>
+                        <a href="/Pay/Info" class="btn add-to-cart btn-medium btn-style-2"
+                           style="margin: 10px;">
+                            Thanh
+                            Toán
+                        </a>
+                    </nav>
+                    <!-- Wishlist Area End -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content wrapper end -->
+    }
+    else
+    {
+        <!-- Main content wrapper start -->
+        <div class="main-content-wrapper">
+            <div class="wishlist-area pt--40 pb--80 pt-md--30 pb-md--60">
+                <div class="container">
+                    <!-- Wishlist Area Start -->
+                    <h3 style="text-align: center;">Chưa Có Sản Phẩm Nào Trong Giỏ Hàng</h3>
+                    <div style="text-align: center; margin-bottom: 40px;margin-top: 40px;">
+                        <img src="../assets/img/pic_product/empty_cart.png" alt="Empty Cart">
+                    </div>
+
+                    <a href="/DiamondJewelry/Index" class="btn add-to-cart btn-medium btn-style-2"
+                       style="display: block; margin: 0 auto; text-align: center; width: fit-content;">
+                        Quay Trở Lại Trang Cửa Hàng
+                    </a>
+
+
+                    <!-- Wishlist Area End -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content wrapper end -->
+    }
+
+
+</div>
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+        $(document).on('click', '.remove-from-cart-item', function (e) {
+            e.preventDefault(); // Prevent default button action
+
+            e.preventDefault();  // Prevent the default action of the <a> tag
+            e.stopPropagation(); // Prevent event bubbling
+
+            var button = $(this);
+            var productId = button.data("product-id");
+            var ni = button.data("ni");
+
+            if (ni === "") {
+                ni = null;
+            }
+            debugger;
+
+            $.ajax({
+                url: '/Cart/RemoveFromCart',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ productId: productId, ni: ni }),
+                success: function (response) {
+                    button.closest('tr').remove();
+                    window.location.reload();
+
+                },
+                error: function (xhr, status, error) {
+                    alert("Có lỗi xẩy ra vui lòng thử lại");
+                }
+            });
+        });
+
+
+
+    </script>
+
+    <script>
+       
+
+
+
+        $(document).on('click', '.quantity-decrease', function () {
+            var button = $(this);
+            var productId = button.data("product-id");
+            var ni = button.data("ni");
+
+            var input = button.closest('.quantity-controls').find('.quantity-input');
+            if (ni === "") {
+                var currentValue = parseInt(input.val());
+                if (currentValue > 1) {
+                    var newQuantity = currentValue;
+                    input.val(newQuantity);
+                    updateCartItem(productId, newQuantity, ni);
+            
+                }
+            }
+            else {
+                var currentValue = parseInt(input.val());
+                if (currentValue > 1) {
+                    var newQuantity = currentValue -1 ;
+                    input.val(newQuantity);
+                    updateCartItem(productId, newQuantity, ni);
+           
+                }
+            }
+
+            
+        });
+
+        $(document).on('click', '.quantity-increase', function () {
+
+            var button = $(this);
+            var productId = button.data("product-id");
+            var ni = button.data("ni");
+
+            var input = button.closest('.quantity-controls').find('.quantity-input');
+
+            if (ni === "") {
+                var currentValue = parseInt(input.val());
+                var newQuantity = currentValue ;
+                input.val(newQuantity);  // Update input immediately
+                debugger;
+                updateCartItem(productId, newQuantity, ni);
+            } else {
+                var currentValue = parseInt(input.val());
+                var newQuantity = currentValue + 1;
+                input.val(newQuantity);  // Update input immediately
+                debugger;
+                updateCartItem(productId, newQuantity, ni);
+            }
+           
+        });
+
+        function updateCartItem(productId, quantity, ni) {
+            if (ni === "") {
+                ni = null;
+            }
+            var cartItem = {
+                productId: productId,
+                Quantity: quantity,
+                ni: ni
+            };
+
+            $.ajax({
+                url: '/Cart/UpdateQuantity', // Adjust the URL as per your endpoint
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(cartItem),
+                success: function (response) {
+                    console.log('Quantity updated successfully');
+                    window.location.reload();
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error updating quantity:', error);
+                    // Handle errors appropriately
+                }
+            });
+        }
+    </script>
+
+
+
+
+
+}

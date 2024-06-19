@@ -70,6 +70,7 @@ builder.Services.AddTransient<IPaymentRepo, PaymentRepo>();
 builder.Services.AddTransient<IContactRepo, ContactRepo>();
 builder.Services.AddTransient<IFrameRepo, FrameRepo>();
 builder.Services.AddScoped<IRoleInitializer, RoleInitializer>();
+builder.Services.AddScoped<ICategoryInitializer, CategoryInitializer>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -115,6 +116,10 @@ builder.Services.AddIdentity<AppUser, AppRole>(options =>
 
 var app = builder.Build();
 
+app.UseCors(builder =>
+       builder.WithOrigins("https://localhost:9002")  // Allow requests from this origin
+              .AllowAnyMethod()                      // Allow any HTTP method
+              .AllowAnyHeader());
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -136,5 +141,8 @@ using (var scope = app.Services.CreateScope())
     await roleInitializer.CreateCustomerAccount();
     roleInitializer.CreateSaleStaffAccount().Wait();
     roleInitializer.CreateShipperAccount().Wait();
+
+	var categoryInitializer = scope.ServiceProvider.GetRequiredService<ICategoryInitializer>();
+    categoryInitializer.CreateDefaultCategory().Wait();
 }
 app.Run();

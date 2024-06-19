@@ -10,10 +10,13 @@ namespace DiamondLuxurySolution.Application.Repository.Order
 {
     public interface IOrderRepo
     {
-        public Task<ApiResult<bool>> CreateOrder(CreateOrderRequest request);
-        public Task<ApiResult<bool>> CreateOrderByStaff(CreateOrderByStaffRequest request);
+        public Task<ApiResult<string>> CreateOrder(CreateOrderRequest request);
 
-        public Task<ApiResult<bool>> UpdateShipper(UpdateShipperRequest request);
+        public Task<ApiResult<bool>> CreateOrderByStaff(CreateOrderByStaffRequest request);
+        public Task<ApiResult<bool>> AcceptProcessOrder(AcceptProcessOrder request);
+
+
+        public Task<ApiResult<string>> UpdateShipper(UpdateShipperRequest request);
 
         public Task<ApiResult<bool>> DeleteOrder(string OrderId);
 
@@ -33,7 +36,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
         public Task<ApiResult<bool>> UpdateInfoOrder(UpdateOrderRequest request);
         public Task<ApiResult<bool>> ContinuePayment(ContinuePaymentRequest request);
 
-        public Task<ApiResult<bool>> ChangeStatusOrder(ChangeOrderStatusRequest request);
+        public Task<ApiResult<string>> ChangeStatusOrder(ChangeOrderStatusRequest request);
         public Task<ApiResult<OrderVm>> GetOrderById(string OrderId);
         public Task<ApiResult<PageResult<OrderVm>>> ViewOrder(ViewOrderRequest request);
     }

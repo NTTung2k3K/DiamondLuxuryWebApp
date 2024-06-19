@@ -1,0 +1,344 @@
+﻿@{
+    ViewData["Title"] = "Info";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model DiamondLuxurySolution.ViewModel.Models.Order.CreateOrderRequest
+
+<div class="breadcrumb-area" style="background-color: black;">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="page-title">Thanh Toán Giỏ Hàng</h1>
+                <ul class="breadcrumb justify-content-center">
+                    <li><a href="/Home/Index">Trang Chủ</a></li>
+                    <li class="current"><a href="/Pay/Info">Thanh Toán Giỏ Hàng</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcumb area End -->
+<!-- Main content wrapper start -->
+<div class="main-content-wrapper" style="background-color: black;">
+    <div class="checkout-area pt--40 pb--80 pt-md--30 pb-md--60">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Checkout Area Start -->
+                    <div class="checkout-wrapper bg--2">
+                        <form asp-action="Info" asp-controller="Pay" id="checkoutForm" class="payment-form">
+                            <div class="row">
+
+                                <div class="col-lg-5">
+                                    <div class="checkout-title text-center m-2 mb--20">
+                                        <h1 style="font-weight:bold; color:#a8741a">Điền Thông Tin Giao Hàng</h1>
+                                    </div>
+                                    <div class="checkout-form">
+
+                                        <div class="row mb--30">
+                                            @if (ViewBag.Errors != null)
+                                            {
+                                                foreach (var error in ViewBag.Errors)
+                                                {
+                                                    <h4 class="text-danger">@error</h4>
+                                                }
+                                            }
+
+                                            <div class="form__group col-md-12 mb-sm--30">
+                                                <label for="billing_fname" class="form__label">Họ và tên<span style="color:red">*</span></label>
+                                                <input asp-for="ShipName" type="text" id="first_name" class="form__input form__input--2">
+                                            </div>
+
+                                        </div>
+                                        <div class="row mb--30">
+                                            <div class="form__group col-12">
+                                                <label for="billing_country" class="form__label">Thành Phố<span style="color:red">*</span></label>
+                                                <select  id="city" name="country" class="form__input form__input--2 nice-select">
+                                                    <option value="">Chọn một thành phố…</option>
+                                                    <option value="HN">Hà Nội</option>
+                                                    <option value="HCM">Hồ Chí Minh</option>
+                                                    <option value="HP">Hải Phòng</option>
+                                                    <option value="DN">Đà Nẵng</option>
+                                                    <option value="CT">Cần Thơ</option>
+                                                    <option value="BD">Bình Dương</option>
+                                                    <option value="VT">Vũng Tàu</option>
+                                                    <option value="NT">Nha Trang</option>
+                                                    <option value="DL">Đà Lạt</option>
+                                                    <option value="HUE">Huế</option>
+                                                    <option value="QN">Quảng Ninh</option>
+                                                    <option value="QNA">Quảng Nam</option>
+                                                    <option value="QNG">Quảng Ngãi</option>
+                                                    <option value="DNO">Đắk Nông</option>
+                                                    <option value="DNA">Đắk Lắk</option>
+                                                    <option value="LA">Lâm Đồng</option>
+                                                    <option value="KH">Khánh Hòa</option>
+                                                    <option value="NA">Nghệ An</option>
+                                                    <option value="HD">Hà Đông</option>
+                                                    <option value="HG">Hà Giang</option>
+                                                    <option value="TB">Thái Bình</option>
+                                                    <option value="TV">Trà Vinh</option>
+                                                    <option value="TQ">Tiền Giang</option>
+                                                    <option value="AG">An Giang</option>
+                                                    <option value="BRVT">Bà Rịa - Vũng Tàu</option>
+                                                    <option value="CM">Cà Mau</option>
+                                                    <option value="KG">Kiên Giang</option>
+                                                    <option value="BL">Bạc Liêu</option>
+                                                    <option value="ST">Sóc Trăng</option>
+                                                    <option value="VT">Vĩnh Long</option>
+                                                    <option value="BT">Bến Tre</option>
+                                                    <option value="HCM" selected="selected">Hồ Chí Minh</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        <div class="row mb--30">
+                                            <div class="form__group col-12">
+                                                <label for="billing_streetAddress" class="form__label">Quận/Huyện<span style="color:red">*</span></label>
+                                                <input type="text" name="billing_streetAddress" id="district" class="form__input form__input--2">
+                                            </div>
+                                        </div>
+                                        <div class="row mb--30">
+                                            <div class="form__group col-12">
+                                                <label for="billing_streetAddress" class="form__label">Địa Chỉ<span style="color:red">*</span></label>
+                                                <input asp-for="ShipAdress" type="text" id="address" class="form__input form__input--2">
+                                            </div>
+                                        </div>
+                                        <div class="row mb--30">
+                                            <div class="form__group col-md-6 mb-sm--30">
+                                                <label for="billing_phone" class="form__label">Số Điện Thoại<span style="color:red">*</span></label>
+                                                <input asp-for="ShipPhoneNumber" type="number"  id="phone" class="form__input form__input--2">
+                                            </div>
+                                            <div class="form__group col-md-6">
+                                                <label for="billing_email" class="form__label">Địa Chỉ Email<span style="color:red">*</span></label>
+                                                <input asp-for="ShipEmail" type="email" id="email" class="form__input form__input--2">
+                                            </div>
+                                        </div>
+                                        <div class="row mb--30">
+                                            <div class="form__group col-12">
+                                                <label for="orderNotes" class="form__label">Ghi Chú Đặt Hàng</label>
+                                                <textarea asp-for="Description" class="form__input form__input--2 form__input--textarea" id="orderNotes" name="orderNotes" placeholder="Ghi chú về đơn đặt hàng của bạn, ví dụ: ghi chú đặc biệt để giao hàng."></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7 mt-md--30">
+                                    <div class="order-details">
+                                        <h3 class="heading-tertiary text-center">Đơn Hàng Của Bạn</h3>
+                                        <div class="order-table table-content table-responsive mb--30">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sản Phẩm</th>
+                                                        <th>Hình ảnh</th>
+                                                        <th>Đơn giá</th>
+                                                        <th>Tổng Cộng</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @{
+                                                        decimal total = 0;
+                                                    }
+                                                    @foreach (var item in CartSessionHelper.GetCart())
+                                                    {
+                                                        total += (decimal)item.Price * (decimal)item.Quantity;
+                                                        <tr>
+                                                            <td>@item.ProductName<span> @(item.Ni != null ? item.Ni : "")</span></td>
+                                                            <td><img src="@item.ProductImage" /></td>
+                                                            <td>@(item.Price.ToString("N0") + "₫") <span>x <span style="color:#a8741a; font-weight:bold">@item.Quantity</span></span></td>
+                                                            <td style="font-weight:bold">@((item.Price * item.Quantity).ToString("N0") + "₫")</td>
+                                                        </tr>
+                                                    }
+
+                                                </tbody>
+                                            </table>
+                                            @if (ViewBag.ListPromotionOnTime != null && ViewBag.ListPromotionOnTime.Count > 0)
+                                            {
+                                                <table class="table">
+                                                    <tr class="order-total">
+                                                        <th>Tổng cộng (tạm tính)</th>
+                                                        <td><span class="order-total-ammount" style="font-weight:bold">@(total.ToString("N0") + "₫")</span></td>
+                                                    </tr>
+                                                </table>
+                                                <table class="table">
+                                                    <tr class="order-total">
+                                                        <th>Tổng cộng (sau khi khuyến mãi)</th>
+                                                        @{
+                                                            total = total - (total * ((decimal) ViewBag.FistPromotion/100));
+                                                        }
+                                                        <td><span id="promotion-price" class="order-total-ammount" style="font-weight:bold">@(total.ToString("N0") + "₫")</span></td>
+                                                    </tr>
+                                                </table>
+                                            }
+                                            else
+                                            {
+                                                <table class="table">
+                                                    <tr class="order-total">
+                                                        <th>Tổng cộng (tạm tính)</th>
+                                                        <td><span class="order-total-ammount" style="font-weight:bold">@(total.ToString("N0") + "₫")</span></td>
+                                                    </tr>
+                                                </table>
+                                            }
+                                        </div>
+                                        <!-- User Action Start -->
+                                        <div class="user-actions">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="user-actions__single user-actions__coupon">
+                                                        <h3><i class="fa fa-cube"></i> Bạn có muốn đặt cọc? <span class="expand_action" data-attr="#coupon_info">Ấn Vào Đây Để Đặc Cọc </span></h3>
+                                                        <div id="coupon_info" class="user-actions__form user-actions--coupon hide-in-default">
+                                                            <div class="form__group d-flex">
+                                                                <input type="text" id="coupon" style="width:100%;" asp-for="Deposit" class="form__input form__input--2 form__input--w285 mr--20" placeholder="Nhập Số Tiền Đặt Cọc">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group m-4">
+                                            <label asp-for="PromotionId" class="control-label m-2">Chương trình khuyến mãi hiện có</label>
+                                            <select class="h-50 m-3" name="PromotionId">
+                                                @if (ViewBag.ListPromotionOnTime != null && ViewBag.ListPromotionOnTime.Count > 0)
+                                                {
+                                                    @foreach (var promotion in ViewBag.ListPromotionOnTime)
+                                                    {
+                                                        if (Model != null && Model.PromotionId != null)
+                                                        {
+                                                            if (Model.PromotionId.ToString().Equals(promotion.PromotionId.ToString()))
+                                                            {
+                                                                <option data-percent-sale="@promotion.DiscountPercent" value="@promotion.PromotionId" selected>
+                                                                    <div>
+                                                                        Tên: @promotion.PromotionName &nbsp; Kết thúc: @promotion.EndDate; %Giảm: @promotion.DiscountPercent
+                                                                    </div>
+                                                                </option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option data-percent-sale="@promotion.DiscountPercent" value="@promotion.PromotionId">
+                                                                    <div>
+                                                                        Tên: @promotion.PromotionName &nbsp; Kết thúc: @promotion.EndDate; %Giảm: @promotion.DiscountPercent
+                                                                    </div>
+
+                                                                </option>
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            <option data-percent-sale="@promotion.DiscountPercent" value="@promotion.PromotionId">
+                                                                <div>
+                                                                    Tên: @promotion.PromotionName &nbsp;  Kết thúc: @promotion.EndDate; %Giảm: @promotion.DiscountPercent
+                                                                </div>
+
+                                                            </option>
+                                                        }
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    <option selected disabled>Không có</option>
+                                                }
+
+
+
+                                            </select>
+                                            <br />
+                                            <span asp-validation-for="PromotionId" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="checkout-payment">
+                                            
+                                            <div class="payment-group">
+                                                <div class="custom-radio payment-radio">
+                                                    <input checked type="radio" name="ListPaymentId" id="cash" value=@ViewBag.CodID />
+                                                    <label class="payment-label" for="cash">Thanh Toán Khi Nhận Hàng</label>
+                                                </div>
+                                                <div class="payment-info">
+                                                    <p>Thanh toán bằng tiền mặt khi giao hàng.</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="payment-group">
+                                                <div class="custom-radio payment-radio">
+                                                    <input type="radio" name="ListPaymentId" id="paypal" value=@ViewBag.PaypalId />
+
+                                                    <label class="payment-label" for="paypal">
+                                                        Paypal
+                                                        <img src="../assets/img/others/AM_mc_vs_ms_ae_UK.png" alt="payment">
+                                                        <a href="https://www.paypal.com/gb/webapps/mpp/paypal-popup">PayPal là gì?</a>
+                                                    </label>
+                                                </div>
+                                                <div class="payment-info paypal">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="payment-btn-group text-center">
+                                                <button id="checkout-pay" type="button" class="btn btn-style-3">Đặt Hàng</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </form>
+
+                    </div>
+                </div>
+                <!-- Checkout Area End -->
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Main content wrapper end -->
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#checkout-pay').click(function (event) {
+                var firstName = $('#first_name').val().trim();
+                var city = $('#city').val().trim();
+                var district = $('#district').val().trim();
+                var address = $('#address').val().trim();
+                var phone = $('#phone').val().trim();
+                var email = $('#email').val().trim();
+
+                if (!firstName || !city || !district || !address || !phone || !email) {
+                    alert("Bạn cần điền tất cả thông tin để đặt hàng");
+                } else {
+                    debugger;
+                    $('#checkoutForm').submit();
+                }
+            });
+        });
+    </script>
+    <script>
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const selectElement = document.querySelector('select[name="PromotionId"]');
+            const totalElement = document.querySelector('.order-total-ammount');
+            const promotionPriceElement = document.getElementById('promotion-price');
+            let initialTotal = parseFloat(totalElement.innerText.replace(/[^\d]/g, ''));
+
+            const updateTotalWithDiscount = () => {
+                const selectedOption = selectElement.options[selectElement.selectedIndex];
+                const discountPercent = parseFloat(selectedOption.getAttribute('data-percent-sale'));
+
+                const discountAmount = initialTotal * (discountPercent / 100);
+                const newTotal = initialTotal - discountAmount;
+
+                console.log('Initial Total:', initialTotal);
+                console.log('Discount Percent:', discountPercent);
+                console.log('Discount Amount:', discountAmount);
+                console.log('New Total:', newTotal);
+
+                promotionPriceElement.innerText = newTotal.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "₫";
+            };
+
+            // Update total when the page loads
+            updateTotalWithDiscount();
+
+            // Update total when the select option changes
+            selectElement.addEventListener('change', updateTotalWithDiscount);
+        });
+
+    </script>
+}

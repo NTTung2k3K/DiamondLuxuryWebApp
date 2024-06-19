@@ -60,7 +60,6 @@ namespace DiamondLuxurySolution.Application.Repository.Role
                     Email = "Admin1@gmail.com",
                     Dob = new DateTime(2003, 06, 20),
                     DateCreated = DateTime.Now,
-
                     PhoneNumber = "0999999999",
                     UserName = adminUserName,
                     Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Active.ToString(),
@@ -126,7 +125,6 @@ namespace DiamondLuxurySolution.Application.Repository.Role
                     Email = "Sale1@gmail.com",
                     Dob = new DateTime(2003, 04, 12),
                     DateCreated = DateTime.Now,
-
                     PhoneNumber = "0999999992",
                     UserName = saleUserName,
                     Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Active.ToString(),
@@ -159,10 +157,9 @@ namespace DiamondLuxurySolution.Application.Repository.Role
                     Email = "Shipper1@gmail.com",
                     Dob = new DateTime(2003, 06, 21),
                     DateCreated = DateTime.Now,
-
                     PhoneNumber = "0999999993",
                     UserName = shipperUserName,
-                    Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Active.ToString(),
+                    Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Waiting.ToString(),
                 };
 
                 var result = await _userManager.CreateAsync(shipper, "Shipper1@");

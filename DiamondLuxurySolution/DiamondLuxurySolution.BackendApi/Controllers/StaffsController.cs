@@ -1,6 +1,6 @@
 ﻿using DiamondLuxurySolution.Application.Repository.User.Staff;
 using DiamondLuxurySolution.Data.EF;
-using DiamondLuxurySolution.Utilities.Helper;
+using DiamondLuxurySolution.ViewModel.Models.Order;
 using DiamondLuxurySolution.ViewModel.Models.User.Customer;
 using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 using Microsoft.AspNetCore.Http;
@@ -15,13 +15,13 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
         private readonly LuxuryDiamondShopContext _context;
         private readonly IStaffRepo _Staff;
-        
 
-        public StaffsController( LuxuryDiamondShopContext context, IStaffRepo Staff)
+
+        public StaffsController(LuxuryDiamondShopContext context, IStaffRepo Staff)
         {
             _context = context;
             _Staff = Staff;
-        
+
         }
 
 
@@ -59,7 +59,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
-       
+
         [HttpGet("GetNumberCustomerToday")]
         public async Task<ActionResult> GetNumberCustomerToday()
         {
@@ -187,7 +187,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         public async Task<ActionResult> ForgotpasswordStaffCode(string Username)
         {
             try
-                {
+            {
                 var status = await _Staff.ForgotpasswordStaffSendCode(Username);
                 if (status.IsSuccessed)
                 {
@@ -200,7 +200,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
-       
+
         [HttpPost("ForgotCustomerPassword/ChangePassword")]
         public async Task<ActionResult> ForgotpasswordStaffChange([FromBody] ForgotPasswordStaffChangeRequest request)
         {
@@ -320,6 +320,43 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             try
             {
                 var status = await _Staff.ChangeStatusCustomer(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut("UpdateStatusOrderForDeliveryStaff")]
+        public async Task<ActionResult> UpdateStatusOrderForDeliveryStaff([FromBody] UpdateStatusOrderForDeliveryStaff request)
+        {
+            try
+            {
+                var status = await _Staff.UpdateStatusOrderForDeliveryStaff(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+        [HttpPost("ViewOrderForDeliveryStaff")]
+        public async Task<ActionResult> ViewOrderForDeliveryStaff([FromBody] ViewOrderForDeliveryStaff request)
+        {
+            try
+            {
+                var status = await _Staff.ViewOrderForDeliveryStaff(request);
                 if (status.IsSuccessed)
                 {
                     return Ok(status);

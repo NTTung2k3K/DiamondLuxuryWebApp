@@ -86,12 +86,11 @@
 								<div class="cat-list-wrapper">
 									<!-- Thêm div bao bọc -->
 									<ul class="cat-list mb--20">
-										<a href="/TSKC_NhanNam/Index" class="link-border">Nhẫn Kim Cương Nam</a>
-										<a href="/TSKC_NhanNu/Index" class="link-border">Nhẫn Kim Cương Nữ</a>
-										<a href="/TSKC_VongTay/Index" class="link-border">Vòng Tay Kim Cương</a>
-										<a href="/TSKC_LacTay/Index" class="link-border">Lắc Tay Kim Cương</a>
-										<a href="/TSKC_HoaTai/Index" class="link-border">Hoa Tai Kim Cương</a>
-										<a href="/TSKC_DayChuyen/Index" class="link-border">Mặt Dây Chuyền Kim Cương</a>
+										<a href="/DiamondJewelryRing/Index" class="link-border">Nhẫn Kim Cương</a>
+										<a href="/DiamondJewelryBracelet/Index" class="link-border">Vòng Tay Kim Cương</a>
+										<a href="/DiamondJewelryBangles/Index" class="link-border">Lắc Tay Kim Cương</a>
+										<a href="/DiamondJewelryEarring/Index" class="link-border">Hoa Tai Kim Cương</a>
+										<a href="/DiamondJewelryNecklace/Index" class="link-border">Mặt Dây Chuyền Kim Cương</a>
 									</ul>
 								</div>
 							</div>
@@ -137,8 +136,8 @@
 					<div class="shop-product-wrap grid gridview-4 row no-gutters col-md-12">
 						@if (Model != null)
 						{
-							var initialProducts = Model.Where(p => p.IsSale).Take(20).ToList();
-							var hiddenProducts = Model.Where(p => p.IsSale).Skip(20).ToList();
+							var initialProducts = Model.Where(p => p.IsSale && p.CategoryVm.CategoryName != "Kim Cương" && p.CategoryVm.CategoryName != "Trang Sức Cưới").Take(20).ToList();
+							var hiddenProducts = Model.Where(p => p.IsSale && p.CategoryVm.CategoryName != "Kim Cương" && p.CategoryVm.CategoryName != "Trang Sức Cưới").Skip(20).ToList();
 
 							@foreach (var product in initialProducts)
 							{

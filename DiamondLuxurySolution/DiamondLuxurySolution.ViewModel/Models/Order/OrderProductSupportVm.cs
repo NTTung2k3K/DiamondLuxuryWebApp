@@ -14,6 +14,8 @@ namespace DiamondLuxurySolution.ViewModel.Models.Order
         public string ProductName { get; set; }
         public string ProductThumbnail { get; set; }
         public decimal UnitPrice { get; set; }
+        public int? Size { get; set; }
+
         public WarrantyVm? Warranty { get; set; }
     }
 }
