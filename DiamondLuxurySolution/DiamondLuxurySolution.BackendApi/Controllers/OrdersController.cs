@@ -196,6 +196,26 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpPut("ExportFileToFolder")]
+        public async Task<IActionResult> ExportFileToFolder([FromBody] ExportFileRequest request)
+        {
+            try
+            {
+                var status = await _order.ExportFileInspecertificateAndWarranty(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
         [HttpGet("GetFullOrderByCustomerId")]
         public async Task<ActionResult> GetFullOrderByCustomerId([FromQuery]ViewOrderRequest request)
         {

@@ -14,6 +14,7 @@
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
     <PackageReference Include="PagedList" Version="1.17.0" />
     <PackageReference Include="PagedList.Mvc" Version="4.5.0" />
+    <PackageReference Include="PuppeteerSharp" Version="18.0.1" />
   </ItemGroup>
 
   <ItemGroup>

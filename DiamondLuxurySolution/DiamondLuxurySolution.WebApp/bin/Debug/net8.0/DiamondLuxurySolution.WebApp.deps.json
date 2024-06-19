@@ -67,8 +67,6 @@
           "Microsoft.AspNetCore.Connections.Abstractions": "8.0.0.0",
           "Microsoft.AspNetCore.CookiePolicy": "8.0.0.0",
           "Microsoft.AspNetCore.Cors": "8.0.0.0",
-          "Microsoft.AspNetCore.Cryptography.Internal.Reference": "8.0.0.0",
-          "Microsoft.AspNetCore.Cryptography.KeyDerivation.Reference": "8.0.0.0",
           "Microsoft.AspNetCore.DataProtection.Abstractions.Reference": "8.0.0.0",
           "Microsoft.AspNetCore.DataProtection.Reference": "8.0.0.0",
           "Microsoft.AspNetCore.DataProtection.Extensions": "8.0.0.0",
@@ -164,8 +162,6 @@
           "Microsoft.Extensions.Hosting.Abstractions.Reference": "8.0.0.0",
           "Microsoft.Extensions.Hosting": "8.0.0.0",
           "Microsoft.Extensions.Http": "8.0.0.0",
-          "Microsoft.Extensions.Identity.Core.Reference": "8.0.0.0",
-          "Microsoft.Extensions.Identity.Stores.Reference": "8.0.0.0",
           "Microsoft.Extensions.Localization.Abstractions": "8.0.0.0",
           "Microsoft.Extensions.Localization": "8.0.0.0",
           "Microsoft.Extensions.Logging.Abstractions.Reference": "8.0.0.0",
@@ -1086,6 +1082,9 @@
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.0.524.22404"
           }
+        },
+        "compile": {
+          "lib/net8.0/Microsoft.AspNetCore.Cryptography.Internal.dll": {}
         }
       },
       "Microsoft.AspNetCore.Cryptography.KeyDerivation/8.0.5": {
@@ -1097,6 +1096,9 @@
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.0.524.22404"
           }
+        },
+        "compile": {
+          "lib/net8.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll": {}
         }
       },
       "Microsoft.AspNetCore.DataProtection/2.1.1": {
@@ -1961,6 +1963,9 @@
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.0.524.22404"
           }
+        },
+        "compile": {
+          "lib/net8.0/Microsoft.Extensions.Identity.Core.dll": {}
         }
       },
       "Microsoft.Extensions.Identity.Stores/8.0.5": {
@@ -1974,6 +1979,9 @@
             "assemblyVersion": "8.0.0.0",
             "fileVersion": "8.0.524.22404"
           }
+        },
+        "compile": {
+          "lib/net8.0/Microsoft.Extensions.Identity.Stores.dll": {}
         }
       },
       "Microsoft.Extensions.Logging/8.0.0": {
@@ -2643,6 +2651,22 @@
         },
         "compile": {
           "lib/net451/PayPal.dll": {}
+        }
+      },
+      "PuppeteerSharp/18.0.1": {
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "7.0.0",
+          "Microsoft.Extensions.Logging": "8.0.0",
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/PuppeteerSharp.dll": {
+            "assemblyVersion": "18.0.1.0",
+            "fileVersion": "18.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/PuppeteerSharp.dll": {}
         }
       },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
@@ -3529,7 +3553,8 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.1",
           "Microsoft.Extensions.Hosting.Abstractions": "8.0.0",
           "PagedList": "1.17.0",
-          "PagedList.Mvc": "4.5.0"
+          "PagedList.Mvc": "4.5.0",
+          "PuppeteerSharp": "18.0.1"
         },
         "runtime": {
           "DiamondLuxurySolution.Application.dll": {}
@@ -3685,18 +3710,6 @@
       "Microsoft.AspNetCore.Cors/8.0.0.0": {
         "compile": {
           "Microsoft.AspNetCore.Cors.dll": {}
-        },
-        "compileOnly": true
-      },
-      "Microsoft.AspNetCore.Cryptography.Internal.Reference/8.0.0.0": {
-        "compile": {
-          "Microsoft.AspNetCore.Cryptography.Internal.dll": {}
-        },
-        "compileOnly": true
-      },
-      "Microsoft.AspNetCore.Cryptography.KeyDerivation.Reference/8.0.0.0": {
-        "compile": {
-          "Microsoft.AspNetCore.Cryptography.KeyDerivation.dll": {}
         },
         "compileOnly": true
       },
@@ -4267,18 +4280,6 @@
       "Microsoft.Extensions.Http/8.0.0.0": {
         "compile": {
           "Microsoft.Extensions.Http.dll": {}
-        },
-        "compileOnly": true
-      },
-      "Microsoft.Extensions.Identity.Core.Reference/8.0.0.0": {
-        "compile": {
-          "Microsoft.Extensions.Identity.Core.dll": {}
-        },
-        "compileOnly": true
-      },
-      "Microsoft.Extensions.Identity.Stores.Reference/8.0.0.0": {
-        "compile": {
-          "Microsoft.Extensions.Identity.Stores.dll": {}
         },
         "compileOnly": true
       },
@@ -6577,6 +6578,13 @@
       "path": "paypal/1.9.1",
       "hashPath": "paypal.1.9.1.nupkg.sha512"
     },
+    "PuppeteerSharp/18.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-aKCjiCqsi2/NmBd8wLABCaUd7s/UxfnYacfrq000WdNL9/pVslN8tTsu6jUbKAjwvYBl9BTWJRFH9O41OTRMEA==",
+      "path": "puppeteersharp/18.0.1",
+      "hashPath": "puppeteersharp.18.0.1.nupkg.sha512"
+    },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
       "type": "package",
       "serviceable": true,
@@ -7415,16 +7423,6 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.AspNetCore.Cryptography.Internal.Reference/8.0.0.0": {
-      "type": "referenceassembly",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Microsoft.AspNetCore.Cryptography.KeyDerivation.Reference/8.0.0.0": {
-      "type": "referenceassembly",
-      "serviceable": false,
-      "sha512": ""
-    },
     "Microsoft.AspNetCore.DataProtection.Abstractions.Reference/8.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
@@ -7896,16 +7894,6 @@
       "sha512": ""
     },
     "Microsoft.Extensions.Http/8.0.0.0": {
-      "type": "referenceassembly",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Microsoft.Extensions.Identity.Core.Reference/8.0.0.0": {
-      "type": "referenceassembly",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Microsoft.Extensions.Identity.Stores.Reference/8.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""

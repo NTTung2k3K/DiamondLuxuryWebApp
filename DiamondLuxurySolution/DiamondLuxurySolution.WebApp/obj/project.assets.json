@@ -2894,6 +2894,24 @@
           }
         }
       },
+      "PuppeteerSharp/18.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "1.1.0",
+          "Microsoft.Extensions.Logging": "2.0.2",
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/PuppeteerSharp.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/PuppeteerSharp.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
         "type": "package",
         "runtimeTargets": {
@@ -4736,7 +4754,8 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.1",
           "Microsoft.Extensions.Hosting.Abstractions": "8.0.0",
           "PagedList": "1.17.0",
-          "PagedList.Mvc": "4.5.0"
+          "PagedList.Mvc": "4.5.0",
+          "PuppeteerSharp": "18.0.1"
         },
         "compile": {
           "bin/placeholder/DiamondLuxurySolution.Application.dll": {}
@@ -9348,6 +9367,19 @@
         "paypal.nuspec"
       ]
     },
+    "PuppeteerSharp/18.0.1": {
+      "sha512": "aKCjiCqsi2/NmBd8wLABCaUd7s/UxfnYacfrq000WdNL9/pVslN8tTsu6jUbKAjwvYBl9BTWJRFH9O41OTRMEA==",
+      "type": "package",
+      "path": "puppeteersharp/18.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/PuppeteerSharp.dll",
+        "lib/netstandard2.0/PuppeteerSharp.xml",
+        "puppeteersharp.18.0.1.nupkg.sha512",
+        "puppeteersharp.nuspec"
+      ]
+    },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
       "sha512": "HdSSp5MnJSsg08KMfZThpuLPJpPwE5hBXvHwoKWosyHHfe8Mh5WKT0ylEOf6yNzX6Ngjxe4Whkafh5q7Ymac4Q==",
       "type": "package",
@@ -13770,19 +13802,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\HP\\.nuget\\packages\\": {}
+    "C:\\Users\\tungk\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\DiamondLuxurySolution.WebApp.csproj",
+      "projectUniqueName": "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\DiamondLuxurySolution.WebApp.csproj",
       "projectName": "DiamondLuxurySolution.WebApp",
-      "projectPath": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\DiamondLuxurySolution.WebApp.csproj",
-      "packagesPath": "C:\\Users\\HP\\.nuget\\packages\\",
-      "outputPath": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\obj\\",
+      "projectPath": "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\DiamondLuxurySolution.WebApp.csproj",
+      "packagesPath": "C:\\Users\\tungk\\.nuget\\packages\\",
+      "outputPath": "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\HP\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\tungk\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -13796,17 +13828,17 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj": {
-              "projectPath": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj"
+            "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj": {
+              "projectPath": "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj"
             },
-            "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj": {
-              "projectPath": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj"
+            "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj": {
+              "projectPath": "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj"
             },
-            "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Utilities\\DiamondLuxurySolution.Utilities.csproj": {
-              "projectPath": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Utilities\\DiamondLuxurySolution.Utilities.csproj"
+            "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Utilities\\DiamondLuxurySolution.Utilities.csproj": {
+              "projectPath": "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Utilities\\DiamondLuxurySolution.Utilities.csproj"
             },
-            "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj": {
-              "projectPath": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj"
+            "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj": {
+              "projectPath": "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj"
             }
           }
         }
@@ -13882,11 +13914,17 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.206/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
       }
     }
   },
   "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    },
     {
       "code": "NU1701",
       "level": "Warning",
