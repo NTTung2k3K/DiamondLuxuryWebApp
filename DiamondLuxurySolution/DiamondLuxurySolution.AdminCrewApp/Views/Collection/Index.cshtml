@@ -40,17 +40,19 @@
 
 @if (Model.Items != null && Model.Items.Count > 0)
 {
-    <table class="table">
+    <table class="table" id="sort">
         <thead>
             <tr class="text-center">
                 <th>
                     <label>Tên bộ sưu tập</label>
+                    <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
                     <label>Hình ảnh bộ sưu tập</label>
                 </th>
                 <th>
                     <label>Hiển thị</label>
+                    <label onclick="sortTable(2)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
                     <label>Sản phẩm của bộ sưu tập</label>
@@ -204,4 +206,6 @@ else
         });
 
     </script>
+
+     <script src="~/assets/js/Test.js"></script>
 }

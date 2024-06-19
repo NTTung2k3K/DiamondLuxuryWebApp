@@ -70,7 +70,7 @@
 			@Html.ActionLink("Chỉnh sửa", "Edit", new { DiscountId = Model.DiscountId }, new { @class = "btn btn-warning" })
 		</div>
 		<div class="col-md-7">
-			<button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Discount")'">Về trang quản lí mã giảm giá</button>
+			<button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Discount")'">Về trang quản lí chiết khấu</button>
 		</div>
 	</div>
 
@@ -79,6 +79,6 @@
 else
 {
 	<div>
-		<a class="m-5" asp-action="Index" asp-controller="Discount">Về trang quản lí mã giảm giá</a>
+		<a class="m-5" asp-action="Index" asp-controller="Discount">Về trang quản lí chiết khấu</a>
 	</div>
 }
