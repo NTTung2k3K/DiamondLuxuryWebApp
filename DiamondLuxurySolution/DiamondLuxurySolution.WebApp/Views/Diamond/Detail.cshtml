@@ -243,9 +243,8 @@
 							<div class="tab-pane fade show active" id="nav-desc" role="tabpanel">
 								<table>
 									@{
-										var closestGemPriceList = Model.GemPriceLists
-										.OrderBy(gp => Math.Abs((gp.effectDate - DateTime.Now).Ticks))
-										.FirstOrDefault();
+										var closestGemPriceList = Model.GemPriceLists;
+
 									}
 									<tr>
 										<th>Thương hiệu</th>

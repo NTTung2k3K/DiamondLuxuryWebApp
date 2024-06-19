@@ -45,7 +45,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Product
         public virtual ICollection<String> Images { get; set; } = new List<String>();
         public virtual ICollection<SubGemSupportDTO> ListSubGems { get; set; } = new List<SubGemSupportDTO>();
 
-		public virtual ICollection<GemPriceListVm>? GemPriceLists { get; set; } = new List<GemPriceListVm>();
+		public virtual GemPriceListVm? GemPriceLists { get; set; } = new GemPriceListVm();
 
 		public virtual GemVm GemVm { get; set; }
         public virtual CategoryVm CategoryVm { get; set; }

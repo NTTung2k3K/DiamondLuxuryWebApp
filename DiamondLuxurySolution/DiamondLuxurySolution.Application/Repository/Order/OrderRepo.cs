@@ -1857,7 +1857,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
 
         public async Task<ApiResult<bool>> ExportFileInspecertificateAndWarranty(ExportFileRequest request)
         {
-            var order = _context.Orders.Include(x => x.OrderDetails).ThenInclude(x => x.Product).ThenInclude(x => x.Gem).ThenInclude(x => x.InspectionCertificate).Include(x => x.OrderDetails).ThenInclude(x => x.Product).ThenInclude(x => x.Gem).ThenInclude(x => x.GemPriceLists).FirstOrDefault(x => x.OrderId == request.OrderId);
+            /*var order = _context.Orders.Include(x => x.OrderDetails).ThenInclude(x => x.Product).ThenInclude(x => x.Gem).ThenInclude(x => x.InspectionCertificate).Include(x => x.OrderDetails).ThenInclude(x => x.Product).ThenInclude(x => x.Gem).FirstOrDefault(x => x.OrderId == request.OrderId);
             if (order == null)
             {
                 return new ApiErrorResult<bool>("Không tìm thấy đơn hàng");
@@ -1904,7 +1904,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
 
                 await GeneratePdfAsync(contentCustomer, pdfFilePath);
             }
-
+*/
 
 
             return new ApiErrorResult<bool>("Không tìm thấy file");

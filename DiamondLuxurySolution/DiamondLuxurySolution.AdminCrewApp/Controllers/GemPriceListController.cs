@@ -209,37 +209,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 					ViewBag.ListGem = listGem.ResultObj.ToList();
 
 					var gemPriceList = await _gemPriceListApiService.GetGemPriceListById(request.GemPriceListId);
-                    var gem = await _gemApiService.GetGemById(gemPriceList.ResultObj.GemVm.GemId);
-                    var inspectionCertificate = await _inspectionCertificateApiService.GetInspectionCertificateById(gem.ResultObj.InspectionCertificateVm.InspectionCertificateId);
-                    var inspectionCertificateVm = new InspectionCertificateVm()
-                    {
-                        InspectionCertificateId = inspectionCertificate.ResultObj.InspectionCertificateId,
-                        InspectionCertificateName = inspectionCertificate.ResultObj.InspectionCertificateName,
-                        DateGrading = inspectionCertificate.ResultObj?.DateGrading,
-                        Logo = inspectionCertificate.ResultObj?.Logo,
-                        Status = inspectionCertificate.ResultObj.Status,
-                    };
-
-                    var gemVm = new GemVm()
-                    {
-                        GemId = gem.ResultObj.GemId,
-                        GemName = gem.ResultObj.GemName,
-                        GemImage = gem.ResultObj.GemImage,
-                        ProportionImage = gem.ResultObj.ProportionImage,
-                        Polish = gem.ResultObj.Polish,
-                        Symetry = gem.ResultObj.Symetry,
-                        AcquisitionDate = gem.ResultObj.AcquisitionDate,
-                        Active = gem.ResultObj.Active,
-                        Fluoresence = gem.ResultObj.Fluoresence,
-                        IsOrigin = gem.ResultObj.IsOrigin,
-                        InspectionCertificateVm = inspectionCertificateVm,
-                    };
 
                     var gemPriceListVm = new GemPriceListVm()
                     {
                         GemPriceListId = gemPriceList.ResultObj.GemPriceListId,
                         Active = gemPriceList.ResultObj.Active,
-                        GemVm = gemVm,
                     };
                     return View(gemPriceListVm);
                 }
@@ -267,37 +241,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 					ViewBag.ListGem = listGem.ResultObj.ToList();
 
 					var gemPriceList = await _gemPriceListApiService.GetGemPriceListById(request.GemPriceListId);
-                    var gem = await _gemApiService.GetGemById(gemPriceList.ResultObj.GemVm.GemId);
-                    var inspectionCertificate = await _inspectionCertificateApiService.GetInspectionCertificateById(gem.ResultObj.InspectionCertificateVm.InspectionCertificateId);
-                    var inspectionCertificateVm = new InspectionCertificateVm()
-                    {
-                        InspectionCertificateId = inspectionCertificate.ResultObj.InspectionCertificateId,
-                        InspectionCertificateName = inspectionCertificate.ResultObj.InspectionCertificateName,
-                        DateGrading = inspectionCertificate.ResultObj?.DateGrading,
-                        Logo = inspectionCertificate.ResultObj?.Logo,
-                        Status = inspectionCertificate.ResultObj.Status,
-                    };
-
-                    var gemVm = new GemVm()
-                    {
-                        GemId = gem.ResultObj.GemId,
-                        GemName = gem.ResultObj.GemName,
-                        GemImage = gem.ResultObj.GemImage,
-                        ProportionImage = gem.ResultObj.ProportionImage,
-                        Polish = gem.ResultObj.Polish,
-                        Symetry = gem.ResultObj.Symetry,
-                        AcquisitionDate = gem.ResultObj.AcquisitionDate,
-                        Active = gem.ResultObj.Active,
-                        Fluoresence = gem.ResultObj.Fluoresence,
-                        IsOrigin = gem.ResultObj.IsOrigin,
-                        InspectionCertificateVm = inspectionCertificateVm,
-                    };
 
                     var gemPriceListVm = new GemPriceListVm()
                     {
                         GemPriceListId = gemPriceList.ResultObj.GemPriceListId,
                         Active = gemPriceList.ResultObj.Active,
-                        GemVm = gemVm,
                     };
                     return View(gemPriceListVm);
 

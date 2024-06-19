@@ -38,9 +38,6 @@ namespace DiamondLuxurySolution.Application.Repository.About
             {
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.AboutImage);
                 about.AboutImage = firebaseUrl;
-            } else
-            {
-                about.AboutImage = "";
             }
 
             _context.Abouts.Add(about);
@@ -108,10 +105,6 @@ namespace DiamondLuxurySolution.Application.Repository.About
             {
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.AboutImage);
                 about.AboutImage = firebaseUrl;
-            }
-            else
-            {
-                about.AboutImage = "";
             }
             about.AboutName = request.AboutName;
             about.Description = request.Description != null ? request.Description : "";

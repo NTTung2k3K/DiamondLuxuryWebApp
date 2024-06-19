@@ -141,6 +141,36 @@
             <dd class="col-sm-8">
                 @Html.DisplayFor(model => model.GemVm.GemName)
             </dd>
+            <dt class="col-sm-3" style="font-weight:500;">
+                Giác cắt
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.GemPriceLists.Cut)
+            </dd>
+            <dt class="col-sm-3" style="font-weight:500;">
+                Độ tinh khiết
+            </dt>
+            <dd class="col-sm-8" >
+                @Html.DisplayFor(model => model.GemPriceLists.Clarity)
+            </dd>
+            <dt class="col-sm-3" style="font-weight:500;">
+                Màu sắc
+            </dt>
+            <dd class="col-sm-8" >
+                @Html.DisplayFor(model => model.GemPriceLists.Color)
+            </dd>
+            <dt class="col-sm-3" style="font-weight:500;">
+                Trọng lượng
+            </dt>
+            <dd class="col-sm-8" >
+                @Html.DisplayFor(model => model.GemPriceLists.CaratWeight)
+            </dd>
+            <dt class="col-sm-3">
+                Giá trị
+            </dt>
+            <dd class="col-sm-8" style="color:green">
+                @Model.GemPriceLists?.Price.ToString("N0")<span>₫</span>
+            </dd>
             <dt class="col-sm-3">
                 Kim cương phụ
             </dt>

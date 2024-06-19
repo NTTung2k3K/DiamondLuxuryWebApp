@@ -16,8 +16,7 @@ public partial class GemPriceList
     public string? Color { get; set; }
 
     public decimal? Price { get; set; }
-    public Guid GemId { get; set; }
-    public Gem Gem { get; set; }
-    public bool Active { get; set; }
+	public List<Gem> Gems { get; set; }
+	public bool Active { get; set; }
     public DateTime effectDate {  get; set; } 
 }

@@ -32,6 +32,12 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 return new ApiErrorResult<bool>("Không tìm thấy giấy chứng nhận kim cương");
             }
 
+            var gpl = await _context.GemPriceLists.FindAsync(request.GemPriceListId);
+            if (gpl == null)
+            {
+				return new ApiErrorResult<bool>("Không tìm mã giá kim cương");
+			}
+
             var list = await _context.Gems.ToListAsync();
             foreach (var gems in list)
             {
@@ -57,6 +63,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 AcquisitionDate = (DateTime)request.AcquisitionDate,
                 Active = request.Active,
                 InspectionCertificateId = request.InspectionCertificateId,
+                GemPriceList = gpl,
             };
             if (request.ProportionImage != null)
             {
@@ -110,6 +117,18 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                     Logo = insp.Logo,
                     Status = insp.Status,
                 };
+                var gpl = await _context.GemPriceLists.FindAsync(item.GemPriceListId);
+                var gplVm = new GemPriceListVm()
+                {
+                    GemPriceListId = gpl.GemPriceListId,
+                    CaratWeight = gpl.CaratWeight,
+                    Active = gpl.Active,
+                    Clarity = gpl.Clarity,
+                    Color = gpl.Color,
+                    Cut = gpl.Cut,
+                    effectDate = gpl.effectDate,
+                    Price = (decimal)gpl.Price,
+                };
                 var gemVm = new GemVm()
                 {
                     GemId = item.GemId,
@@ -123,6 +142,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                     AcquisitionDate = item.AcquisitionDate,
                     Active = item.Active,
                     InspectionCertificateVm = inspectionCertificateVm,
+                    GemPriceListVm = gplVm,
                 };
                 listGemVm.Add(gemVm);
             }
@@ -137,11 +157,6 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 return new ApiErrorResult<GemVm>("Không tìm thấy kim cương");
             }
             var insp = await _context.InspectionCertificates.FindAsync(gem.InspectionCertificateId);
-            if (insp == null)
-            {
-                return new ApiErrorResult<GemVm>("Không tìm thấy giấy chứng nhận kim cương");
-            }
-
             var inspectionCertificateVm = new InspectionCertificateVm() 
             {
                 InspectionCertificateId = insp.InspectionCertificateId,
@@ -150,8 +165,20 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 Logo = insp.Logo,
                 Status = insp.Status,          
             };
+			var gpl = await _context.GemPriceLists.FindAsync(gem.GemPriceListId);
+			var gplVm = new GemPriceListVm()
+			{
+				GemPriceListId = gpl.GemPriceListId,
+				CaratWeight = gpl.CaratWeight,
+				Active = gpl.Active,
+				Clarity = gpl.Clarity,
+				Color = gpl.Color,
+				Cut = gpl.Cut,
+				effectDate = gpl.effectDate,
+				Price = (decimal)gpl.Price,
+			};
 
-            var gemVm = new GemVm()
+			var gemVm = new GemVm()
             {
                 GemId = gem.GemId,
                 GemName = gem.GemName,
@@ -164,6 +191,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 AcquisitionDate = gem.AcquisitionDate,
                 Active = gem.Active,
                 InspectionCertificateVm = inspectionCertificateVm,
+                GemPriceListVm = gplVm,
             };
             return new ApiSuccessResult<GemVm>(gemVm, "Success");
         }
@@ -180,30 +208,31 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                 return new ApiErrorResult<bool>("Không tìm thấy kim cương");
             }
 
-            gem.GemName = request.GemName;
+			var gpl = await _context.GemPriceLists.FindAsync(request.GemPriceListId);
+			if (gpl == null)
+			{
+				return new ApiErrorResult<bool>("Không tìm mã giá kim cương");
+			}
+
+			gem.GemName = request.GemName;
             gem.Polish = request.Polish != null ? request.Polish : "";
             gem.Symetry = request.Symetry != null ? request.Symetry : "";
             gem.IsOrigin = request.IsOrigin;
             gem.Fluoresence = request.Fluoresence;
             gem.AcquisitionDate = (DateTime)request.AcquisitionDate;
             gem.Active = request.Active;
+            gem.GemPriceList = gpl;
             if (request.ProportionImage != null)
             {
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.ProportionImage);
                 gem.ProportionImage = firebaseUrl;
-            } else
-            {
-                gem.ProportionImage = "";
-            }
+            } 
             if (request.GemImage != null)
             {
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.GemImage);
                 gem.GemImage = firebaseUrl;
             }
-            else
-            {
-                gem.GemImage = "";
-            }
+            
 
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
@@ -236,7 +265,19 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                     Logo = insp.Logo,
                     Status = insp.Status,
                 };
-                var gemVm = new GemVm()
+				var gpl = await _context.GemPriceLists.FindAsync(item.GemPriceListId);
+				var gplVm = new GemPriceListVm()
+				{
+					GemPriceListId = gpl.GemPriceListId,
+					CaratWeight = gpl.CaratWeight,
+					Active = gpl.Active,
+					Clarity = gpl.Clarity,
+					Color = gpl.Color,
+					Cut = gpl.Cut,
+					effectDate = gpl.effectDate,
+					Price = (decimal)gpl.Price,
+				};
+				var gemVm = new GemVm()
                 {
                     GemId = item.GemId,
                     GemName = item.GemName,
@@ -249,6 +290,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                     AcquisitionDate = item.AcquisitionDate,
                     Active = item.Active,
                     InspectionCertificateVm = inspectionCertificateVm,
+                    GemPriceListVm = gplVm,
                 };
                 listGemVm.Add(gemVm);
             }
@@ -290,7 +332,19 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                     Logo = insp.Logo,
                     Status = insp.Status,
                 };
-                var gemVm = new GemVm()
+				var gpl = await _context.GemPriceLists.FindAsync(item.GemPriceListId);
+				var gplVm = new GemPriceListVm()
+				{
+                    GemPriceListId = gpl.GemPriceListId,
+					CaratWeight = gpl.CaratWeight,
+					Active = gpl.Active,
+					Clarity = gpl.Clarity,
+					Color = gpl.Color,
+					Cut = gpl.Cut,
+					effectDate = gpl.effectDate,
+					Price = (decimal)gpl.Price,
+				};
+				var gemVm = new GemVm()
                 {
                     GemId = item.GemId,
                     GemName = item.GemName,
@@ -303,6 +357,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
                     AcquisitionDate = item.AcquisitionDate,
                     Active = item.Active,
                     InspectionCertificateVm = inspectionCertificateVm,
+                    GemPriceListVm = gplVm
                 };
                 listGemVm.Add(gemVm);
             }
