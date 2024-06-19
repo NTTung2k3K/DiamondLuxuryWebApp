@@ -71,6 +71,7 @@ builder.Services.AddTransient<IContactRepo, ContactRepo>();
 builder.Services.AddTransient<IFrameRepo, FrameRepo>();
 builder.Services.AddScoped<IRoleInitializer, RoleInitializer>();
 builder.Services.AddScoped<IPaymentInitializer, PayInitializer>();
+builder.Services.AddScoped<ICategoryInitializer, CategoryInitializer>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -145,5 +146,7 @@ using (var scope = app.Services.CreateScope())
     var paymentInitializer = scope.ServiceProvider.GetRequiredService<IPaymentInitializer>();
     paymentInitializer.CreateDefaultPayment().Wait();
 
+	var categoryInitializer = scope.ServiceProvider.GetRequiredService<ICategoryInitializer>();
+    categoryInitializer.CreateDefaultCategory().Wait();
 }
 app.Run();

@@ -38,7 +38,18 @@ namespace DiamondLuxurySolution.Utilities.Constants
             public const string Admin = "Quản trị viên";
         }
 
-        public enum OrderStatus
+		public class CategoryNameDefault
+		{
+			public const string Diamond = "Kim Cương";
+			public const string WeddingJewelry = "Trang Sức Cưới";
+			public const string Ring = "Nhẫn";
+			public const string Necklace = "Dây Chuyền";
+			public const string Earring = "Hoa Tai";
+			public const string Bracelet = "Vòng Tay";
+			public const string Bangles = "Lắc Tay";
+		}
+
+		public enum OrderStatus
         {
             InProgress,
             Confirmed,

@@ -40,16 +40,20 @@
             <tr class="text-center">
                 <th class="p-0">
                     <label>Email</label>
+                    <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th class="p-0">
                     <label>Họ và tên</label>
+                    <label onclick="sortTable(1)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th class="p-0">
                     <label>Số điện thoại</label>
+                    <label onclick="sortTable(2)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
 
                 <th class="p-0">
                     <label>Trạng thái</label>
+                    <label onclick="sortTable(3)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th class="p-0">
                     <label>Chức vụ</label>
@@ -116,4 +120,8 @@
 else
 {
     <h1>Không có thông tin</h1>
+}
+@section scripts
+{
+    <script src="~/assets/js/Test.js"></script>
 }

@@ -41,35 +41,35 @@ namespace DiamondLuxurySolution.Utilities.Helper
         }
 
 
-        private static async Task<string> UploadToFirebase(Stream stream, string fileName)
-        {
-            var auth = new FirebaseAuthProvider(new FirebaseConfig("AIzaSyDf-QdQ7AYvJhbKBCjdDv_mDQa1mJEm7p8"));
-            var a = await auth.SignInWithEmailAndPasswordAsync("DiamondLuxuryDeveloper@gmail.com", "Hello123@");
-            var cancellation = new CancellationTokenSource();
+       
+		private static async Task<string> UploadToFirebase(Stream stream, string fileName)
+		{
+			var auth = new FirebaseAuthProvider(new FirebaseConfig("AIzaSyDf-QdQ7AYvJhbKBCjdDv_mDQa1mJEm7p8"));
+			var a = await auth.SignInWithEmailAndPasswordAsync("DiamondLuxuryDeveloper@gmail.com", "Hello123@");
+			var cancellation = new CancellationTokenSource();
 
-            var task = new FirebaseStorage(
-                "diamondluxuryshop-980cd.appspot.com",
-                new FirebaseStorageOptions
-                {
-                    AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
-                    ThrowOnCancel = true // when you cancel the upload, exception is thrown. By default no exception is thrown
-                })
-                .Child("images")
-                .Child(fileName)
-                .PutAsync(stream, cancellation.Token);
+			var task = new FirebaseStorage(
+				"diamondluxuryshop-980cd.appspot.com",
+				new FirebaseStorageOptions
+				{
+					AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),
+					ThrowOnCancel = true // when you cancel the upload, exception is thrown. By default no exception is thrown
+				})
+				.Child("images")
+				.Child(fileName)
+				.PutAsync(stream, cancellation.Token);
+			task.Progress.ProgressChanged += (s, e) => Console.WriteLine($"Progress: {e.Percentage} %");
 
-            task.Progress.ProgressChanged += (s, e) => Console.WriteLine($"Progress: {e.Percentage} %");
-
-            try
-            {
-                string link = await task;
-                return link;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Exception was thrown: {0}", ex);
-                return null;
-            }
-        }
-    }
+			try
+			{
+				string link = await task;
+				return link;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Exception was thrown: {0}", ex);
+				return null;
+			}
+		}
+	}
 }
