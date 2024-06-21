@@ -60,7 +60,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
                     };
                     Response.Cookies.Append("CustomerName", customer.ResultObj.FullName, option);
                     Response.Cookies.Append("CustomerId", customer.ResultObj.CustomerId.ToString(), option);
-                    Response.Cookies.Append(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM.ToString(), DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.DEFAULT_PLATFORM.ToString(),option);
+                    Response.Cookies.Append(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM.ToString(), DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.DEFAULT_PLATFORM.ToString(), option);
 
                 }
                 HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.DEFAULT_PLATFORM);
@@ -380,7 +380,8 @@ namespace DiamondLuxurySolution.WebApp.Controllers
                 var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, false);
                 if (result.Succeeded)
                 {
-                    if (info.LoginProvider.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.FACEBOOK_PLATFORM.ToString())){
+                    if (info.LoginProvider.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.FACEBOOK_PLATFORM.ToString()))
+                    {
                         var userExist = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey); ;
 
                         HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_NAME, userExist.Fullname);
@@ -439,13 +440,15 @@ namespace DiamondLuxurySolution.WebApp.Controllers
                         };
                     }
 
-                    
+
 
                     var createUserResult = await _userManager.CreateAsync(user);
+
                     if (createUserResult.Succeeded)
                     {
+                        var roleResult = await _userManager.AddToRoleAsync(user, DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString());
                         var identResult = await _userManager.AddLoginAsync(user, info);
-                        if (identResult.Succeeded)
+                        if (identResult.Succeeded && roleResult.Succeeded)
                         {
                             await _signInManager.SignInAsync(user, false);
 

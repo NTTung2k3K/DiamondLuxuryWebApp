@@ -28,6 +28,15 @@ using System.IO;
 using System.Threading.Tasks;
 using PuppeteerSharp;
 using PuppeteerSharp.Media;
+using HtmlToPdfMaster;
+using Microsoft.VisualBasic.FileIO;
+using DinkToPdf.Contracts;
+using DinkToPdf;
+using System.Drawing.Printing;
+using System.Reflection.Metadata;
+using PdfSharp;
+using PaperKind = DinkToPdf.PaperKind;
+using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
 
 namespace DiamondLuxurySolution.Application.Repository.Order
 {
@@ -35,13 +44,14 @@ namespace DiamondLuxurySolution.Application.Repository.Order
     {
         private readonly UserManager<AppUser> _userMananger;
         private readonly RoleManager<AppRole> _roleManager;
-
+        private readonly IConverter _converter;
         private readonly LuxuryDiamondShopContext _context;
-        public OrderRepo(LuxuryDiamondShopContext context, UserManager<AppUser> userMananger, RoleManager<AppRole> roleManager)
+        public OrderRepo(IConverter converter, LuxuryDiamondShopContext context, UserManager<AppUser> userMananger, RoleManager<AppRole> roleManager)
         {
             _userMananger = userMananger;
             _context = context;
             _roleManager = roleManager;
+            _converter = converter;
         }
         public async Task<ApiResult<string>> ChangeStatusOrder(ChangeOrderStatusRequest request)
         {
@@ -51,16 +61,16 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 return new ApiErrorResult<string>("Không tìm thấy đơn hàng");
             }
 
-            
 
-            var listOrderPayment =   _context.OrdersPayments.Where(x => x.OrderId == request.OrderId).OrderByDescending(x => x.OpenPaymentTime).FirstOrDefault();
+
+            var listOrderPayment = _context.OrdersPayments.Where(x => x.OrderId == request.OrderId).OrderByDescending(x => x.OpenPaymentTime).FirstOrDefault();
             if (listOrderPayment == null)
             {
                 return new ApiErrorResult<string>("Không tìm thấy thông tin thanh toán");
             }
             listOrderPayment.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString();
             await _context.SaveChangesAsync();
-            return new ApiSuccessResult<string>(order.OrderId,"Success");
+            return new ApiSuccessResult<string>(order.OrderId, "Success");
         }
 
         public async Task<ApiResult<bool>> ContinuePayment(ContinuePaymentRequest request)
@@ -192,7 +202,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                             TotalPrice = orderProduct.Quantity * product.SellingPrice,
                             WarrantyId = warranty.WarrantyId,
                             Size = orderProduct.Size,
-                            
+
                         };
 
                         totalPrice += orderDetail.TotalPrice;
@@ -811,7 +821,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     Message = op.Message,
                     OrderPaymentId = op.OrdersPaymentId,
                     OpenPaymentTime = op.OpenPaymentTime,
-                    
+
                 }).ToList();
             }
             if (order.OrderDetails != null)
@@ -962,132 +972,106 @@ namespace DiamondLuxurySolution.Application.Repository.Order
 
 
 
-            // Start Process SubGem
+            // Start Process ****
             // Retrieve existing product details from the database
+
             var existingProductDetails = await _context.OrderDetails.Include(x => x.Warranty)
                 .Where(x => x.OrderId == order.OrderId)
                 .ToListAsync();
 
-            List<DiamondLuxurySolution.Data.Entities.Warranty> listRemoveWarranty = new List<DiamondLuxurySolution.Data.Entities.Warranty>();
-            foreach (var warranty in existingProductDetails)
+            bool isChange = false;
+            foreach (var orderDetail in request.ListExistOrderProduct)
             {
-                listRemoveWarranty.Add(warranty.Warranty);
+                var orderDetailEntity = await _context.OrderDetails.Where(x => x.OrderId == request.OrderId && x.ProductId == orderDetail.ProductId).FirstAsync();
+                if (orderDetail.ProductId != orderDetailEntity.ProductId)
+                {
+                    isChange = true;
+                }
+                if (orderDetail.Quantity != orderDetailEntity.Quantity)
+                {
+                    isChange = true;
+                }
+                if (orderDetailEntity.Size != null)
+                {
+                    if (orderDetail.Size != orderDetailEntity.Size)
+                    {
+                        isChange = true;
+                    }
+                }
             }
 
-            _context.Warrantys.RemoveRange(listRemoveWarranty);
-
-            _context.OrderDetails.RemoveRange(existingProductDetails);
-            await _context.SaveChangesAsync();
-
-            if (request.ListExistOrderProduct != null)
+            if (isChange)
             {
-                foreach (var orderDetail in request.ListExistOrderProduct)
+                List<DiamondLuxurySolution.Data.Entities.Warranty> listRemoveWarranty = new List<DiamondLuxurySolution.Data.Entities.Warranty>();
+                foreach (var warranty in existingProductDetails)
                 {
-                    var product = await _context.Products.FindAsync(orderDetail.ProductId);
-                    if (product == null)
+                    listRemoveWarranty.Add(warranty.Warranty);
+                }
+
+                _context.Warrantys.RemoveRange(listRemoveWarranty);
+
+                _context.OrderDetails.RemoveRange(existingProductDetails);
+                await _context.SaveChangesAsync();
+
+                if (request.ListExistOrderProduct != null)
+                {
+                    foreach (var orderDetail in request.ListExistOrderProduct)
                     {
-                        return new ApiErrorResult<bool>("Không tìm thấy kim cương phụ");
-                    }
-                    if (orderDetail.Quantity <= 0)
-                    {
-                        return new ApiErrorResult<bool>($"Kim cương phụ cần có số lượng");
-                    }
+                        var product = await _context.Products.FindAsync(orderDetail.ProductId);
+                        if (product == null)
+                        {
+                            return new ApiErrorResult<bool>("Không tìm thấy kim cương phụ");
+                        }
+                        if (orderDetail.Quantity <= 0)
+                        {
+                            return new ApiErrorResult<bool>($"Kim cương phụ cần có số lượng");
+                        }
                         string WarrantyId = "W" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
 
-                    var warranty = new DiamondLuxurySolution.Data.Entities.Warranty()
+                        var warranty = new DiamondLuxurySolution.Data.Entities.Warranty()
+                        {
+                            WarrantyId = WarrantyId,
+                            DateActive = DateTime.Now,
+                            DateExpired = DateTime.Now.AddMonths(12),
+                            WarrantyName = $"Phiếu bảo hành cho sản phẩm {product.ProductName} | {product.ProductId}",
+                            Description = "Phiếu bảo hành có giá trị trong vòng 12 tháng",
+                            Status = true,
+                        };
+                        var orderDetailEntity = new OrderDetail
+                        {
+                            ProductId = orderDetail.ProductId,
+                            Quantity = orderDetail.Quantity,
+                            OrderId = order.OrderId,
+                            UnitPrice = product.SellingPrice,
+                            TotalPrice = orderDetail.Quantity * product.SellingPrice,
+                            WarrantyId = warranty.WarrantyId,
+                            Size = orderDetail.Size,
+
+                        };
+                        await _context.Warrantys.AddAsync(warranty);
+                        await _context.OrderDetails.AddAsync(orderDetailEntity);
+                    }
+                }
+                await _context.SaveChangesAsync();
+
+                // Update the database with the new product details
+                foreach (var updatedProduct in request.ListExistOrderProduct)
+                {
+                    var orderDetail = existingProductDetails
+                        .FirstOrDefault(x => x.ProductId == updatedProduct.ProductId);
+
+                    if (orderDetail != null)
                     {
-                        WarrantyId = WarrantyId,
-                        DateActive = DateTime.Now,
-                        DateExpired = DateTime.Now.AddMonths(12),
-                        WarrantyName = $"Phiếu bảo hành cho sản phẩm {product.ProductName} | {product.ProductId}",
-                        Description = "Phiếu bảo hành có giá trị trong vòng 12 tháng",
-                        Status = true,
-                    };
-                    var orderDetailEntity = new OrderDetail
-                    {
-                        ProductId = orderDetail.ProductId,
-                        Quantity = orderDetail.Quantity,
-                        OrderId = order.OrderId,
-                        UnitPrice = product.SellingPrice,
-                        TotalPrice = orderDetail.Quantity * product.SellingPrice,
-                        WarrantyId = warranty.WarrantyId,
-                        Size = orderDetail.Size,
-
-                    };
-                    await _context.Warrantys.AddAsync(warranty);
-                    await _context.OrderDetails.AddAsync(orderDetailEntity);
-                }
-            }
-            await _context.SaveChangesAsync();
-
-
-
-
-
-            /*
-            // Create a list to store items that need to be deleted
-            var itemsToDelete = new List<OrderProductSupport>();
-
-            // Find items to delete and update the rest
-            foreach (var product in request.ListExistOrderProduct)
-            {
-                // No ni
-                if (product.Size == null && product.OldSize != null)
-                {
-                    var existingProductA = existingProductDetails
-                   .FirstOrDefault(x => x.ProductId == product.ProductId && x.Size == product.OldSize);
-
-                    existingProductA.Quantity = product.Quantity;
-                    existingProductA.Size = product.Size;
-                }
-                if (product.Size != null && product.OldSize != null)
-                {
-                    var existingProductB = existingProductDetails
-                   .FirstOrDefault(x => x.ProductId == product.ProductId && x.Size == product.OldSize);
-
-                    existingProductB.Quantity = product.Quantity;
-                    existingProductB.Size = product.Size;
+                        orderDetail.Quantity = updatedProduct.Quantity;
+                        orderDetail.Size = updatedProduct.Size;
+                    }
                 }
 
-                var existingProduct = existingProductDetails
-                    .FirstOrDefault(x => x.ProductId == product.ProductId && );
-
-                if (existingProduct == null)
-                {
-                    // Add to delete list if not found in existing products
-                    itemsToDelete.Add(product);
-                }
-                else
-                {
-                    // Update quantity and size
-                    product.Quantity = existingProduct.Quantity;
-                    product.Size = product.Size ?? product.OldSize;
-                }
+                // Save changes to the database
+                await _context.SaveChangesAsync();
             }
 
-            // Remove items that are not in the existing product details
-            foreach (var item in itemsToDelete)
-            {
-                request.ListExistOrderProduct.Remove(item);
-            }*/
-
-            // Update the database with the new product details
-            foreach (var updatedProduct in request.ListExistOrderProduct)
-            {
-                var orderDetail = existingProductDetails
-                    .FirstOrDefault(x => x.ProductId == updatedProduct.ProductId);
-
-                if (orderDetail != null)
-                {
-                    orderDetail.Quantity = updatedProduct.Quantity;
-                    orderDetail.Size = updatedProduct.Size;
-                }
-            }
-
-            // Save changes to the database
-            await _context.SaveChangesAsync();
-
-            //End
+            //End *****
 
             if (request.ListOrderProduct != null)
             {
@@ -1212,7 +1196,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 order.ShipperId = await AssignShipper();
             }
 
-            if(order.StaffId == null)
+            if (order.StaffId == null)
             {
                 order.StaffId = request.StaffId;
             }
@@ -1830,85 +1814,161 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             return new ApiSuccessResult<bool>(true, "Success");
 
         }
-        private async Task GeneratePdfAsync(string htmlContent, string filePath)
+
+        public async Task<ApiResult<string>> ExportFileInspecertificateAndWarranty(ExportFileRequest request)
         {
-            // Create a new instance of BrowserFetcher
-            var browserFetcher = new BrowserFetcher();
-            // Download the revision if it does not already exist
-            await browserFetcher.DownloadAsync();
+            var order = _context.Orders.Include(x => x.Customer)
+                .Include(x => x.OrderDetails).ThenInclude(x => x.Warranty)
+                .Include(x => x.OrderDetails).ThenInclude(x => x.Product)
+                    .ThenInclude(x => x.Gem)
+                    .ThenInclude(x => x.InspectionCertificate)
+                .Include(x => x.OrderDetails)
+                    .ThenInclude(x => x.Product)
+                    .ThenInclude(x => x.Gem)
+                    .ThenInclude(x => x.GemPriceList)
+                .FirstOrDefault(x => x.OrderId == request.OrderId);
 
-            // Launch a headless browser
-            using (var browser = await Puppeteer.LaunchAsync(new LaunchOptions { Headless = true }))
-            {
-                // Open a new page
-                using (var page = await browser.NewPageAsync())
-                {
-                    // Set the HTML content of the page
-                    await page.SetContentAsync(htmlContent);
-
-                    // Generate the PDF and save it to the specified path
-                    await page.PdfAsync(filePath, new PdfOptions
-                    {
-                        Format = PaperFormat.A4
-                    });
-                }
-            }
-        }
-
-        public async Task<ApiResult<bool>> ExportFileInspecertificateAndWarranty(ExportFileRequest request)
-        {
-            /*var order = _context.Orders.Include(x => x.OrderDetails).ThenInclude(x => x.Product).ThenInclude(x => x.Gem).ThenInclude(x => x.InspectionCertificate).Include(x => x.OrderDetails).ThenInclude(x => x.Product).ThenInclude(x => x.Gem).FirstOrDefault(x => x.OrderId == request.OrderId);
             if (order == null)
             {
-                return new ApiErrorResult<bool>("Không tìm thấy đơn hàng");
+                return new ApiErrorResult<string>("Không tìm thấy đơn hàng");
             }
-
+            var dataWarranty = "";
+            int index = 0;
             foreach (var item in order.OrderDetails)
             {
+
+                dataWarranty += "<tr>";
+                dataWarranty += $"<td>{++index}</td>"; // Replace Property1 with actual property names
+                dataWarranty += $"<td>{item.WarrantyId}</td>"; // Replace Property1 with actual property names
+                dataWarranty += $"<td>{item.ProductId}</td>"; // Replace Property2 with actual property names
+                dataWarranty += $"<td>{item.Product.ProductName}</td>"; // Replace Property3 with actual property names
+                dataWarranty += $"<td>{item.Quantity}</td>"; // Replace Property3 with actual property names
+                dataWarranty += $"<td>{item.Warranty.DateActive}</td>"; // Replace Property3 with actual property names
+                dataWarranty += $"<td>{item.Warranty.DateExpired}</td>"; // Replace Property3 with actual property names
+                dataWarranty += "</tr>";
+
+
                 string relativePath = @"..\..\DiamondLuxurySolution\DiamondLuxurySolution.Utilities\FormDiamond\InspectCertificate.html";
-                // Combine the relative path with the current directory to get the full path
                 string path = Path.GetFullPath(relativePath);
 
                 if (!System.IO.File.Exists(path))
                 {
-                    return new ApiErrorResult<bool>("Không tìm thấy file");
+                    return new ApiErrorResult<string>("Không tìm thấy file");
                 }
-                
 
                 string contentCustomer = System.IO.File.ReadAllText(path);
-                contentCustomer = contentCustomer.Replace("{{DateTimeNow}}", DateTime.Now.Date.ToString());
+                contentCustomer = contentCustomer.Replace("{{DateTimeNow}}", DateTime.Now.Date.ToString("yyyy-MM-dd"));
 
                 var inspectionCertificate = item.Product.Gem.InspectionCertificate.InspectionCertificateId;
                 contentCustomer = contentCustomer.Replace("{{CINumber}}", inspectionCertificate.ToString());
-                var cut = item.Product.Gem.GemPriceLists.First().Cut;
+                var cut = item.Product.Gem.GemPriceList.Cut;
                 contentCustomer = contentCustomer.Replace("{{Cut}}", cut.ToString());
-                var caratWeight = item.Product.Gem.GemPriceLists.First().CaratWeight;
+                var caratWeight = item.Product.Gem.GemPriceList.CaratWeight;
                 contentCustomer = contentCustomer.Replace("{{CaratWeight}}", caratWeight.ToString());
-                var color = item.Product.Gem.GemPriceLists.First().Color;
+                var color = item.Product.Gem.GemPriceList.Color;
                 contentCustomer = contentCustomer.Replace("{{Color}}", color.ToString());
-                var clarity = item.Product.Gem.GemPriceLists.First().Clarity;
-                contentCustomer = contentCustomer.Replace("{{Color}}", clarity.ToString());
+                var clarity = item.Product.Gem.GemPriceList.Clarity;
+                contentCustomer = contentCustomer.Replace("{{Clarity}}", clarity.ToString());
                 var polish = item.Product.Gem.Polish;
-                contentCustomer = contentCustomer.Replace("{{Color}}", polish.ToString());
+                contentCustomer = contentCustomer.Replace("{{Polish}}", polish.ToString());
                 var symetry = item.Product.Gem.Symetry;
                 contentCustomer = contentCustomer.Replace("{{Symetry}}", symetry.ToString());
                 var fluorescenceRaw = item.Product.Gem.Fluoresence;
-                var fluorescence = fluorescenceRaw ? "Có" : "Không";
-                contentCustomer = contentCustomer.Replace("{{Symetry}}", fluorescence.ToString());
+                var fluorescence = fluorescenceRaw ? "Yes" : "No";
+                contentCustomer = contentCustomer.Replace("{{Fluor}}", fluorescence.ToString());
                 var isOriginRaw = item.Product.Gem.IsOrigin;
                 var isOrigin = isOriginRaw ? "Origin" : "Synthetic";
                 contentCustomer = contentCustomer.Replace("{{Origin}}", isOrigin.ToString());
 
-                string userSelectedPath = request.PathUser; // Path provided by user
-                string pdfFilePath = Path.Combine(userSelectedPath, $"InspectCertificate_{item.Product.Gem.GemId}.pdf");
+                try
+                {
+                    string directoryPath = @"C:\DiamondInfo"; // Desired directory
 
-                await GeneratePdfAsync(contentCustomer, pdfFilePath);
+                    // Ensure the directory exists
+                    if (!Directory.Exists(directoryPath))
+                    {
+                        Directory.CreateDirectory(directoryPath);
+                    }
+                    string directoryPathWarranty = @"C:\DiamondInfo\" + order.CustomerId + @"\"; // Desired directory
+                    if (!Directory.Exists(directoryPathWarranty))
+                    {
+                        Directory.CreateDirectory(directoryPathWarranty);
+                    }
+
+
+
+                    string filename = "GCN_" + inspectionCertificate + ".pdf";
+                    var pdfFile = HtmlConverter.FromHtmlString(contentCustomer, 220, 500);
+                    string filePath = Path.Combine(@"C:\DiamondInfo\" + order.CustomerId + @"\", filename);
+                    FileSystem.WriteAllBytes(filePath, pdfFile, true);
+                }
+                catch (Exception ex)
+                {
+                    return new ApiErrorResult<string>($"Không thể xuât file PDF: {ex.Message}");
+                }
             }
-*/
+
+            // Warranty 
+            string relativePathWarranty = @"..\..\DiamondLuxurySolution\DiamondLuxurySolution.Utilities\FormDiamond\Warranty.html";
+            string pathWarranty = Path.GetFullPath(relativePathWarranty);
+
+            if (!System.IO.File.Exists(pathWarranty))
+            {
+                return new ApiErrorResult<string>("Không tìm thấy file");
+            }
+
+            string warrantyCustomer = System.IO.File.ReadAllText(pathWarranty);
+            warrantyCustomer = warrantyCustomer.Replace("{{data}}", dataWarranty);
+
+            warrantyCustomer = warrantyCustomer.Replace("{{DateTime}}", DateTime.Now.ToString());
+
+            var CusName = order.Customer.Fullname;
+            warrantyCustomer = warrantyCustomer.Replace("{{CusName}}", string.IsNullOrEmpty(CusName) ? "Không có" : CusName.ToString());
+
+            var CusAddress = order.Customer.Address;
+            warrantyCustomer = warrantyCustomer.Replace("{{CusAddress}}", string.IsNullOrEmpty(CusAddress) ? "Không có" : CusAddress?.ToString());
+
+            var CusDob = order.Customer.Dob;
+            warrantyCustomer = warrantyCustomer.Replace("{{CusDob}}", CusDob != null ? CusDob.Value.Date.ToString() : "Không có ");
+
+            var CusPhone = order.Customer.PhoneNumber;
+            warrantyCustomer = warrantyCustomer.Replace("{{CusPhone}}", string.IsNullOrEmpty(CusPhone) ? "Không có" : CusPhone.ToString());
+
+            var CusEmail = order.Customer.Email;
+            warrantyCustomer = warrantyCustomer.Replace("{{CusEmail}}", string.IsNullOrEmpty(CusEmail) ? "Không có" : CusEmail.ToString());
+            try
+            {
+                string directoryPath = @"C:\DiamondInfo"; // Desired directory
+
+                // Ensure the directory exists
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string directoryPathWarranty = @"C:\DiamondInfo\" + order.CustomerId + @"\"; // Desired directory
+                if (!Directory.Exists(directoryPathWarranty))
+                {
+                    Directory.CreateDirectory(directoryPathWarranty);
+                }
 
 
-            return new ApiErrorResult<bool>("Không tìm thấy file");
 
+                string filename = "PBH_" + CusName + ".pdf";
+                var pdfFile = HtmlConverter.FromHtmlString(warrantyCustomer, 220, 900);
+                string filePath = Path.Combine(@"C:\DiamondInfo\" + order.CustomerId + @"\", filename);
+                FileSystem.WriteAllBytes(filePath, pdfFile, true);
+            }
+            catch (Exception ex)
+            {
+                return new ApiErrorResult<string>($"Không thể xuât file PDF: {ex.Message}");
+            }
+
+
+
+            // END warranty 
+
+            return new ApiSuccessResult<string>(order.CustomerId.ToString(), "Success");
         }
+
     }
 }
