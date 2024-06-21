@@ -12,8 +12,12 @@ namespace DiamondLuxurySolution.ViewModel.Models.Order
         public string PaymentMethod { get; set; }
         public string Description { get; set; }
         public DateTime PaymentTime { get; set; }
+        public DateTime OpenPaymentTime { get; set; }
+
         public decimal PaymentAmount { get; set; }
         public string Message { get; set; }
         public string Status { get; set; }
+        public Guid? OrderPaymentId { get; set; }
+
     }
 }

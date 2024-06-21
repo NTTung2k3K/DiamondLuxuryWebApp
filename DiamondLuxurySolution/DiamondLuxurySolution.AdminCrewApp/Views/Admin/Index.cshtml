@@ -12,9 +12,9 @@
 <div class="row mb-4">
     <div class="col-md-4">
     </div>
-    <div class="col-md-3">
+    <div class="col-md-4">
     </div>
-    <div class="col-md-5">
+    <div class="col-md-4">
         <form asp-action="Index" asp-controller="Admin" method="get" class="d-flex">
 
             <div class="search">
@@ -35,21 +35,24 @@
 @if (Model!=null && Model.Items != null && Model.Items.Count > 0)
 {
 
-    <table class="table">
+    <table class="table" id="sort">
         <thead>
             <tr class="text-center">
                 <th class="p-0">
                     <label>Chứng minh nhân dân</label>
+                    <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th class="p-0">
                     <label>Họ và tên</label>
+                    <label onclick="sortTable(1)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th class="p-0">
                     <label>Số điện thoại</label>
+                    <label onclick="sortTable(2)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
-
                 <th class="p-0">
-                    <label>Trạng thái</label>
+                    <label>Hiển thị</label>
+                    <label onclick="sortTable(3)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th class="p-0">
                     <label>Chức vụ</label>
@@ -75,7 +78,7 @@
                     @if (item.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Suspended.ToString()))
                     {
                         <td class="p-0">
-                            <span class="badge bg-danger rounded-pill">Nghĩ việc</span>
+                            <span class="badge bg-danger rounded-pill">Nghỉ việc</span>
 
                         </td>
                     }
@@ -100,14 +103,14 @@
                     @if (item.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Retired.ToString()))
                     {
                         <td class="p-0">
-                            <span class="badge bg-yellow-500 rounded-pill">Nghĩ hưu</span>
+                            <span class="badge bg-yellow-500 rounded-pill">Nghỉ hưu</span>
                         </td>
                     }
                    
                     @if (item.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.OnLeave.ToString()))
                     {
                         <td class="p-0">
-                            <span class="badge bg-blue-500 rounded-pill">Nghĩ phép</span>
+                            <span class="badge bg-blue-500 rounded-pill">Nghỉ phép</span>
                         </td>
                     }
                     @if (item.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Terminated.ToString()))
@@ -141,4 +144,8 @@
 else
 {
     <h1>Không có thông tin</h1>
+}
+@section scripts
+{
+        <script src="~/assets/js/Test.js"></script>
 }

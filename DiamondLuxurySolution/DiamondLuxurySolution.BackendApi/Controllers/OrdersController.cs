@@ -31,8 +31,29 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         {
             try
             {
-               
+                if (!string.IsNullOrEmpty(request.ListOrderProductJson))
+                {
+                    request.ListOrderProduct = (List<OrderProductSupport>?)JsonConvert.DeserializeObject<ICollection<OrderProductSupport>>(request.ListOrderProductJson);
+                }
                 var status = await _order.CreateOrder(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpPost("CreateOrderByStaff")]
+        public async Task<ActionResult> CreateOrderByStaff([FromBody] CreateOrderByStaffRequest request)
+        {
+            try
+            {
+
+                var status = await _order.CreateOrderByStaff(request);
                 if (status.IsSuccessed)
                 {
                     return Ok(status);
@@ -62,12 +83,34 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpPut("AcceptProcessOrder")]
+        public async Task<ActionResult> AcceptProcessOrder([FromBody] AcceptProcessOrder request)
+        {
+            try
+            {
+
+                var status = await _order.AcceptProcessOrder(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return Ok(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         [HttpPut("Update")]
         public async Task<ActionResult> Update([FromBody] UpdateOrderRequest request)
         {
             try
             {
-
+                if (!string.IsNullOrEmpty(request.StatusOrderPaymentJson))
+                {
+                    request.StatusOrderPayment = (List<OrderStatusSupportDTO>?)JsonConvert.DeserializeObject<ICollection<OrderStatusSupportDTO>>(request.StatusOrderPaymentJson);
+                }
                 var status = await _order.UpdateInfoOrder(request);
                 if (status.IsSuccessed)
                 {
@@ -98,8 +141,27 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpPut("UpdateShipper")]
+        public async Task<ActionResult> UpdateShipper([FromBody] UpdateShipperRequest request)
+        {
+            try
+            {
+
+                var status = await _order.UpdateShipper(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return Ok(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpDelete("Delete")]
-        public async Task<ActionResult> DeleteOrder([FromBody]string OrderId)
+        public async Task<ActionResult> DeleteOrder([FromQuery]string OrderId)
         {
             try
             {
@@ -123,6 +185,225 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             {
 
                 var status = await _order.GetOrderById(OrderId);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpPut("ExportFileToFolder")]
+        public async Task<IActionResult> ExportFileToFolder([FromBody] ExportFileRequest request)
+        {
+            try
+            {
+                var status = await _order.ExportFileInspecertificateAndWarranty(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+
+        [HttpGet("GetFullOrderByCustomerId")]
+        public async Task<ActionResult> GetFullOrderByCustomerId([FromQuery]ViewOrderRequest request)
+        {
+            try
+            {
+
+                var status = await _order.GetListOrderOfCustomer(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("GetTotalIncome")]
+        public async Task<ActionResult> GetTotalIncome()
+        {
+            try
+            {
+
+                var status = await _order.TotalIncome();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet("GetTotalOrder")]
+        public async Task<ActionResult> GetTotalOrder()
+        {
+            try
+            {
+
+                var status = await _order.TotalOrder();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet("GetIncomeToday")]
+        public async Task<ActionResult> GetIncomeToday()
+        {
+            try
+            {
+
+                var status = await _order.IncomeToday();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet("GetAllOrderToday")]
+        public async Task<ActionResult> GetAllOrderToday()
+        {
+            try
+            {
+
+                var status = await _order.AllOrderToday();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet("GetIncomeAYear")]
+        public async Task<ActionResult> GetIncomeAYear()
+        {
+            try
+            {
+
+                var status = await _order.IncomeAYear();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet("GetRecentTransaction")]
+        public async Task<ActionResult> GetRecentTransaction()
+        {
+            try
+            {
+
+                var status = await _order.RecentTransaction();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet("GetRecentSuccessTransaction")]
+        public async Task<ActionResult> GetRecentSuccessTransaction()
+        {
+            try
+            {
+
+                var status = await _order.RecentSuccessTransaction();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet("GetRecentWaitTransaction")]
+        public async Task<ActionResult> GetRecentWaitTransaction()
+        {
+            try
+            {
+
+                var status = await _order.RecentWaitTransaction();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet("GetRecentFailTransaction")]
+        public async Task<ActionResult> GetRecentFailTransaction()
+        {
+            try
+            {
+
+                var status = await _order.RecentFailTransaction();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet("GetOrderByQuarter")]
+        public async Task<ActionResult> GetOrderByQuarter()
+        {
+            try
+            {
+
+                var status = await _order.OrderByQuarter();
                 if (status.IsSuccessed)
                 {
                     return Ok(status);

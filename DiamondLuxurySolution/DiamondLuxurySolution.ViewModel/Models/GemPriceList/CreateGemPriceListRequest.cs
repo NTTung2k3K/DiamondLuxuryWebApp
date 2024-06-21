@@ -19,9 +19,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.GemPriceList
         public string? Color { get; set; }
         [Required(ErrorMessage = "Cần nhập giá")]
         public string? Price { get; set; }
-        [Required(ErrorMessage = "Cần nhập tên kim cương")]
-        public Guid GemId { get; set; }
-
         public bool Active { get; set; }
         [Required(ErrorMessage = "Cần nhập ngày ảnh hưởng")]
         public DateTime? effectDate { get; set; }

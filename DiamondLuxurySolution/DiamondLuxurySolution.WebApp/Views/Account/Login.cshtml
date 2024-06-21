@@ -1,0 +1,59 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section StyleCss{
+    <link href="../mycss/mycheckbox.css" rel="stylesheet" />
+}
+@model DiamondLuxurySolution.ViewModel.Models.User.Customer.LoginCustomerRequest
+
+
+<!-- Main Wrapper Start -->
+<div class="main-content-wrapper" style="background-color: black;">
+    <div class="login-register-area">
+        <div class="login-container">
+            <form class="login-form" asp-action="Login" asp-controller="Account" method="post">
+                <p class="heading" style="font-weight:bold">Đăng Nhập</p>
+                <br>
+                <div class="input-group">
+                    <input required="" asp-for="Email" placeholder="Email" id="username name=" name="Email"  type="text" />
+                </div>
+                <div class="input-group">
+                    <input required="" placeholder="Mật Khẩu" name="Password" id="password" type="password" />
+                </div>
+                <div>
+                    <label class="custom-checkbox">
+                        @Html.CheckBoxFor(x => x.RememberMe, new { @name="dumy"} )
+                        <span class="checkmark"></span>
+                    </label>
+
+                    <label>Ghi Nhớ Đăng Nhập</label>
+                </div>
+                <br>
+                <div style="color:red" class="m-3">@ViewBag.Error</div>
+                <button type="submit">Đăng Nhập</button>
+                <br>
+                <div class="bottom-text">
+                    <p>Không Có Tài Khoản? <a href="/Account/Register">Đăng Ký</a></p>
+                    <p><a href="/Account/ForgotPassword ">Quên Mật Khẩu?</a></p>
+                </div>
+                <br>
+                <br>
+                <p style="color: #a8741a;font-style: italic;">* Đăng Nhập Trên Nền Tảng Khác *</p>
+                <a href="/Account/LoginOnAnotherPlatform?Provider=Google" class="login-button google-login">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+                         alt="Google Logo" width="20" height="20" />
+                    Đăng nhập bằng Google
+                </a>
+                <a href="/Account/LoginOnAnotherPlatform?Provider=Facebook" class="login-button facebook-login">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg"
+                         alt="Facebook Logo" width="20" height="20" />
+                    Đăng nhập bằng Facebook
+                </a>
+            </form>
+        </div>
+
+    </div>
+</div>
+<!-- Main Wrapper End -->

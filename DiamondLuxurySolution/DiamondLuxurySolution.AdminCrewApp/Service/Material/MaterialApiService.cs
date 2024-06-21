@@ -14,12 +14,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Material
 
         public async Task<ApiResult<bool>> CreateMaterial(CreateMaterialRequest request)
         {
-            if (request.EffectDate != null)
+    /*        if (request.EffectDate != null)
             {
                 DateTime date = (DateTime)request.EffectDate;
                 request.EffectDate = date;
 
-            }
+            }*/
             var data = await PostAsyncHasImage<bool>("api/Materials/Create", request);
             return data;
         }

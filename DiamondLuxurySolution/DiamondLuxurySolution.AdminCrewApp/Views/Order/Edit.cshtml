@@ -1,0 +1,1191 @@
+﻿@using DiamondLuxurySolution.ViewModel.Models.Product
+@model DiamondLuxurySolution.ViewModel.Models.Order.UpdateOrderRequest
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chỉnh sửa đơn hàng</h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if (Model != null)
+{
+
+    bool isSuccess = Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString());
+    if (isSuccess)
+    {
+        <div class="row">
+            <div class="col-md-10">
+                <form asp-action="Edit" asp-controller="Order" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group m-2">
+                        <label asp-for="OrderId" class="control-label m-2">Mã đơn hàng</label>
+                        <input asp-for="OrderId" readonly class="form-control" />
+                    </div>
+
+                    <div class="form-group m-2">
+                        <label asp-for="Fullname" class="control-label m-2">Tên người mua</label>
+                        <input asp-for="Fullname" readonly class="form-control" />
+                        <span asp-validation-for="Fullname" class="text-danger"></span>
+                    </div>
+                    <div class="form-group m-2">
+                        <label asp-for="PhoneNumber" class="control-label m-2">Số điện thoại</label>
+                        <input asp-for="PhoneNumber" readonly class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group m-2">
+                        <label asp-for="Email" class="control-label m-2">Email</label>
+                        <input asp-for="Email" readonly class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group m-2">
+                        <label asp-for="ShipAdress" class="control-label m-2"></label>
+                        <input asp-for="ShipAdress" readonly class="form-control" />
+                        <span asp-validation-for="ShipAdress" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group m-2">
+                        <label asp-for="DiscountId" class="control-label m-2"></label>
+                        @if (Model.DiscountId != null)
+                        {
+                            <input asp-for="DiscountId" disabled readonly class="form-control" />
+                        }
+                        else
+                        {
+                            <input asp-for="DiscountId" value="Không có" disabled readonly class="form-control" />
+
+                        }
+                    </div>
+
+                    <div class="form-group m-2">
+                        <label asp-for="Status" class="m-2 control-label">Trạng thái</label>
+                        <!--Start dropdown list-->
+                        @if (Model != null)
+                        {
+                            <select class="m-2 h-50" name="Status" disabled>
+                                @foreach (var item in ViewBag.ListStatus)
+                                {
+                                    bool isSelected = Model != null && Model.Status.ToString().Equals(item.ToString());
+                                    string selectedAttribute = isSelected ? "selected=\"selected\"" : "";
+
+                                    if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()))
+                                    {
+                                        <!option value="@item" @selectedAttribute >
+                                        Hủy đơn
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Confirmed.ToString()))
+                                    {
+                                        <!option value="@item" @selectedAttribute >
+                                        Đã xác nhận
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Deposit.ToString()))
+                                    {
+                                        <!option value="@item" @selectedAttribute>
+                                        Đặt cọc
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()))
+                                    {
+                                        <!option value="@item" @selectedAttribute>
+                                        Đang chờ xử lý
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.ProcessOfPayment.ToString()))
+                                    {
+                                        <!option value="@item" @selectedAttribute>
+                                        Trong quá trình thanh toán
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Shipping.ToString()))
+                                    {
+                                        <!option value="@item" @selectedAttribute>
+                                        Đang vận chuyển
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
+                                    {
+                                        <!option value="@item" @selectedAttribute>
+                                        Thành công
+                                        </!option>
+                                    }
+                                    else
+                                    {
+                                        <!option value="@item" @selectedAttribute>
+                                        N/A
+                                        </!option>
+                                    }
+                                }
+                            </select>
+
+
+
+                        }
+                        else
+                        {
+                            <select class="m-2 h-50" name="Status" disabled>
+                                @foreach (var item in ViewBag.ListStatus)
+                                {
+
+                                    if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()))
+                                    {
+                                        <!option value="@item"  >
+                                        Hủy đơn
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Confirmed.ToString()))
+                                    {
+                                        <!option value="@item"  >
+                                        Đã xác nhận
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Deposit.ToString()))
+                                    {
+                                        <!option value="@item" >
+                                        Đặt cọc
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()))
+                                    {
+                                        <!option value="@item" >
+                                        Đang chờ xử lý
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.ProcessOfPayment.ToString()))
+                                    {
+                                        <!option value="@item" >
+                                        Trong quá trình thanh toán
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Shipping.ToString()))
+                                    {
+                                        <!option value="@item" >
+                                        Đang vận chuyển
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
+                                    {
+                                        <!option value="@item" >
+                                        Thành công
+                                        </!option>
+                                    }
+                                    else
+                                    {
+                                        <!option value="@item" >
+                                        N/A
+                                        </!option>
+                                    }
+                                }
+                            </select>
+                        }
+
+                        <!--Promotion-->
+                        <div class="form-group m-2">
+                            <label asp-for="PromotionId" class="control-label m-2">Chương trình khuyến mãi hiện có</label>
+                            <select class="h-50 " name="PromotionId" disabled>
+                                @if (ViewBag.ListPromotionOnTime != null && ViewBag.ListPromotionOnTime.Count > 0)
+                                {
+                                    @foreach (var promotion in ViewBag.ListPromotionOnTime)
+                                    {
+                                        if (Model != null && Model.PromotionId != null)
+                                        {
+                                            if (Model.PromotionId.ToString().Equals(promotion.PromotionId.ToString()))
+                                            {
+                                                <option value="@promotion.PromotionId" selected>
+                                                    <div>
+                                                        Tên: @promotion.PromotionName &nbsp; Bắt đầu: @promotion.StartDate, Kết thúc: @promotion.EndDate; Giảm tối đa: @promotion.MaxDiscount.ToString("N0")₫
+                                                    </div>
+                                                </option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@promotion.PromotionId">
+                                                    <div>
+                                                        Tên: @promotion.PromotionName &nbsp; Bắt đầu: @promotion.StartDate, Kết thúc: @promotion.EndDate; Giảm tối đa: @promotion.MaxDiscount.ToString("N0")₫
+                                                    </div>
+                                                </option>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <option value="@promotion.PromotionId">
+                                                <div>
+                                                    Tên: @promotion.PromotionName &nbsp; Bắt đầu: @promotion.StartDate, Kết thúc: @promotion.EndDate; Giảm tối đa: @promotion.MaxDiscount
+                                                </div>
+                                            </option>
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <option disabled>Không có</option>
+                                }
+
+
+
+                            </select>
+                            <br />
+                            <span asp-validation-for="PromotionId" class="text-danger"></span>
+                        </div>
+
+
+
+                        @*Product here*@
+                        <div class="container mt-5">
+                            <div class="col-12">
+                                <h5 class="d-flex justify-content-center mt-3">Sản phẩm</h5>
+                                <div class="table-responsive">
+                                    <table id="itemTable" class="table table-hover mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th><span class="text-danger">*</span>Thông tin</th>
+                                                <th><span class="text-danger">*</span>Số lượng</th>
+                                                <th>Ni</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (int i = 0; i < Model.ListExistOrderProduct.Count(); i++)
+                                            {
+                                                <tr data-index="@i" class="rowdefault">
+                                                    <td>@(i + 1)</td>
+                                                    <td>
+
+                                                        @{
+                                                            var productInfor = ViewBag.ListProduct as List<ProductVm>; // Cast ViewBag.FullSubgem to appropriate type
+                                                            var selectedSubGemId = productInfor.FirstOrDefault(x => x.ProductId == Model.ListExistOrderProduct.ElementAt(i).ProductId);
+                                                        }
+                                                        <div data-price="@(selectedSubGemId.SellingPrice)">@(selectedSubGemId.ProductName) &nbsp; Giá: @(selectedSubGemId.SellingPrice.ToString("N0"))₫ &nbsp; Số lượng còn: @(selectedSubGemId.Quantity)</div>
+
+                                                        <input readonly class="select-subgem" name="ListExistOrderProduct[@i].ProductId" value="@(Model.ListExistOrderProduct.ElementAt(i).ProductId)" type="hidden" />
+                                                    <td><input readonly type="number" value="@(Model.ListExistOrderProduct.ElementAt(i).Quantity)" class="form-control" name="ListExistOrderProduct[@i].Quantity" placeholder="Số lượng" /></td>
+                                                    <td><input readonly disabled type="text" readonly class="form-control size-input" value="@(Model.ListExistOrderProduct.ElementAt(i).Size != null ? Model.ListExistOrderProduct.ElementAt(i).Size : null )" name="ListExistOrderProduct[@i].Size" placeholder="Chọn size" /></td></td>
+
+
+                                                </tr>
+                                            }
+                                            <!-- Khởi tạo tbody trống -->
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        @*Product end*@
+
+                        <div class="form-group m-2">
+                            <label class="control-label m-2">Tổng cộng tạm tính: <span style="color: red" id="total">0</span></label>
+                        </div>
+                        <div class="form-group m-2">
+                            <label class="control-label m-2">Tổng cộng giảm giá: <span style="color: red">@ViewBag.TotalSale?.ToString("N0")₫</span></label>
+                        </div>
+                        <div class="form-group m-2">
+                            <label class="control-label m-2">Tổng cộng: <span style="color: red">@ViewBag.Total?.ToString("N0")₫</span></label>
+                        </div>
+                        @if (Model == null)
+                        {
+
+                            <div class="form-group m-2">
+                                <label asp-for="Deposit" class="control-label m-2"></label>
+                                <input readonly value="0₫" class="form-control" />
+                            </div>
+                        }
+                        else
+                        {
+
+                            <div class="form-group m-2">
+                                <label asp-for="Deposit" class="control-label m-2"></label>
+                                <input value="@Model.Deposit?.ToString("N0")₫" readonly class="form-control" />
+                            </div>
+                        }
+                        <div class="form-group m-2">
+                            <label>Hình thức đã chọn</label>
+                            <div>
+                                @{
+                                    decimal remain = 0;
+                                }
+                                @if (ViewBag.PaymentList != null)
+                                {
+                                    var index = 0;
+                                    foreach (var payment in ViewBag.PaymentList)
+                                    {
+                                        <p style="font-weight:bold">Thời gian: @payment.PaymentTime</p>
+                                        <p>
+                                            &nbsp;&nbsp; &nbsp;&nbsp; - Phương thức: @payment.PaymentMethod &nbsp;  &nbsp; Số tiền: @payment.PaymentAmount?.ToString("N0")₫ &nbsp; Lời nhắn: @(payment.Message != string.Empty ? payment.Message : "N/A")  &nbsp; Trạng thái: @if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                                            {
+                                                <span>Thành công</span>
+                                            }
+                                            else if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString()))
+                                            {
+                                                <span>Đang chờ</span>
+                                            }
+                                            else if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
+                                            {
+                                                <span>Thất bại</span>
+                                            }
+                                        </p>
+                                        @if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                                        {
+                                            remain += payment.PaymentAmount;
+                                        }
+                                        <div class="row m-2">
+                                            <div class="col-md-2">
+                                                &nbsp;
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="form-check form-switch">
+                                                    <span>Trạng thái thanh toán</span>
+                                                    <input type="hidden" name="StatusOrderPayment[@index].OrderPaymentId" value="@payment.OrderPaymentId" />
+                                                    <select name="StatusOrderPayment[@index].Status" disabled>
+                                                        @foreach (var trans in ViewBag.TransactionStatus)
+                                                        {
+                                                            if (trans.ToString().Equals(payment.Status.ToString()))
+                                                            {
+                                                                <option selected value="@trans">
+
+                                                                    @if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                                                                    {
+                                                                        <span>Thành công</span>
+                                                                    }
+                                                                    else if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString()))
+                                                                    {
+                                                                        <span>Đang chờ</span>
+                                                                    }
+                                                                    else if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
+                                                                    {
+                                                                        <span>Thất bại</span>
+                                                                    }
+                                                                </option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@trans">
+                                                                    @if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                                                                    {
+                                                                        <span>Thành công</span>
+                                                                    }
+                                                                    else if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString()))
+                                                                    {
+                                                                        <span>Đang chờ</span>
+                                                                    }
+                                                                    else if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
+                                                                    {
+                                                                        <span>Thất bại</span>
+                                                                    }
+                                                                </option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        index++;
+
+                                    }
+
+                                }
+                                else
+                                {
+                                    <p>Không có</p>
+                                }
+                            </div>
+                        </div>
+                        <div class="m-2">
+                            <p style="font-weight:bold">Số tiền đã trả: &nbsp; <span style="color:orange">@remain.ToString("N0")₫</span></p>
+                        </div>
+
+                        @{
+                            remain = ViewBag.total - remain;
+                        }
+                        <div class="m-2">
+                            <p style="font-weight:bold">Số tiền còn lại: &nbsp; <span style="color:orange">@remain.ToString("N0")₫</span></p>
+                        </div>
+
+                        <div class="form-group m-2">
+                            <label asp-for="Description" class="control-label m-2"></label>
+                            <input asp-for="Description" readonly class="form-control" />
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                            </div>
+                            <div class="col-md-7">
+                                <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-10">
+                <form asp-action="Edit" asp-controller="Order" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group m-2">
+                        <label asp-for="OrderId" class="control-label m-2">Mã đơn hàng</label>
+                        <input asp-for="OrderId" readonly class="form-control" />
+                    </div>
+
+                    <div class="form-group m-2">
+                        <label asp-for="Fullname" class="control-label m-2">Tên người mua</label>
+                        <input asp-for="Fullname" class="form-control" />
+                        <span asp-validation-for="Fullname" class="text-danger"></span>
+                    </div>
+                    <div class="form-group m-2">
+                        <label asp-for="PhoneNumber" class="control-label m-2">Số điện thoại</label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group m-2">
+                        <label asp-for="Email" class="control-label m-2">Email</label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-group m-2">
+                        <label asp-for="ShipAdress" class="control-label m-2"></label>
+                        <input asp-for="ShipAdress" class="form-control" />
+                        <span asp-validation-for="ShipAdress" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group m-2">
+                        <label asp-for="DiscountId" class="control-label m-2"></label>
+                        @if (Model.DiscountId != null)
+                        {
+                            <input asp-for="DiscountId" disabled readonly class="form-control" />
+                        }
+                        else
+                        {
+                            <input asp-for="DiscountId" value="Không có" disabled readonly class="form-control" />
+
+                        }
+                    </div>
+
+                    <div class="form-group m-2">
+                        <label asp-for="Status" class="m-2 control-label">Trạng thái</label>
+                        <!--Start dropdown list-->
+                        @if (Model != null)
+                        {
+                            <select class="m-2 h-50" name="Status">
+                                @foreach (var item in ViewBag.ListStatus)
+                                {
+                                    bool isSelected = Model != null && Model.Status.ToString().Equals(item.ToString());
+                                    string selectedAttribute = isSelected ? "selected=\"selected\"" : "";
+
+                                    if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()))
+                                    {
+                                        <!option value="@item" @selectedAttribute >
+                                        Hủy đơn
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Confirmed.ToString()))
+                                    {
+                                        <!option value="@item" @selectedAttribute >
+                                        Đã xác nhận
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Deposit.ToString()))
+                                    {
+                                        <!option value="@item" @selectedAttribute>
+                                        Đặt cọc
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()))
+                                    {
+                                        <!option value="@item" @selectedAttribute>
+                                        Đang chờ xử lý
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.ProcessOfPayment.ToString()))
+                                    {
+                                        <!option value="@item" @selectedAttribute>
+                                        Trong quá trình thanh toán
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Shipping.ToString()))
+                                    {
+                                        <!option value="@item" @selectedAttribute>
+                                        Đang vận chuyển
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
+                                    {
+                                        <!option value="@item" @selectedAttribute>
+                                        Thành công
+                                        </!option>
+                                    }
+                                    else
+                                    {
+                                        <!option value="@item" @selectedAttribute>
+                                        N/A
+                                        </!option>
+                                    }
+                                }
+                            </select>
+
+
+
+                        }
+                        else
+                        {
+                            <select class="m-2 h-50" name="Status">
+                                @foreach (var item in ViewBag.ListStatus)
+                                {
+
+                                    if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()))
+                                    {
+                                        <!option value="@item"  >
+                                        Hủy đơn
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Confirmed.ToString()))
+                                    {
+                                        <!option value="@item"  >
+                                        Đã xác nhận
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Deposit.ToString()))
+                                    {
+                                        <!option value="@item" >
+                                        Đặt cọc
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()))
+                                    {
+                                        <!option value="@item" >
+                                        Đang chờ xử lý
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.ProcessOfPayment.ToString()))
+                                    {
+                                        <!option value="@item" >
+                                        Trong quá trình thanh toán
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Shipping.ToString()))
+                                    {
+                                        <!option value="@item" >
+                                        Đang vận chuyển
+                                        </!option>
+                                    }
+                                    else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
+                                    {
+                                        <!option value="@item" >
+                                        Thành công
+                                        </!option>
+                                    }
+                                    else
+                                    {
+                                        <!option value="@item" >
+                                        N/A
+                                        </!option>
+                                    }
+                                }
+                            </select>
+                        }
+
+                        <!--Promotion-->
+                        <div class="form-group m-2">
+                            <label asp-for="PromotionId" class="control-label m-2">Chương trình khuyến mãi hiện có</label>
+                            <select class="h-50 " name="PromotionId">
+                                @if (ViewBag.ListPromotionOnTime != null && ViewBag.ListPromotionOnTime.Count > 0)
+                                {
+                                    @foreach (var promotion in ViewBag.ListPromotionOnTime)
+                                    {
+                                        if (Model != null && Model.PromotionId != null)
+                                        {
+                                            if (Model.PromotionId.ToString().Equals(promotion.PromotionId.ToString()))
+                                            {
+                                                <option value="@promotion.PromotionId" selected>
+                                                    <div>
+                                                        Tên: @promotion.PromotionName &nbsp; Bắt đầu: @promotion.StartDate, Kết thúc: @promotion.EndDate; Giảm tối đa: @promotion.MaxDiscount.ToString("N0")₫
+                                                    </div>
+                                                </option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@promotion.PromotionId">
+                                                    <div>
+                                                        Tên: @promotion.PromotionName &nbsp; Bắt đầu: @promotion.StartDate, Kết thúc: @promotion.EndDate; Giảm tối đa: @promotion.MaxDiscount.ToString("N0")₫
+                                                    </div>
+                                                </option>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <option value="@promotion.PromotionId">
+                                                <div>
+                                                    Tên: @promotion.PromotionName &nbsp; Bắt đầu: @promotion.StartDate, Kết thúc: @promotion.EndDate; Giảm tối đa: @promotion.MaxDiscount
+                                                </div>
+                                            </option>
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <option disabled>Không có</option>
+                                }
+
+
+
+                            </select>
+                            <br />
+                            <span asp-validation-for="PromotionId" class="text-danger"></span>
+                        </div>
+
+
+
+                        @*Product here*@
+                        <div class="container mt-5">
+                            <div class="col-12">
+                                <h5 class="d-flex justify-content-center mt-3">Sản phẩm</h5>
+                                <div class="table-responsive">
+                                    <table id="itemTable" class="table table-hover mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th><span class="text-danger">*</span>Thông tin</th>
+                                                <th><span class="text-danger">*</span>Số lượng</th>
+                                                <th>Ni</th>
+
+                                                <th class="text-center">Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (int i = 0; i < Model.ListExistOrderProduct.Count(); i++)
+                                            {
+                                                <tr data-index="@i" class="rowdefault">
+                                                    <td>@(i + 1)</td>
+                                                    <td>
+
+                                                        @{
+                                                            var productInfor = ViewBag.ListProduct as List<ProductVm>; // Cast ViewBag.FullSubgem to appropriate type
+                                                            var selectedSubGemId = productInfor.FirstOrDefault(x => x.ProductId == Model.ListExistOrderProduct.ElementAt(i).ProductId);
+                                                        }
+                                                        <div data-price="@(selectedSubGemId.SellingPrice)">@(selectedSubGemId.ProductName) &nbsp; Giá: @(selectedSubGemId.SellingPrice.ToString("N0"))₫ &nbsp; Số lượng còn: @(selectedSubGemId.Quantity)</div>
+
+
+
+                                                        <input class="select-subgem" name="ListExistOrderProduct[@i].ProductId" value="@(Model.ListExistOrderProduct.ElementAt(i).ProductId)" type="hidden" />
+                                                    <td><input type="number" value="@(Model.ListExistOrderProduct.ElementAt(i).Quantity)" class="form-control" name="ListExistOrderProduct[@i].Quantity" placeholder="Số lượng" /></td>
+                                                    <td>
+                                                        <input type="text" readonly class="form-control size-input" value="@(Model.ListExistOrderProduct.ElementAt(i).Size != null ? Model.ListExistOrderProduct.ElementAt(i).Size : null )" name="ListExistOrderProduct[@i].Size" placeholder="Chọn size" />
+
+                                                    </td>
+
+                                                    <td class="text-center">
+                                                        <input name="ListExistOrderProduct[@i].OldSize" value="@(Model.ListExistOrderProduct.ElementAt(i).Size)" type="hidden" />
+
+                                                        <a class="avtar avtar-s btn-link-danger btn-pc-default delete-item delete-subgem"><i class="ti ti-trash f-20"></i></a>
+                                                    </td>
+
+                                                </tr>
+
+                                            }
+                                            <!-- Khởi tạo tbody trống -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="d-flex justify-content-center mt-3">
+                                    <hr class="mb-4 mt-0 border-secondary border-opacity-50">
+                                    <button id="addItemBtn" type="button" class="btn btn-light-primary d-flex align-items-center gap-2"><i class="ti ti-plus"></i> Thêm</button>
+                                </div>
+                            </div>
+                        </div>
+                     
+
+                        @*Product end*@
+
+                        <div class="form-group m-2">
+                            <label class="control-label m-2">Tổng cộng tạm tính: <span style="color: red" id="total">0</span></label>
+                        </div>
+                        <div class="form-group m-2">
+                            <label class="control-label m-2">Tổng cộng giảm giá: <span style="color: red">@ViewBag.TotalSale?.ToString("N0")₫</span></label>
+                        </div>
+                        <div class="form-group m-2">
+                            <label class="control-label m-2">Tổng cộng: <span style="color: red">@ViewBag.Total?.ToString("N0")₫</span></label>
+                        </div>
+                        @if (Model == null)
+                        {
+
+                            <div class="form-group m-2">
+                                <label asp-for="Deposit" class="control-label m-2"></label>
+                                <input asp-for="Deposit" type="number" value="0" class="form-control" />
+                            </div>
+                        }
+                        else
+                        {
+
+                            <div class="form-group m-2">
+                                <label asp-for="Deposit" class="control-label m-2"></label>
+                                <input asp-for="Deposit" type="number" class="form-control" />
+                            </div>
+                        }
+                        <div class="form-group m-2">
+                            <label>Hình thức đã chọn</label>
+                            <div>
+                                @{
+                                    decimal remain = 0;
+                                }
+                                @if (ViewBag.PaymentList != null)
+                                {
+                                    var index = 0;
+                                    foreach (var payment in ViewBag.PaymentList)
+                                    {
+                                        <p style="font-weight:bold">Thời gian: @payment.PaymentTime</p>
+                                        <p>
+                                            &nbsp;&nbsp; &nbsp;&nbsp; - Phương thức: @payment.PaymentMethod &nbsp;  &nbsp; Số tiền: @payment.PaymentAmount?.ToString("N0")₫ &nbsp; Lời nhắn: @(payment.Message != string.Empty ? payment.Message : "N/A")  &nbsp; Trạng thái: @if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                                            {
+                                                <span>Thành công</span>
+                                            }
+                                            else if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString()))
+                                            {
+                                                <span>Đang chờ</span>
+                                            }
+                                            else if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
+                                            {
+                                                <span>Thất bại</span>
+                                            }
+                                        </p>
+                                        @if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                                        {
+                                            remain += payment.PaymentAmount;
+                                        }
+                                        <div class="row m-2">
+                                            <div class="col-md-2">
+                                                &nbsp;
+                                            </div>
+                                            <div class="col-md-5">
+                                                <div class="form-check form-switch">
+                                                    <span>Trạng thái thanh toán</span>
+                                                    <input type="hidden" name="StatusOrderPayment[@index].OrderPaymentId" value="@payment.OrderPaymentId" />
+                                                    <select name="StatusOrderPayment[@index].Status">
+                                                        @foreach (var trans in ViewBag.TransactionStatus)
+                                                        {
+                                                            if (trans.ToString().Equals(payment.Status.ToString()))
+                                                            {
+                                                                <option selected value="@trans">
+
+                                                                    @if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                                                                    {
+                                                                        <span>Thành công</span>
+                                                                    }
+                                                                    else if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString()))
+                                                                    {
+                                                                        <span>Đang chờ</span>
+                                                                    }
+                                                                    else if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
+                                                                    {
+                                                                        <span>Thất bại</span>
+                                                                    }
+                                                                </option>
+                                                            }
+                                                            else
+                                                            {
+                                                                <option value="@trans">
+                                                                    @if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                                                                    {
+                                                                        <span>Thành công</span>
+                                                                    }
+                                                                    else if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString()))
+                                                                    {
+                                                                        <span>Đang chờ</span>
+                                                                    }
+                                                                    else if (trans.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
+                                                                    {
+                                                                        <span>Thất bại</span>
+                                                                    }
+                                                                </option>
+                                                            }
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        index++;
+
+                                    }
+
+                                }
+                                else
+                                {
+                                    <p>Không có</p>
+                                }
+                            </div>
+                        </div>
+                        <div class="m-2">
+                            <p style="font-weight:bold">Số tiền đã trả: &nbsp; <span style="color:orange">@remain.ToString("N0")₫</span></p>
+                        </div>
+
+                        @{
+                            remain = ViewBag.total - remain;
+                        }
+                        <div class="m-2">
+                            <p style="font-weight:bold">Số tiền còn lại: &nbsp; <span style="color:orange">@remain.ToString("N0")₫</span></p>
+                        </div>
+
+                        <div class="form-group m-2">
+                            <label asp-for="Description" class="control-label m-2"></label>
+                            <input asp-for="Description" class="form-control" />
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                                <input type="submit" value="Lưu" class="btn btn-success" />
+                            </div>
+                            <div class="col-md-7">
+                                <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+
+    }
+}
+else
+{
+    <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí tin tức</a>
+}
+<hr />
+<!-- Add this HTML somewhere in your body -->
+<div id="sizeModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="size-grid">
+            <button class="size-button">4</button>
+            <button class="size-button">5</button>
+            <button class="size-button">6</button>
+            <button class="size-button">7</button>
+            <button class="size-button">8</button>
+            <button class="size-button">9</button>
+            <button class="size-button">10</button>
+            <button class="size-button">11</button>
+            <button class="size-button">12</button>
+            <button class="size-button">13</button>
+            <button class="size-button">14</button>
+            <button class="size-button">15</button>
+            <button class="size-button">16</button>
+            <button class="size-button">17</button>
+            <button class="size-button">18</button>
+            <button class="size-button">19</button>
+            <button class="size-button">20</button>
+            <button class="size-button">21</button>
+            <button class="size-button">22</button>
+            <button class="size-button">23</button>
+            <button class="size-button">24</button>
+            <button class="size-button">25</button>
+            <button class="size-button">26</button>
+            <button class="size-button">27</button>
+            <button class="size-button">28</button>
+            <button class="size-button">29</button>
+            <button class="size-button">30</button>
+            <button class="size-button">31</button>
+            <button class="size-button">32</button>
+        </div>
+    </div>
+</div>
+
+
+@{
+    var fullSubgemJson = Json.Serialize(ViewBag.ListProduct);
+    var initialSelectedOptions = Model.ListExistOrderProduct.Select(x => x.ProductId).ToList();
+    var initialSelectedOptionsJson = Json.Serialize(initialSelectedOptions);
+}
+@section CssStyle {
+
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100000;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+        .size-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .size-button {
+            padding: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+    </style>
+}
+
+<input type="hidden" id="initialSelectedOptions" value='@initialSelectedOptionsJson' />
+
+@section Scripts {
+
+    <script src="~/assets/js/plugins/dropzone-amd-module.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var initialSelectedOptionsJson = $('#initialSelectedOptions').val();
+            var selectedOptions = JSON.parse(initialSelectedOptionsJson) || [];
+            var dynamicOptions = selectedOptions.length;
+            var fullSubgem = @Html.Raw(fullSubgemJson);
+
+            // Hàm kiểm tra và cập nhật trạng thái của nút thêm
+
+
+            // Tính tổng giá tiền
+            function calculateTotal() {
+                var total = 0;
+                $('#itemTable tbody tr').each(function () {
+                    var row = $(this);
+                    var quantity = row.find('input[type="number"]').val();
+                    var select = row.find('.control-index').filter('select');
+                    var selectedOption = select.find('option:selected');
+                    var sellingPrice = selectedOption.data('price');
+                    // Read data-price from the div if option is not available
+                    if (!sellingPrice) {
+                        sellingPrice = row.find('div').data('price');
+                    }
+
+                    if (!isNaN(quantity) && quantity.length !== 0 && !isNaN(sellingPrice)) {
+                        total += parseInt(quantity) * parseFloat(sellingPrice);
+                    }
+                });
+
+                var formattedTotal = total.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+                $('#total').text(formattedTotal + "₫");
+            }
+
+            // Bắt sự kiện khi một option được chọn
+            $(document).on('change', '.control-index', function () {
+                var selectedOption = $(this).val();
+                if (selectedOption && !selectedOptions.includes(selectedOption)) {
+                    selectedOptions.push(selectedOption);
+                    dynamicOptions = selectedOptions.length;
+                }
+                calculateTotal(); // Cập nhật tổng giá khi thay đổi option
+            });
+
+            // Bắt sự kiện khi số lượng thay đổi
+            $(document).on('input', 'input[name^="ListExistOrderProduct"][name$="Quantity"]', function () {
+                calculateTotal(); // Cập nhật tổng giá khi thay đổi số lượng
+            });
+
+            // Thêm dòng mới khi nhấn nút Thêm
+            $('#addItemBtn').on('click', function () {
+                addRow();
+            });
+
+            // Thêm dòng mới và cập nhật tên các input
+            function addRow() {
+                var newRow = `<tr class="added-row">
+                                                                                            <td></td>
+                                                                                            <td>
+                                                                                                <select class="h-50 control-index" name=""></select>
+                                                                                            </td>
+                                                                                            <td><input type="number" value="1" class="form-control control-index" name="" placeholder="Số lượng" /></td>
+                                                                                                                     <td><input type="text" readonly class="form-control size-input" name="" placeholder="Chọn size" /></td>
+
+                                                                                                    <td class="text-center">
+                                                                                                <a class="avtar avtar-s btn-link-danger btn-pc-default delete-item huhu"><i class="ti ti-trash f-20"></i></a>
+                                                                                            </td>
+                                                                                        </tr>`;
+                debugger;
+
+                $('#itemTable tbody').append(newRow);
+                createOptions();
+                updateIndexes();
+                calculateTotal(); // Cập nhật tổng giá khi thêm dòng mới
+            }
+            $(document).on('click', '.delete-item', function (event) {
+                updateIndexes()
+            });
+
+            // Xóa dòng khi nhấn nút Xóa
+            $(document).on('click', '.delete-item.huhu', function (event) {
+                event.preventDefault();
+                var select = $(this).closest('tr').find('.control-index').filter('select');
+                var selectedOption = select.val();
+                if (selectedOption) {
+                    var optionIndex = selectedOptions.indexOf(selectedOption);
+                    if (optionIndex !== -1) {
+                        selectedOptions.splice(optionIndex, 1);
+                    }
+                }
+                $(this).closest('tr').remove();
+                dynamicOptions = selectedOptions.length;
+                createOptions();
+                updateIndexes();
+                calculateTotal(); // Cập nhật tổng giá khi xóa dòng
+            });
+
+
+
+
+
+
+            function showSizeModal(sizeInput) {
+                currentSizeInput = sizeInput;
+                $('#sizeModal').show();
+            }
+            $(document).on('focus', '.size-input', function () {
+                showSizeModal(this);
+            });
+
+            $('.size-button').on('click', function () {
+                if (currentSizeInput) {
+                    $(currentSizeInput).val($(this).text());
+                    $('#sizeModal').hide();
+                    calculateTotal();
+                }
+            });
+
+            $('.close').on('click', function () {
+                $('#sizeModal').hide();
+            });
+
+
+
+            // Sử dụng dữ liệu từ fullSubgem để tạo các tùy chọn cho select
+            function createOptions() {
+                $('#itemTable tbody tr').each(function () {
+                    var select = $(this).find('.control-index').filter('select');
+                    select.empty();
+                    if (Array.isArray(fullSubgem) && fullSubgem.length > 0) {
+                        fullSubgem.forEach(function (subgem) {
+                            var option = $('<option/>');
+                            option.val(subgem.productId);
+                            var formattedPrice = subgem.sellingPrice.toLocaleString('en-US', {
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 2
+                            });
+                            option.text('Tên: ' + subgem.productName + ' | Giá: ' + formattedPrice + '₫' + ' | Số lượng còn: ' + subgem.quantity);
+                            option.addClass('optionOfSubGem');
+                            option.data('price', subgem.sellingPrice);
+                            select.append(option);
+                        });
+                    } else {
+                        console.error('Dữ liệu từ ViewBag.FullSubgem không hợp lệ.');
+                    }
+                });
+            }
+
+            // Gọi hàm tạo option khi trang được tải
+            createOptions();
+            calculateTotal(); // Cập nhật tổng giá khi trang được tải
+
+            // Cập nhật lại chỉ số và tên của các input khi có thay đổi
+            function updateIndexes() {
+                $('#itemTable tbody .added-row').each(function (i, row) {
+                    var indexer = $('#itemTable tbody .rowdefault').length;
+                    var inx = indexer + i + 1;
+                    $(row).find('td:first').text(inx);
+                    $(row).find('.control-index').filter('select').attr('name', 'ListOrderProduct[' + i + '].ProductId');
+                    $(row).find('.control-index').filter('input[type="number"]').attr('name', 'ListOrderProduct[' + i + '].Quantity');
+                    $(row).find('.size-input').attr('name', 'ListOrderProduct[' + i + '].Size');
+                });
+            }
+        });
+    </script>
+
+
+
+    <script>
+        $(document).ready(function () {
+            // Event handler for delete button
+            $('.delete-subgem').on('click', function () {
+                // Find the row to delete
+                var row = $(this).closest('tr');
+                // Remove the row
+                row.remove();
+                // Update the indices
+                updateIndices();
+                calculateTotal();
+            });
+
+
+            function calculateTotal() {
+                var total = 0;
+                $('#itemTable tbody tr').each(function () {
+                    var row = $(this);
+                    var quantity = row.find('input[type="number"]').val();
+                    var select = row.find('.control-index').filter('select');
+                    var selectedOption = select.find('option:selected');
+                    var sellingPrice = selectedOption.data('price');
+                    // Read data-price from the div if option is not available
+                    if (!sellingPrice) {
+                        sellingPrice = row.find('div').data('price');
+                    }
+
+                    if (!isNaN(quantity) && quantity.length !== 0 && !isNaN(sellingPrice)) {
+                        total += parseInt(quantity) * parseFloat(sellingPrice);
+                    }
+                });
+                var formattedTotal = total.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+                $('#total').text(formattedTotal + "₫");
+
+            }
+
+
+            function updateIndices() {
+                // Get all the rows
+                $('tr[data-index]').each(function (index) {
+                    // Update the data-index attribute
+                    debugger;
+                    $(this).attr('data-index', index);
+                    // Update the index number
+                    $(this).find('td:first').text(index + 1);
+                    // Update the name attributes
+                    var subGemInput = $(this).find('input.select-subgem');
+                    var quantityInput = $(this).find('input.form-control');
+                    var sizeInput = $(this).find('input.size-input');
+                    subGemInput.attr('name', `ListExistOrderProduct[${index}].ProductId`);
+                    quantityInput.attr('name', `ListExistOrderProduct[${index}].Quantity`);
+                    sizeInput.attr('name', `ListExistOrderProduct[${index}].Size`);
+
+                });
+                calculateTotal();
+            }
+        });
+    </script>
+
+
+}

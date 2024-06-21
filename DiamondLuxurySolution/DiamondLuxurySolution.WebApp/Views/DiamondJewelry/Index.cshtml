@@ -1,6 +1,12 @@
-﻿@{
+﻿@using DiamondLuxurySolution.ViewModel.Models.Product
+
+@{
 	ViewData["Title"] = "Index";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section Scripts{
+}
+
+@await Component.InvokeAsync("TSKC_Product")
 

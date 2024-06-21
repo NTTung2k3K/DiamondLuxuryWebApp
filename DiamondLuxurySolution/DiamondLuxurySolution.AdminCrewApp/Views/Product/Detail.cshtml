@@ -1,4 +1,5 @@
-﻿@model DiamondLuxurySolution.ViewModel.Models.Product.ProductVm
+﻿@using DiamondLuxurySolution.ViewModel.Models.User.Staff
+@model DiamondLuxurySolution.ViewModel.Models.Product.ProductVm
 
 @{
     ViewData["Title"] = "Detail";
@@ -109,7 +110,7 @@
                     <div style="color:red">Đã ẩn</div>
                 }
             </dd>
-            
+
             <dt class="col-sm-3">
                 Giá giá công
             </dt>
@@ -140,13 +141,43 @@
             <dd class="col-sm-8">
                 @Html.DisplayFor(model => model.GemVm.GemName)
             </dd>
+            <dt class="col-sm-3" style="font-weight:500;">
+                Giác cắt
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.GemPriceLists.Cut)
+            </dd>
+            <dt class="col-sm-3" style="font-weight:500;">
+                Độ tinh khiết
+            </dt>
+            <dd class="col-sm-8" >
+                @Html.DisplayFor(model => model.GemPriceLists.Clarity)
+            </dd>
+            <dt class="col-sm-3" style="font-weight:500;">
+                Màu sắc
+            </dt>
+            <dd class="col-sm-8" >
+                @Html.DisplayFor(model => model.GemPriceLists.Color)
+            </dd>
+            <dt class="col-sm-3" style="font-weight:500;">
+                Trọng lượng
+            </dt>
+            <dd class="col-sm-8" >
+                @Html.DisplayFor(model => model.GemPriceLists.CaratWeight)
+            </dd>
+            <dt class="col-sm-3">
+                Giá trị
+            </dt>
+            <dd class="col-sm-8" style="color:green">
+                @Model.GemPriceLists?.Price.ToString("N0")<span>₫</span>
+            </dd>
             <dt class="col-sm-3">
                 Kim cương phụ
             </dt>
             <dd class="col-sm-8">
                 @if (Model.ListSubGems != null && Model.ListSubGems.Count > 0)
                 {
-                    foreach(var subgem in Model.ListSubGems)
+                    foreach (var subgem in Model.ListSubGems)
                     {
                         <p>@subgem.SubGemName &nbsp <span style="font-weight:bold">Số lượng: </span><span>@subgem.Quantity</span></p>
                     }
@@ -166,7 +197,7 @@
                 Khung
             </dt>
             <dd class="col-sm-8">
-                @if(Model.FrameVm != null)
+                @if (Model.FrameVm != null)
                 {
                     @Html.DisplayFor(model => model.FrameVm.NameFrame)
                 }
@@ -201,7 +232,14 @@
     </div>
     <div class="row">
         <div class="col-md-3">
-            @Html.ActionLink("Chỉnh sửa", "Edit", new { ProductId = Model.ProductId }, new { @class = "btn btn-warning" })
+            @{
+                var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
+            }
+            @if (!staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
+            {
+                @Html.ActionLink("Chỉnh sửa", "Edit", new { ProductId = Model.ProductId }, new { @class = "btn btn-warning" })
+            }
+            
         </div>
         <div class="col-md-6">
             <a class="m-5" asp-action="Index" asp-controller="Product">Về trang quản lí sản phẩm</a>

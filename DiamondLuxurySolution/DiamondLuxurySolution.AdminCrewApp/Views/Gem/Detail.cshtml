@@ -1,4 +1,5 @@
-﻿@model DiamondLuxurySolution.ViewModel.Models.Gem.GemVm
+﻿@using DiamondLuxurySolution.ViewModel.Models.User.Staff
+@model DiamondLuxurySolution.ViewModel.Models.Gem.GemVm
 
 @{
     ViewData["Title"] = "Detail";
@@ -137,11 +138,23 @@
                     <h5>Chưa có logo</h5>
                 }
             </dd>
+            <dt class="col-sm-3 mb-3">
+                Mã giá kim cương
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.GemPriceListVm.GemPriceListId)
+            </dd>
         </dl>
     </div>
     <div class="row">
         <div class="col-sm-3">
-            @Html.ActionLink("Chỉnh sửa", "Edit", new { GemId = @Model.GemId }, new { @class = "btn btn-warning" })
+            @{
+                var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
+            }
+            @if (!staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
+            {
+                @Html.ActionLink("Chỉnh sửa", "Edit", new { GemId = @Model.GemId }, new { @class = "btn btn-warning" })
+            }
         </div>
         <div class="col-sm-9">
             <a class="btn btn-secondary" asp-action="Index">Về trang quản lí kim cương</a>

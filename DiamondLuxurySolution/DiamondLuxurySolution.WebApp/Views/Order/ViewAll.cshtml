@@ -1,0 +1,94 @@
+﻿@{
+    ViewData["Title"] = "ViewAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Common
+@using DiamondLuxurySolution.ViewModel.Models.Order
+
+@model PageResult<OrderVm>
+
+
+
+
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="page-title">Đơn hàng</h1>
+                <ul class="breadcrumb justify-content-center">
+                    <li><a href="/Home/Index">Trang Chủ</a></li>
+                    <li><a href="/Account/Profile">Tài khoản cá nhân</a></li>
+                    <li class="current"><a href="gioithieu.html">Đơn hàng</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt--30">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 account-table table-content table-responsive" style="overflow-x:hidden">
+
+            @if (Model != null && Model != null && Model.Items != null && Model.Items.Count > 0)
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="border:none">#</th>
+                            <th style="border:none">Mã đơn hàng</th>
+                            <th style="border:none">Ngày đặt</th>
+                            <th style="border:none">Tổng tiền</th>
+                            <th style="border:none">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            var index = 0;
+                        }
+                        @foreach (var order in Model.Items)
+                        {
+                            <tr style="border:none">
+                                <td style="border:none">@(++index)</td>
+                                <td style="border:none" class="p--10 wide-column">@order.OrderId</td>
+                                <td style="border:none">@order.Datemodified</td>
+                                <td style="border:none" class="wide-column">@(order.TotalAmount.ToString("N0")+"₫")</td>
+                                <td style="border:none"><a href="/Order/ViewDetail?OrderId=@order.OrderId" class="btn btn-medium btn-style-1">Xem</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+            }
+            else
+            {
+                <!-- Main content wrapper start -->
+                <div class="main-content-wrapper">
+                    <div class="wishlist-area pt--10 pb--80 pt-md--30 pb-md--60">
+                        <div class="container">
+                            <!-- Wishlist Area Start -->
+                            <h3 style="text-align: center; border:none ">Chưa Có Sản Phẩm Nào Trong Giỏ Hàng</h3>
+                            <div style="text-align: center; margin-bottom: 40px;margin-top: 40px;">
+                                <img src="../assets/img/pic_product/empty_cart.png" alt="Empty Cart">
+                            </div>
+
+                            <a href="/Home/Index" class="btn add-to-cart btn-medium btn-style-2"
+                               style="display: block; margin: 0 auto; text-align: center; width: fit-content;">
+                                Mua sắm ngay
+                            </a>
+                            <!-- Wishlist Area End -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main content wrapper end -->
+            }
+         
+
+        </div>
+        <div class="col-md-2"></div>
+        <div class="d-flex justify-content-center align-items-center">
+            @await Component.InvokeAsync("Pager", Model)
+        </div>
+    </div>

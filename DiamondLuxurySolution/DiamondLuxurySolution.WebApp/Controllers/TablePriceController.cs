@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DiamondLuxurySolution.ViewModel.Models.Product;
+using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.WebApp.Controllers
 {

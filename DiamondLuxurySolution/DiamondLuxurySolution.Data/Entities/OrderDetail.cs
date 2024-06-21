@@ -9,13 +9,13 @@ public partial class OrderDetail
 
     public string OrderId { get; set; } = null!;
 
-    public Guid WarrantyId { get; set; }
+    public string WarrantyId { get; set; }
 
     public int Quantity { get; set; }
 
-    public int Discount { get; set; }
+	public int? Size { get; set; }
 
-    public decimal UnitPrice { get; set; }
+	public decimal UnitPrice { get; set; }
 
     public decimal TotalPrice { get; set; }
 

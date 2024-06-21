@@ -1,4 +1,5 @@
 ﻿using DiamondLuxurySolution.ViewModel.Common;
+using DiamondLuxurySolution.ViewModel.Models.Order;
 using DiamondLuxurySolution.ViewModel.Models.User.Customer;
 using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 using Microsoft.AspNetCore.Identity;
@@ -27,13 +28,18 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
         public Task<ApiResult<bool>> ForgotpassworStaffdChange(ForgotPasswordStaffChangeRequest request);
 
         public Task<ApiResult<bool>> ChangeStatusCustomer(ChangeStatusCustomerRequest request);
+        public Task<ApiResult<int>> ViewNewCustomerOnDay();
+
+        public Task<ApiResult<int>> CountAllCustomer();
 
         public Task<ApiResult<PageResult<CustomerVm>>> ViewCustomerPagination(ViewStaffPaginationCommonRequest request);
         public Task<ApiResult<PageResult<StaffVm>>> ViewSalesStaffPagination(ViewStaffPaginationCommonRequest request);
         public Task<ApiResult<PageResult<StaffVm>>> ViewDeliveryStaffPagination(ViewStaffPaginationCommonRequest request);
         public Task<ApiResult<PageResult<StaffVm>>> ViewAdminPagination(ViewStaffPaginationCommonRequest request);
         public Task<ApiResult<PageResult<StaffVm>>> ViewManagerPagination(ViewStaffPaginationCommonRequest request);
-
+        public Task<ApiResult<PageResult<OrderVm>>> ViewOrderForDeliveryStaff(ViewOrderForDeliveryStaff request);
+        public Task<ApiResult<bool>> UpdateStatusOrderForDeliveryStaff(UpdateStatusOrderForDeliveryStaff request);
+        public Task<ApiResult<bool>> UpdateStatusShipperWorking(UpdateShipperWorkingRequest request);
 
 
     }

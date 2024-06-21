@@ -1,0 +1,253 @@
+﻿@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section StyleCss {
+    <link href="../mycss/mycheckbox.css" rel="stylesheet" />
+    <style>
+        #Logout:hover {
+            color: #a8741a
+        }
+    </style>
+}
+@model DiamondLuxurySolution.ViewModel.Models.User.Customer.UpdateCustomerRequest
+
+
+
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="page-title">Tài khoản cá nhân</h1>
+                <ul class="breadcrumb justify-content-center">
+                    <li><a href="/Home/Index">Trang Chủ</a></li>
+                    <li class="current"><a href="/Account/Profile?CustomerId=@Model.CustomerId">Tài khoản cá nhân</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+<!-- Main Content wrapper start -->
+
+<section class="main-content-wrapper">
+    <div class="account-wrapper pt--40 pb--80 pt-md--30 pb-md--60">
+        <div class="container">
+            <div class="user-dashboard-tab">
+                <div class="row">
+                    <div class="col-lg-4 mb-md--30">
+                        <div class="user-dashboard-tab__head nav flex-column" role="tablist" aria-orientation="vertical">
+                            <button type="button" style="font-weight:bold" class="nav-link p-3 active" data-bs-toggle="pill" role="tab" data-bs-target="#accountdetails" aria-controls="accountdetails" aria-selected="true">Thông tin tài khoản</button>
+                            <button type="button" style="font-weight:bold" class="nav-link p-3" data-bs-toggle="pill" role="tab" data-bs-target="#orders" aria-controls="orders" aria-selected="false">Các đơn hàng</button>
+                            <form asp-action="Logout" asp-controller="Account" method="post">
+                                <input type="submit" value="Đăng xuất" id="Logout" class="nav-link p-3" />
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="user-dashboard-tab__content tab-content">
+                            <div class="tab-pane fade show active" id="dashboard">
+                            </div>
+                            <div class="tab-pane fade" id="orders">
+
+                                <div class="account-table table-content table-responsive" style="overflow-x:hidden">
+                                    @if (ViewBag.ListOrder != null && ViewBag.ListOrder.Count > 0)
+                                    {
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th style="border:none">#</th>
+                                                    <th style="border:none">Mã đơn hàng</th>
+                                                    <th style="border:none">Ngày đặt</th>
+                                                    <th style="border:none">Tổng tiền</th>
+                                                    <th style="border:none" class="text-center">Hành động</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{
+                                                    var index = 0;
+                                                }
+                                                @foreach (var order in ViewBag.ListOrder)
+                                                {
+                                                    <tr style="border:none">
+                                                        <td style="border:none">@(++index)</td>
+                                                        <td style="border:none" class="p--10 wide-column">@order.OrderId</td>
+                                                        <td style="border:none">@order.Datemodified</td>
+                                                            <td style="border:none" class="wide-column">@(order.TotalAmount.ToString("N0") + "₫")</td>
+                                                        <td style="border:none"><a href="/Order/ViewDetail?OrderId=@order.OrderId" class="btn btn-medium btn-style-1">Xem</a></td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <form asp-action="ViewAll" asp-controller="Order" method="post">
+                                            <div class="text-center">
+                                                <input type="hidden" value="@Model.CustomerId" name="CustomerId"/>
+                                                <input type="submit" class="btn" style="background-color:#a8741a;" value="Xem tất cả" />
+                                            </div>
+                                        </form>
+
+
+                                    }
+                                    else
+                                    {
+                                        <!-- Main content wrapper start -->
+                                        <div class="main-content-wrapper">
+                                            <div class="wishlist-area pt--10 pb--80 pt-md--30 pb-md--60">
+                                                <div class="container">
+                                                    <!-- Wishlist Area Start -->
+                                                    <h3 style="text-align: center; border:none ">Chưa Có Sản Phẩm Nào Trong Giỏ Hàng</h3>
+                                                    <div style="text-align: center; margin-bottom: 40px;margin-top: 40px;">
+                                                        <img src="../assets/img/pic_product/empty_cart.png" alt="Empty Cart">
+                                                    </div>
+
+                                                    <a href="/Home/Index" class="btn add-to-cart btn-medium btn-style-2"
+                                                       style="display: block; margin: 0 auto; text-align: center; width: fit-content;">
+                                                        Mua sắm ngay
+                                                    </a>
+                                                    <!-- Wishlist Area End -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Main content wrapper end -->
+                                    }
+
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="accountdetails">
+                                <div class="account-form bg--2">
+                                    <div class="text-center mb--20">
+                                        <p>Xin chào <strong style="color:#a8741a">@Context.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_NAME)</strong></p>
+                                    </div>
+                                    @if (ViewBag.Errors != null)
+                                    {
+                                        foreach (var error in ViewBag.Errors)
+                                        {
+                                            <h5 style="color:red !important" class="ml--10 text-danger">@error</h5>
+                                        }
+                                    }
+                                    <form asp-action="Profile" asp-controller="Account" class="form">
+                                        <div class="row mb--20">
+                                            <div class="col-md-6 mb-sm--20">
+                                                <div class="form__group">
+                                                    <label for="account_fname" class="form__label">Họ và tên</label>
+                                                    <input type="text" asp-for="FullName" id="account_fname" class="form__input form__input--2">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form__group">
+                                                    <label for="account_lname" class="form__label">Số điện thoại</label>
+                                                    <input type="number" asp-for="PhoneNumber" id="account_lname" class="form__input form__input--2">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb--20">
+                                            <div class="col-md-6 mb-sm--20">
+                                                <div class="form__group">
+                                                    <label for="account_fname" class="form__label">Ngày sinh</label>
+                                                    <input type="date" asp-for="Dob" style="color:#a8741a" id="account_fname" class="form__input form__input--2 p-3">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form__group">
+                                                    <label for="account_lname" class="form__label">Địa chỉ</label>
+                                                    <input type="text" asp-for="Address" id="account_lname" class="form__input form__input--2">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        @if (Context.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM).ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.DEFAULT_PLATFORM))
+                                        {
+                                            <div class="row mb--20">
+                                                <div class="col-md-6 mb-sm--20">
+                                                    <div class="form__group">
+                                                        <label for="account_fname" class="form__label">Email</label>
+                                                        <input type="text" readonly asp-for="Email" style="color:#a8741a" class="form__input form__input--2 p-3">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        @if (Context.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM).ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.DEFAULT_PLATFORM))
+                                        {
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <h4>Thay đổi mật khẩu</h4>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb--20">
+                                                <div class="col-12">
+                                                    <div class="form__group">
+                                                        <label for="cur_password" class="form__label">Mật khẩu hiện tại</label>
+                                                        <input type="password" asp-for="OldPassword" id="cur_password" class="form__input form__input--2">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb--20">
+                                                <div class="col-12">
+                                                    <div class="form__group">
+                                                        <label for="new_password" class="form__label">Mật khẩu mới</label>
+                                                        <input type="password" asp-for="NewPassword" id="new_password" class="form__input form__input--2">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb--20">
+                                                <div class="col-12">
+                                                    <div class="form__group">
+                                                        <label for="new_password" class="form__label">Nhập lại mật khẩu mới</label>
+                                                        <input type="password" asp-for="ConfirmPassword" id="confirm_password" class="form__input form__input--2">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        }
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <button type="submit" id="submit_button" class="btn btn-medium btn-style-2">Lưu</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content wrapper end -->
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Kích hoạt tab "Account Details" khi trang được load
+            $('.nav-link[data-bs-target="#accountdetails"]').addClass('active');
+            $('.tab-pane').removeClass('show active');
+            $('#accountdetails').addClass('show active');
+        });
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('#submit_button').click(function (event) {
+                var curPassword = $('#cur_password').val();
+                var newPassword = $('#new_password').val();
+                var confirmPassword = $('#confirm_password').val();
+
+                if (curPassword || newPassword || confirmPassword) {
+                    if (!curPassword || !newPassword || !confirmPassword) {
+                        alert('Vui lòng nhập đủ tất cả các trường thông tin của mật khẩu nếu muốn thay đổi mật khẩu');
+                        event.preventDefault();
+                    } else if (newPassword !== confirmPassword) {
+                        alert('Mật khẩu mới và xác nhận mật khẩu không khớp');
+                        event.preventDefault();
+                    }
+                }
+            });
+        });
+    </script>
+
+}

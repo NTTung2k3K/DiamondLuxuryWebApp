@@ -1,0 +1,178 @@
+﻿@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Common
+@using DiamondLuxurySolution.ViewModel.Models.Order
+@using DiamondLuxurySolution.ViewModel.Models.User.Staff
+
+@model PageResult<OrderVm>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section CssStyle{
+    <link rel="stylesheet" href="../assets/css/Shipper.css" />
+
+}
+<div class="row mb-4">
+    <div class="col-md-4">
+        <h3 style="display:inline-block">Nhận đơn</h3>
+        @{
+            var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
+        }
+
+        @if (ViewBag.ShipperWorking.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Working.ToString()))
+        {
+            <div class="toggle-switch">
+                <input data-shipperId="@staffVm.StaffId" class="toggle-input" id="toggle" type="checkbox"  />
+                <label class="toggle-label m-2" for="toggle"></label>
+            </div>
+        }
+        else
+        {
+            <div class="toggle-switch">
+                <input data-shipperId="@staffVm.StaffId" class="toggle-input" id="toggle" type="checkbox" checked />
+                <label class="toggle-label m-2" for="toggle"></label>
+            </div>
+        }
+
+    </div>
+    <div class="col-md-3">
+      
+
+    </div>
+    <div class="col-md-5">
+        <form asp-action="Index" asp-controller="Order" method="get" class="d-flex">
+            <div class="search">
+                <input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm đơn hàng" />
+                <button type="submit">Tìm kiếm</button>
+            </div>
+        </form>
+    </div>
+</div>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+
+@if (Model != null && Model != null && Model.Items != null && Model.Items.Count > 0)
+{
+
+    <table class="table">
+        <thead>
+            <tr class="text-center">
+                <th>
+                    <label>Mã đơn hàng</label>
+                </th>
+                <th>
+                    <label>Tên ngưởi đặt</label>
+                </th>
+                <th>
+                    <label>Số điện thoại</label>
+                </th>
+                <th>
+                    <label>Tổng tiền</label>
+                </th>
+                <th>
+                    <label>Trạng thái</label>
+                </th>
+                <th>Cài đặt</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr class="text-center">
+                    <td>@item.OrderId</td>
+                    <td>@item.ShipName</td>
+                    <td>@item.ShipPhoneNumber</td>
+                    <td>@item.TotalAmount.ToString("N0")₫</td>
+                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-pink-500 rounded-pill">Đang xử lý</span>
+                        </td>
+                    }
+                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.ProcessOfPayment.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-teal-500 rounded-pill">Trong quá trình thanh toán</span>
+                        </td>
+                    }
+                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Deposit.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-blue-500 rounded-pill">Đặt cọc</span>
+                        </td>
+                    }
+                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-danger rounded-pill">Hủy đơn</span>
+                        </td>
+                    }
+                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Shipping.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-cyan-500 rounded-pill">Đang vận chuyển</span>
+                        </td>
+                    }
+                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-success rounded-pill">Thành công</span>
+                        </td>
+                    }
+                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Confirmed.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-purple-500 rounded-pill">Đã chấp nhận</span>
+                        </td>
+                    }
+                    <td class="text-center">
+                        @Html.ActionLink("Xem chi tiết", "DetailOrder", new { OrderId = item.OrderId }, new { @class = "btn btn-info" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center align-items-center">
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
+}
+else
+{
+    <h1>Không có thông tin</h1>
+}
+
+
+@section Scripts {
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".toggle-input").change(function () {
+                var shipperId = $(this).data("shipperid");
+
+                var requestData = {
+                    shipperId: shipperId,
+                };
+                debugger;
+                $.ajax({
+                    url: 'https://localhost:9000/api/Staffs/UpdateStatusShipperWorking',
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(requestData),
+                    success: function (response) {
+                        alert("Cập nhật thành công");
+                    },
+                    error: function (xhr, status, error) {
+                        alert("An error occurred: " + error);
+                    }
+                });
+            });
+        });
+    </script>
+}
+

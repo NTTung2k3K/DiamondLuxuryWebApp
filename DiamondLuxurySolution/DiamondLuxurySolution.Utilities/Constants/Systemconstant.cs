@@ -11,11 +11,24 @@ namespace DiamondLuxurySolution.Utilities.Constants
         public class AppSettings
         {
             public const string BaseAddress = "Address:Base";
-            public const int PAGE_SIZE = 10;
+            public const int PAGE_SIZE = 12;
             public const string USER_ID = "UserId";
+            public const string USER_EMAIL = "UserEmail";
             public const string USER_NAME = "Username";
+            public const string USER_IMAGE = "UserImage";
+            public const string CUSTOMER_NAME = "CusName";
+            public const string CUSTOMER_ID = "CusId";
+            public const string FACEBOOK_PLATFORM = "Facebook";
+            public const string GOOGLE_PLATFORM = "Google";
+            public const string DEFAULT_PLATFORM = "Default";
+            public const string PLATFORM = "Platform";
+
+
+
 
         }
+
+
         public class UserRoleDefault
         {
             public const string Customer = "Khách hàng";
@@ -25,13 +38,26 @@ namespace DiamondLuxurySolution.Utilities.Constants
             public const string Admin = "Quản trị viên";
         }
 
-        public enum OrderStatus
+		public class CategoryNameDefault
+		{
+			public const string Diamond = "Kim Cương";
+			public const string WeddingJewelry = "Trang Sức Cưới";
+			public const string Ring = "Nhẫn";
+			public const string Necklace = "Dây Chuyền";
+			public const string Earring = "Hoa Tai";
+			public const string Bracelet = "Vòng Tay";
+			public const string Bangles = "Lắc Tay";
+		}
+
+		public enum OrderStatus
         {
             InProgress,
             Confirmed,
             Shipping,
             Success,
-            Canceled
+            Canceled,
+            ProcessOfPayment,
+            Deposit,
         }
         public enum Status
         {
@@ -66,6 +92,7 @@ namespace DiamondLuxurySolution.Utilities.Constants
         {
             Waiting,
             Working,
+
         }
         public enum CustomerStatus
         {

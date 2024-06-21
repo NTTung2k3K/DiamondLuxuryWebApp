@@ -1,6 +1,7 @@
 ﻿using DiamondLuxurySolution.ViewModel.Models.Category;
 using DiamondLuxurySolution.ViewModel.Models.Frame;
 using DiamondLuxurySolution.ViewModel.Models.Gem;
+using DiamondLuxurySolution.ViewModel.Models.GemPriceList;
 using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
 using DiamondLuxurySolution.ViewModel.Models.Material;
 using Microsoft.AspNetCore.Http;
@@ -36,15 +37,17 @@ namespace DiamondLuxurySolution.ViewModel.Models.Product
         public string Status {  get; set; }
         [DisplayName("Sô lượng")]
         public int Quantity {  get; set; }
-        public decimal? OriginalPrice { get; set; }
-        public decimal? SellingPrice { get; set; }
+        public decimal OriginalPrice { get; set; }
+        public decimal SellingPrice { get; set; }
         public DateTime? DateModify { get; set; }
         public int QuantitySold { get; set; }
 
         public virtual ICollection<String> Images { get; set; } = new List<String>();
         public virtual ICollection<SubGemSupportDTO> ListSubGems { get; set; } = new List<SubGemSupportDTO>();
 
-        public virtual GemVm GemVm { get; set; }
+		public virtual GemPriceListVm? GemPriceLists { get; set; } = new GemPriceListVm();
+
+		public virtual GemVm GemVm { get; set; }
         public virtual CategoryVm CategoryVm { get; set; }
         public virtual MaterialVm MaterialVm { get; set; }
 

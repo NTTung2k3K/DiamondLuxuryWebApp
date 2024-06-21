@@ -25,7 +25,6 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
     public virtual DbSet<AppUser> AppUsers { get; set; }
     public virtual DbSet<AppRole> AppRoles { get; set; }
 
-    public virtual DbSet<CampaignDetail> CampaignDetails { get; set; }
 
     public virtual DbSet<Category> Categories { get; set; }
 
@@ -78,7 +77,6 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
     {
 
         modelBuilder.ApplyConfiguration(new AboutConfiguration());
-        modelBuilder.ApplyConfiguration(new CampaignDetailConfiguration());
         modelBuilder.ApplyConfiguration(new CategoryConfiguration());
         modelBuilder.ApplyConfiguration(new CollectionConfiguration());
         modelBuilder.ApplyConfiguration(new DiscountConfiguration());

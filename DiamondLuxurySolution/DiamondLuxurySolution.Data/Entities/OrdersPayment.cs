@@ -16,6 +16,7 @@ namespace DiamondLuxurySolution.Data.Entities
         public string? Message { get; set; }
         public decimal PaymentAmount { get; set; }
 
+        public DateTime OpenPaymentTime { get; set; }
 
         public DateTime PaymentTime { get; set; }
 

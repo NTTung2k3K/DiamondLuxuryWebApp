@@ -29,6 +29,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Promotion
             return data;
         }
 
+        public async Task<ApiResult<List<PromotionVm>>> GetAllOnTime()
+        {
+            var data = await GetAsync<List<PromotionVm>>("api/Promotions/GetAllOnTime");
+            return data;
+        }
+
         public async Task<ApiResult<PromotionVm>> GetPromotionById(Guid PromotionId)
         {
             var data = await GetAsync<PromotionVm>($"api/Promotions/GetById?PromotionId={PromotionId}");

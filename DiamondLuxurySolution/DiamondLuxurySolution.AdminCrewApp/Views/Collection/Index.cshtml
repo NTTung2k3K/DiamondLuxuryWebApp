@@ -1,0 +1,211 @@
+﻿@using DiamondLuxurySolution.ViewModel.Models.Collection
+@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Common
+
+@model PageResult<CollectionVm>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <!-- Thư viện jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Thư viện DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+</head>
+<div class="row mb-4">
+    <div class="col-md-4">
+        <a asp-action="Create" asp-controller="Collection" class="btn btn-success">Tạo mới</a>
+    </div>
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <form asp-action="Index" asp-controller="Collection" method="get" class="d-flex">
+
+            <div class="search">
+                <input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm bộ sưu tập" />
+                <button type="submit">Tìm kiếm</button>
+            </div>
+        </form>
+    </div>
+</div>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+
+@if (Model.Items != null && Model.Items.Count > 0)
+{
+    <table class="table" id="sort">
+        <thead>
+            <tr class="text-center">
+                <th>
+                    <label>Tên bộ sưu tập</label>
+                    <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
+                </th>
+                <th>
+                    <label>Hình ảnh bộ sưu tập</label>
+                </th>
+                <th>
+                    <label>Hiển thị</label>
+                    <label onclick="sortTable(2)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
+                </th>
+                <th>
+                    <label>Sản phẩm của bộ sưu tập</label>
+                </th>
+                <th>Cài đặt</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+
+                <tr class="text-center">
+                    <td class="col-md-2">@item.CollectionName</td>
+                    @if (string.IsNullOrEmpty(item.Thumbnail))
+                    {
+                        <td class="col-md-2">Không có hình ảnh</td>
+                    }
+                    else
+                    {
+                        <td class="col-md-2">
+                            <img src="@item.Thumbnail" style="height:100px; width:100px" />
+                        </td>
+                    }
+                    @if (item.Status == true)
+                    {
+                        <td class="col-md-2">
+                            <span class="badge bg-success rounded-pill">Hoạt động</span>
+
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="col-md-2">
+                            <span class="badge bg-danger rounded-pill">Chưa hoạt động</span>
+
+                        </td>
+
+                    }
+                    @if (item.ListProducts.Count() > 0)
+                    {
+                        <td class="col-md-4">
+                            <a class="btn btn-secondary" data-bs-toggle="collapse"
+                               href="#multiCollapseExample1-@item.CollectionId" role="button"
+                               aria-expanded="false" aria-controls="multiCollapseExample1-@item.CollectionId" style="">
+                                Các sản phẩm
+                                <svg class="pc-icon">
+                                    <use xlink:href="#custom-sort-outline"></use>
+                                </svg>
+                            </a>
+                            <div class="collapse multi-collapse col-md-12" id="multiCollapseExample1-@item.CollectionId">
+                                <div class="card card-body table-border-style" style="overflow-wrap: break-word; margin:0; witdh: 100px">
+                                    <div class="datatable-container">
+                                        <table class="table table-striped datatable" style="width:100%">
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th>
+                                                        <label>Tên sản phẩm</label>
+                                                    </th>
+                                                    <th>
+                                                        <label>Hình ảnh sản phẩm</label>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var product in item.ListProducts)
+                                                {
+                                                    <tr class="text-center">
+                                                        <td>
+                                                            <lable>@product.ProductName</lable>
+                                                        </td>
+                                                        <td>
+                                                            <img src="@product.ProductThumbnail" style="height:100px; width:100px" />
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a class="disabled btn btn-secondary text-white" style="opacity: 0.7">
+                                Không có sản phẩm
+                            </a>
+                        </td>
+                    }
+                    <td class="text-center col-md-2">
+                        @Html.ActionLink("Chỉnh sửa", "Edit", new { CollectionId = item.CollectionId }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Xem chi tiết", "Detail", new { CollectionId = item.CollectionId }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Xóa", "Delete", new { CollectionId = item.CollectionId }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center align-items-center">
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
+}
+else
+{
+    <h1>Không có thông tin</h1>
+}
+@section CssStyle {
+    <style>
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            padding: 0.5em 0.5em;
+            font-size: 0.8em;
+        }
+
+        .dataTables_wrapper .dataTables_info {
+            font-size: 0.8em;
+            color: #555;
+            padding-top: 0.5em;
+        }
+
+        .dataTables_wrapper .dataTables_length {
+            font-size: 0.8em;
+            color: #555;
+            padding-top: 0.5em;
+        }
+
+        .dataTables_wrapper .dataTables_paginate {
+            width: auto;
+            display: inline-block;
+        }
+
+    </style>
+}
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.datatable').DataTable({
+                "ordering": false,
+                "pagingType": "full_numbers",
+                "searching": false,
+                "language": {
+                    "paginate": {
+                        "next": "Next",
+                        "previous": "Previous",
+                        "First": false
+                    }
+                },
+                "pageLength": 2,
+                "lengthMenu": [[2, 3, 5, -1], [2, 3, 5, "All"]]
+            });
+        });
+
+    </script>
+
+     <script src="~/assets/js/Test.js"></script>
+}

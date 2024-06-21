@@ -9,11 +9,12 @@ using DiamondLuxurySolution.ViewModel.Models.Gem;
 using DiamondLuxurySolution.ViewModel.Models.GemPriceList;
 using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
 using DiamondLuxurySolution.ViewModel.Models.Material;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class GemPriceListController : Controller
+    public class GemPriceListController : BaseController
     {
         private readonly IGemApiService _gemApiService;
         private readonly IGemPriceListApiService _gemPriceListApiService;
@@ -25,6 +26,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             _gemPriceListApiService = gemPriceListApiService;
             _inspectionCertificateApiService = inspectionCertificateApiService;
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Index(ViewGemPriceListRequest request)
@@ -54,6 +56,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Detail(int GemPriceListId)
@@ -86,6 +89,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Delete(int GemPriceListId)
@@ -118,6 +122,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
 
         [HttpPost]
         public async Task<IActionResult> Delete(DeleteGemPriceListRequest request)
@@ -153,6 +159,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Edit(int GemPriceListId)
@@ -189,6 +196,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateGemPriceListRequest request)
@@ -201,37 +209,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 					ViewBag.ListGem = listGem.ResultObj.ToList();
 
 					var gemPriceList = await _gemPriceListApiService.GetGemPriceListById(request.GemPriceListId);
-                    var gem = await _gemApiService.GetGemById(gemPriceList.ResultObj.GemVm.GemId);
-                    var inspectionCertificate = await _inspectionCertificateApiService.GetInspectionCertificateById(gem.ResultObj.InspectionCertificateVm.InspectionCertificateId);
-                    var inspectionCertificateVm = new InspectionCertificateVm()
-                    {
-                        InspectionCertificateId = inspectionCertificate.ResultObj.InspectionCertificateId,
-                        InspectionCertificateName = inspectionCertificate.ResultObj.InspectionCertificateName,
-                        DateGrading = inspectionCertificate.ResultObj?.DateGrading,
-                        Logo = inspectionCertificate.ResultObj?.Logo,
-                        Status = inspectionCertificate.ResultObj.Status,
-                    };
-
-                    var gemVm = new GemVm()
-                    {
-                        GemId = gem.ResultObj.GemId,
-                        GemName = gem.ResultObj.GemName,
-                        GemImage = gem.ResultObj.GemImage,
-                        ProportionImage = gem.ResultObj.ProportionImage,
-                        Polish = gem.ResultObj.Polish,
-                        Symetry = gem.ResultObj.Symetry,
-                        AcquisitionDate = gem.ResultObj.AcquisitionDate,
-                        Active = gem.ResultObj.Active,
-                        Fluoresence = gem.ResultObj.Fluoresence,
-                        IsOrigin = gem.ResultObj.IsOrigin,
-                        InspectionCertificateVm = inspectionCertificateVm,
-                    };
 
                     var gemPriceListVm = new GemPriceListVm()
                     {
                         GemPriceListId = gemPriceList.ResultObj.GemPriceListId,
                         Active = gemPriceList.ResultObj.Active,
-                        GemVm = gemVm,
                     };
                     return View(gemPriceListVm);
                 }
@@ -259,37 +241,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 					ViewBag.ListGem = listGem.ResultObj.ToList();
 
 					var gemPriceList = await _gemPriceListApiService.GetGemPriceListById(request.GemPriceListId);
-                    var gem = await _gemApiService.GetGemById(gemPriceList.ResultObj.GemVm.GemId);
-                    var inspectionCertificate = await _inspectionCertificateApiService.GetInspectionCertificateById(gem.ResultObj.InspectionCertificateVm.InspectionCertificateId);
-                    var inspectionCertificateVm = new InspectionCertificateVm()
-                    {
-                        InspectionCertificateId = inspectionCertificate.ResultObj.InspectionCertificateId,
-                        InspectionCertificateName = inspectionCertificate.ResultObj.InspectionCertificateName,
-                        DateGrading = inspectionCertificate.ResultObj?.DateGrading,
-                        Logo = inspectionCertificate.ResultObj?.Logo,
-                        Status = inspectionCertificate.ResultObj.Status,
-                    };
-
-                    var gemVm = new GemVm()
-                    {
-                        GemId = gem.ResultObj.GemId,
-                        GemName = gem.ResultObj.GemName,
-                        GemImage = gem.ResultObj.GemImage,
-                        ProportionImage = gem.ResultObj.ProportionImage,
-                        Polish = gem.ResultObj.Polish,
-                        Symetry = gem.ResultObj.Symetry,
-                        AcquisitionDate = gem.ResultObj.AcquisitionDate,
-                        Active = gem.ResultObj.Active,
-                        Fluoresence = gem.ResultObj.Fluoresence,
-                        IsOrigin = gem.ResultObj.IsOrigin,
-                        InspectionCertificateVm = inspectionCertificateVm,
-                    };
 
                     var gemPriceListVm = new GemPriceListVm()
                     {
                         GemPriceListId = gemPriceList.ResultObj.GemPriceListId,
                         Active = gemPriceList.ResultObj.Active,
-                        GemVm = gemVm,
                     };
                     return View(gemPriceListVm);
 
@@ -302,8 +258,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
         }
 
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
-		[HttpGet]
+        [HttpGet]
 		public async Task<IActionResult> Create()
 		{
 			var listGem = await _gemApiService.GetAll();
@@ -311,7 +268,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
 			return View();
 		}
-		[HttpPost]
+        [Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
+        [HttpPost]
 		public async Task<IActionResult> Create(CreateGemPriceListRequest request)
 		{
 

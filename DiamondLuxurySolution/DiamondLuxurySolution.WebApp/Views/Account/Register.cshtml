@@ -1,0 +1,75 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.User.Customer.RegisterCustomerAccountRequest
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section StyleCss {
+    <link href="../mycss/mycheckbox.css" rel="stylesheet" />
+}
+
+
+<!-- Main Wrapper Start -->
+<div class="main-content-wrapper" style="background-color: black;">
+    <div class="login-register-area">
+        <div class="login-container">
+            <form class="login-form" asp-action="Register" asp-controller="Account" method="post">
+                <p class="heading">Đăng Ký</p>
+                @if (ViewBag.Errors != null)
+                {
+                    foreach (var error in ViewBag.Errors)
+                    {
+                        <h3 style="color:red !important" class="text-danger">@error</h3>
+                    }
+                }
+                <br>
+                <div class="input-group">
+                    <input required="" asp-for="FullName" placeholder="Họ Và Tên" id="username" type="text" />
+                </div>
+                <div class="input-group">
+                    <input required="" asp-for="PhoneNumber" placeholder="Số Điện Thoại" id="username phone=" type="text" />
+                </div>
+                <div class="input-group">
+                    <input required="" asp-for="Email" placeholder="Email" id="username" type="text" />
+                </div>
+                <div class="input-group">
+                    <input required="" asp-for="Dob" placeholder="Ngày Sinh" id="username" type="date" />
+                </div>
+                <div class="input-group">
+                    <input required="" asp-for="Password" placeholder="Mật Khẩu" name="password" id="password" type="password" />
+                </div>
+                <div class="input-group">
+                    <input required="" asp-for="ConfirmPassword" placeholder="Nhập Lại Mật Khẩu" name="ConfirmPassword" id="password" type="password" />
+                </div>
+                <div>
+                    <label class="custom-checkbox">
+                        <input id="acceptPolicyCheckbox" name="dummy" type="checkbox">
+                        <span class="checkmark"></span>
+                    </label>
+                    Tôi đồng ý với <a href="DieuKhoanSuDung.html" style="color:#f27575">Điều Khoản Và Điều Kiện</a> của Diamond Luxury</label>
+                </div>
+                <br>
+                <button type="submit" id="registrationForm">Đăng Ký</button>
+                <br>
+                <div class="bottom-text">
+                    <p>Đã Có Tài Khoản? <a href="/Account/Login">Đăng Nhập</a></p>
+                    <br>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Main Wrapper End -->
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.login-form').on('submit', function (event) {
+                if (!$('#acceptPolicyCheckbox').is(':checked')) {
+                    alert('Bạn phải đồng ý với Điều Khoản Và Điều Kiện trước khi đăng ký.');
+                    event.preventDefault(); // Prevent form submission
+                }
+            });
+        });
+    </script>
+}

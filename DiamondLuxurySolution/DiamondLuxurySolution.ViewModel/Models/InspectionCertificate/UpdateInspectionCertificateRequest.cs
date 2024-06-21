@@ -12,10 +12,11 @@ namespace DiamondLuxurySolution.ViewModel.Models.InspectionCertificate
     {
         public string InspectionCertificateId { get; set; } = null!;
 
-        [Required(ErrorMessage = "Yêu cầu tên của giấy chứng nhận")]
-        public string? InspectionCertificateName { get; set; }
+        [Required(ErrorMessage = "Cần tên của giấy chứng nhận")]
+        public string InspectionCertificateName { get; set; }
 
-        public DateTime? DateGrading { get; set; }
+        [Required(ErrorMessage = "Cần ngày khởi tạo của giấy chứng nhận")]
+        public DateTime DateGrading { get; set; }
 
         public IFormFile? Logo { get; set; }
 

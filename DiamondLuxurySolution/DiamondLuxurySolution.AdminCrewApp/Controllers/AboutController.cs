@@ -1,20 +1,29 @@
-﻿using DiamondLuxurySolution.AdminCrewApp.Service.About;
-using DiamondLuxurySolution.AdminCrewApp.Service.Slide;
+﻿using Azure.Core;
+using DiamondLuxurySolution.AdminCrewApp.Service.About;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.About;
 using DiamondLuxurySolution.ViewModel.Models.Material;
 using DiamondLuxurySolution.ViewModel.Models.Slide;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Text.Json;
+
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    public class AboutController : Controller
+   
+    [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
+    public class AboutController : BaseController
     {
         private readonly IAboutApiService _AboutApiService;
         public AboutController(IAboutApiService aboutApiService)
         {
             _AboutApiService = aboutApiService;
         }
+
+
         [HttpGet]
         public async Task<IActionResult> Index(ViewAboutRequest request)
         {
@@ -35,8 +44,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     ViewBag.SuccessMsg = TempData["SuccessMsg"];
                 }
 
-                var platform = await _AboutApiService.ViewAboutInManager(request);
-                return View(platform.ResultObj);
+                var about = await _AboutApiService.ViewAboutInManager(request);
+                return View(about.ResultObj);
             }
             catch
             {
@@ -71,7 +80,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
-                return View();
+                return RedirectToAction("InternalServerError", "Error");
             }
         }
 
@@ -117,10 +126,10 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
                     AboutVm aboutVm = new AboutVm()
                     {
-                       AboutId = request.AboutId,
-                       AboutName = request.AboutName,
-                       Description = request.Description,
-                       Status = request.Status,
+                        AboutId = request.AboutId,
+                        AboutName = request.AboutName,
+                        Description = request.Description,
+                        Status = request.Status,
 
                     };
                     return View(aboutVm);
@@ -212,7 +221,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     return View();
 
                 }
-                return RedirectToAction("Index","About");
+                return RedirectToAction("Index", "About");
 
             }
             catch
@@ -220,18 +229,19 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+
+
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateAboutRequest request)
         {
 
             var status = await _AboutApiService.CreateAbout(request);
-
             if (status is ApiErrorResult<bool> errorResult)
             {
                 List<string> listError = new List<string>();
@@ -248,10 +258,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 }
                 ViewBag.Errors = listError;
                 return View();
-
             }
             TempData["SuccessMsg"] = "Create success for Role " + request.AboutName;
-
             return RedirectToAction("Index", "About");
         }
     }

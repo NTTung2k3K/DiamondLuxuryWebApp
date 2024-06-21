@@ -9,7 +9,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Warranty
 {
     public class UpdateWarrantyRequest
     {
-        public Guid WarrantyId { get; set; }
+        public string WarrantyId { get; set; }
 
 		[Required(ErrorMessage = "Cần thêm tên phiếu bảo hành")]
 		public string WarrantyName { get; set; }

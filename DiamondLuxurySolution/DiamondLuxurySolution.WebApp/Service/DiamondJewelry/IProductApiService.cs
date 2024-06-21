@@ -12,7 +12,8 @@ namespace DiamondLuxurySolution.WebApp.Service.Product
         public Task<ApiResult<bool>> DeleteProduct(DeleteProductRequest request);
         public Task<ApiResult<ProductVm>> GetProductById(string ProductId);
         public Task<ApiResult<PageResult<ProductVm>>> ViewProduct(ViewProductRequest request);
-        public Task<ApiResult<List<SubGemVm>>> GetAll();
+        public Task<ApiResult<List<ProductVm>>> GetAll();
 
-    }
+
+	}
 }

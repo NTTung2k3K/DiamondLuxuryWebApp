@@ -1,0 +1,456 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Product.ProductVm
+
+
+@{
+	ViewData["Title"] = "Detail";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+	var sizes = Enumerable.Range(4, 29).ToList(); // Tạo danh sách các kích thước từ 4 đến 32
+}
+
+
+<!-- Breadcumb area Start -->
+<div class="breadcrumb-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h1 class="page-title">Chi Tiết Sản Phẩm</h1>
+				<ul class="breadcrumb justify-content-center">
+					<li><a href="/Home/Index">Trang Chủ</a></li>
+					<li><a href="/WeddingJewelry/Index">Trang Sức Cưới</a></li>
+					<li class="current"><a href="/WeddingJewelry/Detail?ProductId=@Model.ProductId">Chi Tiết Sản Phẩm</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Breadcumb area End -->
+<!-- Main Content Wrapper Start -->
+<div class="main-content-wrapper">
+	<div class="single-products-area section-padding section-md-padding">
+		<div class="container">
+			<!-- Single Product Start -->
+			<section class="mirora-single-product pb--80 pb-md--60">
+				<div class="row">
+					<div class="col-lg-6">
+						<!-- Tab Content Start -->
+						<div class="tab-content product-details-thumb-large" id="myTabContent-3">
+							<div class="tab-pane fade show active" id="product-large-one">
+								<div class="product-details-img">
+									<a class="popup-btn" href="@Model.ProductThumbnail">
+										<img src="@Model.ProductThumbnail" alt="product" style="width : 600px; height : 450px">
+									</a>
+								</div>
+							</div>
+							@if (Model.Images != null)
+							{
+								@foreach (var imagepath in Model.Images)
+								{
+									<div class="tab-pane fade" id="product-large-@imagepath.GetHashCode()">
+										<div class="product-details-img">
+											<a class="popup-btn" href="@imagepath">
+												@if (!string.IsNullOrEmpty(@imagepath))
+												{
+													<img src="@imagepath" style="width : 600px; height : 450px" alt="product">
+												}
+												else
+												{
+													<p>No image available</p>
+												}
+											</a>
+										</div>
+									</div>
+								}
+							}
+						</div>
+						<!-- Tab Content End -->
+						<!-- Product Thumbnail Carousel Start -->
+						<div class="product-details-thumbnail">
+							<div class="thumb-menu product-details-thumb-menu nav-vertical-center" id="thumbmenu-horizontal">
+								<div class="thumb-menu-item">
+									<a href="#product-large-one" data-bs-toggle="tab" class="nav-link active">
+										<img src="@Model.ProductThumbnail" alt="product thumb" style="width : 200px; height : 100px">
+									</a>
+								</div>
+								@if (Model.Images != null)
+								{
+									@foreach (var imagepath in Model.Images)
+									{
+										if (!string.IsNullOrEmpty(imagepath))
+										{
+											<div class="thumb-menu-item">
+												<a href="#product-large-@imagepath.GetHashCode()" data-bs-toggle="tab" class="nav-link">
+													<img src="@imagepath" alt="product thumb" style="width : 200px; height : 100px">
+												</a>
+											</div>
+										}
+									}
+								}
+							</div>
+						</div>
+						<!-- Product Thumbnail Carousel End -->
+
+
+					</div>
+					<div class="col-lg-6">
+						<!-- Single Product Content Start -->
+						<div class="product-details-content" style="margin-left: 100px;">
+							<div class="product-details-top" style="text-align: left; margin-bottom: 10px;">
+								<h2 class="product-details-name" style="font-family: 'Prata'; line-height: unset;">
+									@Model.ProductName
+								</h2>
+								<div class="product-details-price-wrapper product-price-wrapper" style="margin-bottom: 10px;">
+									<span class="money">@Model.SellingPrice.ToString("N0")₫</span>
+									@if (Model.IsSale)
+									{
+										<span class="product-price-old">
+											<span class="money">@Model.OriginalPrice.ToString("N0")₫</span>
+										</span>
+									}
+								</div>
+								<div>
+									<h5>
+										Sản phẩm đã bán: @Model.QuantitySold
+									</h5>
+								</div>
+							</div>
+
+							<div class="product-details-bottom">
+								<div class="product-details-options mb--20">
+									@if (Model.MaterialVm != null)
+									{
+										<div class="form-group mb--20" style="display : flex;">
+											<div class="col-md-6">
+												<label style="font-size : 23px;">Chất Liệu<sup style="font-size : 21px;">*</sup>: </label>
+											</div>
+											<div class="col-md-6">
+												<span style="font-size : 25px; color: #996A18;">@Model.MaterialVm.MaterialName</span>
+											</div>
+										</div>
+									}
+									<div class="form-group mb--20" style="display : flex;">
+										<div class="col-md-6">
+											<label style="font-size : 23px;">Viên Chính<sup style="font-size : 21px;">*</sup>: </label>
+										</div>
+										<div class="col-md-6">
+											<span style="font-size : 25px; color: #996A18">@Model.GemVm.GemName</span>
+										</div>
+									</div>
+									@if (Model.ListSubGems != null && Model.ListSubGems.Count() > 0)
+									{
+										<div class="form-group mb--20" style="display : flex;">
+											<div class="col-md-6">
+												<label style="font-size : 23px;">Viên Phụ<sup style="font-size : 21px;">*</sup>: </label>
+											</div>
+											<div class="col-md-6">
+												@foreach (var subGem in Model.ListSubGems)
+												{
+													<span style="font-size : 25px; color: #996A18">@subGem.SubGemName</span>
+												}
+											</div>
+										</div>
+									}
+								</div>
+								<style>
+									.dropdown {
+										position: relative;
+										display: inline-block;
+									}
+
+									.dropdown-content {
+										display: none;
+										position: absolute;
+										background-color: #f9f9f9;
+										min-width: 200px; /* Độ rộng tối thiểu của khung */
+										box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+										z-index: 1;
+									}
+
+										.dropdown-content table {
+											width: 100%;
+											border-collapse: collapse;
+											font-size: 12px; /* Nhỏ chữ */
+											table-layout: fixed; /* Cố định độ rộng của bảng */
+										}
+
+											.dropdown-content table td {
+												padding: 8px;
+												cursor: pointer;
+												text-align: center;
+												border: 1px solid #ddd;
+												color: black; /* Chỉnh màu số thành màu đen */
+											}
+
+												.dropdown-content table td:hover {
+													background-color: #f1f1f1;
+												}
+
+									.dropdown:hover .dropdown-content {
+										display: block;
+									}
+
+									.dropdown-toggle {
+										min-width: 100px; /* Độ rộng tối thiểu của nút */
+										text-align: center;
+										font-size: 15px;
+										padding: 10px;
+										margin-right: 20px;
+									}
+								</style>
+								<div style="display: flex;">
+									<div class="dropdown">
+										<button id="dropdown-toggle" class="dropdown-toggle">Ni (size)</button>
+										<div class="dropdown-content">
+											<input type="hidden" id="niSize" name="properties[nisize]" value="">
+											<table>
+												<tbody>
+													@for (int i = 0; i < sizes.Count; i += 5)
+													{
+														<tr>
+															@for (int j = 0; j < 5; j++)
+															{
+																if (i + j < sizes.Count)
+																{
+																	<td onclick="selectSize('@sizes[i + j]')">@sizes[i + j]</td>
+																}
+															}
+														</tr>
+													}
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<a href="huongdandovongtay.html">
+										<p class="product-details-availability" style="margin-bottom: 15px; margin-bottom: 20px; margin-top: 6px;">
+											<i class="fa fa-check-circle"></i> Hướng Dẫn Chọn Ni
+										</p>
+									</a>
+								</div>
+
+								<div class="product-details-action-wrapper mb--20">
+									<div class="product-details-action-top d-flex align-items-center mb--20">
+										<div class="quantity-controls">
+											<span style="margin-right: 10px;">Chọn Số Lượng</span>
+											<div class="quantity-controls1">
+												<button type="button" class="quantity-btn1 quantity-decrease1 d-flex justify-content-center align-items-center">-</button>
+												<input type="text" class="quantity-input" value="1" size="2" readonly style="text-align: center; border-radius : 20px;">
+												<button type="button" class="quantity-btn1 quantity-increase1 d-flex justify-content-center align-items-center">+</button>
+											</div>
+										</div>
+									</div>
+
+									<a href="muaNgay.html" class="khoangcach">
+										<button type="button" class="btn1 btn-border1" style="margin-right: 9px; border-radius: 5%;">Mua Ngay</button>
+									</a>
+									<a href="gioHang.html">
+										<button type="button" class="btn btn-style-2 ">Thêm Vào Giỏ Hàng</button>
+									</a>
+
+								</div>
+								<style>
+									.disabled {
+										pointer-events: none;
+										cursor: default;
+										color: grey;
+									}
+								</style>
+								<div class="social-share">
+									<a href="https://www.facebook.com/diamondluxurystore" target="_blank" rel="noopener noreferrer" class="facebook share-button">
+										<i class="fa fa-facebook"></i>
+										<span>Like</span>
+									</a>
+									<a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="twitter share-button disabled">
+										<i class="fa fa-twitter"></i>
+										<span>Tweet</span>
+									</a>
+									<a href="#" class="share share-button disabled">
+										<i class="fa fa-plus-square"></i>
+										<span>Share</span>
+									</a>
+								</div>
+							</div>
+						</div>
+						<!-- Single Product Content End -->
+
+					</div>
+				</div>
+			</section>
+			<!-- Single Product End -->
+			<!-- Single Product Tab Start -->
+			<section class="product-details-tab bg--dark-4 ptb--80 ptb-md--60">
+				<div class="row">
+					<div class="col-12">
+						<ul class="product-details-tab-head nav nav-tab" id="singleProductTab" role="tablist">
+							<li class="nav-item product-details-tab-item">
+								<a class="nav-link product-details-tab-link active" id="nav-desc-tab"
+								   data-bs-toggle="tab" href="#nav-desc" role="tab" aria-controls="nav-desc"
+								   aria-selected="true">Thông Số Chi Tiết</a>
+							</li>
+							<li class="nav-item product-details-tab-item">
+								<a class="nav-link product-details-tab-link" id="nav-details-tab"
+								   data-bs-toggle="tab" href="#nav-details" role="tab"
+								   aria-controls="nav-details" aria-selected="true">Thông Tin Sản Phẩm</a>
+							</li>
+
+						</ul>
+						<style>
+							table {
+								width: 100%;
+								border-collapse: collapse;
+								margin: 20px 0;
+								font-size: 18px;
+								text-align: left;
+								margin-left: 0
+							}
+
+							th,
+							td {
+								padding: 6px;
+								border: 1px solid #ddd;
+								text-align: left;
+								width: 20px;
+							}
+						</style>
+						<div class="product-details-tab-content tab-content">
+							<div class="tab-pane fade show active" id="nav-desc" role="tabpanel">
+								<table>
+									@{
+										var closestGemPriceList = Model.GemPriceLists;
+									}
+									<tr>
+										<th>Thương hiệu</th>
+										<td>Diamond Luxury</td>
+									</tr>
+									<tr>
+										<th>Loại sản phẩm</th>
+										<td>@Model.CategoryVm.CategoryName</td>
+									</tr>
+									<tr>
+										<th>Mã sản phẩm</th>
+										<td>@Model.ProductId</td>
+									</tr>
+									<tr>
+										<th>Độ tinh khiết</th>
+										<td>@closestGemPriceList.Clarity</td>
+									</tr>
+									<tr>
+										<th>Kiểu dáng</th>
+										<td>@closestGemPriceList.Cut</td>
+									</tr>
+									<tr>
+										<th>Ni tay</th>
+										<td>Tùy chỉnh</td>
+									</tr>
+									<tr>
+										<th>Kích thước viên chủ</th>
+										<td>@closestGemPriceList.CaratWeight</td>
+									</tr>
+									<tr>
+										<th>Kiểu viên chủ</th>
+										<td>@Model.GemVm.GemName</td>
+									</tr>
+									<tr>
+										<th>Huỳnh quang</th>
+										@if (@Model.GemVm.Fluoresence)
+										{
+											<td>Có</td>
+										}
+										else
+										{
+											<td>Không</td>
+										}
+									</tr>
+									<tr>
+										<th>Loại kim cương phụ</th>
+										<td>
+											@if (@Model.ListSubGems != null && @Model.ListSubGems.Count() > 0)
+											{
+												@foreach (var subGem in @Model.ListSubGems)
+												{
+													<span>@subGem.SubGemName | </span>
+												}
+											}
+											else
+											{
+												<p>Không có</p>
+											}
+										</td>
+									</tr>
+									<tr>
+										<th>Số lượng kim cương phụ</th>
+										<td>
+											@if (@Model.ListSubGems != null && @Model.ListSubGems.Count() > 0)
+											{
+												@foreach (var subGem in @Model.ListSubGems)
+												{
+													<span>@subGem.Quantity | </span>
+												}
+											}
+											else
+											{
+												<p>Không có</p>
+											}
+										</td>
+									</tr>
+									<tr>
+										<th>Màu đá</th>
+										<td>@closestGemPriceList.Color</td>
+									</tr>
+									<tr>
+										<th>Loại vàng</th>
+										<td>@Model.MaterialVm.Color</td>
+									</tr>
+									<tr>
+										<th>Tuổi vàng</th>
+										<td>@Model.MaterialVm.MaterialName</td>
+									</tr>
+									<tr>
+										<th>Trọng lượng vàng</th>
+										<td>@Model.FrameVm.Weight</td>
+									</tr>
+								</table>
+
+							</div>
+							<div class="tab-pane" role="tabpanel" id="nav-details"
+								 aria-labelledby="nav-details-tab">
+								<div class="product-details-additional-info">
+									<h4>
+										@Model.CategoryVm.CategoryName @Model.CategoryVm.CategoryType @Model.MaterialVm.MaterialName @Model.ProductId
+										có phần trung tâm
+										là một cụm hình hoa được tạo ra từ các viên kim cương nhỏ li ti, tạo
+										điểm nhấn lấp lánh cho người đeo. Phần dây đeo được làm từ @Model.MaterialVm.MaterialName
+										cao cấp, gia công tỉ mĩ với các đường cắt độc đáo.
+										Mẫu giấy chứng nhận GIA tại Diamond Luxury
+									</h4>
+									<div class="table-content table-responsive" style="text-align: center;">
+										<img style="margin: 20px; width : 600px; height : 800px;"
+											 src="../assets/img/Banggiakimcuong/bang-gia-kim-cuong-xac-nhan-GIA.jpg">
+									</div>
+									<h4>
+										@Model.CategoryVm.CategoryName vừa thể hiện sự sang trọng và tinh tế trong từng chi
+										tiết, vừa làm nổi bật phong cách cá nhân của người đeo trong bất kỳ dịp
+										đặc biệt nào. Để sở hữu chiếc @Model.CategoryVm.CategoryName mã @Model.ProductId và tham khảo thêm nhiều
+										mẫu @Model.CategoryVm.CategoryName kim cương khác, quý khách hãy liên hệ ngay Luxury
+										Diamond.
+									</h4>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- Single Product Tab End -->
+			<!-- Related Product Start -->
+			<!-- Related Product End -->
+		</div>
+	</div>
+</div>
+<!-- Main Content Wrapper End -->
+<script>
+	function selectSize(size) {
+		document.getElementById('dropdown-toggle').innerText = size;
+		document.getElementById('niSize').value = size;
+	}
+</script>

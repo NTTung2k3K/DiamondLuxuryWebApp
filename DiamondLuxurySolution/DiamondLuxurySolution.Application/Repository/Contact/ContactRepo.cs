@@ -23,6 +23,15 @@ namespace DiamondLuxurySolution.Application.Repository.Contact
         {
             _context = context;
         }
+
+        public async Task<ApiResult<int>> CountContactNotSolve()
+        {
+           var count = _context.Contacts.Where(x => x.IsResponse==false).Count();
+            return new ApiSuccessResult<int>(count,"Success");
+        }
+
+      
+
         public async Task<ApiResult<bool>> CreateContact(CreateContactRequest request)
         {
             List<string> errorList = new List<string>();

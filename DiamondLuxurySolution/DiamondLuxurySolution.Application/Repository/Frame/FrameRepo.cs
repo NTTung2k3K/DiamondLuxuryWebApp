@@ -52,19 +52,7 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
                 errorList.Add("Trọng lượng không hợp lệ");
             }
 
-            try
-            {
-                size = Convert.ToDouble(request.Size);
-
-                if (size <= 0)
-                {
-                    errorList.Add("Kích thước khung phải lớn > 0");
-                }
-            }
-            catch (FormatException)
-            {
-                errorList.Add("Kích thước khung không hợp lệ");
-            }
+            
 
             if (errorList.Any())
             {
@@ -74,7 +62,6 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
             {
                 FrameId = await GenerateUniqueIdAsync(),
                 FrameName = request.NameFrame.Trim(),
-                Size = size,
                 Weight = weight,
                 Material = material,
             };
@@ -141,7 +128,6 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
             };
             var frameVm = new FrameVm
             {
-                Size = frame.Size,
                 Weight = frame.Weight,
                 NameFrame = frame.FrameName,
                 MaterialVm = materialVm,
@@ -165,10 +151,7 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
             }
 
             var errorList = new List<string>();
-            if (string.IsNullOrWhiteSpace(request.Size))
-            {
-                errorList.Add("Vui lòng nhập kích thước");
-            }
+            
             if (string.IsNullOrWhiteSpace(request.Weight))
             {
                 errorList.Add("Vui lòng nhập trọng lượng");
@@ -177,20 +160,8 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
             {
                 errorList.Add("Vui lòng nhập tên khung");
             }
-            double size = 0, weight = 0;
-            try
-            {
-                size = Convert.ToDouble(request.Size);
-
-                if (size <= 0)
-                {
-                    errorList.Add("Kích thước phải > 0");
-                }
-            }
-            catch (FormatException)
-            {
-                errorList.Add("Kích thước không hợp lệ");
-            }
+            double  weight = 0;
+            
 
             try
             {
@@ -213,7 +184,6 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
             }
 
             frame.Weight = weight;
-            frame.Size = size;
             frame.FrameName = request.NameFrame.Trim();
             frame.Material = material;
 
@@ -253,7 +223,6 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
                 {
                    FrameId = item.FrameId,
                    NameFrame = item.FrameName,
-                   Size = item.Size,
                    Weight = item.Weight,
                    MaterialVm = materialVm
                 };
@@ -292,7 +261,6 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
                 {
                     FrameId = frame.FrameId,
                     NameFrame = frame.FrameName,
-                    Size = frame.Size,
                     Weight = frame.Weight,
                     MaterialVm = materialVm
                 };

@@ -68,11 +68,11 @@
 		<form asp-action="Delete" asp-controller="Discount" method="post">
 			<input type="hidden" name="DiscountId" value="@Model.DiscountId" />
 			<input type="submit" value="Xóa" class="btn btn-danger" />
-			<button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Discount")'">Về trang quản lí danh mục</button>
+			<button style="margin-left:100px" type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Discount")'">Về trang quản lí chiết khấu</button>
 		</form>
 	</div>
 }
 else
 {
-	<a class="m-3" asp-action="Index" asp-controller="Discount">Về trang quản lí danh mục</a>
+	<a class="m-3" asp-action="Index" asp-controller="Discount">Về trang quản lí chiết khấu</a>
 }

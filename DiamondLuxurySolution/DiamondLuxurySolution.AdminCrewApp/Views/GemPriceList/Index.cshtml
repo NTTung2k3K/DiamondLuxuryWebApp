@@ -1,6 +1,7 @@
 ﻿@using DiamondLuxurySolution.ViewModel.Models.GemPriceList
 @using DiamondLuxurySolution.Data.Entities
 @using DiamondLuxurySolution.ViewModel.Common
+@using DiamondLuxurySolution.ViewModel.Models.User.Staff
 
 @model PageResult<GemPriceListVm>
 
@@ -8,10 +9,15 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@{
+    var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
+}
 <div class="row mb-4">
     <div class="col-md-4">
-        <a asp-action="Create" asp-controller="GemPriceList" class="btn btn-success">Tạo mới</a>
+        @if (!staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
+        {
+            <a asp-action="Create" asp-controller="GemPriceList" class="btn btn-success">Tạo mới</a>
+        }
     </div>
     <div class="col-md-4">
     </div>
@@ -42,22 +48,24 @@
         <thead>
             <tr class="text-center">
                 <th>
-                    <label>Tên kim cương</label>
+                    <label>Mã giá kim cương</label>
+                    <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
                     <label>Trọng lượng Carat</label>
+                    <label onclick="sortTable(1)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
                     <label>Giá</label>
+                    <label onclick="sortTable(2)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
                     <label>Ngày ảnh hưởng</label>
+                    <label onclick="sortTable(3)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
                     <label>Hiển thị</label>
-                </th>
-                <th>
-                    <label>Hình kim cương</label>
+                    <label onclick="sortTable(4)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>Cài đặt</th>
             </tr>
@@ -66,7 +74,7 @@
             @foreach (var item in Model.Items)
             {
                 <tr class="text-center">
-                    <td>@item.GemVm.GemName</td>
+                    <td>@item.GemPriceListId</td>
                     <td>@item.CaratWeight</td>
                     <td>@item.Price</td>
                     <td>@item.effectDate</td>
@@ -85,22 +93,20 @@
                         </td>
 
                     }
-                    @if (string.IsNullOrEmpty(item.GemVm.GemImage))
-                    {
-                        <td>Không có hình ảnh</td>
-                    }
-                    else
-                    {
-
-                        <td>
-                            <img src="@item.GemVm.GemImage" style="height:100px; width:100px" />
-                        </td>
-                    }
 
                     <td class="text-center">
-                        @Html.ActionLink("Chỉnh sửa", "Edit", new { GemPriceListId = item.GemPriceListId }, new { @class = "btn btn-warning" })
-                        @Html.ActionLink("Xem chi tiết", "Detail", new { GemPriceListId = item.GemPriceListId }, new { @class = "btn btn-info" })
-                        @Html.ActionLink("Xóa", "Delete", new { GemPriceListId = item.GemPriceListId }, new { @class = "btn btn-danger" })
+                       
+                        @if (!staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
+                        {
+                            @Html.ActionLink("Chỉnh sửa", "Edit", new { GemPriceListId = item.GemPriceListId }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Xem chi tiết", "Detail", new { GemPriceListId = item.GemPriceListId }, new { @class = "btn btn-info" })
+                            @Html.ActionLink("Xóa", "Delete", new { GemPriceListId = item.GemPriceListId }, new { @class = "btn btn-danger" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Xem chi tiết", "Detail", new { GemPriceListId = item.GemPriceListId }, new { @class = "btn btn-info" })
+                        }
+                       
                     </td>
                 </tr>
             }
@@ -116,3 +122,7 @@ else
 } 
 
 
+@section scripts
+{
+    <script src="~/assets/js/Test.js"></script>
+}

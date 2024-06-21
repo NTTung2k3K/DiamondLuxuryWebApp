@@ -41,11 +41,14 @@
           "DiamondLuxurySolution.Utilities": "1.0.0",
           "DiamondLuxurySolution.ViewModel": "1.0.0",
           "Microsoft.AspNet.Mvc": "5.3.0",
-          "Microsoft.AspNetCore.Authentication.Facebook": "8.0.5",
-          "Microsoft.AspNetCore.Authentication.Google": "8.0.5",
+          "Microsoft.AspNetCore.Authentication.Facebook": "8.0.6",
+          "Microsoft.AspNetCore.Authentication.Google": "8.0.6",
           "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": "8.0.6",
+          "Microsoft.AspNetCore.Session": "2.1.1",
           "Microsoft.Owin.Security.Facebook": "4.2.2",
+          "Microsoft.Owin.Security.Google": "4.2.2",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "8.0.2",
+          "PayPal": "1.9.1",
           "Microsoft.AspNetCore.Antiforgery": "8.0.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions.Reference": "8.0.0.0",
           "Microsoft.AspNetCore.Authentication.BearerToken": "8.0.0.0",
@@ -122,7 +125,7 @@
           "Microsoft.AspNetCore.Server.Kestrel.Transport.NamedPipes": "8.0.0.0",
           "Microsoft.AspNetCore.Server.Kestrel.Transport.Quic": "8.0.0.0",
           "Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets": "8.0.0.0",
-          "Microsoft.AspNetCore.Session": "8.0.0.0",
+          "Microsoft.AspNetCore.Session.Reference": "8.0.0.0",
           "Microsoft.AspNetCore.SignalR.Common": "8.0.0.0",
           "Microsoft.AspNetCore.SignalR.Core": "8.0.0.0",
           "Microsoft.AspNetCore.SignalR": "8.0.0.0",
@@ -1051,22 +1054,22 @@
           "Microsoft.AspNetCore.Http.Extensions": "2.1.1"
         }
       },
-      "Microsoft.AspNetCore.Authentication.Facebook/8.0.5": {
+      "Microsoft.AspNetCore.Authentication.Facebook/8.0.6": {
         "runtime": {
           "lib/net8.0/Microsoft.AspNetCore.Authentication.Facebook.dll": {
-            "assemblyVersion": "8.0.5.0",
-            "fileVersion": "8.0.524.22404"
+            "assemblyVersion": "8.0.6.0",
+            "fileVersion": "8.0.624.26909"
           }
         },
         "compile": {
           "lib/net8.0/Microsoft.AspNetCore.Authentication.Facebook.dll": {}
         }
       },
-      "Microsoft.AspNetCore.Authentication.Google/8.0.5": {
+      "Microsoft.AspNetCore.Authentication.Google/8.0.6": {
         "runtime": {
           "lib/net8.0/Microsoft.AspNetCore.Authentication.Google.dll": {
-            "assemblyVersion": "8.0.5.0",
-            "fileVersion": "8.0.524.22404"
+            "assemblyVersion": "8.0.6.0",
+            "fileVersion": "8.0.624.26909"
           }
         },
         "compile": {
@@ -1217,6 +1220,15 @@
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.AspNetCore.Razor.Language.dll": {}
+        }
+      },
+      "Microsoft.AspNetCore.Session/2.1.1": {
+        "dependencies": {
+          "Microsoft.AspNetCore.DataProtection": "2.1.1",
+          "Microsoft.AspNetCore.Http.Abstractions": "2.2.0",
+          "Microsoft.Extensions.Caching.Abstractions": "8.0.0",
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
+          "Microsoft.Extensions.Options": "8.0.2"
         }
       },
       "Microsoft.AspNetCore.WebUtilities/2.1.1": {
@@ -2210,6 +2222,23 @@
           "lib/net45/Microsoft.Owin.Security.Facebook.dll": {}
         }
       },
+      "Microsoft.Owin.Security.Google/4.2.2": {
+        "dependencies": {
+          "Microsoft.Owin": "4.2.2",
+          "Microsoft.Owin.Security": "4.2.2",
+          "Newtonsoft.Json": "13.0.3",
+          "Owin": "1.0.0"
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Owin.Security.Google.dll": {
+            "assemblyVersion": "4.2.2.0",
+            "fileVersion": "4.200.222.26002"
+          }
+        },
+        "compile": {
+          "lib/net45/Microsoft.Owin.Security.Google.dll": {}
+        }
+      },
       "Microsoft.SqlServer.Server/1.0.0": {
         "runtime": {
           "lib/netstandard2.0/Microsoft.SqlServer.Server.dll": {
@@ -2608,6 +2637,36 @@
         },
         "compile": {
           "lib/net40/PagedList.Mvc.dll": {}
+        }
+      },
+      "PayPal/1.9.1": {
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/net451/PayPal.dll": {
+            "assemblyVersion": "1.9.1.0",
+            "fileVersion": "1.9.1.0"
+          }
+        },
+        "compile": {
+          "lib/net451/PayPal.dll": {}
+        }
+      },
+      "PuppeteerSharp/18.0.1": {
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "7.0.0",
+          "Microsoft.Extensions.Logging": "8.0.0",
+          "Newtonsoft.Json": "13.0.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/PuppeteerSharp.dll": {
+            "assemblyVersion": "18.0.1.0",
+            "fileVersion": "18.0.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/PuppeteerSharp.dll": {}
         }
       },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {},
@@ -3494,7 +3553,8 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.1",
           "Microsoft.Extensions.Hosting.Abstractions": "8.0.0",
           "PagedList": "1.17.0",
-          "PagedList.Mvc": "4.5.0"
+          "PagedList.Mvc": "4.5.0",
+          "PuppeteerSharp": "18.0.1"
         },
         "runtime": {
           "DiamondLuxurySolution.Application.dll": {}
@@ -3535,7 +3595,8 @@
       "DiamondLuxurySolution.ViewModel/1.0.0": {
         "dependencies": {
           "DiamondLuxurySolution.Data": "1.0.0",
-          "Microsoft.AspNetCore.Http": "2.1.34"
+          "Microsoft.AspNetCore.Http": "2.1.34",
+          "Microsoft.AspNetCore.Identity": "2.1.39"
         },
         "runtime": {
           "DiamondLuxurySolution.ViewModel.dll": {}
@@ -4000,7 +4061,7 @@
         },
         "compileOnly": true
       },
-      "Microsoft.AspNetCore.Session/8.0.0.0": {
+      "Microsoft.AspNetCore.Session.Reference/8.0.0.0": {
         "compile": {
           "Microsoft.AspNetCore.Session.dll": {}
         },
@@ -5761,19 +5822,19 @@
       "path": "microsoft.aspnetcore.authentication.core/2.1.1",
       "hashPath": "microsoft.aspnetcore.authentication.core.2.1.1.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Authentication.Facebook/8.0.5": {
+    "Microsoft.AspNetCore.Authentication.Facebook/8.0.6": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-drsQxV//y6MimrqETLN6rgTa9oBWjkiJkU6dEwvHhlB0UEyFlRLEBasoG7TF5TuZbZgCDDpdq00V1tmdLsy8Dg==",
-      "path": "microsoft.aspnetcore.authentication.facebook/8.0.5",
-      "hashPath": "microsoft.aspnetcore.authentication.facebook.8.0.5.nupkg.sha512"
+      "sha512": "sha512-82DoyiTJrOPW2Uw0yfvvpdGnOJigP9/AHCrlmvGG2KYJO54+OKJp/Ykp5Waquy9s97wNCYtrA0sGAgPoFBcnzQ==",
+      "path": "microsoft.aspnetcore.authentication.facebook/8.0.6",
+      "hashPath": "microsoft.aspnetcore.authentication.facebook.8.0.6.nupkg.sha512"
     },
-    "Microsoft.AspNetCore.Authentication.Google/8.0.5": {
+    "Microsoft.AspNetCore.Authentication.Google/8.0.6": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-E9gxy1BzCAQ04n7rVSbPe2bZux2zSaCEY63am3W2abaEikdxCKeai+rj34U++/uYybaAoprG39CikVhYL4imKg==",
-      "path": "microsoft.aspnetcore.authentication.google/8.0.5",
-      "hashPath": "microsoft.aspnetcore.authentication.google.8.0.5.nupkg.sha512"
+      "sha512": "sha512-aOMroouD9EiSTduJYtN6PnqaQpbscr+3f8osFg/mGW5L6Cg8Igv9P93NLHqyBYvMilXEufgx5kK/5naxnw9VpA==",
+      "path": "microsoft.aspnetcore.authentication.google/8.0.6",
+      "hashPath": "microsoft.aspnetcore.authentication.google.8.0.6.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Cryptography.Internal/8.0.5": {
       "type": "package",
@@ -5879,6 +5940,13 @@
       "sha512": "sha512-kBL6ljTREp/3fk8EKN27mrPy3WTqWUjiqCkKFlCKHUKRO3/9rAasKizX3vPWy4ZTcNsIPmVWUHwjDFmiW4MyNA==",
       "path": "microsoft.aspnetcore.razor.language/6.0.24",
       "hashPath": "microsoft.aspnetcore.razor.language.6.0.24.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Session/2.1.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-hQ4PHIHw1RmqoqjZKRfT4eL6msUd7K+GwcLUGtd1WZT7mOzqmt2oXkzL0Q+qudgXsNdWmH+zpe0zzqKM8Hz45w==",
+      "path": "microsoft.aspnetcore.session/2.1.1",
+      "hashPath": "microsoft.aspnetcore.session.2.1.1.nupkg.sha512"
     },
     "Microsoft.AspNetCore.WebUtilities/2.1.1": {
       "type": "package",
@@ -6307,6 +6375,13 @@
       "path": "microsoft.owin.security.facebook/4.2.2",
       "hashPath": "microsoft.owin.security.facebook.4.2.2.nupkg.sha512"
     },
+    "Microsoft.Owin.Security.Google/4.2.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-rlT2VAgMJC2is6j5dVSFq2dKBitmVF5j3rA+AQTzVQIOKcVHWstfvEI/3Bod7UIKosRsipcfNHkRI5uq73CZ2g==",
+      "path": "microsoft.owin.security.google/4.2.2",
+      "hashPath": "microsoft.owin.security.google.4.2.2.nupkg.sha512"
+    },
     "Microsoft.SqlServer.Server/1.0.0": {
       "type": "package",
       "serviceable": true,
@@ -6495,6 +6570,20 @@
       "sha512": "sha512-D0M4qW2g4a9cwG8ozIKUnJheCrm5GpFTceqUl63AXWaAVnTgk+TysZYUOGMsBRuzid8aF+/E8b0bXM6+90jiEw==",
       "path": "pagedlist.mvc/4.5.0",
       "hashPath": "pagedlist.mvc.4.5.0.nupkg.sha512"
+    },
+    "PayPal/1.9.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-b3vq6Lc9CwSooCX2tsZ02zb7E/K/cA6EILCoMynue+ZeVuitJNqt0YwxPnp7uN0Pccob02oDlpAjRLH+GRCRxA==",
+      "path": "paypal/1.9.1",
+      "hashPath": "paypal.1.9.1.nupkg.sha512"
+    },
+    "PuppeteerSharp/18.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-aKCjiCqsi2/NmBd8wLABCaUd7s/UxfnYacfrq000WdNL9/pVslN8tTsu6jUbKAjwvYBl9BTWJRFH9O41OTRMEA==",
+      "path": "puppeteersharp/18.0.1",
+      "hashPath": "puppeteersharp.18.0.1.nupkg.sha512"
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
       "type": "package",
@@ -7624,7 +7713,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.AspNetCore.Session/8.0.0.0": {
+    "Microsoft.AspNetCore.Session.Reference/8.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""

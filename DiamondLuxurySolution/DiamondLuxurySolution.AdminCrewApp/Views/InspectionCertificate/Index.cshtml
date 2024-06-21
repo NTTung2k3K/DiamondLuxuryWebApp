@@ -1,6 +1,7 @@
 ﻿@using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate
 @using DiamondLuxurySolution.Data.Entities
 @using DiamondLuxurySolution.ViewModel.Common
+@using DiamondLuxurySolution.ViewModel.Models.User.Staff
 
 @model PageResult<InspectionCertificateVm>
 
@@ -8,9 +9,15 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{
+    var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
+}
 <div class="row mb-4">
     <div class="col-md-4">
-        <a asp-action="Create" asp-controller="InspectionCertificate" class="btn btn-success">Tạo mới</a>
+        @if (!staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
+        {
+            <a asp-action="Create" asp-controller="InspectionCertificate" class="btn btn-success">Tạo mới</a>
+        }
     </div>
     <div class="col-md-4">
     </div>
@@ -32,23 +39,26 @@
     }
 }
 
-@if (Model !=null && Model.Items != null && Model.Items.Count > 0)
+@if (Model != null && Model.Items != null && Model.Items.Count > 0)
 {
 
-    <table class="table">
+    <table class="table" id="sort">
         <thead>
             <tr class="text-center">
                 <th>
                     <label>Tên giấy chứng nhận 4C</label>
+                    <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
                     <label>Ngày khởi tạo</label>
+                    <label onclick="sortTable(1)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
                     <label>Giấy chứng nhận 4C logo</label>
                 </th>
                 <th>
                     <label>Hiển thị</label>
+                    <label onclick="sortTable(3)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>Cài đặt</th>
             </tr>
@@ -86,10 +96,20 @@
 
                     }
                     <td class="text-center">
-                        @Html.ActionLink("Chỉnh sửa", "Edit", new { InspectionCertificateId = item.InspectionCertificateId }, new { @class = "btn btn-warning" })
-                        @Html.ActionLink("Xem chi tiết", "Detail", new { InspectionCertificateId = item.InspectionCertificateId }, new { @class = "btn btn-info" })
-                        @Html.ActionLink("Xóa", "Delete", new { InspectionCertificateId = item.InspectionCertificateId }, new { @class = "btn btn-danger" })
+
+                        @if (!staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
+                        {
+                            @Html.ActionLink("Chỉnh sửa", "Edit", new { InspectionCertificateId = item.InspectionCertificateId }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Xem chi tiết", "Detail", new { InspectionCertificateId = item.InspectionCertificateId }, new { @class = "btn btn-info" })
+                            @Html.ActionLink("Xóa", "Delete", new { InspectionCertificateId = item.InspectionCertificateId }, new { @class = "btn btn-danger" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Xem chi tiết", "Detail", new { InspectionCertificateId = item.InspectionCertificateId }, new { @class = "btn btn-info" })
+
+                        }
                     </td>
+
                 </tr>
             }
         </tbody>
@@ -101,4 +121,9 @@
 else
 {
     <h1>Không có thông tin</h1>
+}
+
+@section scripts
+{
+    <script src="~/assets/js/Test.js"></script>
 }

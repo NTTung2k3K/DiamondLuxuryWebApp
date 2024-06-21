@@ -4,100 +4,105 @@
 
 @model PageResult<AboutVm>
 @{
-	ViewData["Title"] = "Index";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="row mb-4">
-	<div class="col-md-4">
-		<a asp-action="Create" asp-controller="About" class="btn btn-success">Tạo mới</a>
-	</div>
-	<div class="col-md-4">
-	</div>
-	<div class="col-md-4">
-		<form asp-action="Index" asp-controller="About" method="get" class="d-flex">
 
-			<div class="search">
-				<input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm About" />
-				<button type="submit">Tìm kiếm</button>
-			</div>
-		</form>
-	</div>
+<div class="row mb-4">
+    <div class="col-md-4">
+        <a asp-action="Create" asp-controller="About" class="btn btn-success">Tạo mới</a>
+    </div>
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <form asp-action="Index" asp-controller="About" method="get" class="d-flex">
+
+            <div class="search">
+                <input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm thông tin liên hệ" />
+                <button type="submit">Tìm kiếm</button>
+            </div>
+        </form>
+    </div>
 </div>
+
 @if (ViewBag.Errors != null)
 {
-	foreach (var error in ViewBag.Errors)
-	{
-		<h6 class="text-danger">@error</h6>
-	}
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
 }
-@if (Model.Items != null && Model.Items.Count > 0)
+@if (Model != null && Model.Items != null && Model.Items.Count > 0)
 {
-	<table id="example" class="table table-striped" style="width:100%">
-		<thead>
-			<tr class="text-center">
-				<th>
-					<label>Tên Thông Tin Liên Hệ</label>
-				</th>
-				<th>
-					<label>Mô Tả</label>
-				</th>
-				<th>
-					<label>Hình Ảnh </label>
-				</th>
-				<th>
-					<label>Hiển Thị</label>
-				</th>
-				<th>Cài đặt</th>
-			</tr>
-		</thead>
-		<tbody>
-			@foreach (var item in Model.Items)
-			{
-				<tr class="text-center">
-					<td>@item.AboutName</td>
-					<td>@item.Description</td>
-					@if (string.IsNullOrEmpty(item.AboutImage))
-					{
-						<td>Không có hình ảnh</td>
-					}
-					else
-					{
+    <table class="table" id="sort">
+        <thead>
+            <tr class="text-center">
+                <th>
+                    <label>Tên Thông Tin Liên Hệ</label>
+                    <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
+                </th>
+                <th>
+                    <label>Mô Tả</label>
+                </th>
+                <th>
+                    <label>Hình Ảnh </label>
+                </th>
+                <th>
+                    <label>Hiển Thị</label>
+                    <label onclick="sortTable(3)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
+                </th>
+                <th>Cài đặt</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr class="text-center">
+                    <td>@item.AboutName</td>
+                    <td>@item.Description</td>
+                    @if (string.IsNullOrEmpty(item.AboutImage))
+                    {
+                        <td>Không có hình ảnh</td>
+                    }
+                    else
+                    {
+                        <td>
+                            <img src="@item.AboutImage" style="height:100px; width:100px" />
+                        </td>
+                    }
+                    @if (item.Status == true)
+                    {
+                        <td>
+                            <span class="badge bg-success rounded-pill">Hoạt động</span>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <span class="badge bg-danger rounded-pill">Chưa hoạt động</span>
+                        </td>
 
-						<td>
-							<img src="@item.AboutImage" style="height:100px; width:100px" />
-						</td>
-					}
-					@if (item.Status == true)
-					{
-						<td>
-							<span class="badge bg-success rounded-pill">Hoạt động</span>
-
-						</td>
-					}
-					else
-					{
-						<td>
-							<span class="badge bg-danger rounded-pill">Chưa hoạt động</span>
-
-						</td>
-
-					}
-					<td class="text-center">
-						@Html.ActionLink("Chỉnh sửa", "Edit", new { AboutId = item.AboutId }, new { @class = "btn btn-warning" })
-						@Html.ActionLink("Xem chi tiết", "Detail", new { AboutId = item.AboutId }, new { @class = "btn btn-info" })
-						@Html.ActionLink("Xóa", "Delete", new { AboutId = item.AboutId }, new { @class = "btn btn-danger" })
-					</td>
-				</tr>
-			}
-		</tbody>
-	</table>
-
-	<div class="d-flex justify-content-center align-items-center">
-		@await Component.InvokeAsync("Pager", Model)
-	</div>
+                    }
+                    <td class="text-center">
+                        @Html.ActionLink("Chỉnh sửa", "Edit", new { AboutId = item.AboutId }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Xem chi tiết", "Detail", new { AboutId = item.AboutId }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Xóa", "Delete", new { AboutId = item.AboutId }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center align-items-center">
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
 }
-
 else
 {
-	<h1>Không có thông tin</h1>
+    <h1>Không có thông tin</h1>
+}
+    </div>
+</div>
+@section scripts
+{
+    <script src="~/assets/js/Test.js"></script>
 }

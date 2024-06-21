@@ -1,0 +1,184 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Collection.CollectionVm
+
+@{
+    ViewData["Title"] = "Detail";
+}
+<head>
+    <!-- Thư viện jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Thư viện DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+</head>
+<h1>Chi tiết vật liệu</h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if (Model != null)
+{
+    <hr />
+    <dl class="row">
+        <dt class="col-md-3">
+            @Html.DisplayNameFor(model => model.CollectionId)
+        </dt>
+        <dd class="col-md-9">
+            @Html.DisplayFor(model => model.CollectionId)
+        </dd>
+        <dt class="col-md-3">
+            Tên bộ sưu tập
+        </dt>
+        <dd class="col-md-9">
+            @Html.DisplayFor(model => model.CollectionName)
+        </dd>
+        <dt class="col-md-3">
+            Mô tả bộ sưu tập
+        </dt>
+        <dd class="col-md-9">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class="col-md-3">
+            Hình ảnh
+        </dt>
+        <dd class="col-md-9">
+            @if (Model.Thumbnail != null)
+            {
+                <img src="@Model.Thumbnail" style="height:100px; width:100px" />
+            }
+            else
+            {
+                <h5>Chưa có hình ảnh</h5>
+            }
+        </dd>
+        <dt class="col-md-3">
+            Hiển thị
+        </dt>
+        <dd class="col-md-9">
+            <div>
+                <input class="form-check-input f-18 ml-3" type="checkbox" asp-for="Status" value="@Model.Status" disabled style="opacity: 1" />
+            </div>
+        </dd>
+        @if (Model.ListProducts != null && Model.ListProducts.Count > 0)
+        {
+            <dt class="col-md-3">
+                Danh sách sản phẩm
+            </dt>
+            <dd>
+                <div class="" style="text-align:center;">
+                    <!-- [ basic-table ] start -->
+                    <div class="card" style="margin: 0">
+                        <div class="card-body table-border-style">
+                            <div class="datatable-container">
+                                <table class="table table-striped" id="sort" style="width:100%">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th>
+                                                <label>Tên sản phẩm</label>
+                                                <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
+                                            </th>
+                                            <th>
+                                                <label>Ảnh đại diện</label>
+                                            </th>
+                                            <th>
+                                                <label>Sale</label>
+                                                <label onclick="sortTable(2)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach (var product in Model.ListProducts)
+                                        {
+                                            <tr class="text-center">
+                                                <td>
+                                                    @product.ProductName
+                                                </td>
+                                                @if (string.IsNullOrEmpty(product.ProductThumbnail))
+                                                {
+                                                    <td>Không có hình ảnh</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                        <img src="@product.ProductThumbnail" style="height:100px; width:100px" />
+                                                    </td>
+                                                }
+                                                <td>@product.SellingPrice<span>%</span></td>
+                                            </tr>
+                                        }
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </dd>
+        }
+        else
+        {
+            <dt class="col-md-3">
+                Danh sách sản phẩm
+            </dt>
+            <dd>
+                <p>Không có</p>
+            </dd>
+        }
+    </dl>
+    <div class="row col-md-12">
+        <div class="col-md-6" >
+            @Html.ActionLink("Chỉnh sửa", "Edit", new { CollectionId = Model.CollectionId }, new { @class = "btn btn-warning", @style = "height: 50px; line-height: 30px;" })
+        </div>
+        <div class="col-md-6" style="display:flex; justify-content: flex-end;">
+            <a class="btn btn-secondary" asp-action="Index" style="height: 50px; display: flex; align-items: center;">Về trang quản lí bộ sưu tập</a>
+        </div>
+    </div>
+}
+@section CssStyle {
+    <style>
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+
+            .row dt, .row dd {
+                border: 1px solid #ccc; /* Đặt màu và độ dày của viền */
+                padding: 10px; /* Đặt khoảng cách bên trong viền */
+                flex: 1; /* Đặt độ rộng bằng nhau cho cả dt và dd */
+                margin: 0;
+            }
+
+            .row dt {
+                flex-basis: 30%; /* Đặt độ rộng cho dt */
+            }
+
+            .row dd {
+                flex-basis: 70%; /* Đặt độ rộng cho dd */
+            }
+    </style>
+}
+@section Scripts {
+    <script type="text/javascript" charset="utf8" src="~/assets/js/Test.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#sort').DataTable({
+                "ordering": false,
+                "pagingType": "full_numbers",
+                "language": {
+                    "paginate": {
+                        "next": "Next",
+                        "previous": "Previous",
+                        "First": false
+                    }
+                },
+                "pageLength": 2,
+                "lengthMenu": [[2, 4, 6, 8, -1], [2, 4, 6, 8, "All"]]
+            });
+        });
+    </script>
+}
+

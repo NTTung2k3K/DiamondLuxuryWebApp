@@ -18,11 +18,12 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.HasKey(od => new { od.OrderId, od.ProductId, od.WarrantyId });
 
             builder.Property(od => od.Quantity).IsRequired();
-            builder.Property(od => od.Discount).IsRequired();
-            builder.Property(od => od.UnitPrice).HasColumnType("DECIMAL(10, 2)").IsRequired();
-            builder.Property(od => od.TotalPrice).HasColumnType("DECIMAL(10, 2)").IsRequired();
+            builder.Property(od => od.UnitPrice).HasColumnType("DECIMAL(15, 2)").IsRequired();
+            builder.Property(od => od.TotalPrice).HasColumnType("DECIMAL(15, 2)").IsRequired();
+			builder.Property(od => od.Size).IsRequired(false);
 
-            builder.HasOne(od => od.Product)
+
+			builder.HasOne(od => od.Product)
                    .WithMany(x => x.OrderDetails)
                    .HasForeignKey(od => od.ProductId)
                    .IsRequired();
@@ -30,7 +31,7 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.HasOne(od => od.Order)
                    .WithMany(o => o.OrderDetails)
                    .HasForeignKey(od => od.OrderId)
-                   .IsRequired();
+                   .IsRequired().OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(od => od.Warranty)
                    .WithMany(x => x.OrderDetails)
