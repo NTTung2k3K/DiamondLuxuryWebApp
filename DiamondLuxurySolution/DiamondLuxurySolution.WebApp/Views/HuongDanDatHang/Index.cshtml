@@ -1,0 +1,141 @@
+﻿@using DiamondLuxurySolution.ViewModel.Models.KnowledgeNews
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="page-title">Hướng Dẫn Mua Hàng</h1>
+                <ul class="breadcrumb justify-content-center">
+                    <li><a href="/Home/Index">Trang Chủ</a></li>
+                    <li class="current"><a href="/HuongDanDatHang/Index">Hướng Dẫn Mua Hàng</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main-content-wrapper">
+    <div class="wishlist-area pt--40 pb--80 pt-md--30 pb-md--60">
+        <div class="container">
+            <style>
+                .custom-list {
+                    list-style-type: none;
+                    padding-left: 0;
+                }
+
+                    .custom-list li::before {
+                        margin-right: 5px;
+                    }
+
+                    .custom-list li {
+                        text-indent: 20px;
+                        margin-left: 20px;
+                    }
+
+                .custom-font {
+                    font-size: 1.2em;
+                }
+            </style>
+            <!-- Wishlist Area Start -->
+            <div class="custom-font">
+                Nhằm mang lại trải nghiệm tốt nhất cho quý khách hàng trong quá trình mua hàng, Diamond Luxury
+                sẽ giới thiệu các hình thức mua hàng cũng như thanh toán linh hoạt tại website
+                diamondluxury.com giúp quý khách có thể thoải mái lựa chọn và thanh toán.
+            </div>
+
+            <ul class="custom-list">
+                <li>
+                    <h1 style="color: #a8741a;">Cách 1: Liên hệ hotline</h1>
+                    <p>
+                        Quý khách vui lòng liên hệ theo hotline của Diamond Luxury 0933.1977.55 (miễn phí) được
+                        hỗ trợ tư vấn một cách tốt nhất. Thời gian từ 8h – 21h (kể cả chủ nhật & trừ ngày lễ),
+                        đội ngũ chuyên viên tư vấn tại Diamond Luxury luôn sẵn sàng phục vụ.
+                    </p>
+                </li>
+
+                <li>
+                    <h1 style="color: #a8741a;">Cách 2: Đặt hàng trực tiếp tại website diamondluxury.com</h1>
+                    <ol class="custom-list">
+                        <li>
+                            <h1 style="color: #a8741a;">Bước 1: Chọn sản phẩm thông qua thanh menu</h1>
+                            <img src="../assets/img/about/1.png" style="display: block; margin-left: 367px;margin-top: 20px; margin-bottom: 20px;
+">
+                            <h5 style="margin-left: 50px;">
+                                Với thanh menu sản phẩm được sắp xếp một cách hợp lý,
+                                quý khách có thể dễ dàng
+                                tìm kiếm dòng sản phẩm mà mình yêu thích.
+                            </h5>
+                            <img src="../assets/img/about/2.png" style="display: block; margin-left: 370px;margin-top: 20px;
+                                    margin-bottom: 20px;">
+                            <h5 style="margin-left: 100px;">
+                                Công cụ tìm kiếm ở phía
+                                trên cùng sẽ là trợ thủ đắc lực để quý khách tìm kiếm
+                                sản phẩm yêu thích nhanh nhất
+                            </h5>
+                        </li>
+                        <img src="../assets/img/about/3.png" style="display: block; margin-left: 400px;margin-top: 20px;
+                                margin-bottom: 20px;">
+                        <h5 style="margin-left: 150px;">
+                            Tại trang chủ, Diamond Luxury luôn hiển thị gợi ý về
+                            những sản phẩm hot nhất với
+                            vô vàn ưu đãi hấp dẫn
+                        </h5>
+                        <li>
+                            <h1 style="color: #a8741a;">Bước 2:</h1> Chọn size, chất liệu và viên kim cương gắn
+                            lên sản phẩm,
+                            sau đó đặt mua sản phẩm bằng cách thêm vào giỏ hàng hoặc mua ngay.
+                            <img src="../assets/img/about/4.png" style="display: block; margin-left: 400px; margin-top: 20px;
+                                    margin-bottom: 20px;">
+                            <h5 style="margin-left: 100px;">
+                                Đừng quên chọn size, chất liệu, viên kim cương đính
+                                lên sản phẩm trước khi click
+                                thao tác MUA NGAY hoặc thêm vào giỏ hàng.
+                            </h5>
+                        </li>
+                        <li>
+                            <h1 style="color: #a8741a;">Bước 3:</h1> Hoàn tất hình thức thanh toán
+                            <img src="../assets/img/about/5.png" style="display: block; margin-left: 400px;margin-top: 20px;
+                                    margin-bottom: 20px;">
+                            <h5>
+                                Điền thông tin cá nhân, xác nhận đồng ý các điều
+                                khoản tại Diamond Luxury, sau
+                                đó bấm vào đặt hàng. Quý khách check lại thông tin cá nhân, sau đó tiến hành
+                                thanh toán qua tài khoản của Diamond Luxury và sẽ nhận được thông tin xác nhận
+                                từ phía cửa hàng.
+                            </h5>
+                        </li>
+                    </ol>
+                </li>
+
+                <li>
+                    <h1 style="color: #a8741a;">
+                        Cách 3: Đặt mua hàng trực tuyến trên nền tảng Zalo hoặc Facebook
+                    </h1>
+                    <img src="../assets/img/about/6.png" style="display: block; margin-left: 420px;margin-top: 20px;
+                            margin-bottom: 20px;">
+                    <h5 style="margin-left: 150px;">
+                        Quý khách có thể chọn hình thức mua hàng trực tiếp thông qua
+                        fanpage, Zalo hoặc gọi điện
+                        để được tư vấn.
+                    </h5>
+                    <p>
+                        Đội ngũ chuyên viên tư vấn tại Fanpage Diamond Luxury luôn sẵn sàng tư vấn và hỗ trợ
+                        quý khách đặt hàng nhanh chóng.
+                    </p>
+                    <p>
+                        Đội ngũ chuyên viên tại kênh Zalo Official Trang Sức Diamond Luxury luôn sẵn sàng tư
+                        vấn và hỗ trợ quý khách đặt hàng nhanh chóng.
+                    </p>
+                </li>
+            </ul>
+
+            <div class="custom-font">
+                Hy vọng với những thông tin trên quý khách sẽ có những trải nghiệm tốt hơn khi mua hàng tại Cao
+                Hùng Diamond. Mọi thắc mắc vui lòng liên hệ thông tin bên dưới để được hỗ trợ nhé.
+            </div>
+            <!-- Wishlist Area End -->
+        </div>
+    </div>
+</div>

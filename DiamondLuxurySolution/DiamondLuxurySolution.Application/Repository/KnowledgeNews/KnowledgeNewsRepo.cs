@@ -1,4 +1,5 @@
-﻿using DiamondLuxurySolution.Data.EF;
+﻿using Azure.Core;
+using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.KnowledgeNews;
@@ -75,6 +76,58 @@ namespace DiamondLuxurySolution.Application.Repository.KnowledgeNews
             return new ApiSuccessResult<bool>(false, "Success");
         }
 
+        public async Task<ApiResult<List<KnowledgeNewsVm>>> GetAll()
+        {
+            var listKnowledgeNewslVm = new List<KnowledgeNewsVm>();
+            var knowledgeNews = await _context.KnowledgeNews.ToListAsync();
+            foreach (var x in knowledgeNews)
+            {
+                var user = await _userManager.FindByIdAsync(x.WriterId.ToString());
+                var writer = new StaffVm()
+                {
+                    StaffId = user.Id,
+                    FullName = user.Fullname,
+                    PhoneNumber = user.PhoneNumber,
+                    Email = user.Email,
+                    Dob = (DateTime)(user.Dob ?? DateTime.MinValue),
+                    Status = user.Status,
+                    CitizenIDCard = user.CitizenIDCard,
+                    Address = user.Address,
+                    Image = user.Image,
+                };
+                var roles = await _userManager.GetRolesAsync(user);
+                if (roles.Count > 0)
+                {
+                    writer.ListRoleName = new List<string>();
+                    foreach (var role in roles)
+                    {
+                        writer.ListRoleName.Add(role);
+                    }
+                }
+                var knowledgeCategory = await _context.KnowledgeNewCatagories.FindAsync(x.KnowledgeNewCatagoryId);
+                var knowledgeNewsCategoryVm = new KnowledgeNewsCategoryVm
+                {
+                    Description = knowledgeCategory.Description,
+                    KnowledgeNewCatagoriesName = knowledgeCategory.KnowledgeNewCatagoriesName,
+                    KnowledgeNewCatagoryId = knowledgeCategory.KnowledgeNewCatagoryId
+                };
+
+                var knowledgeNewsVm = new KnowledgeNewsVm()
+                {
+                    Active = x.Active,
+                    DateCreated = x.DateCreated,
+                    DateModified = x.DateCreated,
+                    Description = x.Description,
+                    KnowledgeNewsId = x.KnowledgeNewsId,
+                    KnowledgeNewsName = x.KnowledgeNewsName,
+                    Thumnail = x.Thumnail,
+                    KnowledgeNewCatagoryVm = knowledgeNewsCategoryVm,
+                    Writer = writer
+                };
+                listKnowledgeNewslVm.Add(knowledgeNewsVm);
+            }
+            return new ApiSuccessResult<List<KnowledgeNewsVm>>(listKnowledgeNewslVm);
+        }
 
         public async Task<ApiResult<KnowledgeNewsVm>> GetKnowledgeNewsById(int KnowledgeNewsId)
         {

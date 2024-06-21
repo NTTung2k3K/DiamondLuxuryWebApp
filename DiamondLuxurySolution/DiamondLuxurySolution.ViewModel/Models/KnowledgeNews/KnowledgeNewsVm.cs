@@ -25,5 +25,5 @@ namespace DiamondLuxurySolution.ViewModel.Models.KnowledgeNews
         public bool Active { get; set; }
         public KnowledgeNewsCategoryVm? KnowledgeNewCatagoryVm { get; set; }
         public virtual StaffVm? Writer { get; set; }
-    }
+	}
 }

@@ -23,6 +23,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.KnowledgeNews
             return data;
         }
 
+
         public async Task<ApiResult<KnowledgeNewsVm>> GetKnowledgeNewsById(int KnowledgeNewsId)
         {
             var data = await GetAsync<KnowledgeNewsVm>($"api/KnowLedgeNews/GetById?KnowLedgeNewsId={KnowledgeNewsId}");
