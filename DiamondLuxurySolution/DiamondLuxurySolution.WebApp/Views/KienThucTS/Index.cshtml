@@ -1,0 +1,20 @@
+﻿@using DiamondLuxurySolution.ViewModel.Models.KnowledgeNews
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="breadcrumb-area" style="background-color: black;">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="page-title">Danh Mục: Kiến Thức Trang Sức</h1>
+                <h2>Tổng hợp những bài viết mới nhất về những món trang sức liên quan đến kim cương</h2>
+                <ul class="breadcrumb justify-content-center">
+                    <li><a href="/Home/Index">Trang Chủ</a></li>
+                    <li class="current"><a href="/KienThucTS/Index">Kiến Thức Trang Sức</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+@await Component.InvokeAsync("KienThucTS")

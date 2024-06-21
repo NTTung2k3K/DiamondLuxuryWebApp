@@ -49,6 +49,17 @@ namespace DiamondLuxurySolution.Utilities.Constants
 			public const string Bangles = "Lắc Tay";
 		}
 
+		public class SlideNameDefault
+		{
+			public const string MainSlide = "Slide";
+			public const string Diamond = "Kim Cương";
+			public const string WeddingJewelryRing = "Nhẫn Cưới";
+			public const string RingMan = "Nhẫn Nam";
+			public const string RingWoman = "Nhẫn Nữ";
+			public const string Earring = "Hoa Tai";
+			public const string Necklace = "Dây Chuyền";
+		}
+
 		public enum OrderStatus
         {
             InProgress,

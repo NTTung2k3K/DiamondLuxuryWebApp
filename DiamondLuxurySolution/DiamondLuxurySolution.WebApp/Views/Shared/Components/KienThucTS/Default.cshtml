@@ -1,0 +1,240 @@
+﻿@using System.Text.RegularExpressions
+@using DiamondLuxurySolution.ViewModel.Models.KnowledgeNews
+@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Common
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+@model List<KnowledgeNewsVm>
+@functions {
+    public string AddSpaceAfterItalic(string input)
+    {
+        return input.Replace("</i>", "</i> ");
+    }
+}
+
+
+@functions {
+    // Hàm helper để loại bỏ các thẻ HTML từ chuỗi và cắt ngắn nếu quá dài
+    public string StripHtml(string input, int maxLength = 28)
+    {
+        // Remove HTML tags
+        string plainText = Regex.Replace(input, "<.*?>", string.Empty);
+
+        // Truncate if longer than maxLength
+        if (plainText.Length > maxLength)
+        {
+            plainText = plainText.Substring(0, maxLength) + "...";
+        }
+
+        return plainText;
+    }
+}
+
+
+@if (Model != null)
+{
+    var initialKnowledgeNew = Model.Where(p => p.Active && p.KnowledgeNewCatagoryVm.KnowledgeNewCatagoriesName == "Kiến Thức Trang Sức").OrderByDescending(p => p.DateModified).Take(6).ToList();
+    var hiddenKnowledgeNew = Model.Where(p => p.Active && p.KnowledgeNewCatagoryVm.KnowledgeNewCatagoriesName == "Kiến Thức Trang Sức").OrderByDescending(p => p.DateModified).Skip(6).ToList();
+
+    <div class="main-content-wrapper" style="background-color: black; color: white;">
+        <div class="blog-area pt--40 pb--80 pt-md--30 pb-md--60">
+            <div class="container">
+                <div class="row" id="news-container">
+					<style>
+						#seeMoreBtn {
+							background-color: transparent;
+							border: 1px solid white;
+							color: white;
+							cursor: pointer;
+							border-radius: 10px;
+							transition: all 0.3s ease;
+						}
+
+							#seeMoreBtn:hover {
+								background-color: #a8741a;
+								color: #ffffff;
+							}
+
+						.hidden {
+							display: none !important;
+						}
+
+						.post-media img {
+							width: 100%;
+							height: auto;
+							border-radius: 10px 10px 10px 10px;
+							max-height: 200px; /* Set a maximum height */
+							object-fit: cover; /* Ensure the image covers the area */
+						}
+
+						.post-info {
+							padding: 15px;
+						}
+
+						.entry-header {
+							margin-bottom: 10px;
+						}
+
+						.entry-meta {
+							margin-bottom: 10px;
+							font-size: 0.9em;
+							color: #ccc;
+						}
+
+						.post-title a {
+							color: #a8741a;
+							text-decoration: none;
+							font-size: medium;
+							text-align: justify; /* Center align the text */ /* Ensure block display for proper layout */
+						}
+
+
+
+						h2.post-title {
+							width: 300px;
+							text-align: left;
+							margin: 0px;
+						}
+
+						.post-content {
+							color: #ccc;
+							margin-bottom: 10px;
+							font-size: 0.9em;
+							line-height: 1.6; /* Increase line height for better readability */
+							text-align: justify; /* Justify text for a clean appearance */
+							max-height: none; /* Allow the content to expand beyond a specific height */
+							width: 333px;
+							margin-inline-start: 6px;
+						}
+
+
+
+						.btn-read-more {
+							color: #ccc;
+							border: 1px solid #a8741a;
+							padding: 5px 10px;
+							text-decoration: none;
+							border-radius: 5px;
+							transition: all 0.3s ease;
+							display: inline-flex; /* Changed to inline-flex */
+							justify-content: center; /* Center horizontally */
+							align-items: center; /* Center vertically */
+							width: 120px; /* Adjust the width */
+							height: 30px; /* Adjust the height */
+							font-size: 0.9em; /* Adjust font size */
+						}
+
+							.btn-read-more:hover {
+								background-color: #a8741a;
+								color: white;
+							}
+
+						.col-md-4, .col-sm-6 {
+							display: flex;
+							justify-content: center;
+							align-items: stretch; /* Ensure items stretch vertically */
+							flex-wrap: wrap; /* Enable wrapping for smaller screens */
+							margin-top: 10px;
+						}
+
+						.post {
+							background-color: #1a1a1a;
+							border-radius: 10px;
+							margin-bottom: 20px;
+							overflow: hidden;
+							padding: 15px;
+							text-align: center;
+							width: 100%; /* Ensure full width */
+						}
+
+						.post-author {
+							display: block;
+							margin-bottom: 5px;
+						}
+
+						.post-date {
+							display: block;
+						}
+
+						.is-divider {
+							height: 1px; /* Độ cao của đường kẻ */
+							width: 30px; /* Độ dài của đường kẻ */
+							background-color: grey;
+							margin-top: 2px; /* Màu sắc của đường kẻ, bạn có thể thay đổi theo ý muốn */
+							margin-left: 6px; /* Khoảng cách trên và dưới của đường kẻ */
+						}
+
+					</style>
+
+                    @foreach (var knowledgeNews in initialKnowledgeNew)
+                    {
+                        <div class="col-md-4 col-sm-6">
+                            <article class="post listview sticky single-post format-image">
+                                <div class="post-media">
+                                    <a href="/KienThucTS/Detail?id=@knowledgeNews.KnowledgeNewsId">
+                                        <img src="@knowledgeNews.Thumnail" alt="blog">
+                                    </a>
+                                </div>
+                                <div class="post-info">
+                                    <header class="entry-header">
+                                        <h2 class="post-title">
+                                            <a href="/KienThucTS/Detail?id=@knowledgeNews.KnowledgeNewsId">@knowledgeNews.KnowledgeNewsName</a>
+                                        </h2>
+                                    </header>
+                                    <div class="post-content">
+                                        <p>@Html.Raw(AddSpaceAfterItalic(StripHtml(knowledgeNews.Description)))</p>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    }
+
+                    @foreach (var knowledgeNews in hiddenKnowledgeNew)
+                    {
+                        <div class="col-md-4 col-sm-6 hidden">
+                            <article class="post listview sticky single-post format-image">
+                                <div class="post-media">
+                                    <a href="/KienThucTS/Detail?id=@knowledgeNews.KnowledgeNewsId">
+                                        <img src="@knowledgeNews.Thumnail" alt="blog">
+                                    </a>
+                                </div>
+                                <div class="post-info">
+                                    <header class="entry-header">
+                                        <h2 class="post-title">
+                                            <a href="/KienThucTS/Detail?id=@knowledgeNews.KnowledgeNewsId">@knowledgeNews.KnowledgeNewsName</a>
+                                        </h2>
+                                    </header>
+                                    <div class="post-content">
+                                        <p>@Html.Raw(AddSpaceAfterItalic(StripHtml(knowledgeNews.Description)))</p>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.Count > 5)
+    {
+        <div class="see-more-wrapper text-center mt-4">
+            <button id="seeMoreBtn" class="btn btn-primary">Xem thêm</button>
+        </div>
+    }
+}
+else
+{
+    <p>Không có Kiến Thức Trang Sức</p>
+}
+
+<script>
+    $(document).ready(function () {
+        $('#seeMoreBtn').on('click', function () {
+            $('.hidden').slice(0, 5).removeClass('hidden');
+            if ($('.hidden').length === 0) {
+                $('#seeMoreBtn').hide();
+            }
+        });
+    });
+</script>

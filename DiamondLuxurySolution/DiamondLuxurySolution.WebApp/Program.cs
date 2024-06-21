@@ -8,6 +8,7 @@ using DiamondLuxurySolution.WebApp.Models;
 using DiamondLuxurySolution.WebApp.Service.Account;
 
 using DiamondLuxurySolution.WebApp.Service.GemPriceList;
+using DiamondLuxurySolution.WebApp.Service.KnowledgeNews;
 using DiamondLuxurySolution.WebApp.Service.Order;
 using DiamondLuxurySolution.WebApp.Service.Product;
 using DiamondLuxurySolution.WebApp.Service.Slide;
@@ -39,6 +40,7 @@ builder.Services.AddTransient<IPromotionApiService, PromotionApiService>();
 
 builder.Services.AddTransient<ISlideApiService, SlideApiService>();
 builder.Services.AddTransient<IGemPriceListApiService, GemPriceListApiService>();
+builder.Services.AddTransient<IKnowLedgeNewsApiService, KnowledgeNewsApiService>();
 
 builder.Services.AddTransient<IContactApiService, ContactApiService>();
 

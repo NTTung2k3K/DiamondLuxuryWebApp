@@ -235,17 +235,17 @@
 											<span style="margin-right: 10px;">Chọn Số Lượng</span>
 											<div class="quantity-controls1">
 												<button type="button" class="quantity-btn1 quantity-decrease1 d-flex justify-content-center align-items-center">-</button>
-												<input type="text" class="quantity-input" value="1" size="2" readonly style="text-align: center; border-radius : 20px;">
+												<input type="text" class="quantity-input" value="1" size="2" readonly style="text-align: center; border-radius : 20px;width:37%;">
 												<button type="button" class="quantity-btn1 quantity-increase1 d-flex justify-content-center align-items-center">+</button>
 											</div>
 										</div>
 									</div>
 
 									<a href="muaNgay.html" class="khoangcach">
-										<button type="button" class="btn1 btn-border1" style="margin-right: 9px; border-radius: 5%;">Mua Ngay</button>
+										<button type="button" class="btn1 btn-border1" style="margin-right: 9px; border-radius: 5%;" data-product-price="@Model.SellingPrice" class="btn btn-style-2" id="buy-now" data-product-id="@Model.ProductId" data-product-name="@Model.ProductName" data-product-image="@Model.ProductThumbnail">Mua Ngay</button>
 									</a>
 									<a href="gioHang.html">
-										<button type="button" class="btn btn-style-2 ">Thêm Vào Giỏ Hàng</button>
+										<button type="button" class="btn btn-style-2 " data-product-price="@Model.SellingPrice" class="btn btn-style-2" id="add-to-cart" data-product-id="@Model.ProductId" data-product-name="@Model.ProductName" data-product-image="@Model.ProductThumbnail">Thêm Vào Giỏ Hàng</button>
 									</a>
 
 								</div>
@@ -454,3 +454,99 @@
 		document.getElementById('niSize').value = size;
 	}
 </script>
+
+@section Scripts {
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script>
+		$(document).ready(function () {
+
+
+
+			window.selectSize = function (size) {
+				$('#niSize').val(size);
+				$('#dropdown-toggle').text('Ni (size): ' + size);
+			};
+
+
+			// Add to Cart
+			$("#buy-now").click(function (e) {
+				e.preventDefault();
+
+				var button = $(this);
+				var productId = button.data("product-id");
+				var productName = button.data("product-name");
+				var productPrice = button.data("product-price");
+
+				var productImage = button.data("product-image");
+				var quantity = $(".quantity-input").val();
+				var niSize = $("#niSize").val();
+				if (niSize === "") {
+					niSize = null;
+				}
+				debugger;
+				var cartItem = {
+					productId: productId,
+					productName: productName,
+					ProductImage: productImage,
+					quantity: parseInt(quantity),
+					ni: niSize,
+					price: productPrice
+				};
+				$.ajax({
+					url: '/Cart/AddToCart',
+					type: 'POST',
+					contentType: 'application/json',
+					data: JSON.stringify(cartItem),
+					success: function (response) {
+						window.location.href = '/Cart/View';
+					},
+					error: function (xhr, status, error) {
+						alert("An error occurred while adding the item to the cart.");
+					}
+				});
+			});
+
+
+			// Add to Cart
+			$("#add-to-cart").click(function (e) {
+				e.preventDefault();
+
+				var button = $(this);
+				var productId = button.data("product-id");
+				var productName = button.data("product-name");
+				var productPrice = button.data("product-price");
+
+				var productImage = button.data("product-image");
+				var quantity = $(".quantity-input").val();
+				var niSize = $("#niSize").val();
+				if (niSize === "") {
+					niSize = null;
+				}
+				var cartItem = {
+					productId: productId,
+					productName: productName,
+					ProductImage: productImage,
+					quantity: parseInt(quantity),
+					ni: niSize,
+					price: productPrice
+				};
+				debugger;
+
+				$.ajax({
+					url: '/Cart/AddToCart',
+					type: 'POST',
+					contentType: 'application/json',
+					data: JSON.stringify(cartItem),
+					success: function (response) {
+						alert(response.message);
+					},
+					error: function (xhr, status, error) {
+						alert("An error occurred while adding the item to the cart.");
+					}
+				});
+			});
+
+
+		});
+	</script>
+}
