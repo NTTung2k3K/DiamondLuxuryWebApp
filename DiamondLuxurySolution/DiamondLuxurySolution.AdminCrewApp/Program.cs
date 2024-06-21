@@ -30,6 +30,8 @@ using DiamondLuxurySolution.AdminCrewApp.Service.Product;
 using DiamondLuxurySolution.AdminCrewApp.Service.Order;
 using DiamondLuxurySolution.AdminCrewApp.Service.Home;
 using DiamondLuxurySolution.AdminCrewApp.Models;
+using DinkToPdf.Contracts;
+using DinkToPdf;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -86,6 +88,7 @@ builder.Services.AddTransient<IWarrantyApiService, WarrantyApiService>();
 builder.Services.AddTransient<IKnowLedgeNewsApiService, KnowledgeNewsApiService>();
 
 builder.Services.AddTransient<IKnowledgeNewsCategoryApiService, KnowledgeNewsCategoryApiService>();
+builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
 builder.Services.AddSession(options =>
 {

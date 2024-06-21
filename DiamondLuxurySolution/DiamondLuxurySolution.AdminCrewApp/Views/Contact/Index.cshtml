@@ -40,7 +40,7 @@
         <thead>
             <tr class="text-center">
                 <th>
-                    <label>ContactId</label>
+                    <label>ID Liên Hệ</label>
                     <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
@@ -56,9 +56,6 @@
                     <label onclick="sortTable(3)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
-                    <label>Nội dung</label>
-                </th>
-                <th>
                     <label>Trả lời</label>
                 </th>
                 <th>Cài đặt</th>
@@ -72,7 +69,6 @@
                     <td>@item.ContactNameUser</td>
                     <td>@item.ContactEmailUser</td>
                     <td>@item.ContactPhoneUser</td>
-                    <td>@item.Content</td>
                     @if (item.IsResponse == true)
                     {
                         <td>

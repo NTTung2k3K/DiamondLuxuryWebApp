@@ -31,6 +31,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using DiamondLuxurySolution.Application.Repository.User;
+using DinkToPdf.Contracts;
+using DinkToPdf;
+using Microsoft.Extensions.FileProviders;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -72,6 +75,8 @@ builder.Services.AddTransient<IFrameRepo, FrameRepo>();
 builder.Services.AddScoped<IRoleInitializer, RoleInitializer>();
 builder.Services.AddScoped<IPaymentInitializer, PayInitializer>();
 builder.Services.AddScoped<ICategoryInitializer, CategoryInitializer>();
+builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+builder.Services.AddScoped<ISlideInitializer,SlideInitializer>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -148,5 +153,8 @@ using (var scope = app.Services.CreateScope())
 
 	var categoryInitializer = scope.ServiceProvider.GetRequiredService<ICategoryInitializer>();
     categoryInitializer.CreateDefaultCategory().Wait();
+
+	var slideInitializer = scope.ServiceProvider.GetRequiredService<ISlideInitializer>();
+	slideInitializer.CreateDefaultSlide().Wait();
 }
 app.Run();
