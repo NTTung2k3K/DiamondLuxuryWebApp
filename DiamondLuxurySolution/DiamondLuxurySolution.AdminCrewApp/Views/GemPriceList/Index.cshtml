@@ -19,13 +19,13 @@
             <a asp-action="Create" asp-controller="GemPriceList" class="btn btn-success">Tạo mới</a>
         }
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
     </div>
-    <div class="col-md-4">
+    <div class="col-md-5">
         <form asp-action="Index" asp-controller="GemPriceList" method="get" class="d-flex">
 
             <div class="search">
-                <input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm giá kim cương theo trọng lượng" />
+                <input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm giá kim cương theo trọng lượng" style="width: 390px"/>
                 <button type="submit">Tìm kiếm</button>
             </div>
         </form>

@@ -5,7 +5,7 @@
 	<div class="homepage-slider">
 		@if (Model != null && Model.Count() > 0)
 		{
-			@foreach (var slide in Model)
+			@foreach (var slide in Model.Where(x => x.SlideName == "Slide"))
 			{
 				if (slide.Status)
 				{

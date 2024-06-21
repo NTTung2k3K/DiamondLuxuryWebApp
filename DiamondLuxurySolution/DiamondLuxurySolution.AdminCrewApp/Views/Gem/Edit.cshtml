@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Chỉnh sửa</h1>
+<h1>Chỉnh sửa Kim Cương</h1>
 @if (ViewBag.Errors != null)
 {
     foreach (var error in ViewBag.Errors)
@@ -15,7 +15,6 @@
 }
 @if (Model != null)
 {
-    <h1>Chỉnh sửa khuyến mãi</h1>
     <div class="row">
         <div class="col-md-6">
             
@@ -23,7 +22,7 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="form-group m-2">
-                    <label asp-for="GemId" class="control-label m-2"></label>
+                    <label asp-for="GemId" class="control-label m-2">ID của Kim Cương</label>
                     <input asp-for="GemId" class="form-control" readonly />
                 </div>
                 <div class="form-group m-2">
