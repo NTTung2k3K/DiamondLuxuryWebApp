@@ -72,6 +72,7 @@ builder.Services.AddTransient<IFrameRepo, FrameRepo>();
 builder.Services.AddScoped<IRoleInitializer, RoleInitializer>();
 builder.Services.AddScoped<IPaymentInitializer, PayInitializer>();
 builder.Services.AddScoped<ICategoryInitializer, CategoryInitializer>();
+builder.Services.AddScoped<ISlideInitializer,SlideInitializer>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -148,5 +149,8 @@ using (var scope = app.Services.CreateScope())
 
 	var categoryInitializer = scope.ServiceProvider.GetRequiredService<ICategoryInitializer>();
     categoryInitializer.CreateDefaultCategory().Wait();
+
+	var slideInitializer = scope.ServiceProvider.GetRequiredService<ISlideInitializer>();
+	slideInitializer.CreateDefaultSlide().Wait();
 }
 app.Run();

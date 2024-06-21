@@ -109,10 +109,6 @@ namespace DiamondLuxurySolution.Application.Repository.Slide
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.SlideImage);
                 slide.SlideImage = firebaseUrl;
             }
-            else
-            {
-                slide.SlideImage = "";
-            }
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
         }
