@@ -1,0 +1,278 @@
+﻿@using DiamondLuxurySolution.ViewModel.Models.KnowledgeNews
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="header-bottom header-top-1 position-relative navigation-wrap fixed-header">
+    <div class="container position-static">
+        <div class="row">
+            <div class="col-12 position-static">
+                <nav class="main-navigation">
+                    <ul class="mainmenu col-12">
+                        <li class="mainmenu__item active">
+                            <a href="/Home/Index" class="mainmenu__link" style="color: white;">Trang Chủ</a>
+                        </li>
+                        <li class="mainmenu__item menu-item-has-children has-children">
+                            <a href="#" class="mainmenu__link">Kim Cương</a>
+                            <ul class="sub-menu">
+                                <li><a href="#">Kim Cương Tự Nhiên</a></li>
+                                <li><a href="#">Kim Cương Nhân Tạo</a></li>
+                            </ul>
+                        </li>
+                        <li class="mainmenu__item menu-item-has-children">
+                            <a href="/DiamondJewelry/Index" class="mainmenu__link">Trang Sức Kim Cương</a>
+                            <ul class="megamenu three-column">
+                                <li>
+                                    <a class="megamenu-title" href="NhanKimCuong.html">Nhẫn Kim Cương</a>
+                                    <ul>
+                                        <li>
+                                            <a href="NhanKimCuongNam.html">Nhẫn Kim Cương Nam</a>
+                                        </li>
+                                        <li>
+                                            <a href="NhanKimCuongNu.html">Nhẫn Kim Cương Nữ</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a class="megamenu-title" href="VongTayKimCuong.html">
+                                        Vòng Tay Kim
+                                        Cương
+                                    </a>
+                                    <a class="megamenu-title" href="LacTayKimCuong copy.html">
+                                        Lắc Tay Kim
+                                        Cương
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="megamenu-title" href="HoaTayKimCuong.html">
+                                        Hoa Tai Kim
+                                        Cương
+                                    </a>
+                                    <a class="megamenu-title" href="MatDayChuyenKimCuong.html">
+                                        Mặt Dây
+                                        Chuyền KC
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="mainmenu__item menu-item-has-children">
+                            <a href="trangsuccuoi.html" class="mainmenu__link">Trang Sức Cưới</a>
+                            <ul class="megamenu">
+                                <li>
+                                    <a class="megamenu-title" href="nhanCuoiKimCuong.html">
+                                        Nhẫn Cưới Kim
+                                        Cương
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="megamenu-title" href="nhanKCcauhon.html">
+                                        Nhẫn Kim Cương Cầu
+                                        Hôn
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="mainmenu__item menu-item-has-children has-children">
+                            <a href="BoSuuTap.html" class="mainmenu__link">Bộ Sưu Tập</a>
+                            <ul class="sub-menu">
+                                <li class="menu-item-has-children has-children">
+                                    <a href="BoSuuTapQuyOng.html">BST Quý Ông</a>
+                                    <ul class="sub-menu">
+                                        <li><a href="DangCapUyQuyen.html">Đẳng Cấp & Uy Quyền</a></li>
+                                        <li><a href="SangTrongBanLinh.html">Sang Trọng Và Bản Lĩnh</a></li>
+                                        <li>
+                                            <a href="PhongThuyThanhCong.html">Phong Thủy Và Thành Công</a>
+                                        </li>
+                                        <li>
+                                            <a href="PhongCachThoiTrang.html">Phong Cách Và Thời Trang</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="menu-item-has-children has-children">
+                                    <a href="BosuuTapNhanCuoi.html">BST Nhẫn Cưới</a>
+                                </li>
+                                <li class="menu-item-has-children has-children">
+                                    <a href="BosuuTapNhanCauHon.html">BST Nhẫn Cầu Hôn</a>
+                                </li>
+                                <li class="menu-item-has-children has-children">
+                                    <a href="BosuuTapDayChuyen.html">BST Dây Chuyền</a>
+                                </li>
+                                <li class="menu-item-has-children has-children">
+                                    <a href="BosuuTapKimCuong.html">BST Kim Cương</a>
+                                </li>
+                                <li class="menu-item-has-children has-children">
+                                    <a href="BosuuTapBanChayNhat.html">BST Bán Chạy Nhất</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="mainmenu__item">
+                            <a href="/TablePrice/Index" class="mainmenu__link" style="color: #A86B28">Bảng Giá Kim Cương</a>
+                        </li>
+                        <li class="mainmenu__item menu-item-has-children has-children">
+                            <a class="mainmenu__link" href="#">Kiến Thức</a>
+                            <ul class="sub-menu">
+                                <li class="menu-item">
+                                    <a href="/KienThucKC/Index">Kiến Thức Kim Cương</a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="/KienThucTS/Index">Kiến Thức Trang Sức</a>
+                                </li>
+                                <li class="menu-item-has-children has-children">
+                                    <a href="#">Hướng Dẫn Chọn Ni</a>
+                                    <ul class="sub-menu">
+                                        <li class="menu-item-has-children">
+                                            <a href="/HuongDanDoNiVongTay/Index">Hướng Dẫn Đo Vòng Tay</a>
+                                        </li>
+                                        <li class="menu-item-has-children">
+                                            <a href="/HuongDanDoNiNhan/Index">Hướng Dẫn Đo Ni Nhẫn</a>
+                                        </li>
+                                        <li class="menu-item-has-children">
+                                            <a href="/HuongDanDoNiDayChuyen/Index">Hướng Dẫn Đo Dây Chuyền</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="mainmenu__item menu-item-has-children has-children">
+                            <a href="#" class="mainmenu__link">Thông Tin</a>
+                            <ul class="sub-menu">
+                                <li><a href="ThongTinKhuyenMai.html">Thông Tin Khuyến Mãi</a></li>
+                                <li><a href="TinTuc.html">Tin Tức</a></li>
+                                <li><a href="/CauHoiThuongGap/Index">Các Câu Hỏi Thường Gặp</a></li>
+                            </ul>
+                        </li>
+                        <li class="mainmenu__item">
+                            <a href="/GioiThieu/Index" class="mainmenu__link">Giới Thiệu</a>
+                        </li>
+                        <li class="mainmenu__item">
+                            <a href="lienhe.html" class="mainmenu__link">Liên Hệ</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="row no-gutters">
+            <div class="col-12">
+                <div class="mobile-menu"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="breadcrumb-area" style="background-color: black;">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <ul class="breadcrumb justify-content-center">
+                    <li><a href="/Home/Index">Trang Chủ</a></li>
+                    <li class="current"><a href="HuongDanDoNiVongTay/Index">Hướng Dẫn Đo Lắc Và Vòng Tay</a></li>
+                </ul>
+                <br>
+                <h1 class="page-title">HƯỚNG DẪN CÁCH ĐO SIZE LẮC VÀ VÒNG TAY</h1>
+            </div>
+        </div>
+    </div>
+</div>  
+<div class="main-content-wrapper" style="background-color: black;">
+    <div class="single-post-area pt--40 pb--40 pt-md--30 pb-md--60">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 order-lg-2 order-1 mb-md--30">
+                    <div class="single-post-wrapper">
+                        <article class="post post-details mb--30">
+                            <div class="post-info">
+                                <div class="post-content">
+                                    <p style=" font-family:'Times New Roman', Times, serif;font-size: 40px; color: #a8741a;">Giới Thiệu</p>
+                                    <P>Ngày nay, rất nhiều khách hàng khi muốn mua trang sức đều lựa chọn hình thức mua online. Nguyên nhân là bởi mua online rất đơn giản, dễ dàng, thuận tiện và có thể mua mọi lúc mọi nơi. Tuy nhiên, khi mua trang sức như lắc, vòng tay thì bạn cần chọn được sản phẩm phù hợp với size người đeo mới có thể tôn lên vẻ đẹp của đôi tay cũng như trang sức. Vậy làm sao để đo size trang sức? Cao Hùng Diamond sẽ hướng dẫn bạn 3 cách đo size trang sức – vòng và lắc tay, đảm bảo chính xác.</P>
+                                    <p style=" font-family:'Times New Roman', Times, serif;font-size: 40px; color: #a8741a;">Cách 1 – Sử dụng thước đo lắc, vòng tay có sẵn</p>
+                                    <p>Bạn có thể sử dụng thước để đo lắc, vòng tay có sẵn. Đây là cách rất đơn giản để tìm ra size lắc, vòng tay bạn cần.</p>
+                                    <h2 class="post-title">Cách Đo Lắc Tay bằng thước</h2>
+                                    <ul style="font-size: 2rem;">
+                                        - Bước 1: Sử dụng thước dây hoặc thước kẻ để đo chiều dài lắc tay.
+                                        <br>
+                                        - Bước 2: Lấy kết quả vừa đo được đối chiếu với thông số vòng tay trong bảng dưới đây. Kích thước đo vòng tay tính theo mm.
+                                        <br>
+                                    </ul>
+                                    <div class="image text-center">
+                                        <img style="padding: 2rem" src="../assets/img/pic_product/dovongtay/do-size-trang-suc-vong-lac-tay.jpg" alt="blog">
+                                        <p>Bảng size lắc tay, lắc chân chuẩn</p>
+                                        <br>
+                                    </div>
+                                    <ul style="font-size: 2rem;">
+                                        <br>
+                                        - Bước 3: Size số ghi dưới đường thẳng chính là kích thước lắc tay của bạn. Sau khi làm theo các hướng dẫn đo size lắc tay, bạn có thể liên hệ với Cao Hùng Diamond để được nhân viên tư vấn, xác nhận số size và giao cho bạn mẫu lắc tay đúng số size bạn muốn.
+                                        <br>
+                                    </ul>
+                                    <h2 class="post-title">Cách Đo Vòng Tay Bằng thước</h2>
+                                    <div class="image text-center">
+                                        <img style="padding: 2rem" src="../assets/img/pic_product/dovongtay/bang-do-kich-thuoc-vong-tay.jpg" alt="blog">
+                                        <P>Bảng size vòng tay chuẩn</P>
+                                        <br>
+                                    </div>
+                                    <p style=" font-family:'Times New Roman', Times, serif;font-size: 40px; color: #a8741a;">Cách 2: Đo lắc, vòng tay thủ công</p>
+                                    <blockquote>Nếu như bạn không có sẵn một chiếc lắc hay vòng tay để đo kích thước thì bạn cũng có thể áp dụng cách đo thủ công. Cụ thể, bạn chỉ cần lấy một miếng giấy nhỏ hoặc sợi dây, thước dây nếu có và một cây kéo, một cây thước sau đó thực hiện theo các bước dưới đây:</blockquote>
+                                    <h2 class="post-title">Đo Lắc Tay Thủ Công</h2>
+                                    <ul style="font-size: 2rem;">
+                                        - Bước 1: Dùng kéo cắt tờ giấy theo hình chữ nhật, tương tự như sợi dây.
+                                        <br>
+                                        - Bước 2: Lấy mảnh giấy vừa cắt xong quấn quanh cổ tay như khi đeo lắc nhưng lưu ý, không quấn quá chặt mà nên để thoải mái một chút. Nếu có sợi dây hay thước dây thì sử dụng thay thế cho mảnh giấy.
+                                        <br>
+                                        <blockquote>Sau khi điều chỉnh mảnh giấy quanh tay thoải mái thì dùng bút đánh dấu lại và lấy kéo cắt điểm giao nhau của 2 đầu mảnh giấy.</blockquote>
+                                        <br>
+                                    </ul>
+                                    <div class="image text-center">
+                                        <img style="padding: 2rem" src="../assets/img/pic_product/dovongtay/bang-do-kich-thuoc-vong-tay-chuan.jpg" alt="blog">
+                                        <p>Đo lắc tay thủ công bằng thước dây</p>
+                                        <br>
+                                    </div>
+                                    <ul style="font-size: 2rem;">
+                                        - Bước 3: Trải mảnh giấy ra mặt phẳng sau đó lấy thước đo độ dài từ điểm đầu tới điểm đã đánh dấu.
+                                        <br>
+                                        - Bước 4: Đối chiếu kích thước mảnh giấy đo được (tính theo cm) với bảng kích thước lắc tay trong cách 1 chúng tôi đã hướng dẫn. Kích thước lắc tay sẽ tương ứng số size ghi dưới đường thẳng.
+                                        <br>
+                                    </ul>
+                                    <h2 class="post-title">Đo Vòng Tay Thủ Công</h2>
+                                    <p>Cách đo size lắc tay đối với vòng tay tròn:</p>
+                                    <ul style="font-size: 2rem;">
+                                        - Bước 1:  Dùng kéo cắt tờ giấy theo hình chữ nhật, tương tự như sợi dây.
+                                        <br>
+                                        - Bước 2: Lấy mảnh giấy vừa cắt xong quấn quanh cổ tay như khi đeo vòng nhưng lưu ý, không quấn quá chặt mà nên để thoải mái một chút. Nếu có sợi dây hay thước dây thì sử dụng thay thế cho mảnh giấy.
+                                        <br>
+                                        Sau khi điều chỉnh mảnh giấy quanh tay thoải mái thì dùng bút đánh dấu lại và lấy kéo cắt điểm giao nhau của 2 đầu mảnh giấy.
+                                    </ul>
+                                    <div class="image text-center">
+                                        <img style="padding: 2rem" src="../assets/img/pic_product/dovongtay/bang-do-kich-thuoc-vong-tay-chuan-nhat.jpg" alt="blog">
+                                        <P>Hướng dẫn đo vòng tay thủ công</P>
+                                        <br>
+                                    </div>
+                                    <ul style="font-size: 2rem;">
+                                        - Bước 3: Trải mảnh giấy ra mặt phẳng sau đó lấy thước đo độ dài từ điểm đầu tới điểm đã đánh dấu.
+                                        <br>
+                                        - Bước 4: Lấy kết quả đo được từ mảnh giấy chia cho 3.14 để ra đường kính vòng tròn.
+                                        <br>
+                                        - Bước 5: Đối chiếu kích thước vừa chia xong (tính theo mm) với bảng kích thước vòng tay trong cách 1 chúng tôi đã hướng dẫn. Kích thước vòng tay sẽ tương ứng số size ghi dưới vòng tròn.
+                                        <br>
+                                        <blockquote>
+                                            <strong>
+                                                Đối với vòng tay Oval:
+                                                <br>
+                                                Bạn dùng thước dây hoặc thước kẻ đo chiều ngang cổ tay. Xác định kích thước vòng tay của bạn (tính theo mm) để đối chiếu với size số ghi dưới vòng tròn.
+                                            </strong>
+                                        </blockquote>
+                                    </ul>
+                                    <p style=" font-family:'Times New Roman', Times, serif;font-size: 40px; color: #a8741a;">Cách 3: Đo size lắc, vòng tay tại showroom Diamond Luxury</p>
+                                    <p>Nếu có thể bạn nên tới trực tiếp showroom của Diamond Luxury để tham khảo, chọn mẫu lắc và vòng tay ưng ý. Nhân viên của Diamond Luxury sẽ hỗ trợ và hướng dẫn đo size lắc tay cho bạn. Bạn không chỉ được đo trực tiếp kích thước tay mà còn biết cách để có thể tự đo tại nhà cho những lần sau.</p>
+                                    </blockquote>
+                                    <p>Trường hợp mua lắc, vòng tay làm quà tặng bạn có thể dẫn người được tặng tới showroom Diamond Luxury để được tư vấn, hỗ trợ.</p>
+                                    <br>
+                                    <strong>Trên đây là hướng dẫn 3 cách đo size trang sức – lắc và vòng tay rất đơn giản. Xác định đúng kích thước tay bạn sẽ từng được mẫu lắc và vòng vừa vặn, khi đeo sẽ cảm thấy rất thoải mái, dễ chịu.</strong>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</div>
+        </div>

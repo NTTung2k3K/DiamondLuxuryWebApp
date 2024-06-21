@@ -1,4 +1,5 @@
 using DiamondLuxurySolution.WebApp.Service.GemPriceList;
+using DiamondLuxurySolution.WebApp.Service.KnowledgeNews;
 using DiamondLuxurySolution.WebApp.Service.Slide;
 
 
@@ -11,6 +12,7 @@ builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddTransient<ISlideApiService,SlideApiService>();
 builder.Services.AddTransient<IGemPriceListApiService, GemPriceListApiService>();
+builder.Services.AddTransient<IKnowLedgeNewsApiService, KnowledgeNewsApiService>();
 
 builder.Services.AddAuthentication().AddGoogle(options =>
 {

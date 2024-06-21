@@ -1,13 +1,19 @@
-﻿@model DiamondLuxurySolution.ViewModel.Common.PagedResultBase
+﻿@using DiamondLuxurySolution.ViewModel.Common
+@model PagedResultBase
+
+
+
 @{
     var urlTemplate = Url.Action() + "?pageIndex={0}";
     var request = ViewContext.HttpContext.Request;
+
     foreach (var key in request.Query.Keys)
     {
         if (key == "pageIndex")
         {
             continue;
         }
+
         if (request.Query[key].Count > 1)
         {
             foreach (var item in (string[])request.Query[key])
@@ -31,10 +37,10 @@
         @if (Model.PageIndex != startIndex)
         {
             <li class="page-item">
-                <a class="page-link" title="1" href="@urlTemplate.Replace("{0}", "1")">First</a>
+                <a class="page-link" title="1" href="@urlTemplate.Replace("{0}", "1")">&lt&lt</a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="@urlTemplate.Replace("{0}", (Model.PageIndex-1).ToString())">Before</a>
+                <a class="page-link" href="@urlTemplate.Replace("{0}", (Model.PageIndex-1).ToString())">&lt</a>
             </li>
         }
         @for (var i = startIndex; i <= finishIndex; i++)
@@ -53,10 +59,10 @@
         @if (Model.PageIndex != finishIndex)
         {
             <li class="page-item">
-                <a class="page-link" title="@Model.PageCount.ToString()" href="@urlTemplate.Replace("{0}", (Model.PageIndex+1).ToString())">After</a>
+                <a class="page-link" title="@Model.PageCount.ToString()" href="@urlTemplate.Replace("{0}", (Model.PageIndex+1).ToString())">></a>
             </li>
             <li class="page-item">
-                <a class="page-link" href="@urlTemplate.Replace("{0}", Model.PageCount.ToString())">Last</a>
+                <a class="page-link" href="@urlTemplate.Replace("{0}", Model.PageCount.ToString())">>></a>
             </li>
         }
     </ul>
