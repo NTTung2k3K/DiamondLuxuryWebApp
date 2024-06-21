@@ -7,7 +7,12 @@
         {
             @foreach (var slide in Model)
             {
-                if (slide.Status)
+                if (slide.Status && !slide.SlideName.Equals("Nhẫn nữ")
+                && !slide.SlideName.Equals("Nhẫn nam")
+                && !slide.SlideName.Equals("Nhẫn cưới")
+                && !slide.SlideName.Equals("Bông tai")
+                && !slide.SlideName.Equals("Dây chuyền")
+                && !slide.SlideName.Equals("Kim Cương"))
                 {
                     <!-- Single Slide Start -->
                     <div class="single-slider content-v-center"
@@ -16,12 +21,6 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="slider-content">
-                                        <h5 data-animation="rollIn" data-duration=".8s" data-delay=".5s">
-                                            @slide.Description
-                                        </h5>
-                                        <h1 data-animation="fadeInDown" data-duration=".8s" data-delay=".2s">
-                                            @slide.SlideName
-                                        </h1>
                                         <div class="slide-btn-group" data-animation="fadeInUp" data-duration="1s"
                                              data-delay=".3s">
                                             <a href="@slide.SlideUrl" class="btn btn-bordered btn-style-1">Mua Sắm Tại Đây</a>

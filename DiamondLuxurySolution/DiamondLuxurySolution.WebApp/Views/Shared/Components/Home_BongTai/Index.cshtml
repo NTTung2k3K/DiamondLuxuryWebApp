@@ -1,0 +1,184 @@
+﻿@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Common
+@using DiamondLuxurySolution.ViewModel.Models.Product
+
+@model List<ProductVm>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Styled Button</title>
+    <style>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" >
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" >
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+        integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" > </script >
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+        integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" > </script >
+        <style >
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            max-width: 1500px;
+            margin: auto;
+        }
+
+        .owl-nav button.owl-prev,
+        .owl-nav button.owl-next {
+            position: absolute;
+            top: 40%;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            z-index: 10;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 50%;
+        }
+
+        .owl-nav button.owl-prev {
+            left: 10px;
+        }
+
+        .owl-nav button.owl-next {
+            right: 10px;
+        }
+
+            .owl-nav button.owl-prev:hover,
+            .owl-nav button.owl-next:hover {
+                background: rgba(0, 0, 0, 0.8);
+            }
+
+        .product-item {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 10px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .item-img {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+        }
+
+            .item-img img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .item-text {
+            margin-top: 10px;
+        }
+
+        .price {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        .btn-decord {
+            padding: 10px 20px; /* Điều chỉnh padding để thay đổi chiều cao và độ rộng */
+            font-size: 18px; /* Kích thước chữ */
+            line-height: 1.2; /* Dòng cao */
+            color: #f5deb3; /* Màu chữ */
+            background-color: #333; /* Màu nền */
+            border: none; /* Không viền */
+            border-radius: 8px; /* Bo tròn các góc */
+            cursor: pointer; /* Thay đổi con trỏ khi hover */
+            text-align: center; /* Canh giữa chữ */
+            font-family: Arial, sans-serif; /* Phông chữ */
+        }
+
+            .btn-decord:hover {
+                background-color: #555; /* Màu nền khi hover */
+            }
+
+        .product-link {
+            display: block;
+            text-decoration: none;
+            color: inherit; /* Đảm bảo màu chữ không thay đổi */
+        }
+
+        .item-content {
+            transition: transform 0.3s;
+        }
+
+            .item-content:hover {
+                transform: scale(1.05); /* Hiệu ứng phóng to khi hover */
+            }
+
+        }
+    </style>
+</head>
+<body>
+    @if (Model.Count() > 0 && Model != null)
+    {
+        var filteredProducts = Model.Where(p => p.CategoryVm?.CategoryName == "Nhẫn" && p.CategoryVm?.CategoryType == "Nữ" && p.IsSale).ToList();
+        var productCount = filteredProducts.Count;
+
+        <div class="owl-carousel owl-theme">
+            @foreach (var product in filteredProducts)
+            {
+                <div class="item product-item">
+                    <div class="item-content">
+                        <a href="/Product/Detail/@product.ProductId" class="product-link">
+                            <div class="item-img">
+                                <img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
+                            </div>
+                            <div class="item-text">
+                                <p>@product.ProductName</p>
+                                <p>@product.ProductId</p>
+                                <span class="price">@product.SellingPrice.ToString("N0")₫</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    <button class="btn btn-decord">
+        Xem thêm
+    </button>
+    <script>
+        $(document).ready(function () {
+            $('.owl-carousel').owlCarousel({
+                loop: true,
+                margin: 10,
+                nav: true,
+                dots: false,
+                slideBy: 5, // Số mục sẽ trượt qua mỗi lần điều hướng
+                responsive: {
+                    0: {
+                        items: 1,
+                        slideBy: 1 // Số mục sẽ trượt qua mỗi lần trên màn hình nhỏ
+                    },
+                    600: {
+                        items: 3,
+                        slideBy: 3 // Số mục sẽ trượt qua mỗi lần trên màn hình trung bình
+                    },
+                    1000: {
+                        items: 5,
+                        slideBy: 5 // Số mục sẽ trượt qua mỗi lần trên màn hình lớn
+                    }
+                }
+            });
+
+            // Tùy chỉnh hành vi kéo
+            /* var owl = $('.owl-carousel');
+             owl.on('dragged.owl.carousel', function(event) {
+                 if (event.relatedTarget.state.direction == 'left') {
+                     owl.trigger('next.owl.carousel', [300]);
+                 } else {
+                     owl.trigger('prev.owl.carousel', [300]);
+                 }
+             });
+            */
+        });
+    </script>
+</body>
+</html>
