@@ -841,16 +841,59 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
 
         public async Task<ApiResult<int>> ViewNewCustomerOnDay()
         {
-            var listUser = await _userManager.GetUsersInRoleAsync(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString());
-            listUser = listUser.Where(x => x.DateCreated.Value.Date == DateTime.Today).ToList();
-            return new ApiSuccessResult<int>(listUser.Count, "Success");
+            try
+            {
+                // Get the role ID for the "Customer" role
+                var customerRoleId = await _roleManager.Roles
+                    .Where(r => r.Name == DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString())
+                    .Select(r => r.Id)
+                    .FirstOrDefaultAsync();
+
+                if (customerRoleId == null)
+                {
+                    throw new Exception("Không tìm thấy chức vụ khách hàng");
+                }
+
+                var today = DateTime.UtcNow.Date;
+
+                // Get users who have the "Customer" role and were created today
+                var newCustomerCount = await _userManager.Users
+                    .Join(_context.UserRoles, user => user.Id, userRole => userRole.UserId, (user, userRole) => new { user, userRole })
+                    .Where(joined => joined.userRole.RoleId == customerRoleId && joined.user.DateCreated.Value.Date == today)
+                    .CountAsync();
+
+                return new ApiSuccessResult<int>(newCustomerCount, "Success");
+            }
+            catch (Exception ex)
+            {
+                return new ApiErrorResult<int>($"Error: {ex.Message}");
+            }
         }
+
+
+
 
         public async Task<ApiResult<int>> CountAllCustomer()
         {
             try
             {
-                int customerCount = await _userManager.Users.CountAsync();
+                // Get the role ID for the "Customer" role
+                var customerRoleId = await _roleManager.Roles
+                    .Where(r => r.Name == DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString())
+                    .Select(r => r.Id)
+                    .FirstOrDefaultAsync();
+
+                if (customerRoleId == null)
+                {
+                    throw new Exception("Không tìm thấy chức vụ khách hàng");
+                }
+
+                // Count users who have the "Customer" role
+                var customerCount = await _userManager.Users
+                    .Join(_context.UserRoles, user => user.Id, userRole => userRole.UserId, (user, userRole) => new { user, userRole })
+                    .Where(joined => joined.userRole.RoleId == customerRoleId)
+                    .CountAsync();
+
                 return new ApiSuccessResult<int>(customerCount, "Success");
             }
             catch (Exception ex)
@@ -858,6 +901,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 return new ApiErrorResult<int>($"Error: {ex.Message}");
             }
         }
+
 
         public async Task<ApiResult<PageResult<OrderVm>>> ViewOrderForDeliveryStaff(ViewOrderForDeliveryStaff request)
         {

@@ -337,7 +337,7 @@
                 <button class="btn btn-primary" id="UpdateShipperBtn">Cập nhật nhân viên giao hàng</button>
             </div>
         }
-        @if (Model != null && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()))
+        @if (Model != null && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()) && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()))
         {
             <div class="col-md-3">
                 <button id="selectFolderButton" data-order-id="@Model.OrderId" class="btn btn-secondary">Xuất Phiếu Bảo Hành <br /> & Giấy Chứng Nhận</button>

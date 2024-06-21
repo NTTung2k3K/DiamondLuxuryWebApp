@@ -75,10 +75,24 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
         {
             try
             {
+                // Get the role ID for the "Customer" role
+                var customerRoleId = await _roleManager.Roles
+                    .Where(r => r.Name == DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString())
+                    .Select(r => r.Id)
+                    .FirstOrDefaultAsync();
+
+                if (customerRoleId == null)
+                {
+                    throw new Exception("Không tìm thấy chức vụ khách hàng");
+                }
+
                 var currentYear = DateTime.UtcNow.Year;
+
+                // Get users who have the "Customer" role and were created in the current year
                 var customerCounts = await _userManager.Users
-                    .Where(user => user.DateCreated.Value.Year == currentYear)
-                    .GroupBy(user => user.DateCreated.Value.Month)
+                    .Join(_context.UserRoles, user => user.Id, userRole => userRole.UserId, (user, userRole) => new { user, userRole })
+                    .Where(joined => joined.userRole.RoleId == customerRoleId && joined.user.DateCreated.Value.Year == currentYear)
+                    .GroupBy(joined => joined.user.DateCreated.Value.Month)
                     .Select(g => new { Month = g.Key, Count = g.Count() })
                     .ToListAsync();
 
@@ -99,6 +113,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
                 return new ApiErrorResult<List<int>>($"Error: {ex.Message}");
             }
         }
+
 
         public async Task<ApiResult<bool>> DeleteCustomer(Guid CustomerId)
         {
@@ -419,7 +434,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
             {
                 return new ApiErrorResult<bool>("Khách hàng không tồn tại");
             }
-            
+
             if (!string.IsNullOrEmpty(request.PhoneNumber))
             {
                 if (DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ContainsLetters(request.PhoneNumber.Trim()))
@@ -434,7 +449,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
                     errorList.Add("Số điện thoại không hợp lệ");
                 }
             }
-            
+
             if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);

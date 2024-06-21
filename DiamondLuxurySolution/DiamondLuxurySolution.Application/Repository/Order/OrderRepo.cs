@@ -972,132 +972,106 @@ namespace DiamondLuxurySolution.Application.Repository.Order
 
 
 
-            // Start Process SubGem
+            // Start Process ****
             // Retrieve existing product details from the database
+
             var existingProductDetails = await _context.OrderDetails.Include(x => x.Warranty)
                 .Where(x => x.OrderId == order.OrderId)
                 .ToListAsync();
 
-            List<DiamondLuxurySolution.Data.Entities.Warranty> listRemoveWarranty = new List<DiamondLuxurySolution.Data.Entities.Warranty>();
-            foreach (var warranty in existingProductDetails)
+            bool isChange = false;
+            foreach (var orderDetail in request.ListExistOrderProduct)
             {
-                listRemoveWarranty.Add(warranty.Warranty);
-            }
-
-            _context.Warrantys.RemoveRange(listRemoveWarranty);
-
-            _context.OrderDetails.RemoveRange(existingProductDetails);
-            await _context.SaveChangesAsync();
-
-            if (request.ListExistOrderProduct != null)
-            {
-                foreach (var orderDetail in request.ListExistOrderProduct)
+                var orderDetailEntity = await _context.OrderDetails.Where(x => x.OrderId == request.OrderId && x.ProductId == orderDetail.ProductId).FirstAsync();
+                if (orderDetail.ProductId != orderDetailEntity.ProductId)
                 {
-                    var product = await _context.Products.FindAsync(orderDetail.ProductId);
-                    if (product == null)
+                    isChange = true;
+                }
+                if (orderDetail.Quantity != orderDetailEntity.Quantity)
+                {
+                    isChange = true;
+                }
+                if (orderDetailEntity.Size != null)
+                {
+                    if (orderDetail.Size != orderDetailEntity.Size)
                     {
-                        return new ApiErrorResult<bool>("Không tìm thấy kim cương phụ");
+                        isChange = true;
                     }
-                    if (orderDetail.Quantity <= 0)
+                }
+            }
+
+            if (isChange)
+            {
+                List<DiamondLuxurySolution.Data.Entities.Warranty> listRemoveWarranty = new List<DiamondLuxurySolution.Data.Entities.Warranty>();
+                foreach (var warranty in existingProductDetails)
+                {
+                    listRemoveWarranty.Add(warranty.Warranty);
+                }
+
+                _context.Warrantys.RemoveRange(listRemoveWarranty);
+
+                _context.OrderDetails.RemoveRange(existingProductDetails);
+                await _context.SaveChangesAsync();
+
+                if (request.ListExistOrderProduct != null)
+                {
+                    foreach (var orderDetail in request.ListExistOrderProduct)
                     {
-                        return new ApiErrorResult<bool>($"Kim cương phụ cần có số lượng");
+                        var product = await _context.Products.FindAsync(orderDetail.ProductId);
+                        if (product == null)
+                        {
+                            return new ApiErrorResult<bool>("Không tìm thấy kim cương phụ");
+                        }
+                        if (orderDetail.Quantity <= 0)
+                        {
+                            return new ApiErrorResult<bool>($"Kim cương phụ cần có số lượng");
+                        }
+                        string WarrantyId = "W" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
+
+                        var warranty = new DiamondLuxurySolution.Data.Entities.Warranty()
+                        {
+                            WarrantyId = WarrantyId,
+                            DateActive = DateTime.Now,
+                            DateExpired = DateTime.Now.AddMonths(12),
+                            WarrantyName = $"Phiếu bảo hành cho sản phẩm {product.ProductName} | {product.ProductId}",
+                            Description = "Phiếu bảo hành có giá trị trong vòng 12 tháng",
+                            Status = true,
+                        };
+                        var orderDetailEntity = new OrderDetail
+                        {
+                            ProductId = orderDetail.ProductId,
+                            Quantity = orderDetail.Quantity,
+                            OrderId = order.OrderId,
+                            UnitPrice = product.SellingPrice,
+                            TotalPrice = orderDetail.Quantity * product.SellingPrice,
+                            WarrantyId = warranty.WarrantyId,
+                            Size = orderDetail.Size,
+
+                        };
+                        await _context.Warrantys.AddAsync(warranty);
+                        await _context.OrderDetails.AddAsync(orderDetailEntity);
                     }
-                    string WarrantyId = "W" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
+                }
+                await _context.SaveChangesAsync();
 
-                    var warranty = new DiamondLuxurySolution.Data.Entities.Warranty()
+                // Update the database with the new product details
+                foreach (var updatedProduct in request.ListExistOrderProduct)
+                {
+                    var orderDetail = existingProductDetails
+                        .FirstOrDefault(x => x.ProductId == updatedProduct.ProductId);
+
+                    if (orderDetail != null)
                     {
-                        WarrantyId = WarrantyId,
-                        DateActive = DateTime.Now,
-                        DateExpired = DateTime.Now.AddMonths(12),
-                        WarrantyName = $"Phiếu bảo hành cho sản phẩm {product.ProductName} | {product.ProductId}",
-                        Description = "Phiếu bảo hành có giá trị trong vòng 12 tháng",
-                        Status = true,
-                    };
-                    var orderDetailEntity = new OrderDetail
-                    {
-                        ProductId = orderDetail.ProductId,
-                        Quantity = orderDetail.Quantity,
-                        OrderId = order.OrderId,
-                        UnitPrice = product.SellingPrice,
-                        TotalPrice = orderDetail.Quantity * product.SellingPrice,
-                        WarrantyId = warranty.WarrantyId,
-                        Size = orderDetail.Size,
-
-                    };
-                    await _context.Warrantys.AddAsync(warranty);
-                    await _context.OrderDetails.AddAsync(orderDetailEntity);
-                }
-            }
-            await _context.SaveChangesAsync();
-
-
-
-
-
-            /*
-            // Create a list to store items that need to be deleted
-            var itemsToDelete = new List<OrderProductSupport>();
-
-            // Find items to delete and update the rest
-            foreach (var product in request.ListExistOrderProduct)
-            {
-                // No ni
-                if (product.Size == null && product.OldSize != null)
-                {
-                    var existingProductA = existingProductDetails
-                   .FirstOrDefault(x => x.ProductId == product.ProductId && x.Size == product.OldSize);
-
-                    existingProductA.Quantity = product.Quantity;
-                    existingProductA.Size = product.Size;
-                }
-                if (product.Size != null && product.OldSize != null)
-                {
-                    var existingProductB = existingProductDetails
-                   .FirstOrDefault(x => x.ProductId == product.ProductId && x.Size == product.OldSize);
-
-                    existingProductB.Quantity = product.Quantity;
-                    existingProductB.Size = product.Size;
+                        orderDetail.Quantity = updatedProduct.Quantity;
+                        orderDetail.Size = updatedProduct.Size;
+                    }
                 }
 
-                var existingProduct = existingProductDetails
-                    .FirstOrDefault(x => x.ProductId == product.ProductId && );
-
-                if (existingProduct == null)
-                {
-                    // Add to delete list if not found in existing products
-                    itemsToDelete.Add(product);
-                }
-                else
-                {
-                    // Update quantity and size
-                    product.Quantity = existingProduct.Quantity;
-                    product.Size = product.Size ?? product.OldSize;
-                }
+                // Save changes to the database
+                await _context.SaveChangesAsync();
             }
 
-            // Remove items that are not in the existing product details
-            foreach (var item in itemsToDelete)
-            {
-                request.ListExistOrderProduct.Remove(item);
-            }*/
-
-            // Update the database with the new product details
-            foreach (var updatedProduct in request.ListExistOrderProduct)
-            {
-                var orderDetail = existingProductDetails
-                    .FirstOrDefault(x => x.ProductId == updatedProduct.ProductId);
-
-                if (orderDetail != null)
-                {
-                    orderDetail.Quantity = updatedProduct.Quantity;
-                    orderDetail.Size = updatedProduct.Size;
-                }
-            }
-
-            // Save changes to the database
-            await _context.SaveChangesAsync();
-
-            //End
+            //End *****
 
             if (request.ListOrderProduct != null)
             {
@@ -1949,19 +1923,19 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             warrantyCustomer = warrantyCustomer.Replace("{{DateTime}}", DateTime.Now.ToString());
 
             var CusName = order.Customer.Fullname;
-            warrantyCustomer = warrantyCustomer.Replace("{{CusName}}",  string.IsNullOrEmpty(CusName) ? "Không có" : CusName.ToString());
+            warrantyCustomer = warrantyCustomer.Replace("{{CusName}}", string.IsNullOrEmpty(CusName) ? "Không có" : CusName.ToString());
 
             var CusAddress = order.Customer.Address;
             warrantyCustomer = warrantyCustomer.Replace("{{CusAddress}}", string.IsNullOrEmpty(CusAddress) ? "Không có" : CusAddress?.ToString());
 
             var CusDob = order.Customer.Dob;
-            warrantyCustomer = warrantyCustomer.Replace("{{CusDob}}", CusDob != null ? CusDob.Value.Date.ToString() : "Không có " );
+            warrantyCustomer = warrantyCustomer.Replace("{{CusDob}}", CusDob != null ? CusDob.Value.Date.ToString() : "Không có ");
 
             var CusPhone = order.Customer.PhoneNumber;
-            warrantyCustomer = warrantyCustomer.Replace("{{CusPhone}}", string.IsNullOrEmpty(CusPhone) ? "Không có" :  CusPhone.ToString());
+            warrantyCustomer = warrantyCustomer.Replace("{{CusPhone}}", string.IsNullOrEmpty(CusPhone) ? "Không có" : CusPhone.ToString());
 
             var CusEmail = order.Customer.Email;
-            warrantyCustomer = warrantyCustomer.Replace("{{CusEmail}}", string.IsNullOrEmpty(CusEmail) ? "Không có"  : CusEmail.ToString());
+            warrantyCustomer = warrantyCustomer.Replace("{{CusEmail}}", string.IsNullOrEmpty(CusEmail) ? "Không có" : CusEmail.ToString());
             try
             {
                 string directoryPath = @"C:\DiamondInfo"; // Desired directory
@@ -1971,7 +1945,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 {
                     Directory.CreateDirectory(directoryPath);
                 }
-                string directoryPathWarranty = @"C:\DiamondInfo\" + order.CustomerId  + @"\"; // Desired directory
+                string directoryPathWarranty = @"C:\DiamondInfo\" + order.CustomerId + @"\"; // Desired directory
                 if (!Directory.Exists(directoryPathWarranty))
                 {
                     Directory.CreateDirectory(directoryPathWarranty);
