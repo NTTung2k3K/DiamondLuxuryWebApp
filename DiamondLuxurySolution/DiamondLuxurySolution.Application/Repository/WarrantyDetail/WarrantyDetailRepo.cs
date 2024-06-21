@@ -1,0 +1,414 @@
+﻿using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.Data.Entities;
+using DiamondLuxurySolution.ViewModel.Common;
+using DiamondLuxurySolution.ViewModel.Models.Category;
+using DiamondLuxurySolution.ViewModel.Models.Frame;
+using DiamondLuxurySolution.ViewModel.Models.Gem;
+using DiamondLuxurySolution.ViewModel.Models.GemPriceList;
+using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
+using DiamondLuxurySolution.ViewModel.Models.Material;
+using DiamondLuxurySolution.ViewModel.Models;
+using DiamondLuxurySolution.ViewModel.Models.Platform;
+using DiamondLuxurySolution.ViewModel.Models.Product;
+using DiamondLuxurySolution.ViewModel.Models.WarrantyDetail;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DiamondLuxurySolution.ViewModel.Models.User.Customer;
+
+namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
+{
+    public class WarrantyDetailRepo : IWarrantyDetailRepo
+    {
+
+        private readonly LuxuryDiamondShopContext _context;
+        public WarrantyDetailRepo(LuxuryDiamondShopContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<ApiResult<bool>> CheckValidWarrantyId(string WarrantyId)
+        {
+            var Warrantys = await _context.Warrantys.FindAsync(WarrantyId);
+            if (Warrantys == null)
+            {
+                return new ApiErrorResult<bool>("Không tìm thấy chi tiết thông tin bảo hành");
+            }
+            return new ApiSuccessResult<bool>(true, "Success");
+        }
+
+        public async Task<ApiResult<bool>> CreateWarrantyDetail(CreateWarrantyDetailRequest request)
+        {
+            var errorList = new List<string>();
+            if (string.IsNullOrEmpty(request.WarrantyDetailName))
+            {
+                errorList.Add("Vui lòng nhập tên bảo hành");
+            }
+            if (string.IsNullOrEmpty(request.WarrantyId))
+            {
+                errorList.Add("Vui lòng nhập mã bảo hành");
+            }
+            if (request.ReturnProductDate != null)
+            {
+                if (request.ReturnProductDate < request.ReceiveProductDate)
+                {
+                    errorList.Add("Ngày trả sản phẩm ko hợp lệ");
+                }
+            }
+            if (errorList.Any())
+            {
+                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
+            }
+
+            var warrantyDetail = new DiamondLuxurySolution.Data.Entities.WarrantyDetail
+            {
+                WarrantyId = request.WarrantyId,
+                WarrantyDetailName = request.WarrantyDetailName,
+                Description = request.Description,
+                ReceiveProductDate = (DateTime)(request.ReceiveProductDate == null ? DateTime.MinValue : request.ReceiveProductDate),
+                ReturnProductDate = (DateTime)(request.ReturnProductDate == null ? DateTime.MinValue : request.ReturnProductDate),
+                Status = request.Status,
+                WarrantyType = request.WarrantyType,
+            };
+            if (request.Image != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Image);
+                warrantyDetail.Image = firebaseUrl;
+            }
+
+            _context.WarrantyDetails.Add(warrantyDetail);
+            await _context.SaveChangesAsync();
+            return new ApiSuccessResult<bool>(true, "Success");
+        }
+
+        public async Task<ApiResult<bool>> DeleteWarrantyDetail(DeleteWarrantyDetailRequest request)
+        {
+            var warrantyDetail = await _context.WarrantyDetails.FindAsync(request.WarrantyDetailId);
+            if (warrantyDetail == null)
+            {
+                return new ApiErrorResult<bool>("Không tìm thấy chi tiết thông tin bảo hành");
+            }
+            _context.WarrantyDetails.Remove(warrantyDetail);
+            await _context.SaveChangesAsync();
+            return new ApiSuccessResult<bool>(false, "Success");
+        }
+
+        public async Task<ApiResult<List<WarrantyDetailVm>>> GetAll()
+        {
+            var list = await _context.WarrantyDetails
+                .Include(x => x.Warranty)
+                .ThenInclude(x => x.OrderDetails)
+                .ThenInclude(x => x.Product)
+                .Include(x => x.Warranty)
+                .ThenInclude(x => x.OrderDetails)
+                .ThenInclude(x => x.Order)
+                .ThenInclude(x => x.Customer)
+                .ToListAsync();
+
+            var rs = new List<WarrantyDetailVm>();
+
+            foreach (var item in list)
+            {
+                var productId = item.Warranty.OrderDetails.First().ProductId;
+                var product = await _context.Products
+                    .Include(p => p.Category)
+                    .Include(p => p.Gem).ThenInclude(g => g.InspectionCertificate)
+                    .Include(p => p.SubGemDetails)
+                    .Include(p => p.Images)
+                    .Include(p => p.Frame).ThenInclude(f => f.Material)
+                    .FirstOrDefaultAsync(p => p.ProductId == productId);
+
+                if (product == null) continue;
+
+                var customer = item.Warranty.OrderDetails.First().Order.Customer;
+
+                var warrantyDetailVm = new WarrantyDetailVm()
+                {
+                    WarrantyDetailId = item.WarrantyDetailId,
+                    Description = item.Description,
+                    ReceiveProductDate = item.ReceiveProductDate ?? DateTime.MinValue,
+                    ReturnProductDate = item.ReturnProductDate ?? DateTime.MinValue,
+                    Image = item.Image,
+                    WarrantyDetailName = item.WarrantyDetailName,
+                    WarrantyType = item.WarrantyType,
+                    ProductVm = new ProductVm()
+                    {
+                        ProductId = product.ProductId,
+                        ProductName = product.ProductName,
+                        Description = product.Description,
+                        ProductThumbnail = product.ProductThumbnail,
+                        IsHome = product.IsHome,
+                        IsSale = product.IsSale,
+                        PercentSale = product.PercentSale,
+                        Status = product.Status,
+                        Quantity = product.Quantity,
+                        ProcessingPrice = product.ProductPriceProcessing,
+                        OriginalPrice = product.OriginalPrice,
+                        SellingPrice = product.SellingPrice,
+                        DateModify = product.DateModified,
+                        QuantitySold = product.SellingCount,
+                    },
+                    CustomerVm = new CustomerVm()
+                    {
+                        CustomerId = customer.Id,
+                        FullName = customer.Fullname??"Không có",
+                        Email = customer.Email ?? "Không có",
+                        PhoneNumber = customer.PhoneNumber ?? "Không có",
+                        Address = customer.Address ?? "Không có"
+                    },
+                    Status = item.Status,
+                    WarrantyVm = new ViewModel.Models.Warranty.WarrantyVm()
+                    {
+                        WarrantyId = item.WarrantyId,
+                        DateActive = item.Warranty.DateActive,
+                        DateExpired = item.Warranty.DateExpired,
+                        Description = item.Warranty.Description,
+                        Status = item.Warranty.Status,
+                        WarrantyName = item.Warranty.WarrantyName
+                    }
+                };
+
+                rs.Add(warrantyDetailVm);
+            }
+
+            return new ApiSuccessResult<List<WarrantyDetailVm>>(rs);
+        }
+
+        
+
+        public async Task<ApiResult<WarrantyDetailVm>> GetWarrantyDetaiById(int WarrantyDetailId)
+        {
+            var warrantyDetail = await _context.WarrantyDetails
+                .Include(x => x.Warranty)
+                .ThenInclude(x => x.OrderDetails)
+                .ThenInclude(x => x.Product)
+                .Include(x => x.Warranty)
+                .ThenInclude(x => x.OrderDetails)
+                .ThenInclude(x => x.Order)
+                .ThenInclude(x => x.Customer)
+                .FirstOrDefaultAsync(x => x.WarrantyDetailId == WarrantyDetailId);
+
+            if (warrantyDetail == null)
+            {
+                return new ApiErrorResult<WarrantyDetailVm>("Không tìm thấy chi tiết thông tin bảo hành");
+            }
+
+            var productId = warrantyDetail.Warranty.OrderDetails.First().ProductId;
+            var product = await _context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Gem).ThenInclude(g => g.InspectionCertificate)
+                .Include(p => p.SubGemDetails)
+                .Include(p => p.Images)
+                .Include(p => p.Frame).ThenInclude(f => f.Material)
+                .FirstOrDefaultAsync(p => p.ProductId == productId);
+
+            if (product == null)
+            {
+                return new ApiErrorResult<WarrantyDetailVm>("Không tìm thấy sản phẩm liên quan");
+            }
+
+            var customer = warrantyDetail.Warranty.OrderDetails.First().Order.Customer;
+
+            var warrantyDetailVm = new WarrantyDetailVm()
+            {
+                WarrantyDetailId = warrantyDetail.WarrantyDetailId,
+                Description = warrantyDetail.Description,
+                ReceiveProductDate = warrantyDetail.ReceiveProductDate ?? DateTime.MinValue,
+                ReturnProductDate = warrantyDetail.ReturnProductDate ?? DateTime.MinValue,
+                Image = warrantyDetail.Image,
+                WarrantyDetailName = warrantyDetail.WarrantyDetailName,
+                WarrantyType = warrantyDetail.WarrantyType,
+                ProductVm = new ProductVm()
+                {
+                    ProductId = product.ProductId,
+                    ProductName = product.ProductName,
+                    Description = product.Description,
+                    ProductThumbnail = product.ProductThumbnail,
+                    IsHome = product.IsHome,
+                    IsSale = product.IsSale,
+                    PercentSale = product.PercentSale,
+                    Status = product.Status,
+                    Quantity = product.Quantity,
+                    ProcessingPrice = product.ProductPriceProcessing,
+                    OriginalPrice = product.OriginalPrice,
+                    SellingPrice = product.SellingPrice,
+                    DateModify = product.DateModified,
+                    QuantitySold = product.SellingCount,
+                },
+                CustomerVm = new CustomerVm()
+                {
+                    CustomerId = customer.Id,
+                    FullName = customer.Fullname ?? "Không có",
+                    Email = customer.Email ?? "Không có",
+                    PhoneNumber = customer.PhoneNumber ?? "Không có",
+                    Address = customer.Address ?? "Không có"
+                },
+                Status = warrantyDetail.Status,
+                WarrantyVm = new ViewModel.Models.Warranty.WarrantyVm()
+                {
+                    WarrantyId = warrantyDetail.WarrantyId,
+                    DateActive = warrantyDetail.Warranty.DateActive,
+                    DateExpired = warrantyDetail.Warranty.DateExpired,
+                    Description = warrantyDetail.Warranty.Description,
+                    Status = warrantyDetail.Warranty.Status,
+                    WarrantyName = warrantyDetail.Warranty.WarrantyName
+                }
+            };
+
+            return new ApiSuccessResult<WarrantyDetailVm>(warrantyDetailVm);
+        }
+
+
+        public async Task<ApiResult<bool>> UpdateWarrantyDetail(UpdateWarrantyDetailRequest request)
+        {
+            var errorList = new List<string>();
+            if (string.IsNullOrEmpty(request.WarrantyDetailName))
+            {
+                errorList.Add("Vui lòng nhập tên bảo hành");
+            }
+            if (string.IsNullOrEmpty(request.WarrantyId))
+            {
+                errorList.Add("Vui lòng nhập mã bảo hành");
+            }
+            if (request.ReturnProductDate != null && request.ReturnProductDate < request.ReceiveProductDate)
+            {
+                errorList.Add("Ngày trả sản phẩm không hợp lệ");
+            }
+            if (errorList.Any())
+            {
+                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
+            }
+
+            var warrantyDetail = await _context.WarrantyDetails.FindAsync(request.WarrantyDetailId);
+            if (warrantyDetail == null)
+            {
+                return new ApiErrorResult<bool>("Không tìm thấy chi tiết bảo hành");
+            }
+
+            warrantyDetail.WarrantyId = request.WarrantyId;
+            warrantyDetail.WarrantyDetailName = request.WarrantyDetailName;
+            warrantyDetail.Description = request.Description;
+            warrantyDetail.ReceiveProductDate = (DateTime)(request.ReceiveProductDate == null ? DateTime.MinValue : request.ReceiveProductDate);
+            warrantyDetail.ReturnProductDate = (DateTime)(request.ReturnProductDate == null ? DateTime.MinValue : request.ReturnProductDate);
+            warrantyDetail.Status = request.Status;
+            warrantyDetail.WarrantyType = request.WarrantyType;
+
+            if (request.Image != null)
+            {
+                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Image);
+                warrantyDetail.Image = firebaseUrl;
+            }
+
+            _context.WarrantyDetails.Update(warrantyDetail);
+            await _context.SaveChangesAsync();
+            return new ApiSuccessResult<bool>(true, "Cập nhật thành công");
+        }
+
+       
+        public async Task<ApiResult<PageResult<WarrantyDetailVm>>> ViewWarrantyDetai(ViewWarrantyDetailRequest request)
+        {
+            var listWarrantyDetails = _context.WarrantyDetails
+                .Include(x => x.Warranty)
+                .ThenInclude(x => x.OrderDetails)
+                .ThenInclude(x => x.Product)
+                .Include(x => x.Warranty)
+                .ThenInclude(x => x.OrderDetails)
+                .ThenInclude(x => x.Order)
+                .ThenInclude(x => x.Customer)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(request.Keyword))
+            {
+                listWarrantyDetails = listWarrantyDetails.Where(x => x.WarrantyDetailName.Contains(request.Keyword) || x.Warranty.Description.Contains(request.Keyword));
+            }
+
+            listWarrantyDetails = listWarrantyDetails.OrderByDescending(x => x.WarrantyDetailName);
+
+            int pageIndex = request.pageIndex ?? 1;
+            int pageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE;
+
+            var listPaging = await listWarrantyDetails.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            var listWarrantyDetailVm = new List<WarrantyDetailVm>();
+            foreach (var item in listPaging)
+            {
+                var productId = item.Warranty.OrderDetails.First().ProductId;
+                var product = await _context.Products
+                    .Include(p => p.Category)
+                    .Include(p => p.Gem).ThenInclude(g => g.InspectionCertificate)
+                    .Include(p => p.SubGemDetails)
+                    .Include(p => p.Images)
+                    .Include(p => p.Frame).ThenInclude(f => f.Material)
+                    .FirstOrDefaultAsync(p => p.ProductId == productId);
+
+                if (product == null) continue;
+
+                var customer = item.Warranty.OrderDetails.First().Order.Customer;
+
+                var warrantyDetailVm = new WarrantyDetailVm()
+                {
+                    WarrantyDetailId = item.WarrantyDetailId,
+                    Description = item.Description,
+                    ReceiveProductDate = item.ReceiveProductDate ?? DateTime.MinValue,
+                    ReturnProductDate = item.ReturnProductDate ?? DateTime.MinValue,
+                    Image = item.Image,
+                    WarrantyDetailName = item.WarrantyDetailName,
+                    WarrantyType = item.WarrantyType,
+                    ProductVm = new ProductVm()
+                    {
+                        ProductId = product.ProductId,
+                        ProductName = product.ProductName,
+                        Description = product.Description,
+                        ProductThumbnail = product.ProductThumbnail,
+                        IsHome = product.IsHome,
+                        IsSale = product.IsSale,
+                        PercentSale = product.PercentSale,
+                        Status = product.Status,
+                        Quantity = product.Quantity,
+                        ProcessingPrice = product.ProductPriceProcessing,
+                        OriginalPrice = product.OriginalPrice,
+                        SellingPrice = product.SellingPrice,
+                        DateModify = product.DateModified,
+                        QuantitySold = product.SellingCount,
+                    },
+                    CustomerVm = new CustomerVm()
+                    {
+                        CustomerId = customer.Id,
+                        FullName = customer.Fullname ?? "Không có",
+                        Email = customer.Email ?? "Không có",
+                        PhoneNumber = customer.PhoneNumber ?? "Không có",
+                        Address = customer.Address ?? "Không có"
+                    },
+                    Status = item.Status,
+                    WarrantyVm = new ViewModel.Models.Warranty.WarrantyVm()
+                    {
+                        WarrantyId = item.WarrantyId,
+                        DateActive = item.Warranty.DateActive,
+                        DateExpired = item.Warranty.DateExpired,
+                        Description = item.Warranty.Description,
+                        Status = item.Warranty.Status,
+                        WarrantyName = item.Warranty.WarrantyName
+                    }
+                };
+
+                listWarrantyDetailVm.Add(warrantyDetailVm);
+            }
+
+            var totalRecords = await listWarrantyDetails.CountAsync();
+
+            var listResult = new PageResult<WarrantyDetailVm>()
+            {
+                Items = listWarrantyDetailVm,
+                PageSize = pageSize,
+                TotalRecords = totalRecords,
+                PageIndex = pageIndex
+            };
+
+            return new ApiSuccessResult<PageResult<WarrantyDetailVm>>(listResult, "Success");
+        }
+
+    }
+}

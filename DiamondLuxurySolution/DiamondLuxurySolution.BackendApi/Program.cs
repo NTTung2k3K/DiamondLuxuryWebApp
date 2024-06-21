@@ -34,6 +34,7 @@ using DiamondLuxurySolution.Application.Repository.User;
 using DinkToPdf.Contracts;
 using DinkToPdf;
 using Microsoft.Extensions.FileProviders;
+using DiamondLuxurySolution.Application.Repository.WarrantyDetail;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -77,6 +78,7 @@ builder.Services.AddScoped<IPaymentInitializer, PayInitializer>();
 builder.Services.AddScoped<ICategoryInitializer, CategoryInitializer>();
 builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 builder.Services.AddScoped<ISlideInitializer,SlideInitializer>();
+builder.Services.AddTransient<IWarrantyDetailRepo, WarrantyDetailRepo>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
