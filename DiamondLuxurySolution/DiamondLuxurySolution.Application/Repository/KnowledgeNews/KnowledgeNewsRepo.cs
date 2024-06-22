@@ -4,7 +4,6 @@ using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.KnowledgeNews;
 using DiamondLuxurySolution.ViewModel.Models.KnowledgeNewsCategory;
-using DiamondLuxurySolution.ViewModel.Models.MaterialPriceList;
 using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -203,7 +202,10 @@ namespace DiamondLuxurySolution.Application.Repository.KnowledgeNews
             }
 
             knowledgeNews.KnowledgeNewsName = request.KnowledgeNewsName;
-            knowledgeNews.Thumnail = request.Thumnail != null ? await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Thumnail) : "";
+            if (request.Thumnail != null)
+            {
+                knowledgeNews.Thumnail = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Thumnail);
+            }            
             knowledgeNews.Description = !string.IsNullOrWhiteSpace(request.Description) ? request.Description : "";
             knowledgeNews.Active = request.Active;
             knowledgeNews.DateModified = DateTime.Now;

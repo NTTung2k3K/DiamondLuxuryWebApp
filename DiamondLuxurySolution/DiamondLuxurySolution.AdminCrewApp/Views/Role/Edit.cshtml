@@ -21,16 +21,16 @@
             <form asp-action="Edit" asp-controller="Role" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group m-2">
-                    <label asp-for="RoleId" class="control-label  m-2"></label>
+                    <label asp-for="RoleId" class="control-label  m-2">ID của Chức Vụ</label>
                     <input asp-for="RoleId" class="form-control" readonly />
                 </div>
                 <div class="form-group m-2">
-                    <label asp-for="Name" class="control-label m-2"></label>
+                    <label asp-for="Name" class="control-label m-2">Tên Chức Vụ</label>
                     <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">
-                    <label asp-for="Description" class="control-label  m-2"></label>
+                    <label asp-for="Description" class="control-label  m-2">Mô Tả</label>
                     <input asp-for="Description" class="form-control" />
                     <span asp-validation-for="Description" class="text-danger"></span>
                 </div>
@@ -39,7 +39,7 @@
                         <input type="submit" value="Lưu" class="btn btn-primary" />
                     </div>
                     <div class="col-md-7">
-                        <a class="m-5" asp-action="Index" asp-controller="Role">Về trang quản lí chức vụ</a>
+                        <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="Role">Về trang quản lí chức vụ</a>
                     </div>
                 </div>
             </form>
@@ -48,7 +48,7 @@
 }
 else
 {
-    <a class="m-5" asp-action="Index" asp-controller="Role">Về trang quản lí chức vụ</a>
+    <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="Role">Về trang quản lí chức vụ</a>
 }
 <hr />
 

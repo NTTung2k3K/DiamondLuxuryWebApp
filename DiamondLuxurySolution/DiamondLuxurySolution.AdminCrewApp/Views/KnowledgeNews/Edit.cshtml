@@ -22,7 +22,7 @@
             <form asp-action="Edit" asp-controller="KnowledgeNews" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group m-2">
-                    <label asp-for="KnowledgeNewsId" class="control-label  m-2"></label>
+                    <label asp-for="KnowledgeNewsId" class="control-label  m-2">ID của Kiến Thức Tin Tức</label>
                     <input asp-for="KnowledgeNewsId" class="form-control" readonly />
                 </div>
                 <div class="form-group m-2">
@@ -110,7 +110,7 @@
                         <input type="submit" value="Lưu" class="btn btn-primary" />
                     </div>
                     <div class="col-md-7">
-                        <a class="m-5" asp-action="Index" asp-controller="KnowledgeNews">Về trang quản lí kiến thức tin tức</a>
+                        <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="KnowledgeNews">Về trang quản lí kiến thức tin tức</a>
                     </div>
                 </div>
             </form>
@@ -119,7 +119,7 @@
 }
 else
 {
-    <a class="m-5" asp-action="Index" asp-controller="KnowledgeNews">Về trang quản lí kiến thức tin tức</a>
+    <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="KnowledgeNews">Về trang quản lí kiến thức tin tức</a>
 }
 <hr />
 

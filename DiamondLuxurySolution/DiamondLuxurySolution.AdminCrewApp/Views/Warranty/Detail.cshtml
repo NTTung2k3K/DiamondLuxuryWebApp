@@ -1,10 +1,11 @@
-﻿@model DiamondLuxurySolution.ViewModel.Models.Slide.SlideViewModel
+﻿@model DiamondLuxurySolution.ViewModel.Models.Warranty.WarrantyVm
 
 @{
     ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Chi tiết Slide</h1>
+<h1>Chi tiết phiếu bảo hành</h1>
 @if (ViewBag.Errors != null)
 {
     foreach (var error in ViewBag.Errors)
@@ -14,21 +15,20 @@
 }
 @if (Model != null)
 {
-
     <div>
         <hr />
         <dl class="row">
             <dt class="col-sm-3 mb-3">
-                ID của Slide
+                @Html.DisplayNameFor(model => model.WarrantyId)
             </dt>
             <dd class="col-sm-9">
-                @Html.DisplayFor(model => model.SlideId)
+                @Html.DisplayFor(model => model.WarrantyId)
             </dd>
             <dt class="col-sm-3 mb-3">
-                Tên Slide
+                Tên phiếu bảo hành
             </dt>
             <dd class="col-sm-9">
-                @Html.DisplayFor(model => model.SlideName)
+                @Html.DisplayFor(model => model.WarrantyName)
             </dd>
             <dt class="col-sm-3 mb-3">
                 Mô Tả
@@ -37,23 +37,16 @@
                 @Html.DisplayFor(model => model.Description)
             </dd>
             <dt class="col-sm-3 mb-3">
-                Slide URL
+                Ngày bắt đầu
             </dt>
             <dd class="col-sm-9">
-                @Html.DisplayFor(model => model.SlideUrl)
+                @Html.DisplayFor(model => model.DateActive)
             </dd>
             <dt class="col-sm-3 mb-3">
-                Slide Image
+                Ngày hết hạn
             </dt>
             <dd class="col-sm-9">
-                @if (Model.SlideImage != "")
-                {
-                    <img src="@Model.SlideImage" style="style= height:100px; width:100px" />
-                }
-                else
-                {
-                    <h5>Chưa có Hình Ảnh</h5>
-                }
+                @Html.DisplayFor(model => model.DateExpired)
             </dd>
             <dt class="col-sm-3 mb-3">
                 Hiển thị
@@ -67,11 +60,10 @@
     </div>
     <div class="row">
         <div class="col-sm-3">
-            @Html.ActionLink("Chỉnh sửa", "Edit", new { SlideId = Model.SlideId }, new { @class = "btn btn-warning" })
+            @Html.ActionLink("Chỉnh sửa", "Edit", new { WarrantyId = Model.WarrantyId }, new { @class = "btn btn-warning" })
         </div>
         <div class="col-sm-9">
-            <a class="btn btn-secondary" asp-action="Index">Về trang quản lí Slide</a>
+            <a class="btn btn-secondary" asp-action="Index">Về trang quản lí phiếu bảo hành</a>
         </div>
     </div>
-
 }

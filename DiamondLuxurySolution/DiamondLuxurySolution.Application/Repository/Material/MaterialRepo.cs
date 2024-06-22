@@ -160,10 +160,6 @@ namespace DiamondLuxurySolution.Application.Repository.Material
                 string firebaseUrl = await Utilities.Helper.ImageHelper.Upload(request.MaterialImage);
                 material.MaterialImage = firebaseUrl;
             }
-            else
-            {
-                material.MaterialImage = "";
-            }
 
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
