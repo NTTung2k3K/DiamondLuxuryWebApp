@@ -20,7 +20,7 @@
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            Id của nền tảng
+            Id của Nền Tảng
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.PlatformId)
@@ -65,13 +65,13 @@
             @Html.ActionLink("Chỉnh sửa", "Edit", new { PlatformID = Model.PlatformId }, new { @class = "btn btn-warning" })
         </div>
         <div class="col-md-6">
-            <a class="m-5" asp-action="Index" asp-controller="Role">Về trang quản lí chức vụ</a>
+            <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="Platform">Về trang quản lí nền tảng</a>
         </div>
     </div>
 }
 else
 {
     <div>
-        <a class="m-5" asp-action="Index" asp-controller="Role">Về trang quản lí chức vụ</a>
+        <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="Platform">Về trang quản lí nền tảng</a>
     </div>
 }

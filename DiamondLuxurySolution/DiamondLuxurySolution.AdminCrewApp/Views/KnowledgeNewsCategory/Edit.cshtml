@@ -22,13 +22,12 @@
             <form asp-action="Edit" asp-controller="KnowledgeNewsCategory" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group m-2">
-                    <label asp-for="KnowledgeNewCatagoryId" class="control-label  m-2">Id Kiến Thức Tin Tức</label>
+                    <label asp-for="KnowledgeNewCatagoryId" class="control-label  m-2">ID của Loại Kiến Thức Tin Tức</label>
                     <input asp-for="KnowledgeNewCatagoryId" class="form-control" readonly />
                 </div>
                 <div class="form-group m-2">
-                    <label asp-for="KnowledgeNewCatagoriesName" class="control-label m-2">Tên Kiến Thức Tin Tức</label>
-                    <input name="KnowledgeNewCatagoriesName" class="form-control" value="@Html.Encode(Model.KnowledgeNewCatagoriesName)" />
-
+                    <label asp-for="KnowledgeNewCatagoriesName" class="control-label m-2">Tên Loại Kiến Thức Tin Tức</label>
+                    <input asp-for="KnowledgeNewCatagoriesName" class="form-control" />
                     <span asp-validation-for="KnowledgeNewCatagoriesName" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">
@@ -42,7 +41,7 @@
                         <input type="submit" value="Lưu" class="btn btn-primary" />
                     </div>
                     <div class="col-md-7">
-                        <a class="m-6 btn btn-secondary" asp-action="Index">Về trang quản lí Kiến Thức Tin Tức</a>
+                        <a class="m-6 btn btn-secondary" asp-action="Index" style="width:300px">Về trang quản lí Loại Kiến Thức Tin Tức</a>
                     </div>
                 </div>
             </form>
@@ -51,7 +50,7 @@
 }
 else
 {
-    <a class="m-5" asp-action="Index" asp-controller="KnowledgeNewsCategory">Về trang quản lí Kiến Thức Tin Tức</a>
+    <a class="m-5" asp-action="Index" asp-controller="KnowledgeNewsCategory" style="width:300px">Về trang quản lí Loại Kiến Thức Tin Tức</a>
 
 }
 <hr />
