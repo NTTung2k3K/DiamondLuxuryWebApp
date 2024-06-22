@@ -60,7 +60,16 @@ namespace DiamondLuxurySolution.Utilities.Constants
 			public const string Necklace = "Dây Chuyền";
 		}
 
-		public enum OrderStatus
+        public class MaterialNameDefault
+        {
+            public const string Gold10K = "Vàng 10K";
+            public const string Gold14K = "Vàng 14K";
+            public const string Gold18K = "Vàng 18K";
+            public const string Platium850 = "Platium 850";
+            public const string Platium950 = "Platium 950";
+        }
+
+        public enum OrderStatus
         {
             InProgress,
             Confirmed,
