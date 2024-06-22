@@ -3,6 +3,8 @@ using DiamondLuxurySolution.AdminCrewApp.Services;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
 using DiamondLuxurySolution.ViewModel.Models.Order;
+using DiamondLuxurySolution.ViewModel.Models.Platform;
+using DiamondLuxurySolution.ViewModel.Models.Product;
 using System.Collections.Generic;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Service.Home
@@ -66,7 +68,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Home
             var data = await GetAsync<int>("api/Orders/GetTotalOrder");
             return data;
         }
-
+        public async Task<ApiResult<List<decimal>>> IncomeByWeek()
+        {
+            var data = await GetAsync<List<decimal>>($"api/Orders/GetIncomeByWeek");
+            return data;
+        }
         public async Task<ApiResult<int>> ViewNewCustomerOnDay()
         {
             var data = await GetAsync<int>("api/Staffs/GetNumberCustomerToday");
@@ -99,6 +105,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Home
         public async Task<ApiResult<int>> CountAllCustomer()
         {
             var data = await GetAsync<int>($"api/Staffs/CountAllCustomer");
+            return data;
+        }
+
+        public async Task<ApiResult<List<ProductCategorySale>>> ViewProductCategorySale()
+        {
+            var data = await GetAsync<List<ProductCategorySale>>($"api/Products/ViewProductCategorySale");
+            return data;
+        }
+
+        public async Task<ApiResult<List<ProductSaleChart>>> ViewProductSale12Days()
+        {
+            var data = await GetAsync<List<ProductSaleChart>>($"api/Products/ViewProductSale12Days");
             return data;
         }
     }

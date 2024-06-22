@@ -45,6 +45,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             var orderByQuarter = await _homeApiService.OrderByQuarter();
             ViewBag.OrderByQuarter = orderByQuarter.ResultObj;
 
+            var ListIncomeByWeek = await _homeApiService.IncomeByWeek();
+            ViewBag.ListIncomeByWeek = ListIncomeByWeek.ResultObj;
+
+            ViewBag.TotalIncomeByWeek = ListIncomeByWeek.ResultObj.Sum();
+
+
+            var ViewProductCategorySale = await _homeApiService.ViewProductCategorySale();
+            ViewBag.ListProductCategorySale = ViewProductCategorySale.ResultObj;
+
+            var ViewProductSale12Days = await _homeApiService.ViewProductSale12Days();
+            ViewBag.ViewProductSale12Days = ViewProductSale12Days.ResultObj;
 
 
             return View();

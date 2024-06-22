@@ -141,7 +141,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 {
                     return Ok(status);
                 }
-                return BadRequest(status);
+                return Ok(status);
             }
             catch (Exception e)
             {

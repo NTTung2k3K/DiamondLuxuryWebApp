@@ -17,5 +17,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Order
         public Task<ApiResult<OrderVm>> GetOrderById(string OrderId);
         public Task<ApiResult<PageResult<OrderVm>>> ViewOrder(ViewOrderRequest request);
 
+
     }
 }

@@ -13,7 +13,7 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
     {
         public Task<ApiResult<List<WarrantyDetailVm>>> GetAll();
         public Task<ApiResult<bool>> CreateWarrantyDetail(CreateWarrantyDetailRequest request);
-        public Task<ApiResult<bool>> CheckValidWarrantyId(string WarrantyId);
+        public Task<ApiResult<string>> CheckValidWarrantyId(string WarrantyId);
         public Task<ApiResult<bool>> UpdateWarrantyDetail(UpdateWarrantyDetailRequest request);
         public Task<ApiResult<bool>> DeleteWarrantyDetail(DeleteWarrantyDetailRequest request);
         public Task<ApiResult<WarrantyDetailVm>> GetWarrantyDetaiById(int WarrantyDetailId);

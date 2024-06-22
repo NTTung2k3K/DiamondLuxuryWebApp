@@ -32,6 +32,7 @@ using DiamondLuxurySolution.AdminCrewApp.Service.Home;
 using DiamondLuxurySolution.AdminCrewApp.Models;
 using DinkToPdf.Contracts;
 using DinkToPdf;
+using DiamondLuxurySolution.AdminCrewApp.Service.WarrantyDetail;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -86,8 +87,8 @@ builder.Services.AddTransient<IGemPriceListApiService, GemPriceListApiService>()
 builder.Services.AddTransient<IWarrantyApiService, WarrantyApiService>();
 
 builder.Services.AddTransient<IKnowLedgeNewsApiService, KnowledgeNewsApiService>();
-
-builder.Services.AddTransient<IKnowledgeNewsCategoryApiService, KnowledgeNewsCategoryApiService>();
+builder.Services.AddTransient<IKnowLedgeNewsApiService, KnowledgeNewsApiService>();
+builder.Services.AddTransient<IWarrantyDetailService, WarrantyDetailService>();
 builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
 builder.Services.AddSession(options =>

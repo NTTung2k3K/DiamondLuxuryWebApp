@@ -1,0 +1,359 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.WarrantyDetail.WarrantyDetailVm
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chi tiết thông tin bảo hành</h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if (Model != null)
+{
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-3 mb-3">
+                Id của thông tin bảo hành
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.WarrantyDetailId)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Mã bảo hành
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.WarrantyVm.WarrantyId)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Tên phiếu bảo hành
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.WarrantyDetailName)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Loại
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.WarrantyType)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Mô Tả
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Ngày nhận
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.ReceiveProductDate)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Ngày trả hàng
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.ReturnProductDate != null && Model.ReturnProductDate != DateTime.MinValue)
+                {
+                    @Html.DisplayFor(model => model.ReturnProductDate)
+                }
+                else
+                {
+                    <span>Không có</span>
+                }
+            </dd>
+            <dt class="col-sm-3">
+                Hình ảnh
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.Image != "")
+                {
+                    <img src="@Model.Image" style="style= height:100px; width:100px" />
+                }
+                else
+                {
+                    <h5>Không có hình ảnh</h5>
+                }
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Trạng thái
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.Received.ToString()))
+                {
+                    <span style="color:blue">Đã nhận</span>
+                }
+                else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.UnderReview.ToString()))
+                {
+                    <span style="color:orange">Đang xem xét</span>
+                }
+                else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.Approved.ToString()))
+                {
+                    <span style="color:lightblue">Đã phê duyệt</span>
+                }
+                else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.Denied.ToString()))
+                {
+                    <span style="color:red">Từ chối</span>
+                }
+                else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.InRepair.ToString()))
+                {
+                    <span style="color:gray">Đang sửa chữa</span>
+                }
+                else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.RepairCompleted.ToString()))
+                {
+                    <span style="color:green">Sửa chữa hoàn tất</span>
+                }
+                else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.QualityCheck.ToString()))
+                {
+                    <span style="color:black">Kiểm tra chất lượng</span>
+                }
+                else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.CustomerNotified.ToString()))
+                {
+                    <span style="color:lightgray">Đã thông báo khách hàng</span>
+                }
+                else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.RefundProcessed.ToString()))
+                {
+                    <span style="color:blue">Đã xử lý hoàn tiền</span>
+                }
+                else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.Success.ToString()))
+                {
+                    <span style="color:green">Thành công</span>
+                }
+                else
+                {
+                    <span style="color:gray">N/A</span>
+                }
+            </dd>
+
+        </dl>
+        <h3 style="font-weight:bold" class="text-center">Thông tin sản phẩm</h3>
+        <div>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-3">
+                    Id của sản phẩm
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ProductVm.ProductId)
+                </dd>
+                <dt class="col-sm-3">
+                    Tên
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ProductVm.ProductName)
+                </dd>
+
+                <dt class="col-sm-3">
+                    Hình đại diện
+                </dt>
+                <dd class="col-sm-8">
+                    @if (Model.ProductVm.ProductThumbnail != null && Model.ProductVm.ProductThumbnail != "")
+                    {
+                        <img src="@Model.ProductVm.ProductThumbnail" style="style= height:100px; width:100px" />
+                    }
+                    else
+                    {
+                        <h5>Chưa có hình ảnh</h5>
+                    }
+                </dd>
+
+                <dt class="col-sm-3">
+                    Trạng thái
+                </dt>
+                <dd class="col-sm-8">
+                    @if (Model.ProductVm.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString()))
+                    {
+                        <p>Hết hàng</p>
+                    }
+                    @if (Model.ProductVm.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()))
+                    {
+                        <p>Đang bán</p>
+                    }
+                    @if (Model.ProductVm.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Sales.ToString()))
+                    {
+                        <p>Giảm giá</p>
+                    }
+                    @if (Model.ProductVm.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))
+                    {
+                        <p>Sắp có hàng</p>
+                    }
+                </dd>
+
+                <dt class="col-sm-3">
+                    Kim cương chính
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ProductVm.GemVm.GemName)
+                </dd>
+                <dt class="col-sm-3">
+                    Kim cương phụ
+                </dt>
+                <dd class="col-sm-8">
+                    @if (Model.ProductVm.ListSubGems != null && Model.ProductVm.ListSubGems.Count > 0)
+                    {
+                        foreach (var subgem in Model.ProductVm.ListSubGems)
+                        {
+                            <p>@subgem.SubGemName &nbsp <span style="font-weight:bold">Số lượng: </span><span>@subgem.Quantity</span></p>
+                        }
+                    }
+                    else
+                    {
+                        <p>Không có</p>
+                    }
+                </dd>
+                <dt class="col-sm-3">
+                    Loại
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ProductVm.CategoryVm.CategoryName)
+                </dd>
+                <dt class="col-sm-3">
+                    Khung
+                </dt>
+                <dd class="col-sm-8">
+                    @if (Model.ProductVm.FrameVm != null)
+                    {
+                        @Html.DisplayFor(model => model.ProductVm.FrameVm.NameFrame)
+                    }
+                    else
+                    {
+                        <p>Không có</p>
+                    }
+                </dd>
+                <dt class="col-sm-3">
+                    Số lượng
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.ProductVm.Quantity)
+                </dd>
+        </div>
+
+
+
+        <h3 style="font-weight:bold" class="text-center">Thông tin khách hàng</h3>
+        <div>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    Id của khách hàng
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CustomerVm.CustomerId)
+                </dd>
+                <dt class="col-sm-2">
+                    Email
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CustomerVm.Email)
+                </dd>
+                <dt class="col-sm-2">
+                    Họ và tên
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.CustomerVm.FullName)
+                </dd>
+                <dt class="col-sm-2">
+                    Địa chỉ
+                </dt>
+                <dd class="col-sm-10">
+                    @if (string.IsNullOrEmpty(Model.CustomerVm.Address))
+                    {
+                        <p>Chưa có</p>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.CustomerVm.Address)
+                    }
+                </dd>
+                <dt class="col-sm-2">
+                    Số điện thoại
+                </dt>
+                <dd class="col-sm-10">
+                    @if (string.IsNullOrEmpty(Model.CustomerVm.PhoneNumber))
+                    {
+                        <p>Chưa có</p>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(model => model.CustomerVm.PhoneNumber)
+                    }
+                </dd>
+                <dt class="col-sm-2">
+                    Vai trò
+                </dt>
+                <dd class="col-sm-10">
+                    Khách hàng
+                </dd>
+                <dt class="col-sm-2">
+                    Trạng thái
+                </dt>
+
+                @if (Model.CustomerVm.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Suspended.ToString()))
+                {
+                    <dd class="col-md-10">
+                        Tạm khóa
+                    </dd>
+                }
+                @if (Model.CustomerVm.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Active.ToString()))
+                {
+                    <dd class="col-md-10">
+                        Hoạt động
+                    </dd>
+                }
+                @if (Model.CustomerVm.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.ChangePasswordRequest.ToString()))
+                {
+                    <dd class="col-md-10">
+                        Yêu cầu thay đổi mật khẩu
+                    </dd>
+                }
+                @if (Model.CustomerVm.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Inactive.ToString()))
+                {
+                    <dd class="col-md-10">
+                        Không hoạt động
+                    </dd>
+                }
+                @if (Model.CustomerVm.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.New.ToString()))
+                {
+                    <dd class="col-md-10">
+                        K/H mới
+                    </dd>
+                }
+
+                <dt class="col-sm-2">
+                    Ngày sinh
+                </dt>
+                <dd class="col-sm-10">
+                    @if (Model.CustomerVm.Dob != DateTime.MinValue)
+                    {
+                        @Model.CustomerVm.Dob.ToString("dd/MM/yyyy")
+                    }
+                    else
+                    {
+                        <span>Không có</span>
+                    }
+                </dd>
+
+            </dl>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            @Html.ActionLink("Chỉnh sửa", "Edit", new { WarrantyDetailID = Model.WarrantyDetailId }, new { @class = "btn btn-warning" })
+        </div>
+        <div class="col-md-6">
+            <a class=" btn btn-secondary"  asp-action="Index">Về trang quản lí thông tin bảo hành</a>
+        </div>
+    </div>
+}
+else
+{
+    <div>
+        <a class=" btn btn-secondary" asp-action="Index">Về trang quản lí thông tin bảo hành</a>
+    </div>
+}

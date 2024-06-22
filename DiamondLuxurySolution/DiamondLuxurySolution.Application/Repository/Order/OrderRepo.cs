@@ -1203,6 +1203,22 @@ namespace DiamondLuxurySolution.Application.Repository.Order
 
             await _context.SaveChangesAsync();
 
+            //Process selling Count
+            if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString())){
+                var orderDetailSellingCount = await _context.OrderDetails.Where(x => x.OrderId == order.OrderId).ToListAsync();
+                foreach (var item in orderDetailSellingCount)
+                {
+                    var product = await _context.Products.FindAsync(item.ProductId);
+                    if (product == null)
+                    {
+                        return new ApiErrorResult<bool>($"Không tìm thấy sản phẩm");
+                    }
+                    product.SellingCount += item.Quantity;
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
             return new ApiSuccessResult<bool>(true, "Success");
 
         }
@@ -1968,6 +1984,32 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             // END warranty 
 
             return new ApiSuccessResult<string>(order.CustomerId.ToString(), "Success");
+        }
+
+        public async Task<ApiResult<List<decimal>>> IncomeByWeek()
+        {
+            // Get the current date
+            var today = DateTime.Today;
+
+            // Calculate the start and end of the current week (assuming Monday is the start of the week)
+            var startOfWeek = today.AddDays(-(int)today.DayOfWeek + (int)DayOfWeek.Monday);
+            var endOfWeek = startOfWeek.AddDays(7).AddTicks(-1); // Sunday end of the week
+
+            // Create a list to hold the daily incomes
+            var dailyIncomes = new List<decimal>();
+
+            for (var date = startOfWeek; date <= endOfWeek; date = date.AddDays(1))
+            {
+                var income = await _context.OrdersPayments
+                    .Where(x => x.Status == DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()
+                                && x.PaymentTime.Date == date.Date)
+                    .SumAsync(x => x.PaymentAmount);
+
+                dailyIncomes.Add(income);
+            }
+
+            // Return the results
+            return new ApiSuccessResult<List<decimal>>(dailyIncomes, "Success");
         }
 
     }

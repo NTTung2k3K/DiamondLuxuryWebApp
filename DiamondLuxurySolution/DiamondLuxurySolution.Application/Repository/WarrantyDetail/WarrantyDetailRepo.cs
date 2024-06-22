@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DiamondLuxurySolution.ViewModel.Models.User.Customer;
+using DiamondLuxurySolution.ViewModel.Models.Warranty;
 
 namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
 {
@@ -30,14 +31,20 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
             _context = context;
         }
 
-        public async Task<ApiResult<bool>> CheckValidWarrantyId(string WarrantyId)
+        public async Task<ApiResult<string>> CheckValidWarrantyId(string WarrantyId)
         {
             var Warrantys = await _context.Warrantys.FindAsync(WarrantyId);
             if (Warrantys == null)
             {
-                return new ApiErrorResult<bool>("Không tìm thấy chi tiết thông tin bảo hành");
+                return new ApiErrorResult<string>("Không tìm thấy chi tiết thông tin bảo hành");
             }
-            return new ApiSuccessResult<bool>(true, "Success");
+            var today = DateTime.Now;
+            if (Warrantys.DateActive <= today && today <= Warrantys.DateExpired)
+            {
+                return new ApiSuccessResult<string>("Hợp lệ: (Ngày bắt đầu:" + Warrantys.DateActive + " | " + "Ngày kết thúc:" + Warrantys.DateExpired + ")", "Hợp lệ: (Ngày bắt đầu:" + Warrantys.DateActive + " | " + "Ngày kết thúc:" + Warrantys.DateExpired + ")");
+            }
+            return new ApiSuccessResult<string>("Không hợp lệ: (Ngày bắt đầu:" + Warrantys.DateActive + " | " + "Ngày kết thúc:" + Warrantys.DateExpired + ")", "Không hợp lệ: (Ngày bắt đầu:" + Warrantys.DateActive + " | " + "Ngày kết thúc:" + Warrantys.DateExpired + ")");
+
         }
 
         public async Task<ApiResult<bool>> CreateWarrantyDetail(CreateWarrantyDetailRequest request)
@@ -51,7 +58,7 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
             {
                 errorList.Add("Vui lòng nhập mã bảo hành");
             }
-            if (request.ReturnProductDate != null)
+            if (request.ReturnProductDate != null && request.ReturnProductDate != DateTime.MinValue)
             {
                 if (request.ReturnProductDate < request.ReceiveProductDate)
                 {
@@ -62,6 +69,17 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
+            var Warrantys = await _context.Warrantys.FindAsync(request.WarrantyId);
+            if (Warrantys == null)
+            {
+                return new ApiErrorResult<bool>("Không tìm thấy mã bảo hành");
+            }
+            var today = DateTime.Now;
+            if (!(Warrantys.DateActive <= today && today <= Warrantys.DateExpired))
+            {
+                return new ApiErrorResult<bool>("Không hợp lệ: (Ngày bắt đầu:" + Warrantys.DateActive + " | " + "Ngày kết thúc:" + Warrantys.DateExpired + ")");
+            }
+
 
             var warrantyDetail = new DiamondLuxurySolution.Data.Entities.WarrantyDetail
             {
@@ -154,7 +172,7 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
                     CustomerVm = new CustomerVm()
                     {
                         CustomerId = customer.Id,
-                        FullName = customer.Fullname??"Không có",
+                        FullName = customer.Fullname ?? "Không có",
                         Email = customer.Email ?? "Không có",
                         PhoneNumber = customer.PhoneNumber ?? "Không có",
                         Address = customer.Address ?? "Không có"
@@ -177,7 +195,7 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
             return new ApiSuccessResult<List<WarrantyDetailVm>>(rs);
         }
 
-        
+
 
         public async Task<ApiResult<WarrantyDetailVm>> GetWarrantyDetaiById(int WarrantyDetailId)
         {
@@ -200,7 +218,7 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
             var product = await _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.Gem).ThenInclude(g => g.InspectionCertificate)
-                .Include(p => p.SubGemDetails)
+                .Include(p => p.SubGemDetails).ThenInclude(x => x.SubGem)
                 .Include(p => p.Images)
                 .Include(p => p.Frame).ThenInclude(f => f.Material)
                 .FirstOrDefaultAsync(p => p.ProductId == productId);
@@ -211,7 +229,7 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
             }
 
             var customer = warrantyDetail.Warranty.OrderDetails.First().Order.Customer;
-
+            var quantityBuy = warrantyDetail.Warranty.OrderDetails.First().Quantity;
             var warrantyDetailVm = new WarrantyDetailVm()
             {
                 WarrantyDetailId = warrantyDetail.WarrantyDetailId,
@@ -231,12 +249,52 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
                     IsSale = product.IsSale,
                     PercentSale = product.PercentSale,
                     Status = product.Status,
-                    Quantity = product.Quantity,
+                    Quantity = quantityBuy,
                     ProcessingPrice = product.ProductPriceProcessing,
                     OriginalPrice = product.OriginalPrice,
                     SellingPrice = product.SellingPrice,
                     DateModify = product.DateModified,
                     QuantitySold = product.SellingCount,
+                    GemVm = new GemVm
+                    {
+                        GemId = product.Gem.GemId,
+                        GemName = product.Gem.GemName,
+                        GemImage = product.Gem.GemImage,
+                        AcquisitionDate = product.Gem.AcquisitionDate,
+                        IsOrigin = product.Gem.IsOrigin,
+                        Active = product.Gem.Active,
+                        Fluoresence = product.Gem.Fluoresence,
+                        Polish = product.Gem.Polish,
+                        ProportionImage = product.Gem.ProportionImage,
+                        Symetry = product.Gem.Symetry,
+                        InspectionCertificateVm = product.Gem.InspectionCertificate != null ? new InspectionCertificateVm()
+                        {
+                            InspectionCertificateId = product.Gem.InspectionCertificate.InspectionCertificateId,
+                            DateGrading = product.Gem.InspectionCertificate.DateGrading,
+                            InspectionCertificateName = product.Gem.InspectionCertificate.InspectionCertificateName,
+                            Logo = product.Gem.InspectionCertificate.Logo,
+                            Status = product.Gem.InspectionCertificate.Status
+                        } : null,
+                    },
+                    CategoryVm = new CategoryVm
+                    {
+                        CategoryName = product.Category.CategoryName
+                    },
+                    FrameVm = new FrameVm
+                    {
+                        NameFrame = product.Frame.FrameName,
+                        Weight = product.Frame.Weight,
+                    },
+                    MaterialVm = new MaterialVm
+                    {
+                        MaterialName = product.Frame.Material.MaterialName,
+                        Color = product.Frame.Material.Color,
+                    },
+                    ListSubGems = product.SubGemDetails.Select(x => new SubGemSupportDTO()
+                    {
+                        Quantity = x.Quantity,
+                        SubGemName = x.SubGem.SubGemName,
+                    }).ToList()
                 },
                 CustomerVm = new CustomerVm()
                 {
@@ -244,7 +302,9 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
                     FullName = customer.Fullname ?? "Không có",
                     Email = customer.Email ?? "Không có",
                     PhoneNumber = customer.PhoneNumber ?? "Không có",
-                    Address = customer.Address ?? "Không có"
+                    Address = customer.Address ?? "Không có",
+                    Dob = customer.Dob ?? DateTime.MinValue,
+                    Status = customer.Status
                 },
                 Status = warrantyDetail.Status,
                 WarrantyVm = new ViewModel.Models.Warranty.WarrantyVm()
@@ -282,11 +342,30 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
 
+
+            var Warrantys = await _context.Warrantys.FindAsync(request.WarrantyId);
+            if (Warrantys == null)
+            {
+                return new ApiErrorResult<bool>("Không tìm thấy chi tiết thông tin bảo hành");
+            }
+            var today = DateTime.Now;
+            if (!(Warrantys.DateActive <= today && today <= Warrantys.DateExpired))
+            {
+                return new ApiErrorResult<bool>("Không hợp lệ: (Ngày bắt đầu:" + Warrantys.DateActive + " | " + "Ngày kết thúc:" + Warrantys.DateExpired + ")");
+            }
+
+
+
+
             var warrantyDetail = await _context.WarrantyDetails.FindAsync(request.WarrantyDetailId);
             if (warrantyDetail == null)
             {
                 return new ApiErrorResult<bool>("Không tìm thấy chi tiết bảo hành");
             }
+
+
+
+
 
             warrantyDetail.WarrantyId = request.WarrantyId;
             warrantyDetail.WarrantyDetailName = request.WarrantyDetailName;
@@ -307,7 +386,7 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
             return new ApiSuccessResult<bool>(true, "Cập nhật thành công");
         }
 
-       
+
         public async Task<ApiResult<PageResult<WarrantyDetailVm>>> ViewWarrantyDetai(ViewWarrantyDetailRequest request)
         {
             var listWarrantyDetails = _context.WarrantyDetails
@@ -409,6 +488,7 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
 
             return new ApiSuccessResult<PageResult<WarrantyDetailVm>>(listResult, "Success");
         }
+
 
     }
 }

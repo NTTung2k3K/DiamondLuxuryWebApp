@@ -7,15 +7,24 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.WarrantyDetail
 {
     public class WarrantyDetailService : BaseApiService, IWarrantyDetailService
     {
-        public async Task<ApiResult<bool>> CheckValidWarrantyId(string WarrantyId)
+        public WarrantyDetailService(IHttpClientFactory httpClientFactory, IConfiguration configuration, IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration, httpContextAccessor)
         {
-            var data = await GetAsync<bool>("api/WarrantyDetails/ValidateWarrantyId"+WarrantyId);
+        }
+
+        public async Task<ApiResult<string>> CheckValidWarrantyId(string WarrantyId)
+        {
+            var data = await GetAsync<string>("api/WarrantyDetails/ValidateWarrantyId"+WarrantyId);
             return data;
         }
 
         public async Task<ApiResult<bool>> CreateWarrantyDetail(CreateWarrantyDetailRequest request)
         {
-            var data = await PostAsync<bool>("api/WarrantyDetails/Create", request);
+            if (request.ReturnProductDate == null)
+            {
+                request.ReturnProductDate = DateTime.MinValue;
+            }
+
+            var data = await PostAsyncHasImage<bool>("api/WarrantyDetails/Create", request);
             return data;
         }
 
@@ -33,19 +42,19 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.WarrantyDetail
 
         public async Task<ApiResult<WarrantyDetailVm>> GetWarrantyDetaiById(int WarrantyDetailId)
         {
-            var data = await GetAsync<WarrantyDetailVm>("api/WarrantyDetails/GetById?WarrantyDetailId=" + WarrantyId);
+            var data = await GetAsync<WarrantyDetailVm>("api/WarrantyDetails/GetById?WarrantyDetailId=" + WarrantyDetailId);
             return data;
         }
 
         public async Task<ApiResult<bool>> UpdateWarrantyDetail(UpdateWarrantyDetailRequest request)
         {
-            var data = await PutAsync<bool>("api/WarrantyDetails/Update", request);
+            var data = await PutAsyncHasImage<bool>("api/WarrantyDetails/Update", request);
             return data;
         }
 
         public  async Task<ApiResult<PageResult<WarrantyDetailVm>>> ViewWarrantyDetai(ViewWarrantyDetailRequest request)
         {
-            var data = await GetAsync<PageResult<WarrantyDetailVm>>($"api/WarrantyDetails/ViewInManager?Keyword={request.Keyword}&pageIndex={request.pageIndex}");
+            var data = await GetAsync<PageResult<WarrantyDetailVm>>($"api/WarrantyDetails/View?Keyword={request.Keyword}&pageIndex={request.pageIndex}");
             return data;
         }
     }
