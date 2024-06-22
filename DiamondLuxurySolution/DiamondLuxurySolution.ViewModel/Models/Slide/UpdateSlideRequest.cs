@@ -17,7 +17,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.Slide
         public string? Description { get; set; }
 
         public string? SlideUrl { get; set; }
-        [Required(ErrorMessage = "Cần Thêm Hình Ảnh")]
         public IFormFile? SlideImage { get; set; }
 
         public bool Status { get; set; }
