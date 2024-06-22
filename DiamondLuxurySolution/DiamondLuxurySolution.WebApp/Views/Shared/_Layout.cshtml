@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="meta description">
-
+    <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap" rel="stylesheet">
     <!-- Favicons -->
 
     <link rel="shortcut icon" href="../assets/img/logo/LOGO.png" type="../image/x-icon">
@@ -62,13 +62,38 @@
     <script src="../assets/js/main.js" defer></script>
 
     @RenderSection("StyleCss", false)
+    <style>
+        .mainmenu__item {
+            padding: 0px
+        }
+
+            .mainmenu__item a {
+                font-size: 16px;
+                font-family: "Jura", serif;
+                font-optical-sizing: auto;
+            }
+
+        .img-navbar {
+            width: 30px;
+            margin-bottom: 5px
+        }
+
+        .submenu {
+            margin-left: 20px
+        }
+
+        .mainmenu__item.menu-item-has-children > ul.sub-menu {
+            min-width: 22rem
+        }
+    </style>
 </head>
 
-<body>
+
+<body style="background: black">
 
 
     <!-- Main Wrapper Start -->
-    <div class="wrapper bg--shaft">
+    <div class="wrapper bg--shaft" style="background: black">
         <!-- Header Area Start -->
         <header class="header headery-style-1">
             <div class="header-top header-top-1">
@@ -161,20 +186,19 @@
                 <div class="container">
                     <div class="row no-gutters align-items-center">
                         <div class="col-lg-5 col-md-4 col-sm-6 order-lg-1 order-2">
-                            <div class="contact-info">
+                            <div class="contact-info " style="text-align: start">
                                 <img src="../assets/img/icons/icon_phone.png" alt="Phone Icon">
                                 <p>Liên Hệ Hỗ Trợ: <br>(012) 800 456 789</p>
-
                             </div>
                             <br>
-                            <div class="contact-info">
+                            <div class="contact-info" style="text-align: start">
                                 <img src="../assets/img/icons/location.png" alt="Phone Icon">
                                 <p>Hệ Thống Showroom: <br>Cơ Sở HCM: Vinhomes Grand Park Quận 9</p>
                             </div>
                         </div>
                         <div class="col-lg-2 col-12 order-lg-2 order-1 text-center">
                             <a href="/Home/Index" class="logo-box mb-md--30">
-                                <img src="../assets/img/logo/LOGO.png" alt="logo">
+                                <img src="~/assets/img/logo/LogoMain.png" alt="logo">
                             </a>
                         </div>
                         <div class="col-lg-5 col-md-7 col-sm-5 order-lg-3 order-3">
@@ -209,7 +233,7 @@
                                                     </span>
                                                 </span>
                                             </a>
-                                           
+
                                         </div>
                                     </li>
                                 </ul>
@@ -220,24 +244,32 @@
             </div>
         </header>
 
-        <div class="header-bottom header-top-1 position-relative navigation-wrap fixed-header">
-            <div class="container position-static">
+        <div class="header-bottom header-top-1 position-relative navigation-wrap fixed-header"
+             style="justify-content: center; >
+            <div class="container position-static"
+                 style="margin: 0px; padding: 0; ">
                 <div class="row">
-                    <div class="col-12 position-static">
+                    <div class="col-12 position-static" style="min-width: 100%">
                         <nav class="main-navigation">
                             <ul class="mainmenu col-12">
                                 <li id="home" class="mainmenu__item">
                                     <a href="/Home/Index" class="mainmenu__link">Trang Chủ</a>
                                 </li>
                                 <li id="diamond" class="mainmenu__item menu-item-has-children has-children">
-                                    <a href="/Diamond/Index" class="mainmenu__link">Kim Cương</a>
+                                    <a href="/Diamond/Index" class="mainmenu__link">
+                                        <img class="img-navbar" src="https://caohungdiamond.com/wp-content/uploads/2024/04/Vien-Kim-Cuong-icon.png" />
+                                        Kim Cương
+                                    </a>
                                     <ul class="sub-menu">
                                         <li><a href="/DiamondNatural/Index">Kim Cương Tự Nhiên</a></li>
                                         <li><a href="/DiamondArtificial/Index">Kim Cương Nhân Tạo</a></li>
                                     </ul>
                                 </li>
                                 <li id="diamond-jewelry" class="mainmenu__item menu-item-has-children has-children">
-                                    <a href="/DiamondJewelry/Index" class="mainmenu__link">Trang Sức Kim Cương</a>
+                                    <a href="/DiamondJewelry/Index" class="mainmenu__link">
+                                        <img class="img-navbar" src="https://caohungdiamond.com/wp-content/uploads/2022/06/nhan-nu.png" />
+                                        Trang Sức Kim Cương
+                                    </a>
                                     <ul class="sub-menu">
                                         <li class="menu-item-has-children has-children">
                                             <a class="mainmenu__link" href="/DiamondJewelryRing/Index">Nhẫn Kim Cương</a>
@@ -257,7 +289,10 @@
                                     </ul>
                                 </li>
                                 <li id="wedding-jewelry" class="mainmenu__item menu-item-has-children has-children">
-                                    <a href="/WeddingJewelry/Index" class="mainmenu__link">Trang Sức Cưới</a>
+                                    <a href="/WeddingJewelry/Index" class="mainmenu__link">
+                                        <img class="img-navbar" src="https://caohungdiamond.com/wp-content/uploads/2022/06/nhan-cuoi.png" />
+                                        Trang Sức Cưới
+                                    </a>
                                     <ul class="sub-menu">
                                         <li><a href="/WeddingJewelryRing/Index">Nhẫn Cưới Kim Cương</a></li>
                                         <li><a href="/WeddingJewelryProposal/Index">Nhẫn Kim Cương Cầu Hôn</a></li>
@@ -338,7 +373,7 @@
 
 
 
-        @RenderBody()
+    @RenderBody()
         <!-- Footer Start -->
         <footer class="footer border-top ptb--40 ptb-md--30">
             <div class="container">

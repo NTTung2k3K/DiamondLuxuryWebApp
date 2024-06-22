@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using DiamondLuxurySolution.WebApp.Service.Customer;
 using DiamondLuxurySolution.WebApp.Service.Payment;
 using DiamondLuxurySolution.WebApp.Service.Promotion;
+using DiamondLuxurySolution.AdminCrewApp.Service.Category;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,7 +42,7 @@ builder.Services.AddTransient<IPromotionApiService, PromotionApiService>();
 builder.Services.AddTransient<ISlideApiService, SlideApiService>();
 builder.Services.AddTransient<IGemPriceListApiService, GemPriceListApiService>();
 builder.Services.AddTransient<IKnowLedgeNewsApiService, KnowledgeNewsApiService>();
-
+builder.Services.AddTransient<ICategoryApiService, CategoryApiService>();
 builder.Services.AddTransient<IContactApiService, ContactApiService>();
 
 builder.Services.AddTransient<IProductApiService, ProductApiService>();

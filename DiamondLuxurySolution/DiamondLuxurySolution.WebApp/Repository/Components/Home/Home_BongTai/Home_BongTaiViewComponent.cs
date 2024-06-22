@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DiamondLuxurySolution.WebApp.Repository.Components.Home_DayChuyen
+namespace DiamondLuxurySolution.WebApp.Repository.Components.Home_BongTai
 {
     public class Home_BongTaiViewComponent : ViewComponent
     {
@@ -22,7 +22,7 @@ namespace DiamondLuxurySolution.WebApp.Repository.Components.Home_DayChuyen
         {
             var status = await _productApiService.GetAll();
             var listSlide = await _slideApiService.GetAll();
-            ViewBag.ListSlide = listSlide;
+            ViewBag.listSlide = listSlide.ResultObj.ToList();
             return View(status.ResultObj.ToList());
         }
     }

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DiamondLuxurySolution.WebApp.Repository.Components.KienThucKC
 {
-    public class Home_CategoryViewComponent : ViewComponent
+    public class KienThucKCViewComponent : ViewComponent
     {
         private readonly IKnowLedgeNewsApiService _knowledgeNewsApiService;
 
-        public Home_CategoryViewComponent(IKnowLedgeNewsApiService knowledgeNewsApiService)
+        public KienThucKCViewComponent(IKnowLedgeNewsApiService knowledgeNewsApiService)
         {
             _knowledgeNewsApiService = knowledgeNewsApiService;
         }
