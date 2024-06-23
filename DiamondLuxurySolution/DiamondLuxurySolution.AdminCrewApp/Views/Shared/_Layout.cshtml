@@ -44,6 +44,8 @@
     <link rel="stylesheet" href="../assets/css/search.css" />
     <!-- [Downdown list CSS Files] -->
     <link rel="stylesheet" href="../assets/css/dropdownlist.css" />
+    <link rel="stylesheet" href="../assets/css/mytoast.css" />
+
 
     @RenderSection("CssStyle", required: false)
 
@@ -1268,7 +1270,73 @@
 
 
     @RenderSection("Scripts", required: false)
-
+    @if (TempData["SuccessToast"] != null && (bool)TempData["SuccessToast"] == true)
+    {
+        <!-- My toast -->
+        <div style="position: absolute; top: 10%; right: 0; width: 19%; height: 80px;border-radius:10px;     z-index: 10000;">
+            <div id="toast" role="alert" aria-live="assertive" aria-atomic="true" style="height: 100%; border-radius: 13px; background-color: white; display: flex; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                <div class="success d-flex" style="display: flex; align-items: center; width: 100%;height:100%;border-radius: 13px;">
+                    <div style="margin: 10px;">
+                        <i class="fa fas fa-check-circle" style="font-size: 24px; color: green;"></i>
+                    </div>
+                    <div style="flex-grow: 1;">
+                        <p style="margin: 0; font-weight: bold;margin-left:10px;font-size:17px">Thành công</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <!-- END Success notification -->
+    @if (TempData["ErrorToast"] != null && (bool)TempData["ErrorToast"] == true)
+    {
+        <!-- Error notification -->
+        <div style="position: absolute; top: 10%; right: 0; width: 19%; height: 80px;border-radius:10px;     z-index: 10000;">
+            <div id="toast" role="alert" aria-live="assertive" aria-atomic="true" style="height: 100%; border-radius: 13px; background-color: white; display: flex; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                <div class="error d-flex" style="display: flex; align-items: center; width: 100%;height:100%;border-radius: 13px;">
+                    <div style="margin: 10px;">
+                        <i class="fa fas fa-times-circle" style="font-size: 24px; color: red;"></i>
+                    </div>
+                    <div style="flex-grow: 1;">
+                        <p style="margin: 0; font-weight: bold;margin-left:10px;font-size:17px">Thất bại</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END Error notification -->
+    }
+    @if (TempData["InfoToast"] != null && (bool)TempData["InfoToast"] == true)
+    {
+        <!-- Error notification -->
+        <div style="position: absolute; top: 10%; right: 0; width: 19%; height: 80px;border-radius:10px;     z-index: 10000;">
+            <div id="toast" role="alert" aria-live="assertive" aria-atomic="true" style="height: 100%; border-radius: 13px; background-color: white; display: flex; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                <div class="info d-flex" style="display: flex; align-items: center; width: 100%;height:100%;border-radius: 13px;">
+                    <div style="margin: 10px;">
+                        <i class="fa fas fa-info-circle" style="font-size: 24px; color: #2F86EB;"></i>
+                    </div>
+                    <div style="flex-grow: 1;">
+                        <p style="margin: 0; font-weight: bold;margin-left:10px;font-size:17px">Thông tin</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @if (TempData["WarningToast"] != null && (bool)TempData["WarningToast"] == true)
+    {
+        <div style="position: absolute; top: 10%; right: 0; width: 19%; height: 80px;border-radius:10px;     z-index: 10000;">
+            <div id="toast" role="alert" aria-live="assertive" aria-atomic="true" style="height: 100%; border-radius: 13px; background-color: white; display: flex; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                <div class="warning d-flex" style="display: flex; align-items: center; width: 100%;height:100%;border-radius: 13px;">
+                    <div style="margin: 10px;">
+                        <i class="fa fas fa-info-circle" style="font-size: 24px; color: #FFC021;"></i>
+                    </div>
+                    <div style="flex-grow: 1;">
+                        <p style="margin: 0; font-weight: bold;margin-left:10px;font-size:17px">Cần thêm thông tin</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    <!-- END Error notification -->
+    <!-- #endregion -->
     <!-- Required Js -->
     <script src="../assets/js/plugins/popper.min.js"></script>
     <script src="../assets/js/plugins/simplebar.min.js"></script>
@@ -1303,7 +1371,18 @@
     <script>
         main_layout_change('vertical');
     </script>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                var toast = document.getElementById('toast');
+                toast.style.transition = 'opacity 0.6s';
+                toast.style.opacity = '0';
+                setTimeout(function () {
+                    toast.style.display = 'none';
+                }, 1000);
+            }, 3000);
+        });
+    </script>
 </body>
 <!-- [Body] end -->
 
