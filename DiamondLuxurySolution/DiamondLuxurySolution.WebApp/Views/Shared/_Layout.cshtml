@@ -100,32 +100,9 @@
                 <div class="container">
                     <div class="row no-gutters align-items-center">
                         <div class="col-lg-3 text-center">
-                            <ul class="social social-round mr--20">
-                                <li class="social__item">
-                                    <a href="https://plus.google.com" target="_blank" rel="noopener noreferrer"
-                                       class="social__link">
-                                        <i class="fa fa-google-plus"></i>
-                                    </a>
-                                </li>
-                                <li class="social__item">
-                                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
-                                       class="social__link">
-                                        <i class="fa fa-facebook"></i>
-                                    </a>
-                                </li>
-                                <li class="social__item">
-                                    <a href="https://youtube.com" target="_blank" rel="noopener noreferrer"
-                                       class="social__link">
-                                        <i class="fa fa-youtube"></i>
-                                    </a>
-                                </li>
-                                <li class="social__item">
-                                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
-                                       class="social__link">
-                                        <i class="fa fa-instagram"></i>
-                                    </a>
-                                </li>
-                            </ul>
+                           <!-- Platform View Component -->
+                           @await Component.InvokeAsync("Platform")
+                            <!-- End Platform View Component -->
                         </div>
                         <div class="col-lg-6">
                             <p class="header-text text-center">
@@ -354,7 +331,7 @@
                                     </ul>
                                 </li>
                                 <li id="about" class="mainmenu__item">
-                                    <a href="gioithieu.html" class="mainmenu__link">Giới Thiệu</a>
+                                    <a href="/GioiThieu/Index" class="mainmenu__link">Giới Thiệu</a>
                                 </li>
                                 <li id="contact" class="mainmenu__item">
                                     <a href="/Contact/Create" class="mainmenu__link">Liên Hệ</a>
@@ -381,38 +358,22 @@
                     <div class="col-lg-3 col-md-6 mb-md--30">
                         <div class="footer-widget">
                             <h3 class="widget-title">Về Diamond Luxury</h3>
+
                             <ul class="widget-menu">
-                                <li>Address: Vinhomes Grand Park <br> Q. Thủ Đức</li>
-                                <li>Số Điện Thoại: (012) 800 456 789</li>
-                                <li>Email: diamondluxuryservice@gmail.com</li>
+                                <!-- About View Component -->
+                            @await Component.InvokeAsync("About")
+
+                               
+                                <!-- End About View Component -->
+
                             </ul>
+
                             <br>
                             <ul class="social social-round">
                                 <h3 class="widget-title">Theo Dõi Chúng Tôi</h3>
-                                <li class="social__item">
-                                    <a class="social__link" href="https://facebook.com" target="_blank"
-                                       rel="noopener noreferrer">
-                                        <i class="fa fa-facebook"></i>
-                                    </a>
-                                </li>
-                                <li class="social__item">
-                                    <a class="social__link" href="https://youtube.com" target="_blank"
-                                       rel="noopener noreferrer">
-                                        <i class="fa fa-youtube"></i>
-                                    </a>
-                                </li>
-                                <li class="social__item">
-                                    <a class="social__link" href="https://instagram.com" target="_blank"
-                                       rel="noopener noreferrer">
-                                        <i class="fa fa-instagram"></i>
-                                    </a>
-                                </li>
-                                <li class="social__item">
-                                    <a class="social__link" href="https://plus.google.com" target="_blank"
-                                       rel="noopener noreferrer">
-                                        <i class="fa fa-google-plus"></i>
-                                    </a>
-                                </li>
+                                <!-- Platform View Component -->
+                            @await Component.InvokeAsync("Platform")
+                                <!-- End Platform View Component -->
                             </ul>
                         </div>
                     </div>
@@ -422,7 +383,7 @@
                             <ul class="widget-menu">
                                 <li><a href="/GioiThieu/Index">Giới Thiệu</a></li>
                                 <li><a href="/CauHoiThuongGap/Index">Câu Hỏi Thường Gặp</a></li>
-                                <li><a href="banggiakimcuong.html">Bảng Giá Kim Cương</a></li>
+                                <li><a href="/TablePrice/Index">Bảng Giá Kim Cương</a></li>
                                 <li><a href="/HuongDanDoNiNhan/Index">Hướng dẫn đo size: Nhẫn kim cương</a></li>
                                 <li><a href="/HuongDanDoNiDayChuyen/Index">Hướng dẫn đo size: Dây chuyền</a></li>
                                 <li><a href="/HuongDanDoNiDayVongTay/Index">Hướng dẫn đo size: Lắc & vòng tay</a></li>

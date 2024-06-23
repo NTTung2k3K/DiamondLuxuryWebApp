@@ -23,7 +23,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 
 
         [HttpPost("Create")]
-        public async Task<ActionResult> CreateAbout([FromForm] CreateAboutRequest request)
+        public async Task<ActionResult> CreateAbout([FromBody] CreateAboutRequest request)
         {
             try
             {
@@ -41,7 +41,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
         [HttpPut("Update")]
-        public async Task<ActionResult> UpdateAbout([FromForm] UpdateAboutRequest request)
+        public async Task<ActionResult> UpdateAbout([FromBody] UpdateAboutRequest request)
         {
             try
             {
