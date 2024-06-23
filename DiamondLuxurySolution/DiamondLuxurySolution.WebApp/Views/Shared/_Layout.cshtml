@@ -62,7 +62,62 @@
     <script src="../assets/js/main.js" defer></script>
 
     @RenderSection("StyleCss", false)
+
     <style>
+        .InputContainer {
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #333333;
+          border-radius: 20px;
+          overflow: hidden;
+          cursor: pointer;
+          padding-left: 15px;
+          box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.075);
+        }
+
+        .input {
+          width: 200px;
+          height: 100%;
+          border: none;
+          outline: none;
+          font-size: 0.9em;
+          caret-color: rgb(255, 81, 0);
+          background-color: #333333;
+          color:white;
+        }
+
+        .labelforsearch {
+          cursor: text;
+          padding: 0px 12px;
+        }
+
+        .searchIcon {
+          width: 13px;
+        }
+
+
+        .searchIcon path {
+          fill: rgb(114, 114, 114);
+        }
+
+        .btn{
+            background-color: #333333;
+        }
+
+        .mini-cart__icon {
+            font-size: 2rem;
+            display: inline-block;
+            line-height: 1.2;
+            border-right: 2px solid #323232;
+            padding: 0px 15px 0 10px;
+        }
+
+        .bordered-icon {
+            border: 2px solid #2d2d2d;
+        }
+
         .mainmenu__item {
             padding: 0px
         }
@@ -85,6 +140,10 @@
         .mainmenu__item.menu-item-has-children > ul.sub-menu {
             min-width: 22rem
         }
+        .header-toolbar{
+            margin-top:25px;
+        }
+
     </style>
 </head>
 
@@ -104,14 +163,14 @@
                            @await Component.InvokeAsync("Platform")
                             <!-- End Platform View Component -->
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <p class="header-text text-center">
                                 Miễn phí vận chuyển cho tất cả các đơn hàng trong nước<span></span>
                             </p>
                         </div>
                         @if (string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_NAME)))
                         {
-                            <div class="col-lg-3">
+                            <div class="col-lg-4">
                                 <div class="header-top-nav d-flex justify-content-lg-end justify-content-center">
                                     <div class="user-info header-top-nav__item">
                                         <div class="dropdown header-top__dropdown">
@@ -180,22 +239,7 @@
                         </div>
                         <div class="col-lg-5 col-md-7 col-sm-5 order-lg-3 order-3">
                             <div class="header-toolbar">
-                                <div class="search-form-wrapper search-hide">
-                                    <form action="timkiem.html" class="search-form" method="GET"
-                                          onsubmit="return checkSearchQuery()">
-                                        <input type="text" name="query" id="search" class="search-form__input"
-                                               placeholder="Tìm Kiếm">
-                                        <button type="submit" class="search-form__submit">
-                                            <i class="icon_search"></i>
-                                        </button>
-                                    </form>
-                                </div>
                                 <ul class="header-toolbar-icons">
-                                    <li class="search-box">
-                                        <a href="#" class="bordered-icon search-btn" aria-expanded="false">
-                                            <i class="icon_search"></i>
-                                        </a>
-                                    </li>
                                     @{
                                         var cart = CartSessionHelper.GetCart();
                                         decimal total = 0;
@@ -203,9 +247,9 @@
                                     <li class="mini-cart-icon">
                                         <div class="mini-cart mini-cart--1">
                                             <a href="/Cart/View" class="mini-cart__dropdown-toggle bordered-icon">
-                                                <span class="mini-cart__ammount">
+                                                <span class="mini-cart__ammount" style="font-size:15px">
                                                     <i class="icon_cart_alt mini-cart__icon mt--10"></i>
-                                                    <span>
+                                                    <span style="padding: 10px;">
                                                         Xem giỏ hàng
                                                     </span>
                                                 </span>
@@ -215,6 +259,18 @@
                                     </li>
                                 </ul>
                             </div>
+                            <div class="header-toolbar">
+                                <div class="InputContainer">
+                                    <form class="header__top--navbar__search__item search-right" asp-action="Index" asp-controller="Search" method="get">
+                                        <input type="text" name="Keyword" class="input" id="input" placeholder="Tìm kiếm...">
+
+                                        <button type="submit" class="btn ">
+                                        <svg viewBox="0 0 512 512" class="searchIcon"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"></path></svg>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <br />
                         </div>
                     </div>
                 </div>
@@ -444,27 +500,6 @@
     </div>
     <!-- Main Wrapper End -->
 
-    <script>
-        function checkSearchQuery() {
-            var query = document.getElementById('search').value.trim().toLowerCase();
-            var diamondKeywords = [
-                'kim cương', 'nhẫn kim cương', 'bông tai kim cương', 'vòng cổ kim cương',
-                'trang sức kim cương', 'diamond', 'ring', 'earrings', 'necklace', 'jewelry'
-            ];
-
-            // Kiểm tra xem từ khóa có nằm trong danh sách từ khóa liên quan đến kim cương hay không
-            var hasMeaningfulKeyword = diamondKeywords.some(function (keyword) {
-                return query.includes(keyword);
-            });
-
-            if (hasMeaningfulKeyword) {
-                document.querySelector('.search-form').action = 'timkiem.html';
-            } else {
-                document.querySelector('.search-form').action = 'search_no_results.html';
-            }
-            return true; // Tiếp tục submit form
-        }
-    </script>
 
     <script>
         // Function to add 'active' class to the current page link

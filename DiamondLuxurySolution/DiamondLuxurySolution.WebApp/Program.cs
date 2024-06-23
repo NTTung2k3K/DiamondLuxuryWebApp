@@ -39,6 +39,7 @@ builder.Services.AddTransient<IOrderApiService, OrderApiService>();
 builder.Services.AddTransient<ICustomerApiService, CustomerApiService>();
 builder.Services.AddTransient<IPaymentApiService, PaymentApiService>();
 builder.Services.AddTransient<IPromotionApiService, PromotionApiService>();
+builder.Services.AddTransient<ISearchProductApiService, SearchProductApiService>();
 
 
 builder.Services.AddTransient<ISlideApiService, SlideApiService>();
