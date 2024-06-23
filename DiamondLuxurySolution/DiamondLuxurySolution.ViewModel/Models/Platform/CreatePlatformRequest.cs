@@ -18,7 +18,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Platform
         public string? PlatformUrl { get; set; }
 
         [Required(ErrorMessage = "Cần nhập hình ảnh nền tảng")]
-        public IFormFile? PlatformLogo { get; set; }
+        public IFormFile PlatformLogo { get; set; }
 
         public bool Status { get; set; }
     }

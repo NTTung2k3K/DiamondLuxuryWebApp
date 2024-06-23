@@ -240,13 +240,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     listError.Add(errorResult.Message);
                 }
+                TempData["WarningToast"] = true;
                 ViewBag.Errors = listError;
                 return View();
-
             }
-
-            TempData["SuccessMsg"] = "Create success for Role " + request.PlatformName;
-
+            TempData["SuccessToast"] = true;
             return RedirectToAction("Index", "Platform");
         }
 
