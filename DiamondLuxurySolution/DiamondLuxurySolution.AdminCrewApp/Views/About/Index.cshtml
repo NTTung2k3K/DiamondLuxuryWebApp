@@ -38,14 +38,18 @@
         <thead>
             <tr class="text-center">
                 <th>
-                    <label>Tên Thông Tin Liên Hệ</label>
+                    <label>Tên</label>
                     <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
-                    <label>Mô Tả</label>
+                    <label>Email</label>
+                    <label onclick="sortTable(1)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
+
                 </th>
                 <th>
-                    <label>Hình Ảnh </label>
+                    <label>Số điện thoại</label>
+                    <label onclick="sortTable(2)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
+
                 </th>
                 <th>
                     <label>Hiển Thị</label>
@@ -59,17 +63,8 @@
             {
                 <tr class="text-center">
                     <td>@item.AboutName</td>
-                    <td>@item.Description</td>
-                    @if (string.IsNullOrEmpty(item.AboutImage))
-                    {
-                        <td>Không có hình ảnh</td>
-                    }
-                    else
-                    {
-                        <td>
-                            <img src="@item.AboutImage" style="height:100px; width:100px" />
-                        </td>
-                    }
+                    <td>@(item.AboutEmail??"Không có")</td>
+                    <td>@(item.AboutPhoneNumber ?? "Không có")</td>
                     @if (item.Status == true)
                     {
                         <td>

@@ -130,7 +130,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         AboutName = request.AboutName,
                         Description = request.Description,
                         Status = request.Status,
-
+                        AboutPhoneNumber = request.AboutPhoneNumber,
+                        AboutAddress = request.AboutAddress,    
+                        AboutEmail = request.AboutEmail 
                     };
                     return View(aboutVm);
                 }

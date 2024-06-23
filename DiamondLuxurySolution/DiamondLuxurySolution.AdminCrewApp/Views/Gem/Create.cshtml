@@ -138,20 +138,20 @@
 							if (string.IsNullOrEmpty(selectedCheck))
 							{
 								<option value="@gemPriceList.GemPriceListId">
-									Cut: @gemPriceList.Cut, Carat Weight: @gemPriceList.CaratWeight, Clarity: @gemPriceList.Clarity, Color: @gemPriceList.Color, Price: @gemPriceList.Price
+									Cut: @gemPriceList.Cut, Carat Weight: @gemPriceList.CaratWeight, Clarity: @gemPriceList.Clarity, Color: @gemPriceList.Color, Price: @gemPriceList.Price.ToString("N0")₫
 								</option>
 							}
 							else
 							{
 								<option value="@gemPriceList.GemPriceListId" selected>
-									Cut: @gemPriceList.Cut, Carat Weight: @gemPriceList.CaratWeight, Clarity: @gemPriceList.Clarity, Color: @gemPriceList.Color, Price: @gemPriceList.Price
+									Cut: @gemPriceList.Cut, Carat Weight: @gemPriceList.CaratWeight, Clarity: @gemPriceList.Clarity, Color: @gemPriceList.Color, Price: @gemPriceList.Price.ToString("N0")₫
 								</option>
 							}
 						}
 						else
 						{
 							<option value="@gemPriceList.GemPriceListId">
-								Cut: @gemPriceList.Cut, Carat Weight: @gemPriceList.CaratWeight, Clarity: @gemPriceList.Clarity, Color: @gemPriceList.Color, Price: @gemPriceList.Price
+								Cut: @gemPriceList.Cut, Carat Weight: @gemPriceList.CaratWeight, Clarity: @gemPriceList.Clarity, Color: @gemPriceList.Color, Price: @gemPriceList.Price.ToString("N0")₫
 							</option>
 						}
 					}

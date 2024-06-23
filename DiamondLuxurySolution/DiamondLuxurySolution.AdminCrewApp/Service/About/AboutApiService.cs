@@ -13,7 +13,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.About
         }
         public async Task<ApiResult<bool>> CreateAbout(CreateAboutRequest request)
         {
-            var data = await PostAsyncHasImage<bool>("api/Abouts/Create", request);
+            var data = await PostAsync<bool>("api/Abouts/Create", request);
             return data;
         }
 
@@ -37,7 +37,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.About
 
         public async Task<ApiResult<bool>> UpdateAbout(UpdateAboutRequest request)
         {
-            var data = await PutAsyncHasImage<bool>("api/Abouts/Update", request);
+            var data = await PutAsync<bool>("api/Abouts/Update", request);
             return data;
         }
 
