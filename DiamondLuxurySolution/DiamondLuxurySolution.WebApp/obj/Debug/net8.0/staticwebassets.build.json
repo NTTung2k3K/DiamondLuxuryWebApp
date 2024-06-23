@@ -1,6 +1,10 @@
 {
   "Version": 1,
+<<<<<<< HEAD
+  "Hash": "L434wMOtyiH5sgYLJ7FQuUTtNbFv77/nbq85sx4ua9c=",
+=======
   "Hash": "VqGQjy6wQv2JA+xo/LJzi1bhVbYEZ51EZq/vkvJ4Beo=",
+>>>>>>> f11590b6a6eee13ae04ce72dcb06e62bf00301a2
   "Source": "DiamondLuxurySolution.WebApp",
   "BasePath": "_content/DiamondLuxurySolution.WebApp",
   "Mode": "Default",
@@ -3266,7 +3270,30 @@
       "OriginalItemSpec": "wwwroot\\assets\\img\\pic_product\\search\\i-mat-day-chuyen-kim-cuong.png"
     },
     {
+<<<<<<< HEAD
+      "Identity": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\assets\\img\\pic_product\\search\\lac-tay.png",
+      "SourceId": "DiamondLuxurySolution.WebApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\",
+      "BasePath": "_content/DiamondLuxurySolution.WebApp",
+      "RelativePath": "assets/img/pic_product/search/lac-tay.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\img\\pic_product\\search\\lac-tay.png"
+    },
+    {
+      "Identity": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\assets\\img\\pic_product\\search\\nhan-cuoi.png",
+=======
       "Identity": "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\assets\\img\\pic_product\\search\\lac-tay.png",
+>>>>>>> f11590b6a6eee13ae04ce72dcb06e62bf00301a2
       "SourceId": "DiamondLuxurySolution.WebApp",
       "SourceType": "Discovered",
       "ContentRoot": "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\",
