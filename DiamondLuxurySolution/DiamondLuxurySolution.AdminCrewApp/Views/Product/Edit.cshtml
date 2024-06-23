@@ -20,7 +20,7 @@
         <form asp-action="Edit" asp-controller="Product" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group m-2">
-                <label asp-for="ProductId" class="control-label m-2"></label>
+                <label asp-for="ProductId" class="control-label m-2">ID của Sản Phẩm</label>
                 <input asp-for="ProductId" readonly class="form-control" />
             </div>
             <div class="form-group m-2">
@@ -413,7 +413,7 @@
                     <input type="submit" value="Lưu" class="btn btn-success" />
                 </div>
                 <div class="col-md-7">
-                    <a class="m-5" asp-action="Index" asp-controller="Product">Về trang quản lí sản phảm</a>
+                    <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="Product">Về trang quản lí sản phảm</a>
                 </div>
             </div>
 

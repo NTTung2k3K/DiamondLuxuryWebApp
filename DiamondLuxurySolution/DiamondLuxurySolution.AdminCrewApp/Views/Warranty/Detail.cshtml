@@ -1,0 +1,69 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.Warranty.WarrantyVm
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chi tiết phiếu bảo hành</h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+@if (Model != null)
+{
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-3 mb-3">
+                @Html.DisplayNameFor(model => model.WarrantyId)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.WarrantyId)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Tên phiếu bảo hành
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.WarrantyName)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Mô Tả
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Ngày bắt đầu
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.DateActive)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Ngày hết hạn
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.DateExpired)
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Hiển thị
+            </dt>
+            <dd class="col-sm-9">
+                <div class="form-check form-switch ">
+                    <input class="form-check-input f-18 ml-3" type="checkbox" asp-for="Status" value="@Model.Status" disabled />
+                </div>
+            </dd>
+        </dl>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            @Html.ActionLink("Chỉnh sửa", "Edit", new { WarrantyId = Model.WarrantyId }, new { @class = "btn btn-warning" })
+        </div>
+        <div class="col-sm-9">
+            <a class="btn btn-secondary" asp-action="Index">Về trang quản lí phiếu bảo hành</a>
+        </div>
+    </div>
+}

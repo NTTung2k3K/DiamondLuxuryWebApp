@@ -317,11 +317,11 @@
         <form asp-action="DeleteConfirmed" asp-controller="Order" method="post">
             <input type="hidden" name="OrderId" value="@Model.OrderId" />
             <input type="submit" value="Xóa" class="btn btn-danger" />
-            <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
+            <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
         </form>
     </div>
 }
 else
 {
-    <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
+    <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
 }

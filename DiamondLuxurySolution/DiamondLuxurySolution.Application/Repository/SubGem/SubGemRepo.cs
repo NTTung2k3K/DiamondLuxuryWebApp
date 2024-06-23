@@ -94,7 +94,8 @@ namespace DiamondLuxurySolution.Application.Repository.SubGem
                 SubGemId = subGem.SubGemId,
                 SubGemName = subGem.SubGemName,
                 SubGemPrice = subGem.SubGemPrice,
-                Description = subGem.Description
+                Description = subGem.Description,
+                Active = subGem.Active
             };
             return new ApiSuccessResult<SubGemVm>(subGemVm, "Success");
         }

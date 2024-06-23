@@ -79,6 +79,7 @@ builder.Services.AddScoped<ICategoryInitializer, CategoryInitializer>();
 builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 builder.Services.AddScoped<ISlideInitializer,SlideInitializer>();
 builder.Services.AddTransient<IWarrantyDetailRepo, WarrantyDetailRepo>();
+builder.Services.AddScoped<IMaterialInitializer, MaterialInitializer>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -158,5 +159,8 @@ using (var scope = app.Services.CreateScope())
 
 	var slideInitializer = scope.ServiceProvider.GetRequiredService<ISlideInitializer>();
 	slideInitializer.CreateDefaultSlide().Wait();
+
+    var materialInitializer = scope.ServiceProvider.GetRequiredService<IMaterialInitializer>();
+    materialInitializer.CreateDefaultMaterial().Wait();
 }
 app.Run();
