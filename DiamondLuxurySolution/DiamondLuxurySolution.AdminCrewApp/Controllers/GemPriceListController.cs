@@ -324,7 +324,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
         [HttpPost]
 		public async Task<IActionResult> Create(CreateGemPriceListRequest request)
-		{
+		    {
 
 			var listGem = await _gemApiService.GetAll();
 			ViewBag.ListGem = listGem.ResultObj.ToList();

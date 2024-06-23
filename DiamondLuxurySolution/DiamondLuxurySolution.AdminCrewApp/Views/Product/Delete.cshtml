@@ -116,19 +116,19 @@
                 Giá giá công
             </dt>
             <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.ProcessingPrice)
+                @(Model.ProcessingPrice != 0 ? Model.ProcessingPrice.ToString("N0") + "₫" : "Không có giá trị")
             </dd>
             <dt class="col-sm-3">
                 Giá gốc
             </dt>
             <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.OriginalPrice)
+                @(Model.OriginalPrice != 0 ? Model.OriginalPrice.ToString("N0") + "₫" : "Không có giá trị")
             </dd>
             <dt class="col-sm-3">
                 Giá bán
             </dt>
             <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.SellingPrice)
+                @(Model.SellingPrice != 0 ? Model.SellingPrice.ToString("N0") + "₫" : "Không có giá trị")
             </dd>
             <dt class="col-sm-3">
                 Phần trăm giảm giá

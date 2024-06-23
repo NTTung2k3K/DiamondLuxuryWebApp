@@ -759,7 +759,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 		}
 
 
-		public async Task<ApiResult<List<ProductVm>>> GetAll()
+        public async Task<ApiResult<List<ProductVm>>> GetAll()
 		{
 			var listProduct = await _context.Products
 				.Include(p => p.Images)

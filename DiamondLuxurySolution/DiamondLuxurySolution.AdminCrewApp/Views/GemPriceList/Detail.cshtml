@@ -62,7 +62,7 @@
                 Giá
             </dt>
             <dd class="col-sm-9">
-                @Html.DisplayFor(model => @Model.Price)
+                @(Model.Price != 0 ? Model.Price.ToString("N0") + "₫" : "Không có giá trị")
             </dd>
             <dt class="col-sm-3 mb-3">
                 Ngày ảnh hưởng

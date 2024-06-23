@@ -148,11 +148,11 @@
             </div>
             <div class="form-group m-2">
                 <label asp-for="OriginalPrice" class="control-label m-2">Giá gốc ban đầu</label>
-                <input asp-for="OriginalPrice" type="number" class="form-control" readonly />
+                <input asp-for="OriginalPrice" type="text" class="form-control price-input" readonly />
             </div>
             <div class="form-group m-2">
                 <label asp-for="SellingPrice" class="control-label m-2">Giá bán ban đầu</label>
-                <input asp-for="SellingPrice" type="number" class="form-control" readonly />
+                <input asp-for="SellingPrice" type="text" class="form-control price-input" readonly />
             </div>
             @if (Model == null)
             {
@@ -174,7 +174,7 @@
             {
                 <div class="form-group m-2">
                     <label asp-for="ProcessingPrice" class="control-label m-2"></label>
-                    <input asp-for="ProcessingPrice" value="1" type="number" class="form-control" />
+                    <input asp-for="ProcessingPrice" value="1" type="text" class="form-control price-input" />
                     <span asp-validation-for="ProcessingPrice" class="text-danger"></span>
                 </div>
             }
@@ -182,7 +182,7 @@
             {
                 <div class="form-group m-2">
                     <label asp-for="ProcessingPrice" class="control-label m-2"></label>
-                    <input asp-for="ProcessingPrice" type="number" class="form-control" />
+                    <input asp-for="ProcessingPrice" type="text" class="form-control price-input" />
                     <span asp-validation-for="ProcessingPrice" class="text-danger"></span>
                 </div>
             }
@@ -621,4 +621,34 @@
             }
         });
     </script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Lấy tất cả các phần tử có lớp price-input
+        const inputs = document.querySelectorAll(".price-input");
+
+        // Thêm sự kiện input cho mỗi phần tử
+        inputs.forEach(function(input) {
+            input.addEventListener("input", function(e) {
+                let value = e.target.value;
+
+                // Xóa bỏ các ký tự không phải là số
+                value = value.replace(/[^0-9]/g, "");
+
+                // Giới hạn tối đa 17 ký tự số
+                if (value.length > 16) {
+                    value = value.slice(0, 16);
+                }
+
+                // Nếu giá trị không rỗng, định dạng lại theo kiểu chuỗi Việt Nam
+                if (value) {
+                    e.target.value = new Intl.NumberFormat('vi-VN').format(parseInt(value));
+                } else {
+                    e.target.value = "";
+                }
+            });
+        });
+    });
+</script>
+
 }

@@ -42,7 +42,7 @@
             </div>
             <div class="form-group m-2">
                 <label asp-for="Price" class="control-label m-2">Giá kim cương</label>
-                <input asp-for="Price" class="form-control" />
+                <input asp-for="Price" id="Price" type="text" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group m-2">
@@ -104,5 +104,30 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+        <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const input = document.querySelector("#Price");
+
+            input.addEventListener("input", function (e) {
+                let value = e.target.value;
+
+                // Xóa bỏ các ký tự không phải là số
+                value = value.replace(/[^0-9]/g, "");
+
+                // Giới hạn tối đa 17 ký tự số
+                if (value.length > 16) {
+                    value = value.slice(0, 16);
+                }
+
+                // Nếu giá trị không rỗng, định dạng lại theo kiểu chuỗi Việt Nam
+                if (value) {
+                    e.target.value = new Intl.NumberFormat('vi-VN').format(parseInt(value));
+                } else {
+                    e.target.value = "";
+                }
+            });
+        });
+    </script>
 }
 

@@ -254,7 +254,7 @@
 
                     <div class="form-group m-2">
                         <label asp-for="Deposit" class="control-label m-2"></label>
-                        <input asp-for="Deposit" type="number" value="0" class="form-control" />
+                        <input asp-for="Deposit" id="Deposit" type="text" value="0" class="form-control" />
                     </div>
                 }
                 else
@@ -262,7 +262,7 @@
 
                     <div class="form-group m-2">
                         <label asp-for="Deposit" class="control-label m-2"></label>
-                        <input asp-for="Deposit" type="number" class="form-control" />
+                        <input asp-for="Deposit" id="Deposit" type="text" class="form-control" />
                     </div>
                 }
 
@@ -644,9 +644,31 @@
             createOptions();
         });
 
+    </script>
 
+            <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const input = document.querySelector("#Deposit");
 
+            input.addEventListener("input", function (e) {
+                let value = e.target.value;
 
+                // Xóa bỏ các ký tự không phải là số
+                value = value.replace(/[^0-9]/g, "");
+
+                // Giới hạn tối đa 17 ký tự số
+                if (value.length > 16) {
+                    value = value.slice(0, 16);
+                }
+
+                // Nếu giá trị không rỗng, định dạng lại theo kiểu chuỗi Việt Nam
+                if (value) {
+                    e.target.value = new Intl.NumberFormat('vi-VN').format(parseInt(value));
+                } else {
+                    e.target.value = "";
+                }
+            });
+        });
     </script>
 
 }
