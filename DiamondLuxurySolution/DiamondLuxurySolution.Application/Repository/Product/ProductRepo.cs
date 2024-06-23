@@ -769,6 +769,19 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 
 
         public async Task<ApiResult<List<ProductVm>>> GetAll()
+<<<<<<< HEAD
+		{
+			var listProduct = await _context.Products
+				.Include(p => p.Images)
+				.Include(p => p.SubGemDetails)
+				.ThenInclude(sg => sg.SubGem)
+				.Include(p => p.Category)
+				.Include(p => p.Gem)
+				.ThenInclude(x => x.InspectionCertificate)
+				.Include(x => x.Frame)
+				.ThenInclude(f => f.Material) // Include material within Frame
+				.ToListAsync();
+=======
         {
             var listProduct = await _context.Products
                 .Include(p => p.Images)
@@ -780,6 +793,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                 .Include(x => x.Frame)
                 .ThenInclude(f => f.Material).Include(x => x.Gem) // Include material within Frame
                 .ToListAsync();
+>>>>>>> a6b97dec240dd8d1ad75855d6cce22972458b03f
 
             List<ProductVm> listResultVm = new List<ProductVm>();
 
