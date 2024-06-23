@@ -53,7 +53,7 @@
                 <!--Start dropdown list-->
                 @if (Model != null)
                 {
-                    <select class="m-2 h-50" name="Status">
+                    <select class="m-2 h-50 form-select form-select-lg mb-3" name="Status">
                         @foreach (var item in ViewBag.ListStatus)
                         {
                             bool isSelected = Model != null && Model.Status.ToString().Equals(item.ToString());
@@ -91,7 +91,7 @@
                 }
                 else
                 {
-                    <select class="m-2 h-50" name="Status">
+                    <select class="m-2 h-50 form-select form-select-lg mb-3" name="Status">
                         @foreach (var item in ViewBag.ListStatus)
                         {
                             if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()))
@@ -166,7 +166,7 @@
 
             <div class="form-group m-2">
                 <label asp-for="GemId" class="control-label m-2">Kim cương chính</label>
-                <select class="h-50 " name="GemId">
+                <select class="h-50 form-select form-select-lg mb-3" name="GemId">
 
                     @foreach (var Gem in ViewBag.FullGem)
                     {
@@ -230,7 +230,7 @@
 
             <div class="form-group m-2">
                 <label asp-for="FrameId" class="control-label m-2">Khung</label>
-                <select class="h-50" name="FrameId">
+                <select class="h-50 form-select form-select-lg mb-3" name="FrameId">
                     <option value="" class="text-center">Không có</option>
                     @foreach (var Frame in ViewBag.FullFrame)
                     {
@@ -271,7 +271,7 @@
             </div>
             <div class="form-group m-2">
                 <label asp-for="CategoryId" class="control-label m-2">Loại</label>
-                <select class="h-50" name="CategoryId">
+                <select class="h-50 form-select form-select-lg mb-3" name="CategoryId">
                     @foreach (var category in ViewBag.FullCategory)
                     {
                         if (Model != null && Model.CategoryId != null)
