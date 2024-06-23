@@ -25,12 +25,12 @@
         <form asp-action="Create" asp-controller="Product" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group m-2">
-                <label asp-for="ProductName" class="control-label m-2"></label>
+                <label asp-for="ProductName" class="control-label m-2">Tên sản phẩm</label>
                 <input asp-for="ProductName" class="form-control" />
                 <span asp-validation-for="ProductName" class="text-danger"></span>
             </div>
             <div class="form-group m-2">
-                <label asp-for="Description" class="control-label m-2"></label>
+                <label asp-for="Description" class="control-label m-2">Mô tả sản phẩm</label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
@@ -147,19 +147,19 @@
             }
             @if (Model == null)
             {
-                <div class="form-group m-2">
-                    <label asp-for="ProcessingPrice" class="control-label m-2"></label>
-                    <input asp-for="ProcessingPrice" value="1" type="number" class="form-control" />
-                    <span asp-validation-for="ProcessingPrice" class="text-danger"></span>
-                </div>
+            <div class="form-group m-2">
+                <label asp-for="ProcessingPrice" class="control-label m-2"></label>
+                <input asp-for="ProcessingPrice" id="ProcessingPrice" value="1" type="text" class="form-control" placeholder="Nhập số tiền" />
+                <span asp-validation-for="ProcessingPrice" class="text-danger"></span>
+            </div>
             }
             else
             {
-                <div class="form-group m-2">
-                    <label asp-for="ProcessingPrice" class="control-label m-2"></label>
-                    <input asp-for="ProcessingPrice" type="number" class="form-control" />
-                    <span asp-validation-for="ProcessingPrice" class="text-danger"></span>
-                </div>
+            <div class="form-group m-2">
+                <label asp-for="ProcessingPrice" class="control-label m-2"></label>
+                <input asp-for="ProcessingPrice" id="ProcessingPrice" type="text" class="form-control" placeholder="Nhập số tiền" />
+                <span asp-validation-for="ProcessingPrice" class="text-danger"></span>
+            </div>
             }
 
 
@@ -544,4 +544,47 @@
             }
         });
     </script>
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const input = document.querySelector("#ProcessingPrice");
+
+            input.addEventListener("input", function(e) {
+                let value = e.target.value;
+
+                // Xóa bỏ các ký tự không phải là số
+                value = value.replace(/[^\d]/g, "");
+
+                // Giới hạn tối đa 16 ký tự số
+                if (value.length > 16) {
+                    value = value.slice(0, 16);
+                }
+
+                // Nếu giá trị không rỗng, định dạng lại theo kiểu chuỗi Việt Nam
+                if (value) {
+                    e.target.value = new Intl.NumberFormat('vi-VN').format(parseInt(value));
+                } else {
+                    e.target.value = "";
+                }
+            });
+
+            const form = document.querySelector("form");
+
+            form.addEventListener("submit", function(e) {
+                // Log giá trị trước khi thay đổi
+                console.log("Before removing dots: ", input.value);
+
+                // Thay đổi giá trị của input để loại bỏ các dấu chấm trước khi submit
+                const formattedValue = input.value.replace(/\./g, "");
+                input.value = formattedValue;
+
+                // Log giá trị sau khi thay đổi
+                console.log("After removing dots: ", input.value);
+            });
+        });
+    </script>
+
+
 }
