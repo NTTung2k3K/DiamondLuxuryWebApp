@@ -24,6 +24,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Home
 
         public Task<ApiResult<List<ProductSaleChart>>> ViewProductSale12Days();
 
+        public Task<ApiResult<List<int>>> ContactAWeek();
+        public Task<ApiResult<List<int>>> CountAllCustomerInWeek();
 
 
         //Admin

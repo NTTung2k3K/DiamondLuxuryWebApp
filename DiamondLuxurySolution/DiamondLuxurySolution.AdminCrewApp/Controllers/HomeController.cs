@@ -57,6 +57,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             var ViewProductSale12Days = await _homeApiService.ViewProductSale12Days();
             ViewBag.ViewProductSale12Days = ViewProductSale12Days.ResultObj;
 
+           
+
 
             return View();
         }
@@ -78,6 +80,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             var countAllCustomer = await _homeApiService.CountAllCustomer();
             ViewBag.CountAllCustomer = countAllCustomer.ResultObj;
 
+            var ContactAWeek = await _homeApiService.ContactAWeek();
+            ViewBag.ContactAWeek = ContactAWeek.ResultObj;
+
+            var CountAllCustomerInWeek = await _homeApiService.CountAllCustomerInWeek();
+            ViewBag.CountAllCustomerInWeek = CountAllCustomerInWeek.ResultObj;
 
             return View();
         }

@@ -938,6 +938,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                             .ToList()
                     })
                     .ToList();
+                productSaleCharts = productSaleCharts.OrderBy(data => data.DateSale).ToList();
 
                 return new ApiSuccessResult<List<ProductSaleChart>>(productSaleCharts, "Data retrieved successfully");
             }

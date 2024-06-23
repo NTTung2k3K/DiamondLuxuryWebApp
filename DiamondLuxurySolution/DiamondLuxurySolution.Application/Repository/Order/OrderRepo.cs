@@ -1988,12 +1988,13 @@ namespace DiamondLuxurySolution.Application.Repository.Order
 
         public async Task<ApiResult<List<decimal>>> IncomeByWeek()
         {
-            // Get the current date
             var today = DateTime.Today;
 
-            // Calculate the start and end of the current week (assuming Monday is the start of the week)
-            var startOfWeek = today.AddDays(-(int)today.DayOfWeek + (int)DayOfWeek.Monday);
-            var endOfWeek = startOfWeek.AddDays(7).AddTicks(-1); // Sunday end of the week
+            // Calculate the start of the week (previous Monday)
+            var startOfWeek = today.AddDays(-(int)today.DayOfWeek + (int)DayOfWeek.Monday - (today.DayOfWeek == DayOfWeek.Sunday ? 7 : 0));
+
+            // Calculate the end of the week (current Sunday)
+            var endOfWeek = startOfWeek.AddDays(6).Date.AddDays(1).AddTicks(-1);
 
             // Create a list to hold the daily incomes
             var dailyIncomes = new List<decimal>();

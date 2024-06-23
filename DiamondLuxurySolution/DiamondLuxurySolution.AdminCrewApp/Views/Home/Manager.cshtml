@@ -350,7 +350,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="tab-content" id="myTabContent">
+            <div class="tab-content" id="myTabContent" style="height: 473px;overflow: scroll;">
                 <div class="tab-pane fade show active"
                      id="analytics-tab-1-pane"
                      role="tabpanel"
@@ -668,13 +668,11 @@
 @{
     var incomeAYear = ViewBag.IncomeAYear as List<decimal>;
     var orderByQuarter = ViewBag.OrderByQuarter as List<int>;
+
     var ListIncomeByWeek = ViewBag.ListIncomeByWeek as List<decimal>;
     var ListProductCategorySale = ViewBag.ListProductCategorySale as List<ProductCategorySale>;
     var ViewProductSale12Days = ViewBag.ViewProductSale12Days as List<ProductSaleChart>;
 
-
-
-    
 }
 <!-- [ Main Content ] end -->
 @section Scripts {
@@ -686,7 +684,73 @@
         var orderByQuater = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(orderByQuarter));
         var ListIncomeByWeek = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ListIncomeByWeek));
         var ListProductCategorySale = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ListProductCategorySale));
-        var ViewProductSale12Days = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewProductSale12Days));
+        var viewProductSale12Days = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewProductSale12Days));
+     
+        //Start last
+
+
+        function generateColors(count) {
+            const baseColors = [
+                '#4680FF', '#E58A00', '#8A2BE2', '#FF6347', '#20B2AA', '#D2691E', '#FF7F50', '#6A5ACD',
+                '#7FFF00', '#DC143C', '#00FA9A', '#FFD700', '#FF1493', '#00CED1', '#ADFF2F', '#FF69B4',
+                '#CD5C5C', '#4B0082', '#7CFC00', '#BA55D3', '#40E0D0', '#FFDAB9', '#FF4500', '#32CD32',
+                '#FF6347', '#1E90FF', '#FF00FF', '#3CB371', '#4682B4', '#EE82EE', '#9ACD32', '#87CEEB',
+                '#9400D3', '#DA70D6', '#F0E68C', '#FA8072', '#FF8C00', '#9932CC', '#00BFFF', '#8FBC8F',
+                '#E9967A', '#48D1CC', '#AFEEEE', '#DB7093', '#FFE4B5', '#B0C4DE', '#FFB6C1', '#FFDEAD',
+                '#B22222', '#5F9EA0'
+            ];
+            let colors = [];
+            for (let i = 0; i < count; i++) {
+                colors.push(baseColors[i % baseColors.length]);
+            }
+            return colors;
+        }
+        var seriesA = [];
+
+        // Tạo một object để lưu trữ số lượng của từng sản phẩm cho mỗi ngày
+        var productQuantities = {};
+
+        // Lặp qua các ngày và sản phẩm để tính toán số lượng
+        viewProductSale12Days.forEach(function (sale) {
+            var formattedDate = new Date(sale.DateSale).toLocaleDateString(); // Format date to locale string
+
+            // Khởi tạo mảng số lượng cho ngày nếu chưa tồn tại
+            if (!productQuantities[formattedDate]) {
+                productQuantities[formattedDate] = {};
+            }
+
+            sale.ListProduct.forEach(function (product) {
+                if (!productQuantities[formattedDate][product.ProductName]) {
+                    productQuantities[formattedDate][product.ProductName] = 0;
+                }
+                productQuantities[formattedDate][product.ProductName] += product.Quantity;
+            });
+        });
+
+        // Chuyển đổi productQuantities thành mảng seriesA cho biểu đồ
+        Object.keys(productQuantities).forEach(function (date) {
+            var quantities = productQuantities[date];
+            Object.keys(quantities).forEach(function (productName) {
+                var productIndex = seriesA.findIndex(item => item.name === productName);
+                if (productIndex === -1) {
+                    // Nếu sản phẩm chưa tồn tại trong seriesA, thêm vào
+                    var data = Array(Object.keys(productQuantities).length).fill(0);
+                    data[Object.keys(productQuantities).indexOf(date)] = quantities[productName];
+                    seriesA.push({
+                        name: productName,
+                        data: data
+                    });
+                } else {
+                    // Nếu sản phẩm đã tồn tại trong seriesA, cập nhật dữ liệu
+                    seriesA[productIndex].data[Object.keys(productQuantities).indexOf(date)] = quantities[productName];
+                }
+            });
+        });
+        var categoriesA = Object.keys(productQuantities).map(date => new Date(date).toLocaleDateString());
+
+        // End last
+
+
 
         function formatCurrency(value) {
             return value.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
@@ -704,7 +768,6 @@
 
         function floatchart() {
             (function () {
-
                 var options5 = {
                     chart: {
                         type: 'area',
@@ -880,7 +943,7 @@
 
                 //
                 // Extract labels and series data
-                var labels = ListProductCategorySale.map(item => item.CategoryName +" "+item.CategoryType)
+                var labels = ListProductCategorySale.map(item => item.CategoryName + " " + item.CategoryType)
                 var series = ListProductCategorySale.map(item => item.Quantity);
 
                 var options16 = {
@@ -995,25 +1058,10 @@
                 var chart = new ApexCharts(document.querySelector('#sales-report-chart'), options20);
                 chart.render();
                 //Last
+                var dynamicColors = generateColors(seriesA.length);
+                console.log(seriesA)
                 var options19 = {
-                    series: [
-                        {
-                            name: 'Deals',
-                            data: [44, 55, 41, 67, 52, 53, 13, 23, 20, 8, 13, 27]
-                        },
-                        {
-                            name: 'Income Report',
-                            data: [13, 23, 20, 8, 13, 27, 21, 7, 25, 13, 22, 8]
-                        },
-                        {
-                            name: 'Customer',
-                            data: [11, 17, 15, 15, 21, 14, 11, 17, 15, 15, 21, 14]
-                        },
-                        {
-                            name: 'Profits',
-                            data: [21, 7, 25, 13, 22, 3, 44, 55, 41, 67, 22, 12]
-                        }
-                    ],
+                    series: seriesA,
                     chart: {
                         type: 'bar',
                         height: 350,
@@ -1022,7 +1070,7 @@
                             show: false
                         }
                     },
-                    colors: ['#4680FF', '#4680FF', '#4680FF', '#E58A00'],
+                    colors: dynamicColors,
                     fill: {
                         opacity: [1, 0.7, 0.4, 0.3]
                     },
@@ -1053,10 +1101,23 @@
                         }
                     },
                     xaxis: {
-                        categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12']
+                        categories: categoriesA
                     },
                     legend: {
-                        show: false
+                        show: true, // Ensure legend is shown
+                        position: 'bottom', // Position legend at the bottom
+                        horizontalAlign: 'center', // Align legend horizontally to the center
+                        labels: {
+                            colors: '#000', // Set color for legend labels
+                            useSeriesColors: true // Use the same colors as the series
+                        }
+                    },
+                    tooltip: {
+                        y: {
+                            formatter: function (val) {
+                                return val.toFixed(0); // Ensure integer values in tooltip
+                            }
+                        }
                     }
                 };
                 var chart = new ApexCharts(document.querySelector('#monthly-report-graph'), options19);
@@ -1065,5 +1126,4 @@
         }
 
     </script>
-
 }

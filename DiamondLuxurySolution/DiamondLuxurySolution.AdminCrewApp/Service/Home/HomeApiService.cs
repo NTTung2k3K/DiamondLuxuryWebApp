@@ -119,5 +119,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Home
             var data = await GetAsync<List<ProductSaleChart>>($"api/Products/ViewProductSale12Days");
             return data;
         }
+
+        public async Task<ApiResult<List<int>>> ContactAWeek()
+        {
+            var data = await GetAsync<List<int>>($"api/Contact/ContactAWeek");
+            return data;
+        }
+
+        public async Task<ApiResult<List<int>>> CountAllCustomerInWeek()
+        {
+            var data = await GetAsync<List<int>>($"api/Customers/CountAllCustomerInWeek");
+            return data;
+        }
     }
 }
