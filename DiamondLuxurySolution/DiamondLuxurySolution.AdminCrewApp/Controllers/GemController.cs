@@ -1,10 +1,12 @@
 ﻿using DiamondLuxurySolution.AdminCrewApp.Service.Contact;
 using DiamondLuxurySolution.AdminCrewApp.Service.Gem;
+using DiamondLuxurySolution.AdminCrewApp.Service.GemPriceList;
 using DiamondLuxurySolution.AdminCrewApp.Service.IInspectionCertificate;
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Contact;
 using DiamondLuxurySolution.ViewModel.Models.Gem;
+using DiamondLuxurySolution.ViewModel.Models.GemPriceList;
 using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
 using DiamondLuxurySolution.ViewModel.Models.Material;
 using Microsoft.AspNetCore.Authorization;
@@ -16,11 +18,13 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
     public class GemController : BaseController
     {
         private readonly IInspectionCertificateApiService _inspectionCertificateApiService;
-        private readonly IGemApiService _gemApiService;
+		private readonly IGemPriceListApiService _gemPriceListApiService;
+		private readonly IGemApiService _gemApiService;
 
-        public GemController(IInspectionCertificateApiService inspectionCertificateApiService, IGemApiService gemApiService)
+        public GemController(IInspectionCertificateApiService inspectionCertificateApiService, IGemApiService gemApiService, IGemPriceListApiService gemPriceListApiService)
         {
             _inspectionCertificateApiService = inspectionCertificateApiService;
+            _gemPriceListApiService = gemPriceListApiService;
             _gemApiService = gemApiService;
         }
         [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
@@ -60,7 +64,10 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
-                var gem = await _gemApiService.GetGemById(GemId);
+				var listGemPriceList = await _gemPriceListApiService.GetAll();
+				ViewBag.listGemPriceList = listGemPriceList.ResultObj.ToList();
+
+				var gem = await _gemApiService.GetGemById(GemId);
                 if (gem is ApiErrorResult<GemVm> errorResult)
                 {
                     List<string> listError = new List<string>();
@@ -96,7 +103,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    var gem = await _gemApiService.GetGemById(request.GemId);
+					var listGemPriceList = await _gemPriceListApiService.GetAll();
+					ViewBag.listGemPriceList = listGemPriceList.ResultObj.ToList();
+					var gem = await _gemApiService.GetGemById(request.GemId);
                     var insp = await _inspectionCertificateApiService.GetInspectionCertificateById(gem.ResultObj.InspectionCertificateVm.InspectionCertificateId);
                     var inspectionCertificateVm = new InspectionCertificateVm()
                     {
@@ -105,6 +114,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         DateGrading = insp.ResultObj.DateGrading,
                         Logo = insp.ResultObj.Logo,
                         Status = insp.ResultObj.Status,
+                    };
+                    var gpl = await _gemPriceListApiService.GetGemPriceListById(gem.ResultObj.GemPriceListVm.GemPriceListId);
+                    var gplVm = new GemPriceListVm()
+                    {
+                        GemPriceListId = gpl.ResultObj.GemPriceListId,
+                        Active = gpl.ResultObj.Active,
+                        CaratWeight = gpl.ResultObj.CaratWeight,
+                        Clarity = gpl.ResultObj.Clarity,
+                        Color = gpl.ResultObj.Color,
+                        Cut = gpl.ResultObj.Cut,
+                        effectDate = gpl.ResultObj.effectDate,
+                        Price = gpl.ResultObj.Price,
                     };
 
                     GemVm gemVm = new GemVm()
@@ -116,7 +137,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         IsOrigin = request.IsOrigin,
                         Fluoresence = request.Fluoresence,
                         Active = request.Active,
-                        InspectionCertificateVm = inspectionCertificateVm
+                        InspectionCertificateVm = inspectionCertificateVm,
+                        GemPriceListVm = gplVm
 
                     };
                     return View(gemVm);
@@ -270,7 +292,10 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
             ViewBag.ListIsnp = availableInspectionCertificates;
 
-            return View();
+			var listGemPriceList = await _gemPriceListApiService.GetAll();
+			ViewBag.listGemPriceList = listGemPriceList.ResultObj.ToList();
+
+			return View();
         }
         [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
@@ -282,16 +307,20 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
             // Lấy tất cả các InspectionCertificateId có trong listGem
             var gemInspectionCertificateIds = listGem.ResultObj
-                                                     .SelectMany(gem => gem.InspectionCertificateVm.InspectionCertificateId)
+                                                     .Select(gem => gem.InspectionCertificateVm.InspectionCertificateId)
                                                      .ToList();
 
             // Lấy các InspectionCertificateId chưa có trong gem
             var availableInspectionCertificates = listInsp.ResultObj
                               .Where(insp => !gemInspectionCertificateIds.Any(gemId => gemId.Equals(insp.InspectionCertificateId)))
                               .ToList();
- 
 
-            if (!ModelState.IsValid)
+            ViewBag.ListIsnp = availableInspectionCertificates;
+
+            var listGemPriceList = await _gemPriceListApiService.GetAll();
+			ViewBag.listGemPriceList = listGemPriceList.ResultObj.ToList();
+
+			if (!ModelState.IsValid)
             {
 
                 return View(request);

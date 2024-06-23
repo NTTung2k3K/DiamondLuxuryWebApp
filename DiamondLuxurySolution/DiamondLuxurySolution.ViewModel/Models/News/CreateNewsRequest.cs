@@ -16,7 +16,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.News
         [Required(ErrorMessage = "Tin tức cần phải có tiêu đề")]
 
         public string Title { get; set; }
-
+        [Required(ErrorMessage = "Tin tức cần phải có hình ảnh")]
         public IFormFile? Image { get; set; }
 
         public string? Description { get; set; }

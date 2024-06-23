@@ -55,7 +55,7 @@
             <div class="col-md-5" style="text-align: center;">
                 @{
                     var products = ViewBag.ProductsVm as List<ProductVm>;
-                    if (products.Count() > 0)
+                    if (products != null && products.Count() > 0)
                     {
                         <div class="col-md-12" style="text-align:center; margin-top: 29px">
                             <!-- [ basic-table ] start -->

@@ -27,11 +27,6 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
         }
         public async Task<ApiResult<bool>> CreateGemPriceList(CreateGemPriceListRequest request)
         {
-            var gem = await _context.Gems.FindAsync(request.GemId);
-            if (gem == null)
-            {
-                return new ApiErrorResult<bool>("Không tìm thấy kim cương");
-            }
 
             var errorList = new List<string>();
             if (string.IsNullOrEmpty(request.Price))
@@ -72,7 +67,6 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
                 Color = request.Color != null ? request.Color : "",
                 Price = price,
                 Cut = request.Cut != null ? request.Cut : "",
-                GemId = request.GemId,
                 Active = request.Active,
                 effectDate = (DateTime)request.effectDate
             };
@@ -101,30 +95,6 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
 
             foreach (var item in list)
             {
-                var gem = await _context.Gems.FindAsync(item.GemId);
-                var insp = await _context.InspectionCertificates.FindAsync(gem.InspectionCertificateId);
-                var inspectionCertificateVm = new InspectionCertificateVm()
-                {
-                    InspectionCertificateId = insp.InspectionCertificateId,
-                    InspectionCertificateName = insp.InspectionCertificateName,
-                    DateGrading = insp.DateGrading,
-                    Logo = insp.Logo,
-                    Status = insp.Status,
-                };
-                var gemVm = new GemVm()
-                {
-                    GemId = gem.GemId,
-                    GemName = gem.GemName,
-                    AcquisitionDate = gem.AcquisitionDate,
-                    Active = gem.Active,
-                    Fluoresence = gem.Fluoresence,
-                    GemImage = gem.GemImage,
-                    IsOrigin = gem.IsOrigin,
-                    Polish = gem.Polish,
-                    ProportionImage = gem.ProportionImage,
-                    Symetry = gem.Symetry,
-                    InspectionCertificateVm = inspectionCertificateVm,
-                };
                 var gemPriceListVm = new GemPriceListVm
                 {
                     GemPriceListId = item.GemPriceListId,
@@ -135,7 +105,6 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
                     Cut = item.Cut,
                     effectDate = item.effectDate,
                     Price = (decimal)item.Price,
-                    GemVm = gemVm
                 };
                 listGemPriceListVm.Add(gemPriceListVm);
             }
@@ -149,30 +118,6 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
             {
                 return new ApiErrorResult<GemPriceListVm>("Không tìm thấy bảng giá kim cương");
             }
-            var gem = await _context.Gems.FindAsync(GemPriceList.GemId);
-            var insp = await _context.InspectionCertificates.FindAsync(gem.InspectionCertificateId);
-            var inspectionCertificateVm = new InspectionCertificateVm()
-            {
-                InspectionCertificateId = insp.InspectionCertificateId,
-                InspectionCertificateName = insp.InspectionCertificateName,
-                DateGrading = insp.DateGrading,
-                Logo = insp.Logo,
-                Status = insp.Status,
-            };
-            var gemVm = new GemVm()
-            {
-                GemId = gem.GemId,
-                GemName = gem.GemName,
-                Polish = gem.Polish,
-                Symetry = gem.Symetry,
-                IsOrigin = gem.IsOrigin,
-                GemImage = gem.GemImage,
-                Fluoresence = gem.Fluoresence,
-                ProportionImage = gem.ProportionImage,
-                AcquisitionDate = gem.AcquisitionDate,
-                Active = gem.Active,
-                InspectionCertificateVm = inspectionCertificateVm,
-            };
             var gemPriceListVm = new GemPriceListVm
             {
                 GemPriceListId = GemPriceListId,
@@ -183,7 +128,6 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
                 Price = (decimal)GemPriceList.Price,
                 effectDate = GemPriceList.effectDate,
                 Active = GemPriceList.Active,
-                GemVm = gemVm
             };
             return new ApiSuccessResult<GemPriceListVm>(gemPriceListVm, "Success");
         }
@@ -194,12 +138,6 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
             if (GemPriceList == null)
             {
                 return new ApiErrorResult<bool>("Không tìm thấy bảng giá kim cương");
-            }
-
-            var gem = await _context.Gems.FindAsync(request.GemId);
-            if (gem == null)
-            {
-                return new ApiErrorResult<bool>("Không tìm thấy kim cương");
             }
 
             var errorList = new List<string>();
@@ -260,30 +198,6 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
             var listGemPriceListVm = new List<GemPriceListVm>();
             foreach (var item in listPaging)
             {
-                var gem = await _context.Gems.FindAsync(item.GemId);
-                var insp = await _context.InspectionCertificates.FindAsync(gem.InspectionCertificateId);
-                var inspectionCertificateVm = new InspectionCertificateVm()
-                {
-                    InspectionCertificateId = insp.InspectionCertificateId,
-                    InspectionCertificateName = insp.InspectionCertificateName,
-                    DateGrading = insp.DateGrading,
-                    Logo = insp.Logo,
-                    Status = insp.Status,
-                };
-                var gemVm = new GemVm()
-                {
-                    GemId = gem.GemId,
-                    GemName = gem.GemName,
-                    Polish = gem.Polish,
-                    Symetry = gem.Symetry,
-                    IsOrigin = gem.IsOrigin,
-                    GemImage = gem.GemImage,
-                    Fluoresence = gem.Fluoresence,
-                    ProportionImage = gem.ProportionImage,
-                    AcquisitionDate = gem.AcquisitionDate,
-                    Active = gem.Active,
-                    InspectionCertificateVm = inspectionCertificateVm,
-                };
                 var gemPriceListVm = new GemPriceListVm()
                 {
                     GemPriceListId = item.GemPriceListId,
@@ -294,7 +208,6 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
                     Price = (decimal)item.Price,
                     effectDate = item.effectDate,
                     Active = item.Active,
-                    GemVm = gemVm
                 };
                 listGemPriceListVm.Add(gemPriceListVm);
             }

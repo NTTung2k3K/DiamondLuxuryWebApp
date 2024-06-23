@@ -77,7 +77,23 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
 
-
+        [HttpGet("ContactAWeek")]
+        public async Task<ActionResult> ContactAWeek()
+        {
+            try
+            {
+                var status = await _contact.ContactAWeek();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
         [HttpDelete("Delete")]
         public async Task<IActionResult> DeleteContact([FromQuery] DeleteContactRequest request)

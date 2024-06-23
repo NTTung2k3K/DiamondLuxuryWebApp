@@ -45,6 +45,19 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             var orderByQuarter = await _homeApiService.OrderByQuarter();
             ViewBag.OrderByQuarter = orderByQuarter.ResultObj;
 
+            var ListIncomeByWeek = await _homeApiService.IncomeByWeek();
+            ViewBag.ListIncomeByWeek = ListIncomeByWeek.ResultObj;
+
+            ViewBag.TotalIncomeByWeek = ListIncomeByWeek.ResultObj.Sum();
+
+
+            var ViewProductCategorySale = await _homeApiService.ViewProductCategorySale();
+            ViewBag.ListProductCategorySale = ViewProductCategorySale.ResultObj;
+
+            var ViewProductSale12Days = await _homeApiService.ViewProductSale12Days();
+            ViewBag.ViewProductSale12Days = ViewProductSale12Days.ResultObj;
+
+           
 
 
             return View();
@@ -67,6 +80,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             var countAllCustomer = await _homeApiService.CountAllCustomer();
             ViewBag.CountAllCustomer = countAllCustomer.ResultObj;
 
+            var ContactAWeek = await _homeApiService.ContactAWeek();
+            ViewBag.ContactAWeek = ContactAWeek.ResultObj;
+
+            var CountAllCustomerInWeek = await _homeApiService.CountAllCustomerInWeek();
+            ViewBag.CountAllCustomerInWeek = CountAllCustomerInWeek.ResultObj;
 
             return View();
         }

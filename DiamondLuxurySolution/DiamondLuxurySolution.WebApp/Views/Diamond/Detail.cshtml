@@ -10,6 +10,38 @@
 	var sizes = Enumerable.Range(4, 29).ToList(); // Tạo danh sách các kích thước từ 4 đến 32
 }
 
+<style>
+	.product-details-img {
+		position: relative;
+		width: 600px;
+		height: 450px;
+		overflow: hidden;
+	}
+
+		.product-details-img img {
+			display: block;
+			width: 577px;
+			height: 450px;
+			object-fit: cover;
+			transition: opacity 0.3s ease;
+		}
+
+	.zoom-lens {
+		position: absolute;
+		border: 1px solid #000;
+		width: 150px; /* Size of the zoom lens */
+		height: 150px;
+		background-repeat: no-repeat;
+		pointer-events: none; /* Prevent mouse events on the lens */
+		opacity: 0; /* Initially hidden */
+		transition: opacity 0.3s ease;
+		border-radius: 50%; /* Border radius to make it round */
+	}
+
+	.product-details-img:hover .zoom-lens {
+		opacity: 1; /* Show lens on hover */
+	}
+</style>
 
 <!-- Breadcumb area Start -->
 <div class="breadcrumb-area">
@@ -38,10 +70,11 @@
 						<!-- Tab Content Start -->
 						<div class="tab-content product-details-thumb-large" id="myTabContent-3">
 							<div class="tab-pane fade show active" id="product-large-one">
-								<div class="product-details-img">
+								<div class="product-details-img" data-large-url="@Model.ProductThumbnail">
 									<a class="popup-btn" href="@Model.ProductThumbnail">
-										<img src="@Model.ProductThumbnail" alt="product" style="width : 600px; height : 450px">
+										<img src="@Model.ProductThumbnail" alt="product" style="cursor: none;">
 									</a>
+									<div class="zoom-lens"></div>
 								</div>
 							</div>
 							@if (Model.Images != null)
@@ -49,17 +82,18 @@
 								@foreach (var imagepath in Model.Images)
 								{
 									<div class="tab-pane fade" id="product-large-@imagepath.GetHashCode()">
-										<div class="product-details-img">
+										<div class="product-details-img" data-large-url="@imagepath">
 											<a class="popup-btn" href="@imagepath">
 												@if (!string.IsNullOrEmpty(@imagepath))
 												{
-													<img src="@imagepath" style="width : 600px; height : 450px" alt="product">
+													<img src="@imagepath" alt="product" style="cursor: none;">
 												}
 												else
 												{
 													<p>No image available</p>
 												}
 											</a>
+											<div class="zoom-lens"></div>
 										</div>
 									</div>
 								}
@@ -161,17 +195,17 @@
 											<span style="margin-right: 10px;">Chọn Số Lượng</span>
 											<div class="quantity-controls1">
 												<button type="button" class="quantity-btn1 quantity-decrease1 d-flex justify-content-center align-items-center">-</button>
-												<input type="text" class="quantity-input" value="1" size="2" readonly style="text-align: center; border-radius : 20px;">
+												<input type="text" class="quantity-input" value="1" size="2" readonly style="text-align: center; border-radius : 20px;width:37%;">
 												<button type="button" class="quantity-btn1 quantity-increase1 d-flex justify-content-center align-items-center">+</button>
 											</div>
 										</div>
 									</div>
 
-									<a href="muaNgay.html" class="khoangcach">
-										<button type="button" class="btn1 btn-border1" style="margin-right: 9px; border-radius: 5%;">Mua Ngay</button>
+									<a href="muaNga	y.html" class="khoangcach">
+										<button type="button" class="btn1 btn-border1" style="margin-right: 9px; border-radius: 5%;" data-product-price=" @Model.SellingPrice" class="btn btn-style-2" id="buy-now" data-product-id="@Model.ProductId" data-product-name="@Model.ProductName" data-product-image="@Model.ProductThumbnail">Mua Ngay</button>
 									</a>
 									<a href="gioHang.html">
-										<button type="button" class="btn btn-style-2 ">Thêm Vào Giỏ Hàng</button>
+										<button type="button" class="btn btn-style-2 " data-product-price="@Model.SellingPrice" class="btn btn-style-2" id="add-to-cart" data-product-id="@Model.ProductId" data-product-name="@Model.ProductName" data-product-image="@Model.ProductThumbnail">Thêm Vào Giỏ Hàng</button>
 									</a>
 
 								</div>
@@ -243,9 +277,8 @@
 							<div class="tab-pane fade show active" id="nav-desc" role="tabpanel">
 								<table>
 									@{
-										var closestGemPriceList = Model.GemPriceLists
-										.OrderBy(gp => Math.Abs((gp.effectDate - DateTime.Now).Ticks))
-										.FirstOrDefault();
+										var closestGemPriceList = Model.GemPriceLists;
+
 									}
 									<tr>
 										<th>Thương hiệu</th>
@@ -351,4 +384,139 @@
 		document.getElementById('dropdown-toggle').innerText = size;
 		document.getElementById('niSize').value = size;
 	}
+</script>
+
+@section Scripts {
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script>
+		$(document).ready(function () {
+
+
+
+			window.selectSize = function (size) {
+				$('#niSize').val(size);
+				$('#dropdown-toggle').text('Ni (size): ' + size);
+			};
+
+
+			// Add to Cart
+			$("#buy-now").click(function (e) {
+				e.preventDefault();
+
+				var button = $(this);
+				var productId = button.data("product-id");
+				var productName = button.data("product-name");
+				var productPrice = button.data("product-price");
+
+				var productImage = button.data("product-image");
+				var quantity = $(".quantity-input").val();
+				var niSize = $("#niSize").val();
+				if (niSize === "") {
+					niSize = null;
+				}
+				debugger;
+				var cartItem = {
+					productId: productId,
+					productName: productName,
+					ProductImage: productImage,
+					quantity: parseInt(quantity),
+					ni: niSize,
+					price: productPrice
+				};
+				debugger;
+
+				$.ajax({
+					url: '/Cart/AddToCart',
+					type: 'POST',
+					contentType: 'application/json',
+					data: JSON.stringify(cartItem),
+					success: function (response) {
+						alert(response.message);
+					},
+					error: function (xhr, status, error) {
+						alert("An error occurred while adding the item to the cart.");
+					}
+				});
+			});
+
+
+			// Add to Cart
+			$("#add-to-cart").click(function (e) {
+				e.preventDefault();
+
+				var button = $(this);
+				var productId = button.data("product-id");
+				var productName = button.data("product-name");
+				var productPrice = button.data("product-price");
+
+				var productImage = button.data("product-image");
+				var quantity = $(".quantity-input").val();
+				var niSize = $("#niSize").val();
+				if (niSize === "") {
+					niSize = null;
+				}
+				debugger;
+				var cartItem = {
+					productId: productId,
+					productName: productName,
+					ProductImage: productImage,
+					quantity: parseInt(quantity),
+					ni: niSize,
+					price: productPrice
+				};
+				debugger;
+
+				$.ajax({
+					url: '/Cart/AddToCart',
+					type: 'POST',
+					contentType: 'application/json',
+					data: JSON.stringify(cartItem),
+					success: function (response) {
+						alert(response.message);
+					},
+					error: function (xhr, status, error) {
+						alert("An error occurred while adding the item to the cart.");
+					}
+				});
+			});
+
+
+		});
+	</script>
+}
+<script>
+	document.querySelectorAll('.product-details-img').forEach(function (container) {
+		const zoomLens = container.querySelector('.zoom-lens');
+		const largeImageURL = container.getAttribute('data-large-url');
+
+		container.addEventListener('mousemove', function (e) {
+			const rect = container.getBoundingClientRect();
+			const x = e.clientX - rect.left;
+			const y = e.clientY - rect.top;
+
+			const lensSize = zoomLens.offsetWidth / 2;
+
+			let lensX = x - lensSize;
+			let lensY = y - lensSize;
+
+			if (lensX < 0) lensX = 0;
+			if (lensY < 0) lensY = 0;
+			if (lensX > rect.width - lensSize * 2) lensX = rect.width - lensSize * 2;
+			if (lensY > rect.height - lensSize * 2) lensY = rect.height - lensSize * 2;
+
+			zoomLens.style.left = lensX + 'px';
+			zoomLens.style.top = lensY + 'px';
+			zoomLens.style.backgroundImage = `url(${largeImageURL})`;
+			zoomLens.style.backgroundSize = `${rect.width * 2}px ${rect.height * 2}px`;
+			zoomLens.style.backgroundPosition = `-${lensX * 2}px -${lensY * 2}px`;
+		});
+
+		container.addEventListener('mouseleave', function () {
+			zoomLens.style.opacity = 0;
+		});
+
+		container.addEventListener('mouseenter', function () {
+			zoomLens.style.opacity = 1;
+		});
+	});
 </script>

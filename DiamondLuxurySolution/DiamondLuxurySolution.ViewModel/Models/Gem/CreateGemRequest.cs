@@ -27,5 +27,8 @@ namespace DiamondLuxurySolution.ViewModel.Models.Gem
         public bool Active { get; set; }
         [Required(ErrorMessage = "Cần nhập giấy chứng nhận cho kim cương")]
         public string InspectionCertificateId { get; set; } = null!;
-    }
+
+		[Required(ErrorMessage = "Cần nhập mã giá kim cương")]
+        public int GemPriceListId { get; set; }
+	}
 }

@@ -28,12 +28,12 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="form-group m-2">
-                    <label asp-for="InspectionCertificateId" class="control-label">Id giấy chứng nhận</label>
+                    <label asp-for="InspectionCertificateId" class="control-label">ID của Giấy Chứng Nhận</label>
                     <input asp-for="InspectionCertificateId" class="form-control" readonly />
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="InspectionCertificateName" class="control-label">Tên giấy chứng nhận</label>
-                    <input asp-for="InspectionCertificateName" class="form-control" value="@Html.Encode(Model.InspectionCertificateName)" />
+                    <input asp-for="InspectionCertificateName" class="form-control"/>
                     <span asp-validation-for="InspectionCertificateName" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">

@@ -118,10 +118,6 @@ namespace DiamondLuxurySolution.Application.Repository.InspectionCertificate
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Logo);
                 inspectionCertificate.Logo = firebaseUrl;
             }
-            else
-            {
-                errorList.Add("Vui lòng nhập hình ảnh giấy chứng nhận");
-            }
             if (errorList.Any())
             {
                 return new ApiErrorResult<bool>();

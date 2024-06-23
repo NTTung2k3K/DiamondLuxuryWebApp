@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Chỉnh sửa</h1>
+<h1>Chỉnh sửa Kim Cương</h1>
 @if (ViewBag.Errors != null)
 {
     foreach (var error in ViewBag.Errors)
@@ -15,7 +15,6 @@
 }
 @if (Model != null)
 {
-    <h1>Chỉnh sửa khuyến mãi</h1>
     <div class="row">
         <div class="col-md-6">
             
@@ -23,7 +22,7 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <div class="form-group m-2">
-                    <label asp-for="GemId" class="control-label m-2"></label>
+                    <label asp-for="GemId" class="control-label m-2">ID của Kim Cương</label>
                     <input asp-for="GemId" class="form-control" readonly />
                 </div>
                 <div class="form-group m-2">
@@ -93,6 +92,39 @@
                 <div class="form-check form-switch m-4">
                     <label asp-for="Active" class="control-label mt-1">Hiển thị</label>
                     <input class="form-check-input f-18" type="checkbox" asp-for="Active">
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="GemPriceListVm.GemPriceListId" class="control-label m-2">Mã giá kim cương</label>
+                    <select class="h-50" multiple name="GemPriceListId[]"
+                            style="height: 150px; width: 100%; padding: 8px; font-size: 16px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9;">
+                        @foreach (var gemPriceList in ViewBag.listGemPriceList)
+                        {
+                            if (Model != null && Model.GemPriceListVm.GemPriceListId != null)
+                            {
+                                string selectedCheck = Model.GemPriceListVm.GemPriceListId.ToString().Contains(gemPriceList.GemPriceListId.ToString()) ? "selected=\"selected\"" : "";
+                                if (string.IsNullOrEmpty(selectedCheck))
+                                {
+                                    <option value="@gemPriceList.GemPriceListId">
+                                        Cut: @gemPriceList.Cut, Carat Weight: @gemPriceList.CaratWeight, Clarity: @gemPriceList.Clarity, Color: @gemPriceList.Color, Price: @gemPriceList.Price
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="@gemPriceList.GemPriceListId" selected>
+                                        Cut: @gemPriceList.Cut, Carat Weight: @gemPriceList.CaratWeight, Clarity: @gemPriceList.Clarity, Color: @gemPriceList.Color, Price: @gemPriceList.Price
+                                    </option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="@gemPriceList.GemPriceListId">
+                                    Cut: @gemPriceList.Cut, Carat Weight: @gemPriceList.CaratWeight, Clarity: @gemPriceList.Clarity, Color: @gemPriceList.Color, Price: @gemPriceList.Price
+                                </option>
+                            }
+                        }
+                    </select>
+                    <br />
+                    <span asp-validation-for="GemPriceListVm.GemPriceListId" class="text-danger"></span>
                 </div>
 
                 <div class="form-group row">

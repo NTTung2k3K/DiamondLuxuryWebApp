@@ -59,6 +59,18 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "DinkToPdf": {
+              "target": "Package",
+              "version": "[1.0.8, )"
+            },
+            "DinkToPdfCopy": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
+            "HtmlToPdfMaster": {
+              "target": "Package",
+              "version": "[1.0.0.3, )"
+            },
             "Microsoft.AspNetCore.Hosting.Abstractions": {
               "target": "Package",
               "version": "[2.2.0, )"
@@ -79,6 +91,10 @@
               "target": "Package",
               "version": "[8.0.0, )"
             },
+            "PDFsharp": {
+              "target": "Package",
+              "version": "[1.32.3057, )"
+            },
             "PagedList": {
               "target": "Package",
               "version": "[1.17.0, )"
@@ -86,6 +102,10 @@
             "PagedList.Mvc": {
               "target": "Package",
               "version": "[4.5.0, )"
+            },
+            "PuppeteerSharp": {
+              "target": "Package",
+              "version": "[18.0.1, )"
             }
           },
           "imports": [
@@ -163,6 +183,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "DinkToPdf": {
+              "target": "Package",
+              "version": "[1.0.8, )"
+            },
+            "DinkToPdfCopy": {
+              "target": "Package",
+              "version": "[1.0.0, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[8.0.6, )"

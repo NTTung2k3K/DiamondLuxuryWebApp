@@ -24,13 +24,40 @@ namespace DiamondLuxurySolution.Application.Repository.Contact
             _context = context;
         }
 
-        public async Task<ApiResult<int>> CountContactNotSolve()
+        public async Task<ApiResult<List<int>>> ContactAWeek()
         {
-           var count = _context.Contacts.Where(x => x.IsResponse==false).Count();
-            return new ApiSuccessResult<int>(count,"Success");
+            var today = DateTime.Today;
+
+            // Calculate the start of the week (previous Monday)
+            var startOfWeek = today.AddDays(-(int)today.DayOfWeek + (int)DayOfWeek.Monday - (today.DayOfWeek == DayOfWeek.Sunday ? 7 : 0));
+
+            // Calculate the end of the week (current Sunday)
+            var endOfWeek = startOfWeek.AddDays(6).Date.AddDays(1).AddTicks(-1);
+
+            // Create a list to hold the count of contacts per day
+            var contactsCount = new List<int>();
+
+            for (var date = startOfWeek; date <= endOfWeek; date = date.AddDays(1))
+            {
+                var count = await _context.Contacts
+                    .Where(x => x.DateSendRequest.Date == date.Date)
+                    .CountAsync();
+
+                contactsCount.Add(count);
+            }
+
+            // Return the results
+            return new ApiSuccessResult<List<int>>(contactsCount, "Success");
         }
 
-      
+
+        public async Task<ApiResult<int>> CountContactNotSolve()
+        {
+            var count = _context.Contacts.Where(x => x.IsResponse == false).Count();
+            return new ApiSuccessResult<int>(count, "Success");
+        }
+
+
 
         public async Task<ApiResult<bool>> CreateContact(CreateContactRequest request)
         {
@@ -70,7 +97,8 @@ namespace DiamondLuxurySolution.Application.Repository.Contact
                 ContactPhoneUser = request.ContactPhoneUser.Trim(),
                 ContactNameUser = request.ContactNameUser.Trim(),
                 ContactEmailUser = request.ContactEmailUser.Trim(),
-                IsResponse = false
+                IsResponse = false,
+                DateSendRequest = DateTime.Now,
             };
 
             _context.Contacts.Add(contact);
@@ -121,7 +149,8 @@ namespace DiamondLuxurySolution.Application.Repository.Contact
                 ContactPhoneUser = contact.ContactPhoneUser.Trim(),
                 ContactNameUser = contact.ContactNameUser.Trim(),
                 ContactEmailUser = contact.ContactEmailUser.Trim(),
-                IsResponse = contact.IsResponse
+                IsResponse = contact.IsResponse,
+                DateSendRequest = contact.DateSendRequest,
             };
             return new ApiSuccessResult<ContactVm>(contactVm, "Success");
         }
@@ -187,7 +216,9 @@ namespace DiamondLuxurySolution.Application.Repository.Contact
                 ContactPhoneUser = contact.ContactPhoneUser.Trim(),
                 ContactNameUser = contact.ContactNameUser.Trim(),
                 ContactEmailUser = contact.ContactEmailUser.Trim(),
-                IsResponse = contact.IsResponse
+                IsResponse = contact.IsResponse,
+                DateSendRequest = contact.DateSendRequest,
+
             }).ToList();
             var listResult = new PageResult<ContactVm>()
             {

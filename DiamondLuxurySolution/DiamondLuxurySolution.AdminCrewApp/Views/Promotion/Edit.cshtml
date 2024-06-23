@@ -20,7 +20,7 @@
             <form asp-action="Edit" asp-controller="Promotion" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group m-2">
-                <label asp-for="PromotionId" class="control-label">Id khuyến mãi</label>
+                    <label asp-for="PromotionId" class="control-label">ID của Khuyến Mãi</label>
                 <input asp-for="PromotionId" class="form-control" readonly />
             </div>
             <div class="form-group m-2">
@@ -62,7 +62,7 @@
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
                 <div class="form-group m-2">
-                    <label class="control-label m-2">Hình biểu ngữ hiện tại</label>
+                    <label class="control-label m-2">Hình Banner hiện tại</label>
                 @if (string.IsNullOrEmpty(Model.BannerImage) || Model.BannerImage.Length <= 0)
                 {
                             <label style="color:orangered;">Không có hình ảnh</label>
@@ -75,7 +75,7 @@
                 }
             </div>
             <div class="form-group m-2">
-                    <label asp-for="BannerImage" class="control-label m-2">Hình biểu ngữ mới</label>
+                    <label asp-for="BannerImage" class="control-label m-2">Hình Banner mới</label>
                     <input asp-for="BannerImage" class="form-control" type="file" />
                     <span asp-validation-for="BannerImage" class="text-danger"></span>
             </div>

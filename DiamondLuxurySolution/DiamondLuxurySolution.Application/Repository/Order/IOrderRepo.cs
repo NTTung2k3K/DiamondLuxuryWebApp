@@ -30,6 +30,8 @@ namespace DiamondLuxurySolution.Application.Repository.Order
         public Task<ApiResult<List<OrderVm>>> RecentFailTransaction();
         public Task<ApiResult<List<int>>> OrderByQuarter ();
         public Task<ApiResult<decimal>> IncomeToday();
+        public Task<ApiResult<List<decimal>>> IncomeByWeek();
+
         public Task<ApiResult<PageResult<OrderVm>>> GetListOrderOfCustomer(ViewOrderRequest request);
 
 
@@ -39,5 +41,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
         public Task<ApiResult<string>> ChangeStatusOrder(ChangeOrderStatusRequest request);
         public Task<ApiResult<OrderVm>> GetOrderById(string OrderId);
         public Task<ApiResult<PageResult<OrderVm>>> ViewOrder(ViewOrderRequest request);
+        public Task<ApiResult<string>> ExportFileInspecertificateAndWarranty(ExportFileRequest request);
+
     }
 }

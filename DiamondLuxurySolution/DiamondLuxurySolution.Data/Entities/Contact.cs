@@ -13,6 +13,7 @@ namespace DiamondLuxurySolution.Data.Entities
         public string? ContactEmailUser { get; set; }
         public string? ContactPhoneUser { get; set;}
         public string? Content {  get; set; }
+        public DateTime DateSendRequest { get; set; }
 
         public bool IsResponse{ get; set; }
     }

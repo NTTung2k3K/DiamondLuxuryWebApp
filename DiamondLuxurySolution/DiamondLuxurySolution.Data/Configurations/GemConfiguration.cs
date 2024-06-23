@@ -26,7 +26,8 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(g => g.Active).IsRequired();
 
             builder.HasOne(x => x.InspectionCertificate).WithOne(x => x.Gem).HasForeignKey<Gem>(g => g.InspectionCertificateId);
-        }
+			builder.HasOne(x => x.GemPriceList).WithMany(x => x.Gems).HasForeignKey(g => g.GemPriceListId);
+		}
     }
 
 }

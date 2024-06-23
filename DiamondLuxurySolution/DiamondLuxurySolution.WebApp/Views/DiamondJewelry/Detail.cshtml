@@ -10,6 +10,39 @@
     var sizes = Enumerable.Range(4, 29).ToList(); // Tạo danh sách các kích thước từ 4 đến 32
 }
 
+<style>
+    .product-details-img {
+        position: relative;
+        width: 600px;
+        height: 450px;
+        overflow: hidden;
+        
+    }
+
+        .product-details-img img {
+            display: block;
+            width: 577px;
+            height: 450px;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+        }
+
+    .zoom-lens {
+        position: absolute;
+        border: 1px solid #000;
+        width: 150px; /* Size of the zoom lens */
+        height: 150px;
+        background-repeat: no-repeat;
+        pointer-events: none; /* Prevent mouse events on the lens */
+        opacity: 0; /* Initially hidden */
+        transition: opacity 0.3s ease;
+        border-radius: 50%; /* Border radius to make it round */
+    }
+
+    .product-details-img:hover .zoom-lens {
+        opacity: 1; /* Show lens on hover */
+    }
+</style>
 
 <!-- Breadcumb area Start -->
 <div class="breadcrumb-area">
@@ -38,10 +71,11 @@
                         <!-- Tab Content Start -->
                         <div class="tab-content product-details-thumb-large" id="myTabContent-3">
                             <div class="tab-pane fade show active" id="product-large-one">
-                                <div class="product-details-img">
+                                <div class="product-details-img" data-large-url="@Model.ProductThumbnail">
                                     <a class="popup-btn" href="@Model.ProductThumbnail">
-                                        <img src="@Model.ProductThumbnail" alt="product" style="width : 600px; height : 450px">
+                                        <img src="@Model.ProductThumbnail" alt="product" style="cursor: none;">
                                     </a>
+                                    <div class="zoom-lens"></div>
                                 </div>
                             </div>
                             @if (Model.Images != null)
@@ -49,17 +83,18 @@
                                 @foreach (var imagepath in Model.Images)
                                 {
                                     <div class="tab-pane fade" id="product-large-@imagepath.GetHashCode()">
-                                        <div class="product-details-img">
+                                        <div class="product-details-img" data-large-url="@imagepath">
                                             <a class="popup-btn" href="@imagepath">
                                                 @if (!string.IsNullOrEmpty(@imagepath))
                                                 {
-                                                    <img src="@imagepath" style="width : 600px; height : 450px" alt="product">
+                                                    <img src="@imagepath" alt="product" style="cursor: none;">
                                                 }
                                                 else
                                                 {
                                                     <p>No image available</p>
                                                 }
                                             </a>
+                                            <div class="zoom-lens"></div>
                                         </div>
                                     </div>
                                 }
@@ -317,9 +352,7 @@
                             <div class="tab-pane fade show active" id="nav-desc" role="tabpanel">
                                 <table>
                                     @{
-                                        var closestGemPriceList = Model.GemPriceLists
-                                        .OrderBy(gp => Math.Abs((gp.effectDate - DateTime.Now).Ticks))
-                                        .FirstOrDefault();
+                                        var closestGemPriceList = Model.GemPriceLists;
                                     }
                                     <tr>
                                         <th>Thương hiệu</th>
@@ -534,6 +567,8 @@
                     ni: niSize,
                     price: productPrice
                 };
+                debugger;
+
                 $.ajax({
                     url: '/Cart/AddToCart',
                     type: 'POST',
@@ -552,3 +587,40 @@
         });
     </script>
 }
+
+<script>
+    document.querySelectorAll('.product-details-img').forEach(function (container) {
+        const zoomLens = container.querySelector('.zoom-lens');
+        const largeImageURL = container.getAttribute('data-large-url');
+
+        container.addEventListener('mousemove', function (e) {
+            const rect = container.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const lensSize = zoomLens.offsetWidth / 2;
+
+            let lensX = x - lensSize;
+            let lensY = y - lensSize;
+
+            if (lensX < 0) lensX = 0;
+            if (lensY < 0) lensY = 0;
+            if (lensX > rect.width - lensSize * 2) lensX = rect.width - lensSize * 2;
+            if (lensY > rect.height - lensSize * 2) lensY = rect.height - lensSize * 2;
+
+            zoomLens.style.left = lensX + 'px';
+            zoomLens.style.top = lensY + 'px';
+            zoomLens.style.backgroundImage = `url(${largeImageURL})`;
+            zoomLens.style.backgroundSize = `${rect.width * 2}px ${rect.height * 2}px`;
+            zoomLens.style.backgroundPosition = `-${lensX * 2}px -${lensY * 2}px`;
+        });
+
+        container.addEventListener('mouseleave', function () {
+            zoomLens.style.opacity = 0;
+        });
+
+        container.addEventListener('mouseenter', function () {
+            zoomLens.style.opacity = 1;
+        });
+    });
+</script>

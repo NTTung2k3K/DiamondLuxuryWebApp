@@ -1,5 +1,6 @@
 ﻿using DiamondLuxurySolution.Application.Repository.KnowledgeNews;
 using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Models.KnowledgeNews;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -101,6 +102,23 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             try
             {
                 var status = await _knowledgeNews.ViewKnowledgeNews(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var status = await _knowledgeNews.GetAll();
                 if (status.IsSuccessed)
                 {
                     return Ok(status);

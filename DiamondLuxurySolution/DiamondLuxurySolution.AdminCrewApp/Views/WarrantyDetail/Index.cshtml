@@ -1,0 +1,145 @@
+﻿@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Common
+@using DiamondLuxurySolution.ViewModel.Models.WarrantyDetail
+
+@model PageResult<WarrantyDetailVm>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <a asp-action="Create" asp-controller="WarrantyDetail" class="btn btn-success">Tạo mới</a>
+    </div>
+    <div class="col-md-3">
+    </div>
+    <div class="col-md-5">
+        <form asp-action="Index" asp-controller="WarrantyDetail" method="get" class="d-flex">
+
+            <div class="search">
+                <input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm" />
+                <button type="submit">Tìm kiếm</button>
+            </div>
+        </form>
+    </div>
+</div>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+
+@if (Model != null && Model != null && Model.Items != null && Model.Items.Count > 0)
+{
+
+    <table class="table">
+        <thead>
+            <tr class="text-center">
+                <th>
+                    <label>Mã bảo hành</label>
+                </th>
+                <th>
+                    <label>Tên</label>
+                </th>
+                <th>
+                    <label>Loại</label>
+                </th>
+                <th>
+                    <label>Ngày nhận</label>
+                </th>
+                <th>
+                    <label>Trạng thái</label>
+                </th>
+                <th>Cài đặt</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr class="text-center">
+                    <td>@item.WarrantyVm.WarrantyId</td>
+                    <td>@item.WarrantyDetailName</td>
+                  
+                    <td>@item.WarrantyType</td>
+                    <td>@item.ReturnProductDate</td>
+                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.Received.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-primary rounded-pill">Đã nhận</span>
+                        </td>
+                    }
+                    else if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.UnderReview.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-warning rounded-pill">Đang xem xét</span>
+                        </td>
+                    }
+                    else if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.Approved.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-info rounded-pill">Đã phê duyệt</span>
+                        </td>
+                    }
+                    else if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.Denied.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-danger rounded-pill">Từ chối</span>
+                        </td>
+                    }
+                    else if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.InRepair.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-secondary rounded-pill">Đang sửa chữa</span>
+                        </td>
+                    }
+                    else if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.RepairCompleted.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-success rounded-pill">Sửa chữa hoàn tất</span>
+                        </td>
+                    }
+                    else if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.QualityCheck.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-dark rounded-pill">Kiểm tra chất lượng</span>
+                        </td>
+                    }
+                    else if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.CustomerNotified.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-light text-dark rounded-pill">Đã thông báo khách hàng</span>
+                        </td>
+                    }
+                    else if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.RefundProcessed.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-primary rounded-pill">Đã xử lý hoàn tiền</span>
+                        </td>
+                    }
+                    else if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.Success.ToString()))
+                    {
+                        <td>
+                            <span class="badge bg-success rounded-pill">Thành công</span>
+                        </td>
+                    }
+                    <td class="text-center">
+                        @Html.ActionLink("Chỉnh sửa", "Edit", new { WarrantyDetailId = item.WarrantyDetailId }, new { @class = "btn btn-warning" })
+                        @Html.ActionLink("Xem chi tiết", "Detail", new { WarrantyDetailId = item.WarrantyDetailId }, new { @class = "btn btn-info" })
+                        @Html.ActionLink("Xóa", "Delete", new { WarrantyDetailId = item.WarrantyDetailId }, new { @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-center align-items-center">
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
+}
+else
+{
+    <h1>Không có thông tin</h1>
+}

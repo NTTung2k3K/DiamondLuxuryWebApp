@@ -1,0 +1,120 @@
+﻿@using System.Text.RegularExpressions
+@using DiamondLuxurySolution.ViewModel.Models.KnowledgeNews
+@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Common
+
+@model List<KnowledgeNewsVm>
+
+@functions {
+    // Hàm helper để loại bỏ các thẻ HTML từ chuỗi
+    public string StripHtml(string input)
+    {
+        return Regex.Replace(input, "<.*?>", string.Empty);
+    }
+
+    // Hàm helper để xử lý mô tả
+    public string ProcessDescription(string description)
+    {
+        string processedDescription = description;
+        string pattern = "<i>(.*?)</i>";
+        Regex regex = new Regex(pattern);
+        MatchCollection matches = regex.Matches(description);
+
+        foreach (Match match in matches)
+        {
+            string italicizedText = match.Groups[1].Value;
+            processedDescription = processedDescription.Replace($"<i>{italicizedText}</i>", $"<span class='post-title' style='color: #a8741a; line-height: 1.5'>{italicizedText}</span>");
+        }
+
+        return processedDescription;
+    }
+}
+
+@if (Model != null)
+{
+    var initialKnowledgeNew = Model
+        .Where(p => p.Active && p.KnowledgeNewCatagoryVm.KnowledgeNewCatagoriesName == "Hướng Dẫn Đo Ni Nhẫn")
+        .OrderByDescending(p => p.DateModified)
+        .ToList();
+
+    <div class="main-content-wrapper" style="background-color: black;">
+        <div class="blog-area pt--40 pb--80 pt-md--30 pb-md--60">
+            <div class="container">
+                <div class="row" id="news-container">
+                    <style>
+                        #seeMoreBtn {
+                            background-color: transparent;
+                            border: 1px solid white; /* Border color */
+                            color: white; /* Text color */
+                            cursor: pointer;
+                            border-radius: 10px;
+                            transition: all 0.3s ease;
+                        }
+
+                            #seeMoreBtn:hover {
+                                background-color: #a8741a; /* Hover background color */
+                                color: #ffffff; /* Hover text color */
+                            }
+
+                        .hidden {
+                            display: none !important;
+                        }
+                    </style>
+
+                    @foreach (var knowledgeNews in initialKnowledgeNew)
+                    {
+                        var processedDescription = ProcessDescription(knowledgeNews.Description);
+                        <div class="col-lg-12 order-lg-2 order-1 mb-md--30">
+                            <div class="single-post-wrapper">
+                                <article class="post post-details mb--30">
+                                    <div class="post-media">
+                                        <div class="image">
+                                            <img src="@knowledgeNews.Thumnail" alt="blog">
+                                        </div>
+                                    </div>
+                                    <div class="post-info">
+                                        <header class="entry-header">
+                                            <div class="entry-meta">
+                                                <span class="post-author">
+                                                    <span class="post-by">Đăng Bởi:</span> @knowledgeNews.Writer.FullName
+                                                </span>
+                                                <span class="post-date">@knowledgeNews.DateModified</span>
+                                            </div>
+                                        </header>
+                                        <div class="post-content">
+                                            <p>@Html.Raw(processedDescription)</p>
+                                        </div>
+                                        <div class="social__sharing mb--30">
+                                            <h3>Chia sẻ bài này</h3>
+                                            <ul class="social social-round">
+                                                <li class="social__item">
+                                                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social__link"><i class="fa fa-facebook"></i></a>
+                                                </li>
+                                                <li class="social__item">
+                                                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="social__link"><i class="fa fa-twitter"></i></a>
+                                                </li>
+                                                <li class="social__item">
+                                                    <a href="https://pinterest.com" target="_blank" rel="noopener noreferrer" class="social__link"><i class="fa fa-pinterest"></i></a>
+                                                </li>
+                                                <li class="social__item">
+                                                    <a href="https://plus.google.com" target="_blank" rel="noopener noreferrer" class="social__link"><i class="fa fa-google-plus"></i></a>
+                                                </li>
+                                                <li class="social__item">
+                                                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social__link"><i class="fa fa-linkedin"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    }         
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>Không có Kiến Thức Kim Cương</p>
+}

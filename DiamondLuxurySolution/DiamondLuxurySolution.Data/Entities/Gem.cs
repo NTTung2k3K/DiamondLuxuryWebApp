@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DiamondLuxurySolution.Data.Configurations;
+using System;
 using System.Collections.Generic;
 
 namespace DiamondLuxurySolution.Data.Entities;
@@ -25,7 +26,9 @@ public partial class Gem
     public bool Active { get; set; }
     public string InspectionCertificateId { get; set; }
     public InspectionCertificate InspectionCertificate { get; set; }
-    public virtual ICollection<GemPriceList> GemPriceLists
-    { get; set; } = new List<GemPriceList>();
-    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+
+	public int GemPriceListId { get; set; }
+	public GemPriceList GemPriceList { get; set; }
+	public virtual ICollection<Product> Products { get; set; } = new List<Product>();
+
 }

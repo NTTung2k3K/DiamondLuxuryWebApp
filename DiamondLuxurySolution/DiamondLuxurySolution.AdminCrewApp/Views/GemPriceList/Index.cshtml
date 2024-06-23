@@ -19,13 +19,13 @@
             <a asp-action="Create" asp-controller="GemPriceList" class="btn btn-success">Tạo mới</a>
         }
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
     </div>
-    <div class="col-md-4">
+    <div class="col-md-5">
         <form asp-action="Index" asp-controller="GemPriceList" method="get" class="d-flex">
 
             <div class="search">
-                <input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm giá kim cương theo trọng lượng" />
+                <input type="text" name="Keyword" class="form-control mr-2" value="@ViewBag.txtLastSeachValue" placeholder="Tìm kiếm giá kim cương theo trọng lượng" style="width: 390px"/>
                 <button type="submit">Tìm kiếm</button>
             </div>
         </form>
@@ -48,7 +48,7 @@
         <thead>
             <tr class="text-center">
                 <th>
-                    <label>Tên kim cương</label>
+                    <label>Mã giá kim cương</label>
                     <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
@@ -67,9 +67,6 @@
                     <label>Hiển thị</label>
                     <label onclick="sortTable(4)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
-                <th>
-                    <label>Hình kim cương</label>
-                </th>
                 <th>Cài đặt</th>
             </tr>
         </thead>
@@ -77,7 +74,7 @@
             @foreach (var item in Model.Items)
             {
                 <tr class="text-center">
-                    <td>@item.GemVm.GemName</td>
+                    <td>@item.GemPriceListId</td>
                     <td>@item.CaratWeight</td>
                     <td>@item.Price</td>
                     <td>@item.effectDate</td>
@@ -95,17 +92,6 @@
 
                         </td>
 
-                    }
-                    @if (string.IsNullOrEmpty(item.GemVm.GemImage))
-                    {
-                        <td>Không có hình ảnh</td>
-                    }
-                    else
-                    {
-
-                        <td>
-                            <img src="@item.GemVm.GemImage" style="height:100px; width:100px" />
-                        </td>
                     }
 
                     <td class="text-center">

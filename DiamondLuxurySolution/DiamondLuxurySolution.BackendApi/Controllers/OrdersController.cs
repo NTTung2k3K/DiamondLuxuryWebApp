@@ -2,12 +2,17 @@
 using DiamondLuxurySolution.Application.Repository.Order;
 using DiamondLuxurySolution.Data.EF;
 using DiamondLuxurySolution.Data.Entities;
+using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models;
 using DiamondLuxurySolution.ViewModel.Models.News;
 using DiamondLuxurySolution.ViewModel.Models.Order;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System;
 
 namespace DiamondLuxurySolution.BackendApi.Controllers
 {
@@ -17,9 +22,12 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
     {
         private readonly LuxuryDiamondShopContext _context;
         private readonly IOrderRepo _order;
+        private readonly IConverter _convert;
 
-        public OrdersController(LuxuryDiamondShopContext context, IOrderRepo order)
+
+        public OrdersController(LuxuryDiamondShopContext context, IOrderRepo order, IConverter converter)
         {
+            _convert = converter;
             _context = context;
             _order = order;
         }
@@ -66,7 +74,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
         [HttpPut("ChangeStatus")]
-        public async Task<ActionResult> ChangeStatus([FromBody]ChangeOrderStatusRequest request)
+        public async Task<ActionResult> ChangeStatus([FromBody] ChangeOrderStatusRequest request)
         {
             try
             {
@@ -161,7 +169,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
         [HttpDelete("Delete")]
-        public async Task<ActionResult> DeleteOrder([FromQuery]string OrderId)
+        public async Task<ActionResult> DeleteOrder([FromQuery] string OrderId)
         {
             try
             {
@@ -179,7 +187,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
         [HttpGet("GetById")]
-        public async Task<ActionResult> GetById([FromQuery]string OrderId)
+        public async Task<ActionResult> GetById([FromQuery] string OrderId)
         {
             try
             {
@@ -196,8 +204,11 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+
+
         [HttpGet("GetFullOrderByCustomerId")]
-        public async Task<ActionResult> GetFullOrderByCustomerId([FromQuery]ViewOrderRequest request)
+        public async Task<ActionResult> GetFullOrderByCustomerId([FromQuery] ViewOrderRequest request)
         {
             try
             {
@@ -258,6 +269,24 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             {
 
                 var status = await _order.IncomeToday();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet("GetIncomeByWeek")]
+        public async Task<ActionResult> GetIncomeByWeek()
+        {
+            try
+            {
+
+                var status = await _order.IncomeByWeek();
                 if (status.IsSuccessed)
                 {
                     return Ok(status);
@@ -396,7 +425,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
         [HttpGet("View")]
-        public async Task<ActionResult> ViewOrder([FromQuery]ViewOrderRequest request)
+        public async Task<ActionResult> ViewOrder([FromQuery] ViewOrderRequest request)
         {
             try
             {
@@ -412,6 +441,28 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             {
                 return BadRequest(e.Message);
             }
+        }
+
+
+
+        [HttpPut("ExportFileToFolder")]
+        public async Task<IActionResult> ExportFileToFolder([FromBody] ExportFileRequest request)
+        {
+
+            try
+            {
+                var status = await _order.ExportFileInspecertificateAndWarranty(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return Ok(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
         }
     }
 }

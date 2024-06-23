@@ -21,7 +21,7 @@
         <hr />
         <dl class="row">
             <dt class="col-sm-3 mb-3">
-                @Html.DisplayNameFor(model => model.GemId)
+                ID của Kim Cương
             </dt>
             <dd class="col-sm-9">
                 @Html.DisplayFor(model => model.GemId)
@@ -136,6 +136,12 @@
                 {
                     <h5>Chưa có logo</h5>
                 }
+            </dd>
+            <dt class="col-sm-3 mb-3">
+                Mã giá kim cương
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.GemPriceListVm.GemPriceListId)
             </dd>
         </dl>
         <form asp-action="Delete" asp-controller="Gem" method="post">

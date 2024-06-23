@@ -8,6 +8,7 @@ using DiamondLuxurySolution.WebApp.Models;
 using DiamondLuxurySolution.WebApp.Service.Account;
 
 using DiamondLuxurySolution.WebApp.Service.GemPriceList;
+using DiamondLuxurySolution.WebApp.Service.KnowledgeNews;
 using DiamondLuxurySolution.WebApp.Service.Order;
 using DiamondLuxurySolution.WebApp.Service.Product;
 using DiamondLuxurySolution.WebApp.Service.Slide;
@@ -17,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using DiamondLuxurySolution.WebApp.Service.Customer;
 using DiamondLuxurySolution.WebApp.Service.Payment;
 using DiamondLuxurySolution.WebApp.Service.Promotion;
+using DiamondLuxurySolution.AdminCrewApp.Service.Category;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,7 +42,8 @@ builder.Services.AddTransient<ISearchProductApiService, SearchProductApiService>
 
 builder.Services.AddTransient<ISlideApiService, SlideApiService>();
 builder.Services.AddTransient<IGemPriceListApiService, GemPriceListApiService>();
-
+builder.Services.AddTransient<IKnowLedgeNewsApiService, KnowledgeNewsApiService>();
+builder.Services.AddTransient<ICategoryApiService, CategoryApiService>();
 builder.Services.AddTransient<IContactApiService, ContactApiService>();
 
 builder.Services.AddTransient<IProductApiService, ProductApiService>();

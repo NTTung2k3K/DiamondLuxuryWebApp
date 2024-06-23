@@ -713,7 +713,7 @@
                             <label class="control-label m-2">Tổng cộng giảm giá: <span style="color: red">@ViewBag.TotalSale?.ToString("N0")₫</span></label>
                         </div>
                         <div class="form-group m-2">
-                            <label class="control-label m-2">Tổng cộng: <span style="color: red">@ViewBag.Total?.ToString("N0")₫</span></label>
+                            <label class="control-label m-2">Tổng cộng đơn hàng hiện tại: <span style="color: red">@ViewBag.Total?.ToString("N0")₫</span></label>
                         </div>
                         @if (Model == null)
                         {
@@ -844,7 +844,7 @@
                                 <input type="submit" value="Lưu" class="btn btn-success" />
                             </div>
                             <div class="col-md-7">
-                                <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
+                                <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
                             </div>
                         </div>
                 </form>
@@ -855,7 +855,7 @@
 }
 else
 {
-    <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí tin tức</a>
+    <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="Order">Về trang quản lí tin tức</a>
 }
 <hr />
 <!-- Add this HTML somewhere in your body -->
