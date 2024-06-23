@@ -30,6 +30,8 @@ namespace DiamondLuxurySolution.Application.Repository.Order
         public Task<ApiResult<List<OrderVm>>> RecentFailTransaction();
         public Task<ApiResult<List<int>>> OrderByQuarter ();
         public Task<ApiResult<decimal>> IncomeToday();
+        public Task<ApiResult<List<decimal>>> IncomeByWeek();
+
         public Task<ApiResult<PageResult<OrderVm>>> GetListOrderOfCustomer(ViewOrderRequest request);
 
 

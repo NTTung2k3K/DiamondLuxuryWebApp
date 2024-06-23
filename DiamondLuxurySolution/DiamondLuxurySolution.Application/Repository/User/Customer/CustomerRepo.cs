@@ -512,6 +512,52 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
 
         }
 
+        public async Task<ApiResult<List<int>>> CountAllCustomerInWeek()
+        {
+            try
+            {
+                var customerRoleId = await _roleManager.Roles
+                    .Where(r => r.Name == DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString())
+                    .Select(r => r.Id)
+                    .FirstOrDefaultAsync();
+
+                if (customerRoleId == null)
+                {
+                    throw new Exception("Không tìm thấy chức vụ khách hàng");
+                }
+
+                var today = DateTime.Today;
+
+                // Calculate the start of the week (previous Monday)
+                var startOfWeek = today.AddDays(-(int)today.DayOfWeek + (int)DayOfWeek.Monday - (today.DayOfWeek == DayOfWeek.Sunday ? 7 : 0));
+
+                // Calculate the end of the week (current Sunday)
+                var endOfWeek = startOfWeek.AddDays(6).Date.AddDays(1).AddTicks(-1);
+
+                // Create a list to hold the count of customers per day
+                var weeklyCustomerCounts = new List<int>();
+
+                // Loop through each day of the current week
+                for (var date = startOfWeek; date <= endOfWeek; date = date.AddDays(1))
+                {
+                    // Count customers created on the current day who have the "Customer" role
+                    var count = await _userManager.Users
+                        .Join(_context.UserRoles, user => user.Id, userRole => userRole.UserId, (user, userRole) => new { user, userRole })
+                        .Where(joined => joined.userRole.RoleId == customerRoleId && joined.user.DateCreated.HasValue && joined.user.DateCreated.Value.Date == date.Date)
+                        .CountAsync();
+
+                    weeklyCustomerCounts.Add(count);
+                }
+
+                // Return the results
+                return new ApiSuccessResult<List<int>>(weeklyCustomerCounts, "Success");
+            }
+            catch (Exception ex)
+            {
+                // Handle exception, log the error
+                return new ApiErrorResult<List<int>>($"Error: {ex.Message}");
+            }
+        }
 
     }
 }

@@ -280,6 +280,24 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpGet("GetIncomeByWeek")]
+        public async Task<ActionResult> GetIncomeByWeek()
+        {
+            try
+            {
+
+                var status = await _order.IncomeByWeek();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         [HttpGet("GetAllOrderToday")]
         public async Task<ActionResult> GetAllOrderToday()
         {

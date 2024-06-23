@@ -23,7 +23,7 @@ namespace DiamondLuxurySolution.Application.Repository.User
             return new IdentityError
             {
                 Code = nameof(PasswordRequiresNonAlphanumeric),
-                Description = "Mật khẩu phải có ít nhất một ký tự không phải chữ và số."
+                Description = "Mật khẩu phải có ít nhất một ký tự đặc biêt."
             };
         }
 

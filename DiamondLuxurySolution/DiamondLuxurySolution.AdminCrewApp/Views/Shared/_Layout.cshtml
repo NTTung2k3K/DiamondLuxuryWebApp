@@ -45,7 +45,7 @@
     <!-- [Downdown list CSS Files] -->
     <link rel="stylesheet" href="../assets/css/dropdownlist.css" />
 
-    @RenderSection("CssStyle", required: false);
+    @RenderSection("CssStyle", required: false)
 
 </head>
 <!-- [Head] end -->
@@ -356,7 +356,7 @@
                     @* <form asp-controller="Staff" asp-action="Logout" method="post" class="text-center" style="display:flex; justify-content:center">
                     <div>
                     <button type="submit" class="pc-link btn btn-danger btn-sm mt-5" style="color: white; border-radius:25px;"> *@
-                    
+
                     @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.DeliveryStaff))
                     {
                         <li class="pc-item">
@@ -370,8 +370,8 @@
                             </a>
                         </li>
                     }
-                        
-                        @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin))
+
+                    @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin))
                     {
                         <li class="pc-item">
                             <a href="/Home/Admin" class="pc-link">
@@ -569,6 +569,9 @@
                                     <li class="pc-item">
                                         <a class="pc-link" href="/Payment/Index">Xem Các Phương Thức Thanh Toán</a>
                                     </li>
+                                    <li class="pc-item">
+                                        <a class="pc-link" href="/WarrantyDetail/Index">Quản Lý Bảo Hành</a>
+                                    </li>
                                 }
                                 @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager))
                                 {
@@ -676,7 +679,7 @@
                     <li class="pc-item">
                     <a class="pc-link" href="/SaleStaff/Index">Nhân viên bán hàng</a>
                     </li>
-                    
+
                     <li class="pc-item">
                     <a class="pc-link" href="/Role">Quản Lí Chức Vụ</a>
                     </li>
@@ -1264,10 +1267,14 @@
     </div>
 
 
+<<<<<<< HEAD
     
 
 
     @RenderSection("Scripts", required: false);
+=======
+    @RenderSection("Scripts", required: false)
+>>>>>>> f11590b6a6eee13ae04ce72dcb06e62bf00301a2
 
     <!-- Required Js -->
     <script src="../assets/js/plugins/popper.min.js"></script>

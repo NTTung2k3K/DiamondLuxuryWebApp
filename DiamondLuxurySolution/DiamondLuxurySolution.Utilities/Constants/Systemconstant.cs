@@ -97,6 +97,21 @@ namespace DiamondLuxurySolution.Utilities.Constants
             Failed,
             Waiting
         }
+
+        public enum WarrantyDetailStatus
+        {
+            Received,
+            UnderReview,
+            Approved,
+            Denied,
+            InRepair,
+            RepairCompleted,
+            QualityCheck,
+            CustomerNotified,
+            RefundProcessed,
+            Success
+        }
+
         public enum StaffStatus
         {
             Active,         // Nhân viên đang hoạt động
