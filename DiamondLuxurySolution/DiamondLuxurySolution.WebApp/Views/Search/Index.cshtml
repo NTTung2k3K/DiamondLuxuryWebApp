@@ -11,6 +11,82 @@
 }
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<style>
+	.product-item {
+		background-color: #343434;
+		border: none;
+		text-align: center;
+		border-radius: 4px;
+		height: 400px;
+		width: 280px;
+		margin: 0px 5px;
+		padding: 0px;
+		margin-bottom: 10px;
+	}
+
+	.item-img {
+		width: 100%;
+		height: 310px;
+		overflow: hidden;
+		padding: 10px;
+		position: relative;
+	}
+
+		.item-img img {
+			width: 100%;
+			height: 100%;
+		}
+
+	.product-link {
+		display: block;
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.item-content {
+		transition: transform 0.3s;
+	}
+
+		.item-content:hover {
+			transform: scale(1.0);
+		}
+	/*NameProduct*/
+	.CategoryProduct {
+		margin-bottom: 2px;
+		font-size: 14px;
+		font-family: "Jura", cursive;
+		font-optical-sizing: auto;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+
+	/*Id Product*/
+	.IdProduct {
+		background: #E8BE6F
+	}
+
+		.IdProduct h9 {
+			color: black;
+			font-size: 20px;
+			font-weight: 0;
+			font-family: "Source Code Pro", monospace;
+		}
+	/*price*/
+	.item-price {
+		font-weight: bold;
+		color: #E8BE6F;
+		font-weight: 600;
+		font-size: 18px;
+		margin-top: 6px;
+		font-family: "Jura", monospace;
+		font-weight: bold;
+		display: flex;
+		justify-content: center
+	}
+
+</style>
+
+
 <div class="wrapper bg--shaft" style="background-color: black;">
     <header class="header headery-style-1">
         <div class="breadcrumb-area">
@@ -259,8 +335,8 @@
 				</div>
 
 				<!-- Main Shop wrapper Start -->
-				<div class="shop-product-wrap grid gridview-4 row no-gutters">
-					@if (Model != null)
+				<div class="col-12" style="display: flex; flex-wrap: wrap;">
+					@if (Model != null && Model.Items != null && Model.Items.Count > 0)
 					{
 						var filteredProducts = Model.Items;
 
@@ -273,81 +349,107 @@
 						var initialProducts = filteredProducts.Take(2).ToList();
 						var hiddenProducts = filteredProducts.Skip(2).ToList();
 
-						foreach (var product in initialProducts)
-						{
-									<div class="col-xl-3 col-lg-4 col-md-6 col-12 product-item" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
-										<div class="mirora-product mb-md--10">
-											<a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
-												<div class="product-img">
-													<img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" style="height: 220px;" />
-													<div class="product-img-overlay">
-												@if (product.IsSale && product.PercentSale != 0)
-												{
-																<span class="product-label discount">
-																	-@product.PercentSale%
-																</span>
-												}
-													</div>
+						@foreach (var product in initialProducts)
+							{
+								<div class="item product-item col-3" data-material="@product.FrameVm?.MaterialVm.MaterialName" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
+									<div class="item-content">
+										<a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
+											<div class="item-img">
+												<img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
+												<div style="position: absolute; top: 6%; margin-left: 8px;">
+													@if (product.IsSale && product.PercentSale != 0)
+													{
+														<span class="product-label discount" style="padding: 5px 10px">
+															-@product.PercentSale%
+														</span>
+													}
 												</div>
-												<div class="product-content text-center">
-													<span>@product.CategoryVm?.CategoryName</span>
-													<h4>@product.ProductName</h4>
-													<div class="product-price-wrapper">
-														<span class="money">@product.SellingPrice.ToString("N0")</span>
-												@if (product.OriginalPrice != product.SellingPrice)
-												{
-																<span class="product-price-old">
-																	<span class="money">@product.OriginalPrice.ToString("N0")</span>
-																</span>
-												}
-													</div>
+											</div>
+										</a>
+										<div class="item-text">
+											<p class="CategoryProduct" style="margin-bottom: 4px">
+												@product.CategoryVm.CategoryName
+											</p>
+											<div class="IdProduct">
+												<h9>
+													<a href="/DiamondJewelry/Detail?ProductId=@product.ProductId" style="color: black">
+														@product.ProductName
+													</a>
+												</h9>
+											</div>
+											<div class="item-price">
+												<div class="product-price-wrapper">
+													<span class="money" style="color: #E8BE6F;">@product.SellingPrice.ToString("N0")₫</span>
+													@if (product.OriginalPrice != product.SellingPrice)
+													{
+														<span class="product-price-old">
+															<span class="money">@product.OriginalPrice.ToString("N0")₫</span>
+														</span>
+													}
 												</div>
-											</a>
+											</div>
 										</div>
+
 									</div>
-						}
+								</div>
+							}
 
 						// Sản phẩm ẩn
-						foreach (var product in hiddenProducts)
-						{
-									<div class="col-xl-3 col-lg-4 col-md-6 col-12 product-item hidden" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
-										<div class="mirora-product mb-md--10">
-											<a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
-												<div class="product-img">
-													<img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" style="height: 220px;" />
-													<div class="product-img-overlay">
-												@if (product.IsSale && product.PercentSale != 0)
-												{
-																<span class="product-label discount">
-																	-@product.PercentSale%
-																</span>
-												}
-													</div>
+						@foreach (var product in hiddenProducts)
+							{
+								<div class="item product-item hidden col-3" data-material="@product.FrameVm.MaterialVm.MaterialName" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
+									<div class="item-content">
+										<a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
+											<div class="item-img">
+												<img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
+												<div style="position: absolute; top: 6%; margin-left: 8px;">
+													@if (product.IsSale && product.PercentSale != 0)
+													{
+														<span class="product-label discount" style="padding: 5px 10px">
+															-@product.PercentSale%
+														</span>
+													}
 												</div>
-												<div class="product-content text-center">
-													<span>@product.CategoryVm?.CategoryName</span>
-													<h4>@product.ProductName</h4>
-													<div class="product-price-wrapper">
-														<span class="money">@product.SellingPrice.ToString("N0")</span>
-												@if (product.OriginalPrice != product.SellingPrice)
-												{
-																<span class="product-price-old">
-																	<span class="money">@product.OriginalPrice.ToString("N0")</span>
-																</span>
-												}
-													</div>
+											</div>
+										</a>
+										<div class="item-text">
+											<p class="CategoryProduct" style="margin-bottom: 4px">
+												@product.CategoryVm.CategoryName
+											</p>
+											<div class="IdProduct">
+												<h9>
+													<a href="/DiamondJewelry/Detail?ProductId=@product.ProductId" style="color: black">
+														@product.ProductName
+													</a>
+												</h9>
+											</div>
+											<div class="item-price">
+												<div class="product-price-wrapper">
+													<span class="money" style="color: #E8BE6F;">@product.SellingPrice.ToString("N0")₫</span>
+													@if (product.OriginalPrice != product.SellingPrice)
+													{
+														<span class="product-price-old">
+															<span class="money">@product.OriginalPrice.ToString("N0")₫</span>
+														</span>
+													}
 												</div>
-											</a>
+											</div>
 										</div>
+
 									</div>
+								</div>
+							}
 						}
-					}
+						else
+						{
+							<h1>Không có sản phẩm nào phù hợp với từ khóa "@keyword"</h1>
+						}
 				</div>
 
 
 				<!-- Main Shop wrapper End -->
 				<!-- Pagination Start -->
-				@if (Model.Items.Count > 2)
+				@if (Model.Items.Count > 20)
 				{
 						<div class="see-more-wrapper text-center mt-4">
 							<button id="seeMoreBtn" class="btn btn-primary">Xem thêm</button>
@@ -364,7 +466,7 @@
 <script>
 	$(document).ready(function () {
 		$('#seeMoreBtn').on('click', function () {
-			$('.product-item.hidden').slice(0, 2).removeClass('hidden');
+			$('.product-item.hidden').slice(0, 20).removeClass('hidden');
 			if ($('.product-item.hidden').length === 0) {
 				$('#seeMoreBtn').hide();
 			}

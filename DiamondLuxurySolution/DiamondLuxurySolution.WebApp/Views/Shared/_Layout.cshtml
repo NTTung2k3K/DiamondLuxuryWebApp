@@ -62,7 +62,6 @@
     <script src="../assets/js/main.js" defer></script>
 
     @RenderSection("StyleCss", false)
-<<<<<<< HEAD
 
     <style>
         .InputContainer {
@@ -71,7 +70,7 @@
           align-items: center;
           justify-content: center;
           background-color: #333333;
-          border-radius: 10px;
+          border-radius: 20px;
           overflow: hidden;
           cursor: pointer;
           padding-left: 15px;
@@ -117,8 +116,8 @@
 
         .bordered-icon {
             border: 2px solid #2d2d2d;
-=======
-    <style>
+        }
+
         .mainmenu__item {
             padding: 0px
         }
@@ -140,8 +139,11 @@
 
         .mainmenu__item.menu-item-has-children > ul.sub-menu {
             min-width: 22rem
->>>>>>> a6b97dec240dd8d1ad75855d6cce22972458b03f
         }
+        .header-toolbar{
+            margin-top:25px;
+        }
+
     </style>
 </head>
 
@@ -156,8 +158,8 @@
             <div class="header-top header-top-1">
                 <div class="container">
                     <div class="row no-gutters align-items-center">
-                        <div class="col-lg-3 text-center">
-                            <ul class="social social-round mr--20">
+                        <div class="col-lg-4 text-center">
+                            <ul class="social social-round mr--20" style="display: flex;justify-content: left;">
                                 <li class="social__item">
                                     <a href="https://plus.google.com" target="_blank" rel="noopener noreferrer"
                                        class="social__link">
@@ -184,14 +186,14 @@
                                 </li>
                             </ul>
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <p class="header-text text-center">
                                 Miễn phí vận chuyển cho tất cả các đơn hàng trong nước<span></span>
                             </p>
                         </div>
                         @if (string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_NAME)))
                         {
-                            <div class="col-lg-3">
+                            <div class="col-lg-4">
                                 <div class="header-top-nav d-flex justify-content-lg-end justify-content-center">
                                     <div class="user-info header-top-nav__item">
                                         <div class="dropdown header-top__dropdown">
@@ -260,23 +262,11 @@
                         </div>
                         <div class="col-lg-5 col-md-7 col-sm-5 order-lg-3 order-3">
                             <div class="header-toolbar">
-                                <div class="InputContainer">
-                                    <form class="header__top--navbar__search__item search-right" asp-action="Index" asp-controller="Search" method="get">
-                                        <input type="text" name="Keyword" class="input" id="input" placeholder="Tìm kiếm...">
-
-                                        <button type="submit" class="btn ">
-                                        <svg viewBox="0 0 512 512" class="searchIcon"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"></path></svg>
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                            <br />
-                            <div class="header-toolbar">
                                 <ul class="header-toolbar-icons">
-                                @{
-                                    var cart = CartSessionHelper.GetCart();
-                                    decimal total = 0;
-                                }
+                                    @{
+                                        var cart = CartSessionHelper.GetCart();
+                                        decimal total = 0;
+                                    }
                                     <li class="mini-cart-icon">
                                         <div class="mini-cart mini-cart--1">
                                             <a href="/Cart/View" class="mini-cart__dropdown-toggle bordered-icon">
@@ -292,6 +282,18 @@
                                     </li>
                                 </ul>
                             </div>
+                            <div class="header-toolbar">
+                                <div class="InputContainer">
+                                    <form class="header__top--navbar__search__item search-right" asp-action="Index" asp-controller="Search" method="get">
+                                        <input type="text" name="Keyword" class="input" id="input" placeholder="Tìm kiếm...">
+
+                                        <button type="submit" class="btn ">
+                                        <svg viewBox="0 0 512 512" class="searchIcon"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"></path></svg>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <br />
                         </div>
                     </div>
                 </div>
