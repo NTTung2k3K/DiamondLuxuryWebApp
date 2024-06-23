@@ -69,7 +69,7 @@ namespace DiamondLuxurySolution.Utilities.Constants
             public const string Platium950 = "Platium 950";
         }
 
-        public enum OrderStatus
+		public enum OrderStatus
         {
             InProgress,
             Confirmed,
