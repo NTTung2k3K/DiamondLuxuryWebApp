@@ -42,7 +42,7 @@
             </div>
             <div class="form-group m-2">
                 <label asp-for="Price" class="control-label m-2">Giá kim cương</label>
-                <input asp-for="Price" id="Price" type="text" class="form-control" />
+                <input asp-for="Price" id="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group m-2">
@@ -73,28 +73,31 @@
     }
 
         <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const input = document.querySelector("#Price");
+    document.addEventListener("DOMContentLoaded", function() {
+        const priceInput = document.querySelector("#Price");
 
-            input.addEventListener("input", function (e) {
-                let value = e.target.value;
+        priceInput.addEventListener("input", function (e) {
+            let value = e.target.value;
 
-                // Xóa bỏ các ký tự không phải là số
-                value = value.replace(/[^0-9]/g, "");
+            // Xóa bỏ các ký tự không phải là số
+            value = value.replace(/[^0-9]/g, "");
 
-                // Giới hạn tối đa 17 ký tự số
-                if (value.length > 16) {
-                    value = value.slice(0, 16);
-                }
+            // Giới hạn tối đa 17 ký tự số
+            if (value.length > 16) {
+                value = value.slice(0, 16);
+            }
 
-                // Nếu giá trị không rỗng, định dạng lại theo kiểu chuỗi Việt Nam
-                if (value) {
-                    e.target.value = new Intl.NumberFormat('vi-VN').format(parseInt(value));
-                } else {
-                    e.target.value = "";
-                }
-            });
+            e.target.value = parseInt(value).toLocaleString("vi-VN");
         });
+
+        // Xử lý khi submit form để loại bỏ dấu phân cách và gửi dữ liệu số
+        const form = document.querySelector("form");
+        form.addEventListener("submit", function() {
+            const priceInput = document.querySelector("#Price");
+            const rawValue = priceInput.value.replace(/\./g, ""); // Loại bỏ tất cả dấu phân cách
+            priceInput.value = rawValue;
+        });
+    });
     </script>
 }
 
