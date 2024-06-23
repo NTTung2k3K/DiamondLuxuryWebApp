@@ -78,6 +78,7 @@ builder.Services.AddScoped<ICategoryInitializer, CategoryInitializer>();
 builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 builder.Services.AddScoped<ISlideInitializer,SlideInitializer>();
 builder.Services.AddScoped<IMaterialInitializer, MaterialInitializer>();
+builder.Services.AddScoped<IDiscountInitializer, DiscountInitializer>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -160,5 +161,8 @@ using (var scope = app.Services.CreateScope())
 
     var materialInitializer = scope.ServiceProvider.GetRequiredService<IMaterialInitializer>();
     materialInitializer.CreateDefaultMaterial().Wait();
+
+	var discountInitializer = scope.ServiceProvider.GetRequiredService<IDiscountInitializer>();
+	discountInitializer.CreateDefaultDiscount().Wait();
 }
 app.Run();

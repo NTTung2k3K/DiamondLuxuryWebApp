@@ -15,7 +15,8 @@ namespace DiamondLuxurySolution.ViewModel.Models.Collection
 
         public string? Description { get; set; }
 
-        public IFormFile? Thumbnail { get; set; }
+		[Required(ErrorMessage = "Cần thêm hình cho bộ sưu tập")]
+		public IFormFile? Thumbnail { get; set; }
 
         public bool Status { get; set; }
 
