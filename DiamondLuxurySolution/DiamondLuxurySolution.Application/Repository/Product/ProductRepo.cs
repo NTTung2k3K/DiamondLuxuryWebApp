@@ -13,6 +13,7 @@ using DiamondLuxurySolution.ViewModel.Models.Platform;
 using DiamondLuxurySolution.ViewModel.Models.Product;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using PagedList;
 using System;
 using System.Collections.Generic;
@@ -870,5 +871,88 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 
             return new ApiSuccessResult<List<ProductVm>>(listResultVm);
         }
+
+        public async Task<ApiResult<List<ProductCategorySale>>> ViewProductCategorySale()
+        {
+            var result = await _context.Categories
+        .GroupJoin(
+            _context.Products,
+            category => category.CategoryId,
+            product => product.CategoryId,
+            (category, products) => new
+            {
+                CategoryName = category.CategoryName,
+                CategoryType = category.CategoryType,
+                SoldProducts = products.Where(p => p.SellingCount > 0)
+            }
+        )
+        .Select(g => new ProductCategorySale
+        {
+            CategoryName = g.CategoryName,
+            CategoryType = g.CategoryType,
+            Quantity = g.SoldProducts.Sum(p => p.SellingCount)
+        })
+        .ToListAsync();
+
+            return new ApiSuccessResult<List<ProductCategorySale>>(result,"Success");
+        }
+
+        public async Task<ApiResult<List<ProductSaleChart>>> ViewProductSale12Days()
+        {
+            try
+            {
+                DateTime today = DateTime.Now.Date;
+                DateTime twelveDaysAgo = today.AddDays(-11);
+
+                var salesData = await _context.Orders
+                    .Where(order => order.OrderDate >= twelveDaysAgo && order.OrderDate < today.AddDays(1) && order.isShip)
+                    .SelectMany(order => order.OrderDetails)
+                    .GroupBy(orderDetail => new
+                    {
+                        DateSale = orderDetail.Order.OrderDate.Date,
+                        orderDetail.Product.ProductName
+                    })
+                    .Select(group => new
+                    {
+                        group.Key.DateSale,
+                        group.Key.ProductName,
+                        Quantity = group.Sum(orderDetail => orderDetail.Quantity)
+                    })
+                    .ToListAsync();
+
+                var allDates = Enumerable.Range(0, 12)
+                    .Select(offset => twelveDaysAgo.AddDays(offset))
+                    .ToList();
+
+                var productSaleCharts = allDates
+                    .Select(date => new ProductSaleChart
+                    {
+                        DateSale = date,
+                        ListProduct = salesData
+                            .Where(data => data.DateSale == date)
+                            .Select(data => new ProductInfo
+                            {
+                                ProductName = data.ProductName,
+                                Quantity = data.Quantity
+                            })
+                            .ToList()
+                    })
+                    .ToList();
+                productSaleCharts = productSaleCharts.OrderBy(data => data.DateSale).ToList();
+
+                return new ApiSuccessResult<List<ProductSaleChart>>(productSaleCharts, "Data retrieved successfully");
+            }
+            catch (Exception ex)
+            {
+                return new ApiSuccessResult<List<ProductSaleChart>>(null, $"An error occurred: {ex.Message}");
+            }
+        }
+
+
+
+
+
+
+
     }
 }

@@ -259,7 +259,7 @@
 
 							@foreach (var product in initialProducts)
 							{
-								<div class="item product-item col-3" data-material="@product.FrameVm.MaterialVm.MaterialName" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
+								<div class="item product-item col-3" data-material="@product.FrameVm?.MaterialVm.MaterialName" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
 									<div class="item-content">
 										<a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
 											<div class="item-img">

@@ -1,5 +1,6 @@
 ﻿using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Order;
+using DiamondLuxurySolution.ViewModel.Models.Platform;
 using DiamondLuxurySolution.ViewModel.Models.Product;
 using System;
 using System.Collections.Generic;
@@ -17,5 +18,9 @@ namespace DiamondLuxurySolution.Application.Repository.Product
         public Task<ApiResult<bool>> DeleteProduct(DeleteProductRequest request);
         public Task<ApiResult<ProductVm>> GetProductById(string ProductId);
         public Task<ApiResult<PageResult<ProductVm>>> ViewProduct(ViewProductRequest request);
+        public Task<ApiResult<List<ProductCategorySale>>> ViewProductCategorySale();
+        public Task<ApiResult<List<ProductSaleChart>>> ViewProductSale12Days();
+
+
     }
 }

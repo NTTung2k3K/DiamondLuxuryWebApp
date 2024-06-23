@@ -98,12 +98,35 @@
             </div>
         </div>
     </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h5>Thống kế khách hàng tuần này</h5>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active"
+                                 id="analytics-tab-1-pane"
+                                 role="tabpanel"
+                                 aria-labelledby="analytics-tab-1"
+                                 tabindex="0">
+                                <div id="overview-chart-1"></div>
+                            </div>
+                            <div class="tab-pane fade" id="analytics-tab-2-pane" role="tabpanel" aria-labelledby="analytics-tab-2" tabindex="0">
+                                <div id="overview-chart-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="col-lg-12 col-md-12">
         <div class="card">
             <div class="card-body">
                 <div class="d-flex align-items-center justify-content-between">
-                    <h5 class="mb-0">Thống kê khách hàng</h5>
+                    <h5 class="mb-0">Thống kê khách hàng năm nay</h5>
                 </div>
                 <div id="course-report-bar-chart"></div>
             </div>
@@ -113,12 +136,17 @@
 </div>
 @{
     var listQuantityCustomer = ViewBag.CountAllCustomerInYear as List<int>;
+    var ContactAWeek = ViewBag.ContactAWeek as List<int>;
+    var CountAllCustomerInWeek = ViewBag.CountAllCustomerInWeek as List<int>;
+
 }
 <!-- [ Main Content ] end -->
 @section Scripts{
   <script src="../assets/js/plugins/apexcharts.min.js"></script>
   <script>
         var listQuantityCustomer = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(@listQuantityCustomer));
+        var ContactAWeek = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ContactAWeek));
+        var CountAllCustomerInWeek = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(CountAllCustomerInWeek));
 
         'use strict';
         document.addEventListener('DOMContentLoaded', function () {
@@ -147,72 +175,7 @@
 
         function floatchart() {
             (function () {
-                var options = {
-                    chart: {
-                        type: 'area',
-                        height: 250,
-                        toolbar: {
-                            show: false
-                        }
-                    },
-                    colors: ['#e58a00', '#4680ff'],
-                    dataLabels: {
-                        enabled: false
-                    },
-                    legend: {
-                        show: true,
-                        position: 'top'
-                    },
-                    markers: {
-                        size: 1,
-                        colors: ['#fff', '#fff', '#fff'],
-                        strokeColors: ['#e58a00', '#4680ff'],
-                        strokeWidth: 1,
-                        shape: 'circle',
-                        hover: {
-                            size: 4
-                        }
-                    },
-                    stroke: {
-                        width: 2,
-                        curve: 'smooth'
-                    },
-                    fill: {
-                        type: 'gradient',
-                        gradient: {
-                            shadeIntensity: 1,
-                            type: 'vertical',
-                            inverseColors: false,
-                            opacityFrom: 0.5,
-                            opacityTo: 0
-                        }
-                    },
-                    grid: {
-                        show: false,
-                    },
-                    series: [
-                        {
-                            name: 'Revenue',
-                            data: [200, 320, 320, 275, 275, 400, 400, 300, 440, 320, 320, 275, 275, 400, 300, 440]
-                        },
-                        {
-                            name: 'Sales',
-                            data: [200, 250, 240, 300, 340, 320, 320, 400, 350, 250, 240, 300, 340, 320, 400, 350]
-                        }
-                    ],
-                    xaxis: {
-                        labels: {
-                            hideOverlappingLabels: true
-                        },
-                        axisBorder: {
-                            show: false
-                        },
-                        axisTicks: {
-                            show: false
-                        }
-                    }
-                };
-             
+                
                 var course_report_bar_chart_options = {
                     chart: {
                         type: 'bar',
@@ -274,6 +237,11 @@
                                 var months = ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'];
                                 return months[value - 1];
                             }
+                        },
+                        y: {
+                            formatter: function (value) {
+                                return parseInt(value); // Ensure the tooltip shows integer values
+                            }
                         }
                     },
                     xaxis: {
@@ -282,6 +250,77 @@
                 }
                 var chart = new ApexCharts(document.querySelector("#course-report-bar-chart"), course_report_bar_chart_options);
                 chart.render();
+
+                var options4 = {
+                    chart: {
+                        height: 250,
+                        type: 'bar',
+                        toolbar: {
+                            show: false
+                        }
+                    },
+                    plotOptions: {
+                        bar: {
+                            horizontal: false,
+                            columnWidth: '55%',
+                            borderRadius: 4,
+                            borderRadiusApplication: 'end'
+                        }
+                    },
+                    legend: {
+                        show: true,
+                        position: 'top',
+                        horizontalAlign: 'left'
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    colors: ['#2ca87f', '#dc2626'],
+                    stroke: {
+                        show: true,
+                        width: 3,
+                        colors: ['transparent']
+                    },
+                    fill: {
+                        colors: ['#2ca87f', '#dc2626'],
+                        opacity: [1, 0.5]
+                    },
+                    grid: {
+                        strokeDashArray: 4
+                    },
+                    series: [
+                        {
+                            name: 'Khách hàng mới',
+                            data: CountAllCustomerInWeek
+                        },
+                        {
+                            name: 'Yêu cầu',
+                            data: ContactAWeek
+                        }
+                    ],
+                    xaxis: {
+                        categories: ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'Chủ Nhật']
+                    },
+                    yaxis: {
+                        min: 0,
+                        tickAmount: 5,
+                        labels: {
+                            formatter: function (value) {
+                                return parseInt(value); // Ensure the y-axis labels show integer values
+                            }
+                        }
+                    },
+                    tooltip: {
+                        y: {
+                            formatter: function (value) {
+                                return parseInt(value); // Ensure the tooltip shows integer values
+                            }
+                        }
+                    }
+                };
+                var chart = new ApexCharts(document.querySelector('#overview-chart-1'), options4);
+                chart.render();
+
 
             })();
         }

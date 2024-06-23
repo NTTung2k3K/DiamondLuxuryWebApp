@@ -18,4 +18,6 @@ public partial class Warranty
     public bool Status { get; set; }
 
     public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
+    public virtual ICollection<WarrantyDetail> WarrantyDetails { get; set; } = new List<WarrantyDetail>();
+
 }

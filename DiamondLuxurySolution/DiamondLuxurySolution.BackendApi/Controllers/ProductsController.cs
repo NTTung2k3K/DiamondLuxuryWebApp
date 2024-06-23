@@ -149,5 +149,42 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
 				return BadRequest(e.Message);
 			}
 		}
-	}
+
+
+        [HttpGet("ViewProductCategorySale")]
+        public async Task<IActionResult> ViewProductCategorySale()
+        {
+            try
+            {
+                var status = await _product.ViewProductCategorySale();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("ViewProductSale12Days")]
+        public async Task<IActionResult> ViewProductSale12Days()
+        {
+            try
+            {
+                var status = await _product.ViewProductSale12Days();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+    }
 }
