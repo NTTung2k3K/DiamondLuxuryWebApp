@@ -50,7 +50,7 @@
 	.CategoryProduct {
 		margin-bottom: 2px;
 		font-size: 14px;
-		font-family: "Montserrat", cursive;
+		font-family: "Jura", cursive;
 		font-optical-sizing: auto;
 		white-space: nowrap;
 		overflow: hidden;
@@ -161,35 +161,50 @@
 								<div class="cat-list-wrapper">
 									<!-- Thêm div bao bọc -->
 									<ul class="cat-list mb--20">
-										<a href="/DiamondJewelryRing/Index" class="link-border">Nhẫn Kim Cương</a>
-										<a href="/DiamondJewelryBracelet/Index" class="link-border">Vòng Tay Kim Cương</a>
-										<a href="/DiamondJewelryBangles/Index" class="link-border">Lắc Tay Kim Cương</a>
-										<a href="/DiamondJewelryEarring/Index" class="link-border">Hoa Tai Kim Cương</a>
-										<a href="/DiamondJewelryNecklace/Index" class="link-border">Mặt Dây Chuyền Kim Cương</a>
+										<a href="/DiamondJewelryRing/Index" class="link-border">
+											<img src="../assets/img/Trangsuckimcuong/nhan-nam.png"
+												 alt="Nam" class="icon" width="35" height="35"> Nhẫn Kim Cương
+										</a>
+										<a href="/DiamondJewelryBracelet/Index" class="link-border">
+											<img src="../assets/img/pic_product/search/icon-vong-tay-kim-cuong.png"
+												 alt="Nam" class="icon" width="35" height="35"> Vòng Tay Kim Cương
+										</a>
+										<a href="/DiamondJewelryBangles/Index" class="link-border">
+											<img src="../assets/img/pic_product/search/lac-tay.png"
+												 alt="Nam" class="icon" width="35" height="35">Lắc Tay Kim Cương
+										</a>
+										<a href="/DiamondJewelryEarring/Index" class="link-border">
+											<img src="../assets/img/pic_product/search/bong-tai.png"
+												 alt="Nam" class="icon" width="35" height="35">Hoa Tai Kim Cương
+										</a>
+										<a href="/DiamondJewelryNecklace/Index" class="link-border">
+											<img src="../assets/img/pic_product/search/i-mat-day-chuyen-kim-cuong.png"
+												 alt="Nam" class="icon" width="35" height="35" style="margin-left: -6px;">Mặt Dây Chuyền Kim Cương
+										</a>
 									</ul>
 								</div>
 							</div>
-
 
 							<!-- Refine Search End -->
 							<!-- Shop Toolbar Start -->
 							<div class="shop-toolbar col-md-12">
 								<div class="product-short" style="width: 250px; text-align-last: center; display: flex; align-items: center; justify-content: center;">
-									<div class="product-short" style="width: 250px; text-align-last: center; display: flex; align-items: center; justify-content: center;">
-										<select id="gemFilter" class=" nice-select">
-											<option value="">Đá Đính Kèm</option>
-											<option value="Kim Cương">Kim Cương</option>
-											<option value="Đá CZ">Đá CZ</option>
-											<option value="Đá Ruby">Đá Ruby</option>
-											<option value="Đá Sapphire">Đá Sapphire</option>
-										</select>
-									</div>
+									<select id="materialFilter" class=" nice-select">
+										<option value="">Tuổi Vàng</option>
+										<option value="Vàng 10K">Vàng 10K</option>
+										<option value="Vàng 14K">Vàng 14K</option>
+										<option value="Vàng 18K">Vàng 18K</option>
+										<option value="Platium 850">Platium 850</option>
+										<option value="Platium 950">Platium 950</option>
+									</select>
 								</div>
 								<div class="product-short" style="width: 250px; text-align-last: center; display: flex; align-items: center; justify-content: center;">
-									<select id="genderFilter" class="nice-select">
-										<option value="">Giới Tính</option>
-										<option value="Nam">Nam</option>
-										<option value="Nữ">Nữ</option>
+									<select id="gemFilter" class=" nice-select">
+										<option value="">Đá Đính Kèm</option>
+										<option value="Kim Cương">Kim Cương</option>
+										<option value="Đá CZ">Đá CZ</option>
+										<option value="Đá Ruby">Đá Ruby</option>
+										<option value="Đá Sapphire">Đá Sapphire</option>
 									</select>
 								</div>
 								<div class="product-short" style="width: 250px; text-align-last: center; display: flex; align-items: center; justify-content: center;">
@@ -201,6 +216,34 @@
 										<option value="50000000-100000000">50,000,000-100,000,000</option>
 										<option value="100000000">Trên 100,000,000</option>
 									</select>
+								</div>
+								<div class="searchBox">
+									<input class="searchInput" type="text" name="searchQuery" placeholder="Tìm Kiếm..." id="searchInput">
+									<button class="searchButton" id="searchButton">
+										<svg xmlns="http://www.w3.org/2000/svg" width="29" height="29" viewBox="0 0 29 29" fill="none">
+											<g clip-path="url(#clip0_2_17)">
+												<g filter="url(#filter0_d_2_17)">
+													<path d="M23.7953 23.9182L19.0585 19.1814M19.0585 19.1814C19.8188 18.4211 20.4219 17.5185 20.8333 16.5251C21.2448 15.5318 21.4566 14.4671 21.4566 13.3919C21.4566 12.3167 21.2448 11.252 20.8333 10.2587C20.4219 9.2653 19.8188 8.36271 19.0585 7.60242C18.2982 6.84214 17.3956 6.23905 16.4022 5.82759C15.4089 5.41612 14.3442 5.20435 13.269 5.20435C12.1938 5.20435 11.1291 5.41612 10.1358 5.82759C9.1424 6.23905 8.23981 6.84214 7.47953 7.60242C5.94407 9.13789 5.08145 11.2204 5.08145 13.3919C5.08145 15.5634 5.94407 17.6459 7.47953 19.1814C9.01499 20.7168 11.0975 21.5794 13.269 21.5794C15.4405 21.5794 17.523 20.7168 19.0585 19.1814Z" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" shape-rendering="crispEdges">
+													</path>
+												</g>
+											</g>
+											<defs>
+												<filter id="filter0_d_2_17" x="-0.418549" y="3.70435" width="29.7139" height="29.7139" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+													<feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood>
+													<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"></feColorMatrix>
+													<feOffset dy="4"></feOffset>
+													<feGaussianBlur stdDeviation="2"></feGaussianBlur>
+													<feComposite in2="hardAlpha" operator="out"></feComposite>
+													<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"></feColorMatrix>
+													<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_2_17"></feBlend>
+													<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_2_17" result="shape"></feBlend>
+												</filter>
+												<clipPath id="clip0_2_17">
+													<rect width="28.0702" height="28.0702" fill="white" transform="translate(0.403503 0.526367)"></rect>
+												</clipPath>
+											</defs>
+										</svg>
+									</button>
 								</div>
 							</div>
 							<!-- Shop Toolbar End -->
@@ -216,7 +259,7 @@
 
 							@foreach (var product in initialProducts)
 							{
-								<div class="item product-item col-3">
+								<div class="item product-item col-3" data-material="@product.FrameVm?.MaterialVm.MaterialName" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
 									<div class="item-content">
 										<a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
 											<div class="item-img">
@@ -262,7 +305,7 @@
 							<!-- Hidden products to be shown on "See More" click -->
 							@foreach (var product in hiddenProducts)
 							{
-								<div class="item product-item col-3">
+								<div class="item product-item hidden col-3" data-material="@product.FrameVm.MaterialVm.MaterialName" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
 									<div class="item-content">
 										<a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
 											<div class="item-img">
@@ -327,28 +370,33 @@
 <!-- Main Content Wrapper End -->
 <!-- Include jQuery -->
 <script>
-
 	$(document).ready(function () {
 		$('#seeMoreBtn').on('click', function () {
 			$('.product-item.hidden').slice(0, 20).removeClass('hidden');
-			if ($('.product-item.hidden').length == 0) {
+			if ($('.product-item.hidden').length === 0) {
 				$('#seeMoreBtn').hide();
 			}
 		});
 
 		function filterProducts() {
-			var gender = $('#genderFilter').val().toLowerCase();
-			var price = $('#priceFilter').val();
 			var gem = $('#gemFilter').val().toLowerCase();
+			var price = $('#priceFilter').val();
+			var searchQuery = $('#searchInput').val().toLowerCase();
+			var material = $('#materialFilter').val().toLowerCase();
 
 			$('.product-item').each(function () {
-				var productGender = $(this).data('gender').toLowerCase();
-				var productPrice = parseFloat($(this).data('price'));
 				var productGem = $(this).data('gem').toLowerCase();
+				var productMaterial = $(this).data('material').toLowerCase();
+				var productPrice = parseFloat($(this).data('price'));
+				var productName = $(this).find('.IdProduct h9 a').text().toLowerCase();
 
 				var showProduct = true;
 
-				if (gender && productGender !== gender) {
+				if (gem && productGem !== gem) {
+					showProduct = false;
+				}
+
+				if (material && productMaterial !== material) {
 					showProduct = false;
 				}
 
@@ -373,7 +421,7 @@
 					}
 				}
 
-				if (gem && productGem !== gem) {
+				if (searchQuery && !productName.includes(searchQuery)) {
 					showProduct = false;
 				}
 
@@ -383,21 +431,26 @@
 					$(this).fadeOut();
 				}
 			});
-
-			if ($('.product-item.hidden').length > 0) {
-				$('#seeMoreBtn').show();
-			} else {
-				$('#seeMoreBtn').hide();
-			}
 		}
 
-		$('#gemFilter, #genderFilter, #priceFilter').on('change', function () {
+		$('#materialFilter, #gemFilter, #priceFilter').on('change', function () {
+			filterProducts();
+		});
+
+		$('#searchInput').on('input', function () {
+			filterProducts();
+		});
+
+		$('#searchButton').on('click', function () {
 			filterProducts();
 		});
 
 		filterProducts();
+
 	});
 </script>
+
+
 
 
 

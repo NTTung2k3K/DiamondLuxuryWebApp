@@ -39,10 +39,7 @@
     <table class="table" id="sort">
         <thead>
             <tr class="text-center">
-                <th>
-                    <label>ID Liên Hệ</label>
-                    <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
-                </th>
+              
                 <th>
                     <label>Tên người dùng</label>
                     <label onclick="sortTable(1)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
@@ -56,6 +53,10 @@
                     <label onclick="sortTable(3)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
+                    <label>Ngày gửi</label>
+                    <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
+                </th>
+                <th>
                     <label>Trả lời</label>
                 </th>
                 <th>Cài đặt</th>
@@ -65,10 +66,11 @@
             @foreach (var item in Model.Items)
             {
                 <tr class="text-center">
-                    <td>@item.ContactId</td>
                     <td>@item.ContactNameUser</td>
                     <td>@item.ContactEmailUser</td>
                     <td>@item.ContactPhoneUser</td>
+                    <td>@item.DateSendRequest</td>
+
                     @if (item.IsResponse == true)
                     {
                         <td>

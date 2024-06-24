@@ -185,7 +185,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             List<string> errorList = new List<string>();
             if (!request.Password.Equals(request.ConfirmPassword))
             {
-                errorList.Add("Password không trùng khớp");
+                errorList.Add("Mật khẩu không trùng khớp");
             }
 
             if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ValidPhoneNumber(request.PhoneNumber))
@@ -1000,8 +1000,21 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             }
 
             order.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString();
+
+            //Process selling Count
+            var orderDetailSellingCount = await _context.OrderDetails.Where(x => x.OrderId == order.OrderId).ToListAsync();
+            foreach (var item in orderDetailSellingCount)
+            {
+                var product = await _context.Products.FindAsync(item.ProductId);
+                if (product == null)
+                {
+                    return new ApiErrorResult<bool>($"Không tìm thấy sản phẩm");
+                }
+                product.SellingCount += item.Quantity;
+            }
+
             await _context.SaveChangesAsync();
-            return new ApiSuccessResult<bool>(true, "Success");
+            return new ApiSuccessResult<bool>(true, "Cập nhật đơn hàng thành công");
         }
 
         public async Task<ApiResult<bool>> UpdateStatusShipperWorking(UpdateShipperWorkingRequest request)

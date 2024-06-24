@@ -33,6 +33,8 @@ public partial class LuxuryDiamondShopContext : IdentityDbContext<AppUser, AppRo
     public virtual DbSet<Discount> Discounts { get; set; }
 
     public virtual DbSet<Gem> Gems { get; set; }
+    public virtual DbSet<WarrantyDetail> WarrantyDetails { get; set; }
+
 
     public virtual DbSet<GemPriceList> GemPriceLists { get; set; }
 

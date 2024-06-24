@@ -76,7 +76,7 @@ namespace DiamondLuxurySolution.Application.Repository.Material
 
                 var AddPlatium950 = new Data.Entities.Material()
                 {
-                    MaterialName = Platium850,
+                    MaterialName = Platium950,
                     EffectDate = DateTime.Now,
                     Price = 5410000,
                     Color = "Vàng Trắng",

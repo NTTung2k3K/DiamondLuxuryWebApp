@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static DiamondLuxurySolution.Utilities.Constants.Systemconstant;
 
 namespace DiamondLuxurySolution.Application.Repository.About
 {
@@ -27,18 +28,17 @@ namespace DiamondLuxurySolution.Application.Repository.About
             {
                 return new ApiErrorResult<bool>("Vui lòng nhập tên liên hệ");
             }
-            
+
             var about = new DiamondLuxurySolution.Data.Entities.About
             {
                 AboutName = request.AboutName,
-                Description = request.Description != null ? request.Description : "",
+                Description = request.Description != null ? request.Description : null,
                 Status = request.Status,
+                AboutAddress = request.AboutAddress != null ? request.AboutAddress : null,
+                AboutEmail = request.AboutEmail != null ? request.AboutEmail : null,
+                AboutPhoneNumber = request.AboutPhoneNumber != null ? request.AboutPhoneNumber : null,
             };
-            if (request.AboutImage != null)
-            {
-                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.AboutImage);
-                about.AboutImage = firebaseUrl;
-            }
+
 
             _context.Abouts.Add(about);
             await _context.SaveChangesAsync();
@@ -68,10 +68,12 @@ namespace DiamondLuxurySolution.Application.Repository.About
             var aboutVm = new AboutVm()
             {
                 AboutId = about.AboutId,
-                AboutName = about.AboutName,
-                AboutImage = about.AboutImage,
-                Description = about.Description,
+                Description = about.Description != null ? about.Description : null,
                 Status = about.Status,
+                AboutAddress = about.AboutAddress != null ? about.AboutAddress : null,
+                AboutEmail = about.AboutEmail != null ? about.AboutEmail : null,
+                AboutPhoneNumber = about.AboutPhoneNumber != null ? about.AboutPhoneNumber : null,
+                AboutName = about.AboutName != null ? about.AboutName : null,
             };
             return new ApiSuccessResult<AboutVm>(aboutVm, "Success");
         }
@@ -79,13 +81,15 @@ namespace DiamondLuxurySolution.Application.Repository.About
         public async Task<ApiResult<List<AboutVm>>> GetAll()
         {
             var list = await _context.Abouts.ToListAsync();
-            var rs = list.Select(x => new AboutVm()
+            var rs = list.Select(about => new AboutVm()
             {
-               AboutId= x.AboutId,
-                AboutName= x.AboutName,
-                Description= x.Description,
-                Status = x.Status,
-                AboutImage=x.AboutImage,
+                AboutId = about.AboutId,
+                Description = about.Description != null ? about.Description : null,
+                Status = about.Status,
+                AboutAddress = about.AboutAddress != null ? about.AboutAddress : null,
+                AboutEmail = about.AboutEmail != null ? about.AboutEmail : null,
+                AboutPhoneNumber = about.AboutPhoneNumber != null ? about.AboutPhoneNumber : null,
+                AboutName = about.AboutName != null ? about.AboutName : null,
             }).ToList();
             return new ApiSuccessResult<List<AboutVm>>(rs);
         }
@@ -101,14 +105,13 @@ namespace DiamondLuxurySolution.Application.Repository.About
             {
                 return new ApiErrorResult<bool>("Không tìm thấy liên hệ");
             }
-            if (request.AboutImage != null)
-            {
-                string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.AboutImage);
-                about.AboutImage = firebaseUrl;
-            }
-            about.AboutName = request.AboutName;
-            about.Description = request.Description != null ? request.Description : "";
+            
+            about.Description = request.Description != null ? request.Description : null;
             about.Status = request.Status;
+            about.AboutAddress = request.AboutAddress != null ? request.AboutAddress : null;
+            about.AboutEmail = request.AboutEmail != null ? request.AboutEmail : null;
+            about.AboutName= request.AboutName;
+            about.AboutPhoneNumber = request.AboutPhoneNumber != null ? request.AboutPhoneNumber : null;
 
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
@@ -129,13 +132,16 @@ namespace DiamondLuxurySolution.Application.Repository.About
 
             var listPaging = listAbout.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
 
-            var listAboutVm = listPaging.Select(x => new AboutVm()
+            var listAboutVm = listPaging.Select(about => new AboutVm()
             {
-                AboutId = x.AboutId,
-                AboutName = x.AboutName,
-                Description = x.Description,
-                AboutImage = x.AboutImage,
-                Status = x.Status,
+                AboutId = about.AboutId,
+                Description = about.Description != null ? about.Description : null,
+                Status = about.Status,
+                AboutAddress = about.AboutAddress != null ? about.AboutAddress : null,
+                AboutEmail = about.AboutEmail != null ? about.AboutEmail : null,
+                AboutPhoneNumber = about.AboutPhoneNumber != null ? about.AboutPhoneNumber : null,
+                AboutName = about.AboutName != null ? about.AboutName : null,
+                
             }).ToList();
             var listResult = new PageResult<AboutVm>()
             {
@@ -161,13 +167,15 @@ namespace DiamondLuxurySolution.Application.Repository.About
 
             var listPaging = listAbout.ToPagedList(pageIndex, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE).ToList();
 
-            var listAboutVm = listPaging.Select(x => new AboutVm()
+            var listAboutVm = listPaging.Select(about => new AboutVm()
             {
-                AboutId = x.AboutId,
-                AboutName = x.AboutName,
-                Description = x.Description,
-                AboutImage = x.AboutImage,
-                Status = x.Status,
+                AboutId = about.AboutId,
+                Description = about.Description != null ? about.Description : null,
+                Status = about.Status,
+                AboutAddress = about.AboutAddress != null ? about.AboutAddress : null,
+                AboutEmail = about.AboutEmail != null ? about.AboutEmail : null,
+                AboutPhoneNumber = about.AboutPhoneNumber != null ? about.AboutPhoneNumber : null,
+                AboutName = about.AboutName != null ? about.AboutName : null,
             }).ToList();
             var listResult = new PageResult<AboutVm>()
             {

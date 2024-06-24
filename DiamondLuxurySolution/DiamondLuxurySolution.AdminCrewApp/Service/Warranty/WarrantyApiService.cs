@@ -49,7 +49,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Warranty
 
 		public async Task<ApiResult<PageResult<WarrantyVm>>> ViewWarrantyInManager(ViewWarrantyRequest request)
 		{
-			var data = await GetAsync<PageResult<WarrantyVm>>($"api/Warrantys/ViewInManager?Keyword={request.Keyword}&pageIndex={request.pageIndex}");
+			var data = await GetAsync<PageResult<WarrantyVm>>($"api/Warrantys/View?Keyword={request.Keyword}&pageIndex={request.pageIndex}");
 			return data;
 		}
 	}

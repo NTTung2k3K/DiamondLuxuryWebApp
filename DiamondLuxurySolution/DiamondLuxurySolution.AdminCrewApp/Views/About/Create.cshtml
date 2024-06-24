@@ -15,7 +15,7 @@
                 <h6 class="text-danger">@error</h6>
             }
         }
-        <form asp-action="Create" asp-controller="About" method="post" enctype="multipart/form-data">
+        <form asp-action="Create" asp-controller="About" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group m-2">
                 <label asp-for="AboutName" class="control-label mb-1">Tên Thông Tin Liên Hệ</label>
@@ -23,9 +23,19 @@
                 <span asp-validation-for="AboutName" class="text-danger"></span>
             </div>
             <div class="form-group m-2 mt-2">
-                <label asp-for="AboutImage" class="control-label mb-1 mt-3">Hình Ảnh</label>
-                <input type="file" asp-for="AboutImage" class="form-control" />
-                <span asp-validation-for="AboutImage" class="text-danger"></span>
+                <label asp-for="AboutEmail" class="control-label mb-1 mt-3">Email</label>
+                <input  asp-for="AboutEmail" class="form-control" />
+                <span asp-validation-for="AboutEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2 mt-2">
+                <label asp-for="AboutAddress" class="control-label mb-1 mt-3">Địa chỉ</label>
+                <input  asp-for="AboutAddress" class="form-control" />
+                <span asp-validation-for="AboutAddress" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2 mt-2">
+                <label asp-for="AboutPhoneNumber" class="control-label mb-1 mt-3">Số điện thoại</label>
+                <input  asp-for="AboutPhoneNumber" class="form-control" />
+                <span asp-validation-for="AboutPhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group m-2 ">
                 <label asp-for="Description" class="control-label mb-1 mt-3">Mô Tả</label>

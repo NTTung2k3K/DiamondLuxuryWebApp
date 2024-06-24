@@ -1,0 +1,19 @@
+﻿@using DiamondLuxurySolution.ViewModel.Models.Platform
+@model List<PlatfromVm>
+<ul class="social social-round mr--20">
+
+    @foreach (var platfomr in Model)
+    {
+        @if (platfomr.Status)
+        {
+
+            <li class="social__item">
+                <a href="@platfomr.PlatformUrl" target="_blank" rel="noopener noreferrer"
+                   class="social__link">
+                    <img style="height:30px; width:30px; border-radius:25px;" src="@platfomr.PlatformLogo" />
+                </a>
+            </li>
+        }
+    }
+</ul>
+

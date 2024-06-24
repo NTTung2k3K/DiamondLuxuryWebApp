@@ -33,6 +33,7 @@
             <div class="form-group m-2">
                 <label asp-for="PlatformLogo" class="control-label m-2">Hình Nền Tảng</label>
                 <input asp-for="PlatformLogo" class="form-control" type="file" />
+                <span asp-validation-for="PlatformLogo" class="text-danger"></span>
             </div>
             <div class="form-check form-switch m-4">
                 <label asp-for="Status" class="control-label m-2">Hiển thị</label>

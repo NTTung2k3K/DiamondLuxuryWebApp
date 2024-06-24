@@ -21,6 +21,9 @@ using DiamondLuxurySolution.WebApp.Service.Promotion;
 using DiamondLuxurySolution.AdminCrewApp.Service.Category;
 using DiamondLuxurySolution.WebApp.Service.Collection;
 
+using DiamondLuxurySolution.WebApp.Service.About;
+using DiamondLuxurySolution.WebApp.Service.Platform;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +41,7 @@ builder.Services.AddTransient<IOrderApiService, OrderApiService>();
 builder.Services.AddTransient<ICustomerApiService, CustomerApiService>();
 builder.Services.AddTransient<IPaymentApiService, PaymentApiService>();
 builder.Services.AddTransient<IPromotionApiService, PromotionApiService>();
+builder.Services.AddTransient<ISearchProductApiService, SearchProductApiService>();
 
 
 builder.Services.AddTransient<ISlideApiService, SlideApiService>();
@@ -48,6 +52,8 @@ builder.Services.AddTransient<IContactApiService, ContactApiService>();
 builder.Services.AddTransient<ICollectionApiService, CollectionApiService>();
 
 builder.Services.AddTransient<IProductApiService, ProductApiService>();
+builder.Services.AddTransient<IAboutApiService, AboutApiService>();
+builder.Services.AddTransient<IPlatformApiService, PlatformApiService>();
 
 
 
