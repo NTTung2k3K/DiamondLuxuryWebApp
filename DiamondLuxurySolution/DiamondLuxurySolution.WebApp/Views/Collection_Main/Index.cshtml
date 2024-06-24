@@ -108,8 +108,6 @@
         z-index: 1;
     }
 
-
-
 </style>
 @if (Model != null && Model.Count() > 0)
 {
@@ -145,11 +143,11 @@
                     <div class="nectar-cta loaded">
                         <h6 style="color: #E8BE6F;">
                             <span class="link_wrap">
-                                <a class="link_text" role="button" href="/product-category/fashion-rings/">
+                                <a class="link_text" role="button" href="/Collection_List/Index?collectionId=@Model[i].CollectionId">
                                     <span class="text">Shop Now</span>
                                     <svg class="next-arrow" aria-hidden="true" width="16px" height="25px" viewBox="0 0 50 80" xml:space="preserve">
                                     <polyline stroke="#ffffff" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round" points="0, 0 45, 40 0, 80"></polyline>
-                                                                                                                                            </svg>
+                                                                                                                                                    </svg>
                                 </a>
                             </span>
                         </h6>
@@ -158,56 +156,4 @@
             }
         </div>
     </div>
-    @*     @for (int i = 0; i < Model.Count; i++)
-    {
-        <div class="row left" style="padding: 40px">
-            <div style="margin-right: 40px; top: -60px; " class="col-md-6 bst-a bst-b">
-                <div class="container-img">
-                    <a href="/product-category/fashion-rings/" target="_self" class="center img-loaded">
-                        <img src="https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Fashion-Rings-1.jpg" alt="Fine Jewelry Page Fashion Rings 1" srcset="https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Fashion-Rings-1.jpg 700w, https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Fashion-Rings-1-300x300.jpg 300w, https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Fashion-Rings-1-150x150.jpg 150w, https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Fashion-Rings-1-100x100.jpg 100w, https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Fashion-Rings-1-140x140.jpg 140w, https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Fashion-Rings-1-500x500.jpg 500w, https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Fashion-Rings-1-350x350.jpg 350w, https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Fashion-Rings-1-600x600.jpg 600w">
-                    </a>
-                </div>
-                <div class="wpb_wrapper">
-                    <h3 style="text-align: left;">@Model[i].CollectionName</h3>
-                </div>
-                <div class="nectar-cta loaded">
-                    <h6 style="color: #E8BE6F;">
-                        <span class="link_wrap">
-                            <a class="link_text" role="button" href="/product-category/fashion-rings/">
-                                <span class="text">Shop Now</span>
-                                <svg class="next-arrow" aria-hidden="true" width="16px" height="25px" viewBox="0 0 50 80" xml:space="preserve">
-                                <polyline stroke="#ffffff" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round" points="0, 0 45, 40 0, 80"></polyline>
-                                                                                                </svg>
-                            </a>
-                        </span>
-                    </h6>
-                </div>
-            </div>
-            @{
-                var count = i + 1;
-            }
-            <div style="margin-top: 0px;" class="col-md-4">
-                <div class="container-img">
-                    <a href="/product-category/fashion-rings/" target="_self" class="center img-loaded">
-                        <img src="https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Necklaces.jpg" alt="Fine Jewelry Page Necklaces" srcset="https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Necklaces.jpg 1080w, https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Necklaces-300x298.jpg 300w, https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Necklaces-1024x1017.jpg 1024w, https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Necklaces-150x150.jpg 150w, https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Necklaces-768x763.jpg 768w, https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Necklaces-100x100.jpg 100w, https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Necklaces-140x140.jpg 140w, https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Necklaces-600x596.jpg 600w">
-                    </a>
-                </div>
-                <div class="wpb_wrapper">
-                    <h3 style="text-align: left;">@Model[count].CollectionName</h3>
-                </div>
-                <div class="nectar-cta loaded" data-color="default" data-using-bg="false" data-style="arrow-animation" data-display="block" data-alignment="left" data-text-color="custom">
-                    <h6 style="color: #269dff;">
-                        <span class="link_wrap">
-                            <a class="link_text" role="button" href="/product-category/fashion-rings/">
-                                <span class="text">Shop Now</span>
-                                <svg class="next-arrow" aria-hidden="true" width="16px" height="25px" viewBox="0 0 50 80" xml:space="preserve">
-                                <polyline stroke="#ffffff" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round" points="0, 0 45, 40 0, 80"></polyline>
-                                                                                                        </svg>
-                            </a>
-                        </span>
-                    </h6>
-                </div>
-            </div>
-        </div>
-    } *@
 }
