@@ -1,0 +1,412 @@
+﻿@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Common
+@using DiamondLuxurySolution.ViewModel.Models.Collection
+@using DiamondLuxurySolution.ViewModel.Models.Product
+
+@model CollectionVm
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+<style>
+    .product-item {
+        background-color: #343434;
+        border: none;
+        text-align: center;
+        border-radius: 4px;
+        height: 400px;
+        width: 306px;
+        margin: 0px 5px;
+        padding: 0px;
+        margin-bottom: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .item-img {
+        width: 100%;
+        height: 310px;
+        overflow: hidden;
+        padding: 10px;
+        position: relative;
+    }
+
+        .item-img img {
+            width: 100%;
+            height: 100%;
+        }
+
+    .product-link {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .item-content {
+        transition: transform 0.3s;
+        flex-grow: 1;
+        position: relative;
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .item-text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .item-content:hover {
+        transform: scale(1.0);
+    }
+    /*NameProduct*/
+    .CategoryProduct {
+        margin-bottom: 2px;
+        font-size: 14px;
+        font-family: "Montserrat", cursive;
+        font-optical-sizing: auto;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    /*Id Product*/
+    .IdProduct {
+        background: #E8BE6F
+    }
+
+        .IdProduct h9 {
+            color: black;
+            font-size: 20px;
+            font-weight: 0;
+            font-family: "Source Code Pro", monospace;
+        }
+    /*price*/
+    .item-price {
+        font-weight: bold;
+        color: #E8BE6F;
+        font-weight: 600;
+        font-size: 18px;
+        margin-top: 6px;
+        font-family: "Jura", monospace;
+        font-weight: bold;
+        display: flex;
+        justify-content: center
+    }
+
+</style>
+@{
+    if (Model != null)
+    {
+        <!-- Breadcumb area Start -->
+        <div class="breadcrumb-area" style="padding: 0px !important">
+            <img src="https://file.hstatic.net/1000381168/collection/1920x820px_dd843da4d6854b0fa1098000b905619b.png" alt="Alternate Text"
+                 style=" cover: object-fit; height: 700px; max-width: 1800px; max-height:700px;" />
+        </div>
+        <!-- Breadcumb area End -->
+        <!-- Main Content Wrapper Start -->
+        <div class="main-content-wrapper">
+            <div class="shop-area pt--40 pb--80 pt-md--30 pb-md--60" style="padding-top: 3rem !important;">
+                <div class="container" style="max-width: 130rem !important">
+                    <div class="row" style="justify-content: center;">
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-12">
+                                    <!-- Refine Search Start -->
+                                    <style>
+                                        .refine-search {
+                                            display: flex;
+                                            justify-content: center;
+                                            align-items: center;
+                                        }
+
+                                        .link-border {
+                                            border: 1px solid #ffffff;
+                                            padding: 10px;
+                                            text-decoration: none;
+                                            margin: 5px;
+                                        }
+
+                                        .nice-select {
+                                            width: 250px;
+                                            display: inline-block;
+                                            padding-top: 5px;
+                                        }
+
+                                            .nice-select option {
+                                                padding: 10px;
+                                                font-size: 16px;
+                                                width: 250px;
+                                            }
+
+                                        .pagination-wrap {
+                                            display: flex;
+                                            justify-content: center;
+                                            align-items: center;
+                                        }
+
+                                        #seeMoreBtn {
+                                            background-color: transparent;
+                                            border: 1px solid white; /* Border color */
+                                            color: white; /* Text color */
+                                            cursor: pointer;
+                                            border-radius: 10px;
+                                            transition: all 0.3s ease;
+                                        }
+
+                                            #seeMoreBtn:hover {
+                                                background-color: #a8741a; /* Hover background color */
+                                                color: #ffffff; /* Hover text color */
+                                            }
+
+                                        .hidden {
+                                            display: none !important;
+                                        }
+                                    </style>
+                                    <div class="refine-search mb--30" style="margin-bottom: 1rem !important">
+                                        <div class="cat-list-wrapper">
+                                            <!-- Thêm div bao bọc -->
+                                            <ul class="cat-list mb--20">
+                                                <a href="/DiamondJewelryRing/Index" class="link-border">Nhẫn Kim Cương</a>
+                                                <a href="/DiamondJewelryBracelet/Index" class="link-border">Vòng Tay Kim Cương</a>
+                                                <a href="/DiamondJewelryBangles/Index" class="link-border">Lắc Tay Kim Cương</a>
+                                                <a href="/DiamondJewelryEarring/Index" class="link-border">Hoa Tai Kim Cương</a>
+                                                <a href="/DiamondJewelryNecklace/Index" class="link-border">Mặt Dây Chuyền Kim Cương</a>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Refine Search End -->
+                                    <!-- Shop Toolbar Start -->
+                                    <div class="shop-toolbar col-md-12">
+                                        <div class="product-short" style="width: 250px; text-align-last: center; display: flex; align-items: center; justify-content: center;">
+                                            <div class="product-short" style="width: 250px; text-align-last: center; display: flex; align-items: center; justify-content: center;">
+                                                <select id="gemFilter" class=" nice-select">
+                                                    <option value="">Đá Đính Kèm</option>
+                                                    <option value="Kim Cương">Kim Cương</option>
+                                                    <option value="Đá CZ">Đá CZ</option>
+                                                    <option value="Đá Ruby">Đá Ruby</option>
+                                                    <option value="Đá Sapphire">Đá Sapphire</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="product-short" style="width: 250px; text-align-last: center; display: flex; align-items: center; justify-content: center;">
+                                            <select id="genderFilter" class="nice-select">
+                                                <option value="">Giới Tính</option>
+                                                <option value="Nam">Nam</option>
+                                                <option value="Nữ">Nữ</option>
+                                            </select>
+                                        </div>
+                                        <div class="product-short" style="width: 250px; text-align-last: center; display: flex; align-items: center; justify-content: center;">
+                                            <select id="priceFilter" class="nice-select">
+                                                <option value="">Giá</option>
+                                                <option value="10000000">Dưới 10,000,000</option>
+                                                <option value="10000000-30000000">10,000,000-30,000,000</option>
+                                                <option value="30000000-50000000">30,000,000-50,000,000</option>
+                                                <option value="50000000-100000000">50,000,000-100,000,000</option>
+                                                <option value="100000000">Trên 100,000,000</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- Shop Toolbar End -->
+                                </div>
+                            </div>
+
+                            <!-- Main Shop wrapper Start -->
+                            @if (Model.ListProducts != null && Model.ListProducts.Count() > 0)
+                            {
+                                <div class="col-12" style="display: flex; flex-wrap: wrap;">
+                                    @if (Model != null)
+                                    {
+                                        var initialProducts = Model.ListProducts.Take(20).OrderBy(p => p.ProductName).ToList();
+                                        var hiddenProducts = Model.ListProducts.Skip(20).OrderBy(p => p.ProductName).ToList();
+                                        @foreach (var product in initialProducts)
+                                        {
+                                            <div class="item product-item col-3">
+                                                <div class="item-content">
+                                                    <a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
+                                                        <div class="item-img">
+                                                            <img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
+                                                            <div style="position: absolute; top: 6%; margin-left: 8px;">
+                                                                @if (product.IsSale && product.PercentSale != 0)
+                                                                {
+                                                                    <span class="product-label discount" style="padding: 5px 10px">
+                                                                        -@product.PercentSale%
+                                                                    </span>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <div class="item-text">
+                                                        <p class="CategoryProduct" style="margin-bottom: 4px">
+                                                            @product.CategoryVm.CategoryName
+                                                        </p>
+                                                        <div class="IdProduct">
+                                                            <h9>
+                                                                <a href="/DiamondJewelry/Detail?ProductId=@product.ProductId" style="color: black">
+                                                                    @product.ProductName
+                                                                </a>
+                                                            </h9>
+                                                        </div>
+                                                        <div class="item-price">
+                                                            <div class="product-price-wrapper">
+                                                                <span class="money" style="color: #E8BE6F;">@product.SellingPrice.ToString("N0")₫</span>
+                                                                @if (product.OriginalPrice != product.SellingPrice)
+                                                                {
+                                                                    <span class="product-price-old">
+                                                                        <span class="money">@product.OriginalPrice.ToString("N0")₫</span>
+                                                                    </span>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        }
+
+                                        <!-- Hidden products to be shown on "See More" click -->
+                                        @foreach (var product in hiddenProducts)
+                                        {
+                                            <div class="item product-item col-3">
+                                                <div class="item-content">
+                                                    <a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
+                                                        <div class="item-img">
+                                                            <img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
+                                                            <div style="position: absolute; top: 6%; margin-left: 8px;">
+                                                                @if (product.IsSale && product.PercentSale != 0)
+                                                                {
+                                                                    <span class="product-label discount" style="padding: 5px 10px">
+                                                                        -@product.PercentSale%
+                                                                    </span>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <div class="item-text">
+                                                        <p class="CategoryProduct" style="margin-bottom: 4px">
+                                                            @product.CategoryVm.CategoryName
+                                                        </p>
+                                                        <div class="IdProduct">
+                                                            <h9>
+                                                                <a href="/DiamondJewelry/Detail?ProductId=@product.ProductId" style="color: black">
+                                                                    @product.ProductName
+                                                                </a>
+                                                            </h9>
+                                                        </div>
+                                                        <div class="item-price">
+                                                            <div class="product-price-wrapper">
+                                                                <span class="money" style="color: #E8BE6F;">@product.SellingPrice.ToString("N0")₫</span>
+                                                                @if (product.OriginalPrice != product.SellingPrice)
+                                                                {
+                                                                    <span class="product-price-old">
+                                                                        <span class="money">@product.OriginalPrice.ToString("N0")₫</span>
+                                                                    </span>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+
+                                <!-- Main Shop wrapper End -->
+                                <!-- "See More" Button -->
+                                @if (Model.ListProducts != null && Model.ListProducts.Count > 20)
+                                {
+                                    <div class="see-more-wrapper text-center mt-4">
+                                        <button id="seeMoreBtn" class="btn btn-primary">Xem thêm</button>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p>Không có sản phẩm nào để hiển thị.</p>
+    }
+}
+<!-- Main Content Wrapper End -->
+<!-- Include jQuery -->
+<script>
+
+    $(document).ready(function () {
+        $('#seeMoreBtn').on('click', function () {
+            $('.product-item.hidden').slice(0, 20).removeClass('hidden');
+            if ($('.product-item.hidden').length == 0) {
+                $('#seeMoreBtn').hide();
+            }
+        });
+
+        function filterProducts() {
+            var gender = $('#genderFilter').val().toLowerCase();
+            var price = $('#priceFilter').val();
+            var gem = $('#gemFilter').val().toLowerCase();
+
+            $('.product-item').each(function () {
+                var productGender = $(this).data('gender').toLowerCase();
+                var productPrice = parseFloat($(this).data('price'));
+                var productGem = $(this).data('gem').toLowerCase();
+
+                var showProduct = true;
+
+                if (gender && productGender !== gender) {
+                    showProduct = false;
+                }
+
+                if (price) {
+                    if (price === '10000000') { // Dưới 10,000,000
+                        if (productPrice >= 10000000) {
+                            showProduct = false;
+                        }
+                    } else if (price === '100000000') { // Trên 100,000,000
+                        if (productPrice <= 100000000) {
+                            showProduct = false;
+                        }
+                    } else {
+                        var priceRange = price.split('-');
+                        if (priceRange.length === 2) {
+                            var minPrice = parseFloat(priceRange[0]);
+                            var maxPrice = parseFloat(priceRange[1]);
+                            if (productPrice < minPrice || productPrice > maxPrice) {
+                                showProduct = false;
+                            }
+                        }
+                    }
+                }
+
+                if (gem && productGem !== gem) {
+                    showProduct = false;
+                }
+
+                if (showProduct) {
+                    $(this).fadeIn();
+                } else {
+                    $(this).fadeOut();
+                }
+            });
+
+            if ($('.product-item.hidden').length > 0) {
+                $('#seeMoreBtn').show();
+            } else {
+                $('#seeMoreBtn').hide();
+            }
+        }
+
+        $('#gemFilter, #genderFilter, #priceFilter').on('change', function () {
+            filterProducts();
+        });
+
+        filterProducts();
+    });
+</script>
+
+
+

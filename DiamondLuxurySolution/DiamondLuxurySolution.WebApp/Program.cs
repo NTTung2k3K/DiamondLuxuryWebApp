@@ -19,6 +19,8 @@ using DiamondLuxurySolution.WebApp.Service.Customer;
 using DiamondLuxurySolution.WebApp.Service.Payment;
 using DiamondLuxurySolution.WebApp.Service.Promotion;
 using DiamondLuxurySolution.AdminCrewApp.Service.Category;
+using DiamondLuxurySolution.WebApp.Service.Collection;
+
 using DiamondLuxurySolution.WebApp.Service.About;
 using DiamondLuxurySolution.WebApp.Service.Platform;
 
@@ -47,6 +49,7 @@ builder.Services.AddTransient<IGemPriceListApiService, GemPriceListApiService>()
 builder.Services.AddTransient<IKnowLedgeNewsApiService, KnowledgeNewsApiService>();
 builder.Services.AddTransient<ICategoryApiService, CategoryApiService>();
 builder.Services.AddTransient<IContactApiService, ContactApiService>();
+builder.Services.AddTransient<ICollectionApiService, CollectionApiService>();
 
 builder.Services.AddTransient<IProductApiService, ProductApiService>();
 builder.Services.AddTransient<IAboutApiService, AboutApiService>();

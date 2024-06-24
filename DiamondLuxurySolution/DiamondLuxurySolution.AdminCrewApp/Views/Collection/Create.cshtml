@@ -35,14 +35,25 @@
                     <label asp-for="Description" class="control-label mb-1 mt-3">Mô tả bộ sưu tập</label>
                     <input id="collectionDescription" type="text" asp-for="Description" class="form-control" />
                 </div>
+                <div class="form-group m-2">
+                    <label asp-for="priceDisplay" class="control-label m-2">Giá ước tính</label>
+                    <input asp-for="priceDisplay" class="form-control" />
+                    <span asp-validation-for="priceDisplay" class="text-danger"></span>
+                </div>
                 <div class="form-group m-2 mt-2">
                     <label asp-for="Thumbnail" class="control-label mb-1 mt-3">Hình ảnh</label>
                     <input id="thumbnail" type="file" asp-for="Thumbnail" class="form-control" />
                 </div>
+
                 <div class="form-check form-switch m-4">
                     <label asp-for="Status" class="control-label m-1">Hiển thị</label>
                     <input id="isVisible" class="form-check-input f-18" type="checkbox" asp-for="Status">
                 </div>
+                <div class="form-check form-switch m-4">
+                    <label asp-for="IsHome" class="control-label m-1">Hiển thị trang chủ</label>
+                    <input id="isVisible" class="form-check-input f-18" type="checkbox" asp-for="IsHome">
+                </div>
+
                 <div class="form-group row col-md-12">
                     <div class="col-md-5 col-sm-5" style="align-self: center">
                         <input onclick="clearSessionStorage()" type="submit" value="Tạo mới" class="btn btn-success" />
@@ -191,7 +202,7 @@
             //var isVisibleCheckbox = document.getElementById('isVisible');
             //var isVisible = isVisibleCheckbox.checked ? 'true' : 'false';
             var fileInput = document.getElementById('thumbnail').value
-            
+
 
             sessionStorage.setItem('thumbnail', thumbnail);
             sessionStorage.setItem('collectionName', collectionName);
