@@ -81,45 +81,85 @@ namespace DiamondLuxurySolution.Application.Repository.Category
 
 				status = await _context.Categories.AddAsync(AddWeddingJewelryProposal);
 
-				var AddNecklace = new Data.Entities.Category()
+				var AddNecklaceMan = new Data.Entities.Category()
 				{
 					CategoryName = Necklace,
-					CategoryType = "",
+					CategoryType = "Nam",
 					Status = true,
 					CategoryImage = "https://firebasestorage.googleapis.com/v0/b/diamondluxuryshop-980cd.appspot.com/o/images%2Fday-chuyen.png?alt=media&token=3841f759-a261-4807-9297-c3706b3c68b5",
 				};
 
-				status = await _context.Categories.AddAsync(AddNecklace);
+				status = await _context.Categories.AddAsync(AddNecklaceMan);
 
-				var AddEarring = new Data.Entities.Category()
+				var AddNecklaceWoman = new Data.Entities.Category()
+				{
+					CategoryName = Necklace,
+					CategoryType = "Nữ",
+					Status = true,
+					CategoryImage = "https://firebasestorage.googleapis.com/v0/b/diamondluxuryshop-980cd.appspot.com/o/images%2Fday-chuyen.png?alt=media&token=3841f759-a261-4807-9297-c3706b3c68b5",
+				};
+
+				status = await _context.Categories.AddAsync(AddNecklaceWoman);
+
+				var AddEarringMan = new Data.Entities.Category()
 				{
 					CategoryName = Earring,
-					CategoryType = "",
+					CategoryType = "Nam",
 					Status = true,
 					CategoryImage = "https://firebasestorage.googleapis.com/v0/b/diamondluxuryshop-980cd.appspot.com/o/images%2Fbong-tai.png?alt=media&token=e4de378d-70bb-417a-ad63-2aa21cd04f89",
 				};
 
-				status = await _context.Categories.AddAsync(AddEarring);
+				status = await _context.Categories.AddAsync(AddEarringMan);
 
-				var AddBracelet = new Data.Entities.Category()
+				var AddEarringWoman = new Data.Entities.Category()
+				{
+					CategoryName = Earring,
+					CategoryType = "Nữ",
+					Status = true,
+					CategoryImage = "https://firebasestorage.googleapis.com/v0/b/diamondluxuryshop-980cd.appspot.com/o/images%2Fbong-tai.png?alt=media&token=e4de378d-70bb-417a-ad63-2aa21cd04f89",
+				};
+
+				status = await _context.Categories.AddAsync(AddEarringWoman);
+
+				var AddBraceletMan = new Data.Entities.Category()
 				{
 					CategoryName = Bracelet,
-					CategoryType = "",
+					CategoryType = "Nam",
 					Status = true,
 					CategoryImage = "https://firebasestorage.googleapis.com/v0/b/diamondluxuryshop-980cd.appspot.com/o/images%2Fvong-tay.png?alt=media&token=38ff5bd3-94a0-4ff7-b391-66c1e9da3ba6",
 				};
 
-				status = await _context.Categories.AddAsync(AddBracelet);
+				status = await _context.Categories.AddAsync(AddBraceletMan);
 
-				var AddBangles = new Data.Entities.Category()
+				var AddBraceletWoman = new Data.Entities.Category()
+				{
+					CategoryName = Bracelet,
+					CategoryType = "Nữ",
+					Status = true,
+					CategoryImage = "https://firebasestorage.googleapis.com/v0/b/diamondluxuryshop-980cd.appspot.com/o/images%2Fvong-tay.png?alt=media&token=38ff5bd3-94a0-4ff7-b391-66c1e9da3ba6",
+				};
+
+				status = await _context.Categories.AddAsync(AddBraceletWoman);
+
+				var AddBanglesMan = new Data.Entities.Category()
 				{
 					CategoryName = Bangles,
-					CategoryType = "",
+					CategoryType = "Nam",
 					Status = true,
 					CategoryImage = "https://firebasestorage.googleapis.com/v0/b/diamondluxuryshop-980cd.appspot.com/o/images%2Flac-tay.png?alt=media&token=3eed5e32-0524-4182-9b27-bdaf044c625d",
 				};
 
-				status = await _context.Categories.AddAsync(AddBangles);
+				status = await _context.Categories.AddAsync(AddBanglesMan);
+
+				var AddBanglesWoman= new Data.Entities.Category()
+				{
+					CategoryName = Bangles,
+					CategoryType = "Nữ",
+					Status = true,
+					CategoryImage = "https://firebasestorage.googleapis.com/v0/b/diamondluxuryshop-980cd.appspot.com/o/images%2Flac-tay.png?alt=media&token=3eed5e32-0524-4182-9b27-bdaf044c625d",
+				};
+
+				status = await _context.Categories.AddAsync(AddBanglesWoman);
 
 				_context.SaveChanges();
 			}

@@ -42,7 +42,7 @@ namespace DiamondLuxurySolution.BackgroundServiceHost
 				// Wait for 24 hours
 				try
 				{
-					await Task.Delay(TimeSpan.FromSeconds(30), stoppingToken);
+					await Task.Delay(TimeSpan.FromHours(12), stoppingToken);
 				}
 				catch (TaskCanceledException)
 				{

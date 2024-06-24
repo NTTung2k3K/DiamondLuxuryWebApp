@@ -84,8 +84,8 @@
         var categoryNhanNu = Model.SingleOrDefault(c => c.CategoryName.Equals("Trang Sức Cưới") && c.CategoryType.Equals("Nhẫn Cưới"));
         var categoryNhanNam = Model.SingleOrDefault(c => c.CategoryName.Equals("Nhẫn") && c.CategoryType.Equals("Nam"));
         var categoryNhanCuoi = Model.SingleOrDefault(c => c.CategoryName.Equals("Nhẫn") && c.CategoryType.Equals("Nữ"));
-        var categoryDayChuyen = Model.SingleOrDefault(c => c.CategoryName.Equals("Dây Chuyền"));
-        var categoryBongTai = Model.SingleOrDefault(c => c.CategoryName.Equals("Hoa Tai"));
+        var categoryDayChuyen = Model.SingleOrDefault(c => c.CategoryName.Equals("Dây Chuyền") && c.CategoryType.Equals("Nữ"));
+        var categoryBongTai = Model.SingleOrDefault(c => c.CategoryName.Equals("Hoa Tai") && c.CategoryType.Equals("Nữ"));
         <h2 class="hightlight-h">
             DANH MỤC NỔI BẬT
         </h2>
