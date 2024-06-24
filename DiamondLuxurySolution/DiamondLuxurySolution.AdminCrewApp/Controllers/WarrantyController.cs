@@ -18,7 +18,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 			_warrantyApiService = warrantyApiService;
 		}
 
-        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
 		public async Task<IActionResult> Index(ViewWarrantyRequest request)
@@ -48,10 +48,10 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 				return View();
 			}
 		}
-        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
-        public async Task<IActionResult> Detail(Guid WarrantyId)
+        public async Task<IActionResult> Detail(string WarrantyId)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
 
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid WarrantyId)
+        public async Task<IActionResult> Edit(string WarrantyId)
         {
             try
             {
@@ -171,7 +171,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
 
         [HttpGet]
-        public async Task<IActionResult> Delete(Guid WarrantyId)
+        public async Task<IActionResult> Delete(string WarrantyId)
         {
             try
             {

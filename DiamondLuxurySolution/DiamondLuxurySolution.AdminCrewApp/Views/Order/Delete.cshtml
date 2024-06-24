@@ -215,7 +215,12 @@
                 }
             </dd>
 
-
+            <dt class="col-sm-3">
+                Tổng cổng (chưa giảm)
+            </dt>
+            <dd class="col-sm-9">
+                @(((decimal)Model.TotalSale + (decimal)Model.TotalAmount).ToString("N0"))₫
+            </dd>
             <dt class="col-sm-3">
                 Số tiền giảm
             </dt>

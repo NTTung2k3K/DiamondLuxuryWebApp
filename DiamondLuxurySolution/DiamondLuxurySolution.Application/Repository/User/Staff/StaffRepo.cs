@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using PagedList;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -1012,6 +1013,12 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 }
                 product.SellingCount += item.Quantity;
             }
+            //Process customer point
+
+            var point = (int)((order.TotalAmout + order.TotalSale) / 10000);
+            var customer = await _userManager.FindByIdAsync(order.CustomerId.ToString());
+            customer.Point = (int?)(customer?.Point + point);
+
 
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Cập nhật đơn hàng thành công");
@@ -1043,6 +1050,30 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>("Cập nhật thành công");
 
+        }
+
+        public async Task<ApiResult<bool>> UpdateCancelOrderForDeliveryStaff(CancelOrderRequest request)
+        {
+            var order = await _context.Orders.FindAsync(request.orderId);
+            if (order == null)
+            {
+                return new ApiErrorResult<bool>("Không tìm thấy đơn hàng");
+            }
+            var shipper = await _userManager.FindByIdAsync(order.ShipperId.ToString());
+            if (shipper == null)
+            {
+                return new ApiErrorResult<bool>("Không tìm thấy nhân viên giao hàng");
+            }
+            order.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString();
+            var orderDetailSellingCount = await _context.OrderDetails.Where(x => x.OrderId == order.OrderId).ToListAsync();
+            foreach (var item in orderDetailSellingCount)
+            {
+                var product = await _context.Products.FindAsync(item.ProductId);
+                product.Quantity += item.Quantity;
+            }
+            order.Description = request.Description;
+            await _context.SaveChangesAsync();
+            return new ApiSuccessResult<bool>(true, "Cập nhật đơn hàng thành công");
         }
     }
 

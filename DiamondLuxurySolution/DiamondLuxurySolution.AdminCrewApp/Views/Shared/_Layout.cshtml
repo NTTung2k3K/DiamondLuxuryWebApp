@@ -524,7 +524,7 @@
                             </ul>
                         </li>
                     }
-                    @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin) || staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager))
+                    @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin) || staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff) || staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager))
                     {
                         <li class="pc-item pc-hasmenu">
                             <a href="#!" class="pc-link">
@@ -560,7 +560,7 @@
                                 <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                             </a>
                             <ul class="pc-submenu">
-                                @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
+                                @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff) || staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager))
                                 {
                                     <li class="pc-item">
                                         <a class="pc-link" href="/Order/Index">Quản Lý Đơn Hàng</a>
@@ -575,12 +575,7 @@
                                         <a class="pc-link" href="/WarrantyDetail/Index">Quản Lý Bảo Hành</a>
                                     </li>
                                 }
-                                @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager))
-                                {
-                                    <li class="pc-item">
-                                        <a class="pc-link" href="/Payment/Index">Quản Lý Các Phương Thức Thanh Toán</a>
-                                    </li>
-                                }
+                             
                             </ul>
                         </li>
                     }
