@@ -51,10 +51,10 @@
                                             <label>Sale</label>
                                             <label onclick="sortTable(4)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                                         </th>
-                                        <th>
+                                        @* <th>
                                             <label>Trạng thái</label>
                                             <label onclick="sortTable(5)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
-                                        </th>
+                                        </th> *@
                                         <th>
                                             <label>Số lượng</label>
                                             <label onclick="sortTable(6)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
@@ -83,7 +83,7 @@
                                             }
                                             <td>@item.PercentSale<span>%</span></td>
 
-                                            @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString()))
+                                            @* @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString()))
                                             {
                                                 <td>
                                                     <span class="badge bg-gray-500 rounded-pill">Hết hàng</span>
@@ -106,7 +106,7 @@
                                                 <td>
                                                     <span class="badge bg-yellow-500 rounded-pill">Sắp có hàng</span>
                                                 </td>
-                                            }
+                                            } *@
                                             <td>@item.Quantity</td>
                                         </tr>
                                     }

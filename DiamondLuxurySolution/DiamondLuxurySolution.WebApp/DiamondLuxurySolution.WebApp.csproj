@@ -25,12 +25,4 @@
     <ProjectReference Include="..\DiamondLuxurySolution.ViewModel\DiamondLuxurySolution.ViewModel.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\Shared\Components\Home_KimCuong\" />
-    <Folder Include="Views\Shared\Components\Home_DayChuyen\" />
-    <Folder Include="Views\Shared\Components\Home_NhanNam\" />
-    <Folder Include="Views\Shared\Components\Home_NhanCuoi\" />
-    <Folder Include="Views\Shared\Components\Home_NhanNu\" />
-  </ItemGroup>
-
 </Project>
