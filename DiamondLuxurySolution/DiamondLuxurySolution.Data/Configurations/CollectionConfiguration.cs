@@ -19,7 +19,10 @@ namespace DiamondLuxurySolution.Data.Configurations
             builder.Property(c => c.CollectionId).IsRequired().HasMaxLength(30);
             builder.Property(c => c.CollectionName).HasMaxLength(250);
             builder.Property(c => c.Description).HasMaxLength(250);
+            builder.Property(c => c.priceDisplay).HasColumnType("decimal(20, 2)");
             builder.Property(c => c.Thumbnail);
+            builder.Property(c => c.IsHome).IsRequired();
+
         }
     }
 

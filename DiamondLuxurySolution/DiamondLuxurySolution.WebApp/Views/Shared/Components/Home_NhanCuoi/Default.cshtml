@@ -1,0 +1,331 @@
+﻿@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Common
+@using DiamondLuxurySolution.ViewModel.Models.Product
+@using DiamondLuxurySolution.ViewModel.Models.Slide
+
+@model List<ProductVm>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Styled Button</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+          integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+          integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.green.min.css"
+          integrity="sha512-C8Movfk6DU/H5PzarG0+Dv9MA9IZzvmQpO/3cIlGIflmtY3vIud07myMu4M/NTPJl8jmZtt/4mC9bAioMZBBdA==" crossorigin="anonymous"
+          referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        .img-slide {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /*Ten H2*/
+        .hightlight-h2 {
+            font-family: "Montserrat", sans-serif;
+            font-size: 25px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: white;
+            text-transform: uppercase;
+            text-align: center;
+            margin: 5px 0px 20px 0px;
+        }
+
+        /*Owl nav*/
+        .owl-nav {
+            margin: 0px !important
+        }
+
+            .owl-nav button.owl-prev,
+            .owl-nav button.owl-next {
+                position: absolute;
+                top: 40%;
+                color: white;
+                z-index: 10;
+                width: 45px;
+                height: 45px;
+                background-color: rgba(0, 0, 0, 0.6) !important;
+                border-radius: 50% !important;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+                .owl-nav button.owl-prev:hover,
+                .owl-nav button.owl-next:hover {
+                    background-color: darkgoldenrod !important;
+                    outline: none;
+                }
+
+                .owl-nav button.owl-prev span,
+                .owl-nav button.owl-next span {
+                    font-size: 26px;
+                    line-height: 1;
+                    text-align: center;
+                    display: block;
+                }
+
+            .owl-nav button.owl-prev {
+                left: 100px;
+            }
+
+            .owl-nav button.owl-next {
+                right: 100px;
+            }
+
+
+        /*owl-carousel*/
+        .owl-carousel {
+            padding: 0px 90px;
+        }
+
+            .owl-carousel .product-item {
+                background-color: #343434;
+                border: none;
+                text-align: center;
+                border-radius: 4px;
+                height: 400px;
+            }
+
+        .item-img {
+            width: 100%;
+            height: 310px;
+            overflow: hidden;
+            padding: 10px;
+        }
+
+            .item-img img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .product-link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .item-content {
+            transition: transform 0.3s;
+        }
+
+            .item-content:hover {
+                transform: scale(1.0);
+            }
+
+        /*NameProduct*/
+        .NameProduct {
+            margin-bottom: 2px;
+            font-size: 14px;
+            font-family: "Montserrat", cursive;
+            font-optical-sizing: auto;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+            .NameProduct a {
+                padding: 1px;
+                margin: 0px
+            }
+        /*Id Product*/
+        .IdProduct {
+            background: #E8BE6F
+        }
+
+            .IdProduct h8 {
+                color: black;
+                font-size: 20px;
+                font-weight: 0;
+                font-family: "Source Code Pro", monospace;
+            }
+        /*price*/
+        .item-price {
+            font-weight: bold;
+            color: #E8BE6F;
+            font-weight: 600;
+            font-size: 18px;
+            margin-top: 6px;
+            font-family: "Jura", monospace;
+            font-weight: bold;
+            display: flex;
+            justify-content: center
+        }
+
+        .symbol-currency span {
+            font-size: 12px;
+            font-family: "Montserrat", cursive;
+            height: 20px
+        }
+
+        .symbol-currency {
+            display: flex;
+            margin: 5px 0px 0px 5px;
+        }
+        /* button */
+        .btn-decord {
+            font-size: 18px;
+            line-height: 1.2;
+            color: #E8BE6F;
+            border: none;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            border-radius: 8px;
+            padding: 10px 20px;
+            margin-top: 40px;
+            margin-bottom: 80px;
+        }
+
+            .btn-decord:hover {
+                background-color: #555;
+            }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+
+    @if (Model.Count() > 0 && Model != null)
+    {
+
+        var listProduct = Model.Where(p => p.CategoryVm?.CategoryName == "Trang Sức Cưới" && p.CategoryVm?.CategoryType == "Nhẫn Cưới" && p.IsSale).ToList();
+        var productCount = listProduct.Count;
+        if (listProduct != null && listProduct.Count() > 0)
+        {
+            List<SlideViewModel> listSlide = ViewBag.listSlide as List<SlideViewModel>;
+            if (listSlide != null)
+            {
+                var slide = listSlide.SingleOrDefault(s => s.SlideName.Equals("Nhẫn Cưới"));
+                if (slide != null)
+                {
+                    <div style="min-width: 100%; max-height: 500px; overflow:hidden">
+                        <img class="img-slide" src="@slide.SlideImage" />
+                    </div>
+                }
+            }
+            <h2 class="hightlight-h2">Nhẫn Cưới</h2>
+            <div class="owl-carousel owl-theme" id="product-carousel">
+                @foreach (var product in listProduct)
+                {
+                    <div class="item product-item">
+                        <div class="item-content">
+                            <a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
+                                <div class="item-img">
+                                    <img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
+                                </div>
+                                <div class="item-text">
+                                    <p class="NameProduct">
+                                        <a href="">
+                                            @product.ProductName
+                                        </a>
+                                    </p>
+                                    <div class="IdProduct">
+                                        <h8>
+                                            @product.ProductId
+                                        </h8>
+                                    </div>
+                                    <div class="item-price">
+                                        @* @product.SellingPrice.ToString("N0")
+                            <div class="symbol-currency">
+                            <span>₫</span>
+                            </div> *@
+                                        <div class="product-price-wrapper">
+                                            <span class="money" style="color: #E8BE6F;">@product.SellingPrice.ToString("N0")₫</span>
+                                            @if (product.OriginalPrice != product.SellingPrice)
+                                            {
+                                                <span class="product-price-old">
+                                                    <span class="money">@product.OriginalPrice.ToString("N0")₫</span>
+                                                </span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="btn-container">
+                <a href="/DiamondJewelryRing/Index" class=" btn-decord" type="button">
+                    Xem thêm
+                </a>
+            </div>
+        }
+    }
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+            crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+            integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+    <script>
+
+        $('.owl-carousel').owlCarousel({
+            loop: true,
+            margin: 20,
+            nav: false,
+            dots: false,
+            slideBy: 5,
+            responsive: {
+                0: {
+                    items: 1,
+                    slideBy: 1
+                },
+                600: {
+                    items: 3,
+                    slideBy: 3
+                },
+                1000: {
+                    items: 5,
+                    slideBy: 5
+                }
+            }
+        });
+        // Bắt sự kiện khi rê chuột vào sản phẩm
+        $(document).ready(function () {
+            var owl = $('#product-carousel');
+            $('.product-item, .owl-next, .owl-prev').mouseenter(function () {
+                owl.trigger('refresh.owl.carousel');
+                $('.owl-nav').removeClass('disabled');
+            });
+
+            $('.product-item').mouseleave(function () {
+                owl.trigger('refresh.owl.carousel');
+                $('.owl-nav').addClass('disabled');
+            });
+        });
+        // Tùy chỉnh hành vi kéo
+        /* var owl = $('.owl-carousel');
+         owl.on('dragged.owl.carousel', function(event) {
+             if (event.relatedTarget.state.direction == 'left') {
+                 owl.trigger('next.owl.carousel', [300]);
+             } else {
+                 owl.trigger('prev.owl.carousel', [300]);
+             }
+
+
+         });
+        */
+    </script>
+</body>
+</html>

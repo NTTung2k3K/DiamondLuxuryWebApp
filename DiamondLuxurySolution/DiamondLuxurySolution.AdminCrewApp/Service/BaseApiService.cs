@@ -33,52 +33,56 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                 foreach (var property in properties)
                 {
                     var propertyValue = property.GetValue(obj);
-                    if (propertyValue is IFormFile formFile)
+                    if (propertyValue != null) 
                     {
-                        // Handle IFormFile
-                        if (formFile.Length > 0)
+                        if (propertyValue is IFormFile formFile)
                         {
-                            using (var stream = new MemoryStream())
+                            // Handle IFormFile
+                            if (formFile.Length > 0)
                             {
-                                await formFile.CopyToAsync(stream);
-                                var fileContent = new ByteArrayContent(stream.ToArray());
-                                fileContent.Headers.ContentType = new MediaTypeHeaderValue(formFile.ContentType);
-                                multipartFormDataContent.Add(fileContent, property.Name, formFile.FileName);
+                                using (var stream = new MemoryStream())
+                                {
+                                    await formFile.CopyToAsync(stream);
+                                    var fileContent = new ByteArrayContent(stream.ToArray());
+                                    fileContent.Headers.ContentType = new MediaTypeHeaderValue(formFile.ContentType);
+                                    multipartFormDataContent.Add(fileContent, property.Name, formFile.FileName);
+                                }
                             }
                         }
-                    }
-                    else if (propertyValue is DateTime dateTime)
-                    {
-                        // Convert DateTime to string in a specific format (e.g., ISO 8601)
-                        string stringContent = dateTime.ToString("o"); // "o" stands for the round-trip format, which is ISO 8601
-                        multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
-                    }
-                    else if (propertyValue is Guid || propertyValue is Guid?)
-                    {
-                        // Convert Guid to string
-                        string stringContent = propertyValue.ToString();
-                        multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
-                    }
-
-                    else if (propertyValue is IEnumerable<Guid> guidList)
-                    {
-                        // Add each Guid in the list separately
-                        foreach (var guid in guidList)
+                        else if (propertyValue is DateTime dateTime)
                         {
-                            multipartFormDataContent.Add(new StringContent(guid.ToString(), Encoding.UTF8, "application/json"), $"{property.Name}[]");
+                            // Convert DateTime to string in a specific format (e.g., ISO 8601)
+                            string stringContent = dateTime.ToString("o"); // "o" stands for the round-trip format, which is ISO 8601
+                            multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
+                        }
+                        else if (propertyValue is Guid || propertyValue is Guid?)
+                        {
+                            // Convert Guid to string
+                            string stringContent = propertyValue.ToString();
+                            multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
+                        }
+
+                        else if (propertyValue is IEnumerable<Guid> guidList)
+                        {
+                            // Add each Guid in the list separately
+                            foreach (var guid in guidList)
+                            {
+                                multipartFormDataContent.Add(new StringContent(guid.ToString(), Encoding.UTF8, "application/json"), $"{property.Name}[]");
+                            }
+                        }
+                        else if (propertyValue is string strValue)
+                        {
+                            // Handle string values directly without JSON serialization
+                            multipartFormDataContent.Add(new StringContent(strValue, Encoding.UTF8, "text/plain"), property.Name);
+                        }
+                        else
+                        {
+                            // Convert other property values to JSON and then to plain text
+                            string stringContent = JsonConvert.SerializeObject(propertyValue);
+                            multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
                         }
                     }
-                    else if (propertyValue is string strValue)
-                    {
-                        // Handle string values directly without JSON serialization
-                        multipartFormDataContent.Add(new StringContent(strValue, Encoding.UTF8, "text/plain"), property.Name);
-                    }
-                    else
-                    {
-                        // Convert other property values to JSON and then to plain text
-                        string stringContent = JsonConvert.SerializeObject(propertyValue);
-                        multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
-                    }
+                    
                 }
                 // Post the content
                 var response = await client.PostAsync(url, multipartFormDataContent);
@@ -404,51 +408,55 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                 {
                     var propertyValue = property.GetValue(obj);
 
-                    if (propertyValue is IFormFile formFile)
+                    if (propertyValue != null)
                     {
-                        // Handle IFormFile
-                        if (formFile.Length > 0)
+                        if (propertyValue is IFormFile formFile)
                         {
-                            using (var stream = new MemoryStream())
+                            // Handle IFormFile
+                            if (formFile.Length > 0)
                             {
-                                await formFile.CopyToAsync(stream);
-                                var fileContent = new ByteArrayContent(stream.ToArray());
-                                fileContent.Headers.ContentType = new MediaTypeHeaderValue(formFile.ContentType);
-                                multipartFormDataContent.Add(fileContent, property.Name, formFile.FileName);
+                                using (var stream = new MemoryStream())
+                                {
+                                    await formFile.CopyToAsync(stream);
+                                    var fileContent = new ByteArrayContent(stream.ToArray());
+                                    fileContent.Headers.ContentType = new MediaTypeHeaderValue(formFile.ContentType);
+                                    multipartFormDataContent.Add(fileContent, property.Name, formFile.FileName);
+                                }
                             }
                         }
-                    }
-                    else if (propertyValue is DateTime dateTime)
-                    {
-                        // Convert DateTime to string in a specific format (e.g., ISO 8601)
-                        string stringContent = dateTime.ToString("o"); // "o" stands for the round-trip format, which is ISO 8601
-                        multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
-                    }
-                    else if (propertyValue is Guid || propertyValue is Guid?)
-                    {
-                        // Convert Guid to string
-                        string stringContent = propertyValue.ToString();
-                        multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
-                    }
-                    else if (propertyValue is IEnumerable<Guid> guidList)
-                    {
-                        // Add each Guid in the list separately
-                        foreach (var guid in guidList)
+                        else if (propertyValue is DateTime dateTime)
                         {
-                            multipartFormDataContent.Add(new StringContent(guid.ToString(), Encoding.UTF8, "application/json"), $"{property.Name}[]");
+                            // Convert DateTime to string in a specific format (e.g., ISO 8601)
+                            string stringContent = dateTime.ToString("o"); // "o" stands for the round-trip format, which is ISO 8601
+                            multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
+                        }
+                        else if (propertyValue is Guid || propertyValue is Guid?)
+                        {
+                            // Convert Guid to string
+                            string stringContent = propertyValue.ToString();
+                            multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
+                        }
+                        else if (propertyValue is IEnumerable<Guid> guidList)
+                        {
+                            // Add each Guid in the list separately
+                            foreach (var guid in guidList)
+                            {
+                                multipartFormDataContent.Add(new StringContent(guid.ToString(), Encoding.UTF8, "application/json"), $"{property.Name}[]");
+                            }
+                        }
+                        else if (propertyValue is string strValue)
+                        {
+                            // Handle string values directly without JSON serialization
+                            multipartFormDataContent.Add(new StringContent(strValue, Encoding.UTF8, "text/plain"), property.Name);
+                        }
+                        else
+                        {
+                            // Convert other property values to JSON and then to plain text
+                            string stringContent = JsonConvert.SerializeObject(propertyValue);
+                            multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
                         }
                     }
-                    else if (propertyValue is string strValue)
-                    {
-                        // Handle string values directly without JSON serialization
-                        multipartFormDataContent.Add(new StringContent(strValue, Encoding.UTF8, "text/plain"), property.Name);
-                    }
-                    else
-                    {
-                        // Convert other property values to JSON and then to plain text
-                        string stringContent = JsonConvert.SerializeObject(propertyValue);
-                        multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
-                    }
+                    
                 }
 
                 // Put the content

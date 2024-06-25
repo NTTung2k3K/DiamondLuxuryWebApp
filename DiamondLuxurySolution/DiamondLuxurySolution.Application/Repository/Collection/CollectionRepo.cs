@@ -36,6 +36,18 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                 return new ApiErrorResult<bool>("Vui lòng nhập tên bộ sưu tập");
             }
             string collectionId = await GenerateUniqueCollectionIdAsync();
+            decimal price = 0;
+            if (!string.IsNullOrWhiteSpace(request.priceDisplay) && !request.priceDisplay.Equals("null"))
+            {
+                try
+                {
+                    price = Convert.ToDecimal(request.priceDisplay);
+                }
+                catch (FormatException)
+                {
+                    return new ApiErrorResult<bool>("Nhập sai định dạng giá tiền");
+                }
+            }
             var listProductCollection = new List<ProductsCollection>();
             List<string> listProductId = JsonConvert.DeserializeObject<List<string>>(request.ListProductId.First());
             if (listProductId.First() != null)
@@ -59,7 +71,10 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                 ProductsCollections = listProductCollection,
                 Thumbnail = !string.IsNullOrWhiteSpace(request.Thumbnail?.ToString())
                       ? await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Thumbnail) : "",
-                Description = !string.IsNullOrWhiteSpace(request.Description) ? request.Description : ""
+                Description = !string.IsNullOrWhiteSpace(request.Description) ? request.Description : "",
+                IsHome = request.IsHome,
+                priceDisplay = !string.IsNullOrWhiteSpace(request.priceDisplay?.Trim()) ? price : 0,
+
             };
             _context.Collections.Add(collection);
             await _context.SaveChangesAsync();
@@ -126,6 +141,8 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                 Thumbnail = collection.Thumbnail,
                 Status = collection.Status,
                 Description = collection.Description,
+                IsHome = collection.IsHome,
+                priceDisplay = collection.priceDisplay,
             };
             var listProductVm = new List<ProductVm>();
             foreach (var item in listProductsCollection)
@@ -155,6 +172,8 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                         IsSale = product.IsSale,
                         PercentSale = product.PercentSale,
                         Status = product.Status,
+                        SellingPrice = product.SellingPrice,
+                        OriginalPrice = product.OriginalPrice,
                         CategoryVm = new CategoryVm
                         {
                             CategoryId = product.Category.CategoryId,
@@ -216,6 +235,18 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
             {
                 return new ApiErrorResult<bool>("Không tìm thấy bộ sưu tập");
             }
+            decimal price = 0;
+            if (!string.IsNullOrWhiteSpace(request.priceDisplay))
+            {
+                try
+                {
+                    price = Convert.ToDecimal(request.priceDisplay);
+                }
+                catch (FormatException)
+                {
+                    return new ApiErrorResult<bool>("Nhập sai định dạng giá tiền");
+                }
+            }
             List<string> listProductsIdAdd = JsonConvert.DeserializeObject<List<string>>(request.ListProductsIdAdd.First());
 
             if (listProductsIdAdd.First() != null)
@@ -263,13 +294,11 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Thumbnail);
                 collection.Thumbnail = firebaseUrl;
             }
-            if (request.WantImgEmpty)
-            {
-                collection.Thumbnail = "";
-            }
             collection.CollectionName = request.CollectionName;
             collection.Status = request.Status;
             collection.Description = !string.IsNullOrWhiteSpace(request.Description) ? request.Description : "";
+            collection.IsHome = request.IsHome;
+            collection.priceDisplay = !string.IsNullOrWhiteSpace(request.priceDisplay?.Trim()) ? price : 0;
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Success");
         }
@@ -464,6 +493,116 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                 PageIndex = pageIndex
             };
             return new ApiSuccessResult<PageResult<CollectionVm>>(listResult, "Success");
+        }
+
+        public async Task<ApiResult<List<CollectionVm>>> GetAll()
+        {
+            var collections = await _context.Collections.ToListAsync();
+
+            var rs = new List<CollectionVm>();
+
+            foreach (var collection in collections)
+            {
+                var listProductsCollection = await _context.ProductsCollections
+                    .Where(pc => pc.CollectionId == collection.CollectionId)
+                    .ToListAsync();
+
+                var listProductVm = new List<ProductVm>();
+
+                foreach (var item in listProductsCollection)
+                {
+                    try
+                    {
+                        var product = await _context.Products
+                            .Include(p => p.Images)
+                            .Include(p => p.SubGemDetails)
+                                .ThenInclude(sg => sg.SubGem)
+                            .Include(p => p.Category)
+                            .Include(p => p.Gem)
+                            .Include(p => p.Images)
+                            .FirstOrDefaultAsync(p => p.ProductId == item.ProductId);
+
+                        if (product == null)
+                        {
+                            return new ApiErrorResult<List<CollectionVm>>("Không tìm thấy sản phẩm");
+                        }
+
+                        var productVm = new ProductVm
+                        {
+                            ProductId = product.ProductId,
+                            ProductName = product.ProductName,
+                            Description = product.Description,
+                            ProductThumbnail = product.ProductThumbnail,
+                            IsHome = product.IsHome,
+                            IsSale = product.IsSale,
+                            PercentSale = product.PercentSale,
+                            Status = product.Status,
+                            SellingPrice = product.SellingPrice,
+                            OriginalPrice = product.OriginalPrice,
+                            CategoryVm = new CategoryVm
+                            {
+                                CategoryId = product.Category.CategoryId,
+                                CategoryName = product.Category.CategoryName,
+                                CategoryType = product.Category.CategoryType,
+                                CategoryImage = product.Category.CategoryImage,
+                                Status = product.Category.Status
+                            },
+                            Quantity = product.Quantity,
+                            GemVm = new GemVm
+                            {
+                                GemId = product.Gem.GemId,
+                                GemName = product.Gem.GemName,
+                                GemImage = product.Gem.GemImage,
+                                AcquisitionDate = product.Gem.AcquisitionDate,
+                                IsOrigin = product.Gem.IsOrigin,
+                                Active = product.Gem.Active,
+                                Fluoresence = product.Gem.Fluoresence,
+                                Polish = product.Gem.Polish,
+                                ProportionImage = product.Gem.ProportionImage,
+                                Symetry = product.Gem.Symetry
+                            }
+                        };
+
+                        if (product.Images != null)
+                        {
+                            var imagePaths = product.Images.Select(x => x.ImagePath).ToList();
+                            productVm.Images = imagePaths;
+                        }
+
+                        if (product.SubGemDetails != null)
+                        {
+                            productVm.ListSubGems = product.SubGemDetails.Select(x => new SubGemSupportDTO
+                            {
+                                SubGemId = x.SubGemId,
+                                Quantity = x.Quantity
+                            }).ToList();
+                        }
+
+                        listProductVm.Add(productVm);
+                    }
+                    catch (Exception ex)
+                    {
+                        return new ApiErrorResult<List<CollectionVm>>($"Lỗi khi lấy sản phẩm: {ex.Message}");
+                    }
+                }
+
+                // Tạo CollectionVm và gán ListProducts
+                var collectionVm = new CollectionVm
+                {
+                    CollectionId = collection.CollectionId,
+                    CollectionName = collection.CollectionName,
+                    Description = collection.Description,
+                    Thumbnail = collection.Thumbnail,
+                    Status = collection.Status,
+                    IsHome = collection.IsHome,
+                    priceDisplay = collection.priceDisplay,
+                    ListProducts = listProductVm
+                };
+
+                rs.Add(collectionVm);
+            }
+
+            return new ApiSuccessResult<List<CollectionVm>>(rs, "Success");
         }
 
     }

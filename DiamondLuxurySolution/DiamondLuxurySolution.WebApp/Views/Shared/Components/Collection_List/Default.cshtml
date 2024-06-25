@@ -1,0 +1,21 @@
+﻿@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Common
+@using DiamondLuxurySolution.ViewModel.Models.Collection
+@using DiamondLuxurySolution.ViewModel.Models.Product
+
+@model List<CollectionVm>
+@if (Model != null && Model.Count() > 0)
+{
+    <li id="colection" class="mainmenu__item menu-item-has-children has-children">
+        <a href="/Collection_Main/Index" class="mainmenu__link">Bộ Sưu Tập</a>
+        <ul class="sub-menu">
+            @foreach (var collection in Model)
+            {
+                <li>
+                    <a href="/Collection_List/Index?collectionId=@collection.CollectionId">@collection.CollectionName</a>
+                </li>
+            }
+        </ul>
+    </li>
+}
+

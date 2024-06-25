@@ -61,6 +61,20 @@
                 <input class="form-check-input f-18 ml-3" type="checkbox" asp-for="Status" value="@Model.Status" disabled style="opacity: 1" />
             </div>
         </dd>
+        <dt class="col-md-3">
+            Hiển thị trang chủ
+        </dt>
+        <dd class="col-md-9">
+            <div>
+                <input class="form-check-input f-18 ml-3" type="checkbox" asp-for="IsHome" value="@Model.IsHome" disabled style="opacity: 1" />
+            </div>
+        </dd>
+        <dt class="col-md-3">
+            Giá ước tính
+        </dt>
+        <dd class="col-md-9">
+            @Html.DisplayFor(model => model.priceDisplay)
+        </dd>
         @if (Model.ListProducts != null && Model.ListProducts.Count > 0)
         {
             <dt class="col-md-3">

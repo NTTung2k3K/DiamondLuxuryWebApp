@@ -392,7 +392,7 @@
 
 				var showProduct = true;
 
-				if (gem && productGem !== gem) {
+				if (gem && !productGem.includes(gem)) { 
 					showProduct = false;
 				}
 

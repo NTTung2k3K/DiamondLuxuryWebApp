@@ -17,6 +17,8 @@ namespace DiamondLuxurySolution.ViewModel.Models.Collection
         public string? Thumbnail { get; set; }
 
         public bool Status { get; set; }
+        public bool IsHome { get; set; }
+        public decimal priceDisplay { get; set; }
         public bool WantImgEmpty { get; set; }
         public string? Description { get; set; }
 

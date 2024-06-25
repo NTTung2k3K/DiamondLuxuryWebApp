@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace DiamondLuxurySolution.WebApp.Repository.Components.Home_DayChuyen
 {
-    public class Home_KimCuongViewComponent : ViewComponent
+    public class Home_DayChuyenViewComponent : ViewComponent
     {
         private readonly IProductApiService _productApiService;
         private readonly ISlideApiService _slideApiService;
 
-        public Home_KimCuongViewComponent(IProductApiService productApiService, ISlideApiService slideApiService)
+        public Home_DayChuyenViewComponent(IProductApiService productApiService, ISlideApiService slideApiService)
         {
             _productApiService = productApiService;
             _slideApiService = slideApiService;
@@ -22,7 +22,7 @@ namespace DiamondLuxurySolution.WebApp.Repository.Components.Home_DayChuyen
         {
             var status = await _productApiService.GetAll();
             var listSlide = await _slideApiService.GetAll();
-            ViewBag.ListSlide = listSlide;
+            ViewBag.listSlide = listSlide.ResultObj.ToList();
             return View(status.ResultObj.ToList());
         }
     }
