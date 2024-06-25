@@ -18,6 +18,7 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
         public Task<ApiResult<CollectionVm>> GetCollectionById(string CollectionId);
         public Task<ApiResult<PageResult<CollectionVm>>> ViewCollectionInPaging(ViewCollectionRequest request);
         public Task<ApiResult<List<ProductVm>>> GetProductsByListId(List<string> ListProductsId);
+        public Task<ApiResult<List<CollectionVm>>> GetAll();
 
     }
 }

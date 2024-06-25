@@ -278,6 +278,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         CollectionId = request.CollectionId,
                         Description = request.Description,
                         Status = request.Status,
+                        Thumbnail = request.Thumbnail.ToString(),
                     };
                     return View(collectionVm);
                 }

@@ -35,15 +35,26 @@
                     <label asp-for="Description" class="control-label mb-1 mt-3">Mô tả bộ sưu tập</label>
                     <input id="collectionDescription" type="text" asp-for="Description" class="form-control" />
                 </div>
+                <div class="form-group m-2">
+                    <label asp-for="priceDisplay" class="control-label m-2">Giá ước tính</label>
+                    <input id="priceDisplay" type="text" asp-for="priceDisplay" class="form-control" />
+                    <span asp-validation-for="priceDisplay" class="text-danger"></span>
+                </div>
                 <div class="form-group m-2 mt-2">
                     <label asp-for="Thumbnail" class="control-label mb-1 mt-3">Hình ảnh</label>
                     <input id="thumbnail" type="file" asp-for="Thumbnail" class="form-control" />
                     <span asp-validation-for="Thumbnail" class="text-danger"></span>
                 </div>
+
                 <div class="form-check form-switch m-4">
                     <label asp-for="Status" class="control-label m-1">Hiển thị</label>
                     <input id="isVisible" class="form-check-input f-18" type="checkbox" asp-for="Status">
                 </div>
+                <div class="form-check form-switch m-4">
+                    <label asp-for="IsHome" class="control-label m-1">Hiển thị trang chủ</label>
+                    <input id="IsHome" class="form-check-input f-18" type="checkbox" asp-for="IsHome">
+                </div>
+
                 <div class="form-group row col-md-12">
                     <div class="col-md-5 col-sm-5" style="align-self: center">
                         <input onclick="clearSessionStorage()" type="submit" value="Tạo mới" class="btn btn-success" />
@@ -189,21 +200,46 @@
             var collectionName = document.getElementById('collectionName').value;
             var collectionDescription = document.getElementById('collectionDescription').value;
             var isVisible = document.getElementById('isVisible').checked;
-            //var isVisibleCheckbox = document.getElementById('isVisible');
-            //var isVisible = isVisibleCheckbox.checked ? 'true' : 'false';
-            var fileInput = document.getElementById('thumbnail').value
-            
+            var priceDisplay = document.getElementById('priceDisplay').value;
+            var IsHome = document.getElementById('IsHome').checked;
+            var thumbnail = fileInput.files[0]; // Lấy file đã chọn
+            if (thumbnail && thumbnail.type === "image/png") {
+                // Bạn có thể lưu trữ một số thông tin về tệp, chẳng hạn như tên tệp, kích thước, loại tệp, v.v.
+                sessionStorage.setItem('thumbnailName', thumbnail.name);
+                sessionStorage.setItem('thumbnailSize', thumbnail.size);
+                sessionStorage.setItem('thumbnailType', thumbnail.type);
 
+                // Sử dụng FileReader để đọc nội dung của file nếu cần
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var imageDataUrl = e.target.result;
+                    sessionStorage.setItem('thumbnailDataUrl', imageDataUrl); // Lưu URL dữ liệu của ảnh vào sessionStorage
+                };
+                reader.readAsDataURL(thumbnail); // Đọc file như một URL dữ liệu
+            } else {
+                alert("Please upload a PNG file.");
+                return; // Dừng hàm nếu file không phải là PNG
+            }
+            // Kiểm tra xem có tệp được chọn hay không
+            if (thumbnail) {
+                // Bạn có thể lưu trữ một số thông tin về tệp, chẳng hạn như tên tệp, kích thước, loại tệp, v.v.
+                sessionStorage.setItem('thumbnailName', thumbnail.name);
+                sessionStorage.setItem('thumbnailSize', thumbnail.size);
+                sessionStorage.setItem('thumbnailType', thumbnail.type);
+            }
             sessionStorage.setItem('thumbnail', thumbnail);
             sessionStorage.setItem('collectionName', collectionName);
             sessionStorage.setItem('collectionDescription', collectionDescription);
             sessionStorage.setItem('isVisible', isVisible);
-            sessionStorage.setItem('thumbnail', thumbnail);
+            //sessionStorage.setItem('thumbnail', thumbnail);
+            sessionStorage.setItem('IsHome', IsHome);
+            sessionStorage.setItem('priceDisplay', priceDisplay);
         }
 
         window.onload = function () {
             debugger
-            if (sessionStorage.getItem('collectionName') || sessionStorage.getItem('collectionDescription') || sessionStorage.getItem('isVisible')) {
+            if (sessionStorage.getItem('collectionName') || sessionStorage.getItem('collectionDescription') || sessionStorage.getItem('isVisible')
+                || sessionStorage.getItem('IsHome') || sessionStorage.getItem('priceDisplay') || sessionStorage.getItem('thumbnailName') || sessionStorage.getItem('thumbnailSize') || sessionStorage.getItem('thumbnailType')) {
                 if (sessionStorage.getItem('collectionName')) {
                     document.getElementById('collectionName').value = sessionStorage.getItem('collectionName');
                 }
@@ -212,6 +248,21 @@
                 }
                 if (sessionStorage.getItem('isVisible')) {
                     document.getElementById('isVisible').checked = sessionStorage.getItem('isVisible') === 'true';
+                }
+                if (sessionStorage.getItem('IsHome')) {
+                    document.getElementById('IsHome').checked = sessionStorage.getItem('IsHome') === 'true';
+                }
+                if (sessionStorage.getItem('priceDisplay')) {
+                    document.getElementById('priceDisplay').value = sessionStorage.getItem('priceDisplay');
+                }
+                if (sessionStorage.getItem('thumbnailName')) {
+                    document.getElementById('thumbnail').value = sessionStorage.getItem('thumbnailName');
+                }
+                if (sessionStorage.getItem('thumbnailSize')) {
+                    document.getElementById('thumbnail').value = sessionStorage.getItem('thumbnailSize');
+                }
+                if (sessionStorage.getItem('thumbnailType')) {
+                    document.getElementById('thumbnail').value = sessionStorage.getItem('thumbnailType');
                 }
             } else {
                 clearSessionStorage();
@@ -223,6 +274,8 @@
             sessionStorage.removeItem('collectionDescription');
             sessionStorage.removeItem('isVisible');
             sessionStorage.removeItem('thumbnail');
+            sessionStorage.removeItem('IsHome');
+            sessionStorage.removeItem('priceDisplay');
         }
         $(document).ready(function () {
             var table = $('#sort').DataTable({

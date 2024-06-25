@@ -1,4 +1,5 @@
-﻿using DiamondLuxurySolution.WebApp.Service.Slide;
+﻿using DiamondLuxurySolution.WebApp.Service.Collection;
+using DiamondLuxurySolution.WebApp.Service.Slide;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.WebApp.Repository.Components.Slide
@@ -11,7 +12,6 @@ namespace DiamondLuxurySolution.WebApp.Repository.Components.Slide
         {
             _slideApiService = slideApiService;
         }
-        //Part Slide
         public async Task<IViewComponentResult> InvokeAsync()
         {
             var status = await _slideApiService.GetAll();

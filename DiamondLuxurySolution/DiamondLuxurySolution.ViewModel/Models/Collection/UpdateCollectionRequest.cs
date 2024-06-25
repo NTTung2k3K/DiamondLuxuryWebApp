@@ -18,10 +18,13 @@ namespace DiamondLuxurySolution.ViewModel.Models.Collection
 
         public string? Description { get; set; }
 
+        [Required(ErrorMessage = "Cần hình bộ sưu tập")]
         public IFormFile? Thumbnail { get; set; }
 
         public bool Status { get; set; }
         public bool WantImgEmpty { get; set; }
+        public bool IsHome { get; set; }
+        public string? priceDisplay { get; set; }
         public virtual ICollection<string> ListProductsIdAdd { get; set; } = new List<string>();
         public virtual ICollection<string> ListProductsIdDelete { get; set; } = new List<string>();
         public string? ProductId { get; set; }
