@@ -44,6 +44,14 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 }
 
                 var Product = await _productApiService.ViewProduct(request);
+                var listIdSelected = TempData["SaveSelectedIdIndexProductsCreate"] as string;
+                if (!string.IsNullOrEmpty(listIdSelected))
+                {
+                    // Chuyển đổi chuỗi thành danh sách các chuỗi
+                    var selectedIdsList = listIdSelected.Split(',').ToList();
+                    ViewBag.SelectedIdsIndexProductsCreateHold = selectedIdsList;
+                    Product.ResultObj.Items.RemoveAll(p => selectedIdsList.Contains(p.ProductId));
+                }
                 return View(Product.ResultObj);
             }
             catch
@@ -65,20 +73,25 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             return RedirectToAction("Create");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveSelectedIdIndexProductsCreate(string listIdSelected)
+        {
+            try
+            {
+                TempData["SaveSelectedIdIndexProductsCreate"] = listIdSelected;
+                return RedirectToAction("IndexProductsCreate", "Collection");
+            }
+            catch (Exception)
+            {
+                return View();
+            }
+        }
         [HttpPost]
         public async Task<IActionResult> SaveSelectedIdCreate(string selectedIds)
         {
             try
             {
-                /*CookieOptions option = new CookieOptions
-                {
-                    Path = "/Collection/Create",
-                    Expires = DateTime.UtcNow.AddDays(-1), // Đặt thời gian hết hạn trong quá khứ
-                    SameSite = SameSiteMode.Strict
-                };
-                HttpContext.Response.Cookies.Append("SelectedIds", selectedIds, option);*/
-                /*                HttpContext.Session.SetString("SelectedIds", selectedIds);
-                */
                 TempData["SelectedIdsCreate"] = selectedIds;
                 return RedirectToAction("Create", "Collection");
             }
@@ -185,6 +198,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     // Chuyển đổi chuỗi thành danh sách các chuỗi
                     var selectedIdsList = listIdSelected.Split(',').ToList();
+                    ViewBag.SelectedIdsIndexProductsUpdateHold = selectedIdsList;
                     Product.ResultObj.Items.RemoveAll(p => selectedIdsList.Contains(p.ProductId));
                 }
                 return View(Product.ResultObj);
@@ -232,7 +246,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 var collection = await _collectionApiService.GetCollectionById(collectionIdFinal);
                 if (listProductsAdd.Any())
                 {
-                    collection.ResultObj.ListProducts.AddRange(listProductsAdd);
+                    collection.ResultObj.ListProducts = listProductsAdd;
                 }
                 if (collection is ApiErrorResult<CollectionVm> errorResult)
                 {
@@ -266,7 +280,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             try
             {
                 var collection = await _collectionApiService.GetCollectionById(request.CollectionId);
-
                 HttpContext.Session.Remove("CollectionId");
                 if (request.CollectionName == "null")
                 {

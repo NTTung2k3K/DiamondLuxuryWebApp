@@ -143,7 +143,7 @@
         }
     </dl>
     <div class="row col-md-12">
-        <div class="col-md-6" >
+        <div class="col-md-6">
             @Html.ActionLink("Chỉnh sửa", "Edit", new { CollectionId = Model.CollectionId }, new { @class = "btn btn-warning", @style = "height: 50px; line-height: 30px;" })
         </div>
         <div class="col-md-6" style="display:flex; justify-content: flex-end;">
@@ -178,20 +178,19 @@
 @section Scripts {
     <script type="text/javascript" charset="utf8" src="~/assets/js/Test.js"></script>
     <script>
-        $(document).ready(function () {
-            $('#sort').DataTable({
-                "ordering": false,
-                "pagingType": "full_numbers",
-                "language": {
-                    "paginate": {
-                        "next": "Next",
-                        "previous": "Previous",
-                        "First": false
-                    }
-                },
-                "pageLength": 2,
-                "lengthMenu": [[2, 4, 6, 8, -1], [2, 4, 6, 8, "All"]]
-            });
+        /*$(document).ready(function () { }*/
+        $('#sort').DataTable({
+            "ordering": false,
+            "pagingType": "full_numbers",
+            "language": {
+                "paginate": {
+                    "next": "Next",
+                    "previous": "Previous",
+                    "First": false
+                }
+            },
+            "pageLength": 2,
+            "lengthMenu": [[2, 4, 6, 8, -1], [2, 4, 6, 8, "All"]]
         });
     </script>
 }

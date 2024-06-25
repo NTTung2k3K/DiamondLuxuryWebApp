@@ -33,11 +33,10 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                 foreach (var property in properties)
                 {
                     var propertyValue = property.GetValue(obj);
-                    if (propertyValue != null) 
+                    if (propertyValue != null)
                     {
                         if (propertyValue is IFormFile formFile)
                         {
-                            // Handle IFormFile
                             if (formFile.Length > 0)
                             {
                                 using (var stream = new MemoryStream())
@@ -82,7 +81,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                             multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
                         }
                     }
-                    
                 }
                 // Post the content
                 var response = await client.PostAsync(url, multipartFormDataContent);
@@ -407,7 +405,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                 foreach (var property in properties)
                 {
                     var propertyValue = property.GetValue(obj);
-
                     if (propertyValue != null)
                     {
                         if (propertyValue is IFormFile formFile)
@@ -456,7 +453,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                             multipartFormDataContent.Add(new StringContent(stringContent, Encoding.UTF8, "application/json"), property.Name);
                         }
                     }
-                    
                 }
 
                 // Put the content
