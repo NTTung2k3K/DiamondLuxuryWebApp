@@ -1450,7 +1450,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 298,
-          "SelectedChildIndex": 12,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Document",
@@ -1484,19 +1484,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\Views\\Search\\Index.cshtml",
-              "RelativeDocumentMoniker": "DiamondLuxurySolution.WebApp\\Views\\Search\\Index.cshtml",
-              "ToolTip": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\Views\\Search\\Index.cshtml",
-              "RelativeToolTip": "DiamondLuxurySolution.WebApp\\Views\\Search\\Index.cshtml",
-              "ViewState": "AQIAAMwBAAAAAAAAAAAlwOYBAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-25T05:45:31.559Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -1571,9 +1558,22 @@
               "RelativeDocumentMoniker": "DiamondLuxurySolution.AdminCrewApp\\Controllers\\FrameController.cs",
               "ToolTip": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.AdminCrewApp\\Controllers\\FrameController.cs",
               "RelativeToolTip": "DiamondLuxurySolution.AdminCrewApp\\Controllers\\FrameController.cs",
-              "ViewState": "AQIAABkBAAAAAAAAAAAlwCcBAAAIAAAA",
+              "ViewState": "AQIAABwBAAAAAAAAAAAlwCcBAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-11T07:15:33.327Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\Views\\Search\\Index.cshtml",
+              "RelativeDocumentMoniker": "DiamondLuxurySolution.WebApp\\Views\\Search\\Index.cshtml",
+              "ToolTip": "D:\\Hoc_Ki_5\\SWP391\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\Views\\Search\\Index.cshtml",
+              "RelativeToolTip": "DiamondLuxurySolution.WebApp\\Views\\Search\\Index.cshtml",
+              "ViewState": "AQIAAMwBAAAAAAAAAAAlwOYBAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-06-25T05:45:31.559Z",
               "EditorCaption": ""
             },
             {
