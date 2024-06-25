@@ -29,7 +29,7 @@
             <div class="col-xl-12" style="text-align:center; margin-top: 29px">
                 <div class="card" style="border: 1px solid #ccc">
                     <div class="card-header" style="padding:12.8px 12px; border-bottom: 1px solid #ccc">
-                        <h4 style ="margin: 0">Danh sách sản phẩm</h4>
+                        <h4 style="margin: 0">Danh sách sản phẩm</h4>
                     </div>
                     <div class="card-body table-border-style">
                         <div class="datatable-container">
@@ -51,10 +51,10 @@
                                             <label>Sale</label>
                                             <label onclick="sortTable(4)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                                         </th>
-                                       @*  <th>
-                                            <label>Trạng thái</label>
-                                            <label onclick="sortTable(5)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
-                                        </th> *@
+                                        @*  <th>
+                                    <label>Trạng thái</label>
+                                    <label onclick="sortTable(5)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
+                                    </th> *@
                                         <th>
                                             <label>Số lượng</label>
                                             <label onclick="sortTable(6)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
@@ -83,30 +83,30 @@
                                             }
                                             <td>@item.PercentSale<span>%</span></td>
 
-                                           @*  @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString()))
-                                            {
-                                                <td>
-                                                    <span class="badge bg-gray-500 rounded-pill">Hết hàng</span>
-                                                </td>
-                                            }
-                                            @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()))
-                                            {
-                                                <td>
-                                                    <span class="badge bg-success rounded-pill">Đang bán</span>
-                                                </td>
-                                            }
-                                            @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Sales.ToString()))
-                                            {
-                                                <td>
-                                                    <span class="badge bg-red-500 rounded-pill">Đang Sale</span>
-                                                </td>
-                                            }
-                                            @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))
-                                            {
-                                                <td>
-                                                    <span class="badge bg-yellow-500 rounded-pill">Sắp có hàng</span>
-                                                </td>
-                                            } *@
+                                            @*  @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString()))
+                                    {
+                                    <td>
+                                    <span class="badge bg-gray-500 rounded-pill">Hết hàng</span>
+                                    </td>
+                                    }
+                                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()))
+                                    {
+                                    <td>
+                                    <span class="badge bg-success rounded-pill">Đang bán</span>
+                                    </td>
+                                    }
+                                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Sales.ToString()))
+                                    {
+                                    <td>
+                                    <span class="badge bg-red-500 rounded-pill">Đang Sale</span>
+                                    </td>
+                                    }
+                                    @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))
+                                    {
+                                    <td>
+                                    <span class="badge bg-yellow-500 rounded-pill">Sắp có hàng</span>
+                                    </td>
+                                    } *@
                                             <td>@item.Quantity</td>
                                         </tr>
                                     }
@@ -128,7 +128,7 @@
     {
         <h1>Không tồn tại sản phẩm trong hệ thống</h1>
         <div style="display: flex; justify-content: flex-end">
-            <a asp-action="Create" class="btn btn-secondary">Trở lại trang tạo bộ sưu tập</a>
+            <button id="submitBackBtn" class="btn btn-secondary">Trở lại trang tạo bộ sưu tập</button>
         </div>
     }
 </body>
@@ -137,8 +137,16 @@
 {
     <script type="text/javascript" charset="utf8" src="~/assets/js/Test.js"></script>
     <script>
+        debugger
+        var selectedIdsHold = @Html.Raw(Json.Serialize(ViewBag.SelectedIdsIndexProductsCreateHold));
         var selectedIds = [];
+        if (selectedIdsHold != null) {
+            for (var i = 0; i < selectedIdsHold.length; i++) {
+                selectedIds.push(selectedIdsHold[i]);
+            }
+        }
 
+        console.log(selectedIds);
         function saveSelectedIds(ProductId) {
             debugger
             var id = ProductId;
@@ -171,7 +179,7 @@
             });
 
 
-            $('#submitBtn').click(function () {
+            $('#submitBtn, #submitBackBtn').click(function () {
                 debugger
                 var form = $('<form action="/Collection/SaveSelectedIdCreate" method="POST">' +
                     '<input type="hidden" name="selectedIds" value="' + selectedIds + '" />' +

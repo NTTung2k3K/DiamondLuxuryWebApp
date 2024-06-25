@@ -95,7 +95,7 @@
                     <label asp-for="IsHome" class="control-label mt-1">Hiển thị trang chủ</label>
                     <input class="form-check-input f-18" type="checkbox" asp-for="IsHome">
                 </div>
-                
+
                 @* @foreach (var product in Model.ListProducts)
             {
             <input type="hidden" name="ListProductsIdUpdate" value="@product.ProductId" /> <!-- Tạo input ẩn cho mỗi ID sản phẩm -->
@@ -270,7 +270,6 @@ else
             $('#IndexUpdate').click(function () {
                 debugger
                 var allProductIds = [];
-                // Lấy tất cả các hàng từ tất cả các trang
                 table.rows().every(function () {
                     var row = $(this.node());
                     var productId = row.find('input[name="ListProductsId"]').val();
