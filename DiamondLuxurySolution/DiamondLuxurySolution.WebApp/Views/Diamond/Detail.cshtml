@@ -477,7 +477,7 @@
                 contentType: 'application/json',
                 data: JSON.stringify(cartItem),
                 success: function (response) {
-                    alert(response.message);
+                    window.location.href = '/Cart/View';
                 },
                 error: function (xhr, status, error) {
                     alert("An error occurred while adding the item to the cart.");
