@@ -9,7 +9,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Warranty
 		public Task<ApiResult<bool>> CreateWarranty(CreateWarrantyRequest request);
 		public Task<ApiResult<bool>> UpdateWarranty(UpdateWarrantyRequest request);
 		public Task<ApiResult<bool>> DeleteWarranty(DeleteWarrantyRequest request);
-		public Task<ApiResult<WarrantyVm>> GetWarrantyById(Guid WarrantyId);
+		public Task<ApiResult<WarrantyVm>> GetWarrantyById(string WarrantyId);
 		public Task<ApiResult<PageResult<WarrantyVm>>> ViewWarrantyInCustomer(ViewWarrantyRequest request);
 
 		public Task<ApiResult<PageResult<WarrantyVm>>> ViewWarrantyInManager(ViewWarrantyRequest request);

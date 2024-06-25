@@ -37,8 +37,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Services
                     {
                         if (propertyValue is IFormFile formFile)
                         {
-                            // Handle IFormFile
-
                             if (formFile.Length > 0)
                             {
                                 using (var stream = new MemoryStream())

@@ -150,11 +150,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     listError.Add(errorResult.Message);
                 }
+                TempData["WarningToast"] = true;
                 ViewBag.Errors = listError;
                 return View();
 
             }
-            TempData["SuccessMsg"] = "Create success for Role " + request.CollectionName;
+            TempData["SuccessToast"] = true;
             return RedirectToAction("Index", "Collection");
         }
 
@@ -261,6 +262,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         listError.Add(errorResult.Message);
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
                 }
@@ -268,6 +270,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -276,6 +279,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
+                var collection = await _collectionApiService.GetCollectionById(request.CollectionId);
                 HttpContext.Session.Remove("CollectionId");
                 if (request.CollectionName == "null")
                 {
@@ -288,6 +292,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         CollectionId = request.CollectionId,
                         Description = request.Description,
                         Status = request.Status,
+                        Thumbnail = collection.ResultObj.Thumbnail,
                     };
                     return View(collectionVm);
                 }
@@ -326,11 +331,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     TempData["SuccessMessage"] = "Cập nhật bộ sưu tập thành công!";
                 }
-
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Edit", "Collection", new { CollectionId = request.CollectionId });
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -384,6 +390,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -392,6 +399,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -416,6 +424,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -424,6 +433,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -448,15 +458,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Collection");
 
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }

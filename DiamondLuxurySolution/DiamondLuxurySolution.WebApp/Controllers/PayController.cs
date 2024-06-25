@@ -520,7 +520,10 @@ namespace DiamondLuxurySolution.WebApp.Controllers
             var listPromotion = await _promotionApiService.GetAll();
             ViewBag.ListPromotionOnTime = listPromotion.ResultObj;
 
-
+            if (listPromotion.ResultObj != null && listPromotion.ResultObj.Count > 0)
+            {
+                ViewBag.FistPromotion = listPromotion.ResultObj.First().DiscountPercent;
+            }
             var listOrderProduct = CartSessionHelper.GetCart();
             var listOrderProductVm = new List<OrderProductSupport>();
             foreach (var item in listOrderProduct)

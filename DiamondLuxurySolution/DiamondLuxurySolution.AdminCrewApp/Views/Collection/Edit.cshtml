@@ -82,10 +82,6 @@
                         <input asp-for="Thumbnail" class="form-control" type="file" value="@Model.Thumbnail" />
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <label asp-for="WantImgEmpty" class="control-label mt-1">Để trống ảnh</label>
-                    <input class="form-check-input f-18" type="checkbox" asp-for="WantImgEmpty">
-                </div>
                 <div class="form-check form-switch m-4">
                     <label asp-for="Status" class="control-label mt-1">Hiển thị</label>
                     <input class="form-check-input f-18" type="checkbox" asp-for="Status">
@@ -250,52 +246,51 @@ else
                 alert.close();
             }
         }, 5000);
-        $(document).ready(function () {
-            var table = $('#sort').DataTable({
-                "ordering": false,
-                "searching": false,
-                "pagingType": "full_numbers",
-                "language": {
-                    "paginate": {
-                        "next": "Next",
-                        "previous": "Previous",
-                        "First": false
-                    }
-                },
-                "pageLength": 1,
-                "lengthMenu": [[1, 5, -1], [1, 5, "All"]]
-            });
+        /*$(document).ready(function () { }*/
+        var table = $('#sort').DataTable({
+            "ordering": false,
+            "searching": false,
+            "pagingType": "full_numbers",
+            "language": {
+                "paginate": {
+                    "next": "Next",
+                    "previous": "Previous",
+                    "First": false
+                }
+            },
+            "pageLength": 1,
+            "lengthMenu": [[1, 5, -1], [1, 5, "All"]]
+        });
 
-            var selectedIds = [];
-            $('#IndexUpdate').click(function () {
-                debugger
-                var allProductIds = [];
-                table.rows().every(function () {
-                    var row = $(this.node());
-                    var productId = row.find('input[name="ListProductsId"]').val();
-                    allProductIds.push(productId);
-                });
-                //$('input[name="ListProductsIdAdd"]').each(function () {
-                //    selectedIds.push($(this).val());
-                //});
-                var form = $('<form action="/Collection/SaveSelectedIdIndexProductsUpdate" method="POST"></form>');
-                var input = $('<input type="hidden" name="listIdSelected" />').val(allProductIds.join(','));
-                form.append(input);
-                $('body').append(form);
-                form.submit();
+        var selectedIds = [];
+        $('#IndexUpdate').click(function () {
+            debugger
+            var allProductIds = [];
+            table.rows().every(function () {
+                var row = $(this.node());
+                var productId = row.find('input[name="ListProductsId"]').val();
+                allProductIds.push(productId);
             });
-            $('#collectionForm').on('submit', function () {
-                debugger
-                var allProductIds = [];
-                // Lấy tất cả các hàng từ tất cả các trang
-                table.rows().every(function () {
-                    var row = $(this.node());
-                    var productId = row.find('input[name="ListProductsId"]').val();
-                    allProductIds.push(productId);
-                });
-                // Gán giá trị vào input ẩn
-                $('#ListProductsIdAdd').val(allProductIds.join(','));
+            //$('input[name="ListProductsIdAdd"]').each(function () {
+            //    selectedIds.push($(this).val());
+            //});
+            var form = $('<form action="/Collection/SaveSelectedIdIndexProductsUpdate" method="POST"></form>');
+            var input = $('<input type="hidden" name="listIdSelected" />').val(allProductIds.join(','));
+            form.append(input);
+            $('body').append(form);
+            form.submit();
+        });
+        $('#collectionForm').on('submit', function () {
+            debugger
+            var allProductIds = [];
+            // Lấy tất cả các hàng từ tất cả các trang
+            table.rows().every(function () {
+                var row = $(this.node());
+                var productId = row.find('input[name="ListProductsId"]').val();
+                allProductIds.push(productId);
             });
+            // Gán giá trị vào input ẩn
+            $('#ListProductsIdAdd').val(allProductIds.join(','));
         });
 
         var selectedIdsDelete = [];

@@ -117,8 +117,9 @@
                             <div class="tab-pane fade" id="accountdetails">
                                 <div class="account-form bg--2">
                                     <div class="text-center mb--20">
-                                        <p>Xin chào <strong style="color:#a8741a">@Context.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_NAME)</strong></p>
-                                    </div>
+                                            <p>Xin chào <strong style="color:#a8741a">@Context.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_NAME)</strong></p>
+                                            <p><span> Số điểm hiện tại: <span style="color:#a8741a">@ViewBag.CusPoint</span></span></p>
+                                        </div>
                                     @if (ViewBag.Errors != null)
                                     {
                                         foreach (var error in ViewBag.Errors)

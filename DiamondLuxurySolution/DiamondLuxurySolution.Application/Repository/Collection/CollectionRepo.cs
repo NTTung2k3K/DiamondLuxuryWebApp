@@ -172,6 +172,8 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                         IsSale = product.IsSale,
                         PercentSale = product.PercentSale,
                         Status = product.Status,
+                        SellingPrice = product.SellingPrice,
+                        OriginalPrice = product.OriginalPrice,
                         CategoryVm = new CategoryVm
                         {
                             CategoryId = product.Category.CategoryId,
@@ -291,10 +293,6 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
             {
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Thumbnail);
                 collection.Thumbnail = firebaseUrl;
-            }
-            if (request.WantImgEmpty)
-            {
-                collection.Thumbnail = "";
             }
             collection.CollectionName = request.CollectionName;
             collection.Status = request.Status;
@@ -539,6 +537,8 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                             IsSale = product.IsSale,
                             PercentSale = product.PercentSale,
                             Status = product.Status,
+                            SellingPrice = product.SellingPrice,
+                            OriginalPrice = product.OriginalPrice,
                             CategoryVm = new CategoryVm
                             {
                                 CategoryId = product.Category.CategoryId,

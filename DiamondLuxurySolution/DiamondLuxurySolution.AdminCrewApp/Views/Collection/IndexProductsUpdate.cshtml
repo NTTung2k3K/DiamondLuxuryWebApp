@@ -161,7 +161,7 @@
         $('input[name="selectedIds"]').change(saveSelectedIds);
 
         // Library
-        $(document).ready(function () {
+        /*$(document).ready(function () { }*/
             $('#sort').DataTable({
                 "ordering": false,
                 "pagingType": "full_numbers",
@@ -185,7 +185,6 @@
                 $('body').append(form);
                 form.submit();
             });
-        });
         /*$('#submitBtn').click(function () {
         debugger
         $.ajax({

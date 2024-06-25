@@ -68,6 +68,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         listError.Add(errorResult.Message);
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -76,6 +77,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -106,6 +108,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -130,6 +133,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -144,6 +148,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 var listRoleAll = await _roleApiService.GetRolesForView();
                 ViewBag.ListRoleAll = listRoleAll.ResultObj.ToList();
 
+                var staff = await _staffApiService.GetStaffById(request.StaffId);
 
                 if (!ModelState.IsValid)
                 {
@@ -165,12 +170,14 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         PhoneNumber = request.PhoneNumber,
                         RoleId = request.RoleId,
                         StaffId = request.StaffId,
-                        Status = request.Status
+                        Status = request.Status,
+                        Image = staff.ResultObj.Image
                     };
                     if(listRoleName.Count > 0)
                     {
                         staffVm.ListRoleName = listRoleName;
                     }
+                    TempData["WarningToast"] = true;
                     return View(staffVm);
                 }
 
@@ -216,14 +223,16 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         staffVm.ListRoleName = listRoleName;
                     }
+                    TempData["WarningToast"] = true;
                     return View(staffVm);
 
                 }
-
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Admin");
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View(request);
             }
         }
@@ -250,6 +259,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -258,6 +268,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -283,16 +294,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         listError.Add(errorResult.Message);
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
-
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Admin");
 
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }

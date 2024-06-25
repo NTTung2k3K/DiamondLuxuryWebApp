@@ -39,6 +39,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Order
         [DisplayName("Trạng thái đơn hàng")]
         public string Status { get; set; }
         [DisplayName("Số tiền trả trước")]
+        [Range(0, (double)decimal.MaxValue, ErrorMessage = "Giá đặc cọc phải có giá lớn hơn hoặc bằng 0")]
         public decimal? Deposit { get; set; }
         public string? ListOrderProductJson { get; set; }
         public Guid? StaffId { get; set; }

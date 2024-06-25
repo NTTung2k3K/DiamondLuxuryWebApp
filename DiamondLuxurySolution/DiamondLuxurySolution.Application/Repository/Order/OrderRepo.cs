@@ -145,6 +145,20 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 return new ApiErrorResult<string>("Đơn hàng cần có sản phẩm, vui lòng chọn sản phẩm");
 
             }
+            foreach (var product in request.ListOrderProduct)
+            {
+                var productEntity = await _context.Products.FindAsync(product.ProductId);
+                if (productEntity == null)
+                {
+                    return new ApiErrorResult<string>("Không tìm thấy sản phẩm");
+                }
+                var validQuantity = productEntity.Quantity - product.Quantity;
+                if (validQuantity < 0)
+                {
+                    return new ApiErrorResult<string>($"Không đủ hàng cho sản phẩm: {productEntity.ProductId} | {productEntity.ProductName} | Số lượng: {productEntity.Quantity}");
+                }
+            }
+
             Random rd = new Random();
             string orderId = GenerateOrderId(rd);
 
@@ -293,7 +307,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             if (request.PromotionId != null)
             {
                 var promotion = await _context.Promotions.FindAsync(request.PromotionId);
-                if (promotion != null && promotion.StartDate.Date <= DateTime.Now.Date && DateTime.Now.Date <= promotion.EndDate.Date)
+                if (promotion != null && promotion.StartDate.Date <= DateTime.Now.Date && DateTime.Now.Date <= promotion.EndDate.Date && promotion.Status)
                 {
                     decimal discountPrice = (decimal)totalPrice * (decimal)(promotion.DiscountPercent / 100);
                     if (discountPrice > promotion.MaxDiscount)
@@ -327,7 +341,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             if (request.PromotionId != null)
             {
                 var promotion = await _context.Promotions.FindAsync(request.PromotionId);
-                if (promotion != null && promotion.StartDate.Date <= DateTime.Now.Date && DateTime.Now.Date <= promotion.EndDate.Date)
+                if (promotion != null && promotion.StartDate.Date <= DateTime.Now.Date && DateTime.Now.Date <= promotion.EndDate.Date && promotion.Status)
                 {
                     decimal discountPrice = (decimal)totalPrice * (decimal)(promotion.DiscountPercent / 100);
                     if (discountPrice > promotion.MaxDiscount)
@@ -361,7 +375,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             if (request.PromotionId != null)
             {
                 var promotion = await _context.Promotions.FindAsync(request.PromotionId);
-                if (promotion != null && promotion.StartDate.Date <= DateTime.Now.Date && DateTime.Now.Date <= promotion.EndDate.Date)
+                if (promotion != null && promotion.StartDate.Date <= DateTime.Now.Date && DateTime.Now.Date <= promotion.EndDate.Date && promotion.Status)
                 {
                     decimal discountPrice = (decimal)totalPrice * (decimal)(promotion.DiscountPercent / 100);
                     if (discountPrice > promotion.MaxDiscount)
@@ -449,6 +463,19 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             {
                 return new ApiErrorResult<bool>("Đơn hàng cần có sản phẩm, vui lòng chọn sản phẩm");
 
+            }
+            foreach (var product in request.ListOrderProduct)
+            {
+                var productEntityCheck = await _context.Products.FindAsync(product.ProductId);
+                if (productEntityCheck == null)
+                {
+                    return new ApiErrorResult<bool>("Không tìm thấy sản phẩm");
+                }
+                var validQuantity = productEntityCheck.Quantity - product.Quantity;
+                if (validQuantity < 0)
+                {
+                    return new ApiErrorResult<bool>($"Không đủ hàng cho sản phẩm: {productEntityCheck.ProductId} | {productEntityCheck.ProductName} | Số lượng: {productEntityCheck.Quantity}");
+                }
             }
             Random rd = new Random();
             string orderId = GenerateOrderId(rd);
@@ -631,7 +658,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
 
 
 
-                    if (request.ShipAdress != null)
+                    if (request.ShipAdress != null && !request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress) && !request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled))
                     {
                         order.isShip = true;
                         var shipper = await AssignShipper();
@@ -915,6 +942,35 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     return new ApiErrorResult<bool>("Sản phẩm bị trùng, vui lòng chọn lại");
                 }
             }
+            // Check valid quantity
+            var listCheck = new List<OrderProductSupport>();
+            foreach (var product in request.ListOrderProduct)
+            {
+                listCheck.Add(product);
+            }
+            foreach (var product in request.ListExistOrderProduct)
+            {
+                listCheck.Add(product);
+            }
+
+
+            foreach (var product in listCheck)
+            {
+                var productEntityCheck = await _context.Products.FindAsync(product.ProductId);
+                if (productEntityCheck == null)
+                {
+                    return new ApiErrorResult<bool>("Không tìm thấy sản phẩm");
+                }
+                var validQuantity = productEntityCheck.Quantity - product.Quantity;
+                if (validQuantity < 0)
+                {
+                    return new ApiErrorResult<bool>($"Không đủ hàng cho sản phẩm: {productEntityCheck.ProductId} | {productEntityCheck.ProductName} | Số lượng: {productEntityCheck.Quantity}");
+                }
+            }
+
+            // End check valid 
+
+
 
             order.ShipAdress = request.ShipAdress;
             order.ShipPhoneNumber = request.PhoneNumber;
@@ -1190,7 +1246,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 listPayment.ForEach(x => x.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString());
             }
 
-            if (request.ShipAdress != null && request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Shipping.ToString()))
+            if (request.ShipAdress != null && !request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()) && !request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()))
             {
                 order.isShip = true;
                 order.ShipperId = await AssignShipper();
@@ -1204,7 +1260,8 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             await _context.SaveChangesAsync();
 
             //Process selling Count
-            if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString())){
+            if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
+            {
                 var orderDetailSellingCount = await _context.OrderDetails.Where(x => x.OrderId == order.OrderId).ToListAsync();
                 foreach (var item in orderDetailSellingCount)
                 {
@@ -1214,6 +1271,56 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         return new ApiErrorResult<bool>($"Không tìm thấy sản phẩm");
                     }
                     product.SellingCount += item.Quantity;
+                }
+
+                var point = (int)total / 10000;
+                var customer = await _userMananger.FindByIdAsync(cusId.ToString());
+
+                customer.Point = (int?)(customer?.Point + point);
+
+                //Product Quantity
+
+                foreach (var item in orderDetailSellingCount)
+                {
+                    var product = await _context.Products.FindAsync(item.ProductId);
+                    if (product == null)
+                    {
+                        return new ApiErrorResult<bool>($"Không tìm thấy sản phẩm");
+                    }
+                    product.Quantity -= item.Quantity;
+                    if (product.Quantity < 0)
+                    {
+                        return new ApiErrorResult<bool>($"Sản phẩm {product.ProductId} | {product.ProductName} đã hết hàng");
+                    }
+                    if (product.Quantity == 0)
+                    {
+                        product.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString();
+                    }
+                }
+
+
+            }
+            if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Confirmed.ToString()))
+            {
+                //Update product quantity
+                var listProduct = _context.OrderDetails.Where(x => x.OrderId == order.OrderId);
+
+                foreach (var item in listProduct)
+                {
+                    var product = await _context.Products.FindAsync(item.ProductId);
+                    if (product == null)
+                    {
+                        return new ApiErrorResult<bool>($"Không tìm thấy sản phẩm");
+                    }
+                    product.Quantity -= item.Quantity;
+                    if (product.Quantity < 0)
+                    {
+                        return new ApiErrorResult<bool>($"Sản phẩm {product.ProductId} | {product.ProductName} đã hết hàng");
+                    }
+                    if (product.Quantity == 0)
+                    {
+                        product.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString();
+                    }
                 }
             }
 
@@ -1247,17 +1354,27 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             {
                 return new ApiErrorResult<string>("Không tìm thấy đơn hàng");
             }
-
-            order.ShipperId = await AssignShipper();
-
-            if (order.ShipperId == null)
+            if (string.IsNullOrEmpty(order.ShipAdress))
             {
-                return new ApiErrorResult<string>("Chưa có nhân viên giao hàng");
+                return new ApiErrorResult<string>("Chưa có địa chỉ giao hàng");
             }
-            var shipper = await _userMananger.FindByIdAsync(order.ShipperId.ToString());
-            await _context.SaveChangesAsync();
-            return
-                new ApiSuccessResult<string>(shipper.Fullname, "Success");
+            if (!order.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress) && !order.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled))
+            {
+                order.ShipperId = await AssignShipper();
+
+                if (order.ShipperId == null)
+                {
+                    return new ApiErrorResult<string>("Chưa có nhân viên giao hàng");
+                }
+                var shipper = await _userMananger.FindByIdAsync(order.ShipperId.ToString());
+                await _context.SaveChangesAsync();
+                return new ApiSuccessResult<string>(shipper.Fullname, "Success");
+            }
+            else
+            {
+                return new ApiErrorResult<string>("Đơn hàng ở trạng thái không phù hợp");
+            }
+
         }
 
         public async Task<ApiResult<PageResult<OrderVm>>> ViewOrder(ViewOrderRequest request)
@@ -1482,7 +1599,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
         public async Task<ApiResult<List<OrderVm>>> RecentSuccessTransaction()
         {
             var orders = await _context.Orders.Include(x => x.Customer).Include(x => x.OrdersPayment).ThenInclude(x => x.Payment).Where(order => order.OrdersPayment.Any(payment => payment.Status == DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
-     .OrderByDescending(y => y.OrderDate).Take(8)
+        .OrderByDescending(y => y.OrderDate).Take(8)
                 .ToListAsync();
 
             List<OrderVm> listOrderVm = new List<OrderVm>();
@@ -1528,7 +1645,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
         public async Task<ApiResult<List<OrderVm>>> RecentWaitTransaction()
         {
             var orders = await _context.Orders.Include(x => x.Customer).Include(x => x.OrdersPayment).ThenInclude(x => x.Payment).Where(order => order.OrdersPayment.Any(payment => payment.Status == DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString()))
-     .OrderByDescending(y => y.OrderDate).Take(8)
+        .OrderByDescending(y => y.OrderDate).Take(8)
                 .ToListAsync();
 
             List<OrderVm> listOrderVm = new List<OrderVm>();
@@ -1574,7 +1691,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
         public async Task<ApiResult<List<OrderVm>>> RecentFailTransaction()
         {
             var orders = await _context.Orders.Include(x => x.Customer).Include(x => x.OrdersPayment).ThenInclude(x => x.Payment).Where(order => order.OrdersPayment.Any(payment => payment.Status == DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
-     .OrderByDescending(y => y.OrderDate).Take(8)
+        .OrderByDescending(y => y.OrderDate).Take(8)
                 .ToListAsync();
 
             List<OrderVm> listOrderVm = new List<OrderVm>();
