@@ -55,7 +55,7 @@
                     <label>Số điện thoại</label>
                 </th>
                 <th>
-                    <label>Tổng tiền</label>
+                    <label>Ngày đặt</label>
                 </th>
                 <th>
                     <label>Trạng thái</label>
@@ -70,7 +70,7 @@
                     <td>@item.OrderId</td>
                     <td>@item.ShipName</td>
                     <td>@item.ShipPhoneNumber</td>
-                    <td>@item.TotalAmount.ToString("N0")₫</td>
+                    <td>@item.DateCreated.Value.Date</td>
                     @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()))
                     {
                         <td>

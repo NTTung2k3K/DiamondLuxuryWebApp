@@ -20,6 +20,7 @@ using Rotativa;
 using HtmlToPdfMaster;
 using Microsoft.VisualBasic.FileIO;
 using PdfSharp;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
@@ -183,6 +184,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     ShipAdress = Order.ResultObj.ShipAdress,
                     ListPaymentId = listPaymentExist,
                 };
+                if(updateVm.Deposit != null)
+                {
+                    updateVm.Deposit = (int)updateVm.Deposit;
+                }
+
                 return View(updateVm);
             }
             catch
@@ -261,6 +267,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         listError.Add(errorResult.Message);
                     }
                     ViewBag.Errors = listError;
+
+                    if (request.Deposit != null)
+                    {
+                        request.Deposit = (int)request.Deposit;
+                    }
                     return View(request);
                 }
 

@@ -139,6 +139,230 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
         }
 
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin)]
+
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid StaffId)
+        {
+            try
+            {
+                var statuses = Enum.GetValues(typeof(StaffStatus)).Cast<StaffStatus>().ToList();
+                ViewBag.ListStatus = statuses;
+
+                var listRoleAll = await _roleApiService.GetRolesForView();
+                ViewBag.ListRoleAll = listRoleAll.ResultObj.ToList();
+
+                var Staff = await _staffApiService.GetStaffById(StaffId);
+                if (Staff is ApiErrorResult<StaffVm> errorResult)
+                {
+                    List<string> listError = new List<string>();
+                    if (Staff.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
+                    }
+                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                    {
+                        foreach (var error in listError)
+                        {
+                            listError.Add(error);
+                        }
+                    }
+                    ViewBag.Errors = listError;
+                    return View();
+
+                }
+                var listRoleName = new List<string>();
+
+                StaffVm staffVm = new StaffVm()
+                {
+                    Address = Staff.ResultObj.Address,
+                    CitizenIDCard = Staff.ResultObj.CitizenIDCard,
+                    StaffId = Staff.ResultObj.StaffId,
+                    Dob = (DateTime)Staff.ResultObj.Dob,
+                    Email = Staff.ResultObj.Email,
+                    FullName = Staff.ResultObj.FullName,
+                    Image = Staff.ResultObj.Image,
+                    PhoneNumber = Staff.ResultObj.PhoneNumber,
+                    ListRoleName = Staff.ResultObj.ListRoleName,
+                    Status = Staff.ResultObj.Status,
+                    Username = Staff.ResultObj.Username
+                };
+                return View(staffVm);
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin)]
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UpdateStaffAccountRequest request)
+        {
+            try
+            {
+                var statuses = Enum.GetValues(typeof(StaffStatus)).Cast<StaffStatus>().ToList();
+                ViewBag.ListStatus = statuses;
+
+                var listRoleAll = await _roleApiService.GetRolesForView();
+                ViewBag.ListRoleAll = listRoleAll.ResultObj.ToList();
+
+
+                if (!ModelState.IsValid)
+                {
+                    var listRoleName = new List<string>();
+                    foreach (var item in request.RoleId)
+                    {
+                        var role = _roleApiService.GetRoleById(item);
+                        listRoleName.Add(role.Result.ResultObj.Name);
+                    }
+                    StaffVm staffVm = new StaffVm()
+                    {
+                        Username = request.Username,
+                        Address = request.Address,
+                        CitizenIDCard = request.CitizenIDCard,
+                        Dob = request.Dob,
+                        Email = request.Email,
+                        FullName = request.FullName,
+                        ListRoleName = request.ListRoleName,
+                        PhoneNumber = request.PhoneNumber,
+                        RoleId = request.RoleId,
+                        StaffId = request.StaffId,
+                        Status = request.Status
+                    };
+                    if (listRoleName.Count > 0)
+                    {
+                        staffVm.ListRoleName = listRoleName;
+                    }
+                    return View(staffVm);
+                }
+
+
+                var status = await _staffApiService.UpdateStaffAccount(request);
+                if (status is ApiErrorResult<bool> errorResult)
+                {
+                    List<string> listError = new List<string>();
+
+                    if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                    {
+                        foreach (var error in errorResult.ValidationErrors)
+                        {
+                            listError.Add(error);
+                        }
+                    }
+                    else if (status.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
+                    }
+                    ViewBag.Errors = listError;
+                    var listRoleName = new List<string>();
+                    foreach (var item in request.RoleId)
+                    {
+                        var role = _roleApiService.GetRoleById(item);
+                        listRoleName.Add(role.Result.ResultObj.Name);
+                    }
+                    StaffVm staffVm = new StaffVm()
+                    {
+                        Username = request.Username,
+                        Address = request.Address,
+                        CitizenIDCard = request.CitizenIDCard,
+                        Dob = request.Dob,
+                        Email = request.Email,
+                        FullName = request.FullName,
+                        ListRoleName = request.ListRoleName,
+                        PhoneNumber = request.PhoneNumber,
+                        RoleId = request.RoleId,
+                        StaffId = request.StaffId,
+                        Status = request.Status
+                    };
+                    if (listRoleName.Count > 0)
+                    {
+                        staffVm.ListRoleName = listRoleName;
+                    }
+                    return View(staffVm);
+
+                }
+
+                return RedirectToAction("Index", "Admin");
+            }
+            catch
+            {
+                return View(request);
+            }
+        }
+
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin)]
+
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid StaffId)
+        {
+            try
+            {
+                var Staff = await _staffApiService.GetStaffById(StaffId);
+                if (Staff is ApiErrorResult<StaffVm> errorResult)
+                {
+                    List<string> listError = new List<string>();
+                    if (Staff.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
+                    }
+                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                    {
+                        foreach (var error in listError)
+                        {
+                            listError.Add(error);
+                        }
+                    }
+                    ViewBag.Errors = listError;
+                    return View();
+
+                }
+                return View(Staff.ResultObj);
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin)]
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(DeleteStaffAccountRequest request)
+        {
+            try
+            {
+                var status = await _staffApiService.DeleteStaff(request.StaffId);
+                if (status is ApiErrorResult<bool> errorResult)
+                {
+                    List<string> listError = new List<string>();
+
+                    if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                    {
+                        foreach (var error in errorResult.ValidationErrors)
+                        {
+                            listError.Add(error);
+                        }
+                    }
+                    else if (status.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
+                    }
+                    ViewBag.Errors = listError;
+                    return View();
+
+                }
+
+                return RedirectToAction("Index", "Admin");
+
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
 
         [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin)]
         [HttpGet]
@@ -169,6 +393,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin)]
+
         [HttpGet]
         public async Task<IActionResult> Detail(Guid StaffId)
         {

@@ -111,30 +111,7 @@
                 }
             </dd>
 
-            <dt class="col-sm-3">
-                Giá giá công
-            </dt>
-            <dd class="col-sm-8">
-                @(Model.ProcessingPrice != 0 ? Model.ProcessingPrice.ToString("N0") + "₫" : "Không có giá trị")
-            </dd>
-            <dt class="col-sm-3">
-                Giá gốc
-            </dt>
-            <dd class="col-sm-8">
-                @(Model.OriginalPrice != 0 ? Model.OriginalPrice.ToString("N0") + "₫" : "Không có giá trị")
-            </dd>
-            <dt class="col-sm-3">
-                Giá bán
-            </dt>
-            <dd class="col-sm-8">
-                @(Model.SellingPrice != 0 ? Model.SellingPrice.ToString("N0") + "₫" : "Không có giá trị")
-            </dd>
-            <dt class="col-sm-3">
-                Phần trăm giảm giá
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.PercentSale)<span>%</span>
-            </dd>
+            
             <dt class="col-sm-3">
                 Kim cương chính
             </dt>
@@ -211,6 +188,31 @@
             </dt>
             <dd class="col-sm-8">
                 @Html.DisplayFor(model => model.Quantity)
+            </dd>
+
+            <dt class="col-sm-3">
+                Giá giá công
+            </dt>
+            <dd class="col-sm-8">
+                @(Model.ProcessingPrice != 0 ? Model.ProcessingPrice.ToString("N0") + "₫" : "Không có giá trị")
+            </dd>
+            <dt class="col-sm-3">
+                Giá gốc
+            </dt>
+            <dd class="col-sm-8">
+                @(Model.OriginalPrice != 0 ? Model.OriginalPrice.ToString("N0") + "₫" : "Không có giá trị")
+            </dd>
+            <dt class="col-sm-3">
+                Phần trăm giảm giá
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.PercentSale)<span>%</span>
+            </dd>
+            <dt class="col-sm-3">
+                Giá bán
+            </dt>
+            <dd class="col-sm-8">
+                @(Model.SellingPrice != 0 ? Model.SellingPrice.ToString("N0") + "₫" : "Không có giá trị")
             </dd>
             <dt class="col-sm-3">
                 Hình ảnh phụ
