@@ -28,7 +28,7 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group m-2">
                     <label asp-for="CollectionName" class="control-label mb-1">Tên bộ sưu tập</label>
-                    <input asp-for="CollectionName" class="form-control" />
+                    <input id="collectionName" asp-for="CollectionName" class="form-control" />
                     <span asp-validation-for="CollectionName" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2 mt-2">
@@ -202,32 +202,6 @@
             var isVisible = document.getElementById('isVisible').checked;
             var priceDisplay = document.getElementById('priceDisplay').value;
             var IsHome = document.getElementById('IsHome').checked;
-            var thumbnail = fileInput.files[0]; // Lấy file đã chọn
-            if (thumbnail && thumbnail.type === "image/png") {
-                // Bạn có thể lưu trữ một số thông tin về tệp, chẳng hạn như tên tệp, kích thước, loại tệp, v.v.
-                sessionStorage.setItem('thumbnailName', thumbnail.name);
-                sessionStorage.setItem('thumbnailSize', thumbnail.size);
-                sessionStorage.setItem('thumbnailType', thumbnail.type);
-
-                // Sử dụng FileReader để đọc nội dung của file nếu cần
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    var imageDataUrl = e.target.result;
-                    sessionStorage.setItem('thumbnailDataUrl', imageDataUrl); // Lưu URL dữ liệu của ảnh vào sessionStorage
-                };
-                reader.readAsDataURL(thumbnail); // Đọc file như một URL dữ liệu
-            } else {
-                alert("Please upload a PNG file.");
-                return; // Dừng hàm nếu file không phải là PNG
-            }
-            // Kiểm tra xem có tệp được chọn hay không
-            if (thumbnail) {
-                // Bạn có thể lưu trữ một số thông tin về tệp, chẳng hạn như tên tệp, kích thước, loại tệp, v.v.
-                sessionStorage.setItem('thumbnailName', thumbnail.name);
-                sessionStorage.setItem('thumbnailSize', thumbnail.size);
-                sessionStorage.setItem('thumbnailType', thumbnail.type);
-            }
-            sessionStorage.setItem('thumbnail', thumbnail);
             sessionStorage.setItem('collectionName', collectionName);
             sessionStorage.setItem('collectionDescription', collectionDescription);
             sessionStorage.setItem('isVisible', isVisible);
@@ -239,7 +213,7 @@
         window.onload = function () {
             debugger
             if (sessionStorage.getItem('collectionName') || sessionStorage.getItem('collectionDescription') || sessionStorage.getItem('isVisible')
-                || sessionStorage.getItem('IsHome') || sessionStorage.getItem('priceDisplay') || sessionStorage.getItem('thumbnailName') || sessionStorage.getItem('thumbnailSize') || sessionStorage.getItem('thumbnailType')) {
+                || sessionStorage.getItem('IsHome') || sessionStorage.getItem('priceDisplay')) {
                 if (sessionStorage.getItem('collectionName')) {
                     document.getElementById('collectionName').value = sessionStorage.getItem('collectionName');
                 }
@@ -255,15 +229,7 @@
                 if (sessionStorage.getItem('priceDisplay')) {
                     document.getElementById('priceDisplay').value = sessionStorage.getItem('priceDisplay');
                 }
-                if (sessionStorage.getItem('thumbnailName')) {
-                    document.getElementById('thumbnail').value = sessionStorage.getItem('thumbnailName');
-                }
-                if (sessionStorage.getItem('thumbnailSize')) {
-                    document.getElementById('thumbnail').value = sessionStorage.getItem('thumbnailSize');
-                }
-                if (sessionStorage.getItem('thumbnailType')) {
-                    document.getElementById('thumbnail').value = sessionStorage.getItem('thumbnailType');
-                }
+                
             } else {
                 clearSessionStorage();
             }
@@ -273,7 +239,6 @@
             sessionStorage.removeItem('collectionName');
             sessionStorage.removeItem('collectionDescription');
             sessionStorage.removeItem('isVisible');
-            sessionStorage.removeItem('thumbnail');
             sessionStorage.removeItem('IsHome');
             sessionStorage.removeItem('priceDisplay');
         }

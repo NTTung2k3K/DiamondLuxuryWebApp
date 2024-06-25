@@ -265,6 +265,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
+                var collection = await _collectionApiService.GetCollectionById(request.CollectionId);
 
                 HttpContext.Session.Remove("CollectionId");
                 if (request.CollectionName == "null")
@@ -278,7 +279,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         CollectionId = request.CollectionId,
                         Description = request.Description,
                         Status = request.Status,
-                        Thumbnail = request.Thumbnail.ToString(),
+                        Thumbnail = collection.ResultObj.Thumbnail,
                     };
                     return View(collectionVm);
                 }
