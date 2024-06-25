@@ -72,6 +72,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -105,6 +106,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         }
                     }
                     ViewBag.Errors = listError;
+                    TempData["ErrorToast"] = true;
                     return View();
 
                 }
@@ -112,6 +114,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -131,9 +134,10 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         Description = request.Description,
                         Status = request.Status,
                         AboutPhoneNumber = request.AboutPhoneNumber,
-                        AboutAddress = request.AboutAddress,    
-                        AboutEmail = request.AboutEmail 
+                        AboutAddress = request.AboutAddress,
+                        AboutEmail = request.AboutEmail
                     };
+                    TempData["WarningToast"] = true;
                     return View(aboutVm);
                 }
                 var status = await _AboutApiService.UpdateAbout(request);
@@ -151,14 +155,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["WarningToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "About");
             }
             catch
             {
+                TempData["WarningToast"] = true;
                 return View();
             }
         }
@@ -185,6 +192,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -193,6 +201,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -219,15 +228,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "About");
 
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -258,10 +270,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         listError.Add(error);
                     }
                 }
+                TempData["WarningToast"] = true;
                 ViewBag.Errors = listError;
                 return View();
             }
-            TempData["SuccessMsg"] = "Create success for Role " + request.AboutName;
+            TempData["SuccessToast"] = true;
             return RedirectToAction("Index", "About");
         }
     }

@@ -28,7 +28,7 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group m-2">
                     <label asp-for="CollectionName" class="control-label mb-1">Tên bộ sưu tập</label>
-                    <input id="collectionName" type="text" name="CollectionName" class="form-control" />
+                    <input asp-for="CollectionName" class="form-control" />
                     <span asp-validation-for="CollectionName" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2 mt-2">
@@ -38,6 +38,7 @@
                 <div class="form-group m-2 mt-2">
                     <label asp-for="Thumbnail" class="control-label mb-1 mt-3">Hình ảnh</label>
                     <input id="thumbnail" type="file" asp-for="Thumbnail" class="form-control" />
+                    <span asp-validation-for="Thumbnail" class="text-danger"></span>
                 </div>
                 <div class="form-check form-switch m-4">
                     <label asp-for="Status" class="control-label m-1">Hiển thị</label>
