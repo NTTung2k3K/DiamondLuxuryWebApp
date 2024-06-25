@@ -14,7 +14,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.Discount
         [Required(ErrorMessage = "Cần nhập tên mã giảm giá")]
         public string? DiscountName { get; set; }
 
-        [Required(ErrorMessage = "Cần nhập mô tả mã giảm giá")]
         public string? Description { get; set; }
 
         [Required(ErrorMessage = "Cần nhập phần trăm chiết khấu")]
