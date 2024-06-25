@@ -212,7 +212,12 @@
                     <p>Không có</p>
                 }
             </dd>
-
+            <dt class="col-sm-3">
+                Tổng cổng (chưa giảm)
+            </dt>
+            <dd class="col-sm-9">
+                @(((decimal)Model.TotalSale + (decimal)Model.TotalAmount).ToString("N0"))₫
+            </dd>
 
             <dt class="col-sm-3">
                 Số tiền giảm
@@ -305,9 +310,18 @@
     </div>
     <div class="row">
         <div class="col-md-4">
-            @if (!Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
+
+
+
+            @if (!(Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()) || Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString())))
             {
                 <button id="completeOrderBtn" class="btn btn-success" data-order-id="@Model.OrderId">Xác nhận giao thành công đơn hàng</button>
+            }
+        </div>
+        <div class="col-md-4">
+            @if (!(Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()) || Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString())))
+            {
+                <button id="failOrderBtn" class="btn btn-danger" data-order-id="@Model.OrderId">Xác nhận giao thành công thất bại</button>
             }
         </div>
         <div class="col-md-6">
@@ -325,8 +339,8 @@ else
 @section Scripts {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
-        $(document).ready(function() {
-            $("#completeOrderBtn").click(function() {
+        $(document).ready(function () {
+            $("#completeOrderBtn").click(function () {
                 var orderId = $(this).data("order-id");
                 debugger;
                 var requestData = {
@@ -337,16 +351,66 @@ else
                     type: 'PUT',
                     contentType: 'application/json',
                     data: JSON.stringify(requestData),
-                    success: function(response) {
+                    success: function (response) {
                         debugger;
                         alert(response.message);
                         $('#completeOrderBtn').remove();
+                        $('#failOrderBtn').remove();
+                        window.reload();
+
                         // Optionally, you can also update the UI to reflect the order completion
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         alert("An error occurred: " + error);
                     }
                 });
+            });
+            $("#failOrderBtn").click(function () {
+                var orderId = $(this).data("order-id");
+                debugger;
+                var issue;
+                while (true) {
+                    issue = prompt("Lý do");
+
+                    // Check if the user clicked "Cancel"
+                    if (issue === null) {
+                        console.log("User canceled the prompt.");
+                        return; // Exit the function if the user cancels
+                    }
+
+                    // Check if the user entered a valid input
+                    if (issue.trim() !== "") {
+                        break; // Exit the loop if a valid input is provided
+                    } else {
+                        alert("Bạn phải nhập lý do!"); // Alert the user to provide a reason
+                    }
+                }
+                
+                console.log("Order ID:", orderId);
+                console.log("Issue:", issue);
+
+                var requestData = {
+                    orderId: orderId,
+                    Description: issue
+                };
+                $.ajax({
+                    url: 'https://localhost:9000/api/Staffs/UpdateCancelOrderForDeliveryStaff',
+                    type: 'PUT',
+                    contentType: 'application/json',
+                    data: JSON.stringify(requestData),
+                    success: function (response) {
+                        debugger;
+                        alert(response.message);
+                        $('#completeOrderBtn').remove();
+                        $('#failOrderBtn').remove();
+                        window.reload();
+                        // Optionally, you can also update the UI to reflect the order completion
+                    },
+                    error: function (xhr, status, error) {
+                        alert("An error occurred: " + error);
+                    }
+                });
+
             });
         });
     </script>

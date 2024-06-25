@@ -39,6 +39,8 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
         public Task<ApiResult<PageResult<StaffVm>>> ViewManagerPagination(ViewStaffPaginationCommonRequest request);
         public Task<ApiResult<PageResult<OrderVm>>> ViewOrderForDeliveryStaff(ViewOrderForDeliveryStaff request);
         public Task<ApiResult<bool>> UpdateStatusOrderForDeliveryStaff(UpdateStatusOrderForDeliveryStaff request);
+        public Task<ApiResult<bool>> UpdateCancelOrderForDeliveryStaff(CancelOrderRequest request);
+
         public Task<ApiResult<bool>> UpdateStatusShipperWorking(UpdateShipperWorkingRequest request);
 
 
