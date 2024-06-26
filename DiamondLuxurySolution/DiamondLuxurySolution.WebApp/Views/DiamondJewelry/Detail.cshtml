@@ -516,8 +516,9 @@
                 var productImage = button.data("product-image");
                 var quantity = $(".quantity-input").val();
                 var niSize = $("#niSize").val();
-                if (niSize === "") {
-                    niSize = null;
+                if (!niSize) {
+                    alert("Vui lòng chọn ni");
+                    return;  // Stop further execution
                 }
                 debugger;
                 var cartItem = {
@@ -555,8 +556,9 @@
                 var productImage = button.data("product-image");
                 var quantity = $(".quantity-input").val();
                 var niSize = $("#niSize").val();
-                if (niSize === "") {
-                    niSize = null;
+                if (!niSize) {
+                    alert("Vui lòng chọn ni");
+                    return;  // Stop further execution
                 }
                 debugger;
                 var cartItem = {

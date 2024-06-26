@@ -39,6 +39,19 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
 				}
 
 				await _context.Discounts.AddRangeAsync(discounts);
+
+				var AddDiscountOut = new Data.Entities.Discount()
+				{
+					DiscountId = "DC0011",
+					DiscountName = "Chiết khấu 11",
+					PercentSale = 5,
+					Status = true,
+					From = 10001,
+					To = int.MaxValue,
+				};
+
+				await _context.Discounts.AddAsync(AddDiscountOut);
+
 				await _context.SaveChangesAsync();
 			}
 		}

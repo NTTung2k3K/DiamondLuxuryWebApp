@@ -17,7 +17,7 @@
             }
         }
 
-        <form asp-action="Edit" asp-controller="Product" method="post" enctype="multipart/form-data">
+        <form asp-action="Edit" asp-controller="Product" method="post" id="submitFormFormatFinal" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group m-2">
                 <label asp-for="ProductId" class="control-label m-2">ID của Sản Phẩm</label>
@@ -148,11 +148,11 @@
             </div>
             <div class="form-group m-2">
                 <label asp-for="OriginalPrice" class="control-label m-2">Giá gốc ban đầu</label>
-                <input asp-for="OriginalPrice" type="text" class="form-control price-input" readonly />
+                <span type="text" class="form-control price-input" readonly>@Model.OriginalPrice.ToString("N0")₫</span>
             </div>
             <div class="form-group m-2">
                 <label asp-for="SellingPrice" class="control-label m-2">Giá bán ban đầu</label>
-                <input asp-for="SellingPrice" type="text" class="form-control price-input" readonly />
+                <span type="text" class="form-control price-input" readonly>@Model.SellingPrice.ToString("N0")₫</span>
             </div>
             @if (Model == null)
             {
@@ -174,7 +174,7 @@
             {
                 <div class="form-group m-2">
                     <label asp-for="ProcessingPrice" class="control-label m-2"></label>
-                    <input asp-for="ProcessingPrice" value="1" type="text" class="form-control price-input" />
+                    <input asp-for="ProcessingPrice" value="1" type="text" class="PriceFormatFinal form-control price-input" />
                     <span asp-validation-for="ProcessingPrice" class="text-danger"></span>
                 </div>
             }
@@ -182,7 +182,7 @@
             {
                 <div class="form-group m-2">
                     <label asp-for="ProcessingPrice" class="control-label m-2"></label>
-                    <input asp-for="ProcessingPrice" type="text" class="form-control price-input" />
+                    <input asp-for="ProcessingPrice" type="text" class="PriceFormatFinal form-control price-input" />
                     <span asp-validation-for="ProcessingPrice" class="text-danger"></span>
                 </div>
             }

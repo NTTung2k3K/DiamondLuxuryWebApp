@@ -128,7 +128,7 @@
 
 			<div class="form-group m-2">
 				<label asp-for="GemPriceListId" class="control-label m-2">Mã giá kim cương</label>
-				<select class="h-50" multiple name="GemPriceListId[]"
+				<select class="h-50" name="GemPriceListId[]"
 						style="height: 150px; width: 100%; padding: 8px; font-size: 16px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9;">
 					@foreach (var gemPriceList in ViewBag.listGemPriceList)
 					{

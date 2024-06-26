@@ -1,6 +1,7 @@
 ﻿@using DiamondLuxurySolution.Data.Entities
 @using DiamondLuxurySolution.ViewModel.Common
 @using DiamondLuxurySolution.ViewModel.Models.Order
+@using DiamondLuxurySolution.ViewModel.Models.User.Staff
 
 @model PageResult<OrderVm>
 
@@ -8,10 +9,15 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@{
+    var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
+}
 <div class="row mb-4">
     <div class="col-md-4">
-        <a asp-action="Create" asp-controller="Order" class="btn btn-success">Tạo mới</a>
+        @if (!staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager))
+        {
+            <a asp-action="Create" asp-controller="Order" class="btn btn-success">Tạo mới</a>
+        }
     </div>
     <div class="col-md-3">
     </div>
@@ -49,7 +55,7 @@
                     <label>Số điện thoại</label>
                 </th>
                 <th>
-                    <label>Tổng tiền</label>
+                    <label>Ngày đặt</label>
                 </th>
                 <th>
                     <label>Trạng thái</label>
@@ -64,7 +70,7 @@
                     <td>@item.OrderId</td>
                     <td>@item.ShipName</td>
                     <td>@item.ShipPhoneNumber</td>
-                    <td>@item.TotalAmount.ToString("N0")₫</td>
+                    <td>@item.DateCreated.Value.Date</td>
                     @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()))
                     {
                         <td>
@@ -108,9 +114,16 @@
                         </td>
                     }
                     <td class="text-center">
-                        @Html.ActionLink("Chỉnh sửa", "Edit", new { OrderId = item.OrderId }, new { @class = "btn btn-warning" })
-                        @Html.ActionLink("Xem chi tiết", "Detail", new { OrderId = item.OrderId }, new { @class = "btn btn-info" })
-                        @Html.ActionLink("Xóa", "Delete", new { OrderId = item.OrderId }, new { @class = "btn btn-danger" })
+                        @if (!staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager))
+                        {
+                            @Html.ActionLink("Chỉnh sửa", "Edit", new { OrderId = item.OrderId }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Xem chi tiết", "Detail", new { OrderId = item.OrderId }, new { @class = "btn btn-info" })
+                            @Html.ActionLink("Xóa", "Delete", new { OrderId = item.OrderId }, new { @class = "btn btn-danger" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Xem chi tiết", "Detail", new { OrderId = item.OrderId }, new { @class = "btn btn-info" })
+                        }
                     </td>
                 </tr>
             }

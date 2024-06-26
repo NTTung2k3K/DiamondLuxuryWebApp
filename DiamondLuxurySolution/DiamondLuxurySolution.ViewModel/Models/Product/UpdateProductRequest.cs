@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +24,9 @@ namespace DiamondLuxurySolution.ViewModel.Models.Product
 
 
         public int PercentSale { get; set; }
+        [Required(ErrorMessage = "Sản phẩm phải có giá gia công (có thể bằng 0)")]
+        [Range(0, (double)decimal.MaxValue, ErrorMessage = "Giá gia công phải có giá lớn hơn hoặc bằng 0")]
+        [DisplayName("Giá gia công")]
         public decimal ProcessingPrice { get; set; }
 
 

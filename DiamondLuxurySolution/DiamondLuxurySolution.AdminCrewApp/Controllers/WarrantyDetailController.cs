@@ -12,7 +12,6 @@ using static DiamondLuxurySolution.Utilities.Constants.Systemconstant;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
     public class WarrantyDetailController : Controller
     {
         private readonly IWarrantyDetailService _WarrantyDetailApiService;
@@ -23,6 +22,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             _staffApiService = staffApiService;
             _WarrantyDetailApiService = WarrantyDetailApiService;
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Index(ViewWarrantyDetailRequest request)
@@ -52,6 +52,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
         [HttpGet]
         public async Task<IActionResult> Detail(int WarrantyDetailId)
         {
@@ -83,6 +85,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
 
         [HttpGet]
         public async Task<IActionResult> Edit(int WarrantyDetailId)
@@ -118,6 +121,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
+
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateWarrantyDetailRequest request)
         {
@@ -133,7 +138,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     WarrantyDetailId = WarrantyDetailVmCall.ResultObj.WarrantyDetailId,
                     Description = WarrantyDetailVmCall.ResultObj.Description,
                     ReceiveProductDate = WarrantyDetailVmCall.ResultObj.ReceiveProductDate,
-                    ReturnProductDate = WarrantyDetailVmCall.ResultObj.ReturnProductDate ?? DateTime.MinValue,
+                    ReturnProductDate = WarrantyDetailVmCall.ResultObj.ReturnProductDate,
                     Image = WarrantyDetailVmCall.ResultObj.Image,
                     WarrantyDetailName = WarrantyDetailVmCall.ResultObj.WarrantyDetailName,
                     WarrantyType = WarrantyDetailVmCall.ResultObj.WarrantyType,
@@ -199,6 +204,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         }
 
 
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
 
         [HttpGet]
         public async Task<IActionResult> Delete(int WarrantyDetailId)
@@ -231,6 +237,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
 
         [HttpPost]
         public async Task<IActionResult> Delete(DeleteWarrantyDetailRequest request)
@@ -266,6 +273,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
+
         [HttpGet]
         public IActionResult Create()
         {
@@ -273,6 +282,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             ViewBag.ListStatus = statuses;
             return View();
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateWarrantyDetailRequest request)

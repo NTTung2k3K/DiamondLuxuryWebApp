@@ -349,6 +349,23 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpPut("UpdateCancelOrderForDeliveryStaff")]
+        public async Task<ActionResult> UpdateCancelOrderForDeliveryStaff([FromBody] CancelOrderRequest request)
+        {
+            try
+            {
+                var status = await _Staff.UpdateCancelOrderForDeliveryStaff(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return Ok(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         [HttpPut("UpdateStatusShipperWorking")]
         public async Task<ActionResult> UpdateStatusOrderForDeliveryStaff([FromBody] UpdateShipperWorkingRequest request)
         {

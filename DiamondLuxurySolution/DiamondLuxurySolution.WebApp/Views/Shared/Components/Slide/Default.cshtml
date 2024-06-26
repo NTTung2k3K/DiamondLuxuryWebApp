@@ -1,42 +1,81 @@
 ﻿@using DiamondLuxurySolution.ViewModel.Models.Slide
+@using DiamondLuxurySolution.ViewModel.Models.Collection
 @model List<SlideViewModel>
+<head>
+    <style>
+        .slick-btn {
+            display: none !important
+        }
 
-<div class="slider-area">
-    <div class="homepage-slider">
-        @if (Model != null && Model.Count() > 0)
-        {
-            @foreach (var slide in Model)
+        .slider-area:hover .slick-btn {
+            display: block !important;
+        }
+
+        .homepage-slider:hover .slick-btn {
+            display: block !important;
+        }
+
+        .slider-content {
+            text-align: start;
+            justify-content: start
+        }
+    </style>
+</head>
+<body>
+    <div class="slider-area">
+        <div class="homepage-slider">
+            @if (Model != null && Model.Count() > 0)
             {
-                if (slide.Status && !slide.SlideName.Equals("Nhẫn nữ")
-                && !slide.SlideName.Equals("Nhẫn nam")
-                && !slide.SlideName.Equals("Nhẫn cưới")
-                && !slide.SlideName.Equals("Bông tai")
-                && !slide.SlideName.Equals("Dây chuyền")
-                && !slide.SlideName.Equals("Kim Cương"))
+                List<CollectionVm> listCollection = ViewBag.listCollection as List<CollectionVm>;
+                @foreach (var slide in Model)
                 {
-                    <!-- Single Slide Start -->
-                    <div class="single-slider content-v-center"
-                         style="background-image: url(@slide.SlideImage)">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="slider-content">
-                                        <div class="slide-btn-group" data-animation="fadeInUp" data-duration="1s"
-                                             data-delay=".3s">
+                    if (slide.Status 
+                    && !slide.SlideName.Equals("Nhẫn nữ")
+                    && !slide.SlideName.Equals("Nhẫn nam")
+                    && !slide.SlideName.Equals("Nhẫn cưới")
+                    && !slide.SlideName.Equals("Bông tai")
+                    && !slide.SlideName.Equals("Dây chuyền")
+                    && !slide.SlideName.Equals("Kim Cương"))
+                    {
+                        <!-- Single Slide Start -->
+                        <div class="single-slider content-v-center"
+                             style="background-image: url(@slide.SlideImage)">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="slider-content">
+                                            <h5 data-animation="rollIn" data-duration=".8s" data-delay=".5s" class=""
+                                                style="animation-delay: 0.5s; animation-duration: 0.8s;">
+                                                Ưu Đãi Độc Quyền - Giảm 20% Tuần Này
+                                            </h5>
+                                            <h1 data-animation="fadeInDown" data-duration=".8s" data-delay=".2s" class=""
+                                                style="animation-delay: 0.2s; animation-duration: 0.8s;">
+                                                Bộ Sưu Tập
+                                            </h1>
+                                            <p class="mb--50 mb-sm--20" data-animation="fadeInDown" data-duration=".8s" data-delay=".2s"
+                                               style="animation-delay: 0.2s; animation-duration: 0.8s;">
+                                                Giá Khởi Điểm Từ
+                                                <strong>1,499,000đ</strong>
+                                            </p>
+                                            <div class="slide-btn-group" data-animation="fadeInUp" data-duration="1s" data-delay=".3s"
+                                                 style="animation-delay: 0.3s; animation-duration: 1s;">
+                                                <a href="shop.html" class="btn btn-bordered btn-style-1" tabindex="-1">
+                                                    Mua Sắm Tại Đây
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Single Slide End -->
+                    }
                 }
             }
-        }
-        else
-        {
-            <p>Không có slide</p>
-        }
+            else
+            {
+                <p>Không có slide</p>
+            }
 
+        </div>
     </div>
-</div>
+</body>

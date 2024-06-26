@@ -22,7 +22,7 @@ namespace DiamondLuxurySolution.WebApp.Repository.Components.Home_NhanNam
         {
             var status = await _productApiService.GetAll();
             var listSlide = await _slideApiService.GetAll();
-            ViewBag.ListSlide = listSlide;
+            ViewBag.listSlide = listSlide.ResultObj.ToList();
             return View(status.ResultObj.ToList());
         }
     }
