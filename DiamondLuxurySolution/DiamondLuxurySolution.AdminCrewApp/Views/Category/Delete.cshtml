@@ -60,10 +60,14 @@
 								</div>
 							</dd>
 						</dl>
-						<form asp-action="Delete" asp-controller="Category" method="post">
+						<form asp-action="Delete" asp-controller="Category" method="post" class="form-group row">
 								<input type="hidden" name="CategoryId" value="@Model.CategoryId" />
+						<div class="col-md-3">
 							<input type="submit" value="Xóa" class="btn btn-danger" />
+						</div>
+						<div class="col-md-4">
 								<button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Category")'">Về trang quản lí danh mục</button>
+						</div>	
 						</form>
 					</div>
 }

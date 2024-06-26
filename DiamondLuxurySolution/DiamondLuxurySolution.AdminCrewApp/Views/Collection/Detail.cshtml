@@ -73,7 +73,7 @@
             Giá ước tính
         </dt>
         <dd class="col-md-9">
-            @Html.DisplayFor(model => model.priceDisplay)
+            @(Model.priceDisplay != 0 ? Model.priceDisplay.ToString("N0") + "₫" : "Không có giá trị")
         </dd>
         @if (Model.ListProducts != null && Model.ListProducts.Count > 0)
         {
