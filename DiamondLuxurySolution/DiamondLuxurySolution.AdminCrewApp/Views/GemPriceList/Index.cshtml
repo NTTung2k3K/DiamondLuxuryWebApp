@@ -44,7 +44,7 @@
 @if (Model.Items != null && Model.Items.Count > 0)
 {
 
-    <table class="table">
+    <table class="table" id="sort">
         <thead>
             <tr class="text-center">
                 <th>
@@ -76,7 +76,7 @@
                 <tr class="text-center">
                     <td>@item.GemPriceListId</td>
                     <td>@item.CaratWeight</td>
-                    <td>@item.Price</td>
+                    <td>@item.Price.ToString("N0")₫</td>
                     <td>@item.effectDate</td>
                     @if (item.Active == true)
                     {

@@ -26,17 +26,27 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             decimal price = 0;
             try
             {
-                price = Convert.ToDecimal(request.Price);
+                // Loại bỏ dấu phân cách hàng nghìn và thay dấu thập phân (nếu cần)
+                string processedPrice = request.Price.Replace(".", "").Replace(",", ".");
 
-                if (price <= 0)
+                // Chuyển đổi chuỗi sang kiểu decimal
+                if (decimal.TryParse(processedPrice, out price))
                 {
-                    errorList.Add("Giá tiền > 0");
+                    if (price <= 0)
+                    {
+                        errorList.Add("Giá vật liệu phải lớn hơn 0");
+                    }
+                }
+                else
+                {
+                    errorList.Add("Giá vật liệu không hợp lệ");
                 }
             }
             catch (FormatException)
             {
-                errorList.Add("Giá tiền không hợp lệ");
+                errorList.Add("Giá vật liệu không hợp lệ");
             }
+
             if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("", errorList);
@@ -129,15 +139,23 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             decimal price = 0;
             try
             {
-                price = Convert.ToDecimal(request.Price);
-                if (price <= 0)
-                {
-                    errorList.Add("Giá tiền > 0");
-                }
-            }
+				string processedPrice = request.Price.Replace(".", "").Replace(",", ".");
+				// Chuyển đổi chuỗi sang kiểu decimal
+				if (decimal.TryParse(processedPrice, out price))
+				{
+					if (price <= 0)
+					{
+						errorList.Add("Giá vật liệu phải lớn hơn 0");
+					}
+				}
+				else
+				{
+					errorList.Add("Giá vật liệu không hợp lệ");
+				}
+			}
             catch (FormatException)
             {
-                errorList.Add("Giá tiền không hợp lệ");
+                errorList.Add("Giá vật liệu không hợp lệ");
             }
             if (errorList.Any())
             {
@@ -153,7 +171,7 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             material.Color = request.Color != null ? request.Color : "";
             material.Price = price;
             material.EffectDate = DateTime.Parse(request.EffectDate);
-            material.Price = request.Price;
+            material.Price = price;
             material.Status = request.Status;
             if (request.MaterialImage != null)
             {

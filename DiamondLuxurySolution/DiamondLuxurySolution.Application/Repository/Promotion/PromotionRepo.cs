@@ -55,11 +55,18 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
             decimal maxDiscount = 0;
             try
             {
-                maxDiscount = Convert.ToDecimal(request.MaxDiscount);
-
-                if (maxDiscount < 0)
+                // Loại bỏ dấu phân cách hàng nghìn và thay dấu thập phân (nếu cần)
+                string processedPrice = request.MaxDiscount.Replace(".", "").Replace(",", ".");
+                if (decimal.TryParse(processedPrice, out maxDiscount))
                 {
-                    errorList.Add("Max giảm giá phải >= 0");
+                    if (maxDiscount < 0)
+                    {
+                        errorList.Add("Max giảm giá phải >= 0");
+                    }
+                }
+                else
+                {
+                    errorList.Add("Max giảm giá không hợp lệ");
                 }
             }
             catch (FormatException)
@@ -236,11 +243,14 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
             decimal maxDiscount = 0;
             try
             {
-                maxDiscount = Convert.ToDecimal(request.MaxDiscount);
-
-                if (maxDiscount < 0)
+                // Loại bỏ dấu phân cách hàng nghìn và thay dấu thập phân (nếu cần)
+                string processedPrice = request.MaxDiscount.Replace(".", "").Replace(",", ".");
+                if (decimal.TryParse(processedPrice, out maxDiscount))
                 {
-                    return new ApiErrorResult<bool>("Max giảm giá phải >= 0");
+                    if (maxDiscount < 0)
+                    {
+                        return new ApiErrorResult<bool>("Max giảm giá phải >= 0");
+                    }
                 }
             }
             catch (FormatException)

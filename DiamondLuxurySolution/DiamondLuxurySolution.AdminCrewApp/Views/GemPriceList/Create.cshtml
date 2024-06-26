@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Tạo mới giá kim cương</h1>
@@ -42,7 +41,7 @@
             </div>
             <div class="form-group m-2">
                 <label asp-for="Price" class="control-label m-2">Giá kim cương</label>
-                <input asp-for="Price" id="Price" type="text" class="form-control" />
+                <input asp-for="Price" id="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group m-2">
@@ -72,7 +71,7 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 
-        <script>
+    <script>
         document.addEventListener("DOMContentLoaded", function() {
             const input = document.querySelector("#Price");
 
@@ -82,9 +81,9 @@
                 // Xóa bỏ các ký tự không phải là số
                 value = value.replace(/[^0-9]/g, "");
 
-                // Giới hạn tối đa 17 ký tự số
-                if (value.length > 16) {
-                    value = value.slice(0, 16);
+                // Giới hạn tối đa 13 ký tự số
+                if (value.length > 13) {
+                    value = value.slice(0, 13);
                 }
 
                 // Nếu giá trị không rỗng, định dạng lại theo kiểu chuỗi Việt Nam
@@ -97,4 +96,3 @@
         });
     </script>
 }
-
