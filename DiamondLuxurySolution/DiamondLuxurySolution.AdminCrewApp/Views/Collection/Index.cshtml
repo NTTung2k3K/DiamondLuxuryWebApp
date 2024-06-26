@@ -38,7 +38,7 @@
     }
 }
 
-@if (Model.Items != null && Model.Items.Count > 0)
+@if (Model != null && Model.Items != null && Model.Items.Count > 0)
 {
     <table class="table" id="sort">
         <thead>
@@ -188,24 +188,23 @@ else
 }
 @section Scripts {
     <script>
-        $(document).ready(function () {
-            $('.datatable').DataTable({
-                "ordering": false,
-                "pagingType": "full_numbers",
-                "searching": false,
-                "language": {
-                    "paginate": {
-                        "next": "Next",
-                        "previous": "Previous",
-                        "First": false
-                    }
-                },
-                "pageLength": 2,
-                "lengthMenu": [[2, 3, 5, -1], [2, 3, 5, "All"]]
-            });
+        /*$(document).ready(function () { }*/
+        $('.datatable').DataTable({
+            "ordering": false,
+            "pagingType": "full_numbers",
+            "searching": false,
+            "language": {
+                "paginate": {
+                    "next": "Next",
+                    "previous": "Previous",
+                    "First": false
+                }
+            },
+            "pageLength": 2,
+            "lengthMenu": [[2, 3, 5, -1], [2, 3, 5, "All"]]
         });
 
     </script>
 
-     <script src="~/assets/js/Test.js"></script>
+    <script src="~/assets/js/Test.js"></script>
 }

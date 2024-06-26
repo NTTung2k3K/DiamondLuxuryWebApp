@@ -30,7 +30,7 @@
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="SubGemPrice" class="control-label">Giá viên đá phụ</label>
-                    <input asp-for="SubGemPrice" class="form-control" />
+                    <input asp-for="SubGemPrice" type="text" class="form-control price-input PriceFormatFinal" />
                     <span asp-validation-for="SubGemPrice" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2">
@@ -62,4 +62,42 @@ else
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+			<script>
+				$(document).ready(function () {
+
+					// Select all inputs with the class "PriceFormat"
+					const $inputs = $(".PriceFormatFinal");
+
+					$inputs.each(function () {
+
+						// Ensure initial value is correctly formatted
+						if ($(this).val()) {
+							let value = $(this).val().replace(/\./g, "");
+							$(this).val(new Intl.NumberFormat('vi-VN').format(parseInt(value)));
+						}
+
+						$(this).on("input", function () {
+							let value = $(this).val();
+
+							// Remove all non-digit characters
+							value = value.replace(/[^\d]/g, "");
+
+							// Limit to a maximum of 16 digits
+							if (value.length > 16) {
+								value = value.slice(0, 16);
+							}
+
+							// If value is not empty, format it with Vietnamese thousand separators
+							if (value) {
+								$(this).val(new Intl.NumberFormat('vi-VN').format(parseInt(value)));
+							} else {
+								$(this).val("");
+							}
+						});
+					});
+				});
+		</script>
 }

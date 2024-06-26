@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Firebase.Auth;
 using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 using DiamondLuxurySolution.ViewModel.Models.Order;
+using Microsoft.CodeAnalysis.Options;
 
 namespace DiamondLuxurySolution.WebApp.Controllers
 {
@@ -119,10 +120,11 @@ namespace DiamondLuxurySolution.WebApp.Controllers
             Guid userId;
 
 
-
             Guid.TryParse(userIdString, out userId);
-            // Chuyển đổi thành công
-            var orderRequest = new ViewOrderRequest();
+			// Chuyển đổi thành công
+			var customer = await _userManager.FindByIdAsync(userIdString);
+            ViewBag.CusPoint = customer.Point;
+			var orderRequest = new ViewOrderRequest();
             orderRequest.CustomerId = userId;
             var listOrderRaw = await _accountApiService.GetListOrderOfCustomer(orderRequest);
             var listOrder = listOrderRaw.ResultObj;
@@ -158,9 +160,10 @@ namespace DiamondLuxurySolution.WebApp.Controllers
             Guid userId;
 
             Guid.TryParse(userIdString, out userId);
-            // Chuyển đổi thành công
-
-            var orderRequest = new ViewOrderRequest();
+			// Chuyển đổi thành công
+			var customer = await _userManager.FindByIdAsync(userIdString);
+			ViewBag.CusPoint = customer.Point;
+			var orderRequest = new ViewOrderRequest();
             orderRequest.CustomerId = userId;
 
             var listOrderRaw = await _accountApiService.GetListOrderOfCustomer(orderRequest);
@@ -410,6 +413,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
                     Random rd = new Random();
                     string username;
                     AppUser user = null;
+                    bool isSkip = false;
                     if (info.LoginProvider.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.FACEBOOK_PLATFORM))
                     {
                         username = "FB" + string.Concat(Enumerable.Range(0, 6).Select(_ => rd.Next(0, 10).ToString()));
@@ -423,43 +427,62 @@ namespace DiamondLuxurySolution.WebApp.Controllers
                             Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.New.ToString(),
                             Point = 0,
                         };
-                    }
-                    else
+						HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.FACEBOOK_PLATFORM);
+
+					}
+					else
                     {
-                        username = "GG" + string.Concat(Enumerable.Range(0, 6).Select(_ => rd.Next(0, 10).ToString()));
-                        user = new AppUser()
+
+                        var emailUser = info.Principal.FindFirst(ClaimTypes.Email)?.Value;
+                        var userCheck = await _userManager.FindByEmailAsync(emailUser);
+                        if (userCheck == null) 
                         {
-                            Firstname = info.Principal.FindFirst(ClaimTypes.GivenName)?.Value,
-                            Lastname = info.Principal.FindFirst(ClaimTypes.Surname)?.Value,
-                            Fullname = info.Principal.FindFirst(ClaimTypes.Name)?.Value,
-                            Email = info.Principal.FindFirst(ClaimTypes.Email)?.Value,
-                            UserName = username,
-                            DateCreated = DateTime.Now,
-                            Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.New.ToString(),
-                            Point = 0,
-                        };
-                    }
-
-
-
-                    var createUserResult = await _userManager.CreateAsync(user);
-
-                    if (createUserResult.Succeeded)
-                    {
-                        var roleResult = await _userManager.AddToRoleAsync(user, DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString());
-                        var identResult = await _userManager.AddLoginAsync(user, info);
-                        if (identResult.Succeeded && roleResult.Succeeded)
-                        {
-                            await _signInManager.SignInAsync(user, false);
-
-                            HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_NAME, user.Fullname);
-                            HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_ID, user.Id.ToString());
-
-                            return RedirectToAction("Index", "Home");
+							username = "GG" + string.Concat(Enumerable.Range(0, 6).Select(_ => rd.Next(0, 10).ToString()));
+							user = new AppUser()
+							{
+								Firstname = info.Principal.FindFirst(ClaimTypes.GivenName)?.Value,
+								Lastname = info.Principal.FindFirst(ClaimTypes.Surname)?.Value,
+								Fullname = info.Principal.FindFirst(ClaimTypes.Name)?.Value,
+								Email = info.Principal.FindFirst(ClaimTypes.Email)?.Value,
+								UserName = username,
+								DateCreated = DateTime.Now,
+								Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.New.ToString(),
+								Point = 0,
+							};
                         }
+                        else
+                        {
+                            isSkip = true;
+                            user = userCheck;
+                        }
+						HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.GOOGLE_PLATFORM);
+
+					}
+
+					if (isSkip == false)
+                    {
+						var createUserResult = await _userManager.CreateAsync(user);
+
+						if (createUserResult.Succeeded)
+						{
+							var roleResult = await _userManager.AddToRoleAsync(user, DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString());
+							var identResult = await _userManager.AddLoginAsync(user, info);
+							if (identResult.Succeeded && roleResult.Succeeded)
+							{
+								await _signInManager.SignInAsync(user, false);
+
+								HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_NAME, user.Fullname);
+								HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_ID, user.Id.ToString());
+
+								return RedirectToAction("Index", "Home");
+							}
+						}
                     }
 
-                    return RedirectToAction("Index", "Home");
+					HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_NAME, user.Fullname);
+					HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_ID, user.Id.ToString());
+
+					return RedirectToAction("Index", "Home");
                 }
             }
             catch (AuthenticationFailureException ex)

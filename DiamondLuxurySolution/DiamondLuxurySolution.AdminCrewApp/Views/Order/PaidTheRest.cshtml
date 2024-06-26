@@ -183,7 +183,7 @@
                                         {
                                             <option value="@promotion.PromotionId" selected>
                                                 <div>
-                                                     @promotion.PromotionName &nbsp; Bắt đầu: @promotion.StartDate, Kết thúc: @promotion.EndDate; Giảm tối đa: @promotion.MaxDiscount
+                                                    @promotion.PromotionName &nbsp; Bắt đầu: @promotion.StartDate, Kết thúc: @promotion.EndDate; Giảm tối đa: @promotion.MaxDiscount.ToString("N0")₫
                                                 </div>
                                             </option>
                                         }
@@ -191,7 +191,7 @@
                                         {
                                             <option value="@promotion.PromotionId">
                                                 <div>
-                                                    @promotion.PromotionName &nbsp; Bắt đầu: @promotion.StartDate, Kết thúc: @promotion.EndDate; Giảm tối đa: @promotion.MaxDiscount
+                                                    @promotion.PromotionName &nbsp; Bắt đầu: @promotion.StartDate, Kết thúc: @promotion.EndDate; Giảm tối đa: @promotion.MaxDiscount.ToString("N0")₫
                                                 </div>
                                             </option>
                                         }
@@ -200,7 +200,7 @@
                                     {
                                         <option value="@promotion.PromotionId">
                                             <div>
-                                                @promotion.PromotionName &nbsp; Bắt đầu: @promotion.StartDate, Kết thúc: @promotion.EndDate; Giảm tối đa: @promotion.MaxDiscount
+                                                @promotion.PromotionName &nbsp; Bắt đầu: @promotion.StartDate, Kết thúc: @promotion.EndDate; Giảm tối đa: @promotion.MaxDiscount.ToString("N0")₫
                                             </div>
                                         </option>
                                     }
@@ -244,7 +244,7 @@
                                                         var productInfor = ViewBag.ListProduct as List<ProductVm>; // Cast ViewBag.FullSubgem to appropriate type
                                                         var selectedSubGemId = productInfor.FirstOrDefault(x => x.ProductId == Model.ListExistOrderProduct.ElementAt(i).ProductId);
                                                     }
-                                                    <div data-price="@(selectedSubGemId.SellingPrice)">@(selectedSubGemId.ProductName) &nbsp; Giá: @(selectedSubGemId.SellingPrice) &nbsp; Số lượng: @(selectedSubGemId.Quantity)</div>
+                                                    <div data-price="@(selectedSubGemId.SellingPrice)">@(selectedSubGemId.ProductName) &nbsp; Giá: @(selectedSubGemId.SellingPrice.ToString("N0"))₫ &nbsp; Số lượng: @(selectedSubGemId.Quantity)</div>
 
                                                     <input class="select-subgem" name="ListExistOrderProduct[@i].ProductId" value="@(Model.ListExistOrderProduct.ElementAt(i).ProductId)" type="hidden" />
 
@@ -268,17 +268,17 @@
                         <label class="control-label m-2">Tổng cộng tạm tính: <span id="total" style="color: red">0</span></label>
                     </div>
                     <div class="form-group m-2">
-                        <label class="control-label m-2">Tổng cộng giảm giá: <span style="color: red">@ViewBag.TotalSale đ</span></label>
+                        <label class="control-label m-2">Tổng cộng giảm giá: <span style="color: red">@ViewBag.TotalSale.ToString("N0")₫</span></label>
                     </div>
                     <div class="form-group m-2">
-                        <label class="control-label m-2">Tổng cộng: <span style="color: red">@ViewBag.Total đ</span></label>
+                        <label class="control-label m-2">Tổng cộng: <span style="color: red">@ViewBag.Total.ToString("N0")₫</span></label>
                     </div>
                     @if (Model == null)
                     {
 
                         <div class="form-group m-2">
                             <label asp-for="Deposit" class="control-label m-2"></label>
-                            <input asp-for="Deposit" disabled type="number" value="0" class="form-control" />
+                            <span type="text" class="form-control price-input" readonly>@Model?.Deposit.Value.ToString("N0")₫</span>
                         </div>
                     }
                     else
@@ -286,7 +286,7 @@
 
                         <div class="form-group m-2">
                             <label asp-for="Deposit" class="control-label m-2"></label>
-                            <input asp-for="Deposit" disabled type="number" class="form-control" />
+                            <span type="text" class="form-control price-input" readonly>@Model?.Deposit.Value.ToString("N0")₫</span>
                         </div>
                     }
                     <div class="form-group m-2">
@@ -314,7 +314,9 @@
                                             <span>Thất bại</span>
                                         }
                                     </p>
-                                    @(remain += payment.PaymentAmount)
+
+                                    remain += payment.PaymentAmount;
+
                                 }
                             }
                             else
@@ -324,15 +326,16 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="m-2">
-                    <p style="font-weight:bold">Số tiền đã trả: &nbsp; <span style="color:orange">@remain đ</span></p>
+                    <p style="font-weight:bold">Số tiền đã trả: &nbsp; <span style="color:orange">@remain.ToString("N0")₫</span></p>
                 </div>
 
                 @{
                     remain = ViewBag.total - remain;
                 }
                 <div class="m-2">
-                    <p style="font-weight:bold">Số tiền còn lại: &nbsp; <span style="color:orange">@remain đ</span></p>
+                    <p style="font-weight:bold">Số tiền còn lại: &nbsp; <span style="color:orange">@remain.ToString("N0")₫</span></p>
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="Description" class="control-label m-2"></label>
@@ -340,7 +343,7 @@
                 </div>
             </form>
 
-            <form asp-action="PaidTheRest" asp-controller="Order" method="post">
+            <form asp-action="PaidTheRest" id="submitFormFormatFinal" asp-controller="Order" method="post">
                 <h3 class="text-center m-4" style="color:green">Thanh toán</h3>
                 @if (ViewBag.Errors != null)
                 {
@@ -391,14 +394,14 @@
                     {
                         <div class="form-group m-2">
                             <label class="control-label m-2">Số tiền thanh toán</label>
-                            <input name="PaidTheRest" value="@ViewBag.PaidTheRest" class="form-control" />
+                            <input name="PaidTheRest" value="@ViewBag.PaidTheRest" class="PriceFormatFinal form-control" />
                         </div>
                     }
                     else
                     {
                         <div class="form-group m-2">
                             <label class="control-label m-2">Số tiền thanh toán</label>
-                            <input name="PaidTheRest" value="0" class="form-control" />
+                            <input name="PaidTheRest" value="0" class="PriceFormatFinal form-control" />
                         </div>
                     }
 
@@ -443,25 +446,26 @@
                                         }
                                     </option>
                                 }
-                            }
-                            @if (ViewBag.Message != null)
-                            {
-                                <div class="form-group m-2">
-                                    <label class="control-label m-2">Lời nhắn</label>
-                                    <input name="Message" value="@ViewBag.Message" class="form-control" />
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="form-group m-2">
-                                    <label class="control-label m-2">Lời nhắn</label>
-                                    <input name="Message" class="form-control" />
-                                </div>
+
                             }
                         </select>
-                    </div>
-                    
 
+                    </div>
+
+                    @if (ViewBag.Message != null)
+                    {
+                        <div class="form-group m-2">
+                            <label class="control-label m-2">Lời nhắn</label>
+                            <input name="Message" value="@ViewBag.Message" class="form-control" />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group m-2">
+                            <label class="control-label m-2">Lời nhắn</label>
+                            <input name="Message" class="form-control" />
+                        </div>
+                    }
 
                     <div class="col-md-5">
                         <input type="submit" value="Xác nhận" class="btn btn-success" />
@@ -528,7 +532,9 @@ else
                         total += parseInt(quantity) * parseFloat(sellingPrice);
                     }
                 });
-                $('#total').text(total);
+                var formattedTotal = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total);
+
+                $('#total').text(formattedTotal);
             }
 
             // Bắt sự kiện khi một option được chọn
@@ -555,15 +561,15 @@ else
             // Thêm dòng mới và cập nhật tên các input
             function addRow() {
                 var newRow = `<tr class="added-row">
-                                                                                                    <td></td>
-                                                                                                    <td>
-                                                                                                        <select class="h-50 control-index" name=""></select>
-                                                                                                    </td>
-                                                                                                    <td><input type="number" value="1" class="form-control control-index" name="" placeholder="Số lượng" /></td>
-                                                                                                    <td class="text-center">
-                                                                                                        <a class="avtar avtar-s btn-link-danger btn-pc-default delete-item huhu"><i class="ti ti-trash f-20"></i></a>
-                                                                                                    </td>
-                                                                                                </tr>`;
+                                                                                                                    <td></td>
+                                                                                                                    <td>
+                                                                                                                        <select class="h-50 control-index" name=""></select>
+                                                                                                                    </td>
+                                                                                                                    <td><input type="number" value="1" class="form-control control-index" name="" placeholder="Số lượng" /></td>
+                                                                                                                    <td class="text-center">
+                                                                                                                        <a class="avtar avtar-s btn-link-danger btn-pc-default delete-item huhu"><i class="ti ti-trash f-20"></i></a>
+                                                                                                                    </td>
+                                                                                                                </tr>`;
                 $('#itemTable tbody').append(newRow);
                 createOptions();
                 updateIndexes();

@@ -44,6 +44,14 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 }
 
                 var Product = await _productApiService.ViewProduct(request);
+                var listIdSelected = TempData["SaveSelectedIdIndexProductsCreate"] as string;
+                if (!string.IsNullOrEmpty(listIdSelected))
+                {
+                    // Chuyển đổi chuỗi thành danh sách các chuỗi
+                    var selectedIdsList = listIdSelected.Split(',').ToList();
+                    ViewBag.SelectedIdsIndexProductsCreateHold = selectedIdsList;
+                    Product.ResultObj.Items.RemoveAll(p => selectedIdsList.Contains(p.ProductId));
+                }
                 return View(Product.ResultObj);
             }
             catch
@@ -63,24 +71,31 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 selectedIdsList.Remove(productId);
                 HttpContext.Session.SetString("SelectedIds", string.Join(",", selectedIdsList));
             }
-            return RedirectToAction("Create");
+			TempData["SuccessToast"] = true;
+			return RedirectToAction("Create");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SaveSelectedIdIndexProductsCreate(string listIdSelected)
+        {
+            try
+            {
+                TempData["SaveSelectedIdIndexProductsCreate"] = listIdSelected;
+                return RedirectToAction("IndexProductsCreate", "Collection");
+            }
+            catch (Exception)
+            {
+                return View();
+            }
         }
         [HttpPost]
         public async Task<IActionResult> SaveSelectedIdCreate(string selectedIds)
         {
             try
             {
-                /*CookieOptions option = new CookieOptions
-                {
-                    Path = "/Collection/Create",
-                    Expires = DateTime.UtcNow.AddDays(-1), // Đặt thời gian hết hạn trong quá khứ
-                    SameSite = SameSiteMode.Strict
-                };
-                HttpContext.Response.Cookies.Append("SelectedIds", selectedIds, option);*/
-                /*                HttpContext.Session.SetString("SelectedIds", selectedIds);
-                */
                 TempData["SelectedIdsCreate"] = selectedIds;
-                return RedirectToAction("Create", "Collection");
+				TempData["SuccessToast"] = true;
+				return RedirectToAction("Create", "Collection");
             }
             catch (Exception)
             {
@@ -137,11 +152,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     listError.Add(errorResult.Message);
                 }
-                ViewBag.Errors = listError;
+				TempData["WarningToast"] = true;
+				ViewBag.Errors = listError;
                 return View();
 
             }
-            TempData["SuccessMsg"] = "Create success for Role " + request.CollectionName;
+            TempData["SuccessToast"] = true;
             return RedirectToAction("Index", "Collection");
         }
 
@@ -151,7 +167,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             try
             {
                 TempData["SelectedIdsIndexProductsUpdate"] = listIdSelected;
-                return RedirectToAction("IndexProductsUpdate", "Collection");
+				TempData["SuccessToast"] = true;
+				return RedirectToAction("IndexProductsUpdate", "Collection");
             }
             catch (Exception)
             {
@@ -184,6 +201,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     // Chuyển đổi chuỗi thành danh sách các chuỗi
                     var selectedIdsList = listIdSelected.Split(',').ToList();
+                    ViewBag.SelectedIdsIndexProductsUpdateHold = selectedIdsList;
                     Product.ResultObj.Items.RemoveAll(p => selectedIdsList.Contains(p.ProductId));
                 }
                 return View(Product.ResultObj);
@@ -201,7 +219,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             try
             {
                 TempData["SelectedIdEdit"] = selectedIds;
-                return RedirectToAction("Edit", "Collection");
+				TempData["SuccessToast"] = true;
+				return RedirectToAction("Edit", "Collection");
             }
             catch (Exception)
             {
@@ -231,7 +250,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 var collection = await _collectionApiService.GetCollectionById(collectionIdFinal);
                 if (listProductsAdd.Any())
                 {
-                    collection.ResultObj.ListProducts.AddRange(listProductsAdd);
+                    collection.ResultObj.ListProducts = listProductsAdd;
                 }
                 if (collection is ApiErrorResult<CollectionVm> errorResult)
                 {
@@ -247,6 +266,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         listError.Add(errorResult.Message);
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
                 }
@@ -254,6 +274,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -262,7 +283,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
-
+                var collection = await _collectionApiService.GetCollectionById(request.CollectionId);
                 HttpContext.Session.Remove("CollectionId");
                 if (request.CollectionName == "null")
                 {
@@ -275,6 +296,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         CollectionId = request.CollectionId,
                         Description = request.Description,
                         Status = request.Status,
+                        Thumbnail = collection.ResultObj.Thumbnail,
                     };
                     return View(collectionVm);
                 }
@@ -305,19 +327,16 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         listError.Add(errorResult.Message);
                     }
-                    ViewBag.Errors = listError;
-                    TempData["ErrorMessage"] = "Cập nhật bộ sưu tập không thành công.";
+					TempData["WarningToast"] = true;
+					ViewBag.Errors = listError;
                     return View();
                 }
-                if (status is ApiSuccessResult<bool> && request.ListProductsIdAdd.First() != null)
-                {
-                    TempData["SuccessMessage"] = "Cập nhật bộ sưu tập thành công!";
-                }
-
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Edit", "Collection", new { CollectionId = request.CollectionId });
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -371,6 +390,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -379,6 +399,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -403,6 +424,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -411,6 +433,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -435,15 +458,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Collection");
 
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }

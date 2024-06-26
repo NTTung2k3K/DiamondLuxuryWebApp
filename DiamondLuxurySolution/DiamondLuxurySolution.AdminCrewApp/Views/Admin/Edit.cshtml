@@ -76,7 +76,7 @@
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="ListRoleName" class="control-label m-2">Danh sách các chức vụ</label>
-                    <select class="h-50" multiple name="RoleId[]">
+                    <select class="h-50" name="RoleId[]">
 
                         @foreach (var role in ViewBag.ListRoleAll)
                         {
@@ -233,10 +233,10 @@
                     <span asp-validation-for="Status" class="text-danger"></span>
                 </div>
                 <div class="form-group row">
-                    <div class="col-md-5">
+                    <div class="col-md-7">
                         <input type="submit" value="Lưu" class="btn btn-primary" />
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-5">
                         <a class="m-6 btn btn-secondary" href="/Admin">Về trang quản lí quản trị viên</a>
                     </div>
                 </div>

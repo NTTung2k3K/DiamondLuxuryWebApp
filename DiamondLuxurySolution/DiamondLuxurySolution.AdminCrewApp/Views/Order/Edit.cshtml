@@ -22,7 +22,7 @@
     {
         <div class="row">
             <div class="col-md-10">
-                <form asp-action="Edit" asp-controller="Order" method="post">
+                <form asp-action="Edit" id="submitFormFormatFinal" asp-controller="Order" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group m-2">
                         <label asp-for="OrderId" class="control-label m-2">Mã đơn hàng</label>
@@ -296,7 +296,7 @@
 
                             <div class="form-group m-2">
                                 <label asp-for="Deposit" class="control-label m-2"></label>
-                                <input readonly value="0₫" class="form-control" />
+                                <span type="text" class="form-control price-input" readonly>@Model?.Deposit?.ToString("N0")₫</span>
                             </div>
                         }
                         else
@@ -304,7 +304,7 @@
 
                             <div class="form-group m-2">
                                 <label asp-for="Deposit" class="control-label m-2"></label>
-                                <input value="@Model.Deposit?.ToString("N0")₫" readonly class="form-control" />
+                                <span type="text" class="form-control price-input" readonly>@Model?.Deposit?.ToString("N0")₫</span>
                             </div>
                         }
                         <div class="form-group m-2">
@@ -430,7 +430,7 @@
     {
         <div class="row">
             <div class="col-md-10">
-                <form asp-action="Edit" asp-controller="Order" method="post">
+                <form asp-action="Edit" id="submitFormFormatFinal" asp-controller="Order" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group m-2">
                         <label asp-for="OrderId" class="control-label m-2">Mã đơn hàng</label>
@@ -710,7 +710,7 @@
                             <label class="control-label m-2">Tổng cộng tạm tính: <span style="color: red" id="total">0</span></label>
                         </div>
                         <div class="form-group m-2">
-                            <label class="control-label m-2">Tổng cộng giảm giá: <span style="color: red">@ViewBag.TotalSale?.ToString("N0")₫</span></label>
+                            <label class="control-label m-2">Số tiền giảm giá: <span style="color: red">@ViewBag.TotalSale?.ToString("N0")₫</span></label>
                         </div>
                         <div class="form-group m-2">
                             <label class="control-label m-2">Tổng cộng đơn hàng hiện tại: <span style="color: red">@ViewBag.Total?.ToString("N0")₫</span></label>
@@ -720,7 +720,7 @@
 
                             <div class="form-group m-2">
                                 <label asp-for="Deposit" class="control-label m-2"></label>
-                                <input asp-for="Deposit" type="number" value="0" class="form-control" />
+                                <span type="text" class="form-control price-input" readonly>@Model?.Deposit?.ToString("N0")₫</span>
                             </div>
                         }
                         else
@@ -728,7 +728,7 @@
 
                             <div class="form-group m-2">
                                 <label asp-for="Deposit" class="control-label m-2"></label>
-                                <input asp-for="Deposit" type="number" class="form-control" />
+                                <span type="text" class="form-control price-input" readonly>@Model?.Deposit?.ToString("N0")₫</span>
                             </div>
                         }
                         <div class="form-group m-2">

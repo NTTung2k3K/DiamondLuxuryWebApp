@@ -3,6 +3,7 @@ using DiamondLuxurySolution.AdminCrewApp.Service.Frame;
 using DiamondLuxurySolution.AdminCrewApp.Service.Gem;
 using DiamondLuxurySolution.AdminCrewApp.Service.Product;
 using DiamondLuxurySolution.AdminCrewApp.Service.Staff;
+using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Product;
 using Microsoft.AspNetCore.Authorization;
@@ -130,6 +131,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     return View();
 
                 }
+                Product.ResultObj.ProcessingPrice = (int)Product.ResultObj.ProcessingPrice;
                 return View(Product.ResultObj);
             }
             catch
@@ -184,6 +186,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         var frame = await _frameApiService.GetFrameById(request.FrameId);
                         ProductVm.FrameVm = frame.ResultObj;
                     }
+                    ProductVm.ProcessingPrice = (int)ProductVm.ProcessingPrice;
 
                     return View(ProductVm);
                 }

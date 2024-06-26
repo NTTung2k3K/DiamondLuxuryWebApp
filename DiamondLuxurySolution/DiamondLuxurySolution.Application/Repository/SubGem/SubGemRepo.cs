@@ -27,19 +27,29 @@ namespace DiamondLuxurySolution.Application.Repository.SubGem
             decimal price = 0;
             try
             {
-                price = Convert.ToDecimal(request.SubGemPrice);
-                if (price < 0)
+                // Loại bỏ dấu phân cách hàng nghìn và thay dấu thập phân (nếu cần)
+                string processedPrice = request.SubGemPrice.Replace(".", "").Replace(",", ".");
+
+                // Chuyển đổi chuỗi sang kiểu decimal
+                if (decimal.TryParse(processedPrice, out price))
                 {
-                    errorList.Add("Vui lòng nhập giá cho kim cương phụ phải > 0");
+                    if (price <= 0)
+                    {
+                        errorList.Add("Giá kim cương phụ phải lớn hơn 0");
+                    }
+                }
+                else
+                {
+                    errorList.Add("Giá kim cương phụ không hợp lệ");
                 }
             }
-            catch (Exception)
+            catch (FormatException)
             {
-                errorList.Add("Giá nhập sai định dạng");
+                errorList.Add("Giá kim cương phụ không hợp lệ");
             }
             if (errorList.Any())
             {
-                return new ApiErrorResult<bool>("", errorList);
+                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
             var subGem = new DiamondLuxurySolution.Data.Entities.SubGem
             {
@@ -111,15 +121,25 @@ namespace DiamondLuxurySolution.Application.Repository.SubGem
             decimal price = 0;
             try
             {
-                price = Convert.ToDecimal(request.SubGemPrice);
-                if (price < 0)
+                // Loại bỏ dấu phân cách hàng nghìn và thay dấu thập phân (nếu cần)
+                string processedPrice = request.SubGemPrice.Replace(".", "").Replace(",", ".");
+
+                // Chuyển đổi chuỗi sang kiểu decimal
+                if (decimal.TryParse(processedPrice, out price))
                 {
-                    errorList.Add("Vui lòng nhập giá cho kim cương phụ phải > 0");
+                    if (price <= 0)
+                    {
+                        errorList.Add("Giá kim cương phụ phải lớn hơn 0");
+                    }
+                }
+                else
+                {
+                    errorList.Add("Giá kim cương phụ không hợp lệ");
                 }
             }
-            catch (Exception)
+            catch (FormatException)
             {
-                errorList.Add("Giá nhập sai định dạng");
+                errorList.Add("Giá kim cương phụ không hợp lệ");
             }
             subGem.SubGemName = request.SubGemName.Trim();
             subGem.SubGemPrice = price;

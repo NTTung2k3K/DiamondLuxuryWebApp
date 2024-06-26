@@ -12,7 +12,7 @@ namespace DiamondLuxurySolution.Data.Entities
         public string WarrantyDetailName { get; set; }
         public string WarrantyType { get; set; }
 
-        public DateTime? ReceiveProductDate { get; set; }
+        public DateTime? ReceiveProductDate { get; set; }   
         public DateTime? ReturnProductDate { get; set; }
         public string? Description { get; set; }
         public string Status { get; set; }

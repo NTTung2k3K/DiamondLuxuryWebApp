@@ -30,7 +30,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Warranty
 			return data;
 		}
 
-		public async Task<ApiResult<WarrantyVm>> GetWarrantyById(Guid WarrantyId)
+		public async Task<ApiResult<WarrantyVm>> GetWarrantyById(string WarrantyId)
 		{
 			var data = await GetAsync<WarrantyVm>($"api/Warrantys/GetById?WarrantyId={WarrantyId}");
 			return data;
@@ -49,7 +49,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Warranty
 
 		public async Task<ApiResult<PageResult<WarrantyVm>>> ViewWarrantyInManager(ViewWarrantyRequest request)
 		{
-			var data = await GetAsync<PageResult<WarrantyVm>>($"api/Warrantys/View?Keyword={request.Keyword}&pageIndex={request.pageIndex}");
+			var data = await GetAsync<PageResult<WarrantyVm>>($"api/Warrantys/ViewInManager?Keyword={request.Keyword}&pageIndex={request.pageIndex}");
 			return data;
 		}
 	}

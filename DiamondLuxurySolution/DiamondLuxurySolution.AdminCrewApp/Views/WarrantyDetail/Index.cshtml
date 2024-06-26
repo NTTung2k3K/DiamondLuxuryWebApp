@@ -1,5 +1,6 @@
 ﻿@using DiamondLuxurySolution.Data.Entities
 @using DiamondLuxurySolution.ViewModel.Common
+@using DiamondLuxurySolution.ViewModel.Models.User.Staff
 @using DiamondLuxurySolution.ViewModel.Models.WarrantyDetail
 
 @model PageResult<WarrantyDetailVm>
@@ -8,10 +9,15 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@{
+    var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
+}
 <div class="row mb-4">
     <div class="col-md-4">
-        <a asp-action="Create" asp-controller="WarrantyDetail" class="btn btn-success">Tạo mới</a>
+        @if (!staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager))
+        {
+            <a asp-action="Create" asp-controller="WarrantyDetail" class="btn btn-success">Tạo mới</a>
+        }
     </div>
     <div class="col-md-3">
     </div>
@@ -63,9 +69,9 @@
                 <tr class="text-center">
                     <td>@item.WarrantyVm.WarrantyId</td>
                     <td>@item.WarrantyDetailName</td>
-                  
+
                     <td>@item.WarrantyType</td>
-                    <td>@item.ReturnProductDate</td>
+                    <td>@item.ReceiveProductDate</td>
                     @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.Received.ToString()))
                     {
                         <td>
@@ -127,9 +133,17 @@
                         </td>
                     }
                     <td class="text-center">
-                        @Html.ActionLink("Chỉnh sửa", "Edit", new { WarrantyDetailId = item.WarrantyDetailId }, new { @class = "btn btn-warning" })
-                        @Html.ActionLink("Xem chi tiết", "Detail", new { WarrantyDetailId = item.WarrantyDetailId }, new { @class = "btn btn-info" })
-                        @Html.ActionLink("Xóa", "Delete", new { WarrantyDetailId = item.WarrantyDetailId }, new { @class = "btn btn-danger" })
+                        @if (!staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager))
+                        {
+                            @Html.ActionLink("Chỉnh sửa", "Edit", new { WarrantyDetailId = item.WarrantyDetailId }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Xem chi tiết", "Detail", new { WarrantyDetailId = item.WarrantyDetailId }, new { @class = "btn btn-info" })
+                            @Html.ActionLink("Xóa", "Delete", new { WarrantyDetailId = item.WarrantyDetailId }, new { @class = "btn btn-danger" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Xem chi tiết", "Detail", new { WarrantyDetailId = item.WarrantyDetailId }, new { @class = "btn btn-info" })
+
+                        }
                     </td>
                 </tr>
             }

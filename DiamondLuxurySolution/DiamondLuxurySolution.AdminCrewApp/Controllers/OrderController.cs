@@ -20,10 +20,10 @@ using Rotativa;
 using HtmlToPdfMaster;
 using Microsoft.VisualBasic.FileIO;
 using PdfSharp;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
     public class OrderController : BaseController
     {
         private readonly IOrderApiService _OrderApiService;
@@ -43,7 +43,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             _productApiService = productApiService;
             _converter = converter;
         }
-
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
         [HttpGet]
         public async Task<IActionResult> Index(ViewOrderRequest request)
         {
@@ -72,6 +72,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
         [HttpGet]
         public async Task<IActionResult> Detail(string OrderId)
         {
@@ -105,6 +106,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
 
         [HttpGet]
         public async Task<IActionResult> Edit(string OrderId)
@@ -181,6 +184,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     ShipAdress = Order.ResultObj.ShipAdress,
                     ListPaymentId = listPaymentExist,
                 };
+                if(updateVm.Deposit != null)
+                {
+                    updateVm.Deposit = (int)updateVm.Deposit;
+                }
+
                 return View(updateVm);
             }
             catch
@@ -191,6 +199,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
 
 
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
 
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateOrderRequest request)
@@ -258,6 +267,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         listError.Add(errorResult.Message);
                     }
                     ViewBag.Errors = listError;
+
+                    if (request.Deposit != null)
+                    {
+                        request.Deposit = (int)request.Deposit;
+                    }
                     return View(request);
                 }
 
@@ -268,6 +282,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View(request);
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
 
         [HttpGet]
         public async Task<IActionResult> PaidTheRest(string OrderId)
@@ -360,6 +375,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
 
 
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
 
         [HttpPost]
         public async Task<IActionResult> PaidTheRest(ContinuePaymentRequest request)
@@ -458,6 +474,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View(request);
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
 
         [HttpGet]
         public async Task<IActionResult> Delete(string OrderId)
@@ -490,6 +507,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
 
         [HttpPost]
         public async Task<IActionResult> DeleteConfirmed(string OrderId)
@@ -525,6 +543,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
+
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -543,6 +563,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
             return View();
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff)]
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateOrderByStaffRequest request)
         {
