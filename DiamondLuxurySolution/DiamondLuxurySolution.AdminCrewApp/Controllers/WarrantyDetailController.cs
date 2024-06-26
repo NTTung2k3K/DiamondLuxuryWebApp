@@ -138,7 +138,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     WarrantyDetailId = WarrantyDetailVmCall.ResultObj.WarrantyDetailId,
                     Description = WarrantyDetailVmCall.ResultObj.Description,
                     ReceiveProductDate = WarrantyDetailVmCall.ResultObj.ReceiveProductDate,
-                    ReturnProductDate = WarrantyDetailVmCall.ResultObj.ReturnProductDate ?? DateTime.MinValue,
+                    ReturnProductDate = WarrantyDetailVmCall.ResultObj.ReturnProductDate,
                     Image = WarrantyDetailVmCall.ResultObj.Image,
                     WarrantyDetailName = WarrantyDetailVmCall.ResultObj.WarrantyDetailName,
                     WarrantyType = WarrantyDetailVmCall.ResultObj.WarrantyType,

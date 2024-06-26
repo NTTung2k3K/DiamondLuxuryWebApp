@@ -8,7 +8,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Warranty
 {
     public class DeleteWarrantyRequest
     {
-        public Guid WarrantyId { get; set; }
+        public string WarrantyId { get; set; }
 
     }
 }

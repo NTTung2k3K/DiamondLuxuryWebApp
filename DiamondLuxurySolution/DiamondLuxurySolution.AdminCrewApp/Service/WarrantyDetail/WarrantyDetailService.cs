@@ -19,10 +19,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.WarrantyDetail
 
         public async Task<ApiResult<bool>> CreateWarrantyDetail(CreateWarrantyDetailRequest request)
         {
-            if (request.ReturnProductDate == null)
-            {
-                request.ReturnProductDate = DateTime.MinValue;
-            }
 
             var data = await PostAsyncHasImage<bool>("api/WarrantyDetails/Create", request);
             return data;

@@ -72,7 +72,7 @@
                 Hình ảnh
             </dt>
             <dd class="col-sm-9">
-                @if (Model.Image != "")
+                @if (!string.IsNullOrEmpty(Model.Image))
                 {
                     <img src="@Model.Image" style="style= height:100px; width:100px" />
                 }
