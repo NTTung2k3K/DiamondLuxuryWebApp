@@ -63,7 +63,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 selectedIdsList.Remove(productId);
                 HttpContext.Session.SetString("SelectedIds", string.Join(",", selectedIdsList));
             }
-            return RedirectToAction("Create");
+			TempData["SuccessToast"] = true;
+			return RedirectToAction("Create");
         }
         [HttpPost]
         public async Task<IActionResult> SaveSelectedIdCreate(string selectedIds)
@@ -80,7 +81,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 /*                HttpContext.Session.SetString("SelectedIds", selectedIds);
                 */
                 TempData["SelectedIdsCreate"] = selectedIds;
-                return RedirectToAction("Create", "Collection");
+				TempData["SuccessToast"] = true;
+				return RedirectToAction("Create", "Collection");
             }
             catch (Exception)
             {
@@ -137,11 +139,13 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     listError.Add(errorResult.Message);
                 }
-                ViewBag.Errors = listError;
+				TempData["WarningToast"] = true;
+				ViewBag.Errors = listError;
                 return View();
 
             }
-            TempData["SuccessMsg"] = "Create success for Role " + request.CollectionName;
+			TempData["SuccessToast"] = true;
+			TempData["SuccessMsg"] = "Create success for Role " + request.CollectionName;
             return RedirectToAction("Index", "Collection");
         }
 
@@ -151,7 +155,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             try
             {
                 TempData["SelectedIdsIndexProductsUpdate"] = listIdSelected;
-                return RedirectToAction("IndexProductsUpdate", "Collection");
+				TempData["SuccessToast"] = true;
+				return RedirectToAction("IndexProductsUpdate", "Collection");
             }
             catch (Exception)
             {
@@ -201,7 +206,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             try
             {
                 TempData["SelectedIdEdit"] = selectedIds;
-                return RedirectToAction("Edit", "Collection");
+				TempData["SuccessToast"] = true;
+				return RedirectToAction("Edit", "Collection");
             }
             catch (Exception)
             {
@@ -305,16 +311,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         listError.Add(errorResult.Message);
                     }
-                    ViewBag.Errors = listError;
+					TempData["WarningToast"] = true;
+					ViewBag.Errors = listError;
                     TempData["ErrorMessage"] = "Cập nhật bộ sưu tập không thành công.";
                     return View();
                 }
                 if (status is ApiSuccessResult<bool> && request.ListProductsIdAdd.First() != null)
                 {
-                    TempData["SuccessMessage"] = "Cập nhật bộ sưu tập thành công!";
+					TempData["SuccessToast"] = true;
+					TempData["SuccessMessage"] = "Cập nhật bộ sưu tập thành công!";
                 }
 
-                return RedirectToAction("Edit", "Collection", new { CollectionId = request.CollectionId });
+				return RedirectToAction("Edit", "Collection", new { CollectionId = request.CollectionId });
             }
             catch
             {
@@ -435,11 +443,13 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
-                    ViewBag.Errors = listError;
+					TempData["WarningToast"] = true;
+					ViewBag.Errors = listError;
                     return View();
 
                 }
-                return RedirectToAction("Index", "Collection");
+				TempData["SuccessToast"] = true;
+				return RedirectToAction("Index", "Collection");
 
             }
             catch

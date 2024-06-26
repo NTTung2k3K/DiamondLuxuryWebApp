@@ -77,13 +77,13 @@
             Phần trăm giảm giá
         </dt>
         <dd class = "col-sm-9">
-            @Html.DisplayFor(model => model.DiscountPercent)
+                @(Model.DiscountPercent != 0 ? Model.DiscountPercent.Value.ToString("N0") + "%" : "Không có giá trị")
         </dd>
         <dt class = "col-sm-3">
             Giám giá tối đa
         </dt>
         <dd class = "col-sm-9">
-            @Html.DisplayFor(model => model.MaxDiscount)
+            @(Model.MaxDiscount != 0 ? Model.MaxDiscount.Value.ToString("N0") + "₫" : "Không có giá trị")
         </dd>
         <dt class = "col-sm-3">
             Hiển thị

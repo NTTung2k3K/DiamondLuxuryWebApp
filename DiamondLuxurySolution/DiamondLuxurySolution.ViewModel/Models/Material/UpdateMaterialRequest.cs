@@ -28,6 +28,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.Material
         public string? EffectDate { get; set; }
 
         [Required(ErrorMessage = "Cần nhập giá")]
-        public decimal? Price { get; set; }
+        public string Price { get; set; }
     }
 }
