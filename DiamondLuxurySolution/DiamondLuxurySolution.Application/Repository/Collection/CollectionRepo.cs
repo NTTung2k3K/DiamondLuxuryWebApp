@@ -39,10 +39,10 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
             decimal price = 0;
             if (!string.IsNullOrWhiteSpace(request.priceDisplay) && !request.priceDisplay.Equals("null"))
             {
-                try
-                {
+            try
+            {
                     price = Convert.ToDecimal(request.priceDisplay);
-                }
+                    }
                 catch (FormatException)
                 {
                     return new ApiErrorResult<bool>("Nhập sai định dạng giá tiền");
@@ -241,9 +241,9 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
                 try
                 {
                     price = Convert.ToDecimal(request.priceDisplay);
-                }
-                catch (FormatException)
-                {
+            }
+            catch (FormatException)
+            {
                     return new ApiErrorResult<bool>("Nhập sai định dạng giá tiền");
                 }
             }

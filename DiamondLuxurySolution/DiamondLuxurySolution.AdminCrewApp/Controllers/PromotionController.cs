@@ -1,5 +1,6 @@
 ﻿using DiamondLuxurySolution.AdminCrewApp.Service.Promotion;
 using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Promotion;
 using Microsoft.AspNetCore.Authorization;
@@ -107,6 +108,19 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     return View();
 
                 }
+
+                // Chuyển đổi Price từ decimal sang string để xử lý
+                string priceString = Promotion.ResultObj.MaxDiscount.ToString();
+
+                // Cắt bỏ hai số 0 cuối cùng nếu chúng tồn tại
+                if (priceString.EndsWith("00"))
+                {
+                    priceString = priceString.Substring(0, priceString.Length - 2);
+                }
+
+                // Gán lại giá trị đã xử lý cho Price (nếu cần thiết)
+                Promotion.ResultObj.MaxDiscount = decimal.Parse(priceString);
+
                 return View(Promotion.ResultObj);
             }
             catch

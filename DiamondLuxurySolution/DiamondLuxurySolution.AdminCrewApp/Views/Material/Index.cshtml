@@ -64,7 +64,7 @@
 
                 <tr class="text-center">
                     <td>@item.MaterialName</td>
-                    <td>@item.Price</td>
+                    <td>@item.Price.Value.ToString("N0")₫</td>
                     @if (string.IsNullOrEmpty(item.MaterialImage))
                     {
                         <td>Không có hình ảnh</td>
@@ -115,4 +115,10 @@
 else
 {
     <h1>Không có thông tin</h1>
+}
+
+
+@section scripts
+{
+        <script src="~/assets/js/Test.js"></script>
 }
