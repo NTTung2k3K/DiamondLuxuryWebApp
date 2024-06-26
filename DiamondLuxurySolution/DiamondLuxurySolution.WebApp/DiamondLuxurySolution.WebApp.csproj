@@ -25,4 +25,8 @@
     <ProjectReference Include="..\DiamondLuxurySolution.ViewModel\DiamondLuxurySolution.ViewModel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\Components\" />
+  </ItemGroup>
+
 </Project>

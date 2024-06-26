@@ -1,0 +1,74 @@
+﻿@using System.Text.RegularExpressions
+@using DiamondLuxurySolution.ViewModel.Models.Promotion
+@functions {
+	// Hàm helper để loại bỏ các thẻ HTML từ chuỗi và cắt ngắn nếu quá dài
+	public string StripHtml(string input, int maxLength)
+	{
+		// Remove HTML tags
+		string plainText = Regex.Replace(input, "<.*?>", string.Empty);
+
+		// Truncate if longer than maxLength
+		if (plainText.Length > maxLength)
+		{
+			plainText = plainText.Substring(0, maxLength) + "...";
+		}
+
+		return plainText;
+	}
+}
+@model List<PromotionVm>
+
+		@if (Model != null && Model.Count() > 0)
+		{
+	@foreach (var promotion in Model.OrderByDescending(n => n.StartDate).Take(1))
+			{
+		if (promotion.Status)
+				{
+
+
+			<div class="container">
+				<div class="row">
+					<div class="whiteBox">
+						<div class="content-container">
+							<h2 class="tintuc">Tin Tức</h2>
+							<h1 style="display: flex; align-items: flex-start; word-break: break-all;">
+								<img href="/Promotion/Detail?id=@promotion.PromotionId" src="@promotion.BannerImage" alt="Small Image" width="150" height="150" style="margin-right: 10px;">
+								<span href="/Promotion/Detail?id=@promotion.PromotionId" style="max-width:247px">@Html.Raw(StripHtml(promotion.PromotionName, 100))</span>
+							</h1>
+							<h5 style="word-break: break-all;">
+								<p href="/Promotion/Detail?id=@promotion.PromotionId">@Html.Raw(StripHtml(promotion.Description, 100))</p>
+							</h5>
+
+							<button href="/Promotion/Detail?id=@promotion.PromotionId" class="xemThem" style="margin-left:2rem">Xem Thêm</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+				}
+			}
+			}
+<div class="sticky" style="border:1px solid rgba(255, 255, 255, 0.5);padding:20px; margin-right:60px;">
+	<h2 style="background: black;text-align: center;">
+		Chương Trình Khuyến Mãi
+	</h2>
+	@foreach (var promotion in Model)
+	{
+		<!-- Điền vào các tin tức tiêu điểm tại đây -->
+		<div class="featured-news" style="display:flex; margin-top:20px;border-bottom: 1px solid rgba(255, 255, 255, 0.5); padding-bottom:5px">
+			<div class="post-media">
+				<a href="/Promotion/Detail?id=@promotion.PromotionId">
+					<img href="/Promotion/Detail?id=@promotion.PromotionId" src="@promotion.BannerImage" alt="Featured News" style="width:150px; height:150px; margin-right:27px;">
+				</a>
+			</div>
+			<div class="post-content" style="max-width:287px; display: flex; flex-direction: column; justify-content: space-between;">
+				<h1 style="padding:0; white-space: normal; word-break:break-all; color:white; margin:0px;">
+					<a href="/Promotion/Detail?id=@promotion.PromotionId">@Html.Raw(StripHtml(promotion.PromotionName, 100))</a>
+				</h1>
+				<h4 style="padding:0; margin-top: 10px;">@promotion.StartDate.ToString("dd/MM/yyyy")</h4>
+			</div>
+		</div>
+	}
+	<!-- Thêm các tin tức tiêu điểm khác nếu cần -->
+</div>

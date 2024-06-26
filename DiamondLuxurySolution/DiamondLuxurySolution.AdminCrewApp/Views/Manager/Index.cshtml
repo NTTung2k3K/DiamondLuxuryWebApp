@@ -35,24 +35,29 @@
 @if (Model!= null && Model.Items != null && Model.Items.Count > 0)
 {
 
-    <table class="table">
+    <table class="table" id="sort">
         <thead>
             <tr class="text-center">
                 <th class="p-0">
                     <label>Chứng minh nhân dân</label>
+                    <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th class="p-0">
                     <label>Họ và tên</label>
+                    <label onclick="sortTable(1)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th class="p-0">
                     <label>Số điện thoại</label>
+                    <label onclick="sortTable(2)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
 
                 <th class="p-0">
                     <label>Trạng thái</label>
+                    <label onclick="sortTable(3)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th class="p-0">
                     <label>Chức vụ</label>
+                    <label onclick="sortTable(4)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>Cài đặt</th>
             </tr>
@@ -141,4 +146,8 @@
 else
 {
     <h1>Không có thông tin</h1>
+}
+@section scripts
+{
+    <script src="~/assets/js/Test.js"></script>
 }

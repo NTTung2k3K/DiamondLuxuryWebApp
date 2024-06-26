@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore;
 using DiamondLuxurySolution.WebApp.Service.Customer;
 using DiamondLuxurySolution.WebApp.Service.Payment;
 using DiamondLuxurySolution.WebApp.Service.Promotion;
+using DiamondLuxurySolution.WebApp.Service.News;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -45,6 +46,9 @@ builder.Services.AddTransient<IKnowLedgeNewsApiService, KnowledgeNewsApiService>
 builder.Services.AddTransient<IContactApiService, ContactApiService>();
 
 builder.Services.AddTransient<IProductApiService, ProductApiService>();
+
+builder.Services.AddTransient<INewsApiService, NewsApiService>();
+builder.Services.AddTransient<IPromotionApiService, PromotionApiService>();
 
 
 
