@@ -272,15 +272,15 @@ th {
 00. Global CSS
 *****************************/
 :root {
-  --bs-body-color: #dee2e6;
-  --bs-primary: #a8741a;
-  --bs-body-bg: #242424;
-  --bs-border-color: #2d2d2d;
-  --bs-body-font-family: "Rubik", sans-serif;
-  --bs-body-font-size: 1.5rem;
-  --bs-body-font-weight: 400;
-  --bs-body-line-height: 1.4;
-  --bg-color-2: #343434 ;
+    --bs-body-color: #dee2e6;
+    --bs-primary: #E8BE6F;
+    --bs-body-bg: #242424;
+    --bs-border-color: #2d2d2d;
+    --bs-body-font-family: "Rubik", sans-serif;
+    --bs-body-font-size: 1.5rem;
+    --bs-body-font-weight: 400;
+    --bs-body-line-height: 1.4;
+    --bg-color-2: #343434;
 }
 
 .banner-static a:hover {
@@ -353,7 +353,7 @@ th {
 }
 
 .product-details-slider .slick-btn:hover, .product-details-action-bottom a:hover, .product-details-price-wrapper > span, .product-details-list li a, .product-details-content .ratings-wrap a:hover, .error h1, .comment .reply, .order-table .table tr.order-total td span, .cart-calculator-table td .price-ammount, .post .footer-meta a:hover, .post-title a:hover, .blog .read-more, .blog__meta p a, .accordion-button:hover, .banner__name span, .banner__label, .banner__notice, .promo__link, .promo__name, .user-dashboard-tab__head .nav-link.active, .product-tab__link.nav-link.active, .product-tab__link.nav-link:hover, .nav-top .slick-btn:hover i, .product-modal .product-price .sale-price, .product-modal .product-detail-list li a, .ratings i.rated, .widget-product .product-price-wrapper > span, .widget-product .product-rating i, .product-rating i.theme-star, .search-form__submit:hover, .account-form h4, .static-slider .single-static-slide .static-slide-text p, .homepage-slider .single-slider .slider-content p strong, .homepage-slider .single-slider .slider-content h5, .mini-cart__ammount i, .mainmenu__item > a:hover:after, .mainmenu__item > a:hover, .mainmenu__item.active > a:after, .mainmenu__item.active > a, .recent-post-content h4 a:hover, .copyright-text a:hover, .copyright-text a, .contact-info p, .header-toolbar-icons li .bordered-icon:hover, .corporate-2:hover i, .dropdown-item:hover, .tweet i, .tweet a, .breadcrumb-area .breadcrumb li a:hover, .breadcrumb-area .breadcrumb li.current a {
-  color: #a8741a;
+    color: #e8be6f;
 }
 
 .primary-bg, .comment .reply:hover, .product-action a:hover, .product-label.discount, .form__submit:hover, .homepage-slider .slick-dots li button:hover:before, .homepage-slider .slick-dots li.slick-active button:before, .homepage-slider .slick-btn:hover, .pagination li a:hover, .pagination li a.current, .scroll-to-top {
@@ -3561,10 +3561,10 @@ Corporate
 11. Footer CSS
 *****************************/
 .footer-widget .widget-title {
-  font-size: 2rem;
-  text-transform: capitalize;
-  margin-bottom: 2rem;
-  color: #a8741a;
+    font-size: 2rem;
+    text-transform: capitalize;
+    margin-bottom: 2rem;
+    color: #E8BE6F !important;
 }
 .footer-widget .widget-title-1 {
   font-size: 3.5rem;
@@ -3934,7 +3934,7 @@ Corporate
   .mainmenu__item.menu-item-has-children > a:after {
     position: absolute;
     content: "\f107";
-    right: 0;
+    right: -5px;
     top: 50%;
     font-family: fontAwesome;
     color: #fff;
@@ -3963,6 +3963,9 @@ Corporate
     z-index: 9;
     pointer-events: none;
   }
+    .mainmenu__item.menu-item-has-children > a:hover:after {
+        color: #E8BE6F; /* Màu khi hover */
+    }
 }
 @media (min-width: 62em) {
   .mainmenu__item.menu-item-has-children > ul.sub-menu {
@@ -3977,8 +3980,11 @@ Corporate
     transition: all 0.5s ease 0s;
   }
 }
+.mainmenu__link:hover {
+    color: #E8BE6F !important;
+}
 @media (min-width: 62em) {
-  .mainmenu__item.menu-item-has-children > ul.sub-menu ul {
+    .mainmenu__item.menu-item-has-children > ul.sub-menu ul {
     position: absolute;
     left: 100%;
     top: 15rem;

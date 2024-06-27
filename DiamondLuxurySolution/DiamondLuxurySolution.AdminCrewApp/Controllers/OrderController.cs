@@ -186,7 +186,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 };
                 if(updateVm.Deposit != null)
                 {
-                    updateVm.Deposit = (int)updateVm.Deposit;
+                    updateVm.Deposit = (long)updateVm.Deposit;
                 }
 
                 return View(updateVm);
@@ -270,7 +270,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
                     if (request.Deposit != null)
                     {
-                        request.Deposit = (int)request.Deposit;
+                        request.Deposit = (long)request.Deposit;
                     }
                     return View(request);
                 }

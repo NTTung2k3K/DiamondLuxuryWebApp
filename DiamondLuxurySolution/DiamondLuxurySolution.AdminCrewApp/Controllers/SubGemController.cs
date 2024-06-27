@@ -2,6 +2,7 @@
 using DiamondLuxurySolution.AdminCrewApp.Service.SubGem;
 using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
+using DiamondLuxurySolution.ViewModel.Models.GemPriceList;
 using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
 using DiamondLuxurySolution.ViewModel.Models.SubGem;
 using Microsoft.AspNetCore.Mvc;
@@ -90,7 +91,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     }
                     else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
                     {
-                        foreach (var error in listError)
+                        foreach (var error in errorResult.ValidationErrors)
                         {
                             listError.Add(error);
                         }
@@ -98,6 +99,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     ViewBag.Errors = listError;
                     return View();
                 }
+                // Chuyển đổi Price từ decimal sang string để xử lý
+                string priceString = subgem.ResultObj.SubGemPrice.ToString("0.##");
+
+                // Gán lại giá trị đã xử lý cho Price (nếu cần thiết)
+                subgem.ResultObj.SubGemPrice = decimal.Parse(priceString);
+
                 return View(subgem.ResultObj);
             }
             catch
@@ -105,6 +112,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateSubGemRequest request)
         {

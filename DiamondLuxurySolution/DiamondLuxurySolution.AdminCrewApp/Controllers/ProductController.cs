@@ -131,7 +131,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     return View();
 
                 }
-                Product.ResultObj.ProcessingPrice = (int)Product.ResultObj.ProcessingPrice;
+                Product.ResultObj.ProcessingPrice = (long)Product.ResultObj.ProcessingPrice;
                 return View(Product.ResultObj);
             }
             catch
@@ -186,7 +186,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         var frame = await _frameApiService.GetFrameById(request.FrameId);
                         ProductVm.FrameVm = frame.ResultObj;
                     }
-                    ProductVm.ProcessingPrice = (int)ProductVm.ProcessingPrice;
+                    ProductVm.ProcessingPrice = (long)ProductVm.ProcessingPrice;
 
                     return View(ProductVm);
                 }

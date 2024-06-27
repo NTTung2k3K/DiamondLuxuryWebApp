@@ -45,9 +45,36 @@
     <!-- [Downdown list CSS Files] -->
     <link rel="stylesheet" href="../assets/css/dropdownlist.css" />
     <link rel="stylesheet" href="../assets/css/mytoast.css" />
+    <link rel="stylesheet" href="../assets/css/MySelectOptions.css" />
 
 
     @RenderSection("CssStyle", required: false)
+    <style>
+        select {
+            border-radius: 5px;
+            border: 1px solid #0dcaf0;
+            padding: 5px;
+            background-color: white; /* Màu nền mặc định của select */
+            text-align: center;
+        }
+
+            select option:checked {
+                background-color: #0dcaf0; /* Màu nền xanh khi option được chọn */
+                color: white; /* Màu chữ là trắng khi option được chọn */
+            }
+
+            select option:hover {
+                background-color: #0dcaf0 !important; /* Màu nền vàng khi hover vào option */
+                color: black; /* Màu chữ là đen khi hover vào option */
+            }
+
+            select:not([multiple]) option:hover {
+                background-color: #e8be6f; /* Màu nền vàng khi hover vào option */
+                color: black; /* Màu chữ là đen khi hover vào option */
+            }
+            
+    </style>
+
 
 </head>
 <!-- [Head] end -->
@@ -466,9 +493,7 @@
                                 <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                             </a>
                             <ul class="pc-submenu">
-                                <li class="pc-item">
-                                    <a class="pc-link" href="/Collection/Index">Quản Lí Bộ Sưu Tập</a>
-                                </li>
+                                
                                 <li class="pc-item">
                                     <a class="pc-link" href="/Platform/Index">Quản Lý Nền Tảng</a>
                                 </li>
@@ -498,6 +523,9 @@
                             <ul class="pc-submenu">
                                 <li class="pc-item">
                                     <a class="pc-link" href="/Product/Index">Quản Lý Sản Phẩm</a>
+                                </li>
+                                <li class="pc-item">
+                                    <a class="pc-link" href="/Collection/Index">Quản Lí Bộ Sưu Tập</a>
                                 </li>
                                 <li class="pc-item">
                                     <a class="pc-link" href="/Gem/Index">Quản Lý Kim Cương</a>
@@ -575,7 +603,7 @@
                                         <a class="pc-link" href="/WarrantyDetail/Index">Quản Lý Bảo Hành</a>
                                     </li>
                                 }
-                             
+
                             </ul>
                         </li>
                     }
@@ -1315,6 +1343,7 @@
             </div>
         </div>
     }
+
     @if (TempData["WarningToast"] != null && (bool)TempData["WarningToast"] == true)
     {
         <div style="position: absolute; top: 10%; right: 0; width: 19%; height: 80px;border-radius:10px;     z-index: 10000;">
@@ -1332,7 +1361,6 @@
     }
     <!-- END Error notification -->
     <!-- #endregion -->
-
     <!-- Required Js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
@@ -1343,7 +1371,8 @@
     <script src="../assets/js/pcoded.js"></script>
     <script src="../assets/js/plugins/feather.min.js"></script>
     <script src="../assets/js/MyFormatNumberPrice.js"></script>
-
+    <script src="../assets/js/MySelecteOption.js"></script>
+   
     <script>
         layout_change('false');
     </script>

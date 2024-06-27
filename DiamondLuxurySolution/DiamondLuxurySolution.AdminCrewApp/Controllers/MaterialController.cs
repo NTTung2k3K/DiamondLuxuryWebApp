@@ -1,6 +1,7 @@
 ﻿using DiamondLuxurySolution.AdminCrewApp.Service.Material;
 using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
+using DiamondLuxurySolution.ViewModel.Models.GemPriceList;
 using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
 using DiamondLuxurySolution.ViewModel.Models.Material;
 using Microsoft.AspNetCore.Authorization;
@@ -124,38 +125,51 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         }
         [Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
-        [HttpGet]
-        public async Task<IActionResult> Edit(Guid MaterialId)
-        {
-            try
-            {
-                var material = await _materialApiService.GetMaterialById(MaterialId);
-                if (material is ApiErrorResult<MaterialVm> errorResult)
-                {
-                    List<string> listError = new List<string>();
-                    if (material.Message != null)
-                    {
-                        listError.Add(errorResult.Message);
-                    }
-                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-                    {
-                        foreach (var error in listError)
-                        {
-                            listError.Add(error);
-                        }
-                    }
-                    ViewBag.Errors = listError;
-                    return View();
+		[HttpGet]
+		public async Task<IActionResult> Edit(Guid MaterialId)
+		{
+			try
+			{
+				var material = await _materialApiService.GetMaterialById(MaterialId);
+				if (material is ApiErrorResult<MaterialVm> errorResult)
+				{
+					List<string> listError = new List<string>();
+					if (material.Message != null)
+					{
+						listError.Add(errorResult.Message);
+					}
+					else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+					{
+						foreach (var error in errorResult.ValidationErrors)
+						{
+							listError.Add(error);
+						}
+					}
+					ViewBag.Errors = listError;
+					return View();
+				}
 
-                }
-                return View(material.ResultObj);
-            }
-            catch
-            {
-                return View();
-            }
-        }
-        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+				// Chuyển đổi Price từ decimal sang string để xử lý
+				string priceString = material.ResultObj.Price.ToString();
+
+				// Cắt bỏ hai số 0 cuối cùng nếu chúng tồn tại
+				if (priceString.EndsWith("00"))
+				{
+					priceString = priceString.Substring(0, priceString.Length - 2);
+				}
+
+				// Gán lại giá trị đã xử lý cho Price (nếu cần thiết)
+				material.ResultObj.Price = decimal.Parse(priceString);
+
+				return View(material.ResultObj);
+			}
+			catch
+			{
+				return View();
+			}
+		}
+
+		[Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateMaterialRequest request)

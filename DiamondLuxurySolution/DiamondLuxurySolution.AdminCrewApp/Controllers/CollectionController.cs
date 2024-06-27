@@ -5,6 +5,7 @@ using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Collection;
 using DiamondLuxurySolution.ViewModel.Models.Product;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Packaging;
@@ -23,6 +24,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             _productApiService = productApiService;
         }
 
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
         [HttpGet]
         public async Task<IActionResult> IndexProductsCreate(ViewProductRequest request)
         {
@@ -59,6 +61,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpPost]
         public IActionResult RemoveProduct(string productId)
@@ -71,8 +74,10 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 selectedIdsList.Remove(productId);
                 HttpContext.Session.SetString("SelectedIds", string.Join(",", selectedIdsList));
             }
-            return RedirectToAction("Create");
+			TempData["SuccessToast"] = true;
+			return RedirectToAction("Create");
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpPost]
         public async Task<IActionResult> SaveSelectedIdIndexProductsCreate(string listIdSelected)
@@ -87,19 +92,24 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
         [HttpPost]
         public async Task<IActionResult> SaveSelectedIdCreate(string selectedIds)
         {
             try
             {
                 TempData["SelectedIdsCreate"] = selectedIds;
-                return RedirectToAction("Create", "Collection");
+				TempData["SuccessToast"] = true;
+				return RedirectToAction("Create", "Collection");
             }
             catch (Exception)
             {
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
         [HttpGet]
         public async Task<IActionResult> Create()
         {
@@ -123,6 +133,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             return View();
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
         [HttpPost]
         public async Task<IActionResult> Create(CreateCollectionRequest request)
         {
@@ -150,14 +162,15 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     listError.Add(errorResult.Message);
                 }
-                TempData["WarningToast"] = true;
-                ViewBag.Errors = listError;
+				TempData["WarningToast"] = true;
+				ViewBag.Errors = listError;
                 return View();
 
             }
             TempData["SuccessToast"] = true;
             return RedirectToAction("Index", "Collection");
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpPost]
         public async Task<IActionResult> SaveSelectedIdIndexProductsUpdate(string listIdSelected)
@@ -165,13 +178,15 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             try
             {
                 TempData["SelectedIdsIndexProductsUpdate"] = listIdSelected;
-                return RedirectToAction("IndexProductsUpdate", "Collection");
+				TempData["SuccessToast"] = true;
+				return RedirectToAction("IndexProductsUpdate", "Collection");
             }
             catch (Exception)
             {
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> IndexProductsUpdate(ViewProductRequest request)
@@ -209,6 +224,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
         }
 
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpPost]
         public async Task<IActionResult> SaveSelectedIdUpdate(string selectedIds)
@@ -216,7 +232,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             try
             {
                 TempData["SelectedIdEdit"] = selectedIds;
-                return RedirectToAction("Edit", "Collection");
+				TempData["SuccessToast"] = true;
+				return RedirectToAction("Edit", "Collection");
             }
             catch (Exception)
             {
@@ -224,6 +241,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
         }
 
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Edit(string CollectionId)
@@ -264,8 +282,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     }
                     TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
+
                     return View();
                 }
+                collection.ResultObj.priceDisplay = (long)collection.ResultObj.priceDisplay;
+
                 return View(collection.ResultObj);
             }
             catch
@@ -274,6 +295,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateCollectionRequest request)
         {
@@ -294,6 +317,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         Status = request.Status,
                         Thumbnail = collection.ResultObj.Thumbnail,
                     };
+
                     return View(collectionVm);
                 }
                 if (request.ListProductsIdDelete.First() != null)
@@ -323,16 +347,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         listError.Add(errorResult.Message);
                     }
-                    ViewBag.Errors = listError;
-                    TempData["ErrorMessage"] = "Cập nhật bộ sưu tập không thành công.";
+					TempData["WarningToast"] = true;
+					ViewBag.Errors = listError;
                     return View();
                 }
-                if (status is ApiSuccessResult<bool> && request.ListProductsIdAdd.First() != null)
-                {
-                    TempData["SuccessMessage"] = "Cập nhật bộ sưu tập thành công!";
-                }
                 TempData["SuccessToast"] = true;
-                return RedirectToAction("Edit", "Collection", new { CollectionId = request.CollectionId });
+                return RedirectToAction("Index", "Collection", new { CollectionId = request.CollectionId });
             }
             catch
             {
@@ -341,7 +361,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
         }
 
-
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
         [HttpGet]
         public async Task<IActionResult> Index(ViewCollectionRequest request)
         {
@@ -370,6 +390,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
         [HttpGet]
         public async Task<IActionResult> Detail(string CollectionId)
         {
@@ -403,7 +425,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
-
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
         [HttpGet]
         public async Task<IActionResult> Delete(string CollectionId)
         {
@@ -437,7 +459,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
-
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
         [HttpPost]
         public async Task<IActionResult> Delete(DeleteCollectionRequest request)
         {

@@ -58,7 +58,7 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
             {
                 errorList.Add("Vui lòng nhập mã bảo hành");
             }
-            if (request.ReturnProductDate != null && request.ReturnProductDate != DateTime.MinValue)
+            if (request.ReturnProductDate != null)
             {
                 if (request.ReturnProductDate < request.ReceiveProductDate)
                 {
@@ -86,8 +86,8 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
                 WarrantyId = request.WarrantyId,
                 WarrantyDetailName = request.WarrantyDetailName,
                 Description = request.Description,
-                ReceiveProductDate = (DateTime)(request.ReceiveProductDate == null ? DateTime.MinValue : request.ReceiveProductDate),
-                ReturnProductDate = (DateTime)(request.ReturnProductDate == null ? DateTime.MinValue : request.ReturnProductDate),
+                ReceiveProductDate = (DateTime)(request.ReceiveProductDate),
+                ReturnProductDate = request.ReturnProductDate == null ? null : request.ReturnProductDate,
                 Status = request.Status,
                 WarrantyType = request.WarrantyType,
             };
@@ -230,12 +230,14 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
 
             var customer = warrantyDetail.Warranty.OrderDetails.First().Order.Customer;
             var quantityBuy = warrantyDetail.Warranty.OrderDetails.First().Quantity;
+
+
             var warrantyDetailVm = new WarrantyDetailVm()
             {
                 WarrantyDetailId = warrantyDetail.WarrantyDetailId,
                 Description = warrantyDetail.Description,
-                ReceiveProductDate = warrantyDetail.ReceiveProductDate ?? DateTime.MinValue,
-                ReturnProductDate = warrantyDetail.ReturnProductDate ?? DateTime.MinValue,
+
+
                 Image = warrantyDetail.Image,
                 WarrantyDetailName = warrantyDetail.WarrantyDetailName,
                 WarrantyType = warrantyDetail.WarrantyType,
@@ -317,6 +319,15 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
                     WarrantyName = warrantyDetail.Warranty.WarrantyName
                 }
             };
+            if (warrantyDetail.ReturnProductDate != null)
+            {
+                warrantyDetailVm.ReturnProductDate = warrantyDetail.ReturnProductDate;
+            }
+
+            if (warrantyDetail.ReceiveProductDate != null)
+            {
+                warrantyDetailVm.ReceiveProductDate = (DateTime)warrantyDetail.ReceiveProductDate;
+            }
 
             return new ApiSuccessResult<WarrantyDetailVm>(warrantyDetailVm);
         }
@@ -370,11 +381,10 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
             warrantyDetail.WarrantyId = request.WarrantyId;
             warrantyDetail.WarrantyDetailName = request.WarrantyDetailName;
             warrantyDetail.Description = request.Description;
-            warrantyDetail.ReceiveProductDate = (DateTime)(request.ReceiveProductDate == null ? DateTime.MinValue : request.ReceiveProductDate);
-            warrantyDetail.ReturnProductDate = (DateTime)(request.ReturnProductDate == null ? DateTime.MinValue : request.ReturnProductDate);
             warrantyDetail.Status = request.Status;
             warrantyDetail.WarrantyType = request.WarrantyType;
-
+            warrantyDetail.ReceiveProductDate = (DateTime)(request.ReceiveProductDate);
+            warrantyDetail.ReturnProductDate = request.ReturnProductDate == null ? null : request.ReturnProductDate;
             if (request.Image != null)
             {
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Image);
@@ -431,8 +441,8 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
                 {
                     WarrantyDetailId = item.WarrantyDetailId,
                     Description = item.Description,
-                    ReceiveProductDate = item.ReceiveProductDate ?? DateTime.MinValue,
-                    ReturnProductDate = item.ReturnProductDate ?? DateTime.MinValue,
+
+
                     Image = item.Image,
                     WarrantyDetailName = item.WarrantyDetailName,
                     WarrantyType = item.WarrantyType,
@@ -472,7 +482,15 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
                         WarrantyName = item.Warranty.WarrantyName
                     }
                 };
+                if (item.ReturnProductDate != null)
+                {
+                    warrantyDetailVm.ReturnProductDate = item.ReturnProductDate;
+                }
 
+                if (item.ReceiveProductDate != null)
+                {
+                    warrantyDetailVm.ReceiveProductDate = (DateTime)item.ReceiveProductDate;
+                }
                 listWarrantyDetailVm.Add(warrantyDetailVm);
             }
 

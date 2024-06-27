@@ -35,7 +35,7 @@
                 Giá viên đá phụ
             </dt>
             <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.SubGemPrice)
+                @(Model.SubGemPrice != 0 ? Model.SubGemPrice.ToString("N0") + "₫" : "Không có giá trị")
             </dd>
             <dt class="col-sm-4">
                 Mô tả viên đá phụ

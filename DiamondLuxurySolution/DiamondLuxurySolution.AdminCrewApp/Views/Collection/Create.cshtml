@@ -38,7 +38,7 @@
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="priceDisplay" class="control-label m-2">Giá ước tính</label>
-                    <input id="priceDisplay" type="text" asp-for="priceDisplay" class="form-control" />
+                    <input id="priceDisplay" type="text" asp-for="priceDisplay" class="form-control PriceFormatFinal" />
                     <span asp-validation-for="priceDisplay" class="text-danger"></span>
                 </div>
                 <div class="form-group m-2 mt-2">
@@ -57,10 +57,10 @@
                 </div>
 
                 <div class="form-group row col-md-12">
-                    <div class="col-md-5 col-sm-5" style="align-self: center">
+                    <div class="col-md-7 col-sm-5" style="align-self: center">
                         <input onclick="clearSessionStorage()" type="submit" value="Tạo mới" class="btn btn-success" />
                     </div>
-                    <div class="col-md-7 col-sm-7">
+                    <div class="col-md-5 col-sm-7">
                         <a class="m-6 btn btn-secondary" asp-action="Index">Về trang quản lí bộ sưu tập</a>
                     </div>
                 </div>
@@ -313,8 +313,46 @@
             form.submit();
         });
 
+        // Tung Function
+        // Select all inputs with the class "PriceFormat"
+        const $inputs = $(".PriceFormatFinal");
+
+        $inputs.each(function () {
+
+            // Ensure initial value is correctly formatted
+            if ($(this).val()) {
+                let value = $(this).val().replace(/\./g, "");
+                $(this).val(new Intl.NumberFormat('vi-VN').format(parseInt(value)));
+            }
+
+            $(this).on("input", function () {
+                let value = $(this).val();
+
+                // Remove all non-digit characters
+                value = value.replace(/[^\d]/g, "");
+
+                // Limit to a maximum of 16 digits
+                if (value.length > 16) {
+                    value = value.slice(0, 16);
+                }
+
+                // If value is not empty, format it with Vietnamese thousand separators
+                if (value) {
+                    $(this).val(new Intl.NumberFormat('vi-VN').format(parseInt(value)));
+                } else {
+                    $(this).val("");
+                }
+            });
+        });
+
+        //End tung function
+
+
+
         $('#collectionForm').on('submit', function () {
-            debugger
+
+            console.log("SUCCESS 1")
+
             var allProductIds = [];
             table.rows().every(function () {
                 var row = $(this.node());
@@ -322,6 +360,27 @@
                 allProductIds.push(productId);
             });
             $('#ListProductId').val(allProductIds.join(','));
+
+
+            // Tung Format number below
+            console.log("SUCCESS2 ")
+
+            debugger;
+            console.log($inputs)
+            $inputs.each(function () {
+                // Log value before removing dots
+
+                // Remove dots before submitting
+                const formattedValue = $(this).val().replace(/\./g, "");
+                $(this).val(formattedValue);
+
+                // Log value after removing dots
+            });
+
+            console.log("SUCCESS")
+            //End format number
+
+
         });
 
     </script>

@@ -25,7 +25,5 @@ namespace DiamondLuxurySolution.ViewModel.Models.GemPriceList
         public bool Active { get; set; }
         [Required(ErrorMessage = "Cần nhập ngày ảnh hưởng")]
         public DateTime? effectDate { get; set; }
-
-
     }
 }
