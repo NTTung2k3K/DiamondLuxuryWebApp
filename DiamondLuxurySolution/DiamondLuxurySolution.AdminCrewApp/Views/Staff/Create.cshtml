@@ -89,12 +89,12 @@
             <div class="form-group m-2 ">
                 <label asp-for="Status" class="m-2 control-label">Trạng thái</label>
                 <!--Start dropdown list-->
-                    <select class="m-2 h-50" name="Status">
+                <select class="m-2 h-50" name="Status">
                     @foreach (var item in ViewBag.ListStatus)
                     {
                         if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Suspended.ToString()))
                         {
-                            <option  value="@item">
+                            <option value="@item">
                                 <span class="badge bg-danger rounded-pill">Nghỉ việc</span>
                             </option>
                         }
@@ -169,11 +169,6 @@
                 <div class="col-md-9">
                     <input type="submit" value="Tạo mới" class="btn btn-success" />
                 </div>
-<<<<<<< HEAD
-
-                <div class="col-md-3">
-                    <a class=" btn btn-secondary" asp-action="Admin" asp-controller="Home">Về trang chủ</a>
-=======
                 @{
                     var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
                 }
@@ -186,7 +181,6 @@
                     {
                         <a class=" btn btn-secondary" asp-action="Manager" asp-controller="Home">Về trang chủ</a>
                     }
->>>>>>> 04677ff54f04e042996158f84bd0796af8c56edf
                 </div>
             </div>
         </form>
