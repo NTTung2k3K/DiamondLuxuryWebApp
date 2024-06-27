@@ -43,7 +43,7 @@
             </div>
             <div class="form-group m-2">
                 <label class="control-label m-2">Hình đại diện hiện tại</label>
-                @if (string.IsNullOrEmpty(Model.ProductThumbnail) || Model.ProductThumbnail.Length <= 0)
+                @if (string.IsNullOrEmpty(Model.ProductThumbnail) && Model.ProductThumbnail.Length <= 0)
                 {
                     <label style="color:orangered;">Không có hình ảnh</label>
                 }

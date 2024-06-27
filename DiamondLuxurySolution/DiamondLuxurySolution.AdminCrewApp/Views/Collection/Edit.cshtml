@@ -61,7 +61,7 @@
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="priceDisplay" class="control-label">Giá ước tính</label>
-                     <input asp-for="priceDisplay" class="form-control" />
+                    <input asp-for="priceDisplay" type="text" class="form-control PriceFormatFinal" />
                 </div>
                 <div class="form-group m-2">
                     <label class="control-label m-2">Hình ảnh hiện tại</label>
@@ -280,6 +280,44 @@ else
             $('body').append(form);
             form.submit();
         });
+
+
+        // Tung Function
+        // Select all inputs with the class "PriceFormat"
+        const $inputs = $(".PriceFormatFinal");
+
+        $inputs.each(function () {
+
+            // Ensure initial value is correctly formatted
+            if ($(this).val()) {
+                let value = $(this).val().replace(/\./g, "");
+                $(this).val(new Intl.NumberFormat('vi-VN').format(parseInt(value)));
+            }
+
+            $(this).on("input", function () {
+                let value = $(this).val();
+
+                // Remove all non-digit characters
+                value = value.replace(/[^\d]/g, "");
+
+                // Limit to a maximum of 16 digits
+                if (value.length > 16) {
+                    value = value.slice(0, 16);
+                }
+
+                // If value is not empty, format it with Vietnamese thousand separators
+                if (value) {
+                    $(this).val(new Intl.NumberFormat('vi-VN').format(parseInt(value)));
+                } else {
+                    $(this).val("");
+                }
+            });
+        });
+
+        //End tung function
+
+
+
         $('#collectionForm').on('submit', function () {
             debugger
             var allProductIds = [];
@@ -291,6 +329,27 @@ else
             });
             // Gán giá trị vào input ẩn
             $('#ListProductsIdAdd').val(allProductIds.join(','));
+
+
+            //Tung FormatNumber
+            // Tung Format number below
+            console.log("SUCCESS2 ")
+
+            debugger;
+            console.log($inputs)
+            $inputs.each(function () {
+                // Log value before removing dots
+
+                // Remove dots before submitting
+                const formattedValue = $(this).val().replace(/\./g, "");
+                $(this).val(formattedValue);
+
+                // Log value after removing dots
+            });
+
+            console.log("SUCCESS")
+            //End Tung FormatNumber
+
         });
 
         var selectedIdsDelete = [];
