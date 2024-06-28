@@ -12,7 +12,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.InspectionCertificate
 {
     public class CreateInspectionCertificateRequest
     {
-        [Required(ErrorMessage = "Cần nhập tên giấy chứng nhận")]
+        [Required(ErrorMessage = "Cần nhập mã giấy chứng nhận")]
         [DisplayName("Mã giấy chứng nhận")]
         public string InspectionCertificateId { get; set; }
 

@@ -78,6 +78,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -86,6 +87,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -111,6 +113,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -119,6 +122,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -147,15 +151,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "GemPriceList");
 
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -184,7 +191,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 							listError.Add(error);
 						}
 					}
-					ViewBag.Errors = listError;
+                    TempData["ErrorToast"] = true;
+                    ViewBag.Errors = listError;
 					return View();
 				}
 
@@ -198,7 +206,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 			}
 			catch
 			{
-				return View();
+                TempData["ErrorToast"] = true;
+                return View();
 			}
 		}
 
@@ -220,7 +229,14 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         GemPriceListId = gemPriceList.ResultObj.GemPriceListId,
                         Active = gemPriceList.ResultObj.Active,
+                        CaratWeight = gemPriceList.ResultObj.CaratWeight,
+                        Clarity = gemPriceList.ResultObj.Clarity,
+                        Color = gemPriceList.ResultObj.Color,
+                        Cut = gemPriceList.ResultObj.Cut,
+                        effectDate = gemPriceList.ResultObj.effectDate,
+                        Price = gemPriceList.ResultObj.Price,
                     };
+                    TempData["WarningToast"] = true;
                     return View(gemPriceListVm);
                 }
 
@@ -253,13 +269,22 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         GemPriceListId = gemPriceList.ResultObj.GemPriceListId,
                         Active = gemPriceList.ResultObj.Active,
+                        CaratWeight = gemPriceList.ResultObj.CaratWeight,
+                        Clarity = gemPriceList.ResultObj.Clarity,
+                        Color = gemPriceList.ResultObj.Color,
+                        Cut = gemPriceList.ResultObj.Cut,
+                        effectDate = gemPriceList.ResultObj.effectDate,
+                        Price = gemPriceList.ResultObj.Price,
                     };
+                    TempData["WarningToast"] = true;
                     return View(gemPriceListVm);
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "GemPriceList");
             }
             catch
             {
+                TempData["WarningToast"] = true;
                 return View();
             }
         }
@@ -285,8 +310,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
 			if (!ModelState.IsValid)
 			{
-
-				return View(request);
+                TempData["WarningToast"] = true;
+                return View(request);
 			}
 
 			var status = await _gemPriceListApiService.CreateGemPriceList(request);
@@ -306,13 +331,14 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 				{
 					listError.Add(errorResult.Message);
 				}
-				ViewBag.Errors = listError;
+                TempData["WarningToast"] = true;
+                ViewBag.Errors = listError;
 				return View();
 
 			}
-			TempData["SuccessMsg"] = "Create success for Role " + request.CaratWeight;
+            TempData["SuccessToast"] = true;
 
-			return RedirectToAction("Index", "GemPriceList");
+            return RedirectToAction("Index", "GemPriceList");
 		}
 	}
 }

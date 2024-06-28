@@ -85,6 +85,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -93,6 +94,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -127,6 +129,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -136,6 +139,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -187,7 +191,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         ProductVm.FrameVm = frame.ResultObj;
                     }
                     ProductVm.ProcessingPrice = (long)ProductVm.ProcessingPrice;
-
+                    TempData["WarningToast"] = true;
                     return View(ProductVm);
                 }
                 if (request.ListSubGems != null && request.ListSubGems.Count > 0)
@@ -258,14 +262,15 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         var frame = await _frameApiService.GetFrameById(request.FrameId);
                         ProductVm.FrameVm = frame.ResultObj;
                     }
-
+                    TempData["WarningToast"] = true;
                     return View(ProductVm);
                 }
-
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Product");
             }
             catch
             {
+                TempData["WarningToast"] = true;
                 return View();
             }
         }
@@ -293,6 +298,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -301,6 +307,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -328,16 +335,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         listError.Add(errorResult.Message);
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
-
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Product");
 
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -369,6 +378,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
             if (!ModelState.IsValid)
             {
+                TempData["WarningToast"] = true;
                 return View(request);
             }
             if(request.ListSubGems!=null && request.ListSubGems.Count > 0)
@@ -402,12 +412,13 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     listError.Add(errorResult.Message);
                 }
+                TempData["WarningToast"] = true;
                 ViewBag.Errors = listError;
                 return View();
 
             }
 
-            TempData["SuccessMsg"] = "Tạo mới thành công cho " + request.ProductName;
+            TempData["SuccessToast"] = true;
 
             return RedirectToAction("Index", "Product");
         }

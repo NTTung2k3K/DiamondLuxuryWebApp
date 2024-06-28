@@ -1,9 +1,10 @@
-using DiamondLuxurySolution.BackgroundServiceHost.Service;
+using DiamondLuxurySolution.BackgroundServiceHost.Service.GemPriceListService;
+using DiamondLuxurySolution.BackgroundServiceHost.Service.MaterialService;
 using PdfSharp.Charting;
 
 namespace DiamondLuxurySolution.BackgroundServiceHost
 {
-	public class Worker : BackgroundService
+    public class Worker : BackgroundService
 	{
 		private readonly ILogger<Worker> _logger;
 
@@ -22,37 +23,44 @@ namespace DiamondLuxurySolution.BackgroundServiceHost
 			await DoWork(stoppingToken);
 		}
 
-		private async Task DoWork(CancellationToken stoppingToken)
-		{
-			_logger.LogInformation("Consume Scoped Service Hosted Service is working.");
+        private async Task DoWork(CancellationToken stoppingToken)
+        {
+            _logger.LogInformation("Consume Scoped Service Hosted Service is working.");
 
-			while (!stoppingToken.IsCancellationRequested)
-			{
-				using (var scope = Services.CreateScope())
-				{
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                using (var scope = Services.CreateScope())
+                {
+                    var myService = scope.ServiceProvider.GetRequiredService<IGemPriceListDefault>();
 
-					var myService =
-						scope.ServiceProvider
-							.GetRequiredService<IGemPriceListDefault>();
+                    // Execute your function
+                    await myService.CreateDefaultGemPriceList(stoppingToken);
 
-					// Execute your function
-					await myService.CreateDefaultGemPriceList(stoppingToken);
-				}
+                    var myService2 = scope.ServiceProvider.GetRequiredService<IMaterialService>();
 
-				// Wait for 24 hours
-				try
-				{
-					await Task.Delay(TimeSpan.FromHours(12), stoppingToken);
-				}
-				catch (TaskCanceledException)
-				{
-					// Handle the task cancellation if stoppingToken is canceled
-					break;
-				}
-			}
-		}
+                    await myService2.CreateDefaultMaterial(stoppingToken);
+                }
 
-		public override async Task StopAsync(CancellationToken stoppingToken)
+                // Calculate the time until 00:00 next day
+                var now = DateTime.Now;
+                var nextRunTime = now.Date.AddDays(1); // 00:00 next day
+
+                var timeToWait = nextRunTime - now;
+
+                // Wait until 00:00 next day or handle task cancellation
+                try
+                {
+                    await Task.Delay(timeToWait, stoppingToken);
+                }
+                catch (TaskCanceledException)
+                {
+                    // Handle the task cancellation if stoppingToken is canceled
+                    break;
+                }
+            }
+        }
+
+        public override async Task StopAsync(CancellationToken stoppingToken)
 		{
 			_logger.LogInformation("Consume Scoped Service Hosted Service is stopping.");
 			await base.StopAsync(stoppingToken);

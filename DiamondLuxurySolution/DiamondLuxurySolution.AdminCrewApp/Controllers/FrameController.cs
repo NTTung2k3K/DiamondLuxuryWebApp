@@ -74,6 +74,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -82,6 +83,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -108,6 +110,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -116,6 +119,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -143,15 +147,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Frame");
 
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -180,6 +187,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -189,6 +197,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             catch
 
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -201,6 +210,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             {
                 if (!ModelState.IsValid)
                 {
+
                     var listMaterial = await _materialApiService.GetAll();
                     ViewBag.ListMaterial = listMaterial.ResultObj.ToList();
                     var frame = await _frameApiService.GetFrameById(request.FrameId);
@@ -222,11 +232,13 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         FrameId = request.FrameId,
                         NameFrame = request.NameFrame,
                         MaterialVm = materialVm,
+                        Weight = frame.ResultObj.Weight,
                     };
+                    TempData["WarningToast"] = true;
                     return View(frameVm);
                 }
 
-                
+
 
                 var status = await _frameApiService.UpdateFrame(request);
                 if (status is ApiErrorResult<bool> errorResult)
@@ -266,15 +278,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         FrameId = request.FrameId,
                         NameFrame = request.NameFrame,
                         MaterialVm = materialVm,
+                        Weight = frame.ResultObj.Weight,
                     };
-
-					return View(frameVm);
+                    TempData["WarningToast"] = true;
+                    return View(frameVm);
 
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Frame");
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -300,7 +315,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
             if (!ModelState.IsValid)
             {
-
+                TempData["WarningToast"] = true;
                 return View(request);
             }
 
@@ -321,12 +336,13 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     listError.Add(errorResult.Message);
                 }
+                TempData["WarningToast"] = true;
                 ViewBag.Errors = listError;
                 return View();
 
             }
-            TempData["SuccessMsg"] = "Create success for Role " + request.NameFrame;
 
+            TempData["SuccessToast"] = true;
             return RedirectToAction("Index", "Frame");
         }
 

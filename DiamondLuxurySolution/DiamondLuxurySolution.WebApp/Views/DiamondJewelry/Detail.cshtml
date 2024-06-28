@@ -234,34 +234,97 @@
                                         margin-right: 20px;
                                     }
                                 </style>
-                                <div style="display: flex;">
-                                    <div class="dropdown">
-                                        <button id="dropdown-toggle" class="dropdown-toggle">Ni (size)</button>
-                                        <div class="dropdown-content">
-                                            <input type="hidden" id="niSize" name="properties[nisize]" value="">
-                                            <table>
-                                                <tbody>
-                                                    @for (int i = 0; i < sizes.Count; i += 5)
-                                                    {
-                                                        <tr>
-                                                            @for (int j = 0; j < 5; j++)
-                                                            {
-                                                                if (i + j < sizes.Count)
+                                <div style="display: flex;">                                   
+                                    @if (Model.CategoryVm.CategoryName.Equals("Nhẫn"))
+                                    {
+                                        <div class="dropdown">
+                                            <button id="dropdown-toggle" class="dropdown-toggle">Ni (size)</button>
+                                            <div class="dropdown-content">
+                                                <input type="hidden" id="niSize" name="properties[nisize]" value="">
+                                                <table>
+                                                    <tbody>
+                                                        @for (int i = 0; i < sizes.Count; i += 5)
+                                                        {
+                                                            <tr>
+                                                                @for (int j = 0; j < 5; j++)
                                                                 {
-                                                                    <td onclick="selectSize('@sizes[i + j]')">@sizes[i + j]</td>
+                                                                    if (i + j < sizes.Count)
+                                                                    {
+                                                                        <td onclick="selectSize('@sizes[i + j]')">@sizes[i + j]</td>
+                                                                    }
                                                                 }
-                                                            }
-                                                        </tr>
-                                                    }
-                                                </tbody>
-                                            </table>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <a href="huongdandovongtay.html">
-                                        <p class="product-details-availability" style="margin-bottom: 15px; margin-bottom: 20px; margin-top: 6px;">
-                                            <i class="fa fa-check-circle"></i> Hướng Dẫn Chọn Ni
-                                        </p>
-                                    </a>
+                                        <a href="/InstructionsRings/Index">
+                                            <p class="product-details-availability" style="margin-bottom: 15px; margin-bottom: 20px; margin-top: 6px;">
+                                                <i class="fa fa-check-circle"></i> Hướng Dẫn Chọn Ni
+                                            </p>
+                                        </a>
+                                    } 
+                                    else if (Model.CategoryVm.CategoryName.Equals("Vòng Tay") || Model.CategoryVm.CategoryName.Equals("Lắc Tay"))
+                                    {
+                                        <div class="dropdown">
+                                            <button id="dropdown-toggle" class="dropdown-toggle">Ni (size)</button>
+                                            <div class="dropdown-content">
+                                                <input type="hidden" id="niSize" name="properties[nisize]" value="">
+                                                <table>
+                                                    <tbody>
+                                                        @for (int i = 0; i < sizes.Count; i += 5)
+                                                        {
+                                                            <tr>
+                                                                @for (int j = 0; j < 5; j++)
+                                                                {
+                                                                    if (i + j < sizes.Count)
+                                                                    {
+                                                                        <td onclick="selectSize('@sizes[i + j]')">@sizes[i + j]</td>
+                                                                    }
+                                                                }
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <a href="/InstructionsBracelets/Index">
+                                            <p class="product-details-availability" style="margin-bottom: 15px; margin-bottom: 20px; margin-top: 6px;">
+                                                <i class="fa fa-check-circle"></i> Hướng Dẫn Chọn Ni
+                                            </p>
+                                        </a>
+                                    } 
+                                    else if (Model.CategoryVm.CategoryName.Equals("Dây Chuyền"))
+                                    {
+                                        <div class="dropdown">
+                                            <button id="dropdown-toggle" class="dropdown-toggle">Ni (size)</button>
+                                            <div class="dropdown-content">
+                                                <input type="hidden" id="niSize" name="properties[nisize]" value="">
+                                                <table>
+                                                    <tbody>
+                                                        @for (int i = 0; i < sizes.Count; i += 5)
+                                                        {
+                                                            <tr>
+                                                                @for (int j = 0; j < 5; j++)
+                                                                {
+                                                                    if (i + j < sizes.Count)
+                                                                    {
+                                                                        <td onclick="selectSize('@sizes[i + j]')">@sizes[i + j]</td>
+                                                                    }
+                                                                }
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <a href="/InstructionsNecklace/Index">
+                                            <p class="product-details-availability" style="margin-bottom: 15px; margin-bottom: 20px; margin-top: 6px;">
+                                                <i class="fa fa-check-circle"></i> Hướng Dẫn Chọn Ni
+                                            </p>
+                                        </a>
+                                    } 
                                 </div>
 
                                 <div class="product-details-action-wrapper mb--20">
