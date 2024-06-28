@@ -161,13 +161,14 @@ namespace DiamondLuxurySolution.BackgroundServiceHost.Service.MaterialService
                 cancellationToken.ThrowIfCancellationRequested();
 
                 var existingMaterial = _context.Materials
-                    .SingleOrDefault(m => m.MaterialName == material.MaterialName &&
-                                          m.EffectDate.Date == material.EffectDate.Date);
+                    .SingleOrDefault(m => m.MaterialName == material.MaterialName
+                                          );
 
                 if (existingMaterial != null)
                 {
                     // Cập nhật giá trị nếu tồn tại
                     existingMaterial.Price = material.Price;
+                    existingMaterial.EffectDate = DateTime.Now;
                 }
                 else
                 {
