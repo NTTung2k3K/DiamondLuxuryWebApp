@@ -67,6 +67,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -75,10 +76,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
-        [Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Edit(Guid PaymentId)
@@ -100,6 +102,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -108,6 +111,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -125,33 +129,38 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         PaymentMethod = request.PaymentMethod,
                         Description = request.Description,
                         Status = request.Status,
+                        PaymentId = request.PaymentId,
                     };
+                    TempData["WarningToast"] = true;
                     return View(paymentVm);
                 }
 
                 var status = await _paymentApiService.UpdatePayment(request);
-				if (status is ApiErrorResult<bool> errorResult)
-				{
-					List<string> listError = new List<string>();
+                if (status is ApiErrorResult<bool> errorResult)
+                {
+                    List<string> listError = new List<string>();
 
-					if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-					{
-						foreach (var error in errorResult.ValidationErrors)
-						{
-							listError.Add(error);
-						}
-					}
-					else if (status.Message != null)
-					{
-						listError.Add(errorResult.Message);
-					}
-					ViewBag.Errors = listError;
-					return View();
-				}
-				return RedirectToAction("Index", "Payment");
+                    if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                    {
+                        foreach (var error in errorResult.ValidationErrors)
+                        {
+                            listError.Add(error);
+                        }
+                    }
+                    else if (status.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
+                    }
+                    TempData["WarningToast"] = true;
+                    ViewBag.Errors = listError;
+                    return View();
+                }
+                TempData["SuccessToast"] = true;
+                return RedirectToAction("Index", "Payment");
             }
             catch
             {
+                TempData["WarningToast"] = true;
                 return View();
             }
         }
@@ -180,6 +189,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -188,6 +198,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -201,18 +212,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             {
                 if (request == null)
                 {
-                    Console.WriteLine("DeletePaymentRequest is null.");
+                    TempData["ErrorToast"] = true;
                     return View(request);
                 }
 
-                Console.WriteLine($"Sending request to delete payment with ID: {request.PaymentId}");
                 var status = await _paymentApiService.DeletePayment(request);
-                Console.WriteLine($"Response from delete payment: {JsonConvert.SerializeObject(status)}");
-
-                if (status == null)
-                {
-                    Console.WriteLine("DeletePayment response is null.");
-                }
 
                 if (status is ApiErrorResult<bool> errorResult)
                 {
@@ -228,14 +232,16 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Payment");
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine($"Exception occurred: {ex.Message}");
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -254,30 +260,32 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["WarningToast"] = true;
                 return View(request);
             }
 
             var status = await _paymentApiService.CreatePayment(request);
 
-			if (status is ApiErrorResult<bool> errorResult)
-			{
-				List<string> listError = new List<string>();
+            if (status is ApiErrorResult<bool> errorResult)
+            {
+                List<string> listError = new List<string>();
 
-				if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-				{
-					foreach (var error in errorResult.ValidationErrors)
-					{
-						listError.Add(error);
-					}
-				}
-				else if (status.Message != null)
-				{
-					listError.Add(errorResult.Message);
-				}
-				ViewBag.Errors = listError;
-				return View();
-			}
-			TempData["SuccessMsg"] = "Tạo mới thành công cho " + request.PaymentMethod;
+                if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                {
+                    foreach (var error in errorResult.ValidationErrors)
+                    {
+                        listError.Add(error);
+                    }
+                }
+                else if (status.Message != null)
+                {
+                    listError.Add(errorResult.Message);
+                }
+                TempData["WarningToast"] = true;
+                ViewBag.Errors = listError;
+                return View();
+            }
+            TempData["SuccessToast"] = true;
 
             return RedirectToAction("Index", "Payment");
         }

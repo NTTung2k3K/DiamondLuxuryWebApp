@@ -67,6 +67,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -75,6 +76,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -99,6 +101,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -107,6 +110,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -115,7 +119,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
-                if(!ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
                     RoleVm roleVm = new RoleVm()
                     {
@@ -123,6 +127,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         Name = request.Name,
                         RoleId = request.RoleId,
                     };
+                    TempData["WarningToast"] = true;
                     return View(roleVm);
                 }
 
@@ -142,15 +147,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         listError.Add(errorResult.Message);
                     }
+                    TempData["WarningToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
-
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Role");
             }
             catch
             {
+                TempData["WarningToast"] = true;
                 return View();
             }
         }
@@ -177,6 +184,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -185,6 +193,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -210,16 +219,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         listError.Add(errorResult.Message);
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
-
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Role");
 
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -234,6 +245,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["WarningToast"] = true;
                 return View(request);
             }
 
@@ -254,12 +266,13 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     listError.Add(errorResult.Message);
                 }
+                TempData["WarningToast"] = true;
                 ViewBag.Errors = listError;
                 return View();
 
             }
 
-            TempData["SuccessMsg"] = "Tạo mới thành công cho " + request.Name;
+            TempData["SuccessToast"] = true;
 
             return RedirectToAction("Index", "Role");
         }

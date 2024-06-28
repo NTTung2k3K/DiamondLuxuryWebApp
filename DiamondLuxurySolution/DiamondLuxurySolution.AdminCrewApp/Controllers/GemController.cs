@@ -18,8 +18,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
     public class GemController : BaseController
     {
         private readonly IInspectionCertificateApiService _inspectionCertificateApiService;
-		private readonly IGemPriceListApiService _gemPriceListApiService;
-		private readonly IGemApiService _gemApiService;
+        private readonly IGemPriceListApiService _gemPriceListApiService;
+        private readonly IGemApiService _gemApiService;
 
         public GemController(IInspectionCertificateApiService inspectionCertificateApiService, IGemApiService gemApiService, IGemPriceListApiService gemPriceListApiService)
         {
@@ -64,10 +64,10 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
-				var listGemPriceList = await _gemPriceListApiService.GetAll();
-				ViewBag.listGemPriceList = listGemPriceList.ResultObj.ToList();
+                var listGemPriceList = await _gemPriceListApiService.GetAll();
+                ViewBag.listGemPriceList = listGemPriceList.ResultObj.ToList();
 
-				var gem = await _gemApiService.GetGemById(GemId);
+                var gem = await _gemApiService.GetGemById(GemId);
                 if (gem is ApiErrorResult<GemVm> errorResult)
                 {
                     List<string> listError = new List<string>();
@@ -82,6 +82,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -91,6 +92,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             catch
 
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -101,12 +103,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
-                var image = await _gemApiService.GetGemById(request.GemId);
                 if (!ModelState.IsValid)
                 {
-					var listGemPriceList = await _gemPriceListApiService.GetAll();
-					ViewBag.listGemPriceList = listGemPriceList.ResultObj.ToList();
-					var gem = await _gemApiService.GetGemById(request.GemId);
+                    var listGemPriceList = await _gemPriceListApiService.GetAll();
+                    ViewBag.listGemPriceList = listGemPriceList.ResultObj.ToList();
+                    var gem = await _gemApiService.GetGemById(request.GemId);
                     var insp = await _inspectionCertificateApiService.GetInspectionCertificateById(gem.ResultObj.InspectionCertificateVm.InspectionCertificateId);
                     var inspectionCertificateVm = new InspectionCertificateVm()
                     {
@@ -140,9 +141,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         Active = request.Active,
                         InspectionCertificateVm = inspectionCertificateVm,
                         GemPriceListVm = gplVm,
-                        ProportionImage = image.ResultObj.ProportionImage,
-                        GemImage = image.ResultObj.GemImage,
+                        AcquisitionDate = gem.ResultObj.AcquisitionDate,
+                        GemImage = gem.ResultObj.GemImage,
+                        ProportionImage = gem.ResultObj.ProportionImage,
+
                     };
+                    TempData["WarningToast"] = true;
                     return View(gemVm);
                 }
                 var status = await _gemApiService.UpdateGem(request);
@@ -161,14 +165,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         listError.Add(errorResult.Message);
                     }
+                    TempData["WarningToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Gem");
             }
             catch
             {
+                TempData["WarningToast"] = true;
                 return View();
             }
         }
@@ -194,6 +201,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -202,6 +210,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -227,6 +236,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -235,6 +245,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -262,15 +273,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Gem");
 
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -294,10 +308,10 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
             ViewBag.ListIsnp = availableInspectionCertificates;
 
-			var listGemPriceList = await _gemPriceListApiService.GetAll();
-			ViewBag.listGemPriceList = listGemPriceList.ResultObj.ToList();
+            var listGemPriceList = await _gemPriceListApiService.GetAll();
+            ViewBag.listGemPriceList = listGemPriceList.ResultObj.ToList();
 
-			return View();
+            return View();
         }
         [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
@@ -320,11 +334,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             ViewBag.ListIsnp = availableInspectionCertificates;
 
             var listGemPriceList = await _gemPriceListApiService.GetAll();
-			ViewBag.listGemPriceList = listGemPriceList.ResultObj.ToList();
+            ViewBag.listGemPriceList = listGemPriceList.ResultObj.ToList();
 
-			if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-
+                TempData["WarningToast"] = true;
                 return View(request);
             }
 
@@ -345,6 +359,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     listError.Add(errorResult.Message);
                 }
+                TempData["WarningToast"] = true;
                 ViewBag.Errors = listError;
 
                 ViewBag.ListIsnp = availableInspectionCertificates;
@@ -352,7 +367,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
 
             }
-            TempData["SuccessMsg"] = "Create success for Role " + request.GemName;
+            TempData["SuccessToast"] = true;
 
             return RedirectToAction("Index", "Gem");
         }

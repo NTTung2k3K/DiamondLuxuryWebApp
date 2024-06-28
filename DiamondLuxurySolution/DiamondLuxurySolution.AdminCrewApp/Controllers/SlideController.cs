@@ -66,6 +66,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -74,6 +75,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -98,6 +100,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -106,6 +109,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -114,18 +118,21 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
+                var slide = await _SlideApiService.GetSlideById(request.SlideId);
+
                 if (!ModelState.IsValid)
                 {
-                    var saveIMG = await _SlideApiService.GetSlideById(request.SlideId);
+
                     SlideViewModel slideViewModel = new SlideViewModel()
                     {
-                       SlideId = request.SlideId,
-                       Description = request.Description,
-                       SlideName = request.SlideName,
-                       SlideUrl = request.SlideUrl,
-                       Status = request.Status,
-                       SlideImage= saveIMG.ResultObj.SlideImage,
+                        SlideId = request.SlideId,
+                        Description = request.Description,
+                        SlideName = request.SlideName,
+                        SlideUrl = request.SlideUrl,
+                        Status = request.Status,
+                        SlideImage = slide.ResultObj.SlideImage,
                     };
+                    TempData["WarningToast"] = true;
                     return View(slideViewModel);
                 }
 
@@ -145,14 +152,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["WarningToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Slide");
             }
             catch
             {
+                TempData["WarningToast"] = true;
                 return View();
             }
         }
@@ -179,6 +189,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -187,6 +198,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -213,15 +225,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Slide");
 
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -253,11 +268,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         listError.Add(error);
                     }
                 }
+                TempData["WarningToast"] = true;
                 ViewBag.Errors = listError;
                 return View();
 
             }
-            TempData["SuccessMsg"] = "Create success for Role " + request.SlideName;
+            TempData["SuccessToast"] = true;
 
             return RedirectToAction("Index", "Slide");
         }

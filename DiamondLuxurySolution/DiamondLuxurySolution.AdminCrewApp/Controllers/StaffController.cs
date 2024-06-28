@@ -52,7 +52,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
             if (!ModelState.IsValid)
             {
-
+                TempData["WarningToast"] = true;
                 return View(request);
             }
 
@@ -73,12 +73,13 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     listError.Add(errorResult.Message);
                 }
+                TempData["WarningToast"] = true;
                 ViewBag.Errors = listError;
                 return View(request);
 
             }
 
-            TempData["SuccessMsg"] = "Tạo mới thành công cho " + request.FullName;
+            TempData["SuccessToast"] = true;
 
             return RedirectToAction("Index", "Admin");
         }

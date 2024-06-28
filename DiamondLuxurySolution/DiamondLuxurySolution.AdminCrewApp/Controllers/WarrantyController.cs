@@ -70,6 +70,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -78,6 +79,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -103,6 +105,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -111,6 +114,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -121,16 +125,21 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
+                var warranty = await _warrantyApiService.GetWarrantyById(request.WarrantyId);
+
                 if (!ModelState.IsValid)
                 {
-
+                    
                     WarrantyVm warrantyVm = new WarrantyVm()
                     {
                         WarrantyId = request.WarrantyId,
                         Description = request.Description,
                         Status = request.Status,
+                        WarrantyName = request.WarrantyName,
+                        DateActive = warranty.ResultObj.DateActive,
+                        DateExpired = warranty.ResultObj.DateExpired,
                     };
-
+                    TempData["WarningToast"] = true;
                     return View(warrantyVm);
                 }
 
@@ -156,7 +165,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         WarrantyId = request.WarrantyId,
                         Description = request.Description,
                         Status = request.Status,
+                        WarrantyName = request.WarrantyName,
+                        DateActive = warranty.ResultObj.DateActive,
+                        DateExpired = warranty.ResultObj.DateExpired,
                     };
+                    TempData["WarningToast"] = true;
                     return View(warrantyVm);
 
                 }
@@ -164,6 +177,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["WarningToast"] = true;
                 return View();
             }
         }
@@ -190,6 +204,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -198,6 +213,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -223,14 +239,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Warranty");
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -251,6 +270,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["WarningToast"] = true;
                 return View(request);
             }
 
@@ -271,11 +291,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     listError.Add(errorResult.Message);
                 }
+                TempData["WarningToast"] = true;
                 ViewBag.Errors = listError;
                 return View();
 
             }
-            TempData["SuccessMsg"] = "Tạo mới thành công cho " + request.WarrantyName;
+            TempData["SuccessToast"] = true;
 
             return RedirectToAction("Index", "Warranty");
         }

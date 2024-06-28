@@ -60,7 +60,7 @@ namespace DiamondLuxurySolution.Application.Repository.Slide
 				{
 					SlideName = WeddingJewelryRing,
 					Status = true,
-					SlideImage = "https://firebasestorage.googleapis.com/v0/b/diamondluxuryshop-980cd.appspot.com/o/images%2Fnhan-cuoi-slide.png?alt=media&token=23f6647f-0005-4eed-9a0c-09cb09fd7e95",
+					SlideImage = "https://firebasestorage.googleapis.com/v0/b/diamondluxuryshop-980cd.appspot.com/o/images%2Fsilde_nhan_cuoi.jpg?alt=media&token=1e37040b-1ddc-4d76-81d6-daedaae7d9e0",
 				};
 
 				status = await _context.Slides.AddAsync(AddWeddingJewelryRing);
@@ -69,7 +69,7 @@ namespace DiamondLuxurySolution.Application.Repository.Slide
 				{
 					SlideName = Diamond,
 					Status = true,
-					SlideImage = "https://firebasestorage.googleapis.com/v0/b/diamondluxuryshop-980cd.appspot.com/o/images%2Fkim-cuong-slide.png?alt=media&token=1f85d0d1-4d4d-493b-88f2-b005ea80e406",
+					SlideImage = "https://firebasestorage.googleapis.com/v0/b/diamondluxuryshop-980cd.appspot.com/o/images%2Fslide_kim_cuong.jpg?alt=media&token=bc95407a-93bd-49fa-a7b5-50e14d348f3b",
 				};
 
 				status = await _context.Slides.AddAsync(AddDiamond);
@@ -78,7 +78,7 @@ namespace DiamondLuxurySolution.Application.Repository.Slide
 				{
 					SlideName = Necklace,
 					Status = true,
-					SlideImage = "https://firebasestorage.googleapis.com/v0/b/diamondluxuryshop-980cd.appspot.com/o/images%2Fday-chuyen-slide.png?alt=media&token=b812bc2d-775f-4db1-ad73-acfceb838441",
+					SlideImage = "https://firebasestorage.googleapis.com/v0/b/diamondluxuryshop-980cd.appspot.com/o/images%2Fslide_mat_day_chuyen.jpg?alt=media&token=3d157a12-3530-47fe-8de8-f8d118979a57",
 				};
 
 				status = await _context.Slides.AddAsync(AddNecklace);
@@ -87,7 +87,7 @@ namespace DiamondLuxurySolution.Application.Repository.Slide
 				{
 					SlideName = Earring,
 					Status = true,
-					SlideImage = "https://firebasestorage.googleapis.com/v0/b/diamondluxuryshop-980cd.appspot.com/o/images%2Fbong-tai-slide.png?alt=media&token=ad37a5c3-7739-42b3-9e75-228d07e8cca8",
+					SlideImage = "https://firebasestorage.googleapis.com/v0/b/diamondluxuryshop-980cd.appspot.com/o/images%2Fslide_hoa_tai.jpg?alt=media&token=a8970dca-d5ec-4567-9d0f-a10e43e7a4ec",
 				};
 
 				status = await _context.Slides.AddAsync(AddEarring);
@@ -96,7 +96,7 @@ namespace DiamondLuxurySolution.Application.Repository.Slide
 				{
 					SlideName = RingMan,
 					Status = true,
-					SlideImage = "https://firebasestorage.googleapis.com/v0/b/diamondluxuryshop-980cd.appspot.com/o/images%2Fnhan-nam-slide.png?alt=media&token=935b89b5-ecf0-4e8a-8266-4840144d7991",
+					SlideImage = "https://firebasestorage.googleapis.com/v0/b/diamondluxuryshop-980cd.appspot.com/o/images%2Fslide_nhan_nam.jpg?alt=media&token=0caffc41-7988-45bf-ba49-412ba0470508",
 				};
 
 				status = await _context.Slides.AddAsync(AddRingMan);
@@ -105,7 +105,7 @@ namespace DiamondLuxurySolution.Application.Repository.Slide
 				{
 					SlideName = RingWoman,
 					Status = true,
-					SlideImage = "https://firebasestorage.googleapis.com/v0/b/diamondluxuryshop-980cd.appspot.com/o/images%2Fnhan-nu-slide.png?alt=media&token=5b3b3632-f73a-46dc-9906-1b7956d61300",
+					SlideImage = "https://firebasestorage.googleapis.com/v0/b/diamondluxuryshop-980cd.appspot.com/o/images%2Fslide_nhan_nu.jpg?alt=media&token=24ffb6ae-27a8-4640-8157-cdb94144405a",
 				};
 
 				status = await _context.Slides.AddAsync(AddRingWoman);

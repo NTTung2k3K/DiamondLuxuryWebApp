@@ -64,6 +64,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -72,6 +73,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -96,6 +98,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
                 }
@@ -109,6 +112,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -120,12 +124,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             {
                 if (!ModelState.IsValid)
                 {
+                    var subgem = await _isubGemApiService.GetSubGemId(request.SubGemId);
+
                     SubGemVm subGemVm = new SubGemVm()
                     {
                         SubGemId = request.SubGemId,
                         Active = request.Active,
-                        Description = request.Description
+                        Description = request.Description,
+                        SubGemName = request.SubGemName,
+                        SubGemPrice = subgem.ResultObj.SubGemPrice,
                     };
+                    TempData["WarningToast"] = true;
                     return View(subGemVm);
                 }
                 var status = await _isubGemApiService.UpdateSubGem(request);
@@ -143,14 +152,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["WarningToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "SubGem");
             }
             catch
             {
+                TempData["WarningToast"] = true;
                 return View();
             }
         }
@@ -178,6 +190,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -186,6 +199,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -210,15 +224,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "SubGem");
 
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -245,11 +262,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     listError.Add(errorResult.Message);
                 }
+                TempData["WarningToast"] = true;
                 ViewBag.Errors = listError;
                 return View();
 
             }
-            TempData["SuccessMsg"] = "Create success for Role " + request.SubGemName;
+            TempData["SuccessToast"] = true;
 
             return RedirectToAction("Index", "SubGem");
         }

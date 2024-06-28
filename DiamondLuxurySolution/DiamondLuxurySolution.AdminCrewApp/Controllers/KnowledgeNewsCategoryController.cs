@@ -65,6 +65,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -73,6 +74,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -97,6 +99,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -105,6 +108,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -119,11 +123,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
                     KnowledgeNewsCategoryVm knowledgeNewsCategoryVm = new KnowledgeNewsCategoryVm()
                     {
-                       KnowledgeNewCatagoryId=request.KnowledgeNewCatagoryId,
-                       KnowledgeNewCatagoriesName=request.KnowledgeNewCatagoriesName,
-                       Description=request.Description,
+                        KnowledgeNewCatagoryId = request.KnowledgeNewCatagoryId,
+                        KnowledgeNewCatagoriesName = request.KnowledgeNewCatagoriesName,
+                        Description = request.Description,
 
                     };
+                    TempData["WarningToast"] = true;
                     return View(knowledgeNewsCategoryVm);
                 }
                 var status = await _knowledgeNewsCategoryApiService.UpdateKnowledgeNewsCategory(request);
@@ -141,14 +146,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["WarningToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "KnowledgeNewsCategory");
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -175,6 +183,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -183,6 +192,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -209,15 +219,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "KnowledgeNewsCategory");
 
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -246,11 +259,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         listError.Add(error);
                     }
                 }
+                TempData["WarningToast"] = true;
                 ViewBag.Errors = listError;
                 return View();
 
             }
-            TempData["SuccessMsg"] = "Create success for Role " + request.KnowledgeNewCatagoriesName;
+            TempData["SuccessToast"] = true;
 
             return RedirectToAction("Index", "KnowledgeNewsCategory");
         }
