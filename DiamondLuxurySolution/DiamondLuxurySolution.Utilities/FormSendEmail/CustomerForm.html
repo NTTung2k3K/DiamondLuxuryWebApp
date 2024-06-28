@@ -28,12 +28,11 @@
 </head>
 <body>
     <div class="email-container">
-        <table border="0"
-               cellpadding="0"
+        <table cellpadding="0"
                cellspacing="0"
                width="100%"
                style="
-          background-color: #96588a;
+          background-color: #e8be6f;
           color: #ffffff;
           border-bottom: 0;
           font-weight: bold;
@@ -52,9 +51,10 @@
                   font-weight: 300;
                   line-height: 150%;
                   margin: 0;
-                  text-align: left;
+                  text-align: center;
                   color: #ffffff;
                   background-color: inherit;
+                  font-weight: bold;
                 ">
                             Cảm ơn bạn đã đặt hàng
                         </h1>
@@ -63,7 +63,7 @@
             </tbody>
         </table>
         <img src="https://firebasestorage.googleapis.com/v0/b/diamondluxuryproject.appspot.com/o/Logo%2FLOGO.png?alt=media&token=b65b5609-5d08-408a-848f-c5b05be38b11"
-             style="width: 200px; height: 180px;" />
+             style="width: 200px; height: 180px" />
         <table border="0" cellpadding="0" cellspacing="0" width="100%">
             <tbody>
                 <tr>
@@ -71,27 +71,20 @@
                         <table border="0" cellpadding="20" cellspacing="0" width="100%">
                             <tbody>
                                 <tr>
-                                    <td valign="top" style="padding:0px 48px 48px 32px">
-                                        <div style="
-                          color: #636363;
-                          font-family: 'Helvetica Neue', Helvetica, Roboto,
-                            Arial, sans-serif;
-                          font-size: 14px;
-                          line-height: 150%;
-                          text-align: left;
-                        ">
-                                            <p style="margin: 0 0 16px">
-                                                Xin chào {{CustomerName}},
+                                    <td valign="top" style="padding: 0px 48px 48px 32px">
+                                        <div style=" font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif; font-size: 14px; line-height: 150%; text-align: center; color: black ">
+                                            <p style="margin: 0 0 16px; color: black;">
+                                                Xin chào
+                                                <span style="font-weight: bold">{{CustomerName}}</span>,
                                             </p>
-                                            <p style="margin: 0 0 16px">
-                                                Cảm ơn đã đặt hàng. Đơn hàng sẽ bị tạm giữ cho đến khi
-                                                chúng tôi xác nhận thanh toán hoàn thành. Trong thời
-                                                gian chờ đợi, đây là lời nhắc về những gì bạn đã đặt
-                                                hàng:
+                                            <p style="margin: 0 0 16px; color: black;">
+                                                Cảm ơn đã đặt hàng. Đơn hàng đang được xử lí. Trong
+                                                thời gian chờ đợi, đây là những thông tin đơn hàng của
+                                                bạn:
                                             </p>
 
                                             <h2 style="
-                            color: #96588a;
+                            color: #e8be6f;
                             display: block;
                             font-family: 'Helvetica Neue', Helvetica, Roboto,
                               Arial, sans-serif;
@@ -99,7 +92,7 @@
                             font-weight: bold;
                             line-height: 130%;
                             margin: 0 0 18px;
-                            text-align: left;
+                            text-align: center;
                           ">
                                                 [Đơn hàng #{{Code}}] ({{Date}})
                                             </h2>
@@ -124,7 +117,27 @@
                                     border: 1px solid #e5e5e5;
                                     vertical-align: middle;
                                     padding: 12px;
-                                    text-align: left;
+                                    text-align: center;
+                                  ">
+                                                                #
+                                                            </th>
+                                                            <th scope="col"
+                                                                style="
+                                    color: #636363;
+                                    border: 1px solid #e5e5e5;
+                                    vertical-align: middle;
+                                    padding: 12px;
+                                    text-align: center;
+                                  ">
+                                                                Mã sản phầm
+                                                            </th>
+                                                            <th scope="col"
+                                                                style="
+                                    color: #636363;
+                                    border: 1px solid #e5e5e5;
+                                    vertical-align: middle;
+                                    padding: 12px;
+                                    text-align: center;
                                   ">
                                                                 Sản phẩm
                                                             </th>
@@ -134,7 +147,7 @@
                                     border: 1px solid #e5e5e5;
                                     vertical-align: middle;
                                     padding: 12px;
-                                    text-align: left;
+                                    text-align: center;
                                   ">
                                                                 Số lượng
                                                             </th>
@@ -144,7 +157,17 @@
                                     border: 1px solid #e5e5e5;
                                     vertical-align: middle;
                                     padding: 12px;
-                                    text-align: left;
+                                    text-align: center;
+                                  ">
+                                                                Ni
+                                                            </th>
+                                                            <th scope="col"
+                                                                style="
+                                    color: #636363;
+                                    border: 1px solid #e5e5e5;
+                                    vertical-align: middle;
+                                    padding: 12px;
+                                    text-align: center;
                                   ">
                                                                 Giá
                                                             </th>
@@ -156,70 +179,123 @@
                                                     <tfoot>
                                                         <tr>
                                                             <th scope="row"
-                                                                colspan="2"
+                                                                colspan="3"
                                                                 style="
                                     color: #636363;
                                     border: 1px solid #e5e5e5;
                                     vertical-align: middle;
                                     padding: 12px;
-                                    text-align: left;
-                                    border-top-width: 4px;
-                                  ">
-                                                                Nguyên giá:
-                                                            </th>
-                                                            <td style="
-                                    color: #636363;
-                                    border: 1px solid #e5e5e5;
-                                    vertical-align: middle;
-                                    padding: 12px;
-                                    text-align: left;
-                                    border-top-width: 4px;
-                                  ">
-                                                                <span>{{Total}}&nbsp;</span>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th scope="row"
-                                                                colspan="2"
-                                                                style="
-                                    color: #636363;
-                                    border: 1px solid #e5e5e5;
-                                    vertical-align: middle;
-                                    padding: 12px;
-                                    text-align: left;
+                                    text-align: center;
                                   ">
                                                                 Phương thức thanh toán:
                                                             </th>
-                                                            <td style="
+                                                            <td colspan="3"
+                                                                style="
                                     color: #636363;
                                     border: 1px solid #e5e5e5;
                                     vertical-align: middle;
                                     padding: 12px;
-                                    text-align: left;
+                                    text-align: center;
                                   ">
                                                                 {{Payment}}
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <th scope="row"
-                                                                colspan="2"
+                                                                colspan="3"
+                                                                style="
+                                    color: #636363;
+                                    border: 1px solid #e5e5e5;
+                                    vertical-align: middle;
+                                    padding: 12px;
+                                    text-align: center;
+                                  ">
+                                                                Tổng đơn
+                                                            </th>
+                                                            <td colspan="3"
+                                                                style="
+                                    color: #636363;
+                                    border: 1px solid #e5e5e5;
+                                    vertical-align: middle;
+                                    padding: 12px;
+                                    text-align: center;
+                                  ">
+                                                                <span>{{NotSalelPrice}}₫&nbsp;</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row"
+                                                                colspan="3"
                                                                 style="
                                     color: #636363;
                                     border: 1px solid #e5e5e5;
                                     vertical-align: middle;
                                     padding: 12px;
                                     text-align: left;
+                                    text-align: center;
                                   ">
-                                                                Tổng cộng:
+                                                                Số tiền đã giảm
                                                             </th>
-                                                            <td style="
+                                                            <td colspan="3"
+                                                                style="
                                     color: #636363;
                                     border: 1px solid #e5e5e5;
                                     vertical-align: middle;
                                     padding: 12px;
                                     text-align: left;
+                                    text-align: center;
                                   ">
-                                                                <span>{{Total}}&nbsp;</span>
+                                                                <span>{{TotalSale}}₫&nbsp;</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row"
+                                                                colspan="3"
+                                                                style="
+                                    color: #636363;
+                                    border: 1px solid #e5e5e5;
+                                    vertical-align: middle;
+                                    padding: 12px;
+                                    text-align: left;
+                                    text-align: center;
+                                  ">
+                                                                Tổng cộng
+                                                            </th>
+                                                            <td colspan="3"
+                                                                style="
+                                    color: #636363;
+                                    border: 1px solid #e5e5e5;
+                                    vertical-align: middle;
+                                    padding: 12px;
+                                    text-align: left;
+                                    text-align: center;
+                                  ">
+                                                                <span>{{Total}}₫&nbsp;</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row"
+                                                                colspan="3"
+                                                                style="
+  color: #636363;
+  border: 1px solid #e5e5e5;
+  vertical-align: middle;
+  padding: 12px;
+  text-align: left;
+  text-align: center;
+">
+                                                                Trả trước
+                                                            </th>
+                                                            <td colspan="3"
+                                                                style="
+  color: #636363;
+  border: 1px solid #e5e5e5;
+  vertical-align: middle;
+  padding: 12px;
+  text-align: left;
+  text-align: center;
+">
+                                                                <span>{{Deposit}}₫&nbsp;</span>
                                                             </td>
                                                         </tr>
                                                     </tfoot>
@@ -247,7 +323,7 @@
                                   padding: 0;
                                 ">
                                                             <h2 style="
-                                    color: #96588a;
+                                    color: #e8be6f;
                                     display: block;
                                     font-family: 'Helvetica Neue', Helvetica,
                                       Roboto, Arial, sans-serif;
@@ -255,34 +331,41 @@
                                     font-weight: bold;
                                     line-height: 130%;
                                     margin: 0 0 18px;
-                                    text-align: left;
+                                    text-align: center;
                                   ">
                                                                 Thông tin người nhận
                                                             </h2>
 
                                                             <address style="
                                     padding: 12px;
-                                    color: #636363;
                                     border: 1px solid #e5e5e5;
+                                    color:black;
                                   ">
-                                                                {{CustomerName}}<br />{{Address}}<br /><a href="tel:{{PhoneNumber}}"
-                                                                                                          style="
-                                      color: #96588a;
-                                      font-weight: normal;
-                                      text-decoration: underline;
-                                    "
-                                                                                                          target="_blank">{{PhoneNumber}}</a>
-                                                                <br /><a href="mailto:{{Email}}"
-                                                                         target="_blank">{{Email}}</a>
+                                                                <span style="color: black;">Tên khách hàng: <span style="color: black;">{{CustomerName}}</span></span><br />
+                                                                <span style="color: black;">Địa chỉ: <span>{{Address}}</span></span><br />
+                                                                <span style="color: black;">Số điện thoại: <span>{{PhoneNumber}}</span></span><br />
+                                                                <span style="color: black;">Email: <span>{{Email}}</span></span><br />
                                                             </address>
                                                         </td>
                                                     </tr>
                                                 </tbody>
+                                                <p style="margin:20px">
+                                                    Chúng tôi đang tiến hành hoàn thiện đơn đặt hàng của
+                                                    bạn
+                                                </p>
+                                                <br />
+                                                <p style="
+  margin: 0 10px 0px;
+  font-style: italic;
+  color: #e8be6f;
+  font-weight: bold;
+  font-size: 15px;
+">
+                                                    Tinh hoa của sự lấp lánh <br />Nơi bạn tìm thấy sự
+                                                    hoàn hảo trong từng viên kim cương
+                                                </p>
                                             </table>
-                                            <p style="margin: 0 0 16px">
-                                                Chúng tôi đang tiến hành hoàn thiện đơn đặt hàng của
-                                                bạn
-                                            </p>
+                                            
                                         </div>
                                     </td>
                                 </tr>

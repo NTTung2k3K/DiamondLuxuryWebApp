@@ -37,6 +37,8 @@ using System.Reflection.Metadata;
 using PdfSharp;
 using PaperKind = DinkToPdf.PaperKind;
 using DiamondLuxurySolution.ViewModel.Models.InspectionCertificate;
+using DiamondLuxurySolution.Utilities.Helper;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace DiamondLuxurySolution.Application.Repository.Order
 {
@@ -188,7 +190,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 {
                     // Add and save the order first
                     _context.Orders.Add(order);
-                    await _context.SaveChangesAsync();
+                    /*await _context.SaveChangesAsync();*/
 
                     decimal totalPrice = 0;
                     foreach (var orderProduct in request.ListOrderProduct)
@@ -220,12 +222,15 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         };
 
                         totalPrice += orderDetail.TotalPrice;
+
                         _context.Warrantys.Add(warranty);
                         _context.OrderDetails.Add(orderDetail);
                     }
 
                     decimal total = await CalculateTotalPrice(request, totalPrice);
                     order.TotalAmout = total;
+
+
 
                     var user = await _userMananger.FindByIdAsync(request.CustomerId.ToString());
                     if (user != null)
@@ -256,13 +261,18 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         {
                             return new ApiErrorResult<string>($"Số tiền đặt cọc phải lớn hơn hoặc bằng {maxDeposit}");
                         }
+                        if(request.Deposit <=0 || request.Deposit>total) 
+                        { 
+                            return new ApiErrorResult<string>($"Số tiền đặt cọc không hợp lệ");
+                        }
+
                         order.RemainAmount = total - (decimal)request.Deposit;
                     }
                     else
                     {
                         order.RemainAmount = 0;
                     }
-
+                    var paymentMethod = "";
                     foreach (var paymentId in request.ListPaymentId)
                     {
                         var payment = await _context.Payments.FindAsync(paymentId);
@@ -280,11 +290,87 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                             OpenPaymentTime = DateTime.Now
                         };
                         _context.OrdersPayments.Add(orderPayment);
+                        paymentMethod += payment.PaymentMethod;
                     }
 
 
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
+                    //Send email customer
+                    string relativePath = @"..\..\DiamondLuxurySolution\DiamondLuxurySolution.Utilities\FormSendEmail\CustomerForm.html";
+                    // Combine the relative path with the current directory to get the full path
+                    string path = Path.GetFullPath(relativePath);
+
+                    if (!System.IO.File.Exists(path))
+                    {
+                        return new ApiErrorResult<string>("Không tìm thấy email");
+                    }
+                    string contentCustomer = System.IO.File.ReadAllText(path);
+                    contentCustomer = contentCustomer.Replace("{{CustomerName}}", request.ShipName);
+                    contentCustomer = contentCustomer.Replace("{{Code}}", orderId);
+                    contentCustomer = contentCustomer.Replace("{{Date}}", DateTime.Now.ToString());
+                    var dataProduct = "";
+                    var listProductExistInDb = _context.OrderDetails.Where(x => x.OrderId == orderId);
+                    int index = 0;
+                    foreach (var orderDetail in listProductExistInDb)
+                    {
+                        var productFind = await _context.Products.FindAsync(orderDetail.ProductId);
+                        if (productFind == null)
+                        {
+                            return new ApiErrorResult<string>("Không tìm thấy sản phẩm khi gửi email");
+                        }
+                        var niSize = orderDetail.Size != null ? orderDetail.Size.ToString() : "Không có";
+                        dataProduct += $"<tr>";
+                        dataProduct += $"<td style='color: #636363;border: 1px solid #e5e5e5;vertical-align: middle;padding: 12px;text-align: center;'>{++index}</td>"; // Replace Property1 with actual property names
+                        dataProduct += $"<td style='color: #636363;border: 1px solid #e5e5e5;vertical-align: middle;padding: 12px;text-align: center;'>{productFind.ProductId}</td>"; // Replace Property1 with actual property names
+                        dataProduct += $"<td style='color: #636363;border: 1px solid #e5e5e5;vertical-align: middle;padding: 12px;text-align: center;'>{productFind.ProductName}</td>"; // Replace Property2 with actual property names
+                        dataProduct += $"<td style='color: #636363;border: 1px solid #e5e5e5;vertical-align: middle;padding: 12px;text-align: center;'>{orderDetail.Quantity}</td>"; // Replace Property3 with actual property names
+                        dataProduct += $"<td style='color: #636363;border: 1px solid #e5e5e5;vertical-align: middle;padding: 12px;text-align: center;'>{niSize}</td>"; // Replace Property3 with actual property names
+                        dataProduct += $"<td style='color: #636363;border: 1px solid #e5e5e5;vertical-align: middle;padding: 12px;text-align: center;'>{productFind.SellingPrice.ToString("N0")}₫</td>"; // Replace Property3 with actual property names
+                        dataProduct += "</tr>";
+                    }
+                    contentCustomer = contentCustomer.Replace("{{Product}}", dataProduct);
+                    contentCustomer = contentCustomer.Replace("{{NotSalelPrice}}", totalPrice.ToString("N0"));
+
+
+                    contentCustomer = contentCustomer.Replace("{{Payment}}", paymentMethod);
+                    contentCustomer = contentCustomer.Replace("{{TotalSale}}", order.TotalSale?.ToString("N0"));
+                    contentCustomer = contentCustomer.Replace("{{Total}}", order.TotalAmout.ToString("N0"));
+                    contentCustomer = contentCustomer.Replace("{{Deposit}}", order.Deposit.ToString("N0"));
+
+                    contentCustomer = contentCustomer.Replace("{{Address}}", request.ShipAdress);
+                    contentCustomer = contentCustomer.Replace("{{PhoneNumber}}", request.ShipPhoneNumber);
+                    contentCustomer = contentCustomer.Replace("{{Email}}", request.ShipEmail);
+                    DoingMail.SendMail("LuxuryDiamond", "Đặt hàng thành công", contentCustomer, request.ShipEmail);
+
+                    //Send mail manager
+                    string relativePathManager = @"..\..\DiamondLuxurySolution\DiamondLuxurySolution.Utilities\FormSendEmail\ManagerForm.html";
+                    // Combine the relative path with the current directory to get the full path
+                    string pathManager = Path.GetFullPath(relativePathManager);
+
+                    if (!System.IO.File.Exists(path))
+                    {
+                        return new ApiErrorResult<string>("Không tìm thấy email");
+                    }
+                    string contentManager = System.IO.File.ReadAllText(pathManager);
+                    contentManager = contentManager.Replace("{{Code}}", orderId);
+
+                    contentManager = contentManager.Replace("{{CustomerName}}", request.ShipName);
+
+                    contentManager = contentManager.Replace("{{Date}}", DateTime.Now.ToString());
+                    contentManager = contentManager.Replace("{{Product}}", dataProduct);
+                    contentManager = contentManager.Replace("{{Payment}}", paymentMethod);
+
+                    contentManager = contentManager.Replace("{{NotSalelPrice}}", totalPrice.ToString("N0"));
+                    contentManager = contentManager.Replace("{{TotalSale}}", order.TotalSale?.ToString("N0"));
+                    contentManager = contentManager.Replace("{{Total}}", order.TotalAmout.ToString("N0"));
+                    contentManager = contentManager.Replace("{{Deposit}}", order.Deposit.ToString("N0"));
+
+                    contentManager = contentManager.Replace("{{Address}}", request.ShipAdress);
+                    contentManager = contentManager.Replace("{{PhoneNumber}}", request.ShipPhoneNumber);
+                    contentManager = contentManager.Replace("{{Email}}", request.ShipEmail);
+                    DoingMail.SendMail("LuxuryDiamond", "Có đơn hàng mới", contentManager, "diamondluxuryservice@gmail.com");
+
 
                     return new ApiSuccessResult<string>(order.OrderId, "Success");
                 }
@@ -295,7 +381,21 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 }
             }
         }
+        public void SendEmailOrder(string code, string toEmail,string filePath)
+        {
+            // Correct relative path from current directory to the HTML file
+            string relativePath = @"..\..\DiamondLuxurySolution\DiamondLuxurySolution.Utilities\FormSendEmail\CustomerForm.html";
+            // Combine the relative path with the current directory to get the full path
+            string path = Path.GetFullPath(relativePath);
 
+            if (!System.IO.File.Exists(path))
+            {
+                return;
+            }
+            string contentCustomer = System.IO.File.ReadAllText(path);
+            contentCustomer = contentCustomer.Replace("{{VerifyCode}}", code);
+            DoingMail.SendMail("LuxuryDiamond", "Yêu cầu thay đổi mật khẩu", contentCustomer, toEmail);
+        }
         private string GenerateOrderId(Random rd)
         {
             return "DMLOD" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
@@ -625,6 +725,10 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         if (request.Deposit < maxDeposit)
                         {
                             return new ApiErrorResult<bool>($"Số tiền đặt cọc phải lớn hơn hoặc bằng {maxDeposit}");
+                        }
+                        if (request.Deposit <= 0 || request.Deposit > total)
+                        {
+                            return new ApiErrorResult<bool>($"Số tiền đặt cọc không hợp lệ");
                         }
                         order.RemainAmount = total - (decimal)request.Deposit;
                     }

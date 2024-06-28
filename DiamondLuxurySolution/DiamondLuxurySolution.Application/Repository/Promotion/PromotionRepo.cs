@@ -88,8 +88,8 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
                 PromotionId = Guid.NewGuid(),
                 PromotionName = request.PromotionName,
                 Description = request.Description != null ? request.Description : "",
-                StartDate = request.StartDate,
-                EndDate = request.EndDate,
+                StartDate = (DateTime)request.StartDate,
+                EndDate = (DateTime)request.EndDate,
                 DiscountPercent = percentDiscount,
                 MaxDiscount = maxDiscount,
                 Status = request.Status,
@@ -271,8 +271,8 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
 
             promotion.PromotionName = request.PromotionName;
             promotion.Description = request.Description ?? "";
-            promotion.StartDate = request.StartDate;
-            promotion.EndDate = request.EndDate;
+            promotion.StartDate = (DateTime)request.StartDate;
+            promotion.EndDate = (DateTime)request.EndDate;
             promotion.DiscountPercent = percentDiscount;
             promotion.MaxDiscount = maxDiscount;
             promotion.Status = request.Status;

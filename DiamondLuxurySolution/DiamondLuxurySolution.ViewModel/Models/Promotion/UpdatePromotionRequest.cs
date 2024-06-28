@@ -20,10 +20,10 @@ namespace DiamondLuxurySolution.ViewModel.Models.Promotion
         public IFormFile? PromotionImage { get; set; }
 
         [Required(ErrorMessage = "Cần nhập ngày bắt đầu")]
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
 
         [Required(ErrorMessage = "Cần nhập ngày kết thúc")]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         public IFormFile? BannerImage { get; set; }
 

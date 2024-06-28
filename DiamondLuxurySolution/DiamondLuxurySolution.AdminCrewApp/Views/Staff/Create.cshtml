@@ -89,12 +89,12 @@
             <div class="form-group m-2 ">
                 <label asp-for="Status" class="m-2 control-label">Trạng thái</label>
                 <!--Start dropdown list-->
-                    <select class="m-2 h-50" name="Status">
+                <select class="m-2 h-50" name="Status">
                     @foreach (var item in ViewBag.ListStatus)
                     {
                         if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Suspended.ToString()))
                         {
-                            <option  value="@item">
+                            <option value="@item">
                                 <span class="badge bg-danger rounded-pill">Nghỉ việc</span>
                             </option>
                         }

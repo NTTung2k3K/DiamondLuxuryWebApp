@@ -10,7 +10,7 @@ namespace DiamondLuxurySolution.Utilities.Helper
 {
     public class DoingMail
     {
-        private static string password = "nqng dvxj bbpu vxrc";
+        private static string password = "ooqx vzjj egcg txyr";
         private static string Email = "diamondluxuryservice@gmail.com";
         public static bool SendMail(string name, string subject, string content, string toMail)
         {
