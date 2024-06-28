@@ -223,7 +223,7 @@ namespace DiamondLuxurySolution.Application.Repository.News
                 };
                 listNewsVm.Add(newsVm);
             }
-
+            listNewsVm = listNewsVm.OrderByDescending(x => x.DateModified).ToList();
             var listResult = new PageResult<NewsVm>()
             {
                 Items = listNewsVm,

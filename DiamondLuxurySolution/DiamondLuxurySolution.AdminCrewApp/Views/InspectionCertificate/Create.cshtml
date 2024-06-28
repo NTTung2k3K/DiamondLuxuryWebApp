@@ -17,6 +17,11 @@
         <form asp-action="Create" asp-controller="InspectionCertificate" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group m-2">
+                <label asp-for="InspectionCertificateId" class="control-label mb-1">Mã giấy chứng nhận</label>
+                <input asp-for="InspectionCertificateId" class="form-control" />
+                <span asp-validation-for="InspectionCertificateId" class="text-danger"></span>
+            </div>
+            <div class="form-group m-2">
                 <label asp-for="InspectionCertificateName" class="control-label mb-1">Tên giấy chứng nhận</label>
                 <input name="InspectionCertificateName" class="form-control" />
                 <span asp-validation-for="InspectionCertificateName" class="text-danger"></span>
