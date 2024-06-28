@@ -21,12 +21,12 @@
         <form asp-action="Edit" asp-controller="Discount" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group m-2">
-                 <label asp-for="DiscountId" class="control-label  m-2">Id chiết khấu</label>
+                    <label asp-for="DiscountId" class="control-label  m-2">ID của Chiết Khấu</label>
                     <input asp-for="DiscountId" class="form-control" readonly />
             </div>
             <div class="form-group m-2">
                 <label asp-for="DiscountName" class="control-label m-2">Tên chiết khấu</label>
-                        <input name="DiscountName" class="form-control" value="@Html.Encode(Model.DiscountName)" />
+                    <input asp-for="DiscountName" class="form-control" />
                     <span asp-validation-for="DiscountName" class="text-danger"></span>
             </div>
             <div class="form-group m-2">

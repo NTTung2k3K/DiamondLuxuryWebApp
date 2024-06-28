@@ -5,82 +5,119 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Chỉnh sửa</h1>
-@if (ViewBag.Errors != null)
-{
-	foreach (var error in ViewBag.Errors)
-	{
-		<h6 class="text-danger">@error</h6>
-	}
-}
+<h1>Chỉnh sửa Giá Kim Cương</h1>
 
 @if (Model != null)
 {
-	<div class="row">
-		<div class="col-md-6">
+		<div class="row">
+			<div class="col-md-6">
+				@if (ViewBag.Errors != null)
+				{
+					foreach (var error in ViewBag.Errors)
+					{
+								<h6 class="text-danger">@error</h6>
+					}
+				}
+				<form asp-action="Edit" asp-controller="GemPriceList" method="post">
+					<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-			<form asp-action="Edit" asp-controller="GemPriceList" method="post">
-				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-				<div class="form-group m-2">
-					<label asp-for="GemPriceListId" class="control-label m-2"></label>
-					<input asp-for="GemPriceListId" class="form-control" readonly />
-				</div>
-				<div class="form-group m-2">
-					<label asp-for="Cut" class="control-label m-2">Giát cắt</label>
-					<input asp-for="Cut" class="form-control" />
-					<span asp-validation-for="Cut" class="text-danger"></span>
-				</div>
-				<div class="form-group m-2">
-					<label asp-for="Clarity" class="control-label m-2">Độ tinh khiết</label>
-					<input asp-for="Clarity" class="form-control" />
-					<span asp-validation-for="Clarity" class="text-danger"></span>
-				</div>
-				<div class="form-group m-2">
-					<label asp-for="CaratWeight" class="control-label m-2">Trọng lượng Carat</label>
-					<input asp-for="CaratWeight" class="form-control" />
-					<span asp-validation-for="CaratWeight" class="text-danger"></span>
-				</div>
-				<div class="form-group m-2">
-					<label asp-for="Color" class="control-label m-2">Màu sắc</label>
-					<input asp-for="Color" class="form-control" />
-					<span asp-validation-for="Color" class="text-danger"></span>
-				</div>
-				<div class="form-group m-2">
-					<label asp-for="Price" class="control-label m-2">Giá kim cương</label>
-					<input asp-for="Price" class="form-control" />
-					<span asp-validation-for="Price" class="text-danger"></span>
-				</div>
-				<div class="form-group m-2">
-					<label asp-for="effectDate" class="control-label m-2">Ngày ảnh hưởng</label>
-					<input asp-for="effectDate" class="form-control" type="date" />
-					<span asp-validation-for="effectDate" class="text-danger"></span>
-				</div>
-				<div class="form-check form-switch m-4">
-					<label asp-for="Active" class="control-label m-1">Hiển thị</label>
-					<input class="form-check-input f-18" type="checkbox" asp-for="Active">
-				</div>
-
-				<div class="form-group row">
-					<div class="col-md-5">
-						<input type="submit" value="Lưu" class="btn btn-primary" />
+					<div class="form-group m-2">
+						<label asp-for="GemPriceListId" class="control-label m-2">ID của Giá Kim Cương</label>
+						<input asp-for="GemPriceListId" class="form-control" readonly />
 					</div>
-					<div class="col-md-7">
-						<a class="m-6 btn btn-secondary" asp-action="Index">Về trang quản lí giá kim cương</a>
+					<div class="form-group m-2">
+						<label asp-for="Cut" class="control-label m-2">Giát cắt</label>
+						<input asp-for="Cut" class="form-control" />
+						<span asp-validation-for="Cut" class="text-danger"></span>
 					</div>
-				</div>
-			</form>
+					<div class="form-group m-2">
+						<label asp-for="Clarity" class="control-label m-2">Độ tinh khiết</label>
+						<input asp-for="Clarity" class="form-control" />
+						<span asp-validation-for="Clarity" class="text-danger"></span>
+					</div>
+					<div class="form-group m-2">
+						<label asp-for="CaratWeight" class="control-label m-2">Trọng lượng Carat</label>
+						<input asp-for="CaratWeight" class="form-control" />
+						<span asp-validation-for="CaratWeight" class="text-danger"></span>
+					</div>
+					<div class="form-group m-2">
+						<label asp-for="Color" class="control-label m-2">Màu sắc</label>
+						<input asp-for="Color" class="form-control" />
+						<span asp-validation-for="Color" class="text-danger"></span>
+					</div>
+					<div class="form-group m-2">
+						<label asp-for="Price" class="control-label m-2">Giá kim cương</label>
+						<input asp-for="Price" type="text" class="form-control price-input PriceFormatFinal">
+						<span asp-validation-for="Price" class="text-danger"></span>
+					</div>
+					<div class="form-group m-2">
+						<label asp-for="effectDate" class="control-label m-2">Ngày ảnh hưởng</label>
+						<input asp-for="effectDate" class="form-control" type="date" />
+						<span asp-validation-for="effectDate" class="text-danger"></span>
+					</div>
+					<div class="form-check form-switch m-4">
+						<label asp-for="Active" class="control-label m-1">Hiển thị</label>
+						<input class="form-check-input f-18" type="checkbox" asp-for="Active">
+					</div>
+
+					<div class="form-group row">
+						<div class="col-md-5">
+							<input type="submit" value="Lưu" class="btn btn-primary" />
+						</div>
+						<div class="col-md-7">
+							<a class="m-6 btn btn-secondary" asp-action="Index">Về trang quản lí giá kim cương</a>
+						</div>
+					</div>
+				</form>
+			</div>
 		</div>
-	</div>
 }
 else
 {
-	<a class="btn btn-secondary" asp-action="Index">Về trang quản lí giá kim cương</a>
+		<a class="btn btn-secondary" asp-action="Index">Về trang quản lí giá kim cương</a>
 }
 
 @section Scripts {
 	@{
 		await Html.RenderPartialAsync("_ValidationScriptsPartial");
 	}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+			<script>
+				$(document).ready(function () {
+
+					// Select all inputs with the class "PriceFormat"
+					const $inputs = $(".PriceFormatFinal");
+
+					$inputs.each(function () {
+
+						// Ensure initial value is correctly formatted
+						if ($(this).val()) {
+							let value = $(this).val().replace(/\./g, "");
+							$(this).val(new Intl.NumberFormat('vi-VN').format(parseInt(value)));
+						}
+
+						$(this).on("input", function () {
+							let value = $(this).val();
+
+							// Remove all non-digit characters
+							value = value.replace(/[^\d]/g, "");
+
+							// Limit to a maximum of 13 digits
+							if (value.length > 13) {
+								value = value.slice(0, 13);
+							}
+
+							// If value is not empty, format it with Vietnamese thousand separators
+							if (value) {
+								$(this).val(new Intl.NumberFormat('vi-VN').format(parseInt(value)));
+							} else {
+								$(this).val("");
+							}
+						});
+					});
+				});
+		</script>
 }
 

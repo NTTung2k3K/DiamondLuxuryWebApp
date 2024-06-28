@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="meta description">
-
+    <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap" rel="stylesheet">
     <!-- Favicons -->
 
     <link rel="shortcut icon" href="../assets/img/logo/LOGO.png" type="../image/x-icon">
@@ -62,54 +62,140 @@
     <script src="../assets/js/main.js" defer></script>
 
     @RenderSection("StyleCss", false)
+
+    <style>
+        .InputContainer {
+          height: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #333333;
+          border-radius: 20px;
+          overflow: hidden;
+          cursor: pointer;
+          padding-left: 15px;
+          box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.075);
+        }
+
+        .input {
+          width: 200px;
+          height: 100%;
+          border: none;
+          outline: none;
+          font-size: 0.9em;
+          caret-color: rgb(255, 81, 0);
+          background-color: #333333;
+          color:white;
+        }
+
+        .labelforsearch {
+          cursor: text;
+          padding: 0px 12px;
+        }
+
+        .searchIcon {
+          width: 13px;
+        }
+
+
+        .searchIcon path {
+          fill: rgb(114, 114, 114);
+        }
+
+        .btn{
+            background-color: #333333;
+        }
+
+        .mini-cart__icon {
+            font-size: 2rem;
+            display: inline-block;
+            line-height: 1.2;
+            border-right: 2px solid #323232;
+            padding: 0px 15px 0 10px;
+        }
+
+        .bordered-icon {
+            border: 2px solid #2d2d2d;
+        }
+
+        .mainmenu__item {
+            padding: 0px
+        }
+
+            .mainmenu__item a {
+                font-size: 16px;
+                font-family: "Jura", serif;
+                font-optical-sizing: auto;
+            }
+
+        .img-navbar {
+            width: 30px;
+            margin-bottom: 5px
+        }
+
+        .submenu {
+            margin-left: 20px
+        }
+
+        .mainmenu__item.menu-item-has-children > ul.sub-menu {
+            min-width: 22rem
+        }
+        .header-toolbar{
+            margin-top:25px;
+        }
+
+    </style>
+    <style>
+        select {
+            border-radius: 5px;
+            border: 1px solid #e8be6f;
+            padding: 5px;
+            background-color: white; /* Màu nền mặc định của select */
+            text-align: center;
+        }
+
+            select option:checked {
+                background-color: #e8be6f; /* Màu nền xanh khi option được chọn */
+                color: white; /* Màu chữ là trắng khi option được chọn */
+            }
+
+            select option:hover {
+                background-color: #e8be6f !important; /* Màu nền vàng khi hover vào option */
+                color: black; /* Màu chữ là đen khi hover vào option */
+            }
+
+            select:not([multiple]) option:hover {
+                background-color: #e8be6f; /* Màu nền vàng khi hover vào option */
+                color: black; /* Màu chữ là đen khi hover vào option */
+            }
+    </style>
+
 </head>
 
-<body>
+
+<body style="background: black">
 
 
     <!-- Main Wrapper Start -->
-    <div class="wrapper bg--shaft">
+    <div class="wrapper bg--shaft" style="background: black">
         <!-- Header Area Start -->
         <header class="header headery-style-1">
             <div class="header-top header-top-1">
                 <div class="container">
                     <div class="row no-gutters align-items-center">
-                        <div class="col-lg-3 text-center">
-                            <ul class="social social-round mr--20">
-                                <li class="social__item">
-                                    <a href="https://plus.google.com" target="_blank" rel="noopener noreferrer"
-                                       class="social__link">
-                                        <i class="fa fa-google-plus"></i>
-                                    </a>
-                                </li>
-                                <li class="social__item">
-                                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
-                                       class="social__link">
-                                        <i class="fa fa-facebook"></i>
-                                    </a>
-                                </li>
-                                <li class="social__item">
-                                    <a href="https://youtube.com" target="_blank" rel="noopener noreferrer"
-                                       class="social__link">
-                                        <i class="fa fa-youtube"></i>
-                                    </a>
-                                </li>
-                                <li class="social__item">
-                                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
-                                       class="social__link">
-                                        <i class="fa fa-instagram"></i>
-                                    </a>
-                                </li>
-                            </ul>
+                        <div class="col-lg-4 text-center">
+                           <!-- Platform View Component -->
+                           @await Component.InvokeAsync("Platform")
+                            <!-- End Platform View Component -->
                         </div>
-                        <div class="col-lg-6">
+                        <div class="col-lg-4">
                             <p class="header-text text-center">
                                 Miễn phí vận chuyển cho tất cả các đơn hàng trong nước<span></span>
                             </p>
                         </div>
                         @if (string.IsNullOrEmpty(HttpContextAccessor.HttpContext.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_NAME)))
                         {
-                            <div class="col-lg-3">
+                            <div class="col-lg-4">
                                 <div class="header-top-nav d-flex justify-content-lg-end justify-content-center">
                                     <div class="user-info header-top-nav__item">
                                         <div class="dropdown header-top__dropdown">
@@ -161,40 +247,24 @@
                 <div class="container">
                     <div class="row no-gutters align-items-center">
                         <div class="col-lg-5 col-md-4 col-sm-6 order-lg-1 order-2">
-                            <div class="contact-info">
+                            <div class="contact-info " style="text-align: start">
                                 <img src="../assets/img/icons/icon_phone.png" alt="Phone Icon">
                                 <p>Liên Hệ Hỗ Trợ: <br>(012) 800 456 789</p>
-
                             </div>
                             <br>
-                            <div class="contact-info">
-                                <img src="../assets/img/icons/location.png" alt="Phone Icon">
+                            <div class="contact-info" style="text-align: start">
+                                <img style="width:32px;" src="../assets/img/icons/location.png" alt="Phone Icon">
                                 <p>Hệ Thống Showroom: <br>Cơ Sở HCM: Vinhomes Grand Park Quận 9</p>
                             </div>
                         </div>
                         <div class="col-lg-2 col-12 order-lg-2 order-1 text-center">
                             <a href="/Home/Index" class="logo-box mb-md--30">
-                                <img src="../assets/img/logo/LOGO.png" alt="logo">
+                                <img src="~/assets/img/logo/LogoMain.png" alt="logo">
                             </a>
                         </div>
                         <div class="col-lg-5 col-md-7 col-sm-5 order-lg-3 order-3">
                             <div class="header-toolbar">
-                                <div class="search-form-wrapper search-hide">
-                                    <form action="timkiem.html" class="search-form" method="GET"
-                                          onsubmit="return checkSearchQuery()">
-                                        <input type="text" name="query" id="search" class="search-form__input"
-                                               placeholder="Tìm Kiếm">
-                                        <button type="submit" class="search-form__submit">
-                                            <i class="icon_search"></i>
-                                        </button>
-                                    </form>
-                                </div>
                                 <ul class="header-toolbar-icons">
-                                    <li class="search-box">
-                                        <a href="#" class="bordered-icon search-btn" aria-expanded="false">
-                                            <i class="icon_search"></i>
-                                        </a>
-                                    </li>
                                     @{
                                         var cart = CartSessionHelper.GetCart();
                                         decimal total = 0;
@@ -202,42 +272,62 @@
                                     <li class="mini-cart-icon">
                                         <div class="mini-cart mini-cart--1">
                                             <a href="/Cart/View" class="mini-cart__dropdown-toggle bordered-icon">
-                                                <span class="mini-cart__ammount">
+                                                <span class="mini-cart__ammount" style="font-size:15px">
                                                     <i class="icon_cart_alt mini-cart__icon mt--10"></i>
-                                                    <span>
+                                                    <span style="padding: 10px;">
                                                         Xem giỏ hàng
                                                     </span>
                                                 </span>
                                             </a>
-                                           
+
                                         </div>
                                     </li>
                                 </ul>
                             </div>
+                            <div class="header-toolbar">
+                                <div class="InputContainer">
+                                    <form class="header__top--navbar__search__item search-right" asp-action="Index" asp-controller="Search" method="get">
+                                        <input type="text" name="Keyword" class="input" id="input" placeholder="Tìm kiếm...">
+
+                                        <button type="submit" class="btn " style="background-color: #E8BE6F !important;">
+                                        <svg viewBox="0 0 512 512" class="searchIcon"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"></path></svg>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            <br />
                         </div>
                     </div>
                 </div>
             </div>
         </header>
 
-        <div class="header-bottom header-top-1 position-relative navigation-wrap fixed-header">
-            <div class="container position-static">
+        <div class="header-bottom header-top-1 position-relative navigation-wrap fixed-header"
+             style="justify-content: center; >
+            <div class="container position-static"
+                 style="margin: 0px; padding: 0; ">
                 <div class="row">
-                    <div class="col-12 position-static">
+                    <div class="col-12 position-static" style="min-width: 100%">
                         <nav class="main-navigation">
                             <ul class="mainmenu col-12">
                                 <li id="home" class="mainmenu__item">
                                     <a href="/Home/Index" class="mainmenu__link">Trang Chủ</a>
                                 </li>
                                 <li id="diamond" class="mainmenu__item menu-item-has-children has-children">
-                                    <a href="/Diamond/Index" class="mainmenu__link">Kim Cương</a>
+                                    <a href="/Diamond/Index" class="mainmenu__link">
+                                        <img class="img-navbar" src="https://caohungdiamond.com/wp-content/uploads/2024/04/Vien-Kim-Cuong-icon.png" />
+                                        Kim Cương
+                                    </a>
                                     <ul class="sub-menu">
                                         <li><a href="/DiamondNatural/Index">Kim Cương Tự Nhiên</a></li>
                                         <li><a href="/DiamondArtificial/Index">Kim Cương Nhân Tạo</a></li>
                                     </ul>
                                 </li>
                                 <li id="diamond-jewelry" class="mainmenu__item menu-item-has-children has-children">
-                                    <a href="/DiamondJewelry/Index" class="mainmenu__link">Trang Sức Kim Cương</a>
+                                    <a href="/DiamondJewelry/Index" class="mainmenu__link">
+                                        <img class="img-navbar" src="https://caohungdiamond.com/wp-content/uploads/2022/06/nhan-nu.png" />
+                                        Trang Sức Kim Cương
+                                    </a>
                                     <ul class="sub-menu">
                                         <li class="menu-item-has-children has-children">
                                             <a class="mainmenu__link" href="/DiamondJewelryRing/Index">Nhẫn Kim Cương</a>
@@ -257,41 +347,16 @@
                                     </ul>
                                 </li>
                                 <li id="wedding-jewelry" class="mainmenu__item menu-item-has-children has-children">
-                                    <a href="/WeddingJewelry/Index" class="mainmenu__link">Trang Sức Cưới</a>
+                                    <a href="/WeddingJewelry/Index" class="mainmenu__link">
+                                        <img class="img-navbar" src="https://caohungdiamond.com/wp-content/uploads/2022/06/nhan-cuoi.png" />
+                                        Trang Sức Cưới
+                                    </a>
                                     <ul class="sub-menu">
                                         <li><a href="/WeddingJewelryRing/Index">Nhẫn Cưới Kim Cương</a></li>
                                         <li><a href="/WeddingJewelryProposal/Index">Nhẫn Kim Cương Cầu Hôn</a></li>
                                     </ul>
                                 </li>
-                                <li id="colection" class="mainmenu__item menu-item-has-children has-children">
-                                    <a href="BoSuuTap.html" class="mainmenu__link">Bộ Sưu Tập</a>
-                                    <ul class="sub-menu">
-                                        <li class="menu-item-has-children has-children">
-                                            <a href="BoSuuTapQuyOng.html">BST Quý Ông</a>
-                                            <ul class="sub-menu">
-                                                <li><a href="DangCapUyQuyen.html">Đẳng Cấp & Uy Quyền</a></li>
-                                                <li><a href="SangTrongBanLinh.html">Sang Trọng Và Bản Lĩnh</a></li>
-                                                <li><a href="PhongThuyThanhCong.html">Phong Thủy Và Thành Công</a></li>
-                                                <li><a href="PhongCachThoiTrang.html">Phong Cách Và Thời Trang</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="menu-item-has-children has-children">
-                                            <a href="BosuuTapNhanCuoi.html">BST Nhẫn Cưới</a>
-                                        </li>
-                                        <li class="menu-item-has-children has-children">
-                                            <a href="BosuuTapNhanCauHon.html">BST Nhẫn Cầu Hôn</a>
-                                        </li>
-                                        <li class="menu-item-has-children has-children">
-                                            <a href="BosuuTapDayChuyen.html">BST Dây Chuyền</a>
-                                        </li>
-                                        <li class="menu-item-has-children has-children">
-                                            <a href="BosuuTapKimCuong.html">BST Kim Cương</a>
-                                        </li>
-                                        <li class="menu-item-has-children has-children">
-                                            <a href="BosuuTapBanChayNhat.html">BST Bán Chạy Nhất</a>
-                                        </li>
-                                    </ul>
-                                </li>
+                            @await Component.InvokeAsync("Collection_List")
                                 <li id="tableprice" class="mainmenu__item">
                                     <a href="/TablePrice/Index" class="mainmenu__link">Bảng Giá Kim Cương</a>
                                 </li>
@@ -319,7 +384,7 @@
                                     </ul>
                                 </li>
                                 <li id="about" class="mainmenu__item">
-                                    <a href="gioithieu.html" class="mainmenu__link">Giới Thiệu</a>
+                                    <a href="/GioiThieu/Index" class="mainmenu__link">Giới Thiệu</a>
                                 </li>
                                 <li id="contact" class="mainmenu__item">
                                     <a href="/Contact/Create" class="mainmenu__link">Liên Hệ</a>
@@ -338,46 +403,30 @@
 
 
 
-        @RenderBody()
+    @RenderBody()
         <!-- Footer Start -->
-        <footer class="footer border-top ptb--40 ptb-md--30">
+        <footer class="footer border-top ptb--40 ptb-md--30" style="background-color: #141414 !important">
             <div class="container">
                 <div class="row mb--40 mb-md--30">
                     <div class="col-lg-3 col-md-6 mb-md--30">
                         <div class="footer-widget">
                             <h3 class="widget-title">Về Diamond Luxury</h3>
+
                             <ul class="widget-menu">
-                                <li>Address: Vinhomes Grand Park <br> Q. Thủ Đức</li>
-                                <li>Số Điện Thoại: (012) 800 456 789</li>
-                                <li>Email: diamondluxuryservice@gmail.com</li>
+                                <!-- About View Component -->
+                            @await Component.InvokeAsync("About")
+
+                               
+                                <!-- End About View Component -->
+
                             </ul>
+
                             <br>
                             <ul class="social social-round">
                                 <h3 class="widget-title">Theo Dõi Chúng Tôi</h3>
-                                <li class="social__item">
-                                    <a class="social__link" href="https://facebook.com" target="_blank"
-                                       rel="noopener noreferrer">
-                                        <i class="fa fa-facebook"></i>
-                                    </a>
-                                </li>
-                                <li class="social__item">
-                                    <a class="social__link" href="https://youtube.com" target="_blank"
-                                       rel="noopener noreferrer">
-                                        <i class="fa fa-youtube"></i>
-                                    </a>
-                                </li>
-                                <li class="social__item">
-                                    <a class="social__link" href="https://instagram.com" target="_blank"
-                                       rel="noopener noreferrer">
-                                        <i class="fa fa-instagram"></i>
-                                    </a>
-                                </li>
-                                <li class="social__item">
-                                    <a class="social__link" href="https://plus.google.com" target="_blank"
-                                       rel="noopener noreferrer">
-                                        <i class="fa fa-google-plus"></i>
-                                    </a>
-                                </li>
+                                <!-- Platform View Component -->
+                            @await Component.InvokeAsync("Platform")
+                                <!-- End Platform View Component -->
                             </ul>
                         </div>
                     </div>
@@ -387,7 +436,7 @@
                             <ul class="widget-menu">
                                 <li><a href="/GioiThieu/Index">Giới Thiệu</a></li>
                                 <li><a href="/CauHoiThuongGap/Index">Câu Hỏi Thường Gặp</a></li>
-                                <li><a href="banggiakimcuong.html">Bảng Giá Kim Cương</a></li>
+                                <li><a href="/TablePrice/Index">Bảng Giá Kim Cương</a></li>
                                 <li><a href="/HuongDanDoNiNhan/Index">Hướng dẫn đo size: Nhẫn kim cương</a></li>
                                 <li><a href="/HuongDanDoNiDayChuyen/Index">Hướng dẫn đo size: Dây chuyền</a></li>
                                 <li><a href="/HuongDanDoNiDayVongTay/Index">Hướng dẫn đo size: Lắc & vòng tay</a></li>
@@ -448,27 +497,6 @@
     </div>
     <!-- Main Wrapper End -->
 
-    <script>
-        function checkSearchQuery() {
-            var query = document.getElementById('search').value.trim().toLowerCase();
-            var diamondKeywords = [
-                'kim cương', 'nhẫn kim cương', 'bông tai kim cương', 'vòng cổ kim cương',
-                'trang sức kim cương', 'diamond', 'ring', 'earrings', 'necklace', 'jewelry'
-            ];
-
-            // Kiểm tra xem từ khóa có nằm trong danh sách từ khóa liên quan đến kim cương hay không
-            var hasMeaningfulKeyword = diamondKeywords.some(function (keyword) {
-                return query.includes(keyword);
-            });
-
-            if (hasMeaningfulKeyword) {
-                document.querySelector('.search-form').action = 'timkiem.html';
-            } else {
-                document.querySelector('.search-form').action = 'search_no_results.html';
-            }
-            return true; // Tiếp tục submit form
-        }
-    </script>
 
     <script>
         // Function to add 'active' class to the current page link

@@ -38,9 +38,9 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
             {
                 percentSale = Convert.ToDouble(request.PercentSale);
 
-                if (percentSale < 0 || percentSale > 3)
+                if (percentSale < 0 || percentSale > 5)
                 {
-                     errorList.Add("% Chiết khấu phải >= 0 và <=3");
+                     errorList.Add("% Chiết khấu phải >= 0 và <=5");
                 }
             }
             catch (FormatException)
@@ -53,7 +53,7 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
 			{
 				from = Convert.ToInt32(request.From);
 
-				if (percentSale < 0)
+				if (from < 0)
 				{
 					errorList.Add("Bắt đầu chiết khấu phải >= 0");
 				}
@@ -68,7 +68,7 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
 			{
 				to = Convert.ToInt32(request.To);
 
-				if (percentSale < 0)
+				if (to < 0)
 				{
 					errorList.Add("Đến chiết khấu phải >= 0");
 				}
@@ -165,9 +165,9 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
             {
                 percentSale = Convert.ToDouble(request.PercentSale);
 
-				if (percentSale < 0 || percentSale > 3)
+				if (percentSale < 0 || percentSale > 5)
 				{
-					errorList.Add("% Chiết khấu phải >= 0 và <=3");
+					errorList.Add("% Chiết khấu phải >= 0 và <=5");
 				}
 			}
             catch (FormatException)
@@ -180,7 +180,7 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
 			{
 				from = Convert.ToInt32(request.From);
 
-				if (percentSale < 0)
+				if (from < 0)
 				{
 					errorList.Add("Bắt đầu chiết khấu phải >= 0");
 				}
@@ -195,7 +195,7 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
 			{
 				to = Convert.ToInt32(request.To);
 
-				if (percentSale < 0)
+				if (to < 0)
 				{
 					errorList.Add("Đến chiết khấu phải >= 0");
 				}

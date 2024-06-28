@@ -307,7 +307,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
             // Lấy tất cả các InspectionCertificateId có trong listGem
             var gemInspectionCertificateIds = listGem.ResultObj
-                                                     .SelectMany(gem => gem.InspectionCertificateVm.InspectionCertificateId)
+                                                     .Select(gem => gem.InspectionCertificateVm.InspectionCertificateId)
                                                      .ToList();
 
             // Lấy các InspectionCertificateId chưa có trong gem
@@ -315,7 +315,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                               .Where(insp => !gemInspectionCertificateIds.Any(gemId => gemId.Equals(insp.InspectionCertificateId)))
                               .ToList();
 
-			var listGemPriceList = await _gemPriceListApiService.GetAll();
+            ViewBag.ListIsnp = availableInspectionCertificates;
+
+            var listGemPriceList = await _gemPriceListApiService.GetAll();
 			ViewBag.listGemPriceList = listGemPriceList.ResultObj.ToList();
 
 			if (!ModelState.IsValid)

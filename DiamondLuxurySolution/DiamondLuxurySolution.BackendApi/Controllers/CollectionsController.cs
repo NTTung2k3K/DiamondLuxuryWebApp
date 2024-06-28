@@ -1,6 +1,7 @@
 ﻿using DiamondLuxurySolution.Application.Repository.About;
 using DiamondLuxurySolution.Application.Repository.Collection;
 using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Models.About;
 using DiamondLuxurySolution.ViewModel.Models.Collection;
 using Microsoft.AspNetCore.Http;
@@ -112,6 +113,23 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
 
+        [HttpGet("GetAll")]
+        public async Task<ActionResult> GetAllCollection()
+        {
+            try
+            {
+                var status = await _collection.GetAll();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
         [HttpGet("ViewInCollection")]
         public async Task<IActionResult> ViewAllCollectionsInPaging([FromQuery] ViewCollectionRequest request)

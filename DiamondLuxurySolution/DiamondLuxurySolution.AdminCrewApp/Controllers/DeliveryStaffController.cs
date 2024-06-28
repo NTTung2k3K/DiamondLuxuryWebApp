@@ -11,7 +11,6 @@ using static DiamondLuxurySolution.Utilities.Constants.Systemconstant;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.DeliveryStaff)]
 
     public class DeliveryStaffController : BaseController
     {
@@ -26,6 +25,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             _OrderApiService = OrderApiService;
         }
 
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.DeliveryStaff)]
         [HttpGet]
         public async Task<IActionResult> IndexOrder(ViewOrderForDeliveryStaff request)
         {
@@ -91,17 +91,21 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         listError.Add(errorResult.Message);
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View(request);
                 }
-
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("IndexOrder", "DeliveryStaff");
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View(request);
             }
         }
+
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.DeliveryStaff)]
 
         [HttpGet]
         public async Task<IActionResult> DetailOrder(string OrderId)
@@ -125,6 +129,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -133,69 +138,13 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Index(ViewStaffPaginationCommonRequest request)
-        {
-            try
-            {
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin)]
 
-                ViewBag.txtLastSeachValue = request.Keyword;
-                if (!ModelState.IsValid)
-                {
-                    return View();
-                }
-                if (TempData["FailMsg"] != null)
-                {
-                    ViewBag.FailMsg = TempData["FailMsg"];
-                }
-                if (TempData["SuccessMsg"] != null)
-                {
-                    ViewBag.SuccessMsg = TempData["SuccessMsg"];
-                }
-
-                var Staff = await _staffApiService.ViewDeliveryStaffPagination(request);
-                return View(Staff.ResultObj);
-            }
-            catch
-            {
-                return View();
-            }
-        }
-        [HttpGet]
-        public async Task<IActionResult> Detail(Guid StaffId)
-        {
-            try
-            {
-                var status = await _staffApiService.GetStaffById(StaffId);
-                if (status is ApiErrorResult<StaffVm> errorResult)
-                {
-                    List<string> listError = new List<string>();
-                    if (status.Message != null)
-                    {
-                        listError.Add(errorResult.Message);
-                    }
-                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-                    {
-                        foreach (var error in listError)
-                        {
-                            listError.Add(error);
-                        }
-                    }
-                    ViewBag.Errors = listError;
-                    return View();
-
-                }
-                return View(status.ResultObj);
-            }
-            catch
-            {
-                return View();
-            }
-        }
 
         [HttpGet]
         public async Task<IActionResult> Edit(Guid StaffId)
@@ -228,7 +177,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
                 }
                 var listRoleName = new List<string>();
-          
+
                 StaffVm staffVm = new StaffVm()
                 {
                     Address = Staff.ResultObj.Address,
@@ -250,6 +199,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin)]
+
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateStaffAccountRequest request)
         {
@@ -284,7 +235,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         StaffId = request.StaffId,
                         Status = request.Status
                     };
-                    if(listRoleName.Count > 0)
+                    if (listRoleName.Count > 0)
                     {
                         staffVm.ListRoleName = listRoleName;
                     }
@@ -345,6 +296,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
         }
 
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin)]
 
 
         [HttpGet]
@@ -378,6 +330,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin)]
 
         [HttpPost]
         public async Task<IActionResult> Delete(DeleteStaffAccountRequest request)
@@ -413,6 +366,74 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 return View();
             }
         }
+
+
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin)]
+        [HttpGet]
+        public async Task<IActionResult> Index(ViewStaffPaginationCommonRequest request)
+        {
+            try
+            {
+
+                ViewBag.txtLastSeachValue = request.Keyword;
+                if (!ModelState.IsValid)
+                {
+                    return View();
+                }
+                if (TempData["FailMsg"] != null)
+                {
+                    ViewBag.FailMsg = TempData["FailMsg"];
+                }
+                if (TempData["SuccessMsg"] != null)
+                {
+                    ViewBag.SuccessMsg = TempData["SuccessMsg"];
+                }
+
+                var Staff = await _staffApiService.ViewDeliveryStaffPagination(request);
+                return View(Staff.ResultObj);
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin)]
+
+        [HttpGet]
+        public async Task<IActionResult> Detail(Guid StaffId)
+        {
+            try
+            {
+                var status = await _staffApiService.GetStaffById(StaffId);
+                if (status is ApiErrorResult<StaffVm> errorResult)
+                {
+                    List<string> listError = new List<string>();
+                    if (status.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
+                    }
+                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                    {
+                        foreach (var error in listError)
+                        {
+                            listError.Add(error);
+                        }
+                    }
+                    TempData["ErrorToast"] = true;
+                    ViewBag.Errors = listError;
+                    return View();
+
+                }
+                return View(status.ResultObj);
+            }
+            catch
+            {
+                TempData["ErrorToast"] = true;
+                return View();
+            }
+        }
+
+       
 
     }
 }

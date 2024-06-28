@@ -1,6 +1,7 @@
 ﻿@using DiamondLuxurySolution.ViewModel.Models.Collection
 @using DiamondLuxurySolution.Data.Entities
 @using DiamondLuxurySolution.ViewModel.Common
+@using DiamondLuxurySolution.ViewModel.Models.User.Staff
 
 @model PageResult<CollectionVm>
 @{
@@ -14,9 +15,15 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 </head>
+@{
+    var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
+}
 <div class="row mb-4">
     <div class="col-md-4">
-        <a asp-action="Create" asp-controller="Collection" class="btn btn-success">Tạo mới</a>
+        @if (!staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
+        {
+            <a asp-action="Create" asp-controller="Collection" class="btn btn-success">Tạo mới</a>
+        }
     </div>
     <div class="col-md-4">
     </div>
@@ -38,7 +45,7 @@
     }
 }
 
-@if (Model.Items != null && Model.Items.Count > 0)
+@if (Model != null && Model.Items != null && Model.Items.Count > 0)
 {
     <table class="table" id="sort">
         <thead>
@@ -144,9 +151,16 @@
                         </td>
                     }
                     <td class="text-center col-md-2">
-                        @Html.ActionLink("Chỉnh sửa", "Edit", new { CollectionId = item.CollectionId }, new { @class = "btn btn-warning" })
-                        @Html.ActionLink("Xem chi tiết", "Detail", new { CollectionId = item.CollectionId }, new { @class = "btn btn-info" })
-                        @Html.ActionLink("Xóa", "Delete", new { CollectionId = item.CollectionId }, new { @class = "btn btn-danger" })
+                        @if (!staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
+                        {
+                            @Html.ActionLink("Chỉnh sửa", "Edit", new { CollectionId = item.CollectionId }, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Xem chi tiết", "Detail", new { CollectionId = item.CollectionId }, new { @class = "btn btn-info" })
+                            @Html.ActionLink("Xóa", "Delete", new { CollectionId = item.CollectionId }, new { @class = "btn btn-danger" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Xem chi tiết", "Detail", new { CollectionId = item.CollectionId }, new { @class = "btn btn-info" })
+                        }
                     </td>
                 </tr>
             }
@@ -188,24 +202,23 @@ else
 }
 @section Scripts {
     <script>
-        $(document).ready(function () {
-            $('.datatable').DataTable({
-                "ordering": false,
-                "pagingType": "full_numbers",
-                "searching": false,
-                "language": {
-                    "paginate": {
-                        "next": "Next",
-                        "previous": "Previous",
-                        "First": false
-                    }
-                },
-                "pageLength": 2,
-                "lengthMenu": [[2, 3, 5, -1], [2, 3, 5, "All"]]
-            });
+        /*$(document).ready(function () { }*/
+        $('.datatable').DataTable({
+            "ordering": false,
+            "pagingType": "full_numbers",
+            "searching": false,
+            "language": {
+                "paginate": {
+                    "next": "Next",
+                    "previous": "Previous",
+                    "First": false
+                }
+            },
+            "pageLength": 2,
+            "lengthMenu": [[2, 3, 5, -1], [2, 3, 5, "All"]]
         });
 
     </script>
 
-     <script src="~/assets/js/Test.js"></script>
+    <script src="~/assets/js/Test.js"></script>
 }

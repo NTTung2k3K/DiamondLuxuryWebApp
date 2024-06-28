@@ -30,7 +30,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Warranty
 			return data;
 		}
 
-		public async Task<ApiResult<WarrantyVm>> GetWarrantyById(Guid WarrantyId)
+		public async Task<ApiResult<WarrantyVm>> GetWarrantyById(string WarrantyId)
 		{
 			var data = await GetAsync<WarrantyVm>($"api/Warrantys/GetById?WarrantyId={WarrantyId}");
 			return data;

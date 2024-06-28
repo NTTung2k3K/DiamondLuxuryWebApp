@@ -21,7 +21,7 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PromotionId)
+            ID của Khuyến Mãi
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.PromotionId)
@@ -80,16 +80,16 @@
             Phần trăm giảm giá
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DiscountPercent)
+            @(Model.DiscountPercent != 0 ? Model.DiscountPercent.Value.ToString("N0") + "%" : "Không có giá trị")
         </dd>
         <dt class = "col-sm-2">
             Giảm giá tối đa
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MaxDiscount)
+            @(Model.MaxDiscount != 0 ? Model.MaxDiscount.Value.ToString("N0") + "₫" : "Không có giá trị")
         </dd>
         <dt class="col-sm-2">
-            Hiển thị
+            Áp dụng
         </dt>
             <dd class="col-sm-10">
             <div class="form-check form-switch ">
@@ -100,8 +100,14 @@
     
     <form asp-action="Delete" asp-controller="Promotion" method="post">
         <input type="hidden" name="PromotionId" value="@Model.PromotionId" />
-        <input type="submit" value="Xóa" class="btn btn-danger" />
-        <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Promotion")'">Về trang quản lí khuyến mãi</button>
+        <div class="row">
+            <div class="col-md-3">
+                <input type="submit" value="Xóa" class="btn btn-danger" />
+            </div>
+            <div class="col-md-9">
+                <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Promotion")'">Về trang quản lí khuyến mãi</button>
+            </div>
+        </div>
 
     </form>
 </div>

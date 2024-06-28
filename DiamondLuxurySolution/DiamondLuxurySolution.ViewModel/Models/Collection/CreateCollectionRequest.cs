@@ -15,9 +15,12 @@ namespace DiamondLuxurySolution.ViewModel.Models.Collection
 
         public string? Description { get; set; }
 
-        public IFormFile? Thumbnail { get; set; }
+		[Required(ErrorMessage = "Cần thêm hình cho bộ sưu tập")]
+		public IFormFile? Thumbnail { get; set; }
 
         public bool Status { get; set; }
+        public bool IsHome { get; set; }
+        public string? priceDisplay { get; set; }
 
         public virtual ICollection<string> ListProductId { get; set; } = new List<string>();
     }

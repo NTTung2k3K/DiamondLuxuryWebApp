@@ -93,7 +93,23 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
-
+        [HttpGet("CountAllCustomerInWeek")]
+        public async Task<ActionResult> CountAllCustomerInWeek()
+        {
+            try
+            {
+                var status = await _customer.CountAllCustomerInWeek();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
         [HttpPost("LoginCustomer")]
         public async Task<ActionResult> LoginCustomer([FromBody] LoginCustomerRequest request)

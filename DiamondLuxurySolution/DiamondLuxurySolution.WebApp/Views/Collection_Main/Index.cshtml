@@ -1,0 +1,162 @@
+﻿@using DiamondLuxurySolution.ViewModel.Models.Collection
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model List<CollectionVm>
+<style>
+    .slider-area {
+        position: relative;
+        z-index: 1;
+        max-width: 1800px;
+        max-height: 720px;
+    }
+
+    .col-md-6 {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        max-width: 550px;
+        margin-bottom: 50px
+    }
+
+    .container-img {
+        max-width: 100%;
+        max-height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+        .container-img img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+    .row {
+        justify-content: center;
+        height: 100%
+    }
+
+    .wpb_wrapper, .nectar-cta {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    h3 {
+        font-size: 40px;
+        color: floralwhite
+    }
+
+    .link_text span {
+        font-size: 16px
+    }
+
+    .next-arrow {
+        margin-bottom: 5px
+    }
+
+    .col {
+        margin-right: 40px;
+        top:;
+    }
+
+    .bst-a {
+        margin-right: 40px;
+        top: -60px;
+    }
+
+    .bst-b {
+        margin-top: 0px;
+    }
+
+    .zoom-container {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .container-img {
+        position: relative;
+    }
+
+    .hover-img {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: transform .65s cubic-bezier(.05,.2,.1,1);
+        position: relative;
+        z-index: 2;
+        transform: scale(1);
+        width: 100%;
+    }
+
+        .hover-img a {
+            width: 100%;
+        }
+
+    .zoom-container:hover .hover-img {
+        transform: scale(.95);
+    }
+
+    .hover-img img {
+        max-width: 100%;
+        width: 100%;
+        height: auto;
+        position: relative;
+        z-index: 1;
+    }
+
+</style>
+@if (Model != null && Model.Count() > 0)
+{
+    <div class="slider-area">
+        <div class="homepage-slider">
+            @foreach (var item in Model)
+            {
+                <div class="single-slider content-v-center"
+                     style="background-image: url(@item.Thumbnail)">
+                </div>
+            }
+        </div>
+    </div>
+    <div class="row left" style="padding: 140px; justify-content: center; padding-top: 40px">
+        <div class="container-sdf" style="display: flex; flex-wrap: wrap; height: 100%; margin-left: 82px">
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                var colClass = (i % 2 == 0) ? "bst-a" : "bst-b";
+                var collectionName = Model[i].CollectionName;
+                <div class="@colClass col-md-6">
+                    <div class="zoom-container">
+                        <div class="container-img ">
+                            <div class="hover-img">
+                                <a href="/Collection_List/Index?collectionId=@Model[i].CollectionId" target="_self" class="center img-loaded">
+                                    <img style="min-height: 600px; max-height: 600px; max-width: 100%" src="@Model[i].Thumbnail" alt="@Model[i].CollectionName" srcset="@Model[i].Thumbnail 700w, @Model[i].Thumbnail 300w, @Model[i].Thumbnail 150w, @Model[i].Thumbnail 100w, @Model[i].Thumbnail 140w, @Model[i].Thumbnail 500w, @Model[i].Thumbnail 350w, @Model[i].Thumbnail 600w">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wpb_wrapper">
+                        <h3 style="text-align: left;">@Model[i].CollectionName</h3>
+                    </div>
+                    <div class="nectar-cta loaded">
+                        <h6 style="color: #E8BE6F;">
+                            <span class="link_wrap">
+                                <a class="link_text" role="button" href="/Collection_List/Index?collectionId=@Model[i].CollectionId">
+                                    <span class="text">Khám phá ngay</span>
+                                    <svg class="next-arrow" aria-hidden="true" width="16px" height="25px" viewBox="0 0 50 80" xml:space="preserve">
+                                    <polyline stroke="#ffffff" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round" points="0, 0 45, 40 0, 80"></polyline>
+                                                                                                                                                                            </svg>
+                                </a>
+                            </span>
+                        </h6>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

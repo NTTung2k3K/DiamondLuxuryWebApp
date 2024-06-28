@@ -21,7 +21,7 @@
 			<form asp-action="Edit" asp-controller="Category" method="post" enctype="multipart/form-data">
 				<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 				<div class="form-group m-2">
-					<label asp-for="CategoryId" class="control-label  m-2">Id Danh Mục</label>
+					<label asp-for="CategoryId" class="control-label  m-2">ID của Danh Mục</label>
 					<input asp-for="CategoryId" class="form-control" readonly />
 				</div>
 				<div class="form-group m-2">
@@ -60,10 +60,10 @@
 					<input class="form-check-input f-20" type="checkbox" asp-for="Status">
 				</div>
 				<div class="form-group row">
-					<div class="col-md-6">
+					<div class="col-md-7">
 						<input type="submit" value="Lưu" class="btn btn-primary" />
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-5">
 						<button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Index", "Category")'">Về trang quản lí danh mục</button>
 					</div>
 				</div>

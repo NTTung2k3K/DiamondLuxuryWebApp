@@ -20,13 +20,13 @@
         <hr />
         <dl class="row">
             <dt class="col-sm-3 mb-3">
-                @Html.DisplayNameFor(model => model.KnowledgeNewCatagoriesName)
+                ID của Loại Kiến Thức Tin Tức
             </dt>
             <dd class="col-sm-9">
                 @Html.DisplayFor(model => model.KnowledgeNewCatagoryId)
             </dd>
             <dt class="col-sm-3 mb-3">
-                Tên Kiến Thức Tin Tức
+                Tên Loại Kiến Thức Tin Tức
             </dt>
             <dd class="col-sm-9">
                 @Html.DisplayFor(model => model.KnowledgeNewCatagoriesName)
@@ -45,7 +45,7 @@
             @Html.ActionLink("Chỉnh sửa", "Edit", new { knowledgeNewsCategoryId = Model.KnowledgeNewCatagoryId }, new { @class = "btn btn-warning" })
         </div>
         <div class="col-sm-9">
-            <a class="btn btn-secondary" asp-action="Index">Về trang quản lí Kiến Thức Tin Tức</a>
+            <a class="btn btn-secondary" asp-action="Index">Về trang quản lý Loại Kiến Thức Tin Tức</a>
         </div>
     </div>
 

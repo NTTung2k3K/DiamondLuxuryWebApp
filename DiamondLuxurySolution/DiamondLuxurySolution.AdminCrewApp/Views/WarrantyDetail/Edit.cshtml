@@ -1,0 +1,306 @@
+﻿@model DiamondLuxurySolution.ViewModel.Models.WarrantyDetail.WarrantyDetailVm
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chỉnh sửa Slide</h1>
+@if (ViewBag.Errors != null)
+{
+    foreach (var error in ViewBag.Errors)
+    {
+        <h6 class="text-danger">@error</h6>
+    }
+}
+
+@if (Model != null)
+{
+    <div class="row">
+        <div class="col-md-6">
+
+            <form asp-action="Edit" asp-controller="WarrantyDetail" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group m-2">
+                    <label asp-for="WarrantyDetailId" class="control-label m-2">Mã thông tin bảo hành</label>
+                    <input asp-for="WarrantyDetailId" class="form-control" readonly />
+                    <span asp-validation-for="WarrantyDetailId" class="text-danger"></span>
+                </div>
+                <div class="form-group m-2 row">
+                    <div class="col-md-8" style="padding-left:0">
+                        <label class="control-label m-2">Mã bảo hành</label>
+                        <input id="WarrantyId" name="WarrantyId" class="form-control" value="@Model.WarrantyVm.WarrantyId" />
+                    </div>
+                    <input style="height:50px; width:165px;margin-top:36px;" class=" btn btn-group btn-light-facebook col-md-4" id="Check-day" value="Kiểm tra" />
+                </div>
+
+                <div class="form-group m-2">
+                    <label asp-for="WarrantyDetailName" class="control-label m-2"></label>
+                    <input asp-for="WarrantyDetailName" class="form-control" />
+                    <span asp-validation-for="WarrantyDetailName" class="text-danger"></span>
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="WarrantyType" class="control-label  m-2"></label>
+                    @if (Model == null)
+                    {
+                        <select name="WarrantyType">
+                            <option value="Bảo hành">Bảo hành</option>
+                            <option value="Đổi trả">Đổi trả</option>
+                        </select>
+                    }
+                    else
+                    {
+                        if (Model.WarrantyType.Equals("Bảo hành"))
+                        {
+                            <select name="WarrantyType">
+                                <option selected value="Bảo hành">Bảo hành</option>
+                                <option value="Đổi trả">Đổi trả</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <select name="WarrantyType">
+                                <option value="Bảo hành">Bảo hành</option>
+                                <option selected value="Đổi trả">Đổi trả</option>
+                            </select>
+                        }
+                    }
+
+                    <span asp-validation-for="WarrantyType" class="text-danger"></span>
+                </div>
+
+                <div class="form-group m-2">
+                    <label asp-for="ReceiveProductDate" class="control-label m-2"></label>
+                    <input asp-for="ReceiveProductDate" class="form-control" type="datetime-local" />
+                    <span asp-validation-for="ReceiveProductDate" class="text-danger"></span>
+
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="ReturnProductDate" class="control-label m-2"></label>
+                    <input asp-for="ReturnProductDate" class="form-control" type="datetime-local" />
+                </div>
+                <div class="form-group m-2">
+                    <label class="control-label m-2">Hình ảnh hiện tại</label>
+                    @if (string.IsNullOrEmpty(Model.Image))
+                    {
+                        <label style="color:orangered;">Không có hình ảnh</label>
+                    }
+                    else
+                    {
+                        <label>
+                            <img src="@Model.Image" style="height:100px; width:100px" />
+                        </label>
+                    }
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="Image" class="control-label m-2">Hình ảnh Mới</label>
+                    <input asp-for="Image" class="form-control" type="file" />
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="Description" class="control-label m-2"></label>
+                    @Html.TextAreaFor(x => x.Description, new { @class = "form-control" })
+                </div>
+                <div class="form-group m-4">
+                    <label asp-for="Status" class="control-label m-2">Trạng thái</label>
+                    <select name="Status">
+                        @if (Model != null)
+                        {
+                            @foreach (var item in ViewBag.ListStatus)
+                            {
+                                bool isSelected = Model != null && Model.Status.ToString().Equals(item.ToString());
+                                string selectedAttribute = isSelected ? "selected=\"selected\"" : "";
+
+                                if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.Received.ToString()))
+                                {
+                                    <!option value="@item" @selectedAttribute>
+                                    Đã nhận
+                                    </!option>
+                                }
+                                else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.UnderReview.ToString()))
+                                {
+                                    <!option value="@item" @selectedAttribute>
+                                    Đang xem xét
+                                    </!option>
+                                }
+                                else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.Approved.ToString()))
+                                {
+                                    <!option value="@item" @selectedAttribute>
+                                    Đã phê duyệt
+                                    </!option>
+                                }
+                                else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.Denied.ToString()))
+                                {
+                                    <!option value="@item" @selectedAttribute>
+                                    Từ chối
+                                    </!option>
+                                }
+                                else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.InRepair.ToString()))
+                                {
+                                    <!option value="@item" @selectedAttribute>
+                                    Đang sửa chữa
+                                    </!option>
+                                }
+                                else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.RepairCompleted.ToString()))
+                                {
+                                    <!option value="@item" @selectedAttribute>
+                                    Sửa chữa hoàn tất
+                                    </!option>
+                                }
+                                else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.QualityCheck.ToString()))
+                                {
+                                    <!option value="@item" @selectedAttribute>
+                                    Kiểm tra chất lượng
+                                    </!option>
+                                }
+                                else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.CustomerNotified.ToString()))
+                                {
+                                    <!option value="@item" @selectedAttribute>
+                                    Đã thông báo khách hàng
+                                    </!option>
+                                }
+                                else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.RefundProcessed.ToString()))
+                                {
+                                    <!option value="@item" @selectedAttribute>
+                                    Đã xử lý hoàn tiền
+                                    </!option>
+                                }
+                                else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.Success.ToString()))
+                                {
+                                    <!option value="@item" @selectedAttribute>
+                                    Thành công
+                                    </!option>
+                                }
+                                else
+                                {
+                                    <!option value="@item" @selectedAttribute>
+                                    N/A
+                                    </!option>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            @foreach (var item in ViewBag.ListStatus)
+                            {
+                                if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.Received.ToString()))
+                                {
+                                    <option value="@item">
+                                        Đã nhận
+                                    </option>
+                                }
+                                else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.UnderReview.ToString()))
+                                {
+                                    <option value="@item">
+                                        Đang xem xét
+                                    </option>
+                                }
+                                else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.Approved.ToString()))
+                                {
+                                    <option value="@item">
+                                        Đã phê duyệt
+                                    </option>
+                                }
+                                else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.Denied.ToString()))
+                                {
+                                    <option value="@item">
+                                        Từ chối
+                                    </option>
+                                }
+                                else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.InRepair.ToString()))
+                                {
+                                    <option value="@item">
+                                        Đang sửa chữa
+                                    </option>
+                                }
+                                else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.RepairCompleted.ToString()))
+                                {
+                                    <option value="@item">
+                                        Sửa chữa hoàn tất
+                                    </option>
+                                }
+                                else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.QualityCheck.ToString()))
+                                {
+                                    <option value="@item">
+                                        Kiểm tra chất lượng
+                                    </option>
+                                }
+                                else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.CustomerNotified.ToString()))
+                                {
+                                    <option value="@item">
+                                        Đã thông báo khách hàng
+                                    </option>
+                                }
+                                else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.RefundProcessed.ToString()))
+                                {
+                                    <option value="@item">
+                                        Đã xử lý hoàn tiền
+                                    </option>
+                                }
+                                else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.WarrantyDetailStatus.Success.ToString()))
+                                {
+                                    <option value="@item">
+                                        Thành công
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="@item">
+                                        N/A
+                                    </option>
+                                }
+                            }
+                        }
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-5">
+                        <input type="submit" value="Tạo mới" class="btn btn-success" />
+                    </div>
+                    <div class="col-md-7">
+                        <a class=" btn btn-secondary" asp-action="Index">Về trang quản lí thông tin bảo hành</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+else
+{
+    <a class=" btn btn-secondary" asp-action="Index">Về trang quản lí thông tin bảo hành</a>
+
+}
+<hr />
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#Check-day").click(function (event) {
+                event.preventDefault(); // Prevent the default form submission
+                var warrantyId = $("#WarrantyId").val(); // Get the value of the WarrantyId input
+                debugger;
+
+                if (warrantyId) {
+                    $.ajax({
+                        url: 'https://localhost:9000/api/WarrantyDetails/ValidateWarrantyId',
+                        type: 'GET',
+                        data: { warrantyId: warrantyId },
+                        success: function (response) {
+                            alert(response.message);
+                        },
+                        error: function (xhr, status, error) {
+                            // Handle errors
+                            console.error("Error occurred: " + error);
+                            alert("Có lỗi xảy ra");
+                        }
+                    });
+                } else {
+                    alert("Please enter a Warranty ID.");
+                }
+            });
+        });
+    </script>
+}

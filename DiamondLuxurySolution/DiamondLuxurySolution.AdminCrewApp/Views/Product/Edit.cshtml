@@ -17,10 +17,10 @@
             }
         }
 
-        <form asp-action="Edit" asp-controller="Product" method="post" enctype="multipart/form-data">
+        <form asp-action="Edit" asp-controller="Product" method="post" id="submitFormFormatFinal" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group m-2">
-                <label asp-for="ProductId" class="control-label m-2"></label>
+                <label asp-for="ProductId" class="control-label m-2">ID của Sản Phẩm</label>
                 <input asp-for="ProductId" readonly class="form-control" />
             </div>
             <div class="form-group m-2">
@@ -43,7 +43,7 @@
             </div>
             <div class="form-group m-2">
                 <label class="control-label m-2">Hình đại diện hiện tại</label>
-                @if (string.IsNullOrEmpty(Model.ProductThumbnail) || Model.ProductThumbnail.Length <= 0)
+                @if (string.IsNullOrEmpty(Model.ProductThumbnail) && Model.ProductThumbnail.Length <= 0)
                 {
                     <label style="color:orangered;">Không có hình ảnh</label>
                 }
@@ -148,11 +148,11 @@
             </div>
             <div class="form-group m-2">
                 <label asp-for="OriginalPrice" class="control-label m-2">Giá gốc ban đầu</label>
-                <input asp-for="OriginalPrice" type="number" class="form-control" readonly />
+                <span type="text" class="form-control price-input" readonly>@Model.OriginalPrice.ToString("N0")₫</span>
             </div>
             <div class="form-group m-2">
                 <label asp-for="SellingPrice" class="control-label m-2">Giá bán ban đầu</label>
-                <input asp-for="SellingPrice" type="number" class="form-control" readonly />
+                <span type="text" class="form-control price-input" readonly>@Model.SellingPrice.ToString("N0")₫</span>
             </div>
             @if (Model == null)
             {
@@ -174,7 +174,7 @@
             {
                 <div class="form-group m-2">
                     <label asp-for="ProcessingPrice" class="control-label m-2"></label>
-                    <input asp-for="ProcessingPrice" value="1" type="number" class="form-control" />
+                    <input asp-for="ProcessingPrice" value="1" type="text" class="PriceFormatFinal form-control price-input" />
                     <span asp-validation-for="ProcessingPrice" class="text-danger"></span>
                 </div>
             }
@@ -182,7 +182,7 @@
             {
                 <div class="form-group m-2">
                     <label asp-for="ProcessingPrice" class="control-label m-2"></label>
-                    <input asp-for="ProcessingPrice" type="number" class="form-control" />
+                    <input asp-for="ProcessingPrice" type="text" class="PriceFormatFinal form-control price-input" />
                     <span asp-validation-for="ProcessingPrice" class="text-danger"></span>
                 </div>
             }
@@ -290,7 +290,7 @@
                             {
                                 <option value="@Frame.FrameId" selected>
                                     <div>
-                                        Tên: @Frame.NameFrame &nbsp; Kích thước: @Frame.Size &nbsp; Trọng lượng: @Frame.Weight
+                                        Tên: @Frame.NameFrame &nbsp; Trọng lượng: @Frame.Weight
                                     </div>
                                 </option>
                             }
@@ -298,7 +298,7 @@
                             {
                                 <option value="@Frame.FrameId">
                                     <div>
-                                        Tên: @Frame.NameFrame &nbsp; Kích thước: @Frame.Size &nbsp; Trọng lượng: @Frame.Weight
+                                        Tên: @Frame.NameFrame &nbsp; Trọng lượng: @Frame.Weight
                                     </div>
                                 </option>
                             }
@@ -307,7 +307,7 @@
                         {
                             <option value="@Frame.FrameId">
                                 <div>
-                                    Tên: @Frame.NameFrame &nbsp; Kích thước: @Frame.Size &nbsp; Trọng lượng: @Frame.Weight
+                                    Tên: @Frame.NameFrame &nbsp; Trọng lượng: @Frame.Weight
                                 </div>
                             </option>
                         }
@@ -413,7 +413,7 @@
                     <input type="submit" value="Lưu" class="btn btn-success" />
                 </div>
                 <div class="col-md-7">
-                    <a class="m-5" asp-action="Index" asp-controller="Product">Về trang quản lí sản phảm</a>
+                    <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="Product">Về trang quản lí sản phảm</a>
                 </div>
             </div>
 
@@ -621,4 +621,34 @@
             }
         });
     </script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Lấy tất cả các phần tử có lớp price-input
+        const inputs = document.querySelectorAll(".price-input");
+
+        // Thêm sự kiện input cho mỗi phần tử
+        inputs.forEach(function(input) {
+            input.addEventListener("input", function(e) {
+                let value = e.target.value;
+
+                // Xóa bỏ các ký tự không phải là số
+                value = value.replace(/[^0-9]/g, "");
+
+                // Giới hạn tối đa 17 ký tự số
+                if (value.length > 16) {
+                    value = value.slice(0, 16);
+                }
+
+                // Nếu giá trị không rỗng, định dạng lại theo kiểu chuỗi Việt Nam
+                if (value) {
+                    e.target.value = new Intl.NumberFormat('vi-VN').format(parseInt(value));
+                } else {
+                    e.target.value = "";
+                }
+            });
+        });
+    });
+</script>
+
 }

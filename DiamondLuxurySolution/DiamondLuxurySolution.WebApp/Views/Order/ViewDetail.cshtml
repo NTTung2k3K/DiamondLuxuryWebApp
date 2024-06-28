@@ -81,7 +81,7 @@
                 {
                     <p>
                         <span style="font-weight:bold">Số tiền còn lại: &nbsp;</span>
-                        <span>@(Model.RemainAmount != 0 ? Model.RemainAmount : "Không có")</span>
+                        <span>@(Model.RemainAmount != 0 ? Model.RemainAmount.ToString("N0") + "₫" : "Không có")</span>
                     </p>
                 }
             </div>

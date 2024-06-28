@@ -18,7 +18,15 @@ using Microsoft.EntityFrameworkCore;
 using DiamondLuxurySolution.WebApp.Service.Customer;
 using DiamondLuxurySolution.WebApp.Service.Payment;
 using DiamondLuxurySolution.WebApp.Service.Promotion;
+<<<<<<< HEAD
 using DiamondLuxurySolution.WebApp.Service.News;
+=======
+using DiamondLuxurySolution.AdminCrewApp.Service.Category;
+using DiamondLuxurySolution.WebApp.Service.Collection;
+
+using DiamondLuxurySolution.WebApp.Service.About;
+using DiamondLuxurySolution.WebApp.Service.Platform;
+>>>>>>> fd0405a2d6975eba4001694c29935eeeadd07657
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,15 +45,19 @@ builder.Services.AddTransient<IOrderApiService, OrderApiService>();
 builder.Services.AddTransient<ICustomerApiService, CustomerApiService>();
 builder.Services.AddTransient<IPaymentApiService, PaymentApiService>();
 builder.Services.AddTransient<IPromotionApiService, PromotionApiService>();
+builder.Services.AddTransient<ISearchProductApiService, SearchProductApiService>();
 
 
 builder.Services.AddTransient<ISlideApiService, SlideApiService>();
 builder.Services.AddTransient<IGemPriceListApiService, GemPriceListApiService>();
 builder.Services.AddTransient<IKnowLedgeNewsApiService, KnowledgeNewsApiService>();
-
+builder.Services.AddTransient<ICategoryApiService, CategoryApiService>();
 builder.Services.AddTransient<IContactApiService, ContactApiService>();
+builder.Services.AddTransient<ICollectionApiService, CollectionApiService>();
 
 builder.Services.AddTransient<IProductApiService, ProductApiService>();
+builder.Services.AddTransient<IAboutApiService, AboutApiService>();
+builder.Services.AddTransient<IPlatformApiService, PlatformApiService>();
 
 builder.Services.AddTransient<INewsApiService, NewsApiService>();
 builder.Services.AddTransient<IPromotionApiService, PromotionApiService>();

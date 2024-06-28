@@ -20,7 +20,7 @@
         <hr />
         <dl class="row">
             <dt class="col-sm-3 mb-3">
-                @Html.DisplayNameFor(model => model.MaterialId)
+                ID của Vật Liệu
             </dt>
             <dd class="col-sm-9">
                 @Html.DisplayFor(model => model.MaterialId)
@@ -41,7 +41,7 @@
                 Giá vật liệu
             </dt>
             <dd class="col-sm-9">
-                @Html.DisplayFor(model => model.Price)
+                @(Model.Price != 0 ? Model.Price.Value.ToString("N0") + "₫" : "Không có giá trị")
             </dd>
             <dt class="col-sm-3 mb-3">
                 Ngày của giá hiện hành

@@ -47,7 +47,7 @@
                 }
                 <div class="form-group m-2">
                     <input asp-for="CollectionId" class="form-control" type="hidden" />
-                    <label asp-for="CollectionId" class="control-label">Id bộ sưu tập</label>
+                    <label asp-for="CollectionId" class="control-label">ID của Bộ Sưu Tập</label>
                     <input asp-for="CollectionId" class="form-control" readonly />
                 </div>
                 <div class="form-group m-2">
@@ -58,6 +58,10 @@
                 <div class="form-group m-2">
                     <label asp-for="Description" class="control-label">Mô tả bộ sưu tập</label>
                     <input asp-for="Description" class="form-control" />
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="priceDisplay" class="control-label">Giá ước tính</label>
+                    <input asp-for="priceDisplay" type="text" class="form-control PriceFormatFinal" />
                 </div>
                 <div class="form-group m-2">
                     <label class="control-label m-2">Hình ảnh hiện tại</label>
@@ -78,15 +82,16 @@
                         <input asp-for="Thumbnail" class="form-control" type="file" value="@Model.Thumbnail" />
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <label asp-for="WantImgEmpty" class="control-label mt-1">Để trống ảnh</label>
-                    <input class="form-check-input f-18" type="checkbox" asp-for="WantImgEmpty">
-                </div>
                 <div class="form-check form-switch m-4">
                     <label asp-for="Status" class="control-label mt-1">Hiển thị</label>
                     <input class="form-check-input f-18" type="checkbox" asp-for="Status">
                     <input type="hidden" id="ListProductsIdDelete" name="ListProductsIdDelete" />
                 </div>
+                <div class="form-check form-switch m-4">
+                    <label asp-for="IsHome" class="control-label mt-1">Hiển thị trang chủ</label>
+                    <input class="form-check-input f-18" type="checkbox" asp-for="IsHome">
+                </div>
+
                 @* @foreach (var product in Model.ListProducts)
             {
             <input type="hidden" name="ListProductsIdUpdate" value="@product.ProductId" /> <!-- Tạo input ẩn cho mỗi ID sản phẩm -->
@@ -241,53 +246,110 @@ else
                 alert.close();
             }
         }, 5000);
-        $(document).ready(function () {
-            var table = $('#sort').DataTable({
-                "ordering": false,
-                "searching": false,
-                "pagingType": "full_numbers",
-                "language": {
-                    "paginate": {
-                        "next": "Next",
-                        "previous": "Previous",
-                        "First": false
-                    }
-                },
-                "pageLength": 1,
-                "lengthMenu": [[1, 5, -1], [1, 5, "All"]]
+        /*$(document).ready(function () { }*/
+        var table = $('#sort').DataTable({
+            "ordering": false,
+            "searching": false,
+            "pagingType": "full_numbers",
+            "language": {
+                "paginate": {
+                    "next": "Next",
+                    "previous": "Previous",
+                    "First": false
+                }
+            },
+            "pageLength": 1,
+            "lengthMenu": [[1, 5, -1], [1, 5, "All"]]
+        });
+
+        var selectedIds = [];
+        $('#IndexUpdate').click(function () {
+            debugger
+            var allProductIds = [];
+            table.rows().every(function () {
+                var row = $(this.node());
+                var productId = row.find('input[name="ListProductsId"]').val();
+                allProductIds.push(productId);
+            });
+            //$('input[name="ListProductsIdAdd"]').each(function () {
+            //    selectedIds.push($(this).val());
+            //});
+            var form = $('<form action="/Collection/SaveSelectedIdIndexProductsUpdate" method="POST"></form>');
+            var input = $('<input type="hidden" name="listIdSelected" />').val(allProductIds.join(','));
+            form.append(input);
+            $('body').append(form);
+            form.submit();
+        });
+
+
+        // Tung Function
+        // Select all inputs with the class "PriceFormat"
+        const $inputs = $(".PriceFormatFinal");
+
+        $inputs.each(function () {
+
+            // Ensure initial value is correctly formatted
+            if ($(this).val()) {
+                let value = $(this).val().replace(/\./g, "");
+                $(this).val(new Intl.NumberFormat('vi-VN').format(parseInt(value)));
+            }
+
+            $(this).on("input", function () {
+                let value = $(this).val();
+
+                // Remove all non-digit characters
+                value = value.replace(/[^\d]/g, "");
+
+                // Limit to a maximum of 16 digits
+                if (value.length > 16) {
+                    value = value.slice(0, 16);
+                }
+
+                // If value is not empty, format it with Vietnamese thousand separators
+                if (value) {
+                    $(this).val(new Intl.NumberFormat('vi-VN').format(parseInt(value)));
+                } else {
+                    $(this).val("");
+                }
+            });
+        });
+
+        //End tung function
+
+
+
+        $('#collectionForm').on('submit', function () {
+            debugger
+            var allProductIds = [];
+            // Lấy tất cả các hàng từ tất cả các trang
+            table.rows().every(function () {
+                var row = $(this.node());
+                var productId = row.find('input[name="ListProductsId"]').val();
+                allProductIds.push(productId);
+            });
+            // Gán giá trị vào input ẩn
+            $('#ListProductsIdAdd').val(allProductIds.join(','));
+
+
+            //Tung FormatNumber
+            // Tung Format number below
+            console.log("SUCCESS2 ")
+
+            debugger;
+            console.log($inputs)
+            $inputs.each(function () {
+                // Log value before removing dots
+
+                // Remove dots before submitting
+                const formattedValue = $(this).val().replace(/\./g, "");
+                $(this).val(formattedValue);
+
+                // Log value after removing dots
             });
 
-            var selectedIds = [];
-            $('#IndexUpdate').click(function () {
-                debugger
-                var allProductIds = [];
-                // Lấy tất cả các hàng từ tất cả các trang
-                table.rows().every(function () {
-                    var row = $(this.node());
-                    var productId = row.find('input[name="ListProductsId"]').val();
-                    allProductIds.push(productId);
-                });
-                //$('input[name="ListProductsIdAdd"]').each(function () {
-                //    selectedIds.push($(this).val());
-                //});
-                var form = $('<form action="/Collection/SaveSelectedIdIndexProductsUpdate" method="POST"></form>');
-                var input = $('<input type="hidden" name="listIdSelected" />').val(allProductIds.join(','));
-                form.append(input);
-                $('body').append(form);
-                form.submit();
-            });
-            $('#collectionForm').on('submit', function () {
-                debugger
-                var allProductIds = [];
-                // Lấy tất cả các hàng từ tất cả các trang
-                table.rows().every(function () {
-                    var row = $(this.node());
-                    var productId = row.find('input[name="ListProductsId"]').val();
-                    allProductIds.push(productId);
-                });
-                // Gán giá trị vào input ẩn
-                $('#ListProductsIdAdd').val(allProductIds.join(','));
-            });
+            console.log("SUCCESS")
+            //End Tung FormatNumber
+
         });
 
         var selectedIdsDelete = [];

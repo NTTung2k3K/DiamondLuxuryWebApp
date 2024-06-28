@@ -22,15 +22,15 @@
             }
         }
 
-        <form asp-action="Create" asp-controller="Product" method="post" enctype="multipart/form-data">
+        <form asp-action="Create" id="submitFormFormatFinal" asp-controller="Product" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group m-2">
-                <label asp-for="ProductName" class="control-label m-2"></label>
+                <label asp-for="ProductName" class="control-label m-2">Tên sản phẩm</label>
                 <input asp-for="ProductName" class="form-control" />
                 <span asp-validation-for="ProductName" class="text-danger"></span>
             </div>
             <div class="form-group m-2">
-                <label asp-for="Description" class="control-label m-2"></label>
+                <label asp-for="Description" class="control-label m-2">Mô tả sản phẩm</label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
@@ -53,7 +53,7 @@
                 <!--Start dropdown list-->
                 @if (Model != null)
                 {
-                    <select class="m-2 h-50" name="Status">
+                    <select class="m-2 h-50 form-select form-select-lg mb-3" name="Status">
                         @foreach (var item in ViewBag.ListStatus)
                         {
                             bool isSelected = Model != null && Model.Status.ToString().Equals(item.ToString());
@@ -62,25 +62,25 @@
                             if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()))
                             {
                                 <!option value="@item" @selectedAttribute >
-                                    Bán
+                                Bán
                                 </!option>
                             }
                             else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString()))
                             {
                                 <!option value="@item" @selectedAttribute >
-                                    Hết hàng
+                                Hết hàng
                                 </!option>
                             }
                             else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))
                             {
                                 <!option value="@item" @selectedAttribute>
-                                    Sắp có hàng
+                                Sắp có hàng
                                 </!option>
                             }
                             else
                             {
                                 <!option value="@item" @selectedAttribute>
-                                    Giảm giá
+                                Giảm giá
                                 </!option>
                             }
                         }
@@ -91,7 +91,7 @@
                 }
                 else
                 {
-                    <select class="m-2 h-50" name="Status">
+                    <select class="m-2 h-50 form-select form-select-lg mb-3" name="Status">
                         @foreach (var item in ViewBag.ListStatus)
                         {
                             if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()))
@@ -149,7 +149,7 @@
             {
                 <div class="form-group m-2">
                     <label asp-for="ProcessingPrice" class="control-label m-2"></label>
-                    <input asp-for="ProcessingPrice" value="1" type="number" class="form-control" />
+                    <input asp-for="ProcessingPrice" value="1" type="text" class="PriceFormatFinal form-control" placeholder="Nhập số tiền" />
                     <span asp-validation-for="ProcessingPrice" class="text-danger"></span>
                 </div>
             }
@@ -157,7 +157,7 @@
             {
                 <div class="form-group m-2">
                     <label asp-for="ProcessingPrice" class="control-label m-2"></label>
-                    <input asp-for="ProcessingPrice" type="number" class="form-control" />
+                    <input asp-for="ProcessingPrice" value="@Model.ProcessingPrice" type="text" class="PriceFormatFinal form-control" placeholder="Nhập số tiền" />
                     <span asp-validation-for="ProcessingPrice" class="text-danger"></span>
                 </div>
             }
@@ -166,7 +166,7 @@
 
             <div class="form-group m-2">
                 <label asp-for="GemId" class="control-label m-2">Kim cương chính</label>
-                <select class="h-50 " name="GemId">
+                <select class="h-50 form-select form-select-lg mb-3" name="GemId">
 
                     @foreach (var Gem in ViewBag.FullGem)
                     {
@@ -230,7 +230,7 @@
 
             <div class="form-group m-2">
                 <label asp-for="FrameId" class="control-label m-2">Khung</label>
-                <select class="h-50" name="FrameId">
+                <select class="h-50 form-select form-select-lg mb-3" name="FrameId">
                     <option value="" class="text-center">Không có</option>
                     @foreach (var Frame in ViewBag.FullFrame)
                     {
@@ -272,7 +272,7 @@
 
             <div class="form-group m-2">
                 <label asp-for="CategoryId" class="control-label m-2">Loại</label>
-                <select class="h-50" name="CategoryId">
+                <select class="h-50 form-select form-select-lg mb-3" name="CategoryId">
                     @foreach (var category in ViewBag.FullCategory)
                     {
                         if (Model != null && Model.CategoryId != null)
@@ -344,8 +344,6 @@
                                 </tr>
                             </thead>
                             <tbody id="tableImage">
-
-
                             </tbody>
                         </table>
                     </div>
@@ -364,7 +362,7 @@
                     <input type="submit" value="Tạo mới" class="btn btn-success" />
                 </div>
                 <div class="col-md-7">
-                    <a class="m-5" asp-action="Index" asp-controller="Product">Về trang quản lí sản phẩm</a>
+                    <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="Product">Về trang quản lí sản phẩm</a>
                 </div>
             </div>
 
@@ -390,7 +388,7 @@
             // Function to update the state of the add button
             function updateAddButtonState() {
                 var totalOptions = fullSubgem.length;
-               
+
                 debugger;
                 if (controlSelectNumber >= totalOptions) {
                     $('#addItemBtn').prop('disabled', true).text('Đã hết kim cương phụ');
@@ -411,16 +409,16 @@
             // Function to create a new row
             function createNewRow() {
                 return `<tr>
-                            <td></td>
-                            <td>
-                                <select class="h-50 select-subgem" name="ListSubGems[${index}].SubGemId">
-                                </select>
-                            </td>
-                            <td><input type="number" value="1" class="form-control" name="ListSubGems[${index}].Quantity" placeholder="Số lượng" /></td>
-                            <td class="text-center">
-                                <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default delete-item"><i class="ti ti-trash f-20"></i></a>
-                            </td>
-                        </tr>`;
+                                    <td></td>
+                                    <td>
+                                        <select class="h-50 select-subgem" name="ListSubGems[${index}].SubGemId">
+                                        </select>
+                                    </td>
+                                    <td><input type="number" value="1" class="form-control" name="ListSubGems[${index}].Quantity" placeholder="Số lượng" /></td>
+                                    <td class="text-center">
+                                        <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default delete-item"><i class="ti ti-trash f-20"></i></a>
+                                    </td>
+                                </tr>`;
             }
 
             // Add new row when the add button is clicked
@@ -516,14 +514,14 @@
             $('#addItemBtnAddImage').on('click', function () {
                 index++;
                 var newRow = `<tr>
-                                                            <td>${index}</td>
-                                                            <td>
-                                                                        <input type="file" class="form-control" name="Images">
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default delete-item"><i class="ti ti-trash f-20"></i></a>
-                                                            </td>
-                                                          </tr>`;
+                                                                    <td>${index}</td>
+                                                                    <td>
+                                                                                <input type="file" class="form-control" name="Images">
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default delete-item"><i class="ti ti-trash f-20"></i></a>
+                                                                    </td>
+                                                                  </tr>`;
                 $('#tableImage').append(newRow);
                 updateIndex(); // Cập nhật lại chỉ số sau khi thêm hàng
             });
@@ -545,4 +543,11 @@
             }
         });
     </script>
+
+
+
+    
+
+
+
 }

@@ -161,42 +161,48 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         }
         [Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
-        [HttpGet]
-        public async Task<IActionResult> Edit(int GemPriceListId)
-        {
-            try
-            {
-                var listGem = await _gemApiService.GetAll();
-                ViewBag.ListGem = listGem.ResultObj.ToList();
+		[HttpGet]
+		public async Task<IActionResult> Edit(int GemPriceListId)
+		{
+			try
+			{
+				var listGem = await _gemApiService.GetAll();
+				ViewBag.ListGem = listGem.ResultObj.ToList();
 
-                var gemPriceList = await _gemPriceListApiService.GetGemPriceListById(GemPriceListId);
-                if (gemPriceList is ApiErrorResult<GemPriceListVm> errorResult)
-                {
-                    List<string> listError = new List<string>();
-                    if (gemPriceList.Message != null)
-                    {
-                        listError.Add(errorResult.Message);
-                    }
-                    else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-                    {
-                        foreach (var error in listError)
-                        {
-                            listError.Add(error);
-                        }
-                    }
-                    ViewBag.Errors = listError;
-                    return View();
+				var gemPriceList = await _gemPriceListApiService.GetGemPriceListById(GemPriceListId);
+				if (gemPriceList is ApiErrorResult<GemPriceListVm> errorResult)
+				{
+					List<string> listError = new List<string>();
+					if (gemPriceList.Message != null)
+					{
+						listError.Add(errorResult.Message);
+					}
+					else if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+					{
+						foreach (var error in listError)
+						{
+							listError.Add(error);
+						}
+					}
+					ViewBag.Errors = listError;
+					return View();
+				}
 
-                }
-                return View(gemPriceList.ResultObj);
-            }
-            catch
+				// Chuyển đổi Price từ decimal sang string để xử lý
+				string priceString = gemPriceList.ResultObj.Price.ToString("0.##");
 
-            {
-                return View();
-            }
-        }
-        [Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+				// Gán lại giá trị đã xử lý cho Price (nếu cần thiết)
+				gemPriceList.ResultObj.Price = decimal.Parse(priceString);
+
+				return View(gemPriceList.ResultObj);
+			}
+			catch
+			{
+				return View();
+			}
+		}
+
+		[Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateGemPriceListRequest request)
@@ -205,10 +211,10 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-					var listGem = await _gemApiService.GetAll();
-					ViewBag.ListGem = listGem.ResultObj.ToList();
+                    var listGem = await _gemApiService.GetAll();
+                    ViewBag.ListGem = listGem.ResultObj.ToList();
 
-					var gemPriceList = await _gemPriceListApiService.GetGemPriceListById(request.GemPriceListId);
+                    var gemPriceList = await _gemPriceListApiService.GetGemPriceListById(request.GemPriceListId);
 
                     var gemPriceListVm = new GemPriceListVm()
                     {
@@ -218,7 +224,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     return View(gemPriceListVm);
                 }
 
-                
+                // Chuyển đổi giá trị Price từ định dạng chuỗi có dấu phân cách hàng nghìn về số nguyên
+                request.Price = decimal.Parse(request.Price.Replace(".", "").Replace(",", "")).ToString();
 
                 var status = await _gemPriceListApiService.UpdateGemPriceList(request);
                 if (status is ApiErrorResult<bool> errorResult)
@@ -237,10 +244,10 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         listError.Add(errorResult.Message);
                     }
                     ViewBag.Errors = listError;
-					var listGem = await _gemApiService.GetAll();
-					ViewBag.ListGem = listGem.ResultObj.ToList();
+                    var listGem = await _gemApiService.GetAll();
+                    ViewBag.ListGem = listGem.ResultObj.ToList();
 
-					var gemPriceList = await _gemPriceListApiService.GetGemPriceListById(request.GemPriceListId);
+                    var gemPriceList = await _gemPriceListApiService.GetGemPriceListById(request.GemPriceListId);
 
                     var gemPriceListVm = new GemPriceListVm()
                     {
@@ -248,7 +255,6 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         Active = gemPriceList.ResultObj.Active,
                     };
                     return View(gemPriceListVm);
-
                 }
                 return RedirectToAction("Index", "GemPriceList");
             }
@@ -272,7 +278,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
         [HttpPost]
 		public async Task<IActionResult> Create(CreateGemPriceListRequest request)
-		{
+		    {
 
 			var listGem = await _gemApiService.GetAll();
 			ViewBag.ListGem = listGem.ResultObj.ToList();

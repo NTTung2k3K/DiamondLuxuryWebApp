@@ -28,20 +28,25 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
         public async Task<ApiResult<bool>> CreateGemPriceList(CreateGemPriceListRequest request)
         {
 
-            var errorList = new List<string>();
-            if (string.IsNullOrEmpty(request.Price))
-            {
-                errorList.Add("Vui lòng nhập giá kim cương");
-            }
+            List<string> errorList = new List<string>();
 
             decimal price = 0;
             try
             {
-                price = Convert.ToDecimal(request.Price);
+                // Loại bỏ dấu phân cách hàng nghìn và thay dấu thập phân (nếu cần)
+                string processedPrice = request.Price.Replace(".", "").Replace(",", ".");
 
-                if (price <= 0)
+                // Chuyển đổi chuỗi đã xử lý sang kiểu decimal
+                if (decimal.TryParse(processedPrice, out price))
                 {
-                    errorList.Add("Giá kim cương > 0");
+                    if (price <= 0)
+                    {
+                        errorList.Add("Giá kim cương phải lớn hơn 0");
+                    }
+                }
+                else
+                {
+                    errorList.Add("Giá kim cương không hợp lệ");
                 }
             }
             catch (FormatException)
@@ -60,7 +65,7 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
             }
 
-            var gemPriceList = new Data.Entities.GemPriceList
+            var gemPriceList = new DiamondLuxurySolution.Data.Entities.GemPriceList
             {
                 CaratWeight = !string.IsNullOrWhiteSpace(request.CaratWeight) ? request.CaratWeight : "",
                 Clarity = request.Clarity != null ? request.Clarity : "",
@@ -149,11 +154,20 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
             decimal price = 0;
             try
             {
-                price = Convert.ToDecimal(request.Price);
+                // Loại bỏ dấu phân cách hàng nghìn và thay dấu thập phân (nếu cần)
+                string processedPrice = request.Price.Replace(".", "").Replace(",", ".");
 
-                if (price <= 0)
+                // Chuyển đổi chuỗi sang kiểu decimal
+                if (decimal.TryParse(processedPrice, out price))
                 {
-                    errorList.Add("Giá kim cương > 0");
+                    if (price <= 0)
+                    {
+                        errorList.Add("Giá kim cương phải lớn hơn 0");
+                    }
+                }
+                else
+                {
+                    errorList.Add("Giá kim cương không hợp lệ");
                 }
             }
             catch (FormatException)

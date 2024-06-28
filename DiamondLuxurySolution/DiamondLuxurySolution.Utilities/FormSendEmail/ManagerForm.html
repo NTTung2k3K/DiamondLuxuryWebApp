@@ -1,196 +1,458 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Order Confirmation</title>
     <style>
-        body {
-            font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            -webkit-text-size-adjust: none;
-            text-align: center;
-        }
+      body {
+        font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        -webkit-text-size-adjust: none;
+        text-align: center;
+      }
 
-        .email-container {
-            width: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-            background-color: #f4f4f4;
-        }
+      .email-container {
+        width: 100%;
+        padding: 20px;
+        box-sizing: border-box;
+        background-color: #f4f4f4;
+      }
 
-        .email-content {
-            background-color: #ffffff;
-            border: 1px solid #dedede;
-            border-radius: 3px;
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: left;
-        }
+      .email-content {
+        background-color: #ffffff;
+        border: 1px solid #dedede;
+        border-radius: 3px;
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: left;
+      }
 
-        .email-header {
-            background-color: #636363;
-            color: #ffffff;
-            padding: 36px 48px;
-            border-radius: 3px 3px 0 0;
-        }
+      .email-header {
+        background-color: green;
+        color: #ffffff;
+        padding: 36px 48px;
+        border-radius: 3px 3px 0 0;
+      }
 
-            .email-header h1 {
-                font-size: 30px;
-                font-weight: 300;
-                margin: 0;
-            }
+      .email-header h1 {
+        font-size: 30px;
+        font-weight: 300;
+        margin: 0;
+        color: #ffffff;
+        font-weight: bold;
+      }
 
-        .email-logo {
-            text-align: center;
-        }
+      .email-logo {
+        text-align: center;
+      }
 
-        .email-body {
-            padding: 48px;
-            padding-top: 0;
-        }
+      .email-body {
+        padding: 48px;
+        padding-top: 0;
+      }
 
-            .email-body h2 {
-                color: #96588a;
-                font-size: 18px;
-                font-weight: bold;
-                margin: 0 0 18px;
-            }
+      .email-body h2 {
+        color: #96588a;
+        font-size: 18px;
+        font-weight: bold;
+        margin: 0 0 18px;
+      }
 
-            .email-body p {
-                color: #636363;
-                font-size: 14px;
-                line-height: 150%;
-                margin: 0 0 16px;
-            }
+      .email-body p {
+        color: #636363;
+        font-size: 14px;
+        line-height: 150%;
+        margin: 0 0 16px;
+      }
 
-        .order-table {
-            width: 100%;
-            border: 1px solid #e5e5e5;
-            border-collapse: collapse;
-            margin-bottom: 40px;
-        }
+      .order-table {
+        width: 100%;
+        border: 1px solid #e5e5e5;
+        border-collapse: collapse;
+        margin-bottom: 40px;
+      }
 
-            .order-table th,
-            .order-table td {
-                border: 1px solid #e5e5e5;
-                padding: 12px;
-                text-align: left;
-                color: #636363;
-            }
+      .order-table th,
+      .order-table td {
+        border: 1px solid #e5e5e5;
+        padding: 12px;
+        text-align: left;
+        color: #636363;
+      }
 
-            .order-table th {
-                background-color: #f9f9f9;
-            }
+      .order-table th {
+        background-color: #f9f9f9;
+      }
 
-        .order-summary {
-            margin-bottom: 40px;
-        }
+      .order-summary {
+        margin-bottom: 40px;
+      }
 
-            .order-summary th,
-            .order-summary td {
-                border-top: 4px solid #e5e5e5;
-            }
+      .order-summary th,
+      .order-summary td {
+        border-top: 4px solid #e5e5e5;
+      }
 
-        .info-section {
-            margin-bottom: 40px;
-        }
+      .info-section {
+        margin-bottom: 40px;
+      }
 
-            .info-section h2 {
-                color: #96588a;
-                font-size: 18px;
-                font-weight: bold;
-                margin: 0 0 18px;
-            }
+      .info-section h2 {
+        color: green;
+        font-size: 18px;
+        font-weight: bold;
+        margin: 0 0 18px;
+      }
 
-            .info-section address {
-                padding: 12px;
-                border: 1px solid #e5e5e5;
-                color: #636363;
-            }
+      .info-section address {
+        padding: 12px;
+        border: 1px solid #e5e5e5;
+        color: #636363;
+      }
 
-            .info-section a {
-                color: #96588a;
-                text-decoration: underline;
-            }
+      .info-section a {
+        color: green;
+        text-decoration: underline;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="email-container">
-        <div class="email-content">
-            <div class="email-header">
-                <h1>Đơn hàng mới: #{{Code}}</h1>
-            </div>
-            <div class="email-logo">
-                <img src="https://firebasestorage.googleapis.com/v0/b/diamondluxuryproject.appspot.com/o/Logo%2FLOGO.png?alt=media&token=b65b5609-5d08-408a-848f-c5b05be38b11" alt="Logo" style="width: 200px; height: 180px" />
-            </div>
-            <div class="email-body">
-                <p>
-                    Bạn vừa nhận được đơn hàng từ {{CustomerName}}. Đơn hàng như sau:
-                </p>
-                <h2>
-                    <a href="#"
-                       style="
+      <div class="email-content">
+        <div class="email-header">
+          <h1 style="text-align: center">Đơn hàng mới: #{{Code}}</h1>
+        </div>
+        <div class="email-logo">
+          <img
+            src="https://firebasestorage.googleapis.com/v0/b/diamondluxuryproject.appspot.com/o/Logo%2FLOGO.png?alt=media&token=b65b5609-5d08-408a-848f-c5b05be38b11"
+            alt="Logo"
+            style="width: 200px; height: 180px"
+          />
+        </div>
+        <div class="email-body">
+          <p>
+            Bạn vừa nhận được đơn hàng từ {{CustomerName}}. Đơn hàng như sau:
+          </p>
+          <h2>
+            <a
+              href="#"
+              style="
                 font-weight: normal;
                 text-decoration: underline;
-                color: #96588a;
-              ">
-                        [Đơn hàng #{{Code}}]
-                    </a>
-                    ({{Date}})
-                </h2>
-                <div class="order-table-wrapper">
-                    <table class="order-table">
-                        <thead>
-                            <tr>
-                                <th>Sản phẩm</th>
-                                <th>Số lượng</th>
-                                <th>Giá</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{Product}}
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th scope="row" colspan="2">Nguyên giá:</th>
-                                <td><span>{{Total}}&nbsp;VND</span></td>
-                            </tr>
-                            <tr>
-                                <th scope="row" colspan="2">Phương thức thanh toán:</th>
-                                <td>{{Payment}}</td>
-                            </tr>
-                            <tr>
-                                <th scope="row" colspan="2">Tổng cộng:</th>
-                                <td><span>{{Total}}&nbsp;VND</span></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-                <div class="info-section">
-                    <h2>Thông tin người nhận</h2>
-                    <address>
-                        {{CustomerName}}<br />
-                        {{Address}}<br />
-                        <a href="tel:{{PhoneNumber}}">{{PhoneNumber}}</a><br />
-                        <a href="mailto:{{Email}}">{{Email}}</a>
+                color: #e8be6f;
+              "
+            >
+              [Đơn hàng #{{Code}}]
+            </a>
+            ({{Date}})
+          </h2>
+          <div style="margin-bottom: 40px">
+            <table
+              cellspacing="0"
+              cellpadding="6"
+              border="1"
+              style="
+                color: #636363;
+                border: 1px solid #e5e5e5;
+                vertical-align: middle;
+                width: 100%;
+                font-family: 'Helvetica Neue', Helvetica, Roboto, Arial,
+                  sans-serif;
+              "
+            >
+              <thead>
+                <tr>
+                  <th
+                    scope="col"
+                    style="
+                      color: #636363;
+                      border: 1px solid #e5e5e5;
+                      vertical-align: middle;
+                      padding: 12px;
+                      text-align: center;
+                    "
+                  >
+                    #
+                  </th>
+                  <th
+                    scope="col"
+                    style="
+                      color: #636363;
+                      border: 1px solid #e5e5e5;
+                      vertical-align: middle;
+                      padding: 12px;
+                      text-align: center;
+                    "
+                  >
+                    Mã sản phầm
+                  </th>
+                  <th
+                    scope="col"
+                    style="
+                      color: #636363;
+                      border: 1px solid #e5e5e5;
+                      vertical-align: middle;
+                      padding: 12px;
+                      text-align: center;
+                    "
+                  >
+                    Sản phẩm
+                  </th>
+                  <th
+                    scope="col"
+                    style="
+                      color: #636363;
+                      border: 1px solid #e5e5e5;
+                      vertical-align: middle;
+                      padding: 12px;
+                      text-align: center;
+                    "
+                  >
+                    Số lượng
+                  </th>
+                  <th
+                    scope="col"
+                    style="
+                      color: #636363;
+                      border: 1px solid #e5e5e5;
+                      vertical-align: middle;
+                      padding: 12px;
+                      text-align: center;
+                    "
+                  >
+                    Ni
+                  </th>
+                  <th
+                    scope="col"
+                    style="
+                      color: #636363;
+                      border: 1px solid #e5e5e5;
+                      vertical-align: middle;
+                      padding: 12px;
+                      text-align: center;
+                    "
+                  >
+                    Giá
+                  </th>
+                </tr>
+              </thead>
+              <tbody style="text-align: center">
+                {{Product}}
+              </tbody>
+              <tfoot>
+                  <tr>
+                      <th scope="row"
+                          colspan="3"
+                          style="
+                      color: #636363;
+                      border: 1px solid #e5e5e5;
+                      vertical-align: middle;
+                      padding: 12px;
+                      text-align: center;
+                    ">
+                          Phương thức thanh toán:
+                      </th>
+                      <td colspan="3"
+                          style="
+                      color: #636363;
+                      border: 1px solid #e5e5e5;
+                      vertical-align: middle;
+                      padding: 12px;
+                      text-align: center;
+                    ">
+                          {{Payment}}
+                      </td>
+                  </tr>
+                  <tr>
+                      <th scope="row"
+                          colspan="3"
+                          style="
+                      color: #636363;
+                      border: 1px solid #e5e5e5;
+                      vertical-align: middle;
+                      padding: 12px;
+                      text-align: center;
+                    ">
+                          Tổng đơn
+                      </th>
+                      <td colspan="3"
+                          style="
+                      color: #636363;
+                      border: 1px solid #e5e5e5;
+                      vertical-align: middle;
+                      padding: 12px;
+                      text-align: center;
+                    ">
+                          <span>{{NotSalelPrice}}₫&nbsp;</span>
+                      </td>
+                  </tr>
+                  <tr>
+                      <th scope="row"
+                          colspan="3"
+                          style="
+                      color: #636363;
+                      border: 1px solid #e5e5e5;
+                      vertical-align: middle;
+                      padding: 12px;
+                      text-align: left;
+                      text-align: center;
+                    ">
+                          Số tiền đã giảm
+                      </th>
+                      <td colspan="3"
+                          style="
+                      color: #636363;
+                      border: 1px solid #e5e5e5;
+                      vertical-align: middle;
+                      padding: 12px;
+                      text-align: left;
+                      text-align: center;
+                    ">
+                          <span>{{TotalSale}}₫&nbsp;</span>
+                      </td>
+                  </tr>
+                  <tr>
+                      <th scope="row"
+                          colspan="3"
+                          style="
+                      color: #636363;
+                      border: 1px solid #e5e5e5;
+                      vertical-align: middle;
+                      padding: 12px;
+                      text-align: left;
+                      text-align: center;
+                    ">
+                          Tổng cộng
+                      </th>
+                      <td colspan="3"
+                          style="
+                      color: #636363;
+                      border: 1px solid #e5e5e5;
+                      vertical-align: middle;
+                      padding: 12px;
+                      text-align: left;
+                      text-align: center;
+                    ">
+                          <span>{{Total}}₫&nbsp;</span>
+                      </td>
+                  </tr>
+                  <tr>
+                      <th scope="row"
+                          colspan="3"
+                          style="
+      color: #636363;
+      border: 1px solid #e5e5e5;
+      vertical-align: middle;
+      padding: 12px;
+      text-align: left;
+      text-align: center;
+    ">
+                          Trả trước
+                      </th>
+                      <td colspan="3"
+                          style="
+      color: #636363;
+      border: 1px solid #e5e5e5;
+      vertical-align: middle;
+      padding: 12px;
+      text-align: left;
+      text-align: center;
+    ">
+                          <span>{{Deposit}}₫&nbsp;</span>
+                      </td>
+                  </tr>
+              </tfoot>
+            </table>
+          </div>
+          <div class="info-section">
+            <table
+              cellspacing="0"
+              cellpadding="0"
+              border="0"
+              style="
+                width: 100%;
+                vertical-align: top;
+                margin-bottom: 40px;
+                padding: 0;
+              "
+            >
+              <tbody>
+                <tr>
+                  <td
+                    valign="top"
+                    width="50%"
+                    style="
+                      text-align: left;
+                      font-family: 'Helvetica Neue', Helvetica, Roboto, Arial,
+                        sans-serif;
+                      border: 0;
+                      padding: 0;
+                    "
+                  >
+                    <h2
+                      style="
+                        color: green;
+                        display: block;
+                        font-family: 'Helvetica Neue', Helvetica, Roboto, Arial,
+                          sans-serif;
+                        font-size: 18px;
+                        font-weight: bold;
+                        line-height: 130%;
+                        margin: 0 0 18px;
+                        text-align: center;
+                      "
+                    >
+                      Thông tin người nhận
+                    </h2>
+
+                    <address
+                      style="
+                        padding: 12px;
+                        color: #636363;
+                        border: 1px solid #e5e5e5;
+                      "
+                    >
+                      Tên khách hàng: {{CustomerName}}<br />Địa
+                      chỉ:{{Address}}<br />Số điện thoại:
+                      <a
+                        href="tel:{{PhoneNumber}}"
+                        style="
+                          color: green;
+                          font-weight: normal;
+                          text-decoration: underline;
+                        "
+                        target="_blank"
+                        >{{PhoneNumber}}</a
+                      >
+                      <br />Email:
+                      <a href="mailto:{{Email}}" target="_blank">{{Email}}</a>
                     </address>
-                </div>
-                <div class="info-section">
-                    <h2>Thông tin giao hàng</h2>
-                    <address>
-                        {{CustomerName}}<br />
-                        {{Address}}<br />
-                        <a href="tel:{{PhoneNumber}}">{{PhoneNumber}}</a><br />
-                        <a href="mailto:{{Email}}">{{Email}}</a>
-                    </address>
-                </div>
-            </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br />
+            <p
+              style="
+                margin: 0 10px 0px;
+                font-style: italic;
+                color: green;
+                font-weight: bold;
+                font-size: 17px;
+                text-align: center;
+              "
+            >
+              Tinh hoa của sự lấp lánh <br />Nơi bạn tìm thấy sự hoàn hảo trong
+              từng viên kim cương
+            </p>
+          </div>
         </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>

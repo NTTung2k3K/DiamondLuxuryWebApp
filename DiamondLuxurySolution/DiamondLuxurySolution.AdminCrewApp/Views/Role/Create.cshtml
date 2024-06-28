@@ -20,21 +20,21 @@
         <form asp-action="Create" asp-controller="Role" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group m-2">
-                <label asp-for="Name" class="control-label m-2"></label>
+                <label asp-for="Name" class="control-label m-2">Tên Chức Vụ</label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group m-2">
-                <label asp-for="Description" class="control-label m-2"></label>
+                <label asp-for="Description" class="control-label m-2">Mô Tả</label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group row">
-                <div class="col-md-5">
+                <div class="col-md-7">
                     <input type="submit" value="Tạo mới" class="btn btn-success" />
                 </div>
-                <div class="col-md-7">
-                    <a class="m-5" asp-action="Index" asp-controller="Role">Về trang quản lí chức vụ</a>
+                <div class="col-md-5">
+                    <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="Role">Về trang quản lí chức vụ</a>
                 </div>
             </div>
         </form>

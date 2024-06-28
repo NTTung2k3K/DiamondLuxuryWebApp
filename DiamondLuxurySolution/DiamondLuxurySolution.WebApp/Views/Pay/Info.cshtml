@@ -40,7 +40,7 @@
                                             {
                                                 foreach (var error in ViewBag.Errors)
                                                 {
-                                                    <h4 class="text-danger">@error</h4>
+                                                    <h4 style="color:red" >@error</h4>
                                                 }
                                             }
 
@@ -187,7 +187,7 @@
                                                         <h3><i class="fa fa-cube"></i> Bạn có muốn đặt cọc? <span class="expand_action" data-attr="#coupon_info">Ấn Vào Đây Để Đặc Cọc </span></h3>
                                                         <div id="coupon_info" class="user-actions__form user-actions--coupon hide-in-default">
                                                             <div class="form__group d-flex">
-                                                                <input type="text" id="coupon" style="width:100%;" asp-for="Deposit" class="form__input form__input--2 form__input--w285 mr--20" placeholder="Nhập Số Tiền Đặt Cọc">
+                                                                <input type="text" id="coupon" style="width:100%;" asp-for="Deposit" class="form__input form__input--2 form__input--w285 mr--20 PriceFormatFinal" placeholder="Nhập Số Tiền Đặt Cọc">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -197,7 +197,7 @@
 
                                         <div class="form-group m-4">
                                             <label asp-for="PromotionId" class="control-label m-2">Chương trình khuyến mãi hiện có</label>
-                                            <select class="h-50 m-3" name="PromotionId">
+                                            <select class="h-50" name="PromotionId">
                                                 @if (ViewBag.ListPromotionOnTime != null && ViewBag.ListPromotionOnTime.Count > 0)
                                                 {
                                                     @foreach (var promotion in ViewBag.ListPromotionOnTime)
@@ -208,7 +208,7 @@
                                                             {
                                                                 <option data-percent-sale="@promotion.DiscountPercent" value="@promotion.PromotionId" selected>
                                                                     <div>
-                                                                        Tên: @promotion.PromotionName &nbsp; Kết thúc: @promotion.EndDate; %Giảm: @promotion.DiscountPercent
+                                                                        Tên: @promotion.PromotionName &nbsp; Kết thúc: @promotion.EndDate &nbsp; Giảm: @promotion.DiscountPercent% (Tối đa: @promotion.MaxDiscount.ToString("N0")₫)
                                                                     </div>
                                                                 </option>
                                                             }
@@ -216,7 +216,7 @@
                                                             {
                                                                 <option data-percent-sale="@promotion.DiscountPercent" value="@promotion.PromotionId">
                                                                     <div>
-                                                                        Tên: @promotion.PromotionName &nbsp; Kết thúc: @promotion.EndDate; %Giảm: @promotion.DiscountPercent
+                                                                        Tên: @promotion.PromotionName &nbsp; Kết thúc: @promotion.EndDate &nbsp; Giảm: @promotion.DiscountPercent% (Tối đa: @promotion.MaxDiscount.ToString("N0")₫)
                                                                     </div>
 
                                                                 </option>
@@ -226,7 +226,7 @@
                                                         {
                                                             <option data-percent-sale="@promotion.DiscountPercent" value="@promotion.PromotionId">
                                                                 <div>
-                                                                    Tên: @promotion.PromotionName &nbsp;  Kết thúc: @promotion.EndDate; %Giảm: @promotion.DiscountPercent
+                                                                    Tên: @promotion.PromotionName &nbsp; Kết thúc: @promotion.EndDate &nbsp; Giảm: @promotion.DiscountPercent% (Tối đa: @promotion.MaxDiscount.ToString("N0")₫)
                                                                 </div>
 
                                                             </option>
@@ -293,6 +293,38 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
+
+            const $inputs = $(".PriceFormatFinal");
+
+            $inputs.each(function () {
+
+                // Ensure initial value is correctly formatted
+                if ($(this).val()) {
+                    let value = $(this).val().replace(/\./g, "");
+                    $(this).val(new Intl.NumberFormat('vi-VN').format(parseInt(value)));
+                }
+
+                $(this).on("input", function () {
+                    let value = $(this).val();
+
+                    // Remove all non-digit characters
+                    value = value.replace(/[^\d]/g, "");
+
+                    // Limit to a maximum of 16 digits
+                    if (value.length > 16) {
+                        value = value.slice(0, 16);
+                    }
+
+                    // If value is not empty, format it with Vietnamese thousand separators
+                    if (value) {
+                        $(this).val(new Intl.NumberFormat('vi-VN').format(parseInt(value)));
+                    } else {
+                        $(this).val("");
+                    }
+                });
+            });
+
+
             $('#checkout-pay').click(function (event) {
                 var firstName = $('#first_name').val().trim();
                 var city = $('#city').val().trim();
@@ -304,6 +336,18 @@
                 if (!firstName || !city || !district || !address || !phone || !email) {
                     alert("Bạn cần điền tất cả thông tin để đặt hàng");
                 } else {
+
+                    $inputs.each(function () {
+                        // Log value before removing dots
+
+                        // Remove dots before submitting
+                        const formattedValue = $(this).val().replace(/\./g, "");
+                        $(this).val(formattedValue);
+
+                        // Log value after removing dots
+                    });
+
+
                     debugger;
                     $('#checkoutForm').submit();
                 }

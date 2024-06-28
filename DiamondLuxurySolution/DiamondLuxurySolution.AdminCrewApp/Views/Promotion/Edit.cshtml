@@ -20,7 +20,7 @@
             <form asp-action="Edit" asp-controller="Promotion" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group m-2">
-                <label asp-for="PromotionId" class="control-label">Id khuyến mãi</label>
+                    <label asp-for="PromotionId" class="control-label">ID của Khuyến Mãi</label>
                 <input asp-for="PromotionId" class="form-control" readonly />
             </div>
             <div class="form-group m-2">
@@ -62,7 +62,7 @@
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
                 <div class="form-group m-2">
-                    <label class="control-label m-2">Hình biểu ngữ hiện tại</label>
+                    <label class="control-label m-2">Hình Banner hiện tại</label>
                 @if (string.IsNullOrEmpty(Model.BannerImage) || Model.BannerImage.Length <= 0)
                 {
                             <label style="color:orangered;">Không có hình ảnh</label>
@@ -75,7 +75,7 @@
                 }
             </div>
             <div class="form-group m-2">
-                    <label asp-for="BannerImage" class="control-label m-2">Hình biểu ngữ mới</label>
+                    <label asp-for="BannerImage" class="control-label m-2">Hình Banner mới</label>
                     <input asp-for="BannerImage" class="form-control" type="file" />
                     <span asp-validation-for="BannerImage" class="text-danger"></span>
             </div>
@@ -86,11 +86,11 @@
             </div>
             <div class="form-group m-2">
                 <label asp-for="MaxDiscount" class="control-label">Giảm giá tối đa</label>
-                <input asp-for="MaxDiscount" class="form-control" />
+                <input asp-for="MaxDiscount" type="text" class="form-control price-input PriceFormatFinal" />
                 <span asp-validation-for="MaxDiscount" class="text-danger"></span>
             </div>
                 <div class="form-check form-switch m-4">
-                    <label asp-for="Status" class="control-label mt-1">Hiển thị</label>
+                    <label asp-for="Status" class="control-label mt-1">Áp dụng</label>
                     <input class="form-check-input f-18" type="checkbox" asp-for="Status">
                 </div>
                 <div class="form-group row">
@@ -112,4 +112,44 @@ else
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+			<script>
+				$(document).ready(function () {
+
+					// Select all inputs with the class "PriceFormat"
+					const $inputs = $(".PriceFormatFinal");
+
+					$inputs.each(function () {
+
+						// Ensure initial value is correctly formatted
+						if ($(this).val()) {
+							let value = $(this).val().replace(/\./g, "");
+							$(this).val(new Intl.NumberFormat('vi-VN').format(parseInt(value)));
+						}
+
+						$(this).on("input", function () {
+							let value = $(this).val();
+
+							// Remove all non-digit characters
+							value = value.replace(/[^\d]/g, "");
+
+							// Limit to a maximum of 16 digits
+							if (value.length > 16) {
+								value = value.slice(0, 16);
+							}
+
+							// If value is not empty, format it with Vietnamese thousand separators
+							if (value) {
+								$(this).val(new Intl.NumberFormat('vi-VN').format(parseInt(value)));
+							} else {
+								$(this).val("");
+							}
+						});
+					});
+				});
+		</script>
+
+
 }

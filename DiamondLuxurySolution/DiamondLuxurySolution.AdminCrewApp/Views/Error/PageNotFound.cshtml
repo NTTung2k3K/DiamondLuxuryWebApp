@@ -65,7 +65,8 @@
                                     Trang bạn đang tìm kiếm có thể đã bị<br />
                                     thay đổi, sửa tên, hoặc không tồn tại
                                 </p>
-                                <a href="/Home/Index" class="btn btn-primary mb-3">Về trang chủ</a>
+                                <a href="javascript:void(0);" class="btn btn-primary mb-3" onclick="goBack()">Quay lại</a>
+
                             </div>
                         </div>
                     </div>
@@ -81,7 +82,11 @@
     <script src="../assets/js/fonts/custom-font.js"></script>
     <script src="../assets/js/pcoded.js"></script>
     <script src="../assets/js/plugins/feather.min.js"></script>
-
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
     <script>
         layout_change('false');
     </script>

@@ -1,7 +1,5 @@
 ﻿using DiamondLuxurySolution.ViewModel.Common;
-using DiamondLuxurySolution.ViewModel.Models.Category;
 using DiamondLuxurySolution.ViewModel.Models.Product;
-using DiamondLuxurySolution.ViewModel.Models.SubGem;
 
 namespace DiamondLuxurySolution.WebApp.Service.Product
 {
@@ -13,7 +11,6 @@ namespace DiamondLuxurySolution.WebApp.Service.Product
         public Task<ApiResult<ProductVm>> GetProductById(string ProductId);
         public Task<ApiResult<PageResult<ProductVm>>> ViewProduct(ViewProductRequest request);
         public Task<ApiResult<List<ProductVm>>> GetAll();
-
 
 	}
 }

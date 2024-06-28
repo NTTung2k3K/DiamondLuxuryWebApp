@@ -49,6 +49,26 @@ namespace DiamondLuxurySolution.Utilities.Constants
 			public const string Bangles = "Lắc Tay";
 		}
 
+		public class SlideNameDefault
+		{
+			public const string MainSlide = "Slide";
+			public const string Diamond = "Kim Cương";
+			public const string WeddingJewelryRing = "Nhẫn Cưới";
+			public const string RingMan = "Nhẫn Nam";
+			public const string RingWoman = "Nhẫn Nữ";
+			public const string Earring = "Hoa Tai";
+			public const string Necklace = "Dây Chuyền";
+		}
+
+        public class MaterialNameDefault
+        {
+            public const string Gold10K = "Vàng 10K";
+            public const string Gold14K = "Vàng 14K";
+            public const string Gold18K = "Vàng 18K";
+            public const string Platium850 = "Platium 850";
+            public const string Platium950 = "Platium 950";
+        }
+
 		public enum OrderStatus
         {
             InProgress,
@@ -77,6 +97,21 @@ namespace DiamondLuxurySolution.Utilities.Constants
             Failed,
             Waiting
         }
+
+        public enum WarrantyDetailStatus
+        {
+            Received,
+            UnderReview,
+            Approved,
+            Denied,
+            InRepair,
+            RepairCompleted,
+            QualityCheck,
+            CustomerNotified,
+            RefundProcessed,
+            Success
+        }
+
         public enum StaffStatus
         {
             Active,         // Nhân viên đang hoạt động

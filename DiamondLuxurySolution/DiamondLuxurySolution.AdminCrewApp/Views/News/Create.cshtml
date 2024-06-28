@@ -17,7 +17,7 @@
             }
         }
 
-        <form asp-action="Create" asp-controller="News" method="post">
+        <form asp-action="Create" asp-controller="News" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group m-2">
                 <label asp-for="NewName" class="control-label m-2">Tên tin tức</label>
@@ -31,7 +31,7 @@
             </div>
             <div class="form-group m-2">
                 <label asp-for="Image" class="control-label m-2">Hình đại diện</label>
-                <input asp-for="Image" class="form-control" />
+                <input asp-for="Image" class="form-control" type="file"/>
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-check form-switch m-4">
@@ -50,7 +50,7 @@
                     <input type="submit" value="Tạo mới" class="btn btn-success" />
                 </div>
                 <div class="col-md-7">
-                    <a class="m-5" asp-action="Index" asp-controller="News">Về trang quản lí tin tức</a>
+                    <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="News">Về trang quản lí tin tức</a>
                 </div>
             </div>
         </form>

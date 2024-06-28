@@ -7,6 +7,24 @@
 
 <h1>Tạo mới kim cương</h1>
 <hr />
+<style>
+	.no-certificate-message {
+		height: 46px;
+		width: 39%;
+		padding: 0px; 
+		font-size: 16px;
+		border: 1px solid #ccc;
+		border-radius: 10px;
+		background-color: #f9f9f9;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: red;
+		font-weight: bold;
+		text-align: center;
+	}
+</style>
+
 
 <div class="row">
 	<div class="col-md-8">
@@ -100,8 +118,9 @@
 				}
 				else
 				{
-					<br />
-					<label style="color:red;"> Không có mã giấy chứng nhận</label>
+					<div class="no-certificate-message">
+						<label>Không có mã giấy chứng nhận</label>
+					</div>
 				}
 				<br />
 				<span asp-validation-for="InspectionCertificateId" class="text-danger"></span>
@@ -109,7 +128,7 @@
 
 			<div class="form-group m-2">
 				<label asp-for="GemPriceListId" class="control-label m-2">Mã giá kim cương</label>
-				<select class="h-50" multiple name="GemPriceListId[]"
+				<select class="h-50" name="GemPriceListId[]"
 						style="height: 150px; width: 100%; padding: 8px; font-size: 16px; border: 1px solid #ccc; border-radius: 10px; background-color: #f9f9f9;">
 					@foreach (var gemPriceList in ViewBag.listGemPriceList)
 					{
@@ -119,20 +138,20 @@
 							if (string.IsNullOrEmpty(selectedCheck))
 							{
 								<option value="@gemPriceList.GemPriceListId">
-									Cut: @gemPriceList.Cut, Carat Weight: @gemPriceList.CaratWeight, Clarity: @gemPriceList.Clarity, Color: @gemPriceList.Color, Price: @gemPriceList.Price
+									Cut: @gemPriceList.Cut, Carat Weight: @gemPriceList.CaratWeight, Clarity: @gemPriceList.Clarity, Color: @gemPriceList.Color, Price: @gemPriceList.Price.ToString("N0")₫
 								</option>
 							}
 							else
 							{
 								<option value="@gemPriceList.GemPriceListId" selected>
-									Cut: @gemPriceList.Cut, Carat Weight: @gemPriceList.CaratWeight, Clarity: @gemPriceList.Clarity, Color: @gemPriceList.Color, Price: @gemPriceList.Price
+									Cut: @gemPriceList.Cut, Carat Weight: @gemPriceList.CaratWeight, Clarity: @gemPriceList.Clarity, Color: @gemPriceList.Color, Price: @gemPriceList.Price.ToString("N0")₫
 								</option>
 							}
 						}
 						else
 						{
 							<option value="@gemPriceList.GemPriceListId">
-								Cut: @gemPriceList.Cut, Carat Weight: @gemPriceList.CaratWeight, Clarity: @gemPriceList.Clarity, Color: @gemPriceList.Color, Price: @gemPriceList.Price
+								Cut: @gemPriceList.Cut, Carat Weight: @gemPriceList.CaratWeight, Clarity: @gemPriceList.Clarity, Color: @gemPriceList.Color, Price: @gemPriceList.Price.ToString("N0")₫
 							</option>
 						}
 					}

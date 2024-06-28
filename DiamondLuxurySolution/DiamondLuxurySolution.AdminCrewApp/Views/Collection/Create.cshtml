@@ -11,6 +11,7 @@
     <!-- Thư viện DataTables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
+
 </head>
 <body>
     <h1>Tạo mới bộ sưu tập</h1>
@@ -35,19 +36,31 @@
                     <label asp-for="Description" class="control-label mb-1 mt-3">Mô tả bộ sưu tập</label>
                     <input id="collectionDescription" type="text" asp-for="Description" class="form-control" />
                 </div>
+                <div class="form-group m-2">
+                    <label asp-for="priceDisplay" class="control-label m-2">Giá ước tính</label>
+                    <input id="priceDisplay" type="text" asp-for="priceDisplay" class="form-control PriceFormatFinal" />
+                    <span asp-validation-for="priceDisplay" class="text-danger"></span>
+                </div>
                 <div class="form-group m-2 mt-2">
                     <label asp-for="Thumbnail" class="control-label mb-1 mt-3">Hình ảnh</label>
                     <input id="thumbnail" type="file" asp-for="Thumbnail" class="form-control" />
+                    <span asp-validation-for="Thumbnail" class="text-danger"></span>
                 </div>
+
                 <div class="form-check form-switch m-4">
                     <label asp-for="Status" class="control-label m-1">Hiển thị</label>
                     <input id="isVisible" class="form-check-input f-18" type="checkbox" asp-for="Status">
                 </div>
+                <div class="form-check form-switch m-4">
+                    <label asp-for="IsHome" class="control-label m-1">Hiển thị trang chủ</label>
+                    <input id="IsHome" class="form-check-input f-18" type="checkbox" asp-for="IsHome">
+                </div>
+
                 <div class="form-group row col-md-12">
-                    <div class="col-md-5 col-sm-5" style="align-self: center">
+                    <div class="col-md-7 col-sm-5" style="align-self: center">
                         <input onclick="clearSessionStorage()" type="submit" value="Tạo mới" class="btn btn-success" />
                     </div>
-                    <div class="col-md-7 col-sm-7">
+                    <div class="col-md-5 col-sm-7">
                         <a class="m-6 btn btn-secondary" asp-action="Index">Về trang quản lí bộ sưu tập</a>
                     </div>
                 </div>
@@ -55,7 +68,7 @@
             <div class="col-md-5" style="text-align: center;">
                 @{
                     var products = ViewBag.ProductsVm as List<ProductVm>;
-                    if (products.Count() > 0)
+                    if (products != null && products.Count() > 0)
                     {
                         <div class="col-md-12" style="text-align:center; margin-top: 29px">
                             <!-- [ basic-table ] start -->
@@ -79,9 +92,9 @@
                                                         <label>Sale</label>
                                                         <label onclick="sortTable(2)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                                                     </th>
-                                                    <th>
+                                                    <!--<th>
                                                         <label>Action</label>
-                                                    </th>
+                                                    </th>-->
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -106,16 +119,15 @@
                                                             </td>
                                                         }
                                                         <td>@product.SellingPrice<span>%</span></td>
-                                                        <td>
+                                                        <!--<td> 
                                                             <button type="button" class="btn btn-danger" onclick="deleteRow('row-@index')">Xóa</button>
                                                         </td>
-                                                        <!-- <td>
+                                                        <td>
                                                             <form asp-action="RemoveProduct" asp-controller="Collection" method="post" style="display:inline;">
                                                                 <input type="hidden" name="productId" value="" />
                                                                 <button type="submit" class="btn btn-danger">Xóa</button>
                                                             </form>
-                                                        </td>
-                                                        -->
+                                                        </td> -->
                                                     </tr>
                                                     index++;
                                                 }
@@ -141,9 +153,9 @@
                         </div>
                     }
                 }
-                <a onclick="addProduct()" asp-action="IndexProductsCreate" class="btn btn-primary">
+                <button id="IndexCreate" onclick="addProduct()" type="button" class="btn btn-primary">
                     Thêm sản phẩm
-                </a>
+                </button>
             </div>
             <div class="col-md-1"></div>
         </div>
@@ -188,21 +200,49 @@
             var collectionName = document.getElementById('collectionName').value;
             var collectionDescription = document.getElementById('collectionDescription').value;
             var isVisible = document.getElementById('isVisible').checked;
-            //var isVisibleCheckbox = document.getElementById('isVisible');
-            //var isVisible = isVisibleCheckbox.checked ? 'true' : 'false';
-            var fileInput = document.getElementById('thumbnail').value
-            
-
-            sessionStorage.setItem('thumbnail', thumbnail);
+            var priceDisplay = document.getElementById('priceDisplay').value;
+            var IsHome = document.getElementById('IsHome').checked;
+            /*var productsData = [];
+            var rows = document.querySelectorAll("#sort tbody tr");
+            rows.forEach(row => {
+                var product = {
+                    ProductId: row.querySelector('input[name="ListProduct"]').value,
+                    ProductName: row.cells[0].innerText,
+                    ProductThumbnail: row.cells[1].innerHTML.includes('img') ? row.cells[1].querySelector('img').src : "",
+                    SellingPrice: row.cells[2].innerText.replace("%", "")
+                };
+                productsData.push(product);
+            });
+            localStorage.setItem('products', JSON.stringify(productsData)); */
             sessionStorage.setItem('collectionName', collectionName);
             sessionStorage.setItem('collectionDescription', collectionDescription);
             sessionStorage.setItem('isVisible', isVisible);
-            sessionStorage.setItem('thumbnail', thumbnail);
+            //sessionStorage.setItem('thumbnail', thumbnail);
+            sessionStorage.setItem('IsHome', IsHome);
+            sessionStorage.setItem('priceDisplay', priceDisplay);
         }
 
         window.onload = function () {
             debugger
-            if (sessionStorage.getItem('collectionName') || sessionStorage.getItem('collectionDescription') || sessionStorage.getItem('isVisible')) {
+            /*var productsData = localStorage.getItem('products');
+            if (productsData !== null) {
+                productsData = JSON.parse(productsData);
+                var table = document.querySelector("#sort");
+                if (table) {
+                    var tbody = table.querySelector("tbody");
+                    productsData.forEach((product, index) => {
+                        var row = `<tr id="row-${index}" class="text-center">
+                                        <input class="form-control" type="hidden" name="ListProduct" value="${product.ProductId}" />
+                                        <td>${product.ProductName}</td>
+                                        <td>${product.ProductThumbnail ? `<img src="${product.ProductThumbnail}" style="height:100px; width:100px" />` : "Không có hình ảnh"}</td>
+                                        <td>${product.SellingPrice}<span>%</span></td>
+                                    </tr>`;
+                        tbody.insertAdjacentHTML('beforeend', row);
+                    });
+                }
+            }
+            */
+            if (sessionStorage.getItem('collectionName') || sessionStorage.getItem('collectionDescription') || sessionStorage.getItem('isVisible') || sessionStorage.getItem('IsHome') || sessionStorage.getItem('priceDisplay')) {
                 if (sessionStorage.getItem('collectionName')) {
                     document.getElementById('collectionName').value = sessionStorage.getItem('collectionName');
                 }
@@ -212,18 +252,18 @@
                 if (sessionStorage.getItem('isVisible')) {
                     document.getElementById('isVisible').checked = sessionStorage.getItem('isVisible') === 'true';
                 }
+                if (sessionStorage.getItem('IsHome')) {
+                    document.getElementById('IsHome').checked = sessionStorage.getItem('IsHome') === 'true';
+                }
+                if (sessionStorage.getItem('priceDisplay')) {
+                    document.getElementById('priceDisplay').value = sessionStorage.getItem('priceDisplay');
+                }
             } else {
                 clearSessionStorage();
             }
         };
 
         function clearSessionStorage() {
-            sessionStorage.removeItem('collectionName');
-            sessionStorage.removeItem('collectionDescription');
-            sessionStorage.removeItem('isVisible');
-            sessionStorage.removeItem('thumbnail');
-        }
-        $(document).ready(function () {
             var table = $('#sort').DataTable({
                 "ordering": false,
                 "pagingType": "full_numbers",
@@ -237,17 +277,112 @@
                 "pageLength": 3,
                 "lengthMenu": [[3, 10, 20, -1], [3, 10, 15, "All"]]
             });
-            $('#collectionForm').on('submit', function () {
-                debugger
-                var allProductIds = [];
-                table.rows().every(function () {
-                    var row = $(this.node());
-                    var productId = row.find('input[name="ListProduct"]').val();
-                    allProductIds.push(productId);
-                });
-                $('#ListProductId').val(allProductIds.join(','));
+            sessionStorage.removeItem('collectionName');
+            sessionStorage.removeItem('collectionDescription');
+            sessionStorage.removeItem('isVisible');
+            sessionStorage.removeItem('IsHome');
+            sessionStorage.removeItem('priceDisplay');
+        }
+        /*$(document).ready(function () { }*/
+        var table = $('#sort').DataTable({
+            "ordering": false,
+            "pagingType": "full_numbers",
+            "language": {
+                "paginate": {
+                    "next": "Next",
+                    "previous": "Previous",
+                    "First": false
+                }
+            },
+            "pageLength": 3,
+            "lengthMenu": [[3, 10, 20, -1], [3, 10, 15, "All"]]
+        });
+        $('#IndexCreate').click(function () {
+            debugger
+            var allProductIds = [];
+            // Lấy tất cả các hàng từ tất cả các trang
+            table.rows().every(function () {
+                var row = $(this.node());
+                var productId = row.find('input[name="ListProduct"]').val();
+                allProductIds.push(productId);
+            });
+            var form = $('<form action="/Collection/SaveSelectedIdIndexProductsCreate" method="POST"></form>');
+            var input = $('<input type="hidden" name="listIdSelected" />').val(allProductIds.join(','));
+            form.append(input);
+            $('body').append(form);
+            form.submit();
+        });
+
+        // Tung Function
+        // Select all inputs with the class "PriceFormat"
+        const $inputs = $(".PriceFormatFinal");
+
+        $inputs.each(function () {
+
+            // Ensure initial value is correctly formatted
+            if ($(this).val()) {
+                let value = $(this).val().replace(/\./g, "");
+                $(this).val(new Intl.NumberFormat('vi-VN').format(parseInt(value)));
+            }
+
+            $(this).on("input", function () {
+                let value = $(this).val();
+
+                // Remove all non-digit characters
+                value = value.replace(/[^\d]/g, "");
+
+                // Limit to a maximum of 16 digits
+                if (value.length > 16) {
+                    value = value.slice(0, 16);
+                }
+
+                // If value is not empty, format it with Vietnamese thousand separators
+                if (value) {
+                    $(this).val(new Intl.NumberFormat('vi-VN').format(parseInt(value)));
+                } else {
+                    $(this).val("");
+                }
             });
         });
 
+        //End tung function
+
+
+
+        $('#collectionForm').on('submit', function () {
+
+            console.log("SUCCESS 1")
+
+            var allProductIds = [];
+            table.rows().every(function () {
+                var row = $(this.node());
+                var productId = row.find('input[name="ListProduct"]').val();
+                allProductIds.push(productId);
+            });
+            $('#ListProductId').val(allProductIds.join(','));
+
+
+            // Tung Format number below
+            console.log("SUCCESS2 ")
+
+            debugger;
+            console.log($inputs)
+            $inputs.each(function () {
+                // Log value before removing dots
+
+                // Remove dots before submitting
+                const formattedValue = $(this).val().replace(/\./g, "");
+                $(this).val(formattedValue);
+
+                // Log value after removing dots
+            });
+
+            console.log("SUCCESS")
+            //End format number
+
+
+        });
+
     </script>
+
 }

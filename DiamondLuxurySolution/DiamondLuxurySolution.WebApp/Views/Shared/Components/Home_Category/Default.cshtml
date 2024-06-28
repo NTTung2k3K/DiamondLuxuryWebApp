@@ -1,0 +1,174 @@
+﻿@using DiamondLuxurySolution.Data.Entities
+@using DiamondLuxurySolution.ViewModel.Common
+@using DiamondLuxurySolution.ViewModel.Models.Category
+
+@model List<CategoryVm>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Mục Nổi Bật</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap" rel="stylesheet">
+
+
+    <style>
+        .hightlight-h {
+            font-family: "Montserrat", sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: white;
+            text-transform: uppercase;
+            text-align: center;
+            margin: 20px 100px 0px 100px;
+            display: flex;
+        }
+
+        body {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+        }
+
+        .category-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            padding: 0px 90px 90px 90px;
+            font-family: Jura, monospace;
+        }
+
+        .category {
+            text-align: center;
+            margin: 20px;
+            max-width: 150px;
+            max-height: 150px;
+        }
+
+            .category a {
+                text-decoration: none;
+                color: #fff;
+                display: block;
+                width: 100%;
+                height: 100%;
+                margin: 0 auto;
+            }
+
+            .category .img-container {
+                width: 100%;
+                height: 100%;
+                border-radius: 50%;
+                overflow: hidden;
+                background-color: #333;
+                margin: auto;
+                transition: transform 0.3s;
+                align-content: center
+            }
+
+            .category img {
+                width: 70%;
+                height: 70%;
+                object-fit:;
+            }
+
+                .category img:hover {
+                    transform: scale(1.1);
+                }
+
+            .category span {
+                display: block;
+                margin-top: 10px;
+                font-size: 16px;
+                word-wrap: break-word;
+                white-space: normal;
+                width: 100%;
+            }
+    </style>
+</head>
+<body>
+    @if (Model != null && Model.Count() > 0)
+    {
+        var categoryKc = Model.SingleOrDefault(c => c.CategoryName.Equals("Kim Cương"));
+        var categoryNhanNu = Model.SingleOrDefault(c => c.CategoryName.Equals("Trang Sức Cưới") && c.CategoryType.Equals("Nhẫn Cưới"));
+        var categoryNhanNam = Model.SingleOrDefault(c => c.CategoryName.Equals("Nhẫn") && c.CategoryType.Equals("Nam"));
+        var categoryNhanCuoi = Model.SingleOrDefault(c => c.CategoryName.Equals("Nhẫn") && c.CategoryType.Equals("Nữ"));
+        var categoryDayChuyen = Model.SingleOrDefault(c => c.CategoryName.Equals("Dây Chuyền") && c.CategoryType.Equals("Nữ"));
+        var categoryBongTai = Model.SingleOrDefault(c => c.CategoryName.Equals("Hoa Tai") && c.CategoryType.Equals("Nữ"));
+        <h2 class="hightlight-h">
+            DANH MỤC NỔI BẬT
+        </h2>
+        <div class="category-container">
+
+            @if (categoryKc != null)
+            {
+                <div class="category">
+                    <a href="/Diamond/Index">
+                        <div class="img-container">
+                            <img src="@categoryKc.CategoryImage" alt="Kim Cương">
+                        </div>
+                        <span>Kim Cương</span>
+                    </a>
+                </div>
+            }
+            @if (categoryNhanNam != null)
+            {
+                <div class="category">
+                    <a href="/DiamondJewelryRingMan/Index">
+                        <div class="img-container">
+                            <img src="@categoryNhanNam.CategoryImage" alt="Nhẫn Kim Cương Nam">
+                        </div>
+                        <span>Nhẫn Kim Cương Nam</span>
+                    </a>
+                </div>
+            }
+            @if (categoryNhanNu != null)
+            {
+                <div class="category">
+                    <a href="/DiamondJewelryRingWoman/Index">
+                        <div class="img-container">
+                            <img src="@categoryNhanNu.CategoryImage" alt="Nhẫn Kim Cương Nữ">
+                        </div>
+                        <span>Nhẫn Kim Cương Nữ</span>
+                    </a>
+                </div>
+            }
+            @if (categoryNhanCuoi != null)
+            {
+                <div class="category">
+                    <a href="/WeddingJewelryRing/Index">
+                        <div class="img-container">
+                            <img src="@categoryNhanCuoi.CategoryImage" alt="Nhẫn Cưới Kim Cương">
+                        </div>
+                        <span>Nhẫn Cưới Kim Cương</span>
+                    </a>
+                </div>
+            }
+            @if (categoryBongTai != null)
+            {
+                <div class="category">
+                    <a href="/DiamondJewelryEarring/Index">
+                        <div class="img-container">
+                            <img src="@categoryBongTai.CategoryImage" alt="Bông Tai Kim Cương">
+                        </div>
+                        <span>Bông Tai Kim Cương</span>
+                    </a>
+                </div>
+            }
+
+            @if (categoryDayChuyen != null)
+            {
+                <div class="category">
+                    <a href="/DiamondJewelryNecklace/Index">
+                        <div class="img-container">
+                            <img src="@categoryDayChuyen.CategoryImage" alt="Mặt Dây Chuyền Kim Cương">
+                        </div>
+                        <span>Mặt Dây Chuyền Kim Cương</span>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+</body>
+</html>

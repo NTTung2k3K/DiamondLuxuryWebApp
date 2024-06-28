@@ -5,13 +5,15 @@
     ViewData["Title"] = "Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@{
+    var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
+}
 <div class="row">
-    <h1 class="col-md-9">Chi tiết sản phẩm</h1>
+    <h1 class="col-md-9">Chi tiết đơn hàng</h1>
     <div class="col-md-3 ">
-        <button class="btn btn-success" id="acceptOrder">Phụ trách đơn hàng</button>
-        @{
-            var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
+        @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
+        {
+            <button class="btn btn-success" id="acceptOrder">Phụ trách đơn hàng</button>
         }
         <input type="hidden" value="@staffVm.StaffId" id="StaffId" />
     </div>
@@ -223,6 +225,12 @@
                 }
             </dd>
 
+            <dt class="col-sm-3">
+                Tổng cổng (chưa giảm)
+            </dt>
+            <dd class="col-sm-9">
+                @(((decimal)Model.TotalSale + (decimal)Model.TotalAmount).ToString("N0"))₫
+            </dd>
 
             <dt class="col-sm-3">
                 Số tiền giảm
@@ -321,42 +329,60 @@
             </dd>
         </dl>
     </div>
-    <div class="row">
-        <div class="col-md-3">
-            @Html.ActionLink("Chỉnh sửa", "Edit", new { OrderId = Model.OrderId }, new { @class = "btn btn-warning" })
-        </div>
-        @if (Model != null && Model.RemainAmount > 0 && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
-        {
-            <div class="col-md-3">
-                @Html.ActionLink("Tiếp tục thanh toán", "PaidTheRest", new { OrderId = Model.OrderId }, new { @class = "btn btn-info" })
-            </div>
-        }
-        @if (!string.IsNullOrEmpty(Model.ShipAdress))
-        {
-            <div class="col-md-3 ">
-                <button class="btn btn-primary" id="UpdateShipperBtn">Cập nhật nhân viên giao hàng</button>
-            </div>
-        }
-        @if (Model != null && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()))
-        {
-            <div class="col-md-3">
-                <button id="selectFolderButton" data-order-id="@Model.OrderId" class="btn btn-primary">Xuất phiếu bảo hành và giấy chứng nhận</button>
-            </div>
-        }
 
-        <div class="col-md-3">
-            <a class="m-6" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
+    var staffVmSession = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
+
+    @if (staffVmSession.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
+    {
+        <div class="row">
+            <div class="col-md-3">
+                @Html.ActionLink("Chỉnh sửa", "Edit", new { OrderId = Model.OrderId }, new { @class = "btn btn-warning" })
+            </div>
+            @if (Model != null && Model.RemainAmount > 0 && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
+            {
+                <div class="col-md-3">
+                    @Html.ActionLink("Tiếp tục thanh toán", "PaidTheRest", new { OrderId = Model.OrderId }, new { @class = "btn btn-info" })
+                </div>
+            }
+            @if (!string.IsNullOrEmpty(Model.ShipAdress))
+            {
+                <div class="col-md-3 ">
+                    <button class="btn btn-primary" id="UpdateShipperBtn">Cập nhật nhân viên giao hàng</button>
+                </div>
+            }
+            @if (Model != null && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()) && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()))
+            {
+                <div class="col-md-3">
+                    <button id="selectFolderButton" data-order-id="@Model.OrderId" class="btn btn-secondary">Xuất Phiếu Bảo Hành <br /> & Giấy Chứng Nhận</button>
+                </div>
+            }
+
+            <div class="col-md-3">
+                <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
+            </div>
         </div>
-    </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-9">
+            </div>
+            <div class="col-md-3">
+                <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
+            </div>
+        </div>
+    }
+
 }
 else
 {
     <div>
-        <a class="m-5" asp-action="Index" asp-controller="Order">Về trang quản lí tin tức</a>
+        <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
     </div>
 }
 
 @section Scripts {
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         $(document).ready(function () {
@@ -430,35 +456,19 @@ else
     <script>
         $(document).ready(function () {
             $('#selectFolderButton').on('click', async function () {
-                try {
-                    const dirHandle = await window.showDirectoryPicker();
-                    const folderPath = await getFolderPath(dirHandle);
-
-                    const orderId = $(this).data('order-id'); // Retrieve the order ID from the button's data attribute
-                    saveFolderPath(folderPath, orderId);
-                } catch (error) {
-                    console.error('Error selecting directory:', error);
-                }
+                const orderId = $(this).data('order-id'); // Retrieve the order ID from the button's data attribute
+                debugger;
+                saveFolderPath(orderId);
             });
 
-            async function getFolderPath(directoryHandle) {
-                const parts = [];
-                let currentHandle = directoryHandle;
-                while (currentHandle) {
-                    parts.unshift(currentHandle.name);
-                    currentHandle = currentHandle.kind === 'directory' ? currentHandle.root : null;
-                }
-                return parts.join('/');
-            }
 
-            function saveFolderPath(folderPath, orderId) {
+            function saveFolderPath(orderId) {
                 const url = "https://localhost:9000/api/Orders/ExportFileToFolder"; // Adjust the URL to your action
-                const token = $('input[name="__RequestVerificationToken"]').val();
 
                 var requestData = {
                     OrderId: orderId,
-                    PathUser: folderPath
                 };
+
                 debugger;
                 $.ajax({
                     url: url,
@@ -466,18 +476,12 @@ else
                     contentType: 'application/json',
                     data: JSON.stringify(requestData),
                     success: function (response) {
-                        if (response.success) {
-                            alert('File saved successfully!');
-                            window.location.reload(); // Reload the page if needed
-                        } else {
-                            alert('Error: ' + response.message);
-                        }
+                        debugger;
+                        alert(`File đã lưu vào ổ C: \\DiamondInfo\\` + response.resultObj);
                     },
                     error: function (xhr, status, error) {
-                        debugger;
-
-                        console.error('Error saving folder path:', error);
-                        alert('An error occurred while processing your request.');
+                        console.error('Lỗi:', error);
+                        alert('Có lỗi xảy ra vui lòng thử lại');
                     }
                 });
             }

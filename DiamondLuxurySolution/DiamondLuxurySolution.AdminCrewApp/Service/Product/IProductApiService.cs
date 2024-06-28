@@ -15,5 +15,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Product
         public Task<ApiResult<List<SubGemVm>>> GetAll();
         public Task<ApiResult<List<ProductVm>>> GetAllProduct();
 
+
+
     }
 }

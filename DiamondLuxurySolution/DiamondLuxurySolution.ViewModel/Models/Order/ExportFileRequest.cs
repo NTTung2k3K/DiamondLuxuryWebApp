@@ -9,6 +9,5 @@ namespace DiamondLuxurySolution.ViewModel.Models.Order
     public class ExportFileRequest
     {
         public string OrderId { get; set; }
-        public string PathUser { get; set; }
     }
 }

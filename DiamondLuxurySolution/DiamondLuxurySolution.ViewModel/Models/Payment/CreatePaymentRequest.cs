@@ -9,7 +9,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Payment
 {
     public class CreatePaymentRequest
     {
-        [Required(ErrorMessage = "Cần nhập phuơng thức thanh toán")]
+        [Required(ErrorMessage = "Cần nhập phương thức thanh toán")]
         public string PaymentMethod { get; set; } = null!;
         public string? Description { get; set; }
 

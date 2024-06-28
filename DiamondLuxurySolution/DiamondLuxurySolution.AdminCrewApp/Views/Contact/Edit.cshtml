@@ -22,8 +22,12 @@
             <form asp-action="Edit" asp-controller="Contact" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group m-2">
-                    <label asp-for="ContactId" class="control-label  m-2"></label>
+                    <label asp-for="ContactId" class="control-label  m-2">ID Liên Hệ</label>
                     <input asp-for="ContactId" class="form-control" readonly />
+                </div>
+                <div class="form-group m-2">
+                    <label asp-for="DateSendRequest" class="control-label m-2">Ngày gửi</label>
+                    <input asp-for="DateSendRequest" class="form-control" readonly />
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="ContactNameUser" class="control-label m-2">Tên người dùng</label>

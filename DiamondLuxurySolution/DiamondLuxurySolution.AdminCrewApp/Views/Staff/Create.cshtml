@@ -1,4 +1,5 @@
-﻿@model DiamondLuxurySolution.ViewModel.Models.User.Staff.CreateStaffAccountRequest
+﻿@using DiamondLuxurySolution.ViewModel.Models.User.Staff
+@model DiamondLuxurySolution.ViewModel.Models.User.Staff.CreateStaffAccountRequest
 
 @{
     ViewData["Title"] = "Create";
@@ -45,17 +46,17 @@
             </div>
             <div class="form-group  m-2">
                 <label asp-for="Dob" class="control-label">Ngày sinh</label>
-                <input asp-for="Dob" class="form-control" type="date"/>
+                <input asp-for="Dob" class="form-control" type="date" />
                 <span asp-validation-for="Dob" class="text-danger"></span>
             </div>
-            
+
             <div class="form-group m-2">
                 <label asp-for="RoleId" class="control-label m-2">Danh sách chức vụ</label>
-                <select class="h-50" multiple name="RoleId[]">
+                <select class="h-50" name="RoleId[]">
 
                     @foreach (var role in ViewBag.ListRoleAll)
                     {
-                        if (Model!=null && Model.RoleId != null)
+                        if (Model != null && Model.RoleId != null)
                         {
                             string selectedCheck = Model.RoleId.Contains(@role.RoleId) ? "selected=\"selected\"" : "";
                             if (string.IsNullOrEmpty(selectedCheck))
@@ -85,7 +86,7 @@
                 <br />
                 <span asp-validation-for="RoleId" class="text-danger"></span>
             </div>
-            <div class="form-group m-2">
+            <div class="form-group m-2 ">
                 <label asp-for="Status" class="m-2 control-label">Trạng thái</label>
                 <!--Start dropdown list-->
                 <select class="m-2 h-50" name="Status">
@@ -99,7 +100,7 @@
                         }
                         else if (item.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.StaffStatus.Active.ToString()))
                         {
-                            <option value="@item">
+                            <option selected value="@item">
                                 <span class="badge bg-success rounded-pill">Hoạt động</span>
                             </option>
                         }
@@ -141,7 +142,6 @@
                         }
                     }
                 </select>
-
                 <!--End dropdown list-->
 
                 <span asp-validation-for="Status" class="text-danger"></span>
@@ -163,15 +163,24 @@
             </div>
             <div class="form-group  m-2">
                 <label class="control-label">Hình ảnh</label>
-                <input name="Image" type="file"  class="form-control" />
+                <input name="Image" type="file" class="form-control" />
             </div>
             <div class="form-group  m-2 row">
-                <div class="col-md-6  m-2">
+                <div class="col-md-9">
                     <input type="submit" value="Tạo mới" class="btn btn-success" />
                 </div>
-
-                <div class="col-md-3 m-2 mt-3">
-                    <a class="" asp-action="Index" asp-controller="Home">Về trang chủ</a>
+                @{
+                    var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
+                }
+                <div class="col-md-6">
+                    @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin))
+                    {
+                        <a class=" btn btn-secondary" asp-action="Admin" asp-controller="Home">Về trang chủ</a>
+                    }
+                    else
+                    {
+                        <a class=" btn btn-secondary" asp-action="Manager" asp-controller="Home">Về trang chủ</a>
+                    }
                 </div>
             </div>
         </form>

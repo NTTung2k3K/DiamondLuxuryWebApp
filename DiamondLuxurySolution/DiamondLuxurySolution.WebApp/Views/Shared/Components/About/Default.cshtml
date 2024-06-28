@@ -1,0 +1,21 @@
+﻿@using DiamondLuxurySolution.ViewModel.Models.About
+@model List<AboutVm>
+@{
+    int index = 0;
+}
+
+
+@foreach (var about in Model)
+{
+    if (about.Status)
+    {
+        <li>Địa chỉ CN@(++index): @about.AboutAddress</li>
+        <li>Số Điện Thoại: @about.AboutPhoneNumber</li>
+        <li>Email: @about.AboutEmail</li>
+        <li>@about.Description</li>
+    }
+}
+
+
+
+

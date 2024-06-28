@@ -20,8 +20,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Material
         [Required(ErrorMessage = "Cần nhập màu")]
         public string Color { get; set; }
 
-        [Required(ErrorMessage = "Cần nhập hình nguyên liệu")]
-        public IFormFile MaterialImage { get; set; }
+        public IFormFile? MaterialImage { get; set; }
 
         public bool Status { get; set; }
 
@@ -29,6 +28,6 @@ namespace DiamondLuxurySolution.ViewModel.Models.Material
         public string? EffectDate { get; set; }
 
         [Required(ErrorMessage = "Cần nhập giá")]
-        public decimal? Price { get; set; }
+        public string Price { get; set; }
     }
 }

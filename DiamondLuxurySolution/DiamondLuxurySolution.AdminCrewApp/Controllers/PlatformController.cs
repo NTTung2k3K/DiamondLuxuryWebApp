@@ -1,6 +1,7 @@
 ﻿using Azure.Core;
 using DiamondLuxurySolution.AdminCrewApp.Service.Platform;
 using DiamondLuxurySolution.ViewModel.Common;
+using DiamondLuxurySolution.ViewModel.Models.Discount;
 using DiamondLuxurySolution.ViewModel.Models.Platform;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -67,6 +68,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -75,6 +77,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -99,6 +102,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["WarningToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -107,6 +111,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["WarningToast"] = true;
                 return View();
             }
         }
@@ -115,6 +120,22 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
+                var platform = await _platformApiService.GetPlatfromById(request.PlatformId);
+
+                if (!ModelState.IsValid)
+                {
+                    PlatfromVm platfromVm = new PlatfromVm()
+                    {
+                        PlatformId = request.PlatformId,
+                        PlatformName = request.PlatformName,
+                        PlatformLogo = platform.ResultObj.PlatformLogo,
+                        PlatformUrl = request.PlatformUrl,
+                        Status = request.Status,
+                    };
+                    TempData["WarningToast"] = true;
+                    return View(platfromVm);
+                }
+
                 var status = await _platformApiService.UpdatePlatform(request);
                 if (status is ApiErrorResult<bool> errorResult)
                 {
@@ -131,15 +152,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         listError.Add(errorResult.Message);
                     }
+                    TempData["WarningToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
 
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Platform");
             }
             catch
             {
+                TempData["WarningToast"] = true;
                 return View();
             }
         }
@@ -166,6 +190,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -174,6 +199,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -200,15 +226,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Platform");
 
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -240,13 +269,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     listError.Add(errorResult.Message);
                 }
+                TempData["WarningToast"] = true;
                 ViewBag.Errors = listError;
                 return View();
-
             }
-
-            TempData["SuccessMsg"] = "Create success for Role " + request.PlatformName;
-
+            TempData["SuccessToast"] = true;
             return RedirectToAction("Index", "Platform");
         }
 

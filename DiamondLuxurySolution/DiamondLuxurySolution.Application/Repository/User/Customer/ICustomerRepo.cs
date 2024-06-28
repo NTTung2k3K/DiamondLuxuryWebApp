@@ -19,6 +19,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
 
         public Task<ApiResult<bool>> DeleteCustomer(Guid CustomerId);
         public Task<ApiResult<List<int>>> CountAllCustomerInYear();
+        public Task<ApiResult<List<int>>> CountAllCustomerInWeek();
 
         public Task<ApiResult<bool>> ChangePasswordCustomer(ChangePasswordCustomerRequest request);
 

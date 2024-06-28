@@ -1,6 +1,7 @@
 ﻿using Azure.Core;
 using DiamondLuxurySolution.AdminCrewApp.Service.Category;
 using DiamondLuxurySolution.ViewModel.Common;
+using DiamondLuxurySolution.ViewModel.Models.About;
 using DiamondLuxurySolution.ViewModel.Models.Category;
 using DiamondLuxurySolution.ViewModel.Models.Platform;
 using DiamondLuxurySolution.ViewModel.Models.Role;
@@ -71,7 +72,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 							listError.Add(error);
 						}
 					}
-					ViewBag.Errors = listError;
+                    TempData["ErrorToast"] = true;
+                    ViewBag.Errors = listError;
 					return View();
 
 				}
@@ -79,7 +81,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 			}
 			catch
 			{
-				return View();
+                TempData["ErrorToast"] = true;
+                return View();
 			}
 		}
 		[Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
@@ -103,7 +106,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 							listError.Add(error);
 						}
 					}
-					ViewBag.Errors = listError;
+                    TempData["ErrorToast"] = true;
+                    ViewBag.Errors = listError;
 					return View();
 
 				}
@@ -111,7 +115,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 			}
 			catch
 			{
-				return View();
+                TempData["ErrorToast"] = true;
+                return View();
 			}
 		}
         [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
@@ -121,9 +126,26 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 		{
 			try
 			{
+				var category = await _categoryApiService.GetCategoryById(request.CategoryId);
+
+                if (!ModelState.IsValid)
+                {
+
+                    CategoryVm categoryVm = new CategoryVm()
+                    {
+                        CategoryId = request.CategoryId,
+						CategoryName = request.CategoryName,
+						CategoryType = request.CategoryType,
+						CategoryImage = category.ResultObj.CategoryImage,
+                        Status = request.Status,
+                        
+                    };
+                    TempData["WarningToast"] = true;
+                    return View(categoryVm);
+                }
 
 
-				var status = await _categoryApiService.UpdateCategory(request);
+                var status = await _categoryApiService.UpdateCategory(request);
 				if (status is ApiErrorResult<bool> errorResult)
 				{
 					List<string> listError = new List<string>();
@@ -139,14 +161,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 					{
 						listError.Add(errorResult.Message);
 					}
-					ViewBag.Errors = listError;
+                    TempData["WarningToast"] = true;
+                    ViewBag.Errors = listError;
 					return View();
 				}
-				return RedirectToAction("Index", "Category");
+                TempData["SuccessToast"] = true;
+                return RedirectToAction("Index", "Category");
 			}
 			catch
 			{
-				return View();
+                TempData["WarningToast"] = true;
+                return View();
 			}
 		}
 
@@ -173,7 +198,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 							listError.Add(error);
 						}
 					}
-					ViewBag.Errors = listError;
+                    TempData["WarningToast"] = true;
+                    ViewBag.Errors = listError;
 					return View();
 
 				}
@@ -181,7 +207,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 			}
 			catch
 			{
-				return View();
+                TempData["WarningToast"] = true;
+                return View();
 			}
 		}
         [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
@@ -208,16 +235,19 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 							listError.Add(error);
 						}
 					}
-					ViewBag.Errors = listError;
+                    TempData["WarningToast"] = true;
+                    ViewBag.Errors = listError;
 					return View();
 
 				}
-				return RedirectToAction("Index", "Category");
+                TempData["SuccessToast"] = true;
+                return RedirectToAction("Index", "Category");
 
 			}
 			catch
 			{
-				return View();
+                TempData["WarningToast"] = true;
+                return View();
 			}
 		}
         [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
@@ -252,13 +282,15 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 				{
 					listError.Add(errorResult.Message);
 				}
-				ViewBag.Errors = listError;
+                TempData["WarningToast"] = true;
+                ViewBag.Errors = listError;
 				return View();
 
 			}
-			TempData["SuccessMsg"] = "Create success for Role " + request.CategoryName;
 
-			return RedirectToAction("Index", "Category");
+
+            TempData["SuccessToast"] = true;
+            return RedirectToAction("Index", "Category");
 		}
 
 

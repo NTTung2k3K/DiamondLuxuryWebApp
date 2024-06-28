@@ -45,18 +45,18 @@
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
             <div class="form-group m-2">
-                <label asp-for="BannerImage" class="control-label m-2">Hình ảnh biểu ngữ</label>
+                <label asp-for="BannerImage" class="control-label m-2">Hình ảnh Banner</label>
                 <input asp-for="BannerImage" class="form-control" type="file" />
                 <span asp-validation-for="BannerImage" class="text-danger"></span>
             </div>
             <div class="form-group m-2">
                 <label asp-for="DiscountPercent" class="control-label">Phần trăm giảm giá</label>
-                <input asp-for="DiscountPercent" class="form-control" />
+                <input asp-for="DiscountPercent" type="number" class="form-control" />
                 <span asp-validation-for="DiscountPercent" class="text-danger"></span>
             </div>
             <div class="form-group m-2">
                 <label asp-for="MaxDiscount" class="control-label">Giảm giá tối đa</label>
-                <input asp-for="MaxDiscount" class="form-control" />
+                <input asp-for="MaxDiscount" type="text" id="MaxDiscount" class="form-control" />
                 <span asp-validation-for="MaxDiscount" class="text-danger"></span>
             </div>
             <div class="form-check form-switch m-4">
@@ -77,4 +77,30 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const input = document.querySelector("#MaxDiscount");
+
+            input.addEventListener("input", function (e) {
+                let value = e.target.value;
+
+                // Xóa bỏ các ký tự không phải là số
+                value = value.replace(/[^0-9]/g, "");
+
+                // Giới hạn tối đa 17 ký tự số
+                if (value.length > 16) {
+                    value = value.slice(0, 16);
+                }
+
+                // Nếu giá trị không rỗng, định dạng lại theo kiểu chuỗi Việt Nam
+                if (value) {
+                    e.target.value = new Intl.NumberFormat('vi-VN').format(parseInt(value));
+                } else {
+                    e.target.value = "";
+                }
+            });
+        });
+    </script>
 }
