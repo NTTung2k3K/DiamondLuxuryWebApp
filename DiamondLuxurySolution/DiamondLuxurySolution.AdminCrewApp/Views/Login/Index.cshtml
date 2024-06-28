@@ -33,19 +33,11 @@
     <link rel="stylesheet" type="text/css" href="~/admin/css/util.css" />
     <link rel="stylesheet" type="text/css" href="~/admin/css/main.css" />
     <!--===============================================================================================-->
-    <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js"></script>
-    <!--===============================================================================================-->
-    <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js"></script>
-    <!--===============================================================================================-->
-    <script src="https://www.gstatic.com/firebasejs/9.8.1/firebase-analytics.js"></script>
-    <!--===============================================================================================-->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <!--===============================================================================================-->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&display=swap"
           rel="stylesheet" />
+
 </head>
 <body>
     <div class="limiter">
@@ -114,94 +106,7 @@
                 </form>
             </div>
         </div>
-        <input type="text" id="countryCode" placeholder="Enter country code (e.g., +84)" value="+84" readonly />
-        <input type="text" id="phoneNumber" placeholder="Enter phone number" />
-        <div id="recaptcha-container"></div>
-        <button id="sendOtpBtn">Send OTP</button>
-        <input type="text" id="verificationCode" placeholder="Enter OTP" />
-        <button id="verifyOtpBtn">Verify OTP</button>
     </div>
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-app.js";
-        import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-auth.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.8.1/firebase-analytics.js";
-
-        // Your web app's Firebase configuration
-        debugger
-        const firebaseConfig = {
-
-            apiKey: "AIzaSyDf-QdQ7AYvJhbKBCjdDv_mDQa1mJEm7p8",
-            authDomain: "diamondluxuryshop-980cd.firebaseapp.com",
-            projectId: "diamondluxuryshop-980cd",
-            storageBucket: "diamondluxuryshop-980cd.appspot.com",
-            messagingSenderId: "412952116679",
-            appId: "1:412952116679:web:265caf4d5b7e2ee049ade2",
-            measurementId: "G-S8KZPBQP5Q"
-        };
-
-        // Initialize Firebase
-        debugger
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const auth = getAuth();
-
-        var confirmationResult; // Global variable to store confirmation result
-
-        // Function to send OTP
-        function sendOTP() {
-            debugger
-
-            var countryCode = $('#countryCode').val();
-            var phoneNumber = $('#phoneNumber').val();
-            var fullPhoneNumber = countryCode + phoneNumber;
-
-            /* Validate phone number format
-            if (!/^\+849\d{8}$/.test(fullPhoneNumber)) {
-                alert("Invalid phone number format. Vietnamese phone numbers should be in the format +849xxxxxxxx.");
-                return;
-            }
-            /*/
-            window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {
-                'size': 'invisible',
-                'callback': (response) => {
-                    // reCAPTCHA solved, allow signInWithPhoneNumber.
-                    signInWithPhoneNumber(auth, fullPhoneNumber, window.recaptchaVerifier)
-                        .then((result) => {
-                            confirmationResult = result;
-                            alert("OTP sent. Please check your phone.");
-                        }).catch((error) => {
-                            console.error("Error during signInWithPhoneNumber", error);
-                        });
-                }
-            }, auth);
-
-            window.recaptchaVerifier.render();
-        }
-
-        // Function to verify OTP
-        function verifyOTP() {
-            var verificationCode = $('#verificationCode').val();
-
-            if (verificationCode.length === 6) {
-                confirmationResult.confirm(verificationCode)
-                    .then(function (result) {
-                        alert("Phone number verified successfully.");
-                        // Proceed with your application logic after phone number is verified
-                    }).catch(function (error) {
-                        alert("Invalid OTP. Please enter the correct OTP.");
-                    });
-            } else {
-                alert("OTP must be 6 digits long.");
-            }
-        }
-
-        // jQuery event listeners for button clicks
-        $(document).ready(function () {
-            $('#sendOtpBtn').on('click', sendOTP);
-            $('#verifyOtpBtn').on('click', verifyOTP);
-        });
-    </script>
     <!--===============================================================================================-->
     <script src="~/admin/vendor/jquery/jquery-3.2.1.min.js"></script>
     <!--===============================================================================================-->

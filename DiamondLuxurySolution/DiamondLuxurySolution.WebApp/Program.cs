@@ -105,6 +105,24 @@ app.UseRouting();
 app.UseSession();
 CartSessionHelper.Configure(app.Services.GetRequiredService<IHttpContextAccessor>());
 
+
+
+app.UseStatusCodePages(async context =>
+{
+    if (context.HttpContext.Response.StatusCode == 404)
+    {
+        context.HttpContext.Response.Redirect("/Error/PageNotFound");
+    }
+    if (context.HttpContext.Response.StatusCode == 500)
+    {
+        context.HttpContext.Response.Redirect("/Error/InternalServerError");
+    }
+    if (context.HttpContext.Response.StatusCode == 401)
+    {
+        context.HttpContext.Response.Redirect("/Error/Unauthorized");
+    }
+});
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

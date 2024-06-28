@@ -62,7 +62,11 @@ namespace DiamondLuxurySolution.WebApp.Service.Account
             var data = await PostAsync<bool>("api/Customers/RegisterCustomer", request);
             return data;
         }
-
+        public async Task<ApiResult<bool>> CheckRegister(RegisterCustomerAccountRequest request)
+        {
+            var data = await PostAsync<bool>("api/Customers/CheckRegister", request);
+            return data;
+        }
         public async Task<ApiResult<bool>> UpdateCustomerAccount(UpdateCustomerRequest request)
         {
             var data = await PutAsync<bool>("api/Customers/Update", request);

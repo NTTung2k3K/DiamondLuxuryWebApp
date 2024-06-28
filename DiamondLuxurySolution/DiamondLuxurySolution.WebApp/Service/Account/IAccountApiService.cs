@@ -10,6 +10,7 @@ namespace DiamondLuxurySolution.WebApp.Service.Account
 
         public Task<ApiResult<bool>> Login(LoginCustomerRequest request);
         public Task<ApiResult<bool>> Register(RegisterCustomerAccountRequest request);
+        public Task<ApiResult<bool>> CheckRegister(RegisterCustomerAccountRequest request);
         public Task<ApiResult<bool>> UpdateCustomerAccount(UpdateCustomerRequest request);
         public Task<ApiResult<CustomerVm>> GetCustomerById(Guid CustomerId);
         public Task<ApiResult<bool>> ChangePasswordCustomer(ChangePasswordCustomerRequest request);
