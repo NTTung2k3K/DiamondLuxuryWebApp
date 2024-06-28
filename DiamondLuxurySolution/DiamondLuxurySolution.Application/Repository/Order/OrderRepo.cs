@@ -190,7 +190,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 {
                     // Add and save the order first
                     _context.Orders.Add(order);
-                    await _context.SaveChangesAsync();
+                    /*await _context.SaveChangesAsync();*/
 
                     decimal totalPrice = 0;
                     foreach (var orderProduct in request.ListOrderProduct)
@@ -222,12 +222,15 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         };
 
                         totalPrice += orderDetail.TotalPrice;
+
                         _context.Warrantys.Add(warranty);
                         _context.OrderDetails.Add(orderDetail);
                     }
 
                     decimal total = await CalculateTotalPrice(request, totalPrice);
                     order.TotalAmout = total;
+
+
 
                     var user = await _userMananger.FindByIdAsync(request.CustomerId.ToString());
                     if (user != null)
@@ -258,6 +261,11 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         {
                             return new ApiErrorResult<string>($"Số tiền đặt cọc phải lớn hơn hoặc bằng {maxDeposit}");
                         }
+                        if(request.Deposit <=0 || request.Deposit>total) 
+                        { 
+                            return new ApiErrorResult<string>($"Số tiền đặt cọc không hợp lệ");
+                        }
+
                         order.RemainAmount = total - (decimal)request.Deposit;
                     }
                     else
@@ -328,6 +336,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     contentCustomer = contentCustomer.Replace("{{Payment}}", paymentMethod);
                     contentCustomer = contentCustomer.Replace("{{TotalSale}}", order.TotalSale?.ToString("N0"));
                     contentCustomer = contentCustomer.Replace("{{Total}}", order.TotalAmout.ToString("N0"));
+                    contentCustomer = contentCustomer.Replace("{{Deposit}}", order.Deposit.ToString("N0"));
 
                     contentCustomer = contentCustomer.Replace("{{Address}}", request.ShipAdress);
                     contentCustomer = contentCustomer.Replace("{{PhoneNumber}}", request.ShipPhoneNumber);
@@ -355,6 +364,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     contentManager = contentManager.Replace("{{NotSalelPrice}}", totalPrice.ToString("N0"));
                     contentManager = contentManager.Replace("{{TotalSale}}", order.TotalSale?.ToString("N0"));
                     contentManager = contentManager.Replace("{{Total}}", order.TotalAmout.ToString("N0"));
+                    contentManager = contentManager.Replace("{{Deposit}}", order.Deposit.ToString("N0"));
 
                     contentManager = contentManager.Replace("{{Address}}", request.ShipAdress);
                     contentManager = contentManager.Replace("{{PhoneNumber}}", request.ShipPhoneNumber);
@@ -715,6 +725,10 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         if (request.Deposit < maxDeposit)
                         {
                             return new ApiErrorResult<bool>($"Số tiền đặt cọc phải lớn hơn hoặc bằng {maxDeposit}");
+                        }
+                        if (request.Deposit <= 0 || request.Deposit > total)
+                        {
+                            return new ApiErrorResult<bool>($"Số tiền đặt cọc không hợp lệ");
                         }
                         order.RemainAmount = total - (decimal)request.Deposit;
                     }

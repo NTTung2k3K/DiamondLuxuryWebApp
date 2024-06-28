@@ -145,6 +145,31 @@
         }
 
     </style>
+    <style>
+        select {
+            border-radius: 5px;
+            border: 1px solid #e8be6f;
+            padding: 5px;
+            background-color: white; /* Màu nền mặc định của select */
+            text-align: center;
+        }
+
+            select option:checked {
+                background-color: #e8be6f; /* Màu nền xanh khi option được chọn */
+                color: white; /* Màu chữ là trắng khi option được chọn */
+            }
+
+            select option:hover {
+                background-color: #e8be6f !important; /* Màu nền vàng khi hover vào option */
+                color: black; /* Màu chữ là đen khi hover vào option */
+            }
+
+            select:not([multiple]) option:hover {
+                background-color: #e8be6f; /* Màu nền vàng khi hover vào option */
+                color: black; /* Màu chữ là đen khi hover vào option */
+            }
+    </style>
+
 </head>
 
 
