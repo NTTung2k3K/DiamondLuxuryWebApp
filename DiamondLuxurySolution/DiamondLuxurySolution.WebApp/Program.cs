@@ -18,15 +18,14 @@ using Microsoft.EntityFrameworkCore;
 using DiamondLuxurySolution.WebApp.Service.Customer;
 using DiamondLuxurySolution.WebApp.Service.Payment;
 using DiamondLuxurySolution.WebApp.Service.Promotion;
-<<<<<<< HEAD
+
 using DiamondLuxurySolution.WebApp.Service.News;
-=======
+
 using DiamondLuxurySolution.AdminCrewApp.Service.Category;
 using DiamondLuxurySolution.WebApp.Service.Collection;
 
 using DiamondLuxurySolution.WebApp.Service.About;
 using DiamondLuxurySolution.WebApp.Service.Platform;
->>>>>>> fd0405a2d6975eba4001694c29935eeeadd07657
 
 
 var builder = WebApplication.CreateBuilder(args);

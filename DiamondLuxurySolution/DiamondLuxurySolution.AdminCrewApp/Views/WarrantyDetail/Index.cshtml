@@ -42,20 +42,24 @@
 @if (Model != null && Model != null && Model.Items != null && Model.Items.Count > 0)
 {
 
-    <table class="table">
+    <table class="table" id="sort">
         <thead>
             <tr class="text-center">
                 <th>
                     <label>Mã bảo hành</label>
+                    <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
                     <label>Tên</label>
+                    <label onclick="sortTable(1)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
                     <label>Loại</label>
+                    <label onclick="sortTable(2)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
                     <label>Ngày nhận</label>
+                    <label onclick="sortTable(3)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
                     <label>Trạng thái</label>
@@ -157,3 +161,10 @@ else
 {
     <h1>Không có thông tin</h1>
 }
+@section scripts
+{
+    <script src="~/assets/js/Test.js"></script>
+}
+
+
+

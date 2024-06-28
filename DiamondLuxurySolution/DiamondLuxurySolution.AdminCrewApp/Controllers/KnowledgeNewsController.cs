@@ -196,6 +196,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             {
                 if (!ModelState.IsValid)
                 {
+                    var saveIMG = await _knowledgeNewsApiService.GetKnowledgeNewsById(request.KnowledgeNewsId);
+
                     var listKnowledgeNewsCategory = await _knowledgeNewsCategoryApiService.GetAll();
                     ViewBag.ListKnow = listKnowledgeNewsCategory.ResultObj.ToList();
 
@@ -211,6 +213,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         KnowledgeNewsName = request.KnowledgeNewsName,
                         KnowledgeNewCatagoryVm = knoledgeNewsCategory.ResultObj,
                         Writer = writer.ResultObj,
+                        DateCreated = saveIMG.ResultObj.DateCreated,
+                        DateModified=saveIMG.ResultObj.DateModified,
+                        Thumnail= saveIMG.ResultObj.Thumnail,
                     };
                     return View(knowledgeNewsVm);
                 }

@@ -202,11 +202,14 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
             var warrantyDetail = await _context.WarrantyDetails
                 .Include(x => x.Warranty)
                 .ThenInclude(x => x.OrderDetails)
-                .ThenInclude(x => x.Product)
+                .ThenInclude(x => x.Product).ThenInclude(X => X.Frame).ThenInclude(X => X.Material)
                 .Include(x => x.Warranty)
                 .ThenInclude(x => x.OrderDetails)
                 .ThenInclude(x => x.Order)
                 .ThenInclude(x => x.Customer)
+                .Include(x => x.Warranty)
+                .ThenInclude(x => x.OrderDetails)
+                .ThenInclude(x => x.Product).ThenInclude(X =>X.Gem).ThenInclude(X => X.GemPriceList)
                 .FirstOrDefaultAsync(x => x.WarrantyDetailId == WarrantyDetailId);
 
             if (warrantyDetail == null)
@@ -282,16 +285,7 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
                     {
                         CategoryName = product.Category.CategoryName
                     },
-                    FrameVm = new FrameVm
-                    {
-                        NameFrame = product.Frame.FrameName,
-                        Weight = product.Frame.Weight,
-                    },
-                    MaterialVm = new MaterialVm
-                    {
-                        MaterialName = product.Frame.Material.MaterialName,
-                        Color = product.Frame.Material.Color,
-                    },
+                    
                     ListSubGems = product.SubGemDetails.Select(x => new SubGemSupportDTO()
                     {
                         Quantity = x.Quantity,
@@ -319,6 +313,21 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
                     WarrantyName = warrantyDetail.Warranty.WarrantyName
                 }
             };
+            if(product.Frame != null)
+            {
+                warrantyDetailVm.ProductVm.FrameVm = new FrameVm
+                {
+                    NameFrame = product.Frame.FrameName,
+                    Weight = product.Frame.Weight,
+                };
+
+                warrantyDetailVm.ProductVm.FrameVm.MaterialVm = new MaterialVm
+                {
+                    MaterialName = product.Frame.Material.MaterialName,
+                    Color = product.Frame.Material.Color,
+                };
+            }
+
             if (warrantyDetail.ReturnProductDate != null)
             {
                 warrantyDetailVm.ReturnProductDate = warrantyDetail.ReturnProductDate;

@@ -86,7 +86,7 @@ builder.Services.AddTransient<IGemPriceListApiService, GemPriceListApiService>()
 
 builder.Services.AddTransient<IWarrantyApiService, WarrantyApiService>();
 
-builder.Services.AddTransient<IKnowLedgeNewsApiService, KnowledgeNewsApiService>();
+builder.Services.AddTransient<IKnowledgeNewsCategoryApiService, KnowledgeNewsCategoryApiService>();
 builder.Services.AddTransient<IKnowLedgeNewsApiService, KnowledgeNewsApiService>();
 builder.Services.AddTransient<IWarrantyDetailService, WarrantyDetailService>();
 builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));

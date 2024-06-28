@@ -133,6 +133,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         DateCreated = newsVmCall.ResultObj.DateCreated,
                         DateModified = newsVmCall.ResultObj.DateModified,
                         Image = newsVmCall.ResultObj.Image
+                        
                     };
                     return View(newsVm);
                 }

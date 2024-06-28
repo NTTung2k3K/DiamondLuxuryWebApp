@@ -116,7 +116,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-
+                    var saveIMG = await _SlideApiService.GetSlideById(request.SlideId);
                     SlideViewModel slideViewModel = new SlideViewModel()
                     {
                        SlideId = request.SlideId,
@@ -124,6 +124,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                        SlideName = request.SlideName,
                        SlideUrl = request.SlideUrl,
                        Status = request.Status,
+                       SlideImage= saveIMG.ResultObj.SlideImage,
                     };
                     return View(slideViewModel);
                 }

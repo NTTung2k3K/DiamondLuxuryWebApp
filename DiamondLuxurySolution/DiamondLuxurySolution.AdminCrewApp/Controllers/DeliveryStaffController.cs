@@ -288,7 +288,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
                 }
 
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("Index", "DeliveryStaff");
             }
             catch
             {
@@ -358,7 +358,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
                 }
 
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("Index", "DeliveryStaff");
 
             }
             catch
