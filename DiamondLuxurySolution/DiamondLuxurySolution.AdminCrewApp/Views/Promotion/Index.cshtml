@@ -42,6 +42,35 @@
 @if (Model.Items != null && Model.Items.Count > 0)
 {
 
+<<<<<<< HEAD
+    <table class="table" id="sort">
+            <thead>
+                <tr class="text-center">
+                    <th>
+                        <label>Tên khuyến mãi</label>
+                    <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
+                    </th>
+                    <th>
+                        <label>Hình ảnh khuyến mãi</label>
+                    <label onclick="sortTable(1)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
+                    </th>
+                    <th>
+                        <label>Ngày bắt đầu</label>
+                    <label onclick="sortTable(2)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
+                    </th>
+                    <th>
+                        <label>Ngày kết thúc</label>
+                    <label onclick="sortTable(3)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
+                    </th>
+                    <th>
+                        <label>Hiển thị</label>
+                    <label onclick="sortTable(4)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
+                    </th>
+                    <th>Cài đặt</th>
+                </tr>
+            </thead>
+            <tbody>
+=======
     <table class="table">
         <thead>
             <tr class="text-center">
@@ -64,6 +93,7 @@
             </tr>
         </thead>
         <tbody>
+>>>>>>> fd0405a2d6975eba4001694c29935eeeadd07657
             @foreach (var item in Model.Items)
             {
                 <tr class="text-center">
@@ -120,6 +150,10 @@
 else
 {
     <h1>Không có thông tin</h1>
+}
+@section scripts
+{
+    <script src="~/assets/js/Test.js"></script>
 }
 
 

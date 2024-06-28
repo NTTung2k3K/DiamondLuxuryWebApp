@@ -12,6 +12,7 @@ namespace DiamondLuxurySolution.Application.Repository.News
 {
     public interface INewsRepo
     {
+        public Task<ApiResult<List<NewsVm>>> GetAll();
         public Task<ApiResult<bool>> CreateNews(CreateNewsRequest request);
         public Task<ApiResult<bool>> UpdateNews(UpdateNewsRequest request);
         public Task<ApiResult<bool>> DeleteNews(DeleteNewsRequest request);

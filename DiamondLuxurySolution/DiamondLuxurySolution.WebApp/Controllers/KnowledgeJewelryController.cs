@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DiamondLuxurySolution.WebApp.Controllers
 {
-    public class KienThucKCController : Controller
+    public class KnowledgeJewelryController : Controller
     {
         private readonly IKnowLedgeNewsApiService _knowledgeNewsApiService;
 
-        public KienThucKCController(IKnowLedgeNewsApiService knowledgeNewsApiService)
+        public KnowledgeJewelryController(IKnowLedgeNewsApiService knowledgeNewsApiService)
         {
             _knowledgeNewsApiService = knowledgeNewsApiService;
         }
