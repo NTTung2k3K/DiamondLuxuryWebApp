@@ -504,7 +504,7 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
             }
 
             var totalRecords = await listWarrantyDetails.CountAsync();
-
+            listWarrantyDetailVm = listWarrantyDetailVm.OrderByDescending(x => x.ReceiveProductDate).ToList();
             var listResult = new PageResult<WarrantyDetailVm>()
             {
                 Items = listWarrantyDetailVm,
