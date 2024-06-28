@@ -3,20 +3,8 @@
   "WorkspaceRootPath": "E:\\clone\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5B68F4DF-5997-41AA-85DC-824D51FF679F}|DiamondLuxurySolution.WebApp\\DiamondLuxurySolution.WebApp.csproj|e:\\clone\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.webapp\\views\\shared\\components\\promotioninnews\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{5B68F4DF-5997-41AA-85DC-824D51FF679F}|DiamondLuxurySolution.WebApp\\DiamondLuxurySolution.WebApp.csproj|solutionrelative:diamondluxurysolution.webapp\\views\\shared\\components\\promotioninnews\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{5B68F4DF-5997-41AA-85DC-824D51FF679F}|DiamondLuxurySolution.WebApp\\DiamondLuxurySolution.WebApp.csproj|e:\\clone\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.webapp\\views\\shared\\components\\news\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{5B68F4DF-5997-41AA-85DC-824D51FF679F}|DiamondLuxurySolution.WebApp\\DiamondLuxurySolution.WebApp.csproj|solutionrelative:diamondluxurysolution.webapp\\views\\shared\\components\\news\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5B68F4DF-5997-41AA-85DC-824D51FF679F}|DiamondLuxurySolution.WebApp\\DiamondLuxurySolution.WebApp.csproj|e:\\clone\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.webapp\\views\\promotion\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{5B68F4DF-5997-41AA-85DC-824D51FF679F}|DiamondLuxurySolution.WebApp\\DiamondLuxurySolution.WebApp.csproj|solutionrelative:diamondluxurysolution.webapp\\views\\promotion\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5B68F4DF-5997-41AA-85DC-824D51FF679F}|DiamondLuxurySolution.WebApp\\DiamondLuxurySolution.WebApp.csproj|e:\\clone\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.webapp\\views\\shared\\components\\promotion\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{5B68F4DF-5997-41AA-85DC-824D51FF679F}|DiamondLuxurySolution.WebApp\\DiamondLuxurySolution.WebApp.csproj|solutionrelative:diamondluxurysolution.webapp\\views\\shared\\components\\promotion\\default.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,55 +14,17 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Detail.cshtml",
-              "DocumentMoniker": "E:\\clone\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\Views\\Promotion\\Detail.cshtml",
-              "RelativeDocumentMoniker": "DiamondLuxurySolution.WebApp\\Views\\Promotion\\Detail.cshtml",
-              "ToolTip": "E:\\clone\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\Views\\Promotion\\Detail.cshtml",
-              "RelativeToolTip": "DiamondLuxurySolution.WebApp\\Views\\Promotion\\Detail.cshtml",
-              "ViewState": "AQIAACcAAAAAAAAAAAAAACsAAABAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-26T06:46:31.212Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Default.cshtml",
-              "DocumentMoniker": "E:\\clone\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\Views\\Shared\\Components\\Promotion\\Default.cshtml",
-              "RelativeDocumentMoniker": "DiamondLuxurySolution.WebApp\\Views\\Shared\\Components\\Promotion\\Default.cshtml",
-              "ToolTip": "E:\\clone\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\Views\\Shared\\Components\\Promotion\\Default.cshtml",
-              "RelativeToolTip": "DiamondLuxurySolution.WebApp\\Views\\Shared\\Components\\Promotion\\Default.cshtml",
-              "ViewState": "AQIAAI8AAAAAAAAAAAAmwK4AAAAqAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-26T06:41:11.843Z"
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Default.cshtml",
-              "DocumentMoniker": "E:\\clone\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\Views\\Shared\\Components\\PromotionInNews\\Default.cshtml",
-              "RelativeDocumentMoniker": "DiamondLuxurySolution.WebApp\\Views\\Shared\\Components\\PromotionInNews\\Default.cshtml",
-              "ToolTip": "E:\\clone\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\Views\\Shared\\Components\\PromotionInNews\\Default.cshtml",
-              "RelativeToolTip": "DiamondLuxurySolution.WebApp\\Views\\Shared\\Components\\PromotionInNews\\Default.cshtml",
-              "ViewState": "AQIAABsAAAAAAAAAAAAAADUAAAAZAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-06-26T06:40:38.608Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "Default.cshtml",
               "DocumentMoniker": "E:\\clone\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\Views\\Shared\\Components\\News\\Default.cshtml",
               "RelativeDocumentMoniker": "DiamondLuxurySolution.WebApp\\Views\\Shared\\Components\\News\\Default.cshtml",
               "ToolTip": "E:\\clone\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\Views\\Shared\\Components\\News\\Default.cshtml",
               "RelativeToolTip": "DiamondLuxurySolution.WebApp\\Views\\Shared\\Components\\News\\Default.cshtml",
-              "ViewState": "AQIAAKYAAAAAAAAAAAAmwAAAAAAAAAAA",
+              "ViewState": "AQIAAFsAAAAAAAAAAAArwHoAAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-06-26T06:40:13.372Z",
               "EditorCaption": ""
