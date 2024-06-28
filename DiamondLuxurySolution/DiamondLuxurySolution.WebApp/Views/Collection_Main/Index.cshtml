@@ -78,12 +78,10 @@
     .zoom-container {
         position: relative;
         overflow: hidden;
-        width: 100%;
     }
 
     .container-img {
         position: relative;
-        width: 100%;
     }
 
     .hover-img {
@@ -94,8 +92,12 @@
         position: relative;
         z-index: 2;
         transform: scale(1);
+        width: 100%;
     }
 
+        .hover-img a {
+            width: 100%;
+        }
 
     .zoom-container:hover .hover-img {
         transform: scale(.95);
@@ -103,6 +105,7 @@
 
     .hover-img img {
         max-width: 100%;
+        width: 100%;
         height: auto;
         position: relative;
         z-index: 1;
@@ -132,7 +135,7 @@
                         <div class="container-img ">
                             <div class="hover-img">
                                 <a href="/Collection_List/Index?collectionId=@Model[i].CollectionId" target="_self" class="center img-loaded">
-                                    <img src="https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Fashion-Rings-1.jpg" alt="Fine Jewelry Page Fashion Rings 1" srcset="https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Fashion-Rings-1.jpg 700w, https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Fashion-Rings-1-300x300.jpg 300w, https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Fashion-Rings-1-150x150.jpg 150w, https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Fashion-Rings-1-100x100.jpg 100w, https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Fashion-Rings-1-140x140.jpg 140w, https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Fashion-Rings-1-500x500.jpg 500w, https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Fashion-Rings-1-350x350.jpg 350w, https://www.thediamondshop.net/wp-content/uploads/2020/12/Fine-Jewelry-Page-Fashion-Rings-1-600x600.jpg 600w">
+                                    <img style="min-height: 600px; max-height: 600px; max-width: 100%" src="@Model[i].Thumbnail" alt="@Model[i].CollectionName" srcset="@Model[i].Thumbnail 700w, @Model[i].Thumbnail 300w, @Model[i].Thumbnail 150w, @Model[i].Thumbnail 100w, @Model[i].Thumbnail 140w, @Model[i].Thumbnail 500w, @Model[i].Thumbnail 350w, @Model[i].Thumbnail 600w">
                                 </a>
                             </div>
                         </div>
@@ -144,10 +147,10 @@
                         <h6 style="color: #E8BE6F;">
                             <span class="link_wrap">
                                 <a class="link_text" role="button" href="/Collection_List/Index?collectionId=@Model[i].CollectionId">
-                                    <span class="text">Shop Now</span>
+                                    <span class="text">Khám phá ngay</span>
                                     <svg class="next-arrow" aria-hidden="true" width="16px" height="25px" viewBox="0 0 50 80" xml:space="preserve">
                                     <polyline stroke="#ffffff" stroke-width="9" fill="none" stroke-linecap="round" stroke-linejoin="round" points="0, 0 45, 40 0, 80"></polyline>
-                                                                                                                                                    </svg>
+                                                                                                                                                                            </svg>
                                 </a>
                             </span>
                         </h6>
