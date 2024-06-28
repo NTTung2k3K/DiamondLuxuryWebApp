@@ -302,7 +302,7 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
                 listPromotion = listPromotion.Where(x => x.PromotionName.Contains(request.Keyword)).ToList();
 
             }
-            listPromotion = listPromotion.Where(x => x.Status).OrderByDescending(x => x.PromotionName).ToList();
+            listPromotion = listPromotion.Where(x => x.Status).OrderByDescending(x => x.EndDate).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 
@@ -337,7 +337,7 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
                 listPromotion = listPromotion.Where(x => x.PromotionName.Contains(request.Keyword)).ToList();
 
             }
-            listPromotion = listPromotion.OrderByDescending(x => x.PromotionName).ToList();
+            listPromotion = listPromotion.OrderByDescending(x => x.EndDate).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 

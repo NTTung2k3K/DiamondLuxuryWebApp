@@ -121,14 +121,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
+                var image = await _inspectionCertificateApiService.GetInspectionCertificateById(request.InspectionCertificateId);
                 if (!ModelState.IsValid)
                 {
                     InspectionCertificateVm inspectionCertificateVm = new InspectionCertificateVm()
                     {
+                        
                         InspectionCertificateName = request.InspectionCertificateName,
                         DateGrading = request.DateGrading,
                         InspectionCertificateId = request.InspectionCertificateId,
-                        Status = request.Status
+                        Status = request.Status,
+                        Logo = image.ResultObj.Logo,
                     };
                     return View(inspectionCertificateVm);
                 }
@@ -259,7 +262,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     listError.Add(errorResult.Message);
                 }
                 ViewBag.Errors = listError;
-                return View();
+                return View(request);
 
             }
             TempData["SuccessMsg"] = "Create success for Role " + request.InspectionCertificateName;

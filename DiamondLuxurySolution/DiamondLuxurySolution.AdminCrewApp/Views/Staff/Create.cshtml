@@ -166,18 +166,13 @@
                 <input name="Image" type="file" class="form-control" />
             </div>
             <div class="form-group  m-2 row">
-                <div class="col-md-9">
+                <div class="col-md-9 mt-2">
                     <input type="submit" value="Tạo mới" class="btn btn-success" />
                 </div>
-<<<<<<< HEAD
-
-                <div class="col-md-3">
-                    <a class=" btn btn-secondary" asp-action="Admin" asp-controller="Home">Về trang chủ</a>
-=======
                 @{
                     var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
                 }
-                <div class="col-md-6">
+                <div class="col-md-3 mt-2">
                     @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin))
                     {
                         <a class=" btn btn-secondary" asp-action="Admin" asp-controller="Home">Về trang chủ</a>
@@ -186,7 +181,6 @@
                     {
                         <a class=" btn btn-secondary" asp-action="Manager" asp-controller="Home">Về trang chủ</a>
                     }
->>>>>>> 04677ff54f04e042996158f84bd0796af8c56edf
                 </div>
             </div>
         </form>

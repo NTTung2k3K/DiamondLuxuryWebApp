@@ -1393,7 +1393,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                  x.ShipPhoneNumber.Contains(request.Keyword) ||
                  x.OrderId.Equals(request.Keyword)).ToList();
             }
-            listOrder = listOrder.OrderBy(x => x.ShipName).ToList();
+            listOrder = listOrder.OrderBy(x => x.Datemodified).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 

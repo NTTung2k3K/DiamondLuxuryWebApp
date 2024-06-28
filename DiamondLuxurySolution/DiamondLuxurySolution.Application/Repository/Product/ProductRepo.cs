@@ -597,7 +597,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 			}
 
 			var totalRecord = listProduct.Count();
-			listProduct = listProduct.OrderBy(x => x.ProductName).ToList();
+			listProduct = listProduct.OrderByDescending(x => x.DateModified).ToList();
 
 			int pageIndex = request.pageIndex ?? 1;
 			int pageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE;

@@ -10,7 +10,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.InspectionCertificate
 {
     public class UpdateInspectionCertificateRequest
     {
-        public string InspectionCertificateId { get; set; } = null!;
+        public string InspectionCertificateId { get; set; }
 
         [Required(ErrorMessage = "Cần tên của giấy chứng nhận")]
         public string InspectionCertificateName { get; set; }

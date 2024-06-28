@@ -22,13 +22,32 @@ namespace DiamondLuxurySolution.Application.Repository.InspectionCertificate
         public async Task<ApiResult<bool>> CreateInspectionCertificate(CreateInspectionCertificateRequest request)
         {
             List<string> errorList = new List<string>();
+            if (string.IsNullOrWhiteSpace(request.InspectionCertificateId))
+            {
+                errorList.Add("Vui lòng nhập mã giấy chứng nhận");
+            }
+
             if (string.IsNullOrWhiteSpace(request.InspectionCertificateName))
             {
                 errorList.Add("Vui lòng nhập tên giấy chứng nhận");
             }
+            
+
+
+            if (errorList.Any())
+            {
+                return new ApiErrorResult<bool>();
+            }
+
+
+            var inspectionCertificateExist = await _context.InspectionCertificates.FindAsync(request.InspectionCertificateId);
+            if (inspectionCertificateExist != null)
+            {
+                return new ApiErrorResult<bool>("Mã giấy chứng nhận đã tồn tại");
+            }
             var inspectionCertificate = new DiamondLuxurySolution.Data.Entities.InspectionCertificate
             {
-                InspectionCertificateId = await GenerateUniqueInspectionCertificateIdAsync(),
+                InspectionCertificateId = request.InspectionCertificateId.ToUpper(),
                 InspectionCertificateName = request.InspectionCertificateName,
                 DateGrading = DateTime.Now,
                 Status = request.Status,
@@ -37,13 +56,10 @@ namespace DiamondLuxurySolution.Application.Repository.InspectionCertificate
             {
                 string firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Logo);
                 inspectionCertificate.Logo = firebaseUrl;
-            } else
-            {
-                errorList.Add("Vui lòng nhập hình ảnh giấy chứng nhận");
             }
-            if(errorList.Any())
+            else
             {
-                return new ApiErrorResult<bool>();
+                return new ApiErrorResult<bool>("Vui lòng thêm hình");
             }
             _context.InspectionCertificates.Add(inspectionCertificate);
             await _context.SaveChangesAsync();
@@ -100,16 +116,16 @@ namespace DiamondLuxurySolution.Application.Repository.InspectionCertificate
         public async Task<ApiResult<bool>> UpdateInspectionCertificate(UpdateInspectionCertificateRequest request)
         {
             List<string> errorList = new List<string>();
+            if (string.IsNullOrWhiteSpace(request.InspectionCertificateId))
+            {
+                errorList.Add("Vui lòng nhập mã giấy chứng nhận");
+            }
             if (string.IsNullOrWhiteSpace(request.InspectionCertificateName))
             {
                 errorList.Add("Vui lòng nhập tên giấy chứng nhận");
             }
             var inspectionCertificate = await _context.InspectionCertificates.FindAsync(request.InspectionCertificateId);
-            if (inspectionCertificate == null)
-            {
-                return new ApiErrorResult<bool>("Không tìm thấy giấy chứng nhận");
-            }
-            
+
             inspectionCertificate.InspectionCertificateName = request.InspectionCertificateName;
             inspectionCertificate.DateGrading = request.DateGrading;
             inspectionCertificate.Status = request.Status;
@@ -148,7 +164,7 @@ namespace DiamondLuxurySolution.Application.Repository.InspectionCertificate
                 DateGrading = x.DateGrading,
                 Logo = x.Logo,
                 Status = x.Status,
-            }).ToList();
+            }).OrderByDescending(x => x.DateGrading).ToList();
             var listResult = new PageResult<InspectionCertificateVm>()
             {
                 Items = listInspectionCertificateVm,
@@ -180,7 +196,7 @@ namespace DiamondLuxurySolution.Application.Repository.InspectionCertificate
                 DateGrading = x.DateGrading,
                 Logo = x.Logo,
                 Status = x.Status,
-            }).ToList();
+            }).OrderByDescending(x => x.DateGrading).ToList();
             var listResult = new PageResult<InspectionCertificateVm>()
             {
                 Items = listInspectionCertificateVm,

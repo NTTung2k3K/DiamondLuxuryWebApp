@@ -46,7 +46,7 @@
         <thead>
             <tr class="text-center">
                 <th>
-                    <label>Tên giấy chứng nhận 4C</label>
+                    <label>Mã giấy chứng nhận</label>
                     <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
@@ -67,7 +67,7 @@
             @foreach (var item in Model.Items)
             {
                 <tr class="text-center">
-                    <td>@item.InspectionCertificateName</td>
+                    <td>@item.InspectionCertificateId</td>
                     <td>@item.DateGrading</td>
                     @if (string.IsNullOrEmpty(item.Logo))
                     {

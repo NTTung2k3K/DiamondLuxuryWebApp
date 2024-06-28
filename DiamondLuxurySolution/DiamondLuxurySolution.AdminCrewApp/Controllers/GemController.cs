@@ -101,6 +101,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
+                var image = await _gemApiService.GetGemById(request.GemId);
                 if (!ModelState.IsValid)
                 {
 					var listGemPriceList = await _gemPriceListApiService.GetAll();
@@ -138,8 +139,9 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         Fluoresence = request.Fluoresence,
                         Active = request.Active,
                         InspectionCertificateVm = inspectionCertificateVm,
-                        GemPriceListVm = gplVm
-
+                        GemPriceListVm = gplVm,
+                        ProportionImage = image.ResultObj.ProportionImage,
+                        GemImage = image.ResultObj.GemImage,
                     };
                     return View(gemVm);
                 }
