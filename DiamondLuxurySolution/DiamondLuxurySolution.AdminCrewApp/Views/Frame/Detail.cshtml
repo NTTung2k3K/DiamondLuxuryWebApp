@@ -50,7 +50,7 @@
                 Giá vật liệu
             </dt>
             <dd class="col-sm-9">
-                @Html.DisplayFor(model => @Model.MaterialVm.Price)
+                @(Model.MaterialVm.Price != 0 && Model.MaterialVm.Price.HasValue ? Model.MaterialVm.Price.Value.ToString("N0") + "₫" : "Không có giá trị")
             </dd>
             <dt class="col-sm-3 mb-3">
                 Hình vật liệu

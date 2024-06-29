@@ -114,9 +114,9 @@
                        
                         @if (!staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
                         {
-                            @Html.ActionLink("Chỉnh sửa", "Edit", new { GemId = item.GemId }, new { @class = "btn btn-warning" })
-                            @Html.ActionLink("Xem chi tiết", "Detail", new { GemId = item.GemId }, new { @class = "btn btn-info" })
-                            @Html.ActionLink("Xóa", "Delete", new { GemId = item.GemId }, new { @class = "btn btn-danger" })
+                            @Html.ActionLink("Chỉnh sửa", "Edit", new { GemId = item.GemId }, new { @class = "btn btn-warning m-1" })
+                            @Html.ActionLink("Xem chi tiết", "Detail", new { GemId = item.GemId }, new { @class = "btn btn-info m-1" })
+                            @Html.ActionLink("Xóa", "Delete", new { GemId = item.GemId }, new { @class = "btn btn-danger m-1" })
                         }
                         else
                         {

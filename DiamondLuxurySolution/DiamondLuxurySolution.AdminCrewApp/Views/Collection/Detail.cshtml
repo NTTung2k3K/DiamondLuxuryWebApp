@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.js"></script>
 </head>
-<h1>Chi tiết vật liệu</h1>
+<h1>Chi tiết bộ sưu tập</h1>
 @if (ViewBag.Errors != null)
 {
     foreach (var error in ViewBag.Errors)
@@ -143,7 +143,7 @@
             </dd>
         }
     </dl>
-    <div class="row col-md-12">
+    <div class="row col-md-12 mt-4">
         @{
             var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
         }
