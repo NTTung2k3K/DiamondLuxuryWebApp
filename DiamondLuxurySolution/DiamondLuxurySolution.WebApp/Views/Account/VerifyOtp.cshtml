@@ -15,7 +15,7 @@
     }
 </style>
 <div id="recaptcha-container"></div>
-<div class="container height-100 d-flex justify-content-center align-items-center">
+<div class="container d-flex justify-content-center align-items-center" style="margin-bottom: 44px;">
     <div class="position-relative">
         <div class="card p-2 text-center">
             <h6>Xác thực mã OTP</h6>
@@ -140,6 +140,7 @@
             });
     }
     document.addEventListener("DOMContentLoaded", function (event) {
+        $('.otp__field__1').focus();
 
         function OTPInput() {
             const inputs = document.querySelectorAll('#otp > *[id]');

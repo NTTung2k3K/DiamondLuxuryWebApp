@@ -16,6 +16,7 @@ using Firebase.Auth;
 using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 using DiamondLuxurySolution.ViewModel.Models.Order;
 using Microsoft.CodeAnalysis.Options;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace DiamondLuxurySolution.WebApp.Controllers
 {
@@ -107,7 +108,17 @@ namespace DiamondLuxurySolution.WebApp.Controllers
                 return RedirectToAction("Register", "Account");
             }
             TempData["SuccessMessage"] = request.FullName;
-            return RedirectToAction("Login", "Account");
+            // Login 
+
+            var customer = await _accountApiService.GetCustomerByEmail(request.Email);
+
+
+            HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.DEFAULT_PLATFORM);
+            HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_NAME, customer.ResultObj.FullName);
+            HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_ID, customer.ResultObj.CustomerId.ToString());
+
+
+            return RedirectToAction("Index", "Home");
         }
 
         [HttpGet]
@@ -343,7 +354,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
             }
             HttpContext.Session.SetString("Code", status.ResultObj.ToString());
             HttpContext.Session.SetString("Username", Email.ToString());
-
+            HttpContext.Session.SetString("EmailUserSendCode", Email.ToString());
             return RedirectToAction("VerifyCode", "Account");
         }
         [HttpGet]
@@ -351,7 +362,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
 
         public async Task<IActionResult> VerifyCode()
         {
-
+            
             return View();
         }
         [HttpPost]
@@ -361,6 +372,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
         {
             if (HttpContext.Session.GetString("Code").ToString().Equals(code.ToString()))
             {
+                HttpContext.Session.Remove("EmailUserSendCode");
                 HttpContext.Session.Remove("Code");
                 return RedirectToAction("ChangePassword", "Account");
             }
@@ -402,6 +414,8 @@ namespace DiamondLuxurySolution.WebApp.Controllers
                 return View();
 
             }
+            //Success
+            TempData["SuccessChangePasswordMessage"] = true;
 
             return RedirectToAction("Login", "Account");
         }
