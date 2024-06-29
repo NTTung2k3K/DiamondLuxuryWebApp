@@ -100,7 +100,7 @@
                     }
                     @if (item.ListProducts.Count() > 0)
                     {
-                        <td class="col-md-4">
+                        <td class="col-md-3">
                             <a class="btn btn-secondary" data-bs-toggle="collapse"
                                href="#multiCollapseExample1-@item.CollectionId" role="button"
                                aria-expanded="false" aria-controls="multiCollapseExample1-@item.CollectionId" style="">
@@ -150,11 +150,11 @@
                             </a>
                         </td>
                     }
-                    <td class="text-center col-md-2">
+                    <td class="text-center col-md-3">
                         @if (!staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
                         {
-                            @Html.ActionLink("Chỉnh sửa", "Edit", new { CollectionId = item.CollectionId }, new { @class = "btn btn-warning" })
-                            @Html.ActionLink("Xem chi tiết", "Detail", new { CollectionId = item.CollectionId }, new { @class = "btn btn-info" })
+                            @Html.ActionLink("Chỉnh sửa", "Edit", new { CollectionId = item.CollectionId }, new { @class = "btn btn-warning m-1" })
+                            @Html.ActionLink("Xem chi tiết", "Detail", new { CollectionId = item.CollectionId }, new { @class = "btn btn-info m-1" })
                             @Html.ActionLink("Xóa", "Delete", new { CollectionId = item.CollectionId }, new { @class = "btn btn-danger" })
                         }
                         else
