@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "rn2/000Kiq+8ekCeogilg8uIq9RKJTxi4o0VLfl2eLo=",
+  "Hash": "K9TyEiGoUn6DmD38W41dtFDmf4ovnqwMVcSO6vQYRU8=",
   "Source": "DiamondLuxurySolution.WebApp",
   "BasePath": "_content/DiamondLuxurySolution.WebApp",
   "Mode": "Default",
@@ -6684,6 +6684,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\mycss\\mycheckbox.css"
+    },
+    {
+      "Identity": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\mycss\\otpCss.css",
+      "SourceId": "DiamondLuxurySolution.WebApp",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\",
+      "BasePath": "_content/DiamondLuxurySolution.WebApp",
+      "RelativePath": "mycss/otpCss.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\mycss\\otpCss.css"
     },
     {
       "Identity": "C:\\Users\\ADMIN\\Documents\\GitHub\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\wwwroot\\scss\\base\\_mixins.scss",

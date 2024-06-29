@@ -3,7 +3,11 @@
     ViewData["Title"] = "Trang Chủ";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<style>
+    body{
+        text-align: left !important;
+    }
+</style>
 @await Component.InvokeAsync("Collection")
 @await Component.InvokeAsync("Home_Category")
 @await Component.InvokeAsync("Home_KimCuong")
@@ -12,3 +16,5 @@
 @await Component.InvokeAsync("Home_NhanCuoi")
 @await Component.InvokeAsync("Home_BongTai")
 @await Component.InvokeAsync("Home_DayChuyen")
+@await Component.InvokeAsync("Home_Promotion")
+@await Component.InvokeAsync("Home_News")

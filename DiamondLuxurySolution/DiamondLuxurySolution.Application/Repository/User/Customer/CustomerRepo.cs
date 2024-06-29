@@ -316,6 +316,80 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
 
             return new ApiSuccessResult<bool>(true, "Success");
         }
+        public async Task<ApiResult<bool>> CheckRegister(RegisterCustomerAccountRequest request)
+        {
+            var userFindByEmail = await _userManager.FindByEmailAsync(request.Email);
+            if (userFindByEmail != null)
+            {
+                return new ApiErrorResult<bool>("Email đã tồn tại");
+            }
+            List<string> errorList = new List<string>();
+            if (!request.Password.Equals(request.ConfirmPassword))
+            {
+                errorList.Add("Password không trùng khớp");
+            }
+
+            if (DiamondLuxurySolution.Utilities.Helper.CheckValidInput.ContainsLetters(request.PhoneNumber))
+            {
+                errorList.Add("Số điện thoại không hợp lệ");
+            }
+
+            #region Check lỗi phoneNumbers
+            if (string.IsNullOrWhiteSpace(request.PhoneNumber))
+            {
+                errorList.Add("Vui lòng nhập số điện thoại");
+            }
+            #endregion End
+
+            if (!DiamondLuxurySolution.Utilities.Helper.CheckValidInput.IsValidEmail(request.Email))
+            {
+                errorList.Add("Email không hợp lệ");
+            }
+            if (errorList.Any())
+            {
+                return new ApiErrorResult<bool>("Không hợp lệ", errorList);
+            }
+            Random rd = new Random();
+            string username = "Cus" + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString() + rd.Next(0, 9).ToString();
+
+            var user = new AppUser()
+            {
+                Fullname = request.FullName.Trim(),
+                Email = request.Email.Trim(),
+                Dob = request.Dob,
+                PhoneNumber = request.PhoneNumber.Trim(),
+                UserName = username,
+                Address = "",
+                Point = 0,
+                DateCreated = DateTime.Now
+            };
+            user.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.New.ToString();
+            var status = await _userManager.CreateAsync(user, request.Password);
+            if (!status.Succeeded)
+            {
+                var errorApi = new ApiErrorResult<bool>("Lỗi đăng kí");
+                errorApi.ValidationErrors = new List<string>();
+                foreach (var item in status.Errors)
+                {
+                    errorApi.ValidationErrors.Add(item.Description);
+                }
+                return errorApi;
+            }
+            
+            var hasError = await _userManager.DeleteAsync(user);
+            if (!hasError.Succeeded)
+            {
+                var errorApi = new ApiErrorResult<bool>("Lỗi Xóa đăng kí");
+                errorApi.ValidationErrors = new List<string>();
+                foreach (var item in status.Errors)
+                {
+                    errorApi.ValidationErrors.Add(item.Description);
+                }
+                return errorApi;
+            }
+
+            return new ApiSuccessResult<bool>(true, "Kiểm tra thành công");
+        }
 
         public async Task<ApiResult<bool>> Register(RegisterCustomerAccountRequest request)
         {
@@ -339,13 +413,6 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
             if (string.IsNullOrWhiteSpace(request.PhoneNumber))
             {
                 errorList.Add("Vui lòng nhập số điện thoại");
-            }
-            else
-            {
-                if (!Regex.IsMatch(request.PhoneNumber, "^(09|03|07|08|05)[0-9]{8,9}$"))
-                {
-                    errorList.Add("Số điện thoại không hợp lệ");
-                }
             }
             #endregion End
 
