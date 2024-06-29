@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-/*    [Route("Catalog/[InspectionCertificate]")]
-*/    
-    
-    
+    /*    [Route("Catalog/[InspectionCertificate]")]
+    */
+
+
     public class InspectionCertificateController : BaseController
     {
         private readonly IInspectionCertificateApiService _inspectionCertificateApiService;
@@ -39,7 +39,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     ViewBag.SuccessMsg = TempData["SuccessMsg"];
                 }
-        
+
                 var inspectionCertificate = await _inspectionCertificateApiService.ViewInspectionCertificateInManager(request);
                 return View(inspectionCertificate.ResultObj);
             }
@@ -70,6 +70,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -78,6 +79,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -103,6 +105,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -111,10 +114,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
-        [Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpPost]
         public async Task<IActionResult> Edit(UpdateInspectionCertificateRequest request)
@@ -123,13 +127,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             {
                 if (!ModelState.IsValid)
                 {
+                    var insp = await _inspectionCertificateApiService.GetInspectionCertificateById(request.InspectionCertificateId);
+
                     InspectionCertificateVm inspectionCertificateVm = new InspectionCertificateVm()
                     {
                         InspectionCertificateName = request.InspectionCertificateName,
                         DateGrading = request.DateGrading,
                         InspectionCertificateId = request.InspectionCertificateId,
-                        Status = request.Status
+                        Status = request.Status,
+                        Logo = insp.ResultObj.Logo,
                     };
+                    TempData["WarningToast"] = true;
                     return View(inspectionCertificateVm);
                 }
                 var status = await _inspectionCertificateApiService.UpdateInspectionCertificate(request);
@@ -147,20 +155,23 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["WarningToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "InspectionCertificate");
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
 
 
-        [Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Delete(string InspectionCertificateId)
@@ -182,6 +193,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -190,6 +202,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -215,26 +228,29 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "InspectionCertificate");
 
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
-        [Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Create()
         {
             return View();
         }
-        [Authorize(Roles =  DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpPost]
         public async Task<IActionResult> Create(CreateInspectionCertificateRequest request)
@@ -258,11 +274,12 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     listError.Add(errorResult.Message);
                 }
+                TempData["WarningToast"] = true;
                 ViewBag.Errors = listError;
                 return View();
 
             }
-            TempData["SuccessMsg"] = "Create success for Role " + request.InspectionCertificateName;
+            TempData["SuccessToast"] = true;
 
             return RedirectToAction("Index", "InspectionCertificate");
         }

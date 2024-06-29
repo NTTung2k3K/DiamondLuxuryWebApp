@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-md-6">
 
-            <form asp-action="Edit" asp-controller="Admin" method="post" enctype="multipart/form-data">
+            <form asp-action="Edit" asp-controller="Manager" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group m-2">
                     <input asp-for="StaffId" class="form-control" type="hidden" />
@@ -240,7 +240,7 @@
                         <input type="submit" value="Lưu" class="btn btn-primary" />
                     </div>
                     <div class="col-md-7">
-                        <a class="m-3" asp-action="Index" asp-controller="Admin">Về trang quản lí</a>
+                        <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="Manager">Về trang quản lí</a>
                     </div>
                 </div>
             </form>
@@ -249,7 +249,7 @@
 }
 else
 {
-    <a class="m-5" asp-action="Index" asp-controller="Admin">Về trang quản lí</a>
+    <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="Manager">Về trang quản lí</a>
 }
 <hr />
 

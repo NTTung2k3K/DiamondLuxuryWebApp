@@ -9,13 +9,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 {
-    [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin+", "+ DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+    [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
     public class NewsController : BaseController
     {
         private readonly INewsApiService _NewsApiService;
         private readonly IStaffApiService _staffApiService;
 
-        public NewsController(INewsApiService NewsApiService,IStaffApiService staffApiService)
+        public NewsController(INewsApiService NewsApiService, IStaffApiService staffApiService)
         {
             _staffApiService = staffApiService;
             _NewsApiService = NewsApiService;
@@ -69,6 +69,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -77,6 +78,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -101,6 +103,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -109,6 +112,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -119,7 +123,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    var writer =  await _staffApiService.GetStaffById(request.WriterId);
+                    var writer = await _staffApiService.GetStaffById(request.WriterId);
                     var newsVmCall = await _NewsApiService.GetNewsById(request.NewsId);
 
                     NewsVm newsVm = new NewsVm()
@@ -134,6 +138,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         DateModified = newsVmCall.ResultObj.DateModified,
                         Image = newsVmCall.ResultObj.Image
                     };
+                    TempData["WarningToast"] = true;
                     return View(newsVm);
                 }
                 var writerId = _NewsApiService.GetNewsById(request.NewsId);
@@ -154,14 +159,16 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         listError.Add(errorResult.Message);
                     }
+                    TempData["WarningToast"] = true;
                     ViewBag.Errors = listError;
                     return View(request);
                 }
-
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "News");
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View(request);
             }
         }
@@ -188,6 +195,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -196,6 +204,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -221,16 +230,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         listError.Add(errorResult.Message);
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
-
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "News");
 
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -245,6 +256,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             if (!ModelState.IsValid)
             {
+                TempData["WarningToast"] = true;
                 return View(request);
             }
             string userIdString = HttpContext.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_ID);
@@ -252,7 +264,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
             Guid.TryParse(userIdString, out userId);
             // Chuyển đổi thành công
-             request.WriterId = userId;
+            request.WriterId = userId;
 
 
             var status = await _NewsApiService.CreateNews(request);
@@ -272,12 +284,13 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     listError.Add(errorResult.Message);
                 }
+                TempData["WarningToast"] = true;
                 ViewBag.Errors = listError;
                 return View();
 
             }
 
-            TempData["SuccessMsg"] = "Tạo mới thành công cho " + request.Title;
+            TempData["SuccessToast"] = true;
 
             return RedirectToAction("Index", "News");
         }

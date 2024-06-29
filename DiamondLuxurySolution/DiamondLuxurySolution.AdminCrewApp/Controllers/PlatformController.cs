@@ -18,8 +18,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             _platformApiService = platfromApiService;
         }
-               
-        
+
+
         [HttpGet]
         public async Task<IActionResult> Index(ViewPlatformRequest request)
         {
@@ -210,7 +210,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             try
             {
 
-              
+
                 var status = await _platformApiService.DeletePlatform(request);
                 if (status is ApiErrorResult<bool> errorResult)
                 {
@@ -244,14 +244,14 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-          
+
             return View();
         }
         [HttpPost]
         public async Task<IActionResult> Create(CreatePlatformRequest request)
         {
 
-          
+
             var status = await _platformApiService.CreatePlatform(request);
 
             if (status is ApiErrorResult<bool> errorResult)

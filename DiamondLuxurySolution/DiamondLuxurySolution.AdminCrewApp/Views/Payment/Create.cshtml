@@ -20,12 +20,12 @@
         <form asp-action="Create" asp-controller="Payment" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="PaymentMethod" class="control-label m-2"></label>
+                <label asp-for="PaymentMethod" class="control-label m-2">Tên Phương Thúc Thanh Toán</label>
                 <input asp-for="PaymentMethod" class="form-control" />
                 <span asp-validation-for="PaymentMethod" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label m-2"></label>
+                <label asp-for="Description" class="control-label m-2">Mô Tả</label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>

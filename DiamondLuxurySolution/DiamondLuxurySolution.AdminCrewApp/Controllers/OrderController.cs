@@ -95,6 +95,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -103,6 +104,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -143,6 +145,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -184,15 +187,16 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     ShipAdress = Order.ResultObj.ShipAdress,
                     ListPaymentId = listPaymentExist,
                 };
-                if(updateVm.Deposit != null)
+                if (updateVm.Deposit != null)
                 {
-                    updateVm.Deposit = (long)updateVm.Deposit;
+                    updateVm.Deposit = (int)updateVm.Deposit;
                 }
 
                 return View(updateVm);
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -270,15 +274,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
                     if (request.Deposit != null)
                     {
-                        request.Deposit = (long)request.Deposit;
+                        request.Deposit = (int)request.Deposit;
                     }
+                    TempData["WarningToast"] = true;
                     return View(request);
                 }
-
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Order");
             }
             catch
             {
+                TempData["WarningToast"] = true;
                 return View(request);
             }
         }
@@ -361,6 +367,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["WarningToast"] = true;
                     ViewBag.Errors = listError;
                     return View(updateVm);
 
@@ -369,6 +376,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["WarningToast"] = true;
                 return View();
             }
         }
@@ -463,14 +471,15 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         ListPaymentId = listPaymentExist,
                     };
 
-
+                    TempData["WarningToast"] = true;
                     return View(updateVm);
                 }
-
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Order");
             }
             catch
             {
+                TempData["WarningToast"] = true;
                 return View(request);
             }
         }
@@ -496,6 +505,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -504,6 +514,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -530,16 +541,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         listError.Add(errorResult.Message);
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
-
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Order");
 
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -583,6 +596,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
             if (!ModelState.IsValid)
             {
+                TempData["WarningToast"] = true;
                 return View(request);
             }
             string userIdString = HttpContext.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_ID);
@@ -620,19 +634,20 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     listError.Add(errorResult.Message);
                 }
+                TempData["WarningToast"] = true;
                 ViewBag.Errors = listError;
                 return View();
 
             }
 
-            TempData["SuccessMsg"] = "Tạo mới thành công cho " + request.PhoneNumber;
+            TempData["SuccessToast"] = true;
 
             return RedirectToAction("Index", "Order");
         }
 
 
 
-        
+
     }
 
 

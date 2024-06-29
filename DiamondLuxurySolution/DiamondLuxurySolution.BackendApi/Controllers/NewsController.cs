@@ -1,5 +1,6 @@
 ﻿using DiamondLuxurySolution.Application.Repository.News;
 using DiamondLuxurySolution.Data.EF;
+using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Models.News;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
@@ -55,6 +56,23 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
             }
         }
 
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var status = await _news.GetAll();
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         [HttpPut("Update")]
         public async Task<ActionResult> UpdateNews([FromForm] UpdateNewsRequest request)
         {

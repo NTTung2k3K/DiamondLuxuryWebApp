@@ -110,10 +110,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     listError.Add(errorResult.Message);
                 }
+                TempData["WarningToast"] = true;
                 ViewBag.Errors = listError;
                 return View();
             }
-            TempData["SuccessMsg"] = "Create success for Role " + request.MaterialName;
+            TempData["SuccessToast"] = true;
             return RedirectToAction("Index", "Material");
 /*            if (listError.Count == 0)
             {
@@ -145,7 +146,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 							listError.Add(error);
 						}
 					}
-					ViewBag.Errors = listError;
+                    TempData["ErrorToast"] = true;
+                    ViewBag.Errors = listError;
 					return View();
 				}
 
@@ -165,7 +167,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 			}
 			catch
 			{
-				return View();
+                TempData["ErrorToast"] = true;
+                return View();
 			}
 		}
 
@@ -176,14 +179,23 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
+                var material = await _materialApiService.GetMaterialById(request.MaterialId);
+
                 if (!ModelState.IsValid)
                 {
                     MaterialVm materialVm = new MaterialVm()
                     {
                         MaterialId = request.MaterialId,
                         Description = request.Description,
-                        Status = request.Status
+                        Status = request.Status,
+                        Color = request.Color,
+                        MaterialName = request.MaterialName,
+                        Price = material.ResultObj.Price,
+                        EffectDate = material.ResultObj.EffectDate,
+                        MaterialImage = material.ResultObj.MaterialImage,
+                        
                     };
+                    TempData["WarningToast"] = true;
                     return View(materialVm);
                 }
                 var status = await _materialApiService.UpdateMaterial(request);
@@ -201,13 +213,16 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         listError.Add(errorResult.Message);
                     }
+                    TempData["WarningToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Material");
             }
             catch
             {
+                TempData["WarningToast"] = true;
                 return View();
             }
         }
@@ -234,6 +249,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -242,6 +258,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -268,6 +285,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -276,6 +294,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -301,14 +320,17 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Material");
 
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }

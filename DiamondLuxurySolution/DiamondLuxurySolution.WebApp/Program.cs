@@ -18,6 +18,9 @@ using Microsoft.EntityFrameworkCore;
 using DiamondLuxurySolution.WebApp.Service.Customer;
 using DiamondLuxurySolution.WebApp.Service.Payment;
 using DiamondLuxurySolution.WebApp.Service.Promotion;
+
+using DiamondLuxurySolution.WebApp.Service.News;
+
 using DiamondLuxurySolution.AdminCrewApp.Service.Category;
 using DiamondLuxurySolution.WebApp.Service.Collection;
 
@@ -54,6 +57,9 @@ builder.Services.AddTransient<ICollectionApiService, CollectionApiService>();
 builder.Services.AddTransient<IProductApiService, ProductApiService>();
 builder.Services.AddTransient<IAboutApiService, AboutApiService>();
 builder.Services.AddTransient<IPlatformApiService, PlatformApiService>();
+
+builder.Services.AddTransient<INewsApiService, NewsApiService>();
+builder.Services.AddTransient<IPromotionApiService, PromotionApiService>();
 
 
 

@@ -70,6 +70,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -78,6 +79,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -108,12 +110,13 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
                 var listRoleName = new List<string>();
-          
+
                 StaffVm staffVm = new StaffVm()
                 {
                     Address = Staff.ResultObj.Address,
@@ -132,6 +135,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -140,6 +144,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
+                var staff = await _staffApiService.GetStaffById(request.StaffId);
+
                 var statuses = Enum.GetValues(typeof(StaffStatus)).Cast<StaffStatus>().ToList();
                 ViewBag.ListStatus = statuses;
 
@@ -167,12 +173,14 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         PhoneNumber = request.PhoneNumber,
                         RoleId = request.RoleId,
                         StaffId = request.StaffId,
-                        Status = request.Status
+                        Status = request.Status,
+                        Image = staff.ResultObj.Image,
                     };
-                    if(listRoleName.Count > 0)
+                    if (listRoleName.Count > 0)
                     {
                         staffVm.ListRoleName = listRoleName;
                     }
+                    TempData["WarningToast"] = true;
                     return View(staffVm);
                 }
 
@@ -212,20 +220,23 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         PhoneNumber = request.PhoneNumber,
                         RoleId = request.RoleId,
                         StaffId = request.StaffId,
-                        Status = request.Status
+                        Status = request.Status,
+                        Image = staff.ResultObj.Image,
                     };
                     if (listRoleName.Count > 0)
                     {
                         staffVm.ListRoleName = listRoleName;
                     }
+                    TempData["WarningToast"] = true;
                     return View(staffVm);
 
                 }
-
-                return RedirectToAction("Index", "Admin");
+                TempData["SuccessToast"] = true;
+                return RedirectToAction("Index", "SaleStaff");
             }
             catch
             {
+                TempData["WarningToast"] = true;
                 return View(request);
             }
         }
@@ -252,6 +263,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -260,6 +272,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -285,16 +298,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         listError.Add(errorResult.Message);
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
-
-                return RedirectToAction("Index", "Admin");
+                TempData["SuccessToast"] = true;
+                return RedirectToAction("Index", "SaleStaff");
 
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }

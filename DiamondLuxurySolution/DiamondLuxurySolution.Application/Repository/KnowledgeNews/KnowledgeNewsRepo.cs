@@ -222,7 +222,7 @@ namespace DiamondLuxurySolution.Application.Repository.KnowledgeNews
                 listKnowledgeNews = listKnowledgeNews.Where(x => x.KnowledgeNewsName.Contains(request.Keyword)).ToList();
 
             }
-            listKnowledgeNews = listKnowledgeNews.OrderByDescending(x => x.KnowledgeNewsName).ToList();
+            listKnowledgeNews = listKnowledgeNews.OrderByDescending(x => x.DateModified).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 

@@ -1,9 +1,8 @@
 ﻿@using DiamondLuxurySolution.Data.Entities
 @using DiamondLuxurySolution.ViewModel.Common
-@using DiamondLuxurySolution.ViewModel.Models.Product
-@using DiamondLuxurySolution.ViewModel.Models.Slide
+@using DiamondLuxurySolution.ViewModel.Models.News
 
-@model List<ProductVm>
+@model List<NewsVm>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -22,24 +21,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap" rel="stylesheet">
     <style>
-
         /*Ten H2*/
         .hightlight-h2 {
             font-family: "Montserrat", sans-serif;
             font-size: 25px;
-            font-weight: 700;
+            font-weight: bold;
             letter-spacing: 2px;
             color: white;
             text-transform: uppercase;
             text-align: center;
             margin: 5px 0px 20px 0px;
         }
-
         /*Owl nav*/
         .owl-nav {
             margin: 0px !important
         }
-
             .owl-nav button.owl-prev,
             .owl-nav button.owl-next {
                 position: absolute;
@@ -54,13 +50,11 @@
                 align-items: center;
                 justify-content: center;
             }
-
                 .owl-nav button.owl-prev:hover,
                 .owl-nav button.owl-next:hover {
                     background-color: darkgoldenrod !important;
                     outline: none;
                 }
-
                 .owl-nav button.owl-prev span,
                 .owl-nav button.owl-next span {
                     font-size: 26px;
@@ -68,7 +62,6 @@
                     text-align: center;
                     display: block;
                 }
-
             .owl-nav button.owl-prev {
                 left: 100px;
             }
@@ -76,171 +69,74 @@
             .owl-nav button.owl-next {
                 right: 100px;
             }
-
-
         /*owl-carousel*/
         .owl-carousel {
             padding: 0px 90px;
         }
-
-            .owl-carousel .product-item {
+            .owl-carousel .news-item {
                 background-color: #343434;
                 border: none;
+                border-radius: 3% !important;
                 text-align: center;
                 border-radius: 4px;
-                height: 400px;
+                height: auto;
             }
-
-        .item-img {
+        .news-img {
             width: 100%;
-            height: 310px;
+            height: 210px;
             overflow: hidden;
-            padding: 10px;
+            border-top-left-radius: 3% !important;
+            border-top-right-radius: 3% !important;
         }
-
-            .item-img img {
+            .news-img img {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
             }
-
-        .product-link {
-            display: block;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .item-content {
+        .news-content {
             transition: transform 0.3s;
         }
-
-            .item-content:hover {
+            .news-content:hover {
                 transform: scale(1.0);
             }
-
-        /*NameProduct*/
-        .NameProduct {
-            margin-bottom: 2px;
-            font-size: 14px;
-            font-family: "Montserrat", cursive;
-            font-optical-sizing: auto;
-            white-space: nowrap;
-            overflow: hidden;
+        .news-text {
+            padding: 30px;
         }
-
-            .NameProduct a {
-                padding: 1px;
-                margin: 0px
-            }
         /*Id Product*/
-        .IdProduct {
-            background: #E8BE6F
+        .newsTitle {
         }
-
-            .IdProduct h8 {
-                color: black;
+            .newsTitle h8 {
+                color: white;
                 font-size: 20px;
                 font-weight: 0;
                 font-family: "Source Code Pro", monospace;
+                white-space: normal;
+                word-wrap: break-word;
+                word-break: break-word;
             }
-        /*price*/
-        .item-price {
-            font-weight: bold;
-            color: #E8BE6F;
-            font-weight: 600;
-            font-size: 18px;
-            margin-top: 6px;
-            font-family: "Jura", monospace;
-            font-weight: bold;
-            display: flex;
-            justify-content: center
-        }
-
-        .symbol-currency span {
-            font-size: 12px;
-            font-family: "Montserrat", cursive;
-            height: 20px
-        }
-
-        .symbol-currency {
-            display: flex;
-            margin: 5px 0px 0px 5px;
-        }
-        /* button */
-        .btn-decord {
-            font-size: 18px;
-            line-height: 1.2;
-            color: #E8BE6F;
-            border: none;
-            text-align: center;
-            font-family: Arial, sans-serif;
-            background-color: #333;
-            border-radius: 8px;
-            padding: 10px 20px;
-            margin-top: 40px;
-            margin-bottom: 80px;
-        }
-
-            .btn-decord:hover {
-                background-color: #555;
-            }
-
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-        }
-
-        .img-slide {
-            width: 100%;
-            height: auto;
-            display: block; /* Đảm bảo rằng không có khoảng trắng dưới hình ảnh */
-        }
     </style>
 </head>
 <body>
 
     @if (Model.Count() > 0 && Model != null)
     {
-
-        var listProduct = Model.Where(p => p.CategoryVm?.CategoryName == "Hoa Tai" && p.IsSale).ToList();
-        var productCount = listProduct.Count;
-        <h2 class="hightlight-h2">Tin Tức</h2>
-        <div class="owl-carousel owl-theme" id="product-carousel">
-            @foreach (var product in listProduct)
+        <h2 class="hightlight-h2">Tin Tức Mới Nhất</h2>
+        var newsHot = Model.OrderByDescending(m => m.DateCreated).Take(6).ToList();
+        <div class="owl-carousel owl-carousel-news owl-theme" id="news-carousel">
+            @foreach (var news in newsHot)
             {
-                <div class="item product-item">
-                    <div class="item-content">
-                        <a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
-                            <div class="item-img">
-                                <img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
+                <div class="news-item">
+                    <div class="news-content">
+                        <a href="/DiamondJewelry/Detail?ProductId=@news.NewName">
+                            <div class="news-img">
+                                <img src="@news.Image" alt="@news.NewName" class="primary-image" />
                             </div>
-                            <div class="item-text">
-                                <p class="NameProduct">
-                                    <a href="">
-                                        @product.ProductName
-                                    </a>
-                                </p>
-                                <div class="IdProduct">
+                            <div class="news-text">
+                                <div class="newsTitle">
                                     <h8>
-                                        @product.ProductId
+                                        @news.Title
+                                        @news.
                                     </h8>
-                                </div>
-                                <div class="item-price">
-                                    @* @product.SellingPrice.ToString("N0")
-                            <div class="symbol-currency">
-                            <span>₫</span>
-                            </div> *@
-                                    <div class="product-price-wrapper">
-                                        <span class="money" style="color: #E8BE6F;">@product.SellingPrice.ToString("N0")₫</span>
-                                        @if (product.OriginalPrice != product.SellingPrice)
-                                        {
-                                            <span class="product-price-old">
-                                                <span class="money">@product.OriginalPrice.ToString("N0")₫</span>
-                                            </span>
-                                        }
-                                    </div>
                                 </div>
                             </div>
                         </a>
@@ -248,14 +144,7 @@
                 </div>
             }
         </div>
-        <div class="btn-container">
-            <a href="/DiamondJewelryEarring/Index" class=" btn-decord" type="button">
-                Xem thêm
-            </a>
-        </div>
     }
-    }
-
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
             integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -267,36 +156,36 @@
     </script>
     <script>
 
-        $('.owl-carousel').owlCarousel({
+        $('.owl-carousel-news').owlCarousel({
             loop: true,
             margin: 20,
             nav: false,
-            dots: false,
-            slideBy: 5,
+            dots: true,
+            slideBy: 3,
             responsive: {
                 0: {
                     items: 1,
                     slideBy: 1
                 },
                 600: {
-                    items: 3,
-                    slideBy: 3
+                    items: 2,
+                    slideBy: 2
                 },
                 1000: {
-                    items: 5,
-                    slideBy: 5
+                    items: 3,
+                    slideBy: 3
                 }
             }
         });
         // Bắt sự kiện khi rê chuột vào sản phẩm
         $(document).ready(function () {
-            var owl = $('#product-carousel');
-            $('.product-item, .owl-next, .owl-prev').mouseenter(function () {
+            var owl = $('#news-carousel');
+            $('.news-item, .owl-next, .owl-prev').mouseenter(function () {
                 owl.trigger('refresh.owl.carousel');
                 $('.owl-nav').removeClass('disabled');
             });
 
-            $('.product-item').mouseleave(function () {
+            $('.news-item').mouseleave(function () {
                 owl.trigger('refresh.owl.carousel');
                 $('.owl-nav').addClass('disabled');
             });

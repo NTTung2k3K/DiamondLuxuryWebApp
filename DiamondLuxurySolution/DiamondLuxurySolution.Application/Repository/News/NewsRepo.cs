@@ -4,6 +4,8 @@ using DiamondLuxurySolution.Data.Entities;
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.About;
 using DiamondLuxurySolution.ViewModel.Models.Gem;
+using DiamondLuxurySolution.ViewModel.Models.KnowledgeNews;
+using DiamondLuxurySolution.ViewModel.Models.KnowledgeNewsCategory;
 using DiamondLuxurySolution.ViewModel.Models.News;
 using DiamondLuxurySolution.ViewModel.Models.Slide;
 using DiamondLuxurySolution.ViewModel.Models.User.Staff;
@@ -221,7 +223,7 @@ namespace DiamondLuxurySolution.Application.Repository.News
                 };
                 listNewsVm.Add(newsVm);
             }
-
+            listNewsVm = listNewsVm.OrderByDescending(x => x.DateModified).ToList();
             var listResult = new PageResult<NewsVm>()
             {
                 Items = listNewsVm,
@@ -237,6 +239,54 @@ namespace DiamondLuxurySolution.Application.Repository.News
             var allNews = _context.News.Count();
             var allKnowledgeNews = _context.KnowledgeNews.Count();
             return new ApiSuccessResult<int>(allNews + allKnowledgeNews, "Success");
+        }
+
+
+        //getAlll
+        public async Task<ApiResult<List<NewsVm>>> GetAll()
+        {
+            var listKNewslVm = new List<NewsVm>();
+            var News = await _context.News.ToListAsync();
+            foreach (var x in News)
+            {
+                var user = await _userManager.FindByIdAsync(x.Id.ToString());
+                var writer = new StaffVm()
+                {
+                    StaffId = user.Id,
+                    FullName = user.Fullname,
+                    PhoneNumber = user.PhoneNumber,
+                    Email = user.Email,
+                    Dob = (DateTime)(user.Dob ?? DateTime.MinValue),
+                    Status = user.Status,
+                    CitizenIDCard = user.CitizenIDCard,
+                    Address = user.Address,
+                    Image = user.Image,
+                };
+                var roles = await _userManager.GetRolesAsync(user);
+                if (roles.Count > 0)
+                {
+                    writer.ListRoleName = new List<string>();
+                    foreach (var role in roles)
+                    {
+                        writer.ListRoleName.Add(role);
+                    }
+                }
+
+                var NewsVm = new NewsVm()
+                {
+                   NewName=x.NewName,
+                   Description=x.Description,
+                   DateModified=x.DateModified,
+                   DateCreated=x.DateCreated,
+                   Image=x.Image,
+                   NewsId=x.NewsId,
+                   Status=x.Status,
+                   Title=x.Title,
+                    Writer = writer
+                };
+                listKNewslVm.Add(NewsVm);
+            }
+            return new ApiSuccessResult<List<NewsVm>>(listKNewslVm);
         }
     }
 }

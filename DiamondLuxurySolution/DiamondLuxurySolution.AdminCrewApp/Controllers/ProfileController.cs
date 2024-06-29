@@ -33,6 +33,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             var staff = await _staffApiService.GetStaffById(userId);
             if (staff is ApiErrorResult<StaffVm> errorResult)
             {
+                TempData["ErrorToast"] = true;
                 return View(errorResult);
             }
             return View(staff.ResultObj);
@@ -51,12 +52,14 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 var staff = await _staffApiService.GetStaffById(userId);
                 if (staff is ApiErrorResult<StaffVm> errorResult)
                 {
+                    TempData["WarningToast"] = true;
                     return View(errorResult);
                 }
                 return View(staff.ResultObj);
             }
             catch
             {
+                TempData["WarningToast"] = true;
                 return View();
             }
         }
@@ -88,16 +91,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         listError.Add(errorResult.Message);
                     }
+                    TempData["WarningToast"] = true;
                     ViewBag.Errors = listError;
                     var listRoleName = new List<string>();
                     var staff = await _staffApiService.GetStaffById(request.StaffId);
                     return View(staff.ResultObj);
                 }
-
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Detail", "Profile");
             }
             catch
             {
+                TempData["WarningToast"] = true;
                 return View(request);
             }
         }

@@ -139,7 +139,7 @@ namespace DiamondLuxurySolution.Application.Repository.Warranty
                 listWarranty = listWarranty.Where(x => x.WarrantyName.Contains(request.Keyword)).ToList();
 
             }
-            listWarranty = listWarranty.Where(x => x.Status).OrderByDescending(x => x.WarrantyName).ToList();
+            listWarranty = listWarranty.Where(x => x.Status).OrderByDescending(x => x.DateExpired).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 
@@ -172,7 +172,7 @@ namespace DiamondLuxurySolution.Application.Repository.Warranty
                 listWarranty = listWarranty.Where(x => x.WarrantyName.Contains(request.Keyword)).ToList();
 
             }
-            listWarranty = listWarranty.OrderByDescending(x => x.WarrantyName).ToList();
+            listWarranty = listWarranty.OrderByDescending(x => x.DateExpired).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 

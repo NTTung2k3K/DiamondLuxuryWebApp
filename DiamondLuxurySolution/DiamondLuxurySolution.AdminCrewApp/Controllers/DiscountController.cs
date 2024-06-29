@@ -69,6 +69,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -77,6 +78,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -102,6 +104,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -110,6 +113,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -132,39 +136,43 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         To = Convert.ToInt32(request.To),
                         Status = request.Status,
                     };
+                    TempData["WarningToast"] = true;
                     return View(discountVm);
                 }
 
                 var status = await _discountApiService.UpdateDiscount(request);
-				if (status is ApiErrorResult<bool> errorResult)
-				{
-					List<string> listError = new List<string>();
+                if (status is ApiErrorResult<bool> errorResult)
+                {
+                    List<string> listError = new List<string>();
 
-					if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-					{
-						foreach (var error in errorResult.ValidationErrors)
-						{
-							listError.Add(error);
-						}
-					}
-					else if (status.Message != null)
-					{
-						listError.Add(errorResult.Message);
-					}
-					ViewBag.Errors = listError;
-					return View();
+                    if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                    {
+                        foreach (var error in errorResult.ValidationErrors)
+                        {
+                            listError.Add(error);
+                        }
+                    }
+                    else if (status.Message != null)
+                    {
+                        listError.Add(errorResult.Message);
+                    }
+                    TempData["WarningToast"] = true;
+                    ViewBag.Errors = listError;
+                    return View();
 
-				}
-				return RedirectToAction("Index", "Discount");
+                }
+                TempData["SuccessToast"] = true;
+                return RedirectToAction("Index", "Discount");
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
 
 
-        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin +", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
+        [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Admin + ", " + DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
         public async Task<IActionResult> Delete(string DiscountId)
@@ -186,6 +194,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -194,6 +203,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -221,15 +231,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "Discount");
 
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -250,25 +263,26 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
             var status = await _discountApiService.CreateDiscount(request);
 
-			if (status is ApiErrorResult<bool> errorResult)
-			{
-				List<string> listError = new List<string>();
+            if (status is ApiErrorResult<bool> errorResult)
+            {
+                List<string> listError = new List<string>();
 
-				if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
-				{
-					foreach (var error in errorResult.ValidationErrors)
-					{
-						listError.Add(error);
-					}
-				}
-				else if (status.Message != null)
-				{
-					listError.Add(errorResult.Message);
-				}
-				ViewBag.Errors = listError;
-				return View();
-			}
-			TempData["SuccessMsg"] = "Tạo thành công mã giảm giá " + request.DiscountName;
+                if (errorResult.ValidationErrors != null && errorResult.ValidationErrors.Count > 0)
+                {
+                    foreach (var error in errorResult.ValidationErrors)
+                    {
+                        listError.Add(error);
+                    }
+                }
+                else if (status.Message != null)
+                {
+                    listError.Add(errorResult.Message);
+                }
+                TempData["WarningToast"] = true;
+                ViewBag.Errors = listError;
+                return View();
+            }
+            TempData["SuccessToast"] = true;
 
             return RedirectToAction("Index", "Discount");
         }

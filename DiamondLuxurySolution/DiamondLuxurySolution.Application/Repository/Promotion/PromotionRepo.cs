@@ -88,8 +88,8 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
                 PromotionId = Guid.NewGuid(),
                 PromotionName = request.PromotionName,
                 Description = request.Description != null ? request.Description : "",
-                StartDate = request.StartDate,
-                EndDate = request.EndDate,
+                StartDate = (DateTime)request.StartDate,
+                EndDate = (DateTime)request.EndDate,
                 DiscountPercent = percentDiscount,
                 MaxDiscount = maxDiscount,
                 Status = request.Status,
@@ -271,8 +271,8 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
 
             promotion.PromotionName = request.PromotionName;
             promotion.Description = request.Description ?? "";
-            promotion.StartDate = request.StartDate;
-            promotion.EndDate = request.EndDate;
+            promotion.StartDate = (DateTime)request.StartDate;
+            promotion.EndDate = (DateTime)request.EndDate;
             promotion.DiscountPercent = percentDiscount;
             promotion.MaxDiscount = maxDiscount;
             promotion.Status = request.Status;
@@ -302,7 +302,7 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
                 listPromotion = listPromotion.Where(x => x.PromotionName.Contains(request.Keyword)).ToList();
 
             }
-            listPromotion = listPromotion.Where(x => x.Status).OrderByDescending(x => x.PromotionName).ToList();
+            listPromotion = listPromotion.Where(x => x.Status).OrderByDescending(x => x.EndDate).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 
@@ -337,7 +337,7 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
                 listPromotion = listPromotion.Where(x => x.PromotionName.Contains(request.Keyword)).ToList();
 
             }
-            listPromotion = listPromotion.OrderByDescending(x => x.PromotionName).ToList();
+            listPromotion = listPromotion.OrderByDescending(x => x.EndDate).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 

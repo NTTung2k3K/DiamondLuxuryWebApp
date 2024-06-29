@@ -75,6 +75,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -83,6 +84,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -108,6 +110,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -116,6 +119,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -141,16 +145,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         listError.Add(errorResult.Message);
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
                 }
-
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "KnowledgeNews");
 
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -178,6 +184,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                             listError.Add(error);
                         }
                     }
+                    TempData["ErrorToast"] = true;
                     ViewBag.Errors = listError;
                     return View();
 
@@ -186,6 +193,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View();
             }
         }
@@ -211,7 +219,11 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                         KnowledgeNewsName = request.KnowledgeNewsName,
                         KnowledgeNewCatagoryVm = knoledgeNewsCategory.ResultObj,
                         Writer = writer.ResultObj,
+                        DateCreated = knowledgeNewsVmCall.ResultObj.DateCreated,
+                        DateModified = knowledgeNewsVmCall.ResultObj.DateModified,
+                        Thumnail = knowledgeNewsVmCall.ResultObj.Thumnail,
                     };
+                    TempData["WarningToast"] = true;
                     return View(knowledgeNewsVm);
                 }
                 var writerId = _knowledgeNewsApiService.GetKnowledgeNewsById(request.KnowledgeNewsId);
@@ -232,16 +244,18 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     {
                         listError.Add(errorResult.Message);
                     }
+                    TempData["WarningToast"] = true;
                     ViewBag.Errors = listError;
                     var listKnowledgeNewsCategory = await _knowledgeNewsCategoryApiService.GetAll();
                     ViewBag.ListKnow = listKnowledgeNewsCategory.ResultObj.ToList();
                     return View(request);
                 }
-
+                TempData["SuccessToast"] = true;
                 return RedirectToAction("Index", "KnowledgeNews");
             }
             catch
             {
+                TempData["ErrorToast"] = true;
                 return View(request);
             }
         }
@@ -263,7 +277,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
             ViewBag.ListKnow = listKnowledgeNewsCategory.ResultObj.ToList();
 
 
-            
+
 
             string userIdString = HttpContext.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_ID);
             Guid userId;
@@ -276,6 +290,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
             if (!ModelState.IsValid)
             {
+                TempData["WarningToast"] = true;
                 return View(request);
             }
 
@@ -296,12 +311,13 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 {
                     listError.Add(errorResult.Message);
                 }
+                TempData["WarningToast"] = true;
                 ViewBag.Errors = listError;
                 return View();
 
             }
 
-            TempData["SuccessMsg"] = "Tạo mới thành công cho " + request.KnowledgeNewsName;
+            TempData["SuccessToast"] = true;
 
             return RedirectToAction("Index", "KnowledgeNews");
         }

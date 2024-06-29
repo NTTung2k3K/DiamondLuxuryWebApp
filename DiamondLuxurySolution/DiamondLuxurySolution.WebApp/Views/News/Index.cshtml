@@ -1,0 +1,12 @@
+﻿@using DiamondLuxurySolution.ViewModel.Models.News
+@{
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+	<!-- Left Section: All News -->
+
+		@await Component.InvokeAsync("News")
+		<!-- Điền vào các tin tức tiêu điểm tại đây -->
+		<!-- Thêm các tin tức tiêu điểm khác nếu cần -->

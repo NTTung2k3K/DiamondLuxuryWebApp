@@ -375,7 +375,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                                               || x.CitizenIDCard.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
-            customers = customers.OrderBy(x => x.Fullname).ToList();
+            customers = customers.OrderByDescending(x => x.DateCreated).ToList();
             int pageIndex = request.pageIndex ?? 1;
             int pageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE;
 
@@ -447,7 +447,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                                               || x.CitizenIDCard.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
-            customers = customers.OrderBy(x => x.Fullname).ToList();
+            customers = customers.OrderByDescending(x => x.DateCreated).ToList();
             int pageIndex = request.pageIndex ?? 1;
             int pageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE;
 
@@ -516,7 +516,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                                               || x.CitizenIDCard.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
-            customers = customers.OrderBy(x => x.Fullname).ToList();
+            customers = customers.OrderByDescending(x => x.DateCreated).ToList();
             int pageIndex = request.pageIndex ?? 1;
             int pageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE;
 
@@ -585,7 +585,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                                               || x.CitizenIDCard.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
-            customers = customers.OrderBy(x => x.Fullname).ToList();
+            customers = customers.OrderByDescending(x => x.DateCreated).ToList();
             int pageIndex = request.pageIndex ?? 1;
             int pageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE;
 
@@ -654,7 +654,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                                               || x.CitizenIDCard.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
-            customers = customers.OrderBy(x => x.Fullname).ToList();
+            customers = customers.OrderByDescending(x => x.DateCreated).ToList();
             int pageIndex = request.pageIndex ?? 1;
             int pageSize = DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PAGE_SIZE;
 
