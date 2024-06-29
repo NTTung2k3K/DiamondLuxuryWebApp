@@ -74,7 +74,10 @@
                 </h1>
                 <p style="margin-top: 0px" class="font-16px">Mua sắm trang sức với giá tiết kiệm hơn</p>
             </div>
-            @foreach (var promotion in Model)
+            @{
+                var promotionHot = Model.OrderByDescending(m => m.StartDate).Take(6).ToList();
+            }
+            @foreach (var promotion in promotionHot)
             {
                 <div class="col-md-6 col-lg-6 col-6 padd-mb">
                     <a href="/Promotion/Detail?id={@promotion.PromotionId}" class="img-promotion">
