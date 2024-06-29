@@ -146,7 +146,23 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
-
+        [HttpPost("CheckRegister")]
+        public async Task<ActionResult> CheckRegister([FromBody] RegisterCustomerAccountRequest request)
+        {
+            try
+            {
+                var status = await _customer.CheckRegister(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         [HttpPut("Update")]
         public async Task<ActionResult> UpdateCustomerAccount([FromBody] UpdateCustomerRequest request)
         {
@@ -181,7 +197,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
-        
+
         [HttpPost("ForgotCustomerPassword/SendCode")]
         public async Task<ActionResult> ForgotpasswordCustomerCode([FromBody] string Email)
         {
@@ -199,6 +215,7 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+
         [HttpPost("ForgotCustomerPassword/ChangePassword")]
         public async Task<ActionResult> ForgotpasswordCustomerChange([FromBody] ForgotPasswordCustomerChangeRequest request)
         {

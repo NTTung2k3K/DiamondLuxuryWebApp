@@ -1,5 +1,12 @@
 ﻿@model DiamondLuxurySolution.ViewModel.Models.User.Customer.RegisterCustomerAccountRequest
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@23.1.0/build/css/intlTelInput.css">
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.1.0/build/js/intlTelInput.min.js"></script>
 
+<link rel="stylesheet" href="~/mycss/otpCss.css">
+<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 @{
     ViewData["Title"] = "Login";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,13 +14,37 @@
 @section StyleCss {
     <link href="../mycss/mycheckbox.css" rel="stylesheet" />
 }
+<style>
+    .iti {
+        width: 100%;
+        color: black !important
+    }
 
+    .iti__search-input {
+        box-shadow: 0px 0px 0px 0px !important;
+        width: 100%;
+        border: none !important;
+        border-radius: 3px !important;
+    }
 
+    .iti__dropdown-content {
+        background: white
+    }
+
+    .iti__selected-country:hover {
+        border-radius: 20%;
+        transform: translateY(-1px);
+    }
+
+    .login-register-area  {
+        padding-top: 0px
+    }
+</style>
 <!-- Main Wrapper Start -->
 <div class="main-content-wrapper" style="background-color: black;">
     <div class="login-register-area">
         <div class="login-container">
-            <form class="login-form" asp-action="Register" asp-controller="Account" method="post">
+            <form class="login-form" asp-action="Register" asp-controller="Account" method="post" id="registerForm">
                 <p class="heading">Đăng Ký</p>
                 @if (ViewBag.Errors != null)
                 {
@@ -27,7 +58,8 @@
                     <input required="" asp-for="FullName" placeholder="Họ Và Tên" id="username" type="text" />
                 </div>
                 <div class="input-group">
-                    <input required="" asp-for="PhoneNumber" placeholder="Số Điện Thoại" id="username phone=" type="text" />
+                    <input style="width: 100%" required="" name="PhoneNumber" placeholder="Số Điện Thoại" id="phone" type="tel" />
+                    <div id="recaptcha-container"></div>
                 </div>
                 <div class="input-group">
                     <input required="" asp-for="Email" placeholder="Email" id="username" type="text" />
@@ -46,10 +78,10 @@
                         <input id="acceptPolicyCheckbox" name="dummy" type="checkbox">
                         <span class="checkmark"></span>
                     </label>
-                    Tôi đồng ý với <a href="DieuKhoanSuDung.html" style="color:#f27575">Điều Khoản Và Điều Kiện</a> của Diamond Luxury</label>
+                    Tôi đồng ý với <a href="/TermsAndCondition/Index" style="color:#f27575">Điều Khoản Và Điều Kiện</a> của Diamond Luxury</label>
                 </div>
                 <br>
-                <button type="submit" id="registrationForm">Đăng Ký</button>
+                <button type="submit">Đăng Ký</button>
                 <br>
                 <div class="bottom-text">
                     <p>Đã Có Tài Khoản? <a href="/Account/Login">Đăng Nhập</a></p>
@@ -63,6 +95,17 @@
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
+        //config intl-tel-input framework
+        const input = document.querySelector("#phone");
+        const iti = window.intlTelInput(input, {
+            utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.1.0/build/js/utils.js",
+            initialCountry: "vn"
+        });
+        debugger
+        document.getElementById('registerForm').addEventListener('submit', function (event) {
+            const phoneNumber = iti.getNumber();
+            input.value = phoneNumber;
+        });
         $(document).ready(function () {
             $('.login-form').on('submit', function (event) {
                 if (!$('#acceptPolicyCheckbox').is(':checked')) {
