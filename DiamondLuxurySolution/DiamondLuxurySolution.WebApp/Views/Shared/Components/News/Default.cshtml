@@ -32,7 +32,7 @@
 				position: absolute;
 				right: 13%; /* Canh chỉnh ô màu trắng vào giữa theo chiều ngang */
 				transform: translateX(50%); /* Dịch chuyển ô màu trắng về phía phải */
-				top: 58%; /* Đẩy lên trên 50% của .background-image-container */
+				top: 64%; /* Đẩy lên trên 50% của .background-image-container */
 				transform: translateY(-50%); /* Dịch chuyển lên trên 50% của chính nó */
 				padding: 20px; /* Thêm padding để đỡ méo */
 				display: flex; /* Sử dụng flexbox để căn giữa nội dung */
@@ -140,7 +140,34 @@
 		<div class="single-slider content-v-center"
 			 style="background-image: url(https://file.hstatic.net/1000381168/file/tin_tuc_49c09cc3641e45ec8ef3a99be0693dd0.png); background-size:cover; height:63rem;">
 		</div>
+			@foreach (var news in Model.OrderByDescending(n => n.DateCreated).Take(1))
+			{
+				if (news.Status)
+				{
 
+
+					<div class="container">
+						<div class="row">
+							<div class="whiteBox">
+								<div class="content-container">
+									<h2 class="tintuc">Tin Tức</h2>
+									<h1 style="display: flex; align-items: flex-start; word-break: break-all;">
+										<img href="/Promotion/Detail?id=@news.NewsId" src="@news.Image" alt="Small Image" width="150" height="150" style="margin-right: 10px;">
+										<span href="/Promotion/Detail?id=@news.NewsId" style="max-width:247px">@Html.Raw(StripHtml(news.NewName, 100))</span>
+									</h1>
+									<h5 style="word-break: break-all;">
+										<p href="/Promotion/Detail?id=@news.NewsId">@Html.Raw(StripHtml(news.Description, 100))</p>
+									</h5>
+
+									<button href="/Promotion/Detail?id=@news.NewsId" class="xemThem" style="margin-left:2rem">Xem Thêm</button>
+								</div>
+
+							</div>
+						</div>
+					</div>
+
+				}
+			}
 
 			<!-- Navigation Menu -->
 			<!-- Main Content Area -->
@@ -163,7 +190,7 @@
 					@if (Model != null && Model.Count() > 0)
 					{
 
-						<div class="col-lg-8" style="display: flex; flex-wrap: wrap; align-items: center; padding: 0px;">
+						<div class="col-lg-8" >
 								@foreach (var news in initialNew)
 								{
 									<div class="newsWidget__item col-md-12" style="display: flex; align-items: center; max-height: 100%; width: 100%; position: relative; margin-top: 40px; padding: 0px; text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.5); padding-bottom:20px">
@@ -234,7 +261,7 @@
 						@if (Model != null && Model.Count() > 0)
 						{
 
-							<div class="col-lg-8" style="display: flex; flex-wrap: wrap; align-items: center; padding: 0px;">
+							<div class="col-lg-8" >
 								@foreach (var news in Model.OrderByDescending(n => n.DateModified).Take(5))
 								{
 									<div class="newsWidget__item col-md-12" style="display: flex; align-items: center; max-height: 100%; width: 100%; position: relative; margin-top: 40px; padding: 0px; text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.5); padding-bottom:20px">
