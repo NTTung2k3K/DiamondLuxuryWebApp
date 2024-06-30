@@ -83,11 +83,12 @@
             transition: all .4s ease;
         }
 </style>
-@if (TempData["SuccessMessage"] != null)
+
+@if (TempData["SuccessChangePasswordMessage"] != null)
 {
-    <div id="overlay">
+    <div id="overlay" class="notichangepassword">
         <div id='card' class="animated fadeIn">
-            <div id='upper-side'>
+            <div id='upper-side' style="border-radius:8px;">
                 <svg version="1.1" id="checkmark" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" xml:space="preserve">
                 <path d="M134.583,92.152l-0.026-0.041
         c-0.713-1.118-2.197-1.447-3.316-0.734l-31.782,20.257l-4.74-12.65c-0.483-1.29-1.882-1.958-3.124-1.493l-0.045,0.017
@@ -97,20 +98,14 @@
         c0.074,0.01,0.147,0.024,0.221,0.027c0.097,0.004,0.194-0.006,0.292-0.014c0.055-0.005,0.109-0.003,0.163-0.012
         c0.323-0.048,0.641-0.16,0.933-0.346l34.305-21.865C134.967,94.755,135.296,93.271,134.583,92.152z" />
                 <circle fill="none" stroke="#ffffff" stroke-width="5" stroke-miterlimit="10" cx="109.486" cy="104.353" r="32.53" />
-                    </svg>
+                        </svg>
                 <h3 style="font-weight: bold" id='status'>
-                    Chào mừng <span style="color: e8be6f; font-weight: bold">@TempData["SuccessMessage"]</span> đến <br /> Diamond Luxury
+                    Thanh đổi mật khẩu thành công
                 </h3>
-            </div>
-            <div id='lower-side'>
-                <p id='message'>
-                    Quý Khách Đã Đăng Ký Tài Khoản Thành Công.
-                </p>
-                <button onclick="" id="contBtn">Tiếp Tục</button>
             </div>
         </div>
     </div>
-}
+    }
 <!-- Main Wrapper Start -->
 <div class="main-content-wrapper" style="background-color: black;">
     <div class="login-register-area">
@@ -164,3 +159,18 @@
         document.getElementById("overlay").style.display = "none";
     };
 </script>
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                var toast = $('.notichangepassword');
+                toast.css('transition', 'opacity 0.6s');
+                toast.css('opacity', '0');
+                setTimeout(function () {
+                    toast.css('display', 'none');
+                }, 1000);
+            }, 2000);
+        });
+    </script>
+}

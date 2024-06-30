@@ -129,6 +129,8 @@ app.UseStatusCodePages(async context =>
     }
 });
 
+
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

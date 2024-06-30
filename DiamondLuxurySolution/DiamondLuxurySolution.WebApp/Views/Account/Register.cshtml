@@ -58,14 +58,14 @@
                     <input required="" asp-for="FullName" placeholder="Họ Và Tên" id="username" type="text" />
                 </div>
                 <div class="input-group">
-                    <input style="width: 100%" required="" name="PhoneNumber" placeholder="Số Điện Thoại" id="phone" type="tel" />
+                    <input style="width: 100%" required="" asp-for="PhoneNumber" placeholder="Số Điện Thoại" id="phone" type="tel" />
                     <div id="recaptcha-container"></div>
                 </div>
                 <div class="input-group">
                     <input required="" asp-for="Email" placeholder="Email" id="username" type="text" />
                 </div>
                 <div class="input-group">
-                    <input required="" asp-for="Dob" placeholder="Ngày Sinh" id="username" type="date" />
+                    <input required="" asp-for="Dob" placeholder="Ngày Sinh" id="username" lang="vi" max="2010-12-31" type="date" />
                 </div>
                 <div class="input-group">
                     <input required="" asp-for="Password" placeholder="Mật Khẩu" name="password" id="password" type="password" />

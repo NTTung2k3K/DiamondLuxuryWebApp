@@ -187,6 +187,12 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
             {
                 return new ApiErrorResult<string>("Email không tồn tại");
             }
+            var logins = await _userManager.GetLoginsAsync(user);
+            if (logins.Count > 0)
+            {
+                return new ApiErrorResult<string>("Email không tồn tại");
+            }
+
             var roles = await _userManager.GetRolesAsync(user);
             foreach (var role in roles)
             {
@@ -303,6 +309,13 @@ namespace DiamondLuxurySolution.Application.Repository.User.Customer
             {
                 return new ApiErrorResult<bool>("Tải khoản hoặc mật khẩu không đúng");
             }
+            var logins = await _userManager.GetLoginsAsync(user);
+            if (logins.Count > 0)
+            {
+                return new ApiErrorResult<bool>("Tài khoản hoặc mật khẩu không đúng");
+            }
+
+
             var role = await _userManager.GetRolesAsync(user);
             if (!role.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString()))
             {
