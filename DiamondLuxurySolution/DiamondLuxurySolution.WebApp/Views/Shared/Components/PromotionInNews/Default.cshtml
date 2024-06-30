@@ -20,35 +20,7 @@
 
 		@if (Model != null && Model.Count() > 0)
 		{
-	@foreach (var promotion in Model.OrderByDescending(n => n.StartDate).Take(1))
-			{
-		if (promotion.Status)
-				{
-
-
-			<div class="container">
-				<div class="row">
-					<div class="whiteBox">
-						<div class="content-container">
-							<h2 class="tintuc">Tin Tức</h2>
-							<h1 style="display: flex; align-items: flex-start; word-break: break-all;">
-								<img href="/Promotion/Detail?id=@promotion.PromotionId" src="@promotion.BannerImage" alt="Small Image" width="150" height="150" style="margin-right: 10px;">
-								<span href="/Promotion/Detail?id=@promotion.PromotionId" style="max-width:247px">@Html.Raw(StripHtml(promotion.PromotionName, 100))</span>
-							</h1>
-							<h5 style="word-break: break-all;">
-								<p href="/Promotion/Detail?id=@promotion.PromotionId">@Html.Raw(StripHtml(promotion.Description, 100))</p>
-							</h5>
-
-							<button href="/Promotion/Detail?id=@promotion.PromotionId" class="xemThem" style="margin-left:2rem">Xem Thêm</button>
-						</div>
-
-					</div>
-				</div>
-			</div>
-
-				}
-			}
-			}
+		}
 <div class="sticky" style="border:1px solid rgba(255, 255, 255, 0.5);padding:20px; margin-right:60px;">
 	<h2 style="background: black;text-align: center;">
 		Chương Trình Khuyến Mãi

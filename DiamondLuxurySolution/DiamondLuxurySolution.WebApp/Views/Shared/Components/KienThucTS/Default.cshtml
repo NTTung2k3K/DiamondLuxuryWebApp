@@ -129,13 +129,6 @@
 								color: white;
 							}
 
-						.col-md-4, .col-sm-6 {
-							display: flex;
-							justify-content: center;
-							align-items: stretch; /* Ensure items stretch vertically */
-							flex-wrap: wrap; /* Enable wrapping for smaller screens */
-							margin-top: 10px;
-						}
 
 						.post {
 							background-color: #1a1a1a;
@@ -168,7 +161,11 @@
 
                     @foreach (var knowledgeNews in initialKnowledgeNew)
                     {
-                        <div class="col-md-4 col-sm-6">
+						<div class="col-md-4 col-sm-6" style="display: flex;
+							justify-content: center;
+							align-items: stretch;
+							flex-wrap: wrap; 
+							margin-top: 10px;">
                             <article class="post listview sticky single-post format-image">
                                 <div class="post-media">
 									<a href="/KnowledgeJewelry/Detail?id=@knowledgeNews.KnowledgeNewsId">
@@ -191,7 +188,11 @@
 
                     @foreach (var knowledgeNews in hiddenKnowledgeNew)
                     {
-                        <div class="col-md-4 col-sm-6 hidden">
+						<div class="col-md-4 col-sm-6 hidden" style="display: flex;
+							justify-content: center;
+							align-items: stretch;
+							flex-wrap: wrap;
+							margin-top: 10px;">
                             <article class="post listview sticky single-post format-image">
                                 <div class="post-media">
 									<a href="/KnowledgeJewelry/Detail?id=@knowledgeNews.KnowledgeNewsId">
