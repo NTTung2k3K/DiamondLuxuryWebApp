@@ -84,6 +84,7 @@ builder.Services.AddTransient<IWarrantyDetailRepo, WarrantyDetailRepo>();
 builder.Services.AddScoped<IDiscountInitializer, DiscountInitializer>();
 builder.Services.AddScoped<DiamondLuxurySolution.Application.Repository.About.IAboutInitialize, AboutInitialize>();
 builder.Services.AddScoped<IPlatformInitialize, DiamondLuxurySolution.Application.Repository.Platform.PlatformInitialize>();
+builder.Services.AddScoped<IKnowledgeNewsCategoryinitializer, KnowledgeNewsCategoryinitializer>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -175,5 +176,10 @@ using (var scope = app.Services.CreateScope())
 
     var platformInitializer = scope.ServiceProvider.GetRequiredService<IAboutInitialize>();
     platformInitializer.CreateDefaultAbout().Wait();
+
+
+    var knowledgeNewsCategoryinitializer = scope.ServiceProvider.GetRequiredService<IKnowledgeNewsCategoryinitializer>();
+    knowledgeNewsCategoryinitializer.CreateDefaultKnowledgeNewsCategory().Wait();
 }
+
 app.Run();
