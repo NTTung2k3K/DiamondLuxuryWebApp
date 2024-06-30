@@ -49,7 +49,7 @@
         </dl>
     </div>
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
             @{
                 var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
             }
@@ -66,6 +66,6 @@
 else
 {
     <div>
-        <a class="m-5" asp-action="Index" asp-controller="Payment">Về trang quản lí thanh toán</a>
+        <a class="m-5 btn btn-secondary" asp-action="Index" asp-controller="Payment">Về trang quản lí thanh toán</a>
     </div>
 }

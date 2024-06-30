@@ -70,8 +70,14 @@
             </dd>
         </dl>
     </div>
-    @Html.ActionLink("Chỉnh sửa", "Edit", new { ContactId = Model.ContactId }, new { @class = "btn btn-warning" })
-    <a class="m-3 btn btn-secondary" asp-action="Index">Về trang quản lí liên hệ</a>
+    <div class="row">
+        <div class="col-md-2">
+            @Html.ActionLink("Chỉnh sửa", "Edit", new { ContactId = Model.ContactId }, new { @class = "btn btn-warning" })
+        </div>
+        <div class="col-md-10">
+            <a class=" btn btn-secondary" asp-action="Index">Về trang quản lí liên hệ</a>
+        </div>
+    </div>
 }
 
 

@@ -17,7 +17,7 @@
 @if (Model != null)
 {
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-8">
 
             <form asp-action="Edit" asp-controller="KnowledgeNews" method="post" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -99,17 +99,17 @@
                     <input class="form-check-input f-18" type="checkbox" asp-for="Active">
                 </div>
                 <div style="max-width: 960px;">
-                    <div class="form-group m-2 text-center" style="width:1000px;">
-                        <h4 asp-for="Description" class="control-label m-4">Nội dung</h4>
+                    <div class="form-group m-2 text-center" style="width:970px;">
+                        <h4 asp-for="Description" class="control-label m-4 text-center">Nội dung</h4>
                         <textarea asp-for="Description" id="editor"></textarea>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <div class="col-md-5">
+                    <div class="col-md-8 mt-2">
                         <input type="submit" value="Lưu" class="btn btn-primary" />
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-4 mt-2">
                         <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="KnowledgeNews">Về trang quản lí kiến thức tin tức</a>
                     </div>
                 </div>

@@ -114,7 +114,7 @@
         </dl>
     </div>
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
             @Html.ActionLink("Chỉnh sửa", "Edit", new { CustomerId = Model.CustomerId }, new { @class = "btn btn-warning" })
         </div>
         <div class="col-md-6">
@@ -125,6 +125,6 @@
 else
 {
     <div>
-        <a class="m-5" asp-action="Index" asp-controller="Customer">Về trang quản lí khánh hàng</a>
+        <a class="m-5 btn btn-secondary" asp-action="Index" asp-controller="Customer">Về trang quản lí khánh hàng</a>
     </div>
 }
