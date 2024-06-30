@@ -22,10 +22,6 @@ namespace DiamondLuxurySolution.Utilities.Constants
             public const string GOOGLE_PLATFORM = "Google";
             public const string DEFAULT_PLATFORM = "Default";
             public const string PLATFORM = "Platform";
-
-
-
-
         }
 
 
@@ -38,7 +34,14 @@ namespace DiamondLuxurySolution.Utilities.Constants
             public const string Admin = "Quản trị viên";
         }
 
-		public class CategoryNameDefault
+        public class KnowledgeNewsCategoryNameDefault
+        {
+            public const string DiamondKnowledgeNewsCategoryName = "Kiến Thức Kim Cương";
+            public const string JewelryKnowledgeNewsCategoryName = "Kiến Thức Trang Sức";
+        }
+
+
+        public class CategoryNameDefault
 		{
 			public const string Diamond = "Kim Cương";
 			public const string WeddingJewelry = "Trang Sức Cưới";
