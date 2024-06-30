@@ -71,11 +71,14 @@
                 }
             </dd>
         </dl>
-        <form asp-action="Delete">
+        <form asp-action="Delete" class="row">
             <input type="hidden" name="ContactId" value="@Model.ContactId" />
-            <input type="submit" value="Xóa" class="btn btn-danger" />
-            <a class="m-3 btn btn-secondary" asp-action="Index">Về trang quản lí liên hệ</a>
-
+            <div class="col-md-2">
+                <input type="submit" value="Xóa" class="btn btn-danger" />
+            </div>
+            <div class="col-md-10">
+                <a class="btn btn-secondary" asp-action="Index">Về trang quản lí liên hệ</a>
+            </div>
         </form>
     </div>
 }

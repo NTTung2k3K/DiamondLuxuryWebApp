@@ -65,44 +65,44 @@
 
     <style>
         .InputContainer {
-          height: 40px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background-color: #333333;
-          border-radius: 20px;
-          overflow: hidden;
-          cursor: pointer;
-          padding-left: 15px;
-          box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.075);
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #333333;
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            padding-left: 15px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.075);
         }
 
         .input {
-          width: 200px;
-          height: 100%;
-          border: none;
-          outline: none;
-          font-size: 0.9em;
-          caret-color: rgb(255, 81, 0);
-          background-color: #333333;
-          color:white;
+            width: 200px;
+            height: 100%;
+            border: none;
+            outline: none;
+            font-size: 0.9em;
+            caret-color: rgb(255, 81, 0);
+            background-color: #333333;
+            color: white;
         }
 
         .labelforsearch {
-          cursor: text;
-          padding: 0px 12px;
+            cursor: text;
+            padding: 0px 12px;
         }
 
         .searchIcon {
-          width: 13px;
+            width: 13px;
         }
 
 
-        .searchIcon path {
-          fill: rgb(114, 114, 114);
-        }
+            .searchIcon path {
+                fill: rgb(114, 114, 114);
+            }
 
-        .btn{
+        .btn {
             background-color: #333333;
         }
 
@@ -140,10 +140,10 @@
         .mainmenu__item.menu-item-has-children > ul.sub-menu {
             min-width: 22rem
         }
-        .header-toolbar{
-            margin-top:25px;
-        }
 
+        .header-toolbar {
+            margin-top: 25px;
+        }
     </style>
     <style>
         select {
@@ -184,8 +184,8 @@
                 <div class="container">
                     <div class="row no-gutters align-items-center">
                         <div class="col-lg-4 text-center">
-                           <!-- Platform View Component -->
-                           @await Component.InvokeAsync("Platform")
+                            <!-- Platform View Component -->
+                            @await Component.InvokeAsync("Platform")
                             <!-- End Platform View Component -->
                         </div>
                         <div class="col-lg-4">
@@ -216,7 +216,7 @@
                         }
                         else
                         {
-                            <div class="col-lg-3">
+                            <div class="col-lg-4">
                                 <div class="header-top-nav d-flex justify-content-lg-end justify-content-center">
                                     <div class="user-info header-top-nav__item">
                                         <div class="dropdown header-top__dropdown">
@@ -290,7 +290,7 @@
                                         <input type="text" name="Keyword" class="input" id="input" placeholder="Tìm kiếm...">
 
                                         <button type="submit" class="btn " style="background-color: #E8BE6F !important;">
-                                        <svg viewBox="0 0 512 512" class="searchIcon"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"></path></svg>
+                                            <svg viewBox="0 0 512 512" class="searchIcon"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"></path></svg>
                                         </button>
                                     </form>
                                 </div>
@@ -400,9 +400,6 @@
                 </div>
             </div>
         </div>
-
-
-
     @RenderBody()
         <!-- Footer Start -->
         <footer class="footer border-top ptb--40 ptb-md--30" style="background-color: #141414 !important">
@@ -416,7 +413,7 @@
                                 <!-- About View Component -->
                             @await Component.InvokeAsync("About")
 
-                               
+
                                 <!-- End About View Component -->
 
                             </ul>
@@ -450,7 +447,7 @@
                                 <li><a href="/WarrantyPolicy/Index">Chính Sách Bảo Hành</a></li>
                                 <li><a href="/PrivacyPolicy/Index">Chính Sách Bảo Mật</a></li>
                                 <li><a href="/ReturnPolicy/Index">Chính Sách Đổi Trả</a></li>
-                                <li><a href="/TermsAndCondition/Index">Điều Khoản &amp; Điều Kiện</a></li>                               
+                                <li><a href="/TermsAndCondition/Index">Điều Khoản &amp; Điều Kiện</a></li>
                                 <li><a href="/Promotion/Index">Khuyến Mãi</a></li>
                                 <li><a href="/Contact/Create">Liên Hệ</a></li>
                                 <li><a href="/HuongDanDatHang/Index">Hướng Dẫn Mua Hàng </a></li>
@@ -536,8 +533,7 @@
         // Run the function when the page loads
         document.addEventListener('DOMContentLoaded', setActiveMenuItem);
     </script>
-
-
+   
 
     <!-- Google Map -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxvP66_Xk1ts77oL2Z7EpDxhDD_jMg-D0"></script>

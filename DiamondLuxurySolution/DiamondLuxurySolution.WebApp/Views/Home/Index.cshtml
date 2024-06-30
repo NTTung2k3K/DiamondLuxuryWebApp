@@ -1,9 +1,113 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Trang Chủ";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    body {
+        text-align: left !important;
+    }
 
+    #overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 10;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #card {
+        position: relative;
+        width: 320px;
+        text-align: center;
+        font-family: 'Source Sans Pro', sans-serif;
+        z-index: 20;
+    }
+
+    #upper-side {
+        padding: 2em;
+        background-color: #e8be6f;
+        color: #fff;
+        border-top-right-radius: 8px;
+        border-top-left-radius: 8px;
+    }
+
+    #checkmark {
+        font-weight: lighter;
+        fill: #fff;
+        margin: -3.5em auto auto 20px;
+    }
+
+    #status {
+        font-weight: lighter;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 1em;
+        margin-top: -.2em;
+        margin-bottom: 0;
+    }
+
+    #lower-side {
+        padding: 30px 0px 30px 0px;
+        background: #fff;
+        border-bottom-right-radius: 8px;
+        border-bottom-left-radius: 8px;
+    }
+
+    #message {
+        margin-top: -.5em;
+        color: #757575;
+        letter-spacing: 1px;
+    }
+
+    #contBtn {
+        text-decoration: none;
+        background: #e8be6f;
+        color: #fff;
+        padding: .8em 3em;
+        box-shadow: 0px 15px 30px rgba(50, 50, 50, 0.21);
+        border-radius: 25px;
+        transition: all .4s ease;
+        margin-top: 20px
+    }
+
+        #contBtn:hover {
+            box-shadow: 0px 15px 30px rgba(50, 50, 50, 0.41);
+            transition: all .4s ease;
+        }
+
+</style>
+@if (TempData["SuccessMessage"] != null)
+{
+<div id="overlay" class="notichangepassword">
+        <div id='card' class="animated fadeIn">
+            <div id='upper-side'>
+                <svg version="1.1" id="checkmark" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" xml:space="preserve">
+                <path d="M134.583,92.152l-0.026-0.041
+        c-0.713-1.118-2.197-1.447-3.316-0.734l-31.782,20.257l-4.74-12.65c-0.483-1.29-1.882-1.958-3.124-1.493l-0.045,0.017
+        c-1.242,0.465-1.857,1.888-1.374,3.178l5.763,15.382c0.131,0.351,0.334,0.65,0.579,0.898c0.028,0.029,0.06,0.052,0.089,0.08
+        c0.08,0.073,0.159,0.147,0.246,0.209c0.071,0.051,0.147,0.091,0.222,0.133c0.058,0.033,0.115,0.069,0.175,0.097
+        c0.081,0.037,0.165,0.063,0.249,0.091c0.065,0.022,0.128,0.047,0.195,0.063c0.079,0.019,0.159,0.026,0.239,0.037
+        c0.074,0.01,0.147,0.024,0.221,0.027c0.097,0.004,0.194-0.006,0.292-0.014c0.055-0.005,0.109-0.003,0.163-0.012
+        c0.323-0.048,0.641-0.16,0.933-0.346l34.305-21.865C134.967,94.755,135.296,93.271,134.583,92.152z" />
+                <circle fill="none" stroke="#ffffff" stroke-width="5" stroke-miterlimit="10" cx="109.486" cy="104.353" r="32.53" />
+                            </svg>
+                <h3 style="font-weight: bold" id='status'>
+                    Chào mừng <span style="color: e8be6f; font-weight: bold">@TempData["SuccessMessage"]</span> đến <br /> Diamond Luxury
+                </h3>
+            </div>
+            <div id='lower-side'>
+                <p id='message'>
+                    Quý Khách Đã Đăng Ký Tài Khoản Thành Công.
+                </p>
+            </div>
+        </div>
+    </div>
+}
 @await Component.InvokeAsync("Collection")
 @await Component.InvokeAsync("Home_Category")
 @await Component.InvokeAsync("Home_KimCuong")
@@ -12,3 +116,21 @@
 @await Component.InvokeAsync("Home_NhanCuoi")
 @await Component.InvokeAsync("Home_BongTai")
 @await Component.InvokeAsync("Home_DayChuyen")
+@await Component.InvokeAsync("Home_Promotion")
+@await Component.InvokeAsync("Home_News")
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                var toast = $('.notichangepassword');
+                toast.css('transition', 'opacity 0.6s');
+                toast.css('opacity', '0');
+                setTimeout(function () {
+                    toast.css('display', 'none');
+                }, 1000);
+            }, 2000);
+        });
+    </script>
+}

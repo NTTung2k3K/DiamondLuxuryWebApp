@@ -1,4 +1,5 @@
 ﻿using DiamondLuxurySolution.WebApp.Service.Collection;
+using DiamondLuxurySolution.WebApp.Service.Slide;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DiamondLuxurySolution.WebApp.Controllers

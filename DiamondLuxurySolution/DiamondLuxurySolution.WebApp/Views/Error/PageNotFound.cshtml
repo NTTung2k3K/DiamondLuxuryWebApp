@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "PageNotFound";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Main Wrapper Start -->
+<main id="content" class="main-content-wrapper">
+    <div class="error-area pb--100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-7 col-lg-8 text-center">
+                    <div class="error">
+                        <img src="../assets/img/404.png" style="width: 472px;">
+                        <h2>RẤT TIẾC! KHÔNG TÌM THẤY TRANG</h2>
+                        <p>
+                            Xin lỗi nhưng trang bạn đang tìm kiếm không tồn tại hoặc đã bị xóa hoặc đã thay đổi tên hoặc
+                            tạm thời không có.
+                        </p>
+                        <form  class="search-form search-form--3 mb--60" asp-action="Index" asp-controller="Search" method="get">
+                            <input type="text" name="search" id="error_search" placeholder="Tìm kiếm sản phẩm..."
+                                   class="search-form__input">
+                            <button type="submit" class="search-form__submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </form>
+
+                        <a href="javascript:void(0);" onclick="goBack()" class="btn btn-4 btn-style-3">Quay lại</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- Main Wrapper End -->
+@section Scripts{
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+}

@@ -1,0 +1,288 @@
+﻿
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@23.1.0/build/css/intlTelInput.css">
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.1.0/build/js/intlTelInput.min.js"></script>
+
+<link rel="stylesheet" href="~/mycss/otpCss.css">
+<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+    body {
+/*         background: linear-gradient(-135deg, #E8BE6F, #E8BE8A) !important;
+ */    
+    background: black
+    }
+</style>
+<div id="recaptcha-container"></div>
+<div class="container d-flex justify-content-center align-items-center" style="margin-bottom: 44px;">
+    <div class="position-relative">
+        <div class="card p-2 text-center">
+            <h6>Xác thực mã OTP</h6>
+            <div>
+                <span style="color: grey">Mã xác thực đã được gửi đến</span>
+                @{
+                    string phoneNumber = ViewBag.PhoneNumber.ToString();
+                    string formattedPhoneNumber = phoneNumber.Replace("+84", "0");
+                    int length = formattedPhoneNumber.Length;
+                    string maskedNumber;
+                    if (length == 9 || length == 10)
+                    {
+                        maskedNumber = formattedPhoneNumber.Substring(0, length - 6) + "***" + formattedPhoneNumber.Substring(length - 3);
+                    }
+                    else
+                    {
+                        maskedNumber = formattedPhoneNumber; // Handle unexpected phone number lengths gracefully
+                    }
+                }
+                <small style="color: grey">@maskedNumber</small>
+            </div>
+            <h7 style=" margin: 10px 0px; font-weight: bold; font-size: 20px; color: #E8BE6F">Nhập mã OTP: </h7>
+            <div id="otp" class="otp-input-fields inputs d-flex flex-row justify-content-center mt-2">
+                <input type="number" class="otp__digit otp__field__1" maxlength="1">
+                <input type="number" class="otp__digit otp__field__2" maxlength="1">
+                <input type="number" class="otp__digit otp__field__3" maxlength="1">
+                <input type="number" class="otp__digit otp__field__4" maxlength="1">
+                <input type="number" class="otp__digit otp__field__5" maxlength="1">
+                <input type="number" class="otp__digit otp__field__6" maxlength="1">
+            </div>
+            @*            <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+            <input class="m-2 text-center form-control rounded" type="text" id="first" maxlength="1" />
+            <input class="m-2 text-center form-control rounded" type="text" id="second" maxlength="1" />
+            <input class="m-2 text-center form-control rounded" type="text" id="third" maxlength="1" />
+            <input class="m-2 text-center form-control rounded" type="text" id="fourth" maxlength="1" />
+            <input class="m-2 text-center form-control rounded" type="text" id="fifth" maxlength="1" />
+            <input class="m-2 text-center form-control rounded" type="text" id="sixth" maxlength="1" />
+            </div> *@
+            <div class="mt-4">
+                <button onclick="verifyOTP()" class="btn btn-danger px-4 validate">XÁC NHẬN</button>
+            </div>
+        </div>
+        <div class="card-2">
+            <div class="content d-flex justify-content-center align-items-center">
+                <span style="color: grey">Bạn chưa nhận được mã?</span> <a href="/Account/VerifyOtp" class="text-decoration-none ms-3" style="text-decoration: underline !important">Gửi lại mã</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var otp_inputs = document.querySelectorAll(".otp__digit")
+    var mykey = "0123456789".split("")
+    otp_inputs.forEach((_) => {
+        _.addEventListener("keyup", handle_next_input)
+    })
+    function handle_next_input(event) {
+        let current = event.target
+        let index = parseInt(current.classList[1].split("__")[2])
+        current.value = event.key
+
+        if (event.keyCode == 8 && index > 1) {
+            current.previousElementSibling.focus();
+        }
+        if (index < 7 && mykey.indexOf("" + event.key + "") != -1) {
+            current.nextElementSibling.focus();
+        }
+    }
+    debugger
+    const phoneNumber = @Html.Raw(Json.Serialize(ViewBag.PhoneNumber));
+    // Config Firebase
+    debugger
+    var firebaseConfig = {
+        apiKey: "AIzaSyDf-QdQ7AYvJhbKBCjdDv_mDQa1mJEm7p8",
+        authDomain: "diamondluxuryshop-980cd.firebaseapp.com",
+        projectId: "diamondluxuryshop-980cd",
+        storageBucket: "diamondluxuryshop-980cd.appspot.com",
+        messagingSenderId: "412952116679",
+        appId: "1:412952116679:web:265caf4d5b7e2ee049ade2",
+        measurementId: "G-S8KZPBQP5Q"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    // Gui OTP
+    const recaptchaContainer = document.getElementById('recaptcha-container');
+
+    const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+        'size': 'invisible',
+        'callback': function (response) {
+        }
+    });
+
+    firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+        .then(function (confirmationResult) {
+            debugger
+            window.confirmationResult = confirmationResult;
+            alert("Mã xác thực đã gửi. Hãy kiểm tra điện thoại của bạn.");
+        }).catch(function (error) {
+            console.error("Error during signInWithPhoneNumber", error);
+        });
+    // Xác thực OTP
+    function verifyOTP() {
+        debugger
+        const otpInputs = document.querySelectorAll('.otp__digit');
+        let otpCode = '';
+        otpInputs.forEach(input => {
+            otpCode += input.value;
+        });
+        confirmationResult.confirm(otpCode)
+            .then(function (result) {
+
+                // Xác thực thành công
+                alert("Xác thực mã OTP thành công!");
+                var form = $('<form action="/Account/CheckRegister" method="POST"></form>');
+                $('body').append(form);
+                form.submit();
+                // Điều hướng hoặc xử lý logic sau khi xác thực thành công
+            }).catch(function (error) {
+                // Xác thực thất bại
+                console.error("Error while verifying OTP", error);
+                alert("Xác thực mã OTP thất bại. Hãy thử lại.");
+            });
+    }
+    document.addEventListener("DOMContentLoaded", function (event) {
+        $('.otp__field__1').focus();
+
+        function OTPInput() {
+            const inputs = document.querySelectorAll('#otp > *[id]');
+            for (let i = 0; i < inputs.length; i++) {
+                inputs[i].addEventListener('keydown', function (event) {
+                    if (event.key === "Backspace") {
+                        inputs[i].value = '';
+                        if (i !== 0) inputs[i - 1].focus();
+                    }
+                    else {
+                        if (i === inputs.length - 1 && inputs[i].value !== '') { return true; }
+                        else if (event.keyCode > 47 && event.keyCode < 58) {
+                            inputs[i].value = event.key;
+                            if (i !== inputs.length - 1) inputs[i + 1].focus(); event.preventDefault();
+                        }
+                        else if (event.keyCode > 64 && event.keyCode < 91) {
+                            inputs[i].value = String.fromCharCode(event.keyCode);
+                            if (i !== inputs.length - 1) inputs[i + 1].focus(); event.preventDefault();
+                        }
+                    }
+                });
+            }
+        } OTPInput();
+
+
+    });
+</script>
+
+@*
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@23.1.0/build/css/intlTelInput.css">
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@23.1.0/build/js/intlTelInput.min.js"></script>
+
+<link rel="stylesheet" href="~/mycss/otpCss.css">
+<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<div>
+    <input type="tel" id="phone" placeholder="Enter phone number" />
+    <div id="recaptcha-container"></div>
+    <button onclick="sendOTP()">Send OTP</button>
+</div>
+<div class="title">
+    <h3>Xác thực số điện thoại</h3>
+    <p class="info">Quý khách vui lòng nhập mã OTP đã được gửi về số điện thoại</p>
+    <p class="msg">Please enter OTP to verify</p>
+</div>
+
+<div class="otp-input-fields">
+    <input type="number" class="otp__digit otp__field__1" maxlength="1">
+    <input type="number" class="otp__digit otp__field__2" maxlength="1">
+    <input type="number" class="otp__digit otp__field__3" maxlength="1">
+    <input type="number" class="otp__digit otp__field__4" maxlength="1">
+    <input type="number" class="otp__digit otp__field__5" maxlength="1">
+    <input type="number" class="otp__digit otp__field__6" maxlength="1">
+</div>
+<button onclick="verifyOTP()">Xác thực OTP</button>
+<script>
+
+    var otp_inputs = document.querySelectorAll(".otp__digit")
+    var mykey = "0123456789".split("")
+    otp_inputs.forEach((_) => {
+        _.addEventListener("keyup", handle_next_input)
+    })
+    function handle_next_input(event) {
+        let current = event.target
+        let index = parseInt(current.classList[1].split("__")[2])
+        current.value = event.key
+
+        if (event.keyCode == 8 && index > 1) {
+            current.previousElementSibling.focus();
+        }
+        if (index < 7 && mykey.indexOf("" + event.key + "") != -1) {
+            current.nextElementSibling.focus();
+        }
+    }
+
+    //config intl-tel-input framework
+    const input = document.querySelector("#phone");
+    const iti = window.intlTelInput(input, {
+        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@23.1.0/build/js/utils.js",
+        initialCountry: "vn"
+    });
+    // Config Firebase
+    debugger
+    var firebaseConfig = {
+        apiKey: "AIzaSyDf-QdQ7AYvJhbKBCjdDv_mDQa1mJEm7p8",
+        authDomain: "diamondluxuryshop-980cd.firebaseapp.com",
+        projectId: "diamondluxuryshop-980cd",
+        storageBucket: "diamondluxuryshop-980cd.appspot.com",
+        messagingSenderId: "412952116679",
+        appId: "1:412952116679:web:265caf4d5b7e2ee049ade2",
+        measurementId: "G-S8KZPBQP5Q"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    // Gui OTP
+    function sendOTP() {
+        debugger
+        const phoneNumber = iti.getNumber();
+        const recaptchaContainer = document.getElementById('recaptcha-container');
+
+        if (!iti.isValidNumber()) {
+            alert("Invalid phone number format.");
+            return;
+        }
+
+        const appVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+            'size': 'invisible',
+            'callback': function (response) {
+            }
+        });
+
+        firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+            .then(function (confirmationResult) {
+                window.confirmationResult = confirmationResult;
+                alert("OTP sent. Please check your phone.");
+            }).catch(function (error) {
+                console.error("Error during signInWithPhoneNumber", error);
+            });
+    }
+    // Xác thực OTP
+    function verifyOTP() {
+        debugger
+        const otpInputs = document.querySelectorAll('.otp__digit');
+        let otpCode = '';
+        otpInputs.forEach(input => {
+            otpCode += input.value;
+        });
+        confirmationResult.confirm(otpCode)
+            .then(function (result) {
+                // Xác thực thành công
+                alert("OTP verified successfully!");
+                // Điều hướng hoặc xử lý logic sau khi xác thực thành công
+            }).catch(function (error) {
+                // Xác thực thất bại
+                console.error("Error while verifying OTP", error);
+                alert("OTP verification failed. Please try again.");
+            });
+    }
+
+</script>
+
+ *@
