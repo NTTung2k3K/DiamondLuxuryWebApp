@@ -124,7 +124,7 @@ namespace DiamondLuxurySolution.Application.Repository.Platform
             var listPlatform = await _context.Platforms.ToListAsync();
             if (request.Keyword != null)
             {
-                listPlatform = listPlatform.Where(x => x.PlatformName.Contains(request.Keyword)).ToList();
+                listPlatform = listPlatform.Where(x => x.PlatformName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listPlatform = listPlatform.Where(x => x.Status).OrderByDescending(x => x.PlatformName).ToList();
@@ -156,7 +156,7 @@ namespace DiamondLuxurySolution.Application.Repository.Platform
             var listPlatform = await _context.Platforms.ToListAsync();
             if (request.Keyword != null)
             {
-                listPlatform = listPlatform.Where(x => x.PlatformName.Contains(request.Keyword)).ToList();
+                listPlatform = listPlatform.Where(x => x.PlatformName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listPlatform = listPlatform.OrderByDescending(x => x.PlatformName).ToList();

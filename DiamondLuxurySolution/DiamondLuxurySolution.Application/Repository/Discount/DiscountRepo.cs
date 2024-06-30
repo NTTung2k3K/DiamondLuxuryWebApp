@@ -232,7 +232,7 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
             var listDiscount = await _context.Discounts.ToListAsync();
             if (request.Keyword != null)
             {
-                listDiscount = listDiscount.Where(x => x.DiscountName.Contains(request.Keyword)).ToList();
+                listDiscount = listDiscount.Where(x => x.DiscountName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listDiscount = listDiscount.Where(x => x.Status).OrderByDescending(x => x.DiscountName).ToList();
@@ -266,7 +266,7 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
             var listDiscount = await _context.Discounts.ToListAsync();
             if (request.Keyword != null)
             {
-                listDiscount = listDiscount.Where(x => x.DiscountName.Contains(request.Keyword)).ToList();
+                listDiscount = listDiscount.Where(x => x.DiscountName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listDiscount = listDiscount.OrderByDescending(x => x.DiscountName).ToList();

@@ -243,7 +243,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
             var listGem = await _context.Gems.ToListAsync();
             if (request.Keyword != null)
             {
-                listGem = listGem.Where(x => x.GemName.Contains(request.Keyword)).ToList();
+                listGem = listGem.Where(x => x.GemName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listGem = listGem.Where(x => x.Active is true).OrderByDescending(x => x.GemName).ToList();
@@ -310,7 +310,7 @@ namespace DiamondLuxurySolution.Application.Repository.Gem
             var listGem = await _context.Gems.ToListAsync();
             if (request.Keyword != null)
             {
-                listGem = listGem.Where(x => x.GemName.Contains(request.Keyword)).ToList();
+                listGem = listGem.Where(x => x.GemName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listGem = listGem.OrderByDescending(x => x.GemName).ToList();
