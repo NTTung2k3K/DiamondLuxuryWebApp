@@ -586,7 +586,6 @@ function layout_change(layout) {
 }
 window.onload = function () {
     var storedThemeA = localStorage.getItem('themeNow');
-    debugger;
     layout_change(storedThemeA);
 };
 
