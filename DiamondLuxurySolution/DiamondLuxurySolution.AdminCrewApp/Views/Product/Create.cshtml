@@ -462,9 +462,10 @@
                     if (Array.isArray(fullSubgem) && fullSubgem.length > 0) {
                         fullSubgem.forEach(function (subgem) {
                             if (!selectedOptions.includes(subgem.subGemId) || selectedOption === subgem.subGemId) { // Check if the option is already selected or is the current value
+                                var formattedPrice = subgem.subGemPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
                                 var option = $('<option/>');
                                 option.val(subgem.subGemId);
-                                option.text('Tên: ' + subgem.subGemName + ' | Giá: ' + subgem.subGemPrice + ' | Trạng thái: ' + (subgem.Active ? 'Hoạt động' : 'Chưa hoạt động'));
+                                option.text('Tên: ' + subgem.subGemName + ' | Giá: ' + formattedPrice + ' | Trạng thái: ' + (subgem.Active ? 'Hoạt động' : 'Chưa hoạt động'));
                                 option.addClass('optionOfSubGem');
                                 rowSelect.append(option);
                             }

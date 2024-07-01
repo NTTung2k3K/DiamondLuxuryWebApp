@@ -200,8 +200,8 @@ namespace DiamondLuxurySolution.Application.Repository.Contact
             var listContact = await _context.Contacts.ToListAsync();
             if (request.Keyword != null)
             {
-                listContact = listContact.Where(x => x.ContactPhoneUser.Contains(request.Keyword)
-                || x.ContactNameUser.Contains(request.Keyword) || x.IsResponse.ToString().Contains(request.Keyword)).ToList();
+                listContact = listContact.Where(x => x.ContactPhoneUser.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                || x.ContactNameUser.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase) || x.IsResponse.ToString().Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
             }
             listContact = listContact.OrderByDescending(x => x.IsResponse).ThenBy(x => x.ContactNameUser).ToList();
 

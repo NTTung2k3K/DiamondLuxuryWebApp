@@ -175,7 +175,7 @@ namespace DiamondLuxurySolution.Application.Repository.News
             var listNews = _context.News.AsQueryable();
             if (request.Keyword != null)
             {
-                listNews = listNews.Where(x => x.NewName.Contains(request.Keyword) || x.Title.Contains(request.Keyword));
+                listNews = listNews.Where(x => x.NewName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase) || x.Title.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase));
             }
             listNews = listNews.OrderByDescending(x => x.NewName);
 

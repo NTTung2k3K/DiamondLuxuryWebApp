@@ -154,7 +154,7 @@ namespace DiamondLuxurySolution.Application.Repository.SubGem
             var listSubGem = await _context.SubGems.ToListAsync();
             if (!string.IsNullOrEmpty(request.KeyWord))
             {
-                listSubGem = listSubGem.Where(x => x.SubGemName.Contains(request.KeyWord)).ToList();
+                listSubGem = listSubGem.Where(x => x.SubGemName.Contains(request.KeyWord, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listSubGem = listSubGem.Where(x => x.Active == true).OrderByDescending(x => x.SubGemName).ToList();
@@ -187,7 +187,7 @@ namespace DiamondLuxurySolution.Application.Repository.SubGem
             var listSubGem = await _context.SubGems.ToListAsync();
             if (!string.IsNullOrEmpty(request.KeyWord))
             {
-                listSubGem = listSubGem.Where(x => x.SubGemName.Contains(request.KeyWord)).ToList();
+                listSubGem = listSubGem.Where(x => x.SubGemName.Contains(request.KeyWord, StringComparison.OrdinalIgnoreCase)).ToList();
             }
             listSubGem = listSubGem.OrderByDescending(x => x.SubGemName).ToList();
 

@@ -118,7 +118,7 @@ namespace DiamondLuxurySolution.Application.Repository.Slide
             var listSlide = await _context.Slides.ToListAsync();
             if (request.Keyword != null)
             {
-                listSlide = listSlide.Where(x => x.SlideName.Contains(request.Keyword)).ToList();
+                listSlide = listSlide.Where(x => x.SlideName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listSlide = listSlide.OrderByDescending(x => x.SlideName).ToList();
@@ -151,7 +151,7 @@ namespace DiamondLuxurySolution.Application.Repository.Slide
             var listSlide = await _context.Slides.ToListAsync();
             if (request.Keyword != null)
             {
-                listSlide = listSlide.Where(x => x.SlideName.Contains(request.Keyword)).ToList();
+                listSlide = listSlide.Where(x => x.SlideName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listSlide = listSlide.Where(x => x.Status == true).OrderByDescending(x => x.SlideName).ToList();
