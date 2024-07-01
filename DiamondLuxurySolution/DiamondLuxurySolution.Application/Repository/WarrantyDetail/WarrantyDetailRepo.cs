@@ -420,7 +420,7 @@ namespace DiamondLuxurySolution.Application.Repository.WarrantyDetail
 
             if (!string.IsNullOrEmpty(request.Keyword))
             {
-                listWarrantyDetails = listWarrantyDetails.Where(x => x.WarrantyDetailName.Contains(request.Keyword) || x.Warranty.Description.Contains(request.Keyword));
+                listWarrantyDetails = listWarrantyDetails.Where(x => x.WarrantyDetailName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase));
             }
 
             listWarrantyDetails = listWarrantyDetails.OrderByDescending(x => x.WarrantyDetailName);

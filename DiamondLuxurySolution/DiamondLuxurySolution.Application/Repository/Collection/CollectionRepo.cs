@@ -381,7 +381,7 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
             var listCollection = await _context.Collections.ToListAsync();
             if (request.Keyword != null)
             {
-                listCollection = listCollection.Where(x => x.CollectionName.Contains(request.Keyword)).ToList();
+                listCollection = listCollection.Where(x => x.CollectionName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listCollection = listCollection.OrderByDescending(x => x.CollectionName).ToList();

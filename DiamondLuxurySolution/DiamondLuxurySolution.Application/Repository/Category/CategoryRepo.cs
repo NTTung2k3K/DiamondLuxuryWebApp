@@ -125,7 +125,7 @@ namespace DiamondLuxurySolution.Application.Repository.Category
             var listCategory = await _context.Categories.ToListAsync();
             if (request.Keyword != null)
             {
-                listCategory = listCategory.Where(x => x.CategoryName.Contains(request.Keyword)).ToList();
+                listCategory = listCategory.Where(x => x.CategoryName.Contains(request.Keyword,StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listCategory = listCategory.Where(x => x.Status).OrderByDescending(x => x.CategoryName).ToList();
@@ -157,7 +157,7 @@ namespace DiamondLuxurySolution.Application.Repository.Category
             var listCategory = await _context.Categories.ToListAsync();
             if (request.Keyword != null)
             {
-                listCategory = listCategory.Where(x => x.CategoryName.Contains(request.Keyword)).ToList();
+                listCategory = listCategory.Where(x => x.CategoryName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listCategory = listCategory.OrderByDescending(x => x.CategoryName).ToList();

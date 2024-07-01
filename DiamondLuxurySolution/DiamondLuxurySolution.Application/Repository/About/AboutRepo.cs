@@ -123,7 +123,7 @@ namespace DiamondLuxurySolution.Application.Repository.About
             var listAbout = await _context.Abouts.ToListAsync();
             if (request.Keyword != null)
             {
-                listAbout = listAbout.Where(x => x.AboutName.Contains(request.Keyword)).ToList();
+                listAbout = listAbout.Where(x => x.AboutName.Contains(request.Keyword,StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listAbout = listAbout.Where(x => x.Status).OrderByDescending(x => x.AboutName).ToList();
@@ -158,7 +158,7 @@ namespace DiamondLuxurySolution.Application.Repository.About
             var listAbout = await _context.Abouts.ToListAsync();
             if (request.Keyword != null)
             {
-                listAbout = listAbout.Where(x => x.AboutName.Contains(request.Keyword)).ToList();
+                listAbout = listAbout.Where(x => x.AboutName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listAbout = listAbout.OrderByDescending(x => x.AboutName).ToList();

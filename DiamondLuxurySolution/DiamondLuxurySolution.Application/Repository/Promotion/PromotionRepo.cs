@@ -299,7 +299,7 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
             var listPromotion = await _context.Promotions.ToListAsync();
             if (request.Keyword != null)
             {
-                listPromotion = listPromotion.Where(x => x.PromotionName.Contains(request.Keyword)).ToList();
+                listPromotion = listPromotion.Where(x => x.PromotionName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listPromotion = listPromotion.Where(x => x.Status).OrderByDescending(x => x.EndDate).ToList();
@@ -334,7 +334,7 @@ namespace DiamondLuxurySolution.Application.Repository.Promotion
             var listPromotion = await _context.Promotions.ToListAsync();
             if (request.Keyword != null)
             {
-                listPromotion = listPromotion.Where(x => x.PromotionName.Contains(request.Keyword)).ToList();
+                listPromotion = listPromotion.Where(x => x.PromotionName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listPromotion = listPromotion.OrderByDescending(x => x.EndDate).ToList();

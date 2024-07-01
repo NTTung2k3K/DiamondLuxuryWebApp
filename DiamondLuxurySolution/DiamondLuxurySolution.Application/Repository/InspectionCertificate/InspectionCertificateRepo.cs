@@ -148,7 +148,7 @@ namespace DiamondLuxurySolution.Application.Repository.InspectionCertificate
             var listInspectionCertificate = await _context.InspectionCertificates.ToListAsync();
             if (request.Keyword != null)
             {
-                listInspectionCertificate = listInspectionCertificate.Where(x => x.InspectionCertificateName.Contains(request.Keyword)).ToList();
+                listInspectionCertificate = listInspectionCertificate.Where(x => x.InspectionCertificateName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listInspectionCertificate = listInspectionCertificate.Where(x => x.Status).OrderByDescending(x => x.InspectionCertificateName).ToList();
@@ -180,7 +180,7 @@ namespace DiamondLuxurySolution.Application.Repository.InspectionCertificate
             var listInspectionCertificate = await _context.InspectionCertificates.ToListAsync();
             if (request.Keyword != null)
             {
-                listInspectionCertificate = listInspectionCertificate.Where(x => x.InspectionCertificateName.Contains(request.Keyword)).ToList();
+                listInspectionCertificate = listInspectionCertificate.Where(x => x.InspectionCertificateName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listInspectionCertificate = listInspectionCertificate.OrderByDescending(x => x.InspectionCertificateName).ToList();

@@ -1492,10 +1492,10 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             if (request.Keyword != null)
             {
                 listOrder = listOrder.Where(x =>
-                 x.ShipName.Contains(request.Keyword) ||
-                 x.ShipEmail.Contains(request.Keyword) ||
-                 x.ShipPhoneNumber.Contains(request.Keyword) ||
-                 x.OrderId.Equals(request.Keyword)).ToList();
+                 x.ShipName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase) ||
+                 x.ShipEmail.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase) ||
+                 x.ShipPhoneNumber.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase) ||
+                 x.OrderId.Equals(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
             }
             listOrder = listOrder.OrderBy(x => x.Datemodified).ToList();
 

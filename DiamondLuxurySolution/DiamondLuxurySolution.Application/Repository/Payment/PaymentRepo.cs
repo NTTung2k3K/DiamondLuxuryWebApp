@@ -105,7 +105,7 @@ namespace DiamondLuxurySolution.Application.Repository.Payment
             var listPayment = await _context.Payments.ToListAsync();
             if (request.KeyWord != null)
             {
-                listPayment = listPayment.Where(x => x.PaymentMethod.Contains(request.KeyWord)).ToList();
+                listPayment = listPayment.Where(x => x.PaymentMethod.Contains(request.KeyWord, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listPayment = listPayment.OrderByDescending(x => x.PaymentMethod).ToList();
