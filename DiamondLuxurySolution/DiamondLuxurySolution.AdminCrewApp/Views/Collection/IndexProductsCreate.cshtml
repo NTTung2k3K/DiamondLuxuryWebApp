@@ -1,7 +1,7 @@
 ﻿@using DiamondLuxurySolution.ViewModel.Models.Product
 @using DiamondLuxurySolution.Data.Entities
 @using DiamondLuxurySolution.ViewModel.Common
-@model PageResult<ProductVm>
+@model List<ProductVm>
 @{
     ViewData["Title"] = "IndexProductsCreate";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -22,7 +22,7 @@
             <h6 class="text-danger">@error</h6>
         }
     }
-    @if (Model != null && Model.Items != null && Model.Items.Count > 0)
+    @if (Model != null && Model.Count > 0)
     {
         <div class="row">
             <!-- [ basic-table ] start -->
@@ -62,7 +62,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var item in Model.Items)
+                                    @foreach (var item in Model)
                                     {
                                         <tr class="text-center">
                                             <td>

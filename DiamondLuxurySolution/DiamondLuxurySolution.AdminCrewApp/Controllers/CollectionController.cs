@@ -26,12 +26,10 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
         [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
         [HttpGet]
-        public async Task<IActionResult> IndexProductsCreate(ViewProductRequest request)
+        public async Task<IActionResult> IndexProductsCreate()
         {
             try
             {
-
-                ViewBag.txtLastSeachValue = request.Keyword;
                 if (!ModelState.IsValid)
                 {
                     return View();
@@ -45,14 +43,14 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     ViewBag.SuccessMsg = TempData["SuccessMsg"];
                 }
 
-                var Product = await _productApiService.ViewProduct(request);
+                var Product = await _productApiService.GetAllProduct();
                 var listIdSelected = TempData["SaveSelectedIdIndexProductsCreate"] as string;
                 if (!string.IsNullOrEmpty(listIdSelected))
                 {
                     // Chuyển đổi chuỗi thành danh sách các chuỗi
                     var selectedIdsList = listIdSelected.Split(',').ToList();
                     ViewBag.SelectedIdsIndexProductsCreateHold = selectedIdsList;
-                    Product.ResultObj.Items.RemoveAll(p => selectedIdsList.Contains(p.ProductId));
+                    Product.ResultObj.RemoveAll(p => selectedIdsList.Contains(p.ProductId));
                 }
                 return View(Product.ResultObj);
             }
@@ -189,11 +187,10 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         [Authorize(Roles = DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager)]
 
         [HttpGet]
-        public async Task<IActionResult> IndexProductsUpdate(ViewProductRequest request)
+        public async Task<IActionResult> IndexProductsUpdate()
         {
             try
             {
-                ViewBag.txtLastSeachValue = request.Keyword;
                 if (!ModelState.IsValid)
                 {
                     return View();
@@ -207,14 +204,14 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                     ViewBag.SuccessMsg = TempData["SuccessMsg"];
                 }
 
-                var Product = await _productApiService.ViewProduct(request);
+                var Product = await _productApiService.GetAllProduct();
                 var listIdSelected = TempData["SelectedIdsIndexProductsUpdate"] as string;
                 if (!string.IsNullOrEmpty(listIdSelected))
                 {
                     // Chuyển đổi chuỗi thành danh sách các chuỗi
                     var selectedIdsList = listIdSelected.Split(',').ToList();
                     ViewBag.SelectedIdsIndexProductsUpdateHold = selectedIdsList;
-                    Product.ResultObj.Items.RemoveAll(p => selectedIdsList.Contains(p.ProductId));
+                    Product.ResultObj.RemoveAll(p => selectedIdsList.Contains(p.ProductId));
                 }
                 return View(Product.ResultObj);
             }

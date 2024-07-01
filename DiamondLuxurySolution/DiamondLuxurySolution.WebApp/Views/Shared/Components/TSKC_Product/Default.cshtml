@@ -254,8 +254,8 @@
 					<div class="col-12" style="display: flex; flex-wrap: wrap;">
 						@if (Model != null)
 						{
-							var initialProducts = Model.Where(p => p.IsSale && p.CategoryVm.CategoryName != "Kim Cương" && p.CategoryVm.CategoryName != "Trang Sức Cưới").Take(20).ToList();
-							var hiddenProducts = Model.Where(p => p.IsSale && p.CategoryVm.CategoryName != "Kim Cương" && p.CategoryVm.CategoryName != "Trang Sức Cưới").Skip(20).ToList();
+							var initialProducts = Model.Where(p => p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()) && p.CategoryVm.CategoryName != "Kim Cương" && p.CategoryVm.CategoryName != "Trang Sức Cưới").Take(20).ToList();
+							var hiddenProducts = Model.Where(p => p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()) && p.CategoryVm.CategoryName != "Kim Cương" && p.CategoryVm.CategoryName != "Trang Sức Cưới").Skip(20).ToList();
 
 							@foreach (var product in initialProducts)
 							{
