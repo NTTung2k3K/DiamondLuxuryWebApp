@@ -227,8 +227,8 @@
                                 <div class="col-12" style="display: flex; flex-wrap: wrap;">
                                     @if (Model != null)
                                     {
-                                        var initialProducts = Model.ListProducts.Take(20).OrderBy(p => p.ProductName).ToList();
-                                        var hiddenProducts = Model.ListProducts.Skip(20).OrderBy(p => p.ProductName).ToList();
+                                        var initialProducts = Model.ListProducts.Where(p => p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString())).Take(20).OrderBy(p => p.ProductName).ToList();
+                                        var hiddenProducts = Model.ListProducts.Where(p => p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString())).Skip(20).OrderBy(p => p.ProductName).ToList();
                                         @foreach (var product in initialProducts)
                                         {
                                             @if (product.CategoryVm.CategoryName.Equals("Kim Cương"))

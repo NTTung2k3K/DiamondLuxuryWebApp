@@ -249,7 +249,7 @@
 					@if (Model != null)
 					{
 						// Lọc sản phẩm có CategoryName là "Nhẫn"
-						var filteredProducts = Model.Where(p => p.CategoryVm?.CategoryName == "Nhẫn" && p.IsSale).ToList();
+						var filteredProducts = Model.Where(p => p.CategoryVm?.CategoryName == "Nhẫn" && p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString())).ToList();
 
 						// Sản phẩm được hiển thị ban đầu
 						var initialProducts = filteredProducts.Take(20).ToList();
