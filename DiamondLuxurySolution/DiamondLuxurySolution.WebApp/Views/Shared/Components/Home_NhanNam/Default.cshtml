@@ -204,7 +204,7 @@
     @if (Model.Count() > 0 && Model != null)
     {
 
-        var listProduct = Model.Where(p => p.CategoryVm?.CategoryName == "Nhẫn" && p.CategoryVm?.CategoryType == "Nam" && p.IsSale).ToList();
+        var listProduct = Model.Where(p => p.CategoryVm?.CategoryName == "Nhẫn" && p.CategoryVm?.CategoryType == "Nam" && p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()) && p.IsHome).ToList();
         var productCount = listProduct.Count;
         if (listProduct != null && listProduct.Count() > 0)
         {

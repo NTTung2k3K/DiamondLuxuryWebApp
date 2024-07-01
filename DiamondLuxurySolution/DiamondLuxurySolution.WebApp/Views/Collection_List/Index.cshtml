@@ -210,6 +210,7 @@
 													</div>
 												</div>
 
+<<<<<<< HEAD
 												<div class="product-short" style="width: 250px; text-align-last: center; display: flex; align-items: center; justify-content: center;">
 													<select id="priceFilter" class="nice-select">
 														<option value="">Giá</option>
@@ -224,6 +225,58 @@
 											<!-- Shop Toolbar End -->
 										</div>
 									</div>
+=======
+                            <!-- Main Shop wrapper Start -->
+                            @if (Model.ListProducts != null && Model.ListProducts.Count() > 0)
+                            {
+                                <div class="col-12" style="display: flex; flex-wrap: wrap;">
+                                    @if (Model != null)
+                                    {
+                                        var initialProducts = Model.ListProducts.Where(p => p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString())).Take(20).OrderBy(p => p.ProductName).ToList();
+                                        var hiddenProducts = Model.ListProducts.Where(p => p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString())).Skip(20).OrderBy(p => p.ProductName).ToList();
+                                        @foreach (var product in initialProducts)
+                                        {
+                                            @if (product.CategoryVm.CategoryName.Equals("Kim Cương"))
+                                            {
+                                                <div class="item product-item col-3" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
+                                                    <div class="item-content">
+                                                        <a href="/Diamond/Detail?ProductId=@product.ProductId">
+                                                            <div class="item-img">
+                                                                <img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
+                                                                <div style="position: absolute; top: 6%; margin-left: 8px;">
+                                                                    @if (product.IsSale && product.PercentSale != 0)
+                                                                    {
+                                                                        <span class="product-label discount" style="padding: 5px 10px">
+                                                                            -@product.PercentSale%
+                                                                        </span>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                        <div class="item-text">
+                                                            <p class="CategoryProduct" style="margin-bottom: 4px">
+                                                                @product.CategoryVm.CategoryName
+                                                            </p>
+                                                            <div class="IdProduct">
+                                                                <h9>
+                                                                    <a href="/Diamond/Detail?ProductId=@product.ProductId" style="color: black">
+                                                                        @product.ProductName
+                                                                    </a>
+                                                                </h9>
+                                                            </div>
+                                                            <div class="item-price">
+                                                                <div class="product-price-wrapper">
+                                                                    <span class="money" style="color: #E8BE6F;">@product.SellingPrice.ToString("N0")₫</span>
+                                                                    @if (product.OriginalPrice != product.SellingPrice)
+                                                                    {
+                                                                        <span class="product-price-old">
+                                                                            <span class="money">@product.OriginalPrice.ToString("N0")₫</span>
+                                                                        </span>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+>>>>>>> d388c434f61fab16aad56a116f740f5ed67cb142
 
 									<!-- Main Shop wrapper Start -->
 							@if (Model.ListProducts != null && Model.ListProducts.Count() > 0)
