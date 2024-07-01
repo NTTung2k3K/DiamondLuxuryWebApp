@@ -220,7 +220,7 @@
                 }
             }
             <h2 class="hightlight-h2">Nhẫn Nam</h2>
-            <div class="owl-carousel owl-theme" id="product-carousel">
+                    <div class="owl-carousel owl-carousel-nhannam owl-theme" id="product-carousel">
                 @foreach (var product in listProduct)
                 {
                     <div class="item product-item">
@@ -280,7 +280,7 @@
     </script>
     <script>
 
-        $('.owl-carousel').owlCarousel({
+        $('.owl-carousel-nhannam').owlCarousel({
             loop: true,
             margin: 20,
             nav: false,
@@ -288,12 +288,15 @@
             slideBy: 5,
             responsive: {
                 0: {
+                    items: 1,
                     slideBy: 1
                 },
                 600: {
+                    items: 3,
                     slideBy: 3
                 },
                 1000: {
+                    items: 5,
                     slideBy: 5
                 }
             }

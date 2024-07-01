@@ -204,14 +204,14 @@
     @if (Model.Count() > 0 && Model != null)
     {
 
-        var listProduct = Model.Where(p => p.CategoryVm?.CategoryName == "Trang Sức Cưới" && p.CategoryVm?.CategoryType == "Nhẫn Cưới" && p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()) && p.IsHome).ToList();
+        var listProduct = Model.Where(p => p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()) && p.IsSale).ToList();
         var productCount = listProduct.Count;
         if (listProduct != null && listProduct.Count() > 0)
         {
             List<SlideViewModel> listSlide = ViewBag.listSlide as List<SlideViewModel>;
             if (listSlide != null)
             {
-                var slide = listSlide.SingleOrDefault(s => s.SlideName.Equals("Nhẫn Cưới"));
+                var slide = listSlide.SingleOrDefault(s => s.SlideName.Equals("Sản Phẩm Giảm Giá"));
                 if (slide != null)
                 {
                     <div style="min-width: 100%; overflow:hidden">
@@ -219,8 +219,8 @@
                     </div>
                 }
             }
-            <h2 class="hightlight-h2">Nhẫn Cưới</h2>
-            <div class="owl-carousel owl-theme" id="product-carousel">
+                            <h2 class="hightlight-h2">Các Sản Phẩm Đang Giảm Giá Mạnh</h2>
+                    <div class="owl-carousel owl-carousel-productsIsSale owl-theme" id="product-carousel">
                 @foreach (var product in listProduct)
                 {
                     <div class="item product-item">
@@ -280,7 +280,7 @@
     </script>
     <script>
 
-        $('.owl-carousel').owlCarousel({
+        $('.owl-carousel-productsIsSale').owlCarousel({
             loop: true,
             margin: 20,
             nav: false,
