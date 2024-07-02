@@ -105,7 +105,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-5" style="text-align: center;">
+            <div class="col-md-6" style="text-align: center;">
                 @{
                     var products = ViewBag.ProductsVm as List<ProductVm>;
                     if (Model.ListProducts.Count() > 0)
@@ -127,6 +127,9 @@
                                                     </th>
                                                     <th>
                                                         Ảnh đại diện
+                                                    </th>
+                                                    <th>
+                                                        <label>Giá bán</label>
                                                     </th>
                                                     <th>
                                                         <label>Xóa</label>
@@ -154,6 +157,7 @@
                                                                 <img src="@product.ProductThumbnail" style="height:100px; width:100px" />
                                                             </td>
                                                         }
+                                                        <td>@product.SellingPrice.ToString("N0")₫</td>
                                                         <td>
                                                             <input class="form-check-input f-18"
                                                                    type="checkbox" name="selectedIds" value="@product.ProductId"
@@ -249,7 +253,7 @@ else
         /*$(document).ready(function () { }*/
         var table = $('#sort').DataTable({
             "ordering": false,
-            "searching": false,
+            "searching": true,
             "pagingType": "full_numbers",
             "language": {
                 "paginate": {
