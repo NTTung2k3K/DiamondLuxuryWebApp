@@ -1013,9 +1013,15 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 }
                 product.SellingCount += item.Quantity;
             }
+            //Process Payment Status 
+            var listPayment = _context.OrdersPayments.Where(x => x.OrderId == order.OrderId).ToList();
+            foreach (var item in listPayment)
+            {
+                item.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString();
+            }
             //Process customer point
 
-            var point = (int)((order.TotalAmout + order.TotalSale) / 10000);
+            var point = (int)((order.TotalAmout) / 10000);
             var customer = await _userManager.FindByIdAsync(order.CustomerId.ToString());
             customer.Point = (int?)(customer?.Point + point);
 

@@ -324,7 +324,11 @@
                                                 <i class="fa fa-check-circle"></i> Hướng Dẫn Chọn Ni
                                             </p>
                                         </a>
-                                    } 
+                                    }
+                                    else if (Model.CategoryVm.CategoryName.Equals("Hoa Tai"))
+                                    {
+                                        
+                                    }
                                 </div>
 
                                 <div class="product-details-action-wrapper mb--20">
@@ -579,7 +583,11 @@
                 var productImage = button.data("product-image");
                 var quantity = $(".quantity-input").val();
                 var niSize = $("#niSize").val();
-                if (!niSize) {
+
+                var categoryName = "@Model.CategoryVm.CategoryName";
+
+
+                if (!niSize && categoryName!=='Hoa Tai') {
                     alert("Vui lòng chọn ni");
                     return;  // Stop further execution
                 }
@@ -619,7 +627,9 @@
                 var productImage = button.data("product-image");
                 var quantity = $(".quantity-input").val();
                 var niSize = $("#niSize").val();
-                if (!niSize) {
+                var categoryName = "@Model.CategoryVm.CategoryName";
+
+                if (!niSize && categoryName !== 'Hoa Tai') {
                     alert("Vui lòng chọn ni");
                     return;  // Stop further execution
                 }
