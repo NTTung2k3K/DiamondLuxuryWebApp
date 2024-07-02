@@ -98,7 +98,7 @@
                                                 <label>Ảnh đại diện</label>
                                             </th>
                                             <th>
-                                                <label>Sale</label>
+                                                <label>Giá bán</label>
                                                 <label onclick="sortTable(2)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                                             </th>
                                         </tr>
@@ -121,7 +121,7 @@
                                                         <img src="@product.ProductThumbnail" style="height:100px; width:100px" />
                                                     </td>
                                                 }
-                                                <td>@product.SellingPrice<span>%</span></td>
+                                                <td>@product.SellingPrice.ToString("N0")₫</td>
                                             </tr>
                                         }
                                     </tbody>

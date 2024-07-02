@@ -61,7 +61,7 @@
                         <input onclick="clearSessionStorage()" type="submit" value="Tạo mới" class="btn btn-success" />
                     </div>
                     <div class="col-md-4 col-sm-7">
-                        <a class="m-6 btn btn-secondary" asp-action="Index">Về trang quản lí bộ sưu tập</a>
+                        <a onclick="clearSessionStorage()" class="m-6 btn btn-secondary" asp-action="Index">Về trang quản lí bộ sưu tập</a>
                     </div>
                 </div>
             </div>
@@ -118,8 +118,8 @@
                                                                 <img src="@product.ProductThumbnail" style="height:100px; width:100px" />
                                                             </td>
                                                         }
-                                                        <td>@product.SellingPrice<span>%</span></td>
-                                                        <!--<td> 
+                                                        <td>@product.SellingPrice.ToString("N0")₫</td>
+                                                        <!--<td>
                                                             <button type="button" class="btn btn-danger" onclick="deleteRow('row-@index')">Xóa</button>
                                                         </td>
                                                         <td>
@@ -221,7 +221,23 @@
             sessionStorage.setItem('IsHome', IsHome);
             sessionStorage.setItem('priceDisplay', priceDisplay);
         }
-
+        if (sessionStorage.getItem('collectionName') || sessionStorage.getItem('collectionDescription') || sessionStorage.getItem('isVisible') || sessionStorage.getItem('IsHome') || sessionStorage.getItem('priceDisplay')) {
+            if (sessionStorage.getItem('collectionName')) {
+                document.getElementById('collectionName').value = sessionStorage.getItem('collectionName');
+            }
+            if (sessionStorage.getItem('collectionDescription')) {
+                document.getElementById('collectionDescription').value = sessionStorage.getItem('collectionDescription');
+            }
+            if (sessionStorage.getItem('isVisible')) {
+                document.getElementById('isVisible').checked = sessionStorage.getItem('isVisible') === 'true';
+            }
+            if (sessionStorage.getItem('IsHome')) {
+                document.getElementById('IsHome').checked = sessionStorage.getItem('IsHome') === 'true';
+            }
+            if (sessionStorage.getItem('priceDisplay')) {
+                document.getElementById('priceDisplay').value = sessionStorage.getItem('priceDisplay');
+            }
+        } 
         window.onload = function () {
             debugger
             /*var productsData = localStorage.getItem('products');
@@ -264,19 +280,6 @@
         };
 
         function clearSessionStorage() {
-            var table = $('#sort').DataTable({
-                "ordering": false,
-                "pagingType": "full_numbers",
-                "language": {
-                    "paginate": {
-                        "next": "Next",
-                        "previous": "Previous",
-                        "First": false
-                    }
-                },
-                "pageLength": 3,
-                "lengthMenu": [[3, 10, 20, -1], [3, 10, 15, "All"]]
-            });
             sessionStorage.removeItem('collectionName');
             sessionStorage.removeItem('collectionDescription');
             sessionStorage.removeItem('isVisible');
