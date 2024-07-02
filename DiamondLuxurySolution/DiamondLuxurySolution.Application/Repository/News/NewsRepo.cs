@@ -99,6 +99,7 @@ namespace DiamondLuxurySolution.Application.Repository.News
             }
 
             news.Title = request.Title;
+            news.NewName = request.NewName;
             news.DateModified = DateTime.Now;
             if(request.Image != null && request.Image.Length > 0)
             {

@@ -181,7 +181,8 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString(),
                 OrderDate = DateTime.Now,
                 Deposit = request.Deposit == null ? 0 : (decimal)request.Deposit,
-                Datemodified = DateTime.Now
+                Datemodified = DateTime.Now,
+                isShip = request.ShipAdress != null ? true : false
             };
 
             using (var transaction = await _context.Database.BeginTransactionAsync())
@@ -1343,11 +1344,14 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             }
 
             bool orderPaymentStatusSuccess = false;
-            if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success))
+            if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
             {
                 orderPaymentStatusSuccess = true;
                 var listPayment = _context.OrdersPayments.Where(x => x.OrderId == order.OrderId).ToList();
-                listPayment.ForEach(x => x.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString());
+                foreach(var item in listPayment)
+                {
+                    item.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString();
+                }
             }
 
             if (request.ShipAdress != null && !request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()) && !request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()))
@@ -1377,7 +1381,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     product.SellingCount += item.Quantity;
                 }
 
-                var point = (int)total / 10000;
+                var point = (int)order.TotalAmout / 10000;
                 var customer = await _userMananger.FindByIdAsync(cusId.ToString());
 
                 customer.Point = (int?)(customer?.Point + point);
