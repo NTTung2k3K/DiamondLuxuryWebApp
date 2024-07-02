@@ -326,7 +326,7 @@
 
 				<!-- Main Shop wrapper End -->
 				<!-- Pagination Start -->
-				@if (Model.Count > 20)
+				@if (Model.Where(p => p.CategoryVm?.CategoryName == "Vòng Tay" && p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString())).Count() > 20)
 				{
 					<div class="see-more-wrapper text-center mt-4">
 						<button id="seeMoreBtn" class="btn btn-primary">Xem thêm</button>

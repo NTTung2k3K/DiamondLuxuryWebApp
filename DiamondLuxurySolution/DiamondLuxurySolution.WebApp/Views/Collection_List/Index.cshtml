@@ -509,7 +509,7 @@
 
                                 <!-- Main Shop wrapper End -->
                                 <!-- "See More" Button -->
-                                @if (Model.ListProducts != null && Model.ListProducts.Count > 20)
+                                @if (Model.ListProducts != null && Model.ListProducts.Where(p => p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString())).Count() > 20)
                                 {
                                     <div class="see-more-wrapper text-center mt-4">
                                         <button id="seeMoreBtn" class="btn btn-primary">Xem thêm</button>
