@@ -73,19 +73,9 @@
                     text-align: center;
                     display: block;
                 }
-
-            .owl-nav button.owl-prev {
-                left: 100px;
-            }
-
-            .owl-nav button.owl-next {
-                right: 100px;
-            }
-
-
         /*owl-carousel*/
         .owl-carousel {
-            padding: 0px 90px;
+            padding: 0px 0px;
         }
 
             .owl-carousel .product-item {
@@ -93,12 +83,12 @@
                 border: none;
                 text-align: center;
                 border-radius: 4px;
-                height: 400px;
+                height: 370px;
             }
 
         .item-img {
             width: 100%;
-            height: 310px;
+            height: 275px;
             overflow: hidden;
             padding: 10px;
         }
@@ -117,6 +107,7 @@
 
         .item-content {
             transition: transform 0.3s;
+            height: 100%;
         }
 
             .item-content:hover {
@@ -197,76 +188,82 @@
             height: 100%;
         }
 
+        .container-product-item {
+            padding: 0px 120px;
+        }
     </style>
 </head>
 <body>
 
     @if (Model.Count() > 0 && Model != null)
     {
-
-        var listProduct = Model.Where(p => p.CategoryVm?.CategoryName == "Dây Chuyền" && p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()) && p.IsHome).ToList();
-        var productCount = listProduct.Count;
-        if (listProduct != null && listProduct.Count() > 0)
-        {
-            List<SlideViewModel> listSlide = ViewBag.listSlide as List<SlideViewModel>;
-            if (listSlide != null)
-            {
-                var slide = listSlide.SingleOrDefault(s => s.SlideName.Equals("Dây Chuyền"));
-                if (slide != null)
+        <div class="container-product-item">
+            @{
+                var listProduct = Model.Where(p => p.CategoryVm?.CategoryName == "Dây Chuyền" && p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()) && p.IsHome).ToList();
+                var productCount = listProduct.Count;
+                if (listProduct != null && listProduct.Count() > 0)
                 {
-                    <div style="min-width: 100%; overflow: hidden">
-                        <img class="img-slide" src="@slide.SlideImage" />
+                    List<SlideViewModel> listSlide = ViewBag.listSlide as List<SlideViewModel>;
+                    if (listSlide != null)
+                    {
+                        var slide = listSlide.SingleOrDefault(s => s.SlideName.Equals("Dây Chuyền"));
+                        if (slide != null)
+                        {
+                            <div class="content-slide-img" style="min-width: 100%; overflow: hidden;">
+                                <img class="img-slide" src="@slide.SlideImage" />
+                            </div>
+                        }
+                    }
+                    <h2 class="hightlight-h2">Dây Chuyền</h2>
+                    <div class="owl-carousel owl-carousel-daychuyen owl-theme" id="product-carousel">
+                        @foreach (var product in listProduct)
+                        {
+                            <div class="item product-item">
+                                <div class="item-content">
+                                    <a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
+                                        <div class="item-img">
+                                            <img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
+                                        </div>
+                                        <div class="item-text">
+                                            <p class="NameProduct">
+                                                <a href="">
+                                                    @product.ProductName
+                                                </a>
+                                            </p>
+                                            <div class="IdProduct">
+                                                <h8>
+                                                    @product.ProductId
+                                                </h8>
+                                            </div>
+                                            <div class="item-price">
+                                                @* @product.SellingPrice.ToString("N0")
+                                <div class="symbol-currency">
+                                <span>₫</span>
+                                </div> *@
+                                                <div class="product-price-wrapper">
+                                                    <span class="money" style="color: #E8BE6F;">@product.SellingPrice.ToString("N0")₫</span>
+                                                    @if (product.OriginalPrice != product.SellingPrice)
+                                                    {
+                                                        <span class="product-price-old">
+                                                            <span class="money">@product.OriginalPrice.ToString("N0")₫</span>
+                                                        </span>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="btn-container">
+                        <a href="/DiamondJewelryNecklace/Index" class=" btn-decord" type="button">
+                            Xem thêm
+                        </a>
                     </div>
                 }
             }
-            <h2 class="hightlight-h2">Dây Chuyền</h2>
-                    <div class="owl-carousel owl-carousel-daychuyen owl-theme" id="product-carousel">
-                @foreach (var product in listProduct)
-                {
-                    <div class="item product-item">
-                        <div class="item-content">
-                            <a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
-                                <div class="item-img">
-                                    <img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
-                                </div>
-                                <div class="item-text">
-                                    <p class="NameProduct">
-                                        <a href="">
-                                            @product.ProductName
-                                        </a>
-                                    </p>
-                                    <div class="IdProduct">
-                                        <h8>
-                                            @product.ProductId
-                                        </h8>
-                                    </div>
-                                    <div class="item-price">
-                                        @* @product.SellingPrice.ToString("N0")
-                            <div class="symbol-currency">
-                            <span>₫</span>
-                            </div> *@
-                                        <div class="product-price-wrapper">
-                                            <span class="money" style="color: #E8BE6F;">@product.SellingPrice.ToString("N0")₫</span>
-                                            @if (product.OriginalPrice != product.SellingPrice)
-                                            {
-                                                <span class="product-price-old">
-                                                    <span class="money">@product.OriginalPrice.ToString("N0")₫</span>
-                                                </span>
-                                            }
-                                        </div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                }
-            </div>
-            <div class="btn-container">
-                <a href="/DiamondJewelryNecklace/Index" class=" btn-decord" type="button">
-                    Xem thêm
-                </a>
-            </div>
-        }
+        </div>
     }
 
 
