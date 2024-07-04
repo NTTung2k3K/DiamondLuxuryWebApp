@@ -64,26 +64,29 @@
                                 <tbody>
                                     @foreach (var item in Model)
                                     {
-                                        <tr class="text-center">
-                                            <td>
-                                                <input class="form-check-input f-18"
-                                                       type="checkbox" name="selectedIds" value="@item.ProductId"
-                                                       onclick="saveSelectedIds('@item.ProductId')" />
-                                            </td>
-                                            <td>@item.ProductName</td>
-                                            @if (string.IsNullOrEmpty(item.ProductThumbnail))
-                                            {
-                                                <td>Không có hình ảnh</td>
-                                            }
-                                            else
-                                            {
+                                        if (item.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Sales)
+                                        && item.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling))
+                                        {
+                                            <tr class="text-center">
                                                 <td>
-                                                    <img src="@item.ProductThumbnail" style="height:100px; width:100px" />
+                                                    <input class="form-check-input f-18"
+                                                           type="checkbox" name="selectedIds" value="@item.ProductId"
+                                                           onclick="saveSelectedIds('@item.ProductId')" />
                                                 </td>
-                                            }
-                                            <td>@item.PercentSale<span>%</span></td>
+                                                <td>@item.ProductName</td>
+                                                @if (string.IsNullOrEmpty(item.ProductThumbnail))
+                                                {
+                                                    <td>Không có hình ảnh</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                        <img src="@item.ProductThumbnail" style="height:100px; width:100px" />
+                                                    </td>
+                                                }
+                                                <td>@item.PercentSale<span>%</span></td>
 
-                                            @*  @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString()))
+                                                @*  @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString()))
                                     {
                                     <td>
                                     <span class="badge bg-gray-500 rounded-pill">Hết hàng</span>
@@ -107,8 +110,9 @@
                                     <span class="badge bg-yellow-500 rounded-pill">Sắp có hàng</span>
                                     </td>
                                     } *@
-                                            <td>@item.Quantity</td>
-                                        </tr>
+                                                <td>@item.Quantity</td>
+                                            </tr>
+                                        }
                                     }
                                 </tbody>
                             </table>
@@ -192,14 +196,14 @@
         });
 
 
-            $('#submitBtn, #submitBackBtn').click(function () {
-                debugger
-                var form = $('<form action="/Collection/SaveSelectedIdCreate" method="POST">' +
-                    '<input type="hidden" name="selectedIds" value="' + selectedIds + '" />' +
-                    '</form>');
-                $('body').append(form);
-                form.submit();
-            });
+        $('#submitBtn, #submitBackBtn').click(function () {
+            debugger
+            var form = $('<form action="/Collection/SaveSelectedIdCreate" method="POST">' +
+                '<input type="hidden" name="selectedIds" value="' + selectedIds + '" />' +
+                '</form>');
+            $('body').append(form);
+            form.submit();
+        });
         /*$('#submitBtn').click(function () {
         debugger
         $.ajax({

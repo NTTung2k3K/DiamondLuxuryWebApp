@@ -76,23 +76,21 @@
                 </h1>
                 <p style="margin-top: 0px" class="font-16px">Mua sắm trang sức với giá tiết kiệm hơn</p>
             </div>
-            @{
-                var promotionHot = Model.OrderByDescending(m => m.StartDate).Take(6).ToList();
-            }
-            @for (int i = 0; i < promotionHot.Count; i++)
+            
+            @for (int i = 0; i < Model.Count; i++)
             {
                 if (i == 2 || i == 3)
                 {
                     <div class="col-md-6 col-lg-6 col-6 padd-mb">
                         <a  class="img-promotion">
-                            <img src="@promotionHot[i].BannerImage" alt="@promotionHot[i].PromotionName" />
+                            <img src="@Model[i].BannerImage" alt="@Model[i].PromotionName" />
                         </a>
                         <a title="ƯU ĐÃI ĐẶC BIỆT" onmouseover="this.style.color='#B48C72'" onmouseout="this.style.color='#000000'" style="color: rgb(0, 0, 0);">
                             <h3>ƯU ĐÃI ĐẶC BIỆT</h3>
                         </a>
                         <p>
                             <span style="color: #E8BE6F;">
-                                <span>@promotionHot[i].Description</span>
+                                <span>@Model[i].Description</span>
                             </span>
                         </p>
                     </div>
@@ -101,14 +99,14 @@
                 {
                     <div class="col-md-6 col-lg-3 col-6 padd-mb">
                         <a  class="img-promotion">
-                            <img src="@promotionHot[i].BannerImage" alt="@promotionHot[i].PromotionName" />
+                            <img src="@Model[i].BannerImage" alt="@Model[i].PromotionName" />
                         </a>
                         <a  title="ƯU ĐÃI ĐẶC BIỆT" onmouseover="this.style.color='#B48C72'" onmouseout="this.style.color='#000000'" style="color: rgb(0, 0, 0);">
                             <h3>ƯU ĐÃI ĐẶC BIỆT</h3>
                         </a>
                         <p>
                             <span style="color: #E8BE6F;">
-                                <span>@promotionHot[i].Description</span>
+                                <span>@Model[i].Description</span>
                             </span>
                         </p>
                     </div>
