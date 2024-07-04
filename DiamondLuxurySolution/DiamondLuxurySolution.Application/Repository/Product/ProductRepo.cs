@@ -226,7 +226,7 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 					.Include(p => p.Category)
 					.Include(p => p.Gem)
 					.ThenInclude(x => x.InspectionCertificate)
-					.Include(x => x.Frame)
+					.Include(x => x.Frame).ThenInclude(x => x.Material)
 					.FirstOrDefaultAsync(p => p.ProductId == ProductId);
 
 				if (product == null)
@@ -309,7 +309,8 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 					{
 						SubGemId = x.SubGemId,
 						SubGemName = x.SubGem.SubGemName,
-						Quantity = x.Quantity
+						Quantity = x.Quantity,
+						UnitPrice = x.SubGem.SubGemPrice,
 					}).ToList();
 
 				}
@@ -321,19 +322,18 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 						FrameId = product.FrameId,
 						NameFrame = product.Frame.FrameName,
 						Weight = product.Frame.Weight,
+						MaterialVm = new MaterialVm()
+						{
+                            MaterialId = product.Frame.Material.MaterialId,
+                            Color = product.Frame.Material.Color,
+                            Description = product.Frame.Material.Description,
+                            MaterialImage = product.Frame.Material.MaterialImage,
+                            MaterialName = product.Frame.Material.MaterialName,
+                            Status = product.Frame.Material.Status,
+                            Price = product.Frame.Material.Price
+                        } 
 					};
-					var material = await _context.Materials.FindAsync(product.Frame.MaterialId);
-
-					productVms.MaterialVm = new MaterialVm()
-					{
-						MaterialId = material.MaterialId,
-						Color = material.Color,
-						Description = material.Description,
-						MaterialImage = material.MaterialImage,
-						MaterialName = material.MaterialName,
-						Status = material.Status,
-
-					};
+					
 
 				}
 

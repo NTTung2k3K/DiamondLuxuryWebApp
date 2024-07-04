@@ -8,10 +8,16 @@ namespace DiamondLuxurySolution.WebApp.Controllers
 {
     public class HomeController : Controller
     {
-       
+
         // Trang chinh
         public IActionResult Index()
         {
+
+            if (HttpContext.Session.GetString("ReturnToPayInfor") != null)
+            {
+                HttpContext.Session.Remove("ReturnToPayInfor");
+                return RedirectToAction("Info", "Pay");
+            }
             if (HttpContext.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_NAME) == null)
             {
                 var customerName = Request.Cookies["CustomerName"];
@@ -26,11 +32,13 @@ namespace DiamondLuxurySolution.WebApp.Controllers
                     HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM, platform);
 
                 }
+
+
             }
             return View();
         }
 
-       
+
 
 
     }

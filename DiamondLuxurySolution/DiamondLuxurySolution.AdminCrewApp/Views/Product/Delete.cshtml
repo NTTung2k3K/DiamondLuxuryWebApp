@@ -112,12 +112,42 @@
                 }
             </dd>
 
-           
+
             <dt class="col-sm-3">
                 Kim cương chính
             </dt>
             <dd class="col-sm-8">
                 @Html.DisplayFor(model => model.GemVm.GemName)
+            </dd>
+            <dt class="col-sm-3" style="font-weight:500;">
+                Giác cắt
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.GemPriceLists.Cut)
+            </dd>
+            <dt class="col-sm-3" style="font-weight:500;">
+                Độ tinh khiết
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.GemPriceLists.Clarity)
+            </dd>
+            <dt class="col-sm-3" style="font-weight:500;">
+                Màu sắc
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.GemPriceLists.Color)
+            </dd>
+            <dt class="col-sm-3" style="font-weight:500;">
+                Trọng lượng
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.GemPriceLists.CaratWeight)
+            </dd>
+            <dt class="col-sm-3" style="font-weight:500;">
+                Giá trị
+            </dt>
+            <dd class="col-sm-8" style="color:green">
+                @Model.GemPriceLists?.Price.ToString("N0")<span>₫</span>
             </dd>
             <dt class="col-sm-3">
                 Kim cương phụ
@@ -127,7 +157,7 @@
                 {
                     foreach (var subgem in Model.ListSubGems)
                     {
-                        <p>@subgem.SubGemName &nbsp <span style="font-weight:bold">Số lượng: </span><span>@subgem.Quantity</span></p>
+                        <p>@subgem.SubGemName &nbsp <span>Số lượng: </span><span>@subgem.Quantity</span> <span>Giá trị: @((((decimal)subgem.UnitPrice * (decimal)subgem.Quantity).ToString("N0")))₫ </span></p>
                     }
                 }
                 else
@@ -147,7 +177,7 @@
             <dd class="col-sm-8">
                 @if (Model.FrameVm != null)
                 {
-                    @Html.DisplayFor(model => model.FrameVm.NameFrame)
+                    @Html.DisplayFor(model => model.FrameVm.NameFrame) <span>Giá trị: @(((decimal)Model.FrameVm.Weight * (decimal)Model.FrameVm.MaterialVm.Price).ToString("N0"))₫ </span>
                 }
                 else
                 {
@@ -155,7 +185,7 @@
                 }
             </dd>
             <dt class="col-sm-3">
-                Số lượng
+                Số lượng sản phẩm
             </dt>
             <dd class="col-sm-8">
                 @Html.DisplayFor(model => model.Quantity)
@@ -202,6 +232,7 @@
                 }
             </dd>
         </dl>
+
         <form asp-action="Delete" asp-controller="Product" method="post">
             <input type="hidden" name="ProductId" value="@Model.ProductId" />
             <input type="submit" value="Xóa" class="btn btn-danger" />

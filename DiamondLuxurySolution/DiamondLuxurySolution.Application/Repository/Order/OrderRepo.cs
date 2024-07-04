@@ -157,7 +157,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 var validQuantity = productEntity.Quantity - product.Quantity;
                 if (validQuantity < 0)
                 {
-                    return new ApiErrorResult<string>($"Không đủ hàng cho sản phẩm: {productEntity.ProductId} | {productEntity.ProductName} | Số lượng: {productEntity.Quantity}");
+                    return new ApiErrorResult<string>($"Không đủ hàng cho sản phẩm: {productEntity.ProductId} | {productEntity.ProductName} | Số lượng có thể mua: {productEntity.Quantity}");
                 }
             }
 
@@ -575,7 +575,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 var validQuantity = productEntityCheck.Quantity - product.Quantity;
                 if (validQuantity < 0)
                 {
-                    return new ApiErrorResult<bool>($"Không đủ hàng cho sản phẩm: {productEntityCheck.ProductId} | {productEntityCheck.ProductName} | Số lượng: {productEntityCheck.Quantity}");
+                    return new ApiErrorResult<bool>($"Không đủ hàng cho sản phẩm: {productEntityCheck.ProductId} | {productEntityCheck.ProductName} | Số lượng có thể mua: {productEntityCheck.Quantity}");
                 }
             }
             Random rd = new Random();
@@ -1408,7 +1408,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
 
 
             }
-            if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Confirmed.ToString()))
+            if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
             {
                 //Update product quantity
                 var listProduct = _context.OrderDetails.Where(x => x.OrderId == order.OrderId);
@@ -1420,11 +1420,14 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     {
                         return new ApiErrorResult<bool>($"Không tìm thấy sản phẩm");
                     }
-                    product.Quantity -= item.Quantity;
-                    if (product.Quantity < 0)
+                    var check = product.Quantity - item.Quantity;
+                    
+                    if (check < 0)
                     {
                         return new ApiErrorResult<bool>($"Sản phẩm {product.ProductId} | {product.ProductName} đã hết hàng");
                     }
+                    product.Quantity -= item.Quantity;
+                    product.SellingCount = item.Quantity;
                     if (product.Quantity == 0)
                     {
                         product.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString();
