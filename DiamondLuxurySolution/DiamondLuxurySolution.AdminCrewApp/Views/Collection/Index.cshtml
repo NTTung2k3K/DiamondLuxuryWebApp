@@ -55,14 +55,14 @@
                     <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
-                    <label>Hình ảnh bộ sưu tập</label>
+                    <label>Hình ảnh <br/> bộ sưu tập</label>
                 </th>
                 <th>
                     <label>Hiển thị</label>
                     <label onclick="sortTable(2)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
-                    <label>Sản phẩm của bộ sưu tập</label>
+                    <label>Sản phẩm của <br /> bộ sưu tập</label>
                 </th>
                 <th>Cài đặt</th>
             </tr>
@@ -72,7 +72,7 @@
             {
 
                 <tr class="text-center">
-                    <td class="col-md-2">@item.CollectionName</td>
+                    <td class="col-md-1">@item.CollectionName</td>
                     @if (string.IsNullOrEmpty(item.Thumbnail))
                     {
                         <td class="col-md-2">Không có hình ảnh</td>
@@ -85,14 +85,14 @@
                     }
                     @if (item.Status == true)
                     {
-                        <td class="col-md-2">
+                        <td class="col-md-1">
                             <span class="badge bg-success rounded-pill">Hoạt động</span>
 
                         </td>
                     }
                     else
                     {
-                        <td class="col-md-2">
+                        <td class="col-md-1">
                             <span class="badge bg-danger rounded-pill">Chưa hoạt động</span>
 
                         </td>
@@ -100,26 +100,26 @@
                     }
                     @if (item.ListProducts.Count() > 0)
                     {
-                        <td class="col-md-3">
+                        <td class="decord-td">
                             <a class="btn btn-secondary" data-bs-toggle="collapse"
                                href="#multiCollapseExample1-@item.CollectionId" role="button"
-                               aria-expanded="false" aria-controls="multiCollapseExample1-@item.CollectionId" style="">
+                               aria-expanded="false" aria-controls="multiCollapseExample1-@item.CollectionId">
                                 Các sản phẩm
                                 <svg class="pc-icon">
                                     <use xlink:href="#custom-sort-outline"></use>
                                 </svg>
                             </a>
-                            <div class="collapse multi-collapse col-md-12" id="multiCollapseExample1-@item.CollectionId">
-                                <div class="card card-body table-border-style" style="overflow-wrap: break-word; margin:0; witdh: 100px">
-                                    <div class="datatable-container">
+                            <div class="collapse multi-collapse" id="multiCollapseExample1-@item.CollectionId">
+                                <div class="card card-body table-border-style decord-card-body">
+                                    <div class="datatable-container table-responsive">
                                         <table class="table table-striped datatable" style="width:100%">
                                             <thead>
                                                 <tr class="text-center">
-                                                    <th>
+                                                    <th class="small-th">
                                                         <label>Tên sản phẩm</label>
                                                     </th>
-                                                    <th>
-                                                        <label>Hình ảnh sản phẩm</label>
+                                                    <th class="small-th">
+                                                        <label>Hình ảnh <br> sản phẩm</label>
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -176,6 +176,17 @@ else
 }
 @section CssStyle {
     <style>
+        .small-th {
+            max-width: 50px !important
+        }
+
+        .decord-card-body {
+            overflow-wrap: break-word;
+            margin: 0;
+            padding: 10px;
+            width: 330px
+        }
+
         .dataTables_wrapper .dataTables_paginate .paginate_button {
             padding: 0.5em 0.5em;
             font-size: 0.8em;
@@ -188,16 +199,38 @@ else
         }
 
         .dataTables_wrapper .dataTables_length {
-            font-size: 0.8em;
+            font-size: 0.4em;
             color: #555;
-            padding-top: 0.5em;
+            padding: 0;
+            margin: 0;
         }
 
         .dataTables_wrapper .dataTables_paginate {
-            width: auto;
+            width: 310px !important;
             display: inline-block;
         }
 
+        .dataTables_wrapper .dataTables_length select {
+            height: 30px; /* Điều chỉnh chiều cao của input và select */
+            font-size: 14px; /* Điều chỉnh kích thước chữ */
+            padding: 0.25rem 0.5rem; /* Điều chỉnh khoảng cách lề trong input/select */
+            width: 20px
+        }
+
+        .dataTables_wrapper .dataTables_filter input {
+            height: 30px; /* Điều chỉnh chiều cao của input và select */
+            font-size: 14px; /* Điều chỉnh kích thước chữ */
+            padding: 0.25rem 0.5rem; /* Điều chỉnh khoảng cách lề trong input/select */
+            width: 120px
+        }
+
+        .dataTables_wrapper .dataTables_length label {
+            font-size: 14px; /* Điều chỉnh kích thước chữ cho label */
+        }
+
+        .dataTables_wrapper .dataTables_filter label {
+            font-size: 14px; /* Điều chỉnh kích thước chữ cho label */
+        }
     </style>
 }
 @section Scripts {
@@ -206,16 +239,28 @@ else
         $('.datatable').DataTable({
             "ordering": false,
             "pagingType": "full_numbers",
-            "searching": false,
+            "pageLength": 3,
+            "searching": true,
             "language": {
                 "paginate": {
-                    "next": "Next",
-                    "previous": "Previous",
-                    "First": false
-                }
+                    "first": "Đầu",
+                    "last": "Cuối",
+                    "next": "Tiếp",
+                    "previous": "Trước",
+                    "ellipsis": "..."
+                },
+                "emptyTable": "Không có dữ liệu",
+                "info": "Hiển thị _START_ đến _END_ của _TOTAL_ mục",
+                "infoEmpty": "Hiển thị 0 đến 0 của 0 mục",
+                "infoFiltered": "(được lọc từ _MAX_ mục)",
+                "lengthMenu": "Hiển thị _MENU_ mục",
+                "loadingRecords": "Đang tải...",
+                "processing": "Đang xử lý...",
+                "search": "Tìm kiếm:",
+                "zeroRecords": "Không tìm thấy kết quả",
             },
-            "pageLength": 2,
-            "lengthMenu": [[2, 3, 5, -1], [2, 3, 5, "All"]]
+            "emptyTable": "Không có dữ liệu",
+            "lengthMenu": [[3, 5, 10, -1], [3, 5, 10, "All"]]
         });
 
     </script>

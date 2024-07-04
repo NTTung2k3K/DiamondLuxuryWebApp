@@ -156,7 +156,9 @@
 							margin-top:2px;/* Màu sắc của đường kẻ, bạn có thể thay đổi theo ý muốn */
 							margin-left:6px;  /* Khoảng cách trên và dưới của đường kẻ */
 						}
-
+						.img{
+							text-align:center;
+						}
 					</style>
 
 					@foreach (var knowledgeNews in initialKnowledgeNew)
@@ -189,7 +191,7 @@
 
 					@foreach (var knowledgeNews in hiddenKnowledgeNew)
 					{
-						<div class="col-md-4 col-sm-6 hidden" style="							display: flex;
+						<div class="col-md-4 col-sm-6 hidden" style="display: flex;
 							justify-content: center;
 							align-items: stretch;/* Enable wrapping for smaller screens */
 							margin-top: 10px;">

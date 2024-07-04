@@ -36,6 +36,7 @@
         .owl-nav {
             margin: 0px !important
         }
+
             .owl-nav button.owl-prev,
             .owl-nav button.owl-next {
                 position: absolute;
@@ -50,10 +51,13 @@
                 align-items: center;
                 justify-content: center;
             }
+
                 .owl-nav button.owl-prev:hover,
                 .owl-nav button.owl-next:hover {
                     background-color: darkgoldenrod !important;
+                    outline: none;
                 }
+
                 .owl-nav button.owl-prev span,
                 .owl-nav button.owl-next span {
                     font-size: 26px;
@@ -61,25 +65,20 @@
                     text-align: center;
                     display: block;
                 }
-            .owl-nav button.owl-prev {
-                left: 100px;
-            }
 
-            .owl-nav button.owl-next {
-                right: 100px;
-            }
-        /*owl-carousel*/
-        .owl-carousel {
-            padding: 0px 90px;
+        .container-news {
+            padding: 0px 120px;
         }
-            .owl-carousel .news-item {
-                background-color: #343434;
-                border: none;
-                border-radius: 3% !important;
-                text-align: center;
-                border-radius: 4px;
-                height: auto;
-            }
+
+        .owl-carousel .news-item {
+            background-color: #343434;
+            border: none;
+            border-radius: 3% !important;
+            text-align: center;
+            border-radius: 4px;
+            height: auto;
+        }
+
         .news-img {
             width: 100%;
             height: 210px;
@@ -87,23 +86,28 @@
             border-top-left-radius: 3% !important;
             border-top-right-radius: 3% !important;
         }
+
             .news-img img {
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
             }
+
         .news-content {
             transition: transform 0.3s;
         }
+
             .news-content:hover {
                 transform: scale(1.0);
             }
+
         .news-text {
             padding: 30px;
         }
         /*Id Product*/
         .newsTitle {
         }
+
             .newsTitle h8 {
                 color: white;
                 font-size: 20px;
@@ -120,27 +124,28 @@
     @if (Model.Count() > 0 && Model != null)
     {
         <h2 class="hightlight-h2">Tin Tức Mới Nhất</h2>
-        var newsHot = Model.OrderByDescending(m => m.DateCreated).Take(6).ToList();
-        <div class="owl-carousel owl-carousel-news owl-theme" id="news-carousel" style="    padding-bottom: 35px;">
-            @foreach (var news in newsHot)
-            {
-                <div class="news-item">
-                    <div class="news-content">
-                        <a href="/DiamondJewelry/Detail?ProductId=@news.NewName">
-                            <div class="news-img">
-                                <img src="@news.Image" alt="@news.NewName" class="primary-image" />
-                            </div>
-                            <div class="news-text">
-                                <div class="newsTitle">
-                                    <h8>
-                                        @news.Title
-                                    </h8>
+        <div class="container-news">
+            <div class="owl-carousel owl-carousel-news owl-theme" id="news-carousel">
+                @foreach (var news in Model)
+                {
+                    <div class="news-item">
+                        <div class="news-content">
+                            <a href="/News/Detail?id=@news.NewsId">
+                                <div class="news-img">
+                                    <img src="@news.Image" alt="@news.NewName" class="primary-image" />
                                 </div>
-                            </div>
-                        </a>
+                                <div class="news-text">
+                                    <div class="newsTitle">
+                                        <h8>
+                                            @news.Title
+                                        </h8>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </div>
     }
 
@@ -153,7 +158,6 @@
             crossorigin="anonymous" referrerpolicy="no-referrer">
     </script>
     <script>
-
         $('.owl-carousel-news').owlCarousel({
             loop: true,
             margin: 20,
@@ -165,9 +169,9 @@
                     items: 1,
                     slideBy: 1
                 },
-                800: {
-                    items: 2,
-                    slideBy: 2
+                600: {
+                    items: 1,
+                    slideBy: 1
                 },
                 1000: {
                     items: 3,
@@ -178,12 +182,12 @@
         // Bắt sự kiện khi rê chuột vào sản phẩm
         $(document).ready(function () {
             var owl = $('#news-carousel');
-            $('.news-content, .owl-next, .owl-prev').mouseenter(function () {
+            $('.news-item, .owl-next, .owl-prev').mouseenter(function () {
                 owl.trigger('refresh.owl.carousel');
                 $('.owl-nav').removeClass('disabled');
             });
 
-            $('.news-content').mouseleave(function () {
+            $('.news-item').mouseleave(function () {
                 owl.trigger('refresh.owl.carousel');
                 $('.owl-nav').addClass('disabled');
             });

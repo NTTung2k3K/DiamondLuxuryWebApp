@@ -97,7 +97,7 @@
                 <circle fill="none" stroke="#ffffff" stroke-width="5" stroke-miterlimit="10" cx="109.486" cy="104.353" r="32.53" />
                             </svg>
                 <h3 style="font-weight: bold" id='status'>
-                    Chào mừng <span style="color: e8be6f; font-weight: bold">@TempData["SuccessMessage"]</span> đến <br /> Diamond Luxury
+                    Chào mừng <span style="color: e8be6f; font-weight: bold">@TempData["SuccessMessage"]</span> đến với <br /> Diamond Luxury
                 </h3>
             </div>
             <div id='lower-side'>
@@ -110,10 +110,10 @@
 }
 @await Component.InvokeAsync("Collection")
 @await Component.InvokeAsync("Home_Category")
+@await Component.InvokeAsync("Home_ProductIsSale")
 @await Component.InvokeAsync("Home_KimCuong")
 @await Component.InvokeAsync("Home_NhanNu")
 @await Component.InvokeAsync("Home_NhanNam")
-@await Component.InvokeAsync("Home_NhanCuoi")
 @await Component.InvokeAsync("Home_BongTai")
 @await Component.InvokeAsync("Home_DayChuyen")
 @await Component.InvokeAsync("Home_Promotion")

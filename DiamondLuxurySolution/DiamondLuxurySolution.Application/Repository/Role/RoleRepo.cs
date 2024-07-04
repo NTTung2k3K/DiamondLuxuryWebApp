@@ -126,8 +126,8 @@ namespace DiamondLuxurySolution.Application.Repository
             var listRole = await _roleManager.Roles.ToListAsync();
             if (request.Keyword != null)
             {
-                listRole = listRole.Where(x => x.Name.Contains(request.Keyword) ||
-                x.Description.Contains(request.Keyword)).ToList();
+                listRole = listRole.Where(x => x.Name.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase) ||
+                x.Description.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
             }
             listRole = listRole.OrderBy(x => x.Name).ToList();
 

@@ -98,7 +98,7 @@
                                                 <label>Ảnh đại diện</label>
                                             </th>
                                             <th>
-                                                <label>Sale</label>
+                                                <label>Giá bán</label>
                                                 <label onclick="sortTable(2)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                                             </th>
                                         </tr>
@@ -121,7 +121,7 @@
                                                         <img src="@product.ProductThumbnail" style="height:100px; width:100px" />
                                                     </td>
                                                 }
-                                                <td>@product.SellingPrice<span>%</span></td>
+                                                <td>@product.SellingPrice.ToString("N0")₫</td>
                                             </tr>
                                         }
                                     </tbody>
@@ -194,15 +194,28 @@
         $('#sort').DataTable({
             "ordering": false,
             "pagingType": "full_numbers",
+            "pageLength": 3,
+            "searching": true,
             "language": {
                 "paginate": {
-                    "next": "Next",
-                    "previous": "Previous",
-                    "First": false
-                }
+                    "first": "Đầu",
+                    "last": "Cuối",
+                    "next": "Tiếp",
+                    "previous": "Trước",
+                    "ellipsis": "..."
+                },
+                "emptyTable": "Không có dữ liệu",
+                "info": "Hiển thị _START_ đến _END_ của _TOTAL_ mục",
+                "infoEmpty": "Hiển thị 0 đến 0 của 0 mục",
+                "infoFiltered": "(được lọc từ _MAX_ mục)",
+                "lengthMenu": "Hiển thị _MENU_ mục",
+                "loadingRecords": "Đang tải...",
+                "processing": "Đang xử lý...",
+                "search": "Tìm kiếm:",
+                "zeroRecords": "Không tìm thấy kết quả",
             },
-            "pageLength": 2,
-            "lengthMenu": [[2, 4, 6, 8, -1], [2, 4, 6, 8, "All"]]
+            "emptyTable": "Không có dữ liệu",
+            "lengthMenu": [[3, 5, 10, -1], [3, 5, 10, "All"]]
         });
     </script>
 }

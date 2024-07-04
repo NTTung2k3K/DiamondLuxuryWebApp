@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="../assets/css/mytoast.css" />
     <link rel="stylesheet" href="../assets/css/MySelectOptions.css" />
 
-
+    
     @RenderSection("CssStyle", required: false)
     <style>
         select {
@@ -72,10 +72,21 @@
                 background-color: #e8be6f; /* Màu nền vàng khi hover vào option */
                 color: black; /* Màu chữ là đen khi hover vào option */
             }
-            
+
+        body[data-pc-theme='dark'] {
+            background-color: #121212;
+            color: #ffffff;
+            /* Other dark mode styles */
+        }
+
+        body[data-pc-theme='light'] {
+            background-color: #ffffff;
+            color: #000000;
+            /* Other light mode styles */
+        }
+
     </style>
-
-
+  
 </head>
 <!-- [Head] end -->
 <!-- [Body] Start -->
@@ -144,248 +155,6 @@
                 </div>
 
                 <ul class="pc-navbar">
-                    @* <li class="pc-item">
-                    <a href="trangchu_manager.html" class="pc-link">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-graph"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Trang Chủ</span>
-                    </a>
-                    </li>
-                    <li class="pc-item pc-hasmenu">
-                    <a href="#!" class="pc-link">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-user-square"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Người Dùng</span>
-                    <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                    </a>
-                    <ul class="pc-submenu">
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Customer/Index">Quản Lí Người Dùng</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="../dashboard/analytics.html">Thêm Người Dùng Mới</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="../dashboard/finance.html">Quản Trị Viên</a>
-                    </li>
-                    </ul>
-                    </li>
-                    <li class="pc-item pc-hasmenu">
-                    <a href="#!" class="pc-link">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-shopping-bag"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Nhân Viên</span>
-                    <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                    </a>
-                    <ul class="pc-submenu">
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Admin/Index">Quản trị viên</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Manager/Index">Quản Lí</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/SaleStaff/Index">Nhân viên bán hàng</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/DeliveryStaff/Index">Nhân viên giao hàng</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Role">Quản Lí Chức Vụ</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Staff/Create">Thêm Nhân Viên Mới</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="../dashboard/finance.html">Đánh Giá Nhân Viên</a>
-                    </li>
-                    </ul>
-                    </li>
-                    <li class="pc-item pc-hasmenu">
-                    <a href="#!" class="pc-link">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-document"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Danh Mục</span>
-                    <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                    </a>
-                    <ul class="pc-submenu">
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Payment/Index">Quản lí thanh toán</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Platform/Index">Quản lí Nền tảng</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Slide/Index">Quản lí Slides</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/About/TestView">Quản lí Thông Tin Liên Hệ</a>
-                    <a class="pc-link" href="/About/Index">Quản lí About</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/About/Index">Quản lí Thông Tin Liên Hệ</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/KnowledgeNewsCategory/Index">Quản lí Loại Kiến Thức Tin Tức</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/InspectionCertificate/Index">Quản lí giấy chứng nhận</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Collection/Index">Quản Lí bộ sưu tập</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Category/Index">Quản lí Loại Sản Phẩm</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="../demo/layout-tab.html">Thêm Danh Mục Mới</a>
-                    </li>
-                    </ul>
-                    </li>
-                    <li class="pc-item pc-hasmenu">
-                    <a href="#!" class="pc-link">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-box-1"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Sản Phẩm</span>
-                    <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                    </a>
-                    <ul class="pc-submenu">
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Product/Index">Quản Lí Sản Phẩm</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Material/Index">Quản lí vật liệu</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Gem/Index">Quản Lí Kim Cương</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/GemPriceList/Index">Quản Lí Giá Kim Cương</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Frame/Index">Quản Lí Khung</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="../demo/layout-tab.html">Thêm Sản Phẩm Mới</a>
-                    </li>
-                    </ul>
-                    </li>
-                    <li class="pc-item pc-hasmenu">
-                    <a href="#!" class="pc-link">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-keyboard"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Chương trình</span>
-                    <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                    </a>
-                    <ul class="pc-submenu">
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Discount/Index">Quản Lí Chiết Khấu</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Promotion/Index">Quản Lí Khuyến Mãi</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Warranty/Index">Quản Lí Phiếu Bảo Hành</a>
-                    </li>
-                    </ul>
-                    </li>
-                    <li class="pc-item pc-hasmenu">
-                    <a href="#!" class="pc-link">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-document"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Đơn Hàng</span>
-                    <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                    </a>
-                    <ul class="pc-submenu">
-                    <li class="pc-item">
-                    <a class="pc-link" href="../demo/layout-compact.html">Quản Lí Đơn Hàng</a>
-                    </li>
-                    </ul>
-                    </li>
-                    <li class="pc-item pc-hasmenu">
-                    <a href="#!" class="pc-link">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-message-2"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Phản Hồi</span>
-                    <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                    </a>
-                    <ul class="pc-submenu">
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Contact/Index">Quản Lí Liên Hệ</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="../demo/layout-compact.html">Phản Hồi Khách hàng</a>
-                    </li>
-                    </ul>
-                    </li>
-                    <li class="pc-item pc-hasmenu">
-                    <a href="#!" class="pc-link">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-24-support"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Tin Tức</span>
-                    <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                    </a>
-                    <ul class="pc-submenu">
-                    <li class="pc-item">
-                    <a class="pc-link" href="/News/Index">Quản Lí Tin Tức</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/KnowledgeNews/Index">Quản Lí Kiến Thức Tin Tức</a>
-                    </li>
-                    </ul>
-                    </li>
-                    <li class="pc-item">
-                    <a href="../widget/w_statistics.html" class="pc-link">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-status-up"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Thống Kê</span>
-                    </a>
-                    </li>
-                    <li class="pc-item">
-                    <a href="../widget/w_statistics.html" class="pc-link">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-direct-inbox"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Hộp Thư</span>
-                    </a>
-                    </li>
-                    <li class="pc-item"> *@
-                    @* <form asp-controller="Staff" asp-action="Logout" method="post" class="text-center" style="display:flex; justify-content:center">
-                    <div>
-                    <button type="submit" class="pc-link btn btn-danger btn-sm mt-5" style="color: white; border-radius:25px;"> *@
-
                     @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.DeliveryStaff))
                     {
                         <li class="pc-item">
@@ -493,7 +262,7 @@
                                 <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
                             </a>
                             <ul class="pc-submenu">
-                                
+
                                 <li class="pc-item">
                                     <a class="pc-link" href="/Platform/Index">Quản Lý Nền Tảng</a>
                                 </li>
@@ -652,225 +421,7 @@
                         </li>
                     }
 
-                    @* <li class="pc-item">
-                    <a href="trangchu_manager.html" class="pc-link">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-graph"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Trang Chủ</span>
-                    </a>
-                    </li>
-                    <li class="pc-item pc-hasmenu">
-                    <a href="#!" class="pc-link">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-user-square"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Người Dùng</span>
-                    <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                    </a>
-                    <ul class="pc-submenu">
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Customer/Index">Quản Lí Người Dùng</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="../dashboard/analytics.html">Thêm Người Dùng Mới</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="../dashboard/finance.html">Quản Trị Viên</a>
-                    </li>
-                    </ul>
-                    </li>
-                    <li class="pc-item pc-hasmenu">
-                    <a href="#!" class="pc-link">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-shopping-bag"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Nhân Viên</span>
-                    <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                    </a>
-                    <ul class="pc-submenu">
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Admin/Index">Quản trị viên</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Manager/Index">Quản Lí</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/SaleStaff/Index">Nhân viên bán hàng</a>
-                    </li>
 
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Role">Quản Lí Chức Vụ</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Staff/Create">Thêm Nhân Viên Mới</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="../dashboard/finance.html">Đánh Giá Nhân Viên</a>
-                    </li>
-                    </ul>
-                    </li>
-                    <li class="pc-item pc-hasmenu">
-                    <a href="#!" class="pc-link">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-document"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Danh Mục</span>
-                    <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                    </a>
-                    <ul class="pc-submenu">
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Payment/Index">Quản lí thanh toán</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Platform/Index">Quản lí Nền tảng</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Slide/Index">Quản lí Slides</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/About/TestView">Quản lí Thông Tin Liên Hệ</a>
-                    <a class="pc-link" href="/About/Index">Quản lí About</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/About/Index">Quản lí Thông Tin Liên Hệ</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/KnowledgeNewsCategory/Index">Quản lí Loại Kiến Thức Tin Tức</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/InspectionCertificate/Index">Quản lí giấy chứng nhận</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Collection/Index">Quản Lí bộ sưu tập</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Category/Index">Quản lí Loại Sản Phẩm</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="../demo/layout-tab.html">Thêm Danh Mục Mới</a>
-                    </li>
-                    </ul>
-                    </li>
-                    <li class="pc-item pc-hasmenu">
-                    <a href="#!" class="pc-link">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-box-1"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Sản Phẩm</span>
-                    <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                    </a>
-                    <ul class="pc-submenu">
-                    <li class="pc-item">
-                    <a class="pc-link" href="/SubGem/Index">Quản lí viên đá phụ</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Material/Index">Quản lí vật liệu</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="../demo/layout-compact.html">Quản Lí Sản Phẩm</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Material/Index">Quản lí vật liệu</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Gem/Index">Quản Lí Kim Cương</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="../demo/layout-tab.html">Thêm Sản Phẩm Mới</a>
-                    </li>
-                    </ul>
-                    </li>
-                    <li class="pc-item pc-hasmenu">
-                    <a href="#!" class="pc-link">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-keyboard"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Mã Giảm Giá</span>
-                    <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                    </a>
-                    <ul class="pc-submenu">
-                    <li class="pc-item">
-                    <a class="pc-link" href="../demo/layout-compact.html">Quản Lí Mã Giảm Giá</a>
-                    </li>
-                    </ul>
-                    </li>
-                    <li class="pc-item pc-hasmenu">
-                    <a href="#!" class="pc-link">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-document"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Đơn Hàng</span>
-                    <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                    </a>
-                    <ul class="pc-submenu">
-                    <li class="pc-item">
-                    <a class="pc-link" href="../demo/layout-compact.html">Quản Lí Đơn Hàng</a>
-                    </li>
-                    </ul>
-                    </li>
-                    <li class="pc-item pc-hasmenu">
-                    <a href="#!" class="pc-link">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-message-2"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Phản Hồi</span>
-                    <span class="pc-arrow"><i data-feather="chevron-right"></i></span>
-                    </a>
-                    <ul class="pc-submenu">
-                    <li class="pc-item">
-                    <a class="pc-link" href="/Contact/Index">Quản Lí Liên Hệ</a>
-                    </li>
-                    <li class="pc-item">
-                    <a class="pc-link" href="../demo/layout-compact.html">Phản Hồi Khách hàng</a>
-                    </li>
-                    </ul>
-                    </li>
-                    <li class="pc-item">
-                    <a href="../widget/w_statistics.html" class="pc-link">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-status-up"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Thống Kê</span>
-                    </a>
-                    </li>
-                    <li class="pc-item">
-                    <a href="../widget/w_statistics.html" class="pc-link">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-direct-inbox"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Hộp Thư</span>
-                    </a>
-                    </li>
-                    <li class="pc-item"> *@
-                    @*                      <a href="../widget/w_statistics.html" class="pc-link btn btn-danger  btn-sm mt-5" style="color: white; border-radius:25px;">
-                    <span class="pc-micon">
-                    <svg class="pc-icon">
-                    <use xlink:href="#custom-airplane"></use>
-                    </svg>
-                    </span>
-                    <span class="pc-mtext">Đăng xuất</span>
-                    </a> *@
                     <li class="pc-item">
                         <form asp-controller="Staff" asp-action="Logout" method="post" class="text-center" style="display:flex; justify-content:center">
                             <div>
@@ -1180,112 +731,7 @@
                             </div>
                         </div>
                     </li>
-                    <li class="list-group-item">
-                        <h6 class="mb-1">Chế Độ Tương Phản</h6>
-                        <p class="text-muted text-sm">Chọn Chế Độ Tương Phản</p>
-                        <div class="row theme-contrast">
-                            <div class="col-6">
-                                <div class="d-grid">
-                                    <button class="preset-btn btn"
-                                            data-value="true"
-                                            onclick="layout_theme_contrast_change('true');"
-                                            data-bs-toggle="tooltip"
-                                            title="Đúng">
-                                        <svg class="pc-icon">
-                                            <use xlink:href="#custom-mask"></use>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="d-grid">
-                                    <button class="preset-btn btn active"
-                                            data-value="false"
-                                            onclick="layout_theme_contrast_change('false');"
-                                            data-bs-toggle="tooltip"
-                                            title="Sai">
-                                        <svg class="pc-icon">
-                                            <use xlink:href="#custom-mask-1-outline"></use>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <h6 class="mb-1">Chế độ tùy chỉnh</h6>
-                        <p class="text-muted text-sm">Chọn chủ đề màu ưu tiên của bạn</p>
-                        <div class="theme-color preset-color">
-                            <a href="#!"
-                               data-bs-toggle="tooltip"
-                               title="Xanh"
-                               class="active"
-                               data-value="preset-1">
-                                <i class="ti ti-checks"></i>
-                            </a>
-                            <a href="#!"
-                               data-bs-toggle="tooltip"
-                               title="Chàm"
-                               data-value="preset-2">
-                                <i class="ti ti-checks"></i>
-                            </a>
-                            <a href="#!"
-                               data-bs-toggle="tooltip"
-                               title="Tím"
-                               data-value="preset-3">
-                                <i class="ti ti-checks"></i>
-                            </a>
-                            <a href="#!"
-                               data-bs-toggle="tooltip"
-                               title="Hồng"
-                               data-value="preset-4">
-                                <i class="ti ti-checks"></i>
-                            </a>
-                            <a href="#!"
-                               data-bs-toggle="tooltip"
-                               title="Đỏ"
-                               data-value="preset-5">
-                                <i class="ti ti-checks"></i>
-                            </a>
-                            <a href="#!"
-                               data-bs-toggle="tooltip"
-                               title="Cam"
-                               data-value="preset-6">
-                                <i class="ti ti-checks"></i>
-                            </a>
-                            <a href="#!"
-                               data-bs-toggle="tooltip"
-                               title="Vàng"
-                               data-value="preset-7">
-                                <i class="ti ti-checks"></i>
-                            </a>
-                            <a href="#!"
-                               data-bs-toggle="tooltip"
-                               title="Xanh lục"
-                               data-value="preset-8">
-                                <i class="ti ti-checks"></i>
-                            </a>
-                            <a href="#!"
-                               data-bs-toggle="tooltip"
-                               title="Mòng két"
-                               data-value="preset-9">
-                                <i class="ti ti-checks"></i>
-                            </a>
-                            <a href="#!"
-                               data-bs-toggle="tooltip"
-                               title="Cyan"
-                               data-value="preset-10">
-                                <i class="ti ti-checks"></i>
-                            </a>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="d-grid">
-                            <button class="btn btn-light-danger" id="layoutreset">
-                                Đặt Lại Bố Cục
-                            </button>
-                        </div>
-                    </li>
+                   
                 </ul>
             </div>
         </div>
@@ -1359,6 +805,7 @@
             </div>
         </div>
     }
+
     <!-- END Error notification -->
     <!-- #endregion -->
     <!-- Required Js -->
@@ -1368,14 +815,157 @@
     <script src="../assets/js/plugins/simplebar.min.js"></script>
     <script src="../assets/js/plugins/bootstrap.min.js"></script>
     <script src="../assets/js/fonts/custom-font.js"></script>
-    <script src="../assets/js/pcoded.js"></script>
     <script src="../assets/js/plugins/feather.min.js"></script>
     <script src="../assets/js/MyFormatNumberPrice.js"></script>
     <script src="../assets/js/MySelecteOption.js"></script>
-   
+    <script src="../assets/js/pcoded.js"></script>
+
+    <style>
+        img:hover {
+            cursor:pointer
+        }
+
+        .custom-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            text-align: center;
+        }
+
+        .custom-modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            margin: 5% auto; /* Canh giữa theo chiều dọc và cách lề trên dưới */
+            cursor: pointer;
+        }
+
+        .custom-modal-navigation {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+            .custom-modal-navigation button {
+                background: none;
+                border: none;
+                color: white;
+                font-size: 24px;
+                cursor: pointer;
+            }
+
+        .custom-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+        }
+    </style>
+    <!-- JavaScript (jQuery) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        layout_change('false');
+        $(document).ready(function () {
+            var images = []; // Mảng chứa các đường dẫn hình ảnh
+            var currentIndex = 0; // Chỉ số của hình ảnh hiện tại
+
+            // Bắt sự kiện click trên hình ảnh trong div.col-sm-9
+            $('img').click(function () {
+
+                images = []; // Đặt lại mảng hình ảnh
+                currentIndex = 0; // Đặt lại chỉ số hình ảnh hiện tại
+
+                // Lấy phần tử div gần nhất chứa img
+                var closestDiv = $(this).closest('div');
+                debugger;
+                // Lấy tất cả đường dẫn hình ảnh trong div gần nhất
+                closestDiv.find('img').each(function () {
+                    images.push($(this).attr('src')); // Thêm đường dẫn hình ảnh vào mảng
+                });
+
+                var imageUrl = $(this).attr('src'); // Lấy đường dẫn hình ảnh
+                currentIndex = images.indexOf(imageUrl); // Lấy chỉ số của hình ảnh hiện tại trong mảng
+                if (imageUrl === '../assets/images/LOGO.png') {
+                    return;
+                }
+                showModal(imageUrl); // Hiển thị modal với hình ảnh được click
+            });
+
+            // Hàm hiển thị modal với hình ảnh
+            function showModal(imageUrl) {
+                // Tạo nội dung modal
+                var modalContent = '<span class="custom-modal-close">&times;</span><img src="' + imageUrl + '" class="custom-modal-content">';
+                // Thêm nút điều hướng
+                modalContent += '<div class="custom-modal-navigation">';
+                modalContent += '<button class="custom-modal-prev" style="margin: 0 30px;">&lt;</button>';
+                modalContent += '<button class="custom-modal-next" style="margin: 0 30px;">&gt;</button>';
+                modalContent += '</div>';
+
+                // Thêm modal vào body và hiển thị
+                $('body').append('<div class="custom-modal">' + modalContent + '</div>');
+                $('.custom-modal').fadeIn();
+
+                // Bắt sự kiện click vào nút đóng modal
+                $('.custom-modal-close').click(function () {
+                    $('.custom-modal').fadeOut(function () {
+                        $(this).remove(); // Sau khi ẩn modal, xóa nó khỏi DOM
+                    });
+                });
+
+                // Bắt sự kiện click vào nút điều hướng hình ảnh tiếp theo
+                $('.custom-modal-next').click(function () {
+                    showNextImage();
+                });
+
+                // Bắt sự kiện click vào nút điều hướng hình ảnh trước đó
+                $('.custom-modal-prev').click(function () {
+                    showPrevImage();
+                });
+            }
+
+            // Hàm hiển thị hình ảnh tiếp theo
+            function showNextImage() {
+                if (currentIndex < images.length - 1) {
+                    currentIndex++;
+                } else {
+                    currentIndex = 0; // Quay lại ảnh đầu tiên nếu đang ở ảnh cuối cùng
+                }
+                var nextImageUrl = images[currentIndex];
+                updateModalImage(nextImageUrl);
+            }
+
+            // Hàm hiển thị hình ảnh trước đó
+            function showPrevImage() {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                } else {
+                    currentIndex = images.length - 1; // Quay lại ảnh cuối cùng nếu đang ở ảnh đầu tiên
+                }
+                var prevImageUrl = images[currentIndex];
+                updateModalImage(prevImageUrl);
+            }
+
+            // Hàm cập nhật hình ảnh trong modal
+            function updateModalImage(imageUrl) {
+                $('.custom-modal-content').attr('src', imageUrl);
+            }
+        });
     </script>
+
+
+
+
+
+
+
 
     <script>
         layout_theme_contrast_change('false');
@@ -1412,7 +1002,7 @@
             }, 3000);
         });
     </script>
-
+    
 </body>
 <!-- [Body] end -->
 

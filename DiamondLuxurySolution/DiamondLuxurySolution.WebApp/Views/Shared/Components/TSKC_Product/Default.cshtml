@@ -179,7 +179,7 @@
 										</a>
 										<a href="/DiamondJewelryNecklace/Index" class="link-border">
 											<img src="../assets/img/pic_product/search/i-mat-day-chuyen-kim-cuong.png"
-												 alt="Nam" class="icon" width="35" height="35" style="margin-left: -6px;">Mặt Dây Chuyền Kim Cương
+												 alt="Nam" class="icon" width="35" height="35" style="margin-left: -6px;">Dây Chuyền Kim Cương
 										</a>
 									</ul>
 								</div>
@@ -254,8 +254,8 @@
 					<div class="col-12" style="display: flex; flex-wrap: wrap;">
 						@if (Model != null)
 						{
-							var initialProducts = Model.Where(p => p.IsSale && p.CategoryVm.CategoryName != "Kim Cương" && p.CategoryVm.CategoryName != "Trang Sức Cưới").Take(20).ToList();
-							var hiddenProducts = Model.Where(p => p.IsSale && p.CategoryVm.CategoryName != "Kim Cương" && p.CategoryVm.CategoryName != "Trang Sức Cưới").Skip(20).ToList();
+							var initialProducts = Model.Where(p => p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()) && p.CategoryVm.CategoryName != "Kim Cương" && p.CategoryVm.CategoryName != "Trang Sức Cưới").Take(20).ToList();
+							var hiddenProducts = Model.Where(p => p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()) && p.CategoryVm.CategoryName != "Kim Cương" && p.CategoryVm.CategoryName != "Trang Sức Cưới").Skip(20).ToList();
 
 							@foreach (var product in initialProducts)
 							{
@@ -355,7 +355,7 @@
 					</div>
 					<!-- Main Shop wrapper End -->
 					<!-- "See More" Button -->
-					@if (Model.Count > 20)
+					@if (Model.Where(p => p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()) && p.CategoryVm.CategoryName != "Kim Cương" && p.CategoryVm.CategoryName != "Trang Sức Cưới").Count() > 20)
 					{
 						<div class="see-more-wrapper text-center mt-4">
 							<button id="seeMoreBtn" class="btn btn-primary">Xem thêm</button>

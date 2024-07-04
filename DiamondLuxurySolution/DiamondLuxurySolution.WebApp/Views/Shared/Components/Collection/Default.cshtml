@@ -3,120 +3,136 @@
 @using DiamondLuxurySolution.ViewModel.Models.Slide
 @model List<CollectionVm>
 <head>
-	<style>
-		.slick-btn {
-			display: none !important
-		}
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+MX:wght@100..400&display=swap" rel="stylesheet">
+    <style>
+        .slick-btn {
+            display: none !important
+        }
 
-		.slider-area:hover .slick-btn {
-			display: block !important;
-		}
+        .slider-area:hover .slick-btn {
+            display: block !important;
+        }
 
-		.homepage-slider:hover .slick-btn {
-			display: block !important;
-		}
+        .homepage-slider:hover .slick-btn {
+            display: block !important;
+        }
 
-		.slider-content {
-			text-align: start;
-			justify-content: start
-		}
+        .slider-content {
+            text-align: start;
+            justify-content: start
+        }
 
-		.center-text {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			height: 100%;
-		}
+        .center-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
 
-		.center-text-line-height {
-			line-height: 50px;
-			height: 50px;
-			display: inline-block;
-			text-align: center;
-			vertical-align: middle;
-		}
+        .center-text-line-height {
+            line-height: 50px;
+            height: 50px;
+            display: inline-block;
+            text-align: center;
+            vertical-align: middle;
+        }
 
-		.btn {
-			display: inline-block;
-			padding: 10px 20px;
-			background-color: #e6b800;
-			color: #fff;
-			text-decoration: none;
-			border-radius: 5px;
-		}
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #ffc107;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
 
-	</style>
+        .priceInit {
+            font-size: 20px;
+        }
+    </style>
 </head>
 <body>
-	@{
-		var slideList = ViewBag.ListSlide as List<SlideViewModel>;
-	}
-	@if (Model != null && Model.Count() > 0)
-	{
-		<div class="slider-area">
-			<div class="homepage-slider">
+    @{
+        var slideList = ViewBag.ListSlide as List<SlideViewModel>;
+    }
+    @if (Model != null && Model.Count() > 0)
+    {
+        <div class="slider-area">
+            <div class="homepage-slider">
 
-				@foreach (var collection in Model)
-				{
-					if (collection.IsHome)
-					{
-						<!-- Single Slide Start -->
-						<div class="single-slider content-v-center"
-							 style="background-image: url(@collection.Thumbnail)">
-							<div class="container">
-								<div class="row">
-									<div class="col-12">
-										<div class="slider-content">
-											<h5 data-animation="rollIn" data-duration=".8s" data-delay=".5s" class=""
-												style="animation-delay: 0.5s; animation-duration: 0.8s; color: #e6b800; font-weight: bold">
-												@collection.Description
-											</h5>
-											<h1 data-animation="fadeInDown" data-duration=".8s" data-delay=".2s" class=""
-												style="animation-delay: 0.2s; animation-duration: 0.8s;">
-												@collection.CollectionName
-											</h1>
-											<p class="mb--50 mb-sm--20" data-animation="fadeInDown" data-duration=".8s" data-delay=".2s"
-											   style="animation-delay: 0.2s; animation-duration: 0.8s;">
-												Giá Khởi Điểm Từ
-												<strong style="vertical-align: text-bottom;align-items: baseline;color: #e6b800; display: inline-block;">@collection.priceDisplay.ToString("N0")₫</strong>
-											</p>
-											<div class="slide-btn-group" data-animation="fadeInUp" data-duration="1s" data-delay=".3s"
-												 style="animation-delay: 0.3s; animation-duration: 1s;">
-												<a href="@Url.Action("Index", "Collection_List", new { collectionId = collection.CollectionId })"
-												   type="button" class="btn btn-bordered btn-style-1" class="btn btn-bordered btn-style-1 center-text" tabindex="-1">
-													Khám Phá Tại Đây
-												</a>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					}
-				}
-			</div>
-		</div>
-	}
-	else
-	{
-		if (slideList != null)
-		{
-			<div class="slider-area">
-				<div class="homepage-slider">
+                @foreach (var collection in Model)
+                {
+                    if (collection.IsHome)
+                    {
+                        <!-- Single Slide Start -->
+                        <div class="single-slider content-v-center"
+                             style="background-image: url(@collection.Thumbnail)">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="slider-content">
+                                            @if (collection.CollectionName.Contains("Nhẫn Cưới"))
+                                            {
+                                                <h5 data-animation="rollIn" data-duration=".8s" data-delay=".5s" class=""
+                                                    style="font-family: Playwrite MX, cursive; animation-delay: 0.5s; animation-duration: 0.8s; color: #ff2286ba; font-weight: bold; font-size: 30px">
+                                                    @collection.Description
+                                                </h5>
+                                            }
+                                            else
+                                            {
+                                                <h5 data-animation="rollIn" data-duration=".8s" data-delay=".5s" class=""
+                                                    style="font-family: Playwrite MX, cursive; animation-delay: 0.5s; animation-duration: 0.8s; color: #ffc107; font-weight: bold; font-size: 30px">
+                                                    @collection.Description
+                                                </h5>
+                                            }
+                                            <h1 data-animation="fadeInDown" data-duration=".8s" data-delay=".2s" class=""
+                                                style="animation-delay: 0.2s; animation-duration: 0.8s;">
+                                                @collection.CollectionName
+                                            </h1>
+                                            <p class="mb--50 mb-sm--20" data-animation="fadeInDown" data-duration=".8s" data-delay=".2s"
+                                               style="animation-delay: 0.2s; animation-duration: 0.8s;">
+                                                <span class="priceInit">
+                                                    Giá Khởi Điểm Từ
+                                                </span>
+                                                <strong style="vertical-align: text-bottom;align-items: baseline;color: #ffc107; display: inline-block;">@collection.priceDisplay.ToString("N0")₫</strong>
+                                            </p>
+                                            <div class="slide-btn-group" data-animation="fadeInUp" data-duration="1s" data-delay=".3s"
+                                                 style="animation-delay: 0.3s; animation-duration: 1s;">
+                                                <a href="@Url.Action("Index", "Collection_List", new { collectionId = collection.CollectionId })"
+                                                   type="button" class="btn btn-bordered btn-style-1" class="btn btn-bordered btn-style-1 center-text" tabindex="-1">
+                                                    Khám Phá Tại Đây
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        if (slideList != null)
+        {
+            <div class="slider-area">
+                <div class="homepage-slider">
 
-					@foreach (var slide in slideList)
-					{
-						if (!(slide.SlideName.Equals("Nhẫn Nữ") || slide.SlideName.Equals("Nhẫn Nam") || slide.SlideName.Equals("Nhẫn Cưới")
-						|| slide.SlideName.Equals("Kim Cương") || slide.SlideName.Equals("Hoa Tai") || slide.SlideName.Equals("Dây Chuyền")))
-						{
-							<!-- Single Slide Start -->
-							<div class="single-slider content-v-center"
-								 style="background-image: url(@slide.SlideImage)">
-							</div>
-						}
-					}
-				</div>
-			</div>
-		}
-	}
+                    @foreach (var slide in slideList)
+                    {
+                        if (!(slide.SlideName.Equals("Nhẫn Nữ") || slide.SlideName.Equals("Nhẫn Nam") || slide.SlideName.Equals("Nhẫn Cưới")
+                        || slide.SlideName.Equals("Kim Cương") || slide.SlideName.Equals("Hoa Tai") || slide.SlideName.Equals("Dây Chuyền")))
+                        {
+                            <!-- Single Slide Start -->
+                            <div class="single-slider content-v-center"
+                                 style="background-image: url(@slide.SlideImage)">
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    }
 </body>

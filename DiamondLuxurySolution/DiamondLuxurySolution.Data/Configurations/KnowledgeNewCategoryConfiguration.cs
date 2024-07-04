@@ -13,7 +13,7 @@ namespace DiamondLuxurySolution.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<KnowledgeNewCatagory> builder)
         {
-            builder.ToTable("KnowledgeNewCatagories");
+            builder.ToTable("KnowledgeNewCategories");
 
             builder.HasKey(k => k.KnowledgeNewCatagoryId);
             builder.Property(k => k.KnowledgeNewCatagoryId).IsRequired().ValueGeneratedOnAdd();

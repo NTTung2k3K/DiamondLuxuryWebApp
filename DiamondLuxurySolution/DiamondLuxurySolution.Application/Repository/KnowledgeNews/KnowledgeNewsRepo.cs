@@ -219,7 +219,7 @@ namespace DiamondLuxurySolution.Application.Repository.KnowledgeNews
             var listKnowledgeNews = await _context.KnowledgeNews.ToListAsync();
             if (!string.IsNullOrEmpty(request.Keyword))
             {
-                listKnowledgeNews = listKnowledgeNews.Where(x => x.KnowledgeNewsName.Contains(request.Keyword)).ToList();
+                listKnowledgeNews = listKnowledgeNews.Where(x => x.KnowledgeNewsName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listKnowledgeNews = listKnowledgeNews.OrderByDescending(x => x.DateModified).ToList();

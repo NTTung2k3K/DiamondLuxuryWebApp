@@ -136,7 +136,7 @@ namespace DiamondLuxurySolution.Application.Repository.Warranty
             var listWarranty = await _context.Warrantys.ToListAsync();
             if (request.Keyword != null)
             {
-                listWarranty = listWarranty.Where(x => x.WarrantyName.Contains(request.Keyword)).ToList();
+                listWarranty = listWarranty.Where(x => x.WarrantyName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listWarranty = listWarranty.Where(x => x.Status).OrderByDescending(x => x.DateExpired).ToList();
@@ -169,7 +169,7 @@ namespace DiamondLuxurySolution.Application.Repository.Warranty
             var listWarranty = await _context.Warrantys.ToListAsync();
             if (request.Keyword != null)
             {
-                listWarranty = listWarranty.Where(x => x.WarrantyName.Contains(request.Keyword)).ToList();
+                listWarranty = listWarranty.Where(x => x.WarrantyName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listWarranty = listWarranty.OrderByDescending(x => x.DateExpired).ToList();

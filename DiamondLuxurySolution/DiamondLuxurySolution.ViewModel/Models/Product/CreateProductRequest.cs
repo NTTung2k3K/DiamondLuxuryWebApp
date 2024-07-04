@@ -23,7 +23,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.Product
         public IFormFile ProductThumbnail { get; set; }
         [DisplayName("Hiện thị ở trang chủ")]
         public bool IsHome { get; set; }
-        [DisplayName("Hiện thị ỏ dạng giảm giá")]
+        [DisplayName("Hiện thị ở dạng giảm giá")]
         public bool IsSale { get; set; }
         [DisplayName("% giảm giá")]
         [Required(ErrorMessage = "Sản phẩm phải có % giảm giá (có thể bằng 0)")]
