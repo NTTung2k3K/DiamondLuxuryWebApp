@@ -19,8 +19,9 @@ namespace DiamondLuxurySolution.WebApp.Repository.Components.Home_News
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var status = await _newsApiService.GetAll();
-            return View(status.ResultObj.ToList());
+            var newsList = await _newsApiService.GetAll();
+            var status = newsList.ResultObj.Where(n => n.Status == true).OrderByDescending(n => n.DateCreated).Take(6).ToList();
+            return View(status);
         }
     }
 }
