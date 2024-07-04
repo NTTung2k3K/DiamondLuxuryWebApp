@@ -593,7 +593,8 @@ namespace DiamondLuxurySolution.Application.Repository.Product
 												   || x.Gem.GemName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
 												   || x.Category.CategoryName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
 												   || x.SubGemDetails.Any(sg => sg.SubGem.SubGemName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase))
-												   || x.SubGemDetails.Any(sg => sg.SubGem.Description.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase))).ToList();
+												   || x.SubGemDetails.Any(sg => sg.SubGem.Description.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase))
+												   || x.ProductId.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 			}
 
 			var totalRecord = listProduct.Count();

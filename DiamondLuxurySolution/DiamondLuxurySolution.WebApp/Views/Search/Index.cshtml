@@ -343,7 +343,7 @@
 						// Lọc sản phẩm theo keyword
 						if (!string.IsNullOrEmpty(keyword))
 						{
-							filteredProducts = filteredProducts.Where(p => p.ProductName.ToLower().Contains(keyword.ToLower()) || (p.CategoryVm?.CategoryName.ToLower().Contains(keyword.ToLower()) ?? false) && p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString())).ToList();
+							filteredProducts = filteredProducts.Where(p => p.ProductName.ToLower().Contains(keyword.ToLower()) || (p.ProductId.ToLower().Contains(keyword.ToLower())) || (p.CategoryVm?.CategoryName.ToLower().Contains(keyword.ToLower()) ?? false) && p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString())).ToList();
 						}
 						// Sản phẩm được hiển thị ban đầu
 						var initialProducts = filteredProducts.Take(20).ToList();
