@@ -20,8 +20,9 @@ namespace DiamondLuxurySolution.WebApp.Repository.Components.Home_Promotion
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var status = await _promotionApiService.GetAll();
-            return View(status.ResultObj.ToList());
+            var promotionsList = await _promotionApiService.GetAll();
+            var status = promotionsList.ResultObj.Where(p => p.Status == true).OrderByDescending(p => p.StartDate).Take(6).ToList();
+            return View(status);
         }
     }
 }

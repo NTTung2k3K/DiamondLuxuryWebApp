@@ -139,9 +139,12 @@
                                     <span class="money">@Model.SellingPrice.ToString("N0")₫</span>
                                     @if (Model.IsSale)
                                     {
-                                        <span class="product-price-old">
-                                            <span class="money">@Model.OriginalPrice.ToString("N0")₫</span>
-                                        </span>
+                                        if (Model.OriginalPrice != Model.SellingPrice)
+                                        {
+                                            <span class="product-price-old">
+                                                <span class="money">@Model.OriginalPrice.ToString("N0")₫</span>
+                                            </span>
+                                        }                                       
                                     }
                                 </div>
                                 <div>
