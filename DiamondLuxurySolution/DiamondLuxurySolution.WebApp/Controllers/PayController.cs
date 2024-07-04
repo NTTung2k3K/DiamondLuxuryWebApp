@@ -37,6 +37,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
             var customerId = HttpContext.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_ID);
             if (customerId == null)
             {
+                HttpContext.Session.SetString("ReturnToPayInfor", "ReturnToPayInfor");
                 return RedirectToAction("Login", "Account");
             }
 

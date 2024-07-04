@@ -13,6 +13,8 @@ namespace DiamondLuxurySolution.ViewModel.Models
         public string? SubGemName { get; set; }
         [Required(ErrorMessage ="Kim cương phụ cần có số lượng")]
         public int Quantity { get; set; }
+        public decimal? UnitPrice{ get; set; }
+
 
         public override bool Equals(object obj)
         {

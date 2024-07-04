@@ -1012,6 +1012,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                     return new ApiErrorResult<bool>($"Không tìm thấy sản phẩm");
                 }
                 product.SellingCount += item.Quantity;
+                product.Quantity -= item.Quantity;
             }
             //Process Payment Status 
             var listPayment = _context.OrdersPayments.Where(x => x.OrderId == order.OrderId).ToList();
