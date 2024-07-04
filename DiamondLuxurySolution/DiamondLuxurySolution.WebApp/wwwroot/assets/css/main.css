@@ -7215,7 +7215,8 @@ User Dashboard tab
 }
 @media (max-width: 74.9375em) {
   .shop-toolbar .product-short .nice-select {
-    width: 11rem;
+    width: 14rem;
+
   }
 }
 .shop-toolbar .product-short .nice-select .list {
@@ -8576,3 +8577,72 @@ button:hover {
 .bottom-text a:hover {
   color: #a8741a;
 }
+
+
+@media (max-width: 640px) {
+    .col-sm-5 {
+        flex: auto;
+    }
+
+    .col-6 {
+        word-break: break-word;
+    }
+
+    .img-promotion {
+        height: 150px;
+        width: 550px;
+    }
+
+    .container-promotion {
+        padding: 40px 28px !important;
+    }
+
+    .category {
+        margin: 30px 20px !important;
+    }
+
+    .cat-list {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+    }
+
+    .link-border {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .product-short {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .shop-toolbar {
+        height: 15rem;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+    }
+    .product-short {
+        width: 145px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+    }
+    .shop-toolbar {
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: space-between !important;
+    }
+    .searchInput {
+        width: 16rem !important;
+    }
+    .item{
+        width: 242px !important;
+        height: 260px !important;
+    }
+    .item-img {
+        height: 174px !important;
+    }
+
+}
+

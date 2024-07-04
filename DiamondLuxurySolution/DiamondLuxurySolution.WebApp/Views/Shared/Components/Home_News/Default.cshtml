@@ -53,7 +53,6 @@
                 .owl-nav button.owl-prev:hover,
                 .owl-nav button.owl-next:hover {
                     background-color: darkgoldenrod !important;
-                    outline: none;
                 }
                 .owl-nav button.owl-prev span,
                 .owl-nav button.owl-next span {
@@ -122,7 +121,7 @@
     {
         <h2 class="hightlight-h2">Tin Tức Mới Nhất</h2>
         var newsHot = Model.OrderByDescending(m => m.DateCreated).Take(6).ToList();
-        <div class="owl-carousel owl-carousel-news owl-theme" id="news-carousel">
+        <div class="owl-carousel owl-carousel-news owl-theme" id="news-carousel" style="    padding-bottom: 35px;">
             @foreach (var news in newsHot)
             {
                 <div class="news-item">
@@ -166,7 +165,7 @@
                     items: 1,
                     slideBy: 1
                 },
-                600: {
+                800: {
                     items: 2,
                     slideBy: 2
                 },
@@ -179,12 +178,12 @@
         // Bắt sự kiện khi rê chuột vào sản phẩm
         $(document).ready(function () {
             var owl = $('#news-carousel');
-            $('.news-item, .owl-next, .owl-prev').mouseenter(function () {
+            $('.news-content, .owl-next, .owl-prev').mouseenter(function () {
                 owl.trigger('refresh.owl.carousel');
                 $('.owl-nav').removeClass('disabled');
             });
 
-            $('.news-item').mouseleave(function () {
+            $('.news-content').mouseleave(function () {
                 owl.trigger('refresh.owl.carousel');
                 $('.owl-nav').addClass('disabled');
             });
