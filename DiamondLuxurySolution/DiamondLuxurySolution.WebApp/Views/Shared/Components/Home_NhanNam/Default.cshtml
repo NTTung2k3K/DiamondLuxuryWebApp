@@ -200,7 +200,12 @@
     {
         <div class="container-product-item">
             @{
-                var listProduct = Model.Where(p => p.CategoryVm?.CategoryName == "Nhẫn" && p.CategoryVm?.CategoryType == "Nam" && p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()) && p.IsHome).ToList();
+                var listProduct = Model.Where(p => p.CategoryVm?.CategoryName == "Nhẫn" &&
+                (
+                p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString())
+                || p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString())
+                )
+                && p.IsHome).ToList();
                 var productCount = listProduct.Count;
                 if (listProduct != null && listProduct.Count() > 0)
                 {
@@ -224,6 +229,14 @@
                                     <a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
                                         <div class="item-img">
                                             <img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
+                                            <div style="position: absolute; top: 6%; margin-left: 8px;">
+                                                @if (product.IsSale && product.PercentSale != 0)
+                                                {
+                                                    <span class="product-label discount" style="padding: 5px 10px">
+                                                        -@product.PercentSale%
+                                                    </span>
+                                                }
+                                            </div>
                                         </div>
                                         <div class="item-text">
                                             <p class="NameProduct">
