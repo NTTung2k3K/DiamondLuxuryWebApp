@@ -356,7 +356,7 @@
                             {
                                 <div class="item product-item col-3" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
                                     <div class="item-content">
-                                        <a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
+                                        <a href="/Diamond/Detail?ProductId=@product.ProductId">
                                             <div class="item-img">
                                                 <img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
                                                 <div style="position: absolute; top: 6%; margin-left: 8px;">
@@ -400,7 +400,7 @@
                             {
                                 <div class="item product-item col-3" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
                                     <div class="item-content">
-                                        <a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
+                                        <a href="/WeddingJewelry/Detail?ProductId=@product.ProductId">
                                             <div class="item-img">
                                                 <img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
                                                 <div style="position: absolute; top: 6%; margin-left: 8px;">
@@ -627,7 +627,9 @@
                     }
                 </div>
 
-
+                <div class="d-flex justify-content-center align-items-center">
+                    @await Component.InvokeAsync("Pager", Model)
+                </div>
                 <!-- Main Shop wrapper End -->
                 <!-- Pagination Start -->
                 @if (filteredProducts != null)

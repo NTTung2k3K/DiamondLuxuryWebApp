@@ -1072,12 +1072,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 return new ApiErrorResult<bool>("Không tìm thấy nhân viên giao hàng");
             }
             order.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString();
-            var orderDetailSellingCount = await _context.OrderDetails.Where(x => x.OrderId == order.OrderId).ToListAsync();
-            foreach (var item in orderDetailSellingCount)
-            {
-                var product = await _context.Products.FindAsync(item.ProductId);
-                product.Quantity += item.Quantity;
-            }
+          
             order.Description = request.Description;
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Cập nhật đơn hàng thành công");
