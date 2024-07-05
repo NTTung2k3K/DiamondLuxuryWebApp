@@ -9,5 +9,7 @@ namespace DiamondLuxurySolution.BackgroundServiceHost.Service.GemPriceListServic
     public interface IGemPriceListDefault
     {
         Task CreateDefaultGemPriceList(CancellationToken cancellationToken);
+
+        Task CreateDefaultGemPriceListNatural(CancellationToken cancellationToken);
     }
 }

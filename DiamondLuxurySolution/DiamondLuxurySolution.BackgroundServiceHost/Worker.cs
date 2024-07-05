@@ -36,6 +36,8 @@ namespace DiamondLuxurySolution.BackgroundServiceHost
                     // Execute your function
                     await myService.CreateDefaultGemPriceList(stoppingToken);
 
+                    await myService.CreateDefaultGemPriceListNatural(stoppingToken);
+
                     var myService2 = scope.ServiceProvider.GetRequiredService<IMaterialService>();
 
                     await myService2.CreateDefaultMaterial(stoppingToken);
