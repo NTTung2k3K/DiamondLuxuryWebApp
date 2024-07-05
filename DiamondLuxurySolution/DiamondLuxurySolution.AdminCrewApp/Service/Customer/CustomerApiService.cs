@@ -12,7 +12,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Customer
         }
         public async Task<ApiResult<bool>> DeleteCustomer(Guid CustomerId)
         {
-            var data = await DeleteAsync<bool>("api/Customers/DeleteCustomer/" + CustomerId);
+            var data = await DeleteAsync<bool>("api/Customers/DeleteCustomer?CustomerId=" + CustomerId);
             return data;
         }
 

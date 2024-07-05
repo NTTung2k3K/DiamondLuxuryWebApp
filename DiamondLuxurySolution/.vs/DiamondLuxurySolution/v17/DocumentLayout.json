@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5B68F4DF-5997-41AA-85DC-824D51FF679F}|DiamondLuxurySolution.WebApp\\DiamondLuxurySolution.WebApp.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.webapp\\views\\search\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{5B68F4DF-5997-41AA-85DC-824D51FF679F}|DiamondLuxurySolution.WebApp\\DiamondLuxurySolution.WebApp.csproj|D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\diamondluxurysolution.webapp\\views\\search\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{5B68F4DF-5997-41AA-85DC-824D51FF679F}|DiamondLuxurySolution.WebApp\\DiamondLuxurySolution.WebApp.csproj|solutionrelative:diamondluxurysolution.webapp\\views\\search\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.application\\repository\\product\\productrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|solutionrelative:diamondluxurysolution.application\\repository\\product\\productrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5B68F4DF-5997-41AA-85DC-824D51FF679F}|DiamondLuxurySolution.WebApp\\DiamondLuxurySolution.WebApp.csproj|d:\\fptu\\ky5\\swp\\diamondluxurywebapp\\diamondluxurysolution\\diamondluxurysolution.webapp\\controllers\\searchcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5B68F4DF-5997-41AA-85DC-824D51FF679F}|DiamondLuxurySolution.WebApp\\DiamondLuxurySolution.WebApp.csproj|solutionrelative:diamondluxurysolution.webapp\\controllers\\searchcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\diamondluxurysolution.application\\repository\\product\\productrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0E3E147C-884A-4133-A0EB-0F119E2D90A8}|DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj|solutionrelative:diamondluxurysolution.application\\repository\\product\\productrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,26 +26,26 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "ProductRepo.cs",
               "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Product\\ProductRepo.cs",
               "RelativeDocumentMoniker": "DiamondLuxurySolution.Application\\Repository\\Product\\ProductRepo.cs",
               "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\Repository\\Product\\ProductRepo.cs",
               "RelativeToolTip": "DiamondLuxurySolution.Application\\Repository\\Product\\ProductRepo.cs",
-              "ViewState": "AQIAADsCAAAAAAAAAAAuwFQCAAAnAAAA",
+              "ViewState": "AQIAAEMCAAAAAAAAAAAcwEsCAAADAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-04T18:14:04.695Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 1,
               "Title": "SearchController.cs",
               "DocumentMoniker": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\Controllers\\SearchController.cs",
               "RelativeDocumentMoniker": "DiamondLuxurySolution.WebApp\\Controllers\\SearchController.cs",
               "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\Controllers\\SearchController.cs",
               "RelativeToolTip": "DiamondLuxurySolution.WebApp\\Controllers\\SearchController.cs",
-              "ViewState": "AQIAABIAAAAAAAAAAAAYwCQAAAARAAAA",
+              "ViewState": "AQIAABsAAAAAAAAAAAAtwBUAAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-07-04T18:12:25.592Z",
               "EditorCaption": ""
@@ -58,7 +58,7 @@
               "RelativeDocumentMoniker": "DiamondLuxurySolution.WebApp\\Views\\Search\\Index.cshtml",
               "ToolTip": "D:\\FPTU\\Ky5\\SWP\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.WebApp\\Views\\Search\\Index.cshtml",
               "RelativeToolTip": "DiamondLuxurySolution.WebApp\\Views\\Search\\Index.cshtml",
-              "ViewState": "AQIAAEcBAAAAAAAAAAAAAFoBAAAHAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAALsBAAAHAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-07-04T18:09:14.452Z",
               "EditorCaption": ""
