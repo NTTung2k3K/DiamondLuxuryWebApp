@@ -1371,21 +1371,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
             {
                 var orderDetailSellingCount = await _context.OrderDetails.Where(x => x.OrderId == order.OrderId).ToListAsync();
-                foreach (var item in orderDetailSellingCount)
-                {
-                    var product = await _context.Products.FindAsync(item.ProductId);
-                    if (product == null)
-                    {
-                        return new ApiErrorResult<bool>($"Không tìm thấy sản phẩm");
-                    }
-                    product.SellingCount += item.Quantity;
-                }
-
-                var point = (int)order.TotalAmout / 10000;
-                var customer = await _userMananger.FindByIdAsync(cusId.ToString());
-
-                customer.Point = (int?)(customer?.Point + point);
-
+               
                 //Product Quantity
 
                 foreach (var item in orderDetailSellingCount)
@@ -1403,37 +1389,18 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     if (product.Quantity == 0)
                     {
                         product.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString();
+                        product.DateModified = DateTime.Now;
                     }
+                    product.SellingCount += item.Quantity;
                 }
 
+                var point = (int)order.TotalAmout / 10000;
+                var customer = await _userMananger.FindByIdAsync(cusId.ToString());
+
+                customer.Point = (int?)(customer?.Point + point);
 
             }
-            if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
-            {
-                //Update product quantity
-                var listProduct = _context.OrderDetails.Where(x => x.OrderId == order.OrderId);
 
-                foreach (var item in listProduct)
-                {
-                    var product = await _context.Products.FindAsync(item.ProductId);
-                    if (product == null)
-                    {
-                        return new ApiErrorResult<bool>($"Không tìm thấy sản phẩm");
-                    }
-                    var check = product.Quantity - item.Quantity;
-                    
-                    if (check < 0)
-                    {
-                        return new ApiErrorResult<bool>($"Sản phẩm {product.ProductId} | {product.ProductName} đã hết hàng");
-                    }
-                    product.Quantity -= item.Quantity;
-                    product.SellingCount = item.Quantity;
-                    if (product.Quantity == 0)
-                    {
-                        product.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString();
-                    }
-                }
-            }
 
             await _context.SaveChangesAsync();
 

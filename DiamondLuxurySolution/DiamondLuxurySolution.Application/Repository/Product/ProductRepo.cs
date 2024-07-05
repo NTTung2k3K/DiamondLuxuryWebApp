@@ -333,11 +333,23 @@ namespace DiamondLuxurySolution.Application.Repository.Product
                             Price = product.Frame.Material.Price
                         } 
 					};
-					
+                    var material = await _context.Materials.FindAsync(product.Frame.MaterialId);
 
-				}
+                    productVms.MaterialVm = new MaterialVm()
+                    {
+                        MaterialId = material.MaterialId,
+                        Color = material.Color,
+                        Description = material.Description,
+                        MaterialImage = material.MaterialImage,
+                        MaterialName = material.MaterialName,
+                        Status = material.Status,
 
-				return new ApiSuccessResult<ProductVm>(productVms);
+                    };
+
+
+                }
+
+                return new ApiSuccessResult<ProductVm>(productVms);
 			}
 			catch (Exception e)
 			{
