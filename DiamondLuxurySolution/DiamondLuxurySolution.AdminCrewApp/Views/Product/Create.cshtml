@@ -1,4 +1,7 @@
-﻿@model DiamondLuxurySolution.ViewModel.Models.Product.CreateProductRequest
+﻿@using DiamondLuxurySolution.ViewModel.Models.Category
+@using DiamondLuxurySolution.ViewModel.Models.Gem
+@using DiamondLuxurySolution.ViewModel.Models.SubGem
+@model DiamondLuxurySolution.ViewModel.Models.Product.CreateProductRequest
 
 @{
     ViewData["Title"] = "Tạo mới tin tức";
@@ -168,15 +171,16 @@
                 <label asp-for="GemId" class="control-label m-2">Kim cương chính</label>
                 <select class="h-50 form-select form-select-lg mb-3" name="GemId">
 
-                    @foreach (var Gem in ViewBag.FullGem)
+
+                    @foreach (var Gem in ((IEnumerable<GemVm>)ViewBag.FullGem).Where(x => x.Active).ToList())
                     {
-                        if (Model != null && Model.GemId != null)
+                        if (Model != null && Model.GemId != null) 
                         {
                             if (Model.GemId.ToString().Equals(Gem.GemId.ToString()))
                             {
                                 <option value="@Gem.GemId" selected>
                                     <div>
-                                        Tên: @Gem.GemName &nbsp; Loại: @(Gem.IsOrigin ? "Tự nhiên" : "Nhân tạo") &nbsp; Trạng thái: @(Gem.Active ? "Hoạt động" : "Chưa hoạt động")
+                                        Tên: @Gem.GemName &nbsp; Loại: @(Gem.IsOrigin ? "Tự nhiên" : "Nhân tạo")  &nbsp; Giá trị: @(Gem.GemPriceListVm.Price.ToString("N0"))₫
                                     </div>
                                 </option>
                             }
@@ -184,7 +188,7 @@
                             {
                                 <option value="@Gem.GemId">
                                     <div>
-                                        Tên: @Gem.GemName &nbsp; Loại: @(Gem.IsOrigin ? "Tự nhiên" : "Nhân tạo") &nbsp; Trạng thái: @(Gem.Active ? "Hoạt động" : "Chưa hoạt động")
+                                        Tên: @Gem.GemName &nbsp; Loại: @(Gem.IsOrigin ? "Tự nhiên" : "Nhân tạo") &nbsp; Giá trị: @(Gem.GemPriceListVm.Price.ToString("N0"))₫
                                     </div>
                                 </option>
                             }
@@ -193,7 +197,7 @@
                         {
                             <option value="@Gem.GemId">
                                 <div>
-                                    Tên: @Gem.GemName &nbsp; Loại: @(Gem.IsOrigin ? "Tự nhiên" : "Nhân tạo") &nbsp; Trạng thái: @(Gem.Active ? "Hoạt động" : "Chưa hoạt động")
+                                    Tên: @Gem.GemName &nbsp; Loại: @(Gem.IsOrigin ? "Tự nhiên" : "Nhân tạo") &nbsp; Giá trị: @(Gem.GemPriceListVm.Price.ToString("N0"))₫
                                 </div>
                             </option>
                         }
@@ -240,7 +244,7 @@
                             {
                                 <option value="@Frame.FrameId" selected>
                                     <div>
-                                        Tên: @Frame.NameFrame &nbsp; Trọng lượng: @Frame.Weight
+                                        Tên: @Frame.NameFrame &nbsp; Trọng lượng: @Frame.Weight  &nbsp; Giá trị: @(((decimal)Frame.Weight * (decimal)Frame.MaterialVm.Price).ToString("N0"))₫
                                     </div>
                                 </option>
                             }
@@ -248,7 +252,7 @@
                             {
                                 <option value="@Frame.FrameId">
                                     <div>
-                                        Tên: @Frame.NameFrame &nbsp; Trọng lượng: @Frame.Weight
+                                        Tên: @Frame.NameFrame &nbsp; Trọng lượng: @Frame.Weight &nbsp; Giá trị: @(((decimal)Frame.Weight * (decimal)Frame.MaterialVm.Price).ToString("N0"))₫
                                     </div>
                                 </option>
                             }
@@ -257,7 +261,7 @@
                         {
                             <option value="@Frame.FrameId">
                                 <div>
-                                    Tên: @Frame.NameFrame &nbsp; Trọng lượng: @Frame.Weight
+                                    Tên: @Frame.NameFrame &nbsp; Trọng lượng: @Frame.Weight &nbsp; Giá trị: @(((decimal)Frame.Weight * (decimal)Frame.MaterialVm.Price).ToString("N0"))₫
                                 </div>
                             </option>
                         }
@@ -273,7 +277,7 @@
             <div class="form-group m-2">
                 <label asp-for="CategoryId" class="control-label m-2">Loại</label>
                 <select class="h-50 form-select form-select-lg mb-3" name="CategoryId">
-                    @foreach (var category in ViewBag.FullCategory)
+                    @foreach (var category in ((IEnumerable<CategoryVm>)ViewBag.FullCategory).Where(x => x.Status).ToList())
                     {
                         if (Model != null && Model.CategoryId != null)
                         {
@@ -281,7 +285,7 @@
                             {
                                 <option value="@category.CategoryId" selected>
                                     <div>
-                                        Tên: @category.CategoryName &nbsp; Loại: @category.CategoryType &nbsp; Trạng thái: @(category.Status ? Html.Raw("<span style='color:green'>Hoạt động</span>") : Html.Raw("<span style='color:red'>Chưa hoạt động</span>"))
+                                        Tên: @category.CategoryName &nbsp; Kiểu: @category.CategoryType
                                     </div>
                                 </option>
                             }
@@ -289,7 +293,7 @@
                             {
                                 <option value="@category.CategoryId">
                                     <div>
-                                        Tên: @category.CategoryName &nbsp; Loại: @category.CategoryType &nbsp; Trạng thái: @(category.Status ? Html.Raw("<span style='color:green'>Hoạt động</span>") : Html.Raw("<span style='color:red'>Chưa hoạt động</span>"))
+                                        Tên: @category.CategoryName &nbsp; Kiểu: @category.CategoryType
 
                                     </div>
                                 </option>
@@ -299,7 +303,7 @@
                         {
                             <option value="@category.CategoryId">
                                 <div>
-                                    Tên: @category.CategoryName &nbsp; Loại: @category.CategoryType &nbsp; Trạng thái: @(category.Status ? Html.Raw("<span style='color:green'>Hoạt động</span>") : Html.Raw("<span style='color:red'>Chưa hoạt động</span>"))
+                                    Tên: @category.CategoryName &nbsp; Kiểu: @category.CategoryType
                                 </div>
                             </option>
                         }
@@ -358,10 +362,10 @@
 
 
             <div class="form-group row">
-                <div class="col-md-9 mt-4">
+                <div class="col-md-8 mt-4">
                     <input type="submit" value="Tạo mới" class="btn btn-success" />
                 </div>
-                <div class="col-md-3 mt-4">
+                <div class="col-md-4 mt-4">
                     <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="Product">Về trang quản lí sản phẩm</a>
                 </div>
             </div>
@@ -374,7 +378,7 @@
     </div>
 </div>
 @{
-    var fullSubgemJson = Json.Serialize(ViewBag.FullSubgem);
+    var fullSubgemJson = Json.Serialize(((IEnumerable<SubGemVm>)ViewBag.FullSubgem).Where(x => x.Active).ToList());
 }
 @section Scripts {
     <script src="~/assets/js/plugins/dropzone-amd-module.min.js"></script>
@@ -465,7 +469,7 @@
                                 var formattedPrice = subgem.subGemPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
                                 var option = $('<option/>');
                                 option.val(subgem.subGemId);
-                                option.text('Tên: ' + subgem.subGemName + ' | Giá: ' + formattedPrice + ' | Trạng thái: ' + (subgem.Active ? 'Hoạt động' : 'Chưa hoạt động'));
+                                option.text('Tên: ' + subgem.subGemName + ' | Giá: ' + formattedPrice);
                                 option.addClass('optionOfSubGem');
                                 rowSelect.append(option);
                             }
