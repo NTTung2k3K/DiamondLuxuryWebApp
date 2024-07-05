@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DiamondLuxurySolution.WebApp.Repository.Components.Home_ProductIsSale
+namespace DiamondLuxurySolution.WebApp.Repository.Components.Home_TatCaSanPham
 {
-    public class Home_ProductIsSaleViewComponent : ViewComponent
+    public class Home_TatCaSanPhamViewComponent : ViewComponent
     {
         private readonly IProductApiService _productApiService;
         private readonly ISlideApiService _slideApiService;
 
-        public Home_ProductIsSaleViewComponent(IProductApiService productApiService, ISlideApiService slideApiService)
+        public Home_TatCaSanPhamViewComponent(IProductApiService productApiService, ISlideApiService slideApiService)
         {
             _productApiService = productApiService;
             _slideApiService = slideApiService;
