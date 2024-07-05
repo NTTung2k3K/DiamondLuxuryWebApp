@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DiamondLuxurySolution.BackendApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dae3ca7cfc1953eae9b97afd80e8ca53f4dc2eff")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4f7fd20239f9e4b53e68ab957cd09e2362d22d8e")]
 [assembly: System.Reflection.AssemblyProductAttribute("DiamondLuxurySolution.BackendApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DiamondLuxurySolution.BackendApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
