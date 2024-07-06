@@ -1,17 +1,18 @@
-﻿using DiamondLuxurySolution.Data.Entities;
+﻿using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Product;
 using DiamondLuxurySolution.WebApp.Service.Product;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace DiamondLuxurySolution.WebApp.Controllers
 {
     public class SearchController : Controller
     {
-        private readonly ISearchProductApiService _SearchProductApiService;
+        private readonly ISearchProductApiService _searchProductApiService;
 
         public SearchController(ISearchProductApiService searchProductApiService)
         {
-            _SearchProductApiService = searchProductApiService;
+            _searchProductApiService = searchProductApiService;
         }
 
         [HttpGet]
@@ -36,14 +37,26 @@ namespace DiamondLuxurySolution.WebApp.Controllers
                     ViewBag.SuccessMsg = TempData["SuccessMsg"];
                 }
 
-                var apiResult = await _SearchProductApiService.ViewProduct(request);
-                if (apiResult == null || !apiResult.IsSuccessed)
+                var apiResult = await _searchProductApiService.GetAll();
+                if (apiResult == null || !apiResult.IsSuccessed || apiResult.ResultObj == null)
                 {
                     ViewBag.Message = "Không tìm thấy kết quả phù hợp";
                     return View();
                 }
 
-                var results = apiResult.ResultObj;
+                var results = new PageResult<ProductVm>();
+
+                if (apiResult != null && apiResult.IsSuccessed && apiResult.ResultObj != null)
+                {
+                    results.Items = apiResult.ResultObj;
+                    results.TotalRecords = apiResult.ResultObj.Count;
+                }
+                else
+                {
+                    results.Items = new List<ProductVm>(); // Hoặc gán null tùy vào logic của bạn
+                    results.TotalRecords = 0;
+                }
+
                 ViewData["Keyword"] = request.Keyword;
                 return View(results);
             }
@@ -52,7 +65,5 @@ namespace DiamondLuxurySolution.WebApp.Controllers
                 return View();
             }
         }
-
-
     }
 }
