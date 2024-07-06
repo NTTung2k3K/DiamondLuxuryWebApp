@@ -27,7 +27,8 @@ Welcome to the Diamond Luxury Shop project! This application is designed to mana
 - **ASP.NET MVC & ASP.NET API**: To build the web applications and backend services.
 - **Firebase**: For storing images and sending OTPs for authentication.
 - **PayPal Sandbox**: For processing payments.
-- **Facebook & Google OAuth**: For user login and authentication.
+- **Facebook ![Diamond Icon](https://camo.githubusercontent.com/05bf51513179d5b864921ba868f4bf54d2d74054f8f293f4569d969409b60a69/68747470733a2f2f6564656e742e6769746875622e696f2f537570657254696e7949636f6e732f696d616765732f7376672f66616365626f6f6b2e737667)
+ & Google OAuth**: For user login and authentication.
 - **ASP.NET Identity**: For managing user accounts and authentication.
 - **Azure DB**: To create a shared database for the team.
 - **Automated Price Crawling**: To keep product prices updated automatically.
