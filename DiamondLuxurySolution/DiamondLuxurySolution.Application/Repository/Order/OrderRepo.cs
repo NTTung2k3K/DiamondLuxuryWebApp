@@ -157,7 +157,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 var validQuantity = productEntity.Quantity - product.Quantity;
                 if (validQuantity < 0)
                 {
-                    return new ApiErrorResult<string>($"Không đủ hàng cho sản phẩm: {productEntity.ProductId} | {productEntity.ProductName} | Số lượng: {productEntity.Quantity}");
+                    return new ApiErrorResult<string>($"Không đủ hàng cho sản phẩm: {productEntity.ProductId} | {productEntity.ProductName} | Số lượng có thể mua: {productEntity.Quantity}");
                 }
             }
 
@@ -181,7 +181,8 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString(),
                 OrderDate = DateTime.Now,
                 Deposit = request.Deposit == null ? 0 : (decimal)request.Deposit,
-                Datemodified = DateTime.Now
+                Datemodified = DateTime.Now,
+                isShip = request.ShipAdress != null ? true : false
             };
 
             using (var transaction = await _context.Database.BeginTransactionAsync())
@@ -574,7 +575,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 var validQuantity = productEntityCheck.Quantity - product.Quantity;
                 if (validQuantity < 0)
                 {
-                    return new ApiErrorResult<bool>($"Không đủ hàng cho sản phẩm: {productEntityCheck.ProductId} | {productEntityCheck.ProductName} | Số lượng: {productEntityCheck.Quantity}");
+                    return new ApiErrorResult<bool>($"Không đủ hàng cho sản phẩm: {productEntityCheck.ProductId} | {productEntityCheck.ProductName} | Số lượng có thể mua: {productEntityCheck.Quantity}");
                 }
             }
             Random rd = new Random();
@@ -768,6 +769,50 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         var shipper = await AssignShipper();
                         order.ShipperId = shipper;
                     }
+
+
+
+
+
+                    await _context.SaveChangesAsync();
+
+
+                    if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
+                    {
+                        var orderDetailSellingCount = await _context.OrderDetails.Where(x => x.OrderId == order.OrderId).ToListAsync();
+
+                        //Product Quantity
+
+                        foreach (var item in orderDetailSellingCount)
+                        {
+                            var product = await _context.Products.FindAsync(item.ProductId);
+                            if (product == null)
+                            {
+                                return new ApiErrorResult<bool>($"Không tìm thấy sản phẩm");
+                            }
+                            product.Quantity -= item.Quantity;
+                            if (product.Quantity < 0)
+                            {
+                                return new ApiErrorResult<bool>($"Sản phẩm {product.ProductId} | {product.ProductName} đã hết hàng");
+                            }
+                            if (product.Quantity == 0)
+                            {
+                                product.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString();
+                                product.DateModified = DateTime.Now;
+                            }
+                            product.SellingCount += item.Quantity;
+                        }
+
+                        var point = (int)order.TotalAmout / 10000;
+                        var customer = await _userMananger.FindByIdAsync(cusId.ToString());
+
+                        customer.Point = (int?)(customer?.Point + point);
+
+                    }
+
+
+
+
 
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
@@ -1343,11 +1388,14 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             }
 
             bool orderPaymentStatusSuccess = false;
-            if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success))
+            if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
             {
                 orderPaymentStatusSuccess = true;
                 var listPayment = _context.OrdersPayments.Where(x => x.OrderId == order.OrderId).ToList();
-                listPayment.ForEach(x => x.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString());
+                foreach(var item in listPayment)
+                {
+                    item.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString();
+                }
             }
 
             if (request.ShipAdress != null && !request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()) && !request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()))
@@ -1367,21 +1415,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
             {
                 var orderDetailSellingCount = await _context.OrderDetails.Where(x => x.OrderId == order.OrderId).ToListAsync();
-                foreach (var item in orderDetailSellingCount)
-                {
-                    var product = await _context.Products.FindAsync(item.ProductId);
-                    if (product == null)
-                    {
-                        return new ApiErrorResult<bool>($"Không tìm thấy sản phẩm");
-                    }
-                    product.SellingCount += item.Quantity;
-                }
-
-                var point = (int)total / 10000;
-                var customer = await _userMananger.FindByIdAsync(cusId.ToString());
-
-                customer.Point = (int?)(customer?.Point + point);
-
+               
                 //Product Quantity
 
                 foreach (var item in orderDetailSellingCount)
@@ -1399,34 +1433,18 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     if (product.Quantity == 0)
                     {
                         product.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString();
+                        product.DateModified = DateTime.Now;
                     }
+                    product.SellingCount += item.Quantity;
                 }
 
+                var point = (int)order.TotalAmout / 10000;
+                var customer = await _userMananger.FindByIdAsync(cusId.ToString());
+
+                customer.Point = (int?)(customer?.Point + point);
 
             }
-            if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Confirmed.ToString()))
-            {
-                //Update product quantity
-                var listProduct = _context.OrderDetails.Where(x => x.OrderId == order.OrderId);
 
-                foreach (var item in listProduct)
-                {
-                    var product = await _context.Products.FindAsync(item.ProductId);
-                    if (product == null)
-                    {
-                        return new ApiErrorResult<bool>($"Không tìm thấy sản phẩm");
-                    }
-                    product.Quantity -= item.Quantity;
-                    if (product.Quantity < 0)
-                    {
-                        return new ApiErrorResult<bool>($"Sản phẩm {product.ProductId} | {product.ProductName} đã hết hàng");
-                    }
-                    if (product.Quantity == 0)
-                    {
-                        product.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString();
-                    }
-                }
-            }
 
             await _context.SaveChangesAsync();
 

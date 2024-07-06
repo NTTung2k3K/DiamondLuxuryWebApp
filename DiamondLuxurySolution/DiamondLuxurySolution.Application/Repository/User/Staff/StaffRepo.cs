@@ -1012,10 +1012,17 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                     return new ApiErrorResult<bool>($"Không tìm thấy sản phẩm");
                 }
                 product.SellingCount += item.Quantity;
+                product.Quantity -= item.Quantity;
+            }
+            //Process Payment Status 
+            var listPayment = _context.OrdersPayments.Where(x => x.OrderId == order.OrderId).ToList();
+            foreach (var item in listPayment)
+            {
+                item.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString();
             }
             //Process customer point
 
-            var point = (int)((order.TotalAmout + order.TotalSale) / 10000);
+            var point = (int)((order.TotalAmout) / 10000);
             var customer = await _userManager.FindByIdAsync(order.CustomerId.ToString());
             customer.Point = (int?)(customer?.Point + point);
 
@@ -1065,12 +1072,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 return new ApiErrorResult<bool>("Không tìm thấy nhân viên giao hàng");
             }
             order.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString();
-            var orderDetailSellingCount = await _context.OrderDetails.Where(x => x.OrderId == order.OrderId).ToListAsync();
-            foreach (var item in orderDetailSellingCount)
-            {
-                var product = await _context.Products.FindAsync(item.ProductId);
-                product.Quantity += item.Quantity;
-            }
+          
             order.Description = request.Description;
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Cập nhật đơn hàng thành công");

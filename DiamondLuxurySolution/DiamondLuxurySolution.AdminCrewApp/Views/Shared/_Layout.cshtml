@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="../assets/css/mytoast.css" />
     <link rel="stylesheet" href="../assets/css/MySelectOptions.css" />
 
-    
+
     @RenderSection("CssStyle", required: false)
     <style>
         select {
@@ -85,13 +85,16 @@
             /* Other light mode styles */
         }
 
+        .preventCursorImageModal:hover {
+            cursor: auto;
+        }
     </style>
-  
+
 </head>
 <!-- [Head] end -->
 <!-- [Body] Start -->
 <body data-pc-preset="preset-1" data-pc-sidebar-caption="true" data-pc-layout="vertical" data-pc-direction="ltr"
-      data-pc-theme_contrast="" data-pc-theme="dark">
+      data-pc-theme_contrast="" data-pc-theme="light">
 
 
 
@@ -142,7 +145,7 @@
                         <div class="d-flex align-items-center">
                             <div class="flex-shrink-0">
                                 <img src="@userImage"
-                                     class="user-avtar wid-45 rounded-circle" />
+                                     class="user-avtar wid-45 rounded-circle preventImageModal preventCursorImageModal" />
                             </div>
                             <div class="flex-grow-1 ms-3 me-2 text-center">
                                 <h6 class="mb-0">@username</h6>
@@ -515,7 +518,7 @@
                            data-bs-auto-close="outside"
                            aria-expanded="false">
                             <img src="@userImage"
-                                 class="user-avtar" />
+                                 class="user-avtar preventImageModal" />
                         </a>
                         <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
                             <div class="dropdown-header align-items-center text-center">
@@ -731,7 +734,7 @@
                             </div>
                         </div>
                     </li>
-                   
+
                 </ul>
             </div>
         </div>
@@ -822,7 +825,7 @@
 
     <style>
         img:hover {
-            cursor:pointer
+            cursor: pointer
         }
 
         .custom-modal {
@@ -880,6 +883,12 @@
             // Bắt sự kiện click trên hình ảnh trong div.col-sm-9
             $('img').click(function () {
 
+
+                if ($(this).hasClass('preventImageModal')) {
+                    return; // Nếu có, dừng thực thi script
+                }
+
+
                 images = []; // Đặt lại mảng hình ảnh
                 currentIndex = 0; // Đặt lại chỉ số hình ảnh hiện tại
 
@@ -903,12 +912,13 @@
             function showModal(imageUrl) {
                 // Tạo nội dung modal
                 var modalContent = '<span class="custom-modal-close">&times;</span><img src="' + imageUrl + '" class="custom-modal-content">';
-                // Thêm nút điều hướng
-                modalContent += '<div class="custom-modal-navigation">';
-                modalContent += '<button class="custom-modal-prev" style="margin: 0 30px;">&lt;</button>';
-                modalContent += '<button class="custom-modal-next" style="margin: 0 30px;">&gt;</button>';
-                modalContent += '</div>';
-
+                if (images.length > 1) {
+                    // Thêm nút điều hướng
+                    modalContent += '<div class="custom-modal-navigation">';
+                    modalContent += '<button class="custom-modal-prev" style="margin: 0 30px;">&lt;</button>';
+                    modalContent += '<button class="custom-modal-next" style="margin: 0 30px;">&gt;</button>';
+                    modalContent += '</div>';
+                }
                 // Thêm modal vào body và hiển thị
                 $('body').append('<div class="custom-modal">' + modalContent + '</div>');
                 $('.custom-modal').fadeIn();
@@ -966,7 +976,6 @@
 
 
 
-
     <script>
         layout_theme_contrast_change('false');
     </script>
@@ -1002,7 +1011,7 @@
             }, 3000);
         });
     </script>
-    
+
 </body>
 <!-- [Body] end -->
 

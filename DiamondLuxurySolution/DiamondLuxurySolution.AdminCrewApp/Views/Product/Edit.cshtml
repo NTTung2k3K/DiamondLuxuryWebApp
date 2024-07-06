@@ -1,4 +1,6 @@
-﻿@using DiamondLuxurySolution.ViewModel.Models.SubGem
+﻿@using DiamondLuxurySolution.ViewModel.Models.Category
+@using DiamondLuxurySolution.ViewModel.Models.Gem
+@using DiamondLuxurySolution.ViewModel.Models.SubGem
 @model DiamondLuxurySolution.ViewModel.Models.Product.ProductVm
 
 @{
@@ -35,7 +37,7 @@
             </div>
             <div class="form-group m-2">
                 <label asp-for="DateModify" class="control-label m-2">Ngày chỉnh sửa gần nhất</label>
-                <input asp-for="DateModify" class="form-control"  readonly/>
+                <input asp-for="DateModify" class="form-control" readonly />
             </div>
             <div class="form-group m-2">
                 <label asp-for="QuantitySold" class="control-label m-2">Số lương đã mua</label>
@@ -192,7 +194,7 @@
                 <label asp-for="GemVm.GemId" class="control-label m-2">Kim cương chính</label>
                 <select class="h-50 " name="GemId">
 
-                    @foreach (var Gem in ViewBag.FullGem)
+                    @foreach (var Gem in ((IEnumerable<GemVm>)ViewBag.FullGem).Where(x => x.Active).ToList())
                     {
                         if (Model != null && Model.GemVm.GemId != null)
                         {
@@ -200,7 +202,7 @@
                             {
                                 <option value="@Gem.GemId" selected>
                                     <div>
-                                        Tên: @Gem.GemName &nbsp; Loại: @(Gem.IsOrigin ? "Tự nhiên" : "Nhân tạo") &nbsp; Trạng thái: @(Gem.Active ? "Hoạt động" : "Chưa hoạt động")
+                                        Tên: @Gem.GemName &nbsp; Loại: @(Gem.IsOrigin ? "Tự nhiên" : "Nhân tạo")
                                     </div>
                                 </option>
                             }
@@ -208,7 +210,7 @@
                             {
                                 <option value="@Gem.GemId">
                                     <div>
-                                        Tên: @Gem.GemName &nbsp; Loại: @(Gem.IsOrigin ? "Tự nhiên" : "Nhân tạo") &nbsp; Trạng thái: @(Gem.Active ? "Hoạt động" : "Chưa hoạt động")
+                                        Tên: @Gem.GemName &nbsp; Loại: @(Gem.IsOrigin ? "Tự nhiên" : "Nhân tạo")
                                     </div>
                                 </option>
                             }
@@ -217,7 +219,7 @@
                         {
                             <option value="@Gem.GemId">
                                 <div>
-                                    Tên: @Gem.GemName &nbsp; Loại: @(Gem.IsOrigin ? "Tự nhiên" : "Nhân tạo") &nbsp; Trạng thái: @(Gem.Active ? "Hoạt động" : "Chưa hoạt động")
+                                    Tên: @Gem.GemName &nbsp; Loại: @(Gem.IsOrigin ? "Tự nhiên" : "Nhân tạo")
                                 </div>
                             </option>
                         }
@@ -244,7 +246,7 @@
                             <tbody>
                                 @for (int i = 0; i < Model.ListSubGems.Count(); i++)
                                 {
-                                    <tr data-index="@i" class="rowdefault" >
+                                    <tr data-index="@i" class="rowdefault">
                                         <td>@(i + 1)</td>
                                         <td>
 
@@ -290,7 +292,7 @@
                             {
                                 <option value="@Frame.FrameId" selected>
                                     <div>
-                                        Tên: @Frame.NameFrame &nbsp; Trọng lượng: @Frame.Weight
+                                        Tên: @Frame.NameFrame &nbsp; Trọng lượng: @Frame.Weight chỉ &nbsp; Giá trị: @(((decimal)Frame.Weight * (decimal)Frame.MaterialVm.Price).ToString("N0"))₫
                                     </div>
                                 </option>
                             }
@@ -298,7 +300,7 @@
                             {
                                 <option value="@Frame.FrameId">
                                     <div>
-                                        Tên: @Frame.NameFrame &nbsp; Trọng lượng: @Frame.Weight
+                                        Tên: @Frame.NameFrame &nbsp; Trọng lượng: @Frame.Weight chỉ &nbsp; Giá trị: @(((decimal)Frame.Weight * (decimal)Frame.MaterialVm.Price).ToString("N0"))₫
                                     </div>
                                 </option>
                             }
@@ -307,7 +309,7 @@
                         {
                             <option value="@Frame.FrameId">
                                 <div>
-                                    Tên: @Frame.NameFrame &nbsp; Trọng lượng: @Frame.Weight
+                                    Tên: @Frame.NameFrame &nbsp; Trọng lượng: @Frame.Weight chỉ &nbsp; Giá trị: @(((decimal)Frame.Weight * (decimal)Frame.MaterialVm.Price).ToString("N0"))₫
                                 </div>
                             </option>
                         }
@@ -321,7 +323,7 @@
             <div class="form-group m-2">
                 <label asp-for="CategoryVm.CategoryId" class="control-label m-2">Loại</label>
                 <select class="h-50" name="CategoryId">
-                    @foreach (var category in ViewBag.FullCategory)
+                    @foreach (var category in ((IEnumerable<CategoryVm>)ViewBag.FullCategory).Where(x => x.Status).ToList())
                     {
                         if (Model != null && Model.CategoryVm.CategoryId != null)
                         {
@@ -329,7 +331,7 @@
                             {
                                 <option value="@category.CategoryId" selected>
                                     <div>
-                                        Tên: @category.CategoryName &nbsp; Loại: @category.CategoryType &nbsp; Trạng thái: @(category.Status ? Html.Raw("<span style='color:green'>Hoạt động</span>") : Html.Raw("<span style='color:red'>Chưa hoạt động</span>"))
+                                        Tên: @category.CategoryName &nbsp; Kiểu: @(!string.IsNullOrEmpty(category.CategoryType) ? category.CategoryType : "Không có")
                                     </div>
                                 </option>
                             }
@@ -337,8 +339,7 @@
                             {
                                 <option value="@category.CategoryId">
                                     <div>
-                                        Tên: @category.CategoryName &nbsp; Loại: @category.CategoryType &nbsp; Trạng thái: @(category.Status ? Html.Raw("<span style='color:green'>Hoạt động</span>") : Html.Raw("<span style='color:red'>Chưa hoạt động</span>"))
-
+                                        Tên: @category.CategoryName &nbsp; Kiểu: @(!string.IsNullOrEmpty(category.CategoryType) ? category.CategoryType : "Không có")
                                     </div>
                                 </option>
                             }
@@ -347,7 +348,7 @@
                         {
                             <option value="@category.CategoryId">
                                 <div>
-                                    Tên: @category.CategoryName &nbsp; Loại: @category.CategoryType &nbsp; Trạng thái: @(category.Status ? Html.Raw("<span style='color:green'>Hoạt động</span>") : Html.Raw("<span style='color:red'>Chưa hoạt động</span>"))
+                                    Tên: @category.CategoryName &nbsp; Kiểu: @(!string.IsNullOrEmpty(category.CategoryType) ? category.CategoryType : "Không có")
                                 </div>
                             </option>
                         }
@@ -409,10 +410,10 @@
 
 
             <div class="form-group row">
-                <div class="col-md-9 mt-4">
+                <div class="col-md-8 mt-4">
                     <input type="submit" value="Lưu" class="btn btn-success" />
                 </div>
-                <div class="col-md-3 mt-4">
+                <div class="col-md-4 mt-4">
                     <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="Product">Về trang quản lí sản phảm</a>
                 </div>
             </div>
@@ -425,7 +426,7 @@
     </div>
 </div>
 @{
-    var fullSubgemJson = Json.Serialize(ViewBag.FullSubgem);
+    var fullSubgemJson = Json.Serialize(((IEnumerable<SubGemVm>)ViewBag.FullSubgem).Where(x => x.Active).ToList());
     var initialSelectedOptions = Model.ListSubGems.Select(x => x.SubGemId).ToList();
     var initialSelectedOptionsJson = Json.Serialize(initialSelectedOptions);
 }
@@ -433,7 +434,7 @@
 <input type="hidden" id="initialSelectedOptions" value='@initialSelectedOptionsJson' />
 
 @section Scripts {
-   
+
     <script src="~/assets/js/plugins/dropzone-amd-module.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
@@ -473,16 +474,16 @@
             // Thêm dòng mới và cập nhật tên các input
             function addRow() {
                 var newRow = `<tr class="added-row">
-                                            <td></td>
-                                            <td>
-                                                <select class="h-50 control-index" name="">
-                                                </select>
-                                            </td>
-                                            <td><input type="number" value="1" class="form-control control-index" name="" placeholder="Số lượng" /></td>
-                                            <td class="text-center">
-                                                <a class="avtar avtar-s btn-link-danger btn-pc-default delete-item huhu"><i class="ti ti-trash f-20"></i></a>
-                                            </td>
-                                          </tr>`;
+                                                    <td></td>
+                                                    <td>
+                                                        <select class="h-50 control-index" name="">
+                                                        </select>
+                                                    </td>
+                                                    <td><input type="number" value="1" class="form-control control-index" name="" placeholder="Số lượng" /></td>
+                                                    <td class="text-center">
+                                                        <a class="avtar avtar-s btn-link-danger btn-pc-default delete-item huhu"><i class="ti ti-trash f-20"></i></a>
+                                                    </td>
+                                                  </tr>`;
                 $('#itemTable tbody').append(newRow);
                 createOptions();
                 updateIndexes();
@@ -492,7 +493,7 @@
                 updateAddButtonState();
                 updateIndexes()
             });
-          
+
 
             // Xóa dòng khi nhấn nút Xóa
             $(document).on('click', '.delete-item.huhu', function (event) {
@@ -519,11 +520,13 @@
                     select.empty();
                     if (Array.isArray(fullSubgem) && fullSubgem.length > 0) {
                         fullSubgem.forEach(function (subgem) {
-                                var option = $('<option/>');
-                                option.val(subgem.subGemId);
-                                option.text('Tên: ' + subgem.subGemName + ' | Giá: ' + subgem.subGemPrice + ' | Trạng thái: ' + (subgem.Active ? 'Hoạt động' : 'Chưa hoạt động'));
-                                option.addClass('optionOfSubGem');
-                                select.append(option);
+                            var formattedPrice = subgem.subGemPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+
+                            var option = $('<option/>');
+                            option.val(subgem.subGemId);
+                            option.text('Tên: ' + subgem.subGemName + ' | Giá: ' + formattedPrice);
+                            option.addClass('optionOfSubGem');
+                            select.append(option);
                         });
                     } else {
                         console.error('Dữ liệu từ ViewBag.FullSubgem không hợp lệ.');
@@ -533,12 +536,12 @@
             // Gọi hàm tạo option khi trang được tải
             createOptions();
             updateAddButtonState();
-          
+
             // Cập nhật lại chỉ số và tên của các input khi có thay đổi
             function updateIndexes() {
                 $('#itemTable tbody .added-row').each(function (i, row) {
                     var indexer = $('#itemTable tbody .rowdefault').length;
-                    var inx = indexer + i+1;
+                    var inx = indexer + i + 1;
                     debugger;
                     $(row).find('td:first').text(inx);
                     $(row).find('.control-index').filter('select').attr('name', 'ListSubGems[' + i + '].SubGemId');
@@ -592,14 +595,14 @@
             $('#addItemBtnAddImage').on('click', function () {
                 index++;
                 var newRow = `<tr>
-                                                                                                    <td>${index}</td>
-                                                                                                    <td>
-                                                                                                                <input type="file" class="form-control" name="Images">
-                                                                                                    </td>
-                                                                                                    <td class="text-center">
-                                                                                                        <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default delete-item"><i class="ti ti-trash f-20"></i></a>
-                                                                                                    </td>
-                                                                                                  </tr>`;
+                                                                                                            <td>${index}</td>
+                                                                                                            <td>
+                                                                                                                        <input type="file" class="form-control" name="Images">
+                                                                                                            </td>
+                                                                                                            <td class="text-center">
+                                                                                                                <a href="#" class="avtar avtar-s btn-link-danger btn-pc-default delete-item"><i class="ti ti-trash f-20"></i></a>
+                                                                                                            </td>
+                                                                                                          </tr>`;
                 $('#tableImage').append(newRow);
                 updateIndex(); // Cập nhật lại chỉ số sau khi thêm hàng
             });
@@ -623,32 +626,32 @@
     </script>
 
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Lấy tất cả các phần tử có lớp price-input
-        const inputs = document.querySelectorAll(".price-input");
+        document.addEventListener("DOMContentLoaded", function () {
+            // Lấy tất cả các phần tử có lớp price-input
+            const inputs = document.querySelectorAll(".price-input");
 
-        // Thêm sự kiện input cho mỗi phần tử
-        inputs.forEach(function(input) {
-            input.addEventListener("input", function(e) {
-                let value = e.target.value;
+            // Thêm sự kiện input cho mỗi phần tử
+            inputs.forEach(function (input) {
+                input.addEventListener("input", function (e) {
+                    let value = e.target.value;
 
-                // Xóa bỏ các ký tự không phải là số
-                value = value.replace(/[^0-9]/g, "");
+                    // Xóa bỏ các ký tự không phải là số
+                    value = value.replace(/[^0-9]/g, "");
 
-                // Giới hạn tối đa 17 ký tự số
-                if (value.length > 16) {
-                    value = value.slice(0, 16);
-                }
+                    // Giới hạn tối đa 17 ký tự số
+                    if (value.length > 16) {
+                        value = value.slice(0, 16);
+                    }
 
-                // Nếu giá trị không rỗng, định dạng lại theo kiểu chuỗi Việt Nam
-                if (value) {
-                    e.target.value = new Intl.NumberFormat('vi-VN').format(parseInt(value));
-                } else {
-                    e.target.value = "";
-                }
+                    // Nếu giá trị không rỗng, định dạng lại theo kiểu chuỗi Việt Nam
+                    if (value) {
+                        e.target.value = new Intl.NumberFormat('vi-VN').format(parseInt(value));
+                    } else {
+                        e.target.value = "";
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
 
 }

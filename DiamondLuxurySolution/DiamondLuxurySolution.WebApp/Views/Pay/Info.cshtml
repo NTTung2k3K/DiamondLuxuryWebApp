@@ -4,6 +4,15 @@
 }
 @model DiamondLuxurySolution.ViewModel.Models.Order.CreateOrderRequest
 
+@section StyleCss{
+    <style>
+        #checkout-pay:hover{
+            background-color: #343434;
+        }
+    </style>
+}
+
+
 <div class="breadcrumb-area" style="background-color: black;">
     <div class="container">
         <div class="row">
@@ -116,7 +125,7 @@
                                         <div class="row mb--30">
                                             <div class="form__group col-12">
                                                 <label for="orderNotes" class="form__label">Ghi Chú Đặt Hàng</label>
-                                                <textarea asp-for="Description" class="form__input form__input--2 form__input--textarea" id="orderNotes" name="orderNotes" placeholder="Ghi chú về đơn đặt hàng của bạn, ví dụ: ghi chú đặc biệt để giao hàng."></textarea>
+                                                <textarea asp-for="Description" class="form__input form__input--2 form__input--textarea" id="orderNotes" placeholder="Ghi chú về đơn đặt hàng của bạn, ví dụ: ghi chú đặc biệt để giao hàng."></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -197,7 +206,7 @@
 
                                         <div class="form-group m-4">
                                             <label asp-for="PromotionId" class="control-label m-2">Chương trình khuyến mãi hiện có</label>
-                                            <select class="h-50" name="PromotionId">
+                                            <select class="h-50" name="PromotionId" style="text-align:left;max-width: 107%;">
                                                 @if (ViewBag.ListPromotionOnTime != null && ViewBag.ListPromotionOnTime.Count > 0)
                                                 {
                                                     @foreach (var promotion in ViewBag.ListPromotionOnTime)
@@ -273,7 +282,7 @@
 
 
                                             <div class="payment-btn-group text-center">
-                                                <button id="checkout-pay" type="button" class="btn btn-style-3">Đặt Hàng</button>
+                                                <button id="checkout-pay" style="background-color: #a8741a" type="button" class="btn btn-style-3">Đặt Hàng</button>
                                             </div>
                                         </div>
                                     </div>

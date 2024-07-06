@@ -17,6 +17,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Service.Staff
 
         public Task<ApiResult<bool>> DeleteStaff(Guid StaffId);
 
+
         public Task<ApiResult<bool>> ChangePasswordStaff(ChangePasswordStaffRequest request);
         public Task<ApiResult<string>> ForgotpasswordStaffSendCode(string Username);
         public Task<ApiResult<bool>> ForgotpassworStaffdChange(ForgotPasswordStaffChangeRequest request);

@@ -86,11 +86,11 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-12 text-center">
-				<h1 class="page-title">Mặt Dây Chuyền Kim Cương</h1>
+				<h1 class="page-title">Dây Chuyền Kim Cương</h1>
 				<ul class="breadcrumb justify-content-center">
 					<li><a href="/Home/Index">Trang Chủ</a></li>
 					<li><a href="/DiamondJewelry/Index">Trang Sức Kim Cương</a></li>
-					<li class="current"><a href="/DiamondJewelryNecklace/Index">Mặt Dây Chuyền Kim Cương</a></li>
+					<li class="current"><a href="/DiamondJewelryNecklace/Index">Dây Chuyền Kim Cương</a></li>
 				</ul>
 			</div>
 		</div>
@@ -224,7 +224,9 @@
 					@if (Model != null)
 					{
 						// Lọc sản phẩm có CategoryName là "Nhẫn"
-						var filteredProducts = Model.Where(p => p.CategoryVm?.CategoryName == "Dây Chuyền" && p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString())).ToList();
+						var filteredProducts = Model.Where(p => p.CategoryVm?.CategoryName == "Dây Chuyền" 
+						&& (p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString())
+						|| p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))).ToList();
 
 						// Sản phẩm được hiển thị ban đầu
 						var initialProducts = filteredProducts.Take(20).ToList();
@@ -238,13 +240,21 @@
 										<div class="item-img">
 											<img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
 											<div style="position: absolute; top: 6%; margin-left: 8px;">
-												@if (product.IsSale && product.PercentSale != 0)
+												@if (product.PercentSale != 0)
 												{
-													<span class="product-label discount" style="padding: 5px 10px">
+													<span class="product-label discount" style="padding: 5px 10px;">
 														-@product.PercentSale%
 													</span>
 												}
 											</div>
+											@if (product.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))
+											{
+												<div style="position: absolute; top: 6%; margin-left: 20px;">
+													<span class="product-label discount" style="padding: 5px 10px; background-color: orangered; margin-left: 160px;">
+														Coming
+													</span>
+												</div>
+											}
 										</div>
 									</a>
 									<div class="item-text">
@@ -284,13 +294,21 @@
 										<div class="item-img">
 											<img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
 											<div style="position: absolute; top: 6%; margin-left: 8px;">
-												@if (product.IsSale && product.PercentSale != 0)
+												@if (product.PercentSale != 0)
 												{
-													<span class="product-label discount" style="padding: 5px 10px">
+													<span class="product-label discount" style="padding: 5px 10px;">
 														-@product.PercentSale%
 													</span>
 												}
 											</div>
+											@if (product.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))
+											{
+												<div style="position: absolute; top: 6%; margin-left: 20px;">
+													<span class="product-label discount" style="padding: 5px 10px; background-color: orangered; margin-left: 160px;">
+														Coming
+													</span>
+												</div>
+											}
 										</div>
 									</a>
 									<div class="item-text">

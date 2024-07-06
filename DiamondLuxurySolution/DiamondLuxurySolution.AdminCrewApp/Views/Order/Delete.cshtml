@@ -100,43 +100,43 @@
             <dd class="col-sm-9">
                 @if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()))
                 {
-                    <p value="@Model.Status">
+                    <p value="@Model.Status" style="color:red">
                         Hủy đơn
                     </p>
                 }
                 else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Confirmed.ToString()))
                 {
-                    <p value="@Model.Status">
+                    <p value="@Model.Status" style="color:pink">
                         Đã xác nhận
                     </p>
                 }
                 else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Deposit.ToString()))
                 {
-                    <p value="@Model.Status">
+                    <p value="@Model.Status" style="color:bisque">
                         Đặt cọc
                     </p>
                 }
                 else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()))
                 {
-                    <p value="@Model.Status">
+                    <p value="@Model.Status" style="color:cadetblue">
                         Đang chờ xử lý
                     </p>
                 }
                 else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.ProcessOfPayment.ToString()))
                 {
-                    <p value="@Model.Status">
+                    <p value="@Model.Status" style="color:blueviolet">
                         Trong quá trình thanh toán
                     </p>
                 }
                 else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Shipping.ToString()))
                 {
-                    <p value="@Model.Status">
+                    <p value="@Model.Status" style="color:cornflowerblue">
                         Đang vận chuyển
                     </p>
                 }
                 else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
                 {
-                    <p value="@Model.Status">
+                    <p value="@Model.Status" style="color:green">
                         Thành công
                     </p>
                 }
@@ -278,15 +278,15 @@
                         <p>
                             &nbsp;&nbsp; &nbsp;&nbsp; - Phương thức: @payment.PaymentMethod &nbsp;  &nbsp; Số tiền: @payment.PaymentAmount.ToString("N0")₫ &nbsp; Lời nhắn: @(string.IsNullOrWhiteSpace(payment.Message) ? payment.Message : "Không có")  &nbsp; Trạng thái: @if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
                             {
-                                <span>Thành công</span>
+                                <span style="color:green">Thành công</span>
                             }
                             else if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString()))
                             {
-                                <span>Đang chờ</span>
+                                <span style="color:#e8be6f">Đang chờ</span>
                             }
                             else if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()))
                             {
-                                <span>Thất bại</span>
+                                <span style="color:red">Thất bại</span>
                             }
                         </p>
                     }

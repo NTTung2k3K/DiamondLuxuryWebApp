@@ -37,6 +37,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
             var customerId = HttpContext.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.CUSTOMER_ID);
             if (customerId == null)
             {
+                HttpContext.Session.SetString("ReturnToPayInfor", "ReturnToPayInfor");
                 return RedirectToAction("Login", "Account");
             }
 
@@ -539,7 +540,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
 
             var orderVm = new CreateOrderRequest()
             {
-                ShipAdress = request.ShipAdress + ",Quận " + billing_streetAddress + ", " + country,
+                ShipAdress = request.ShipAdress + ",Quận/Huyện " + billing_streetAddress + ",Tp. " + country,
                 ShipEmail = request.ShipEmail,
                 ShipName = request.ShipName,
                 ShipPhoneNumber = request.ShipPhoneNumber,

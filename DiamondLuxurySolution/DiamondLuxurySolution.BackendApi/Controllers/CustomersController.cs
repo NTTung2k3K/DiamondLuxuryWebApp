@@ -23,8 +23,8 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
         }
 
 
-        [HttpDelete("DeleteCustomer/{id}")]
-        public async Task<ActionResult> DeleteCustomer([FromBody] Guid CustomerId)
+        [HttpDelete("DeleteCustomer")]
+        public async Task<ActionResult> DeleteCustomer([FromQuery] Guid CustomerId)
         {
             try
             {

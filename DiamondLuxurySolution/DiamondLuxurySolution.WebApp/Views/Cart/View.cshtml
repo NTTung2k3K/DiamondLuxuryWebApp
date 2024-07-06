@@ -3,7 +3,77 @@
     ViewData["Title"] = "Cart";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section StyleCss{
+    <style>
+        /* Container for the quantity controls */
+        .quantity-controlsA {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
+        /* Decrease button styling */
+        .quantity-decreaseA {
+            font-size: 20px;
+            background-color: #2d2d2d;
+            border: 2px solid #a8741a;
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+            .quantity-decreaseA:hover {
+                background-color: #a8741a;
+                border-color: #2d2d2d;
+            }
+
+        /* Quantity input styling */
+        .quantity-inputA {
+            width: 40px;
+            text-align: center;
+            margin: 0 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px;
+            background-color: #f8f8f8;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+            .quantity-inputA:focus {
+                border-color: #a8741a;
+                background-color: #fff;
+            }
+
+        /* Increase button styling */
+        .quantity-increaseA {
+            font-size: 20px;
+            background-color: #2d2d2d;
+            border: 2px solid #a8741a;
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+            .quantity-increaseA:hover {
+                background-color: #a8741a;
+                border-color: #2d2d2d;
+            }
+
+    </style>
+}
 
 <div class="breadcrumb-area">
     <div class="container">
@@ -77,14 +147,14 @@
                                                         <td class="cart-product-price">@(item.Ni == null ? "Không có" : item.Ni)</td>
 
                                                         <td>
-                                                            <div class="quantity-controls">
-                                                                <button type="button" class="quantity-decrease"
+                                                            <div class="quantity-controlsA">
+                                                                <button type="button" class="quantity-decreaseA"
                                                                         data-product-id="@item.ProductId" data-ni="@item.Ni"  style="font-size: 20px; background-color:#2d2d2d;border: 2px solid #a8741a;">
-                                                                    -
+                                                                        -
                                                                 </button>
-                                                                <input type="text" class="quantity-input" value="@item.Quantity" size="2"
+                                                                <input type="text" class="quantity-inputA" value="@item.Quantity" size="2"
                                                                        readonly style="width:24%; ;text-align: center;">
-                                                                <button type="button" class="quantity-increase" data-product-id="@item.ProductId" data-ni="@item.Ni"
+                                                                <button type="button" class="quantity-increaseA" data-product-id="@item.ProductId" data-ni="@item.Ni"
                                                                         style="font-size: 20px;background-color:#2d2d2d;border: 2px solid #a8741a;">
                                                                     +
                                                                 </button>
@@ -125,7 +195,7 @@
                             Mua Sắm
                         </a>
                         <a href="/Pay/Info" class="btn add-to-cart btn-medium btn-style-2"
-                           style="margin: 10px;">
+                           style="margin: 10px;    background-color: #a8741a;">
                             Thanh
                             Toán
                         </a>
@@ -209,16 +279,16 @@
 
 
 
-        $(document).on('click', '.quantity-decrease', function () {
+        $(document).on('click', '.quantity-decreaseA', function () {
             var button = $(this);
             var productId = button.data("product-id");
             var ni = button.data("ni");
-
-            var input = button.closest('.quantity-controls').find('.quantity-input');
+            debugger;
+            var input = button.closest('.quantity-controlsA').find('.quantity-inputA');
             if (ni === "") {
                 var currentValue = parseInt(input.val());
                 if (currentValue > 1) {
-                    var newQuantity = currentValue;
+                    var newQuantity = currentValue - 1;
                     input.val(newQuantity);
                     updateCartItem(productId, newQuantity, ni);
             
@@ -227,7 +297,7 @@
             else {
                 var currentValue = parseInt(input.val());
                 if (currentValue > 1) {
-                    var newQuantity = currentValue -1 ;
+                    var newQuantity = currentValue - 1;
                     input.val(newQuantity);
                     updateCartItem(productId, newQuantity, ni);
            
@@ -237,17 +307,18 @@
             
         });
 
-        $(document).on('click', '.quantity-increase', function () {
+        $(document).on('click', '.quantity-increaseA', function () {
 
             var button = $(this);
             var productId = button.data("product-id");
             var ni = button.data("ni");
 
-            var input = button.closest('.quantity-controls').find('.quantity-input');
+            var input = button.closest('.quantity-controlsA').find('.quantity-inputA');
+            debugger;
 
             if (ni === "") {
                 var currentValue = parseInt(input.val());
-                var newQuantity = currentValue ;
+                var newQuantity = currentValue + 1;
                 input.val(newQuantity);  // Update input immediately
                 debugger;
                 updateCartItem(productId, newQuantity, ni);

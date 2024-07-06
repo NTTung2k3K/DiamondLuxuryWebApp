@@ -57,7 +57,7 @@
                     <label onclick="sortTable(2)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
-                    <label>Hiển thị</label>
+                    <label>Trạng thái</label>
                     <label onclick="sortTable(3)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
@@ -86,14 +86,14 @@
                     @if (item.Active == true)
                     {
                         <td>
-                            <span class="badge bg-success rounded-pill">Hoạt động</span>
+                            <span class="badge bg-success rounded-pill">Sử dụng</span>
 
                         </td>
                     }
                     else
                     {
                         <td>
-                            <span class="badge bg-danger rounded-pill">Chưa hoạt động</span>
+                            <span class="badge bg-danger rounded-pill">Chưa sử dụng</span>
 
                         </td>
 

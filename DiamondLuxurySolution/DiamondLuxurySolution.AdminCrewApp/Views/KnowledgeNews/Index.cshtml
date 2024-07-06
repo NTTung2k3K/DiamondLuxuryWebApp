@@ -45,6 +45,9 @@
                     <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
+                    <label>Hình Ảnh</label>
+                </th>
+                <th>
                     <label>Người đăng</label>
                     <label onclick="sortTable(1)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
@@ -52,13 +55,7 @@
                     <label>Ngày tạo</label>
                     <label onclick="sortTable(2)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
-                <th>
-                    <label>Chủ đề</label>
-                    <label onclick="sortTable(3)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
-                </th>
-                <th>
-                    <label>Hình</label>
-                </th>
+                
                 <th>Cài đặt</th>
             </tr>
         </thead>
@@ -67,9 +64,6 @@
             {
                 <tr class="text-center">
                     <td>@item.KnowledgeNewsName</td>
-                    <td>@item.Writer.FullName</td>
-                    <td>@item.DateCreated</td>
-                    <td>@item.KnowledgeNewCatagoryVm.KnowledgeNewCatagoriesName</td>
                     @if (string.IsNullOrEmpty(item.Thumnail))
                     {
                         <td>Không có hình ảnh</td>
@@ -81,6 +75,9 @@
                             <img src="@item.Thumnail" style="height:100px; width:100px" />
                         </td>
                     }
+                    <td>@item.Writer.FullName</td>
+                    <td>@item.DateCreated</td>
+                    
                     <td class="text-center">
                         @Html.ActionLink("Chỉnh sửa", "Edit", new { KnowledgeNewsId = item.KnowledgeNewsId }, new { @class = "btn btn-warning" })
                         @Html.ActionLink("Xem chi tiết", "Detail", new { KnowledgeNewsId = item.KnowledgeNewsId }, new { @class = "btn btn-info" })

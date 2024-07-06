@@ -44,24 +44,16 @@
                     <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
-                    <label>Tiêu đề</label>
-                    <label onclick="sortTable(1)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
-                </th>
-                <th>
                     <label>Hình ảnh</label>
                 </th>
                 <th>
-                    <label>Lần chỉnh sửa gần nhất</label>
-                    <label onclick="sortTable(3)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
-                </th>
-                <th>
                     <label>Người viết</label>
-                    <label onclick="sortTable(4)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
+                    <label onclick="sortTable(1)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
 
                 <th>
                     <label>Trạng thái</label>
-                    <label onclick="sortTable(5)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
+                    <label onclick="sortTable(2)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>Cài đặt</th>
             </tr>
@@ -71,7 +63,6 @@
             {
                 <tr class="text-center">
                     <td>@item.NewName</td>
-                    <td>@item.Title</td>
                     @if (string.IsNullOrEmpty(item.Image))
                     {
                         <td>Không có hình ảnh</td>
@@ -82,7 +73,6 @@
                             <img src="@item.Image" style="height:100px; width:100px" />
                         </td>
                     }
-                    <td>@item.DateModified</td>
                     <td>@item.Writer.FullName</td>
 
                     @if (item.Status == true)

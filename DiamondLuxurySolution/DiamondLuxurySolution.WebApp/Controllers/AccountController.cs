@@ -17,6 +17,7 @@ using DiamondLuxurySolution.ViewModel.Models.User.Staff;
 using DiamondLuxurySolution.ViewModel.Models.Order;
 using Microsoft.CodeAnalysis.Options;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using PuppeteerSharp;
 
 namespace DiamondLuxurySolution.WebApp.Controllers
 {
@@ -261,6 +262,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
             }
 
             TempData["SuccessMsg"] = "Tạo mới thành công cho " + request.FullName;
+            TempData["SuccessChangeProfileInfo"] = true;
 
             return RedirectToAction("Profile", "Account");
         }
@@ -523,6 +525,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
                             user = userCheck;
                         }
                         HttpContext.Session.SetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.PLATFORM, DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.GOOGLE_PLATFORM);
+                        TempData["SuccessMessage"] = user.Fullname;
 
                     }
 
