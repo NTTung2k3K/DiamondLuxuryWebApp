@@ -50,30 +50,29 @@ We have worked collaboratively to ensure that every aspect of this project meets
 ### Admin Dashboard
 ![Screenshot 2024-07-06 213318](https://github.com/NTTung2k3K/DiamondLuxuryWebApp/assets/143085090/805aec1c-7f9a-4603-9976-dec068414e2a)
 
-
 ### Manager Dashboard
 ![Screenshot 2024-07-06 213458](https://github.com/NTTung2k3K/DiamondLuxuryWebApp/assets/143085090/19b9c104-26e5-4b17-be5e-bd0d4f38b375)
-
+![Screenshot 2024-07-06 213521](https://github.com/NTTung2k3K/DiamondLuxuryWebApp/assets/143085090/a9805fdd-5b4c-4fba-bca4-8fea965f9387)
 
 ### Product Management
-![Product Management](path/to/admin-product-management-image.jpg)
+![Screenshot 2024-07-06 213543](https://github.com/NTTung2k3K/DiamondLuxuryWebApp/assets/143085090/8ad06f4e-247c-42e4-bca6-a4016a84e5e1)
 
 ### Order Management
-![Order Management](path/to/admin-order-management-image.jpg)
+![Screenshot 2024-07-06 213602](https://github.com/NTTung2k3K/DiamondLuxuryWebApp/assets/143085090/a6254a08-a27f-438b-a8f4-6d97693ab401)
 
 ## Customer Web Application
 
 ### Home Page
-![Home Page](path/to/customer-home-page-image.jpg)
+![Screenshot 2024-07-06 213620](https://github.com/NTTung2k3K/DiamondLuxuryWebApp/assets/143085090/8ce6fc09-fd44-4c3d-8474-d60cd50d827e)
 
 ### Product Listing
-![Product Listing](path/to/customer-product-listing-image.jpg)
+![Screenshot 2024-07-06 213656](https://github.com/NTTung2k3K/DiamondLuxuryWebApp/assets/143085090/525ee071-7627-4f5c-9164-75ebd88281d5)
 
 ### Product Details
-![Product Details](path/to/customer-product-details-image.jpg)
+![Screenshot 2024-07-06 213746](https://github.com/NTTung2k3K/DiamondLuxuryWebApp/assets/143085090/9b3fba58-e34d-46fa-89e4-8ed1cca8102e)
 
 ### Shopping Cart
-![Shopping Cart](path/to/customer-shopping-cart-image.jpg)
+![Screenshot 2024-07-06 213821](https://github.com/NTTung2k3K/DiamondLuxuryWebApp/assets/143085090/5948e4de-3cd0-4fc2-b1d7-f461273f8e3a)
 
 ## Installation
 
@@ -103,7 +102,3 @@ We have worked collaboratively to ensure that every aspect of this project meets
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
