@@ -540,7 +540,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
 
             var orderVm = new CreateOrderRequest()
             {
-                ShipAdress = request.ShipAdress + ",Quận " + billing_streetAddress + ", " + country,
+                ShipAdress = request.ShipAdress + ",Quận/Huyện " + billing_streetAddress + ",Tp. " + country,
                 ShipEmail = request.ShipEmail,
                 ShipName = request.ShipName,
                 ShipPhoneNumber = request.ShipPhoneNumber,

@@ -224,7 +224,9 @@
 					@if (Model != null)
 					{
 						// Lọc sản phẩm có CategoryName là "Nhẫn"
-						var filteredProducts = Model.Where(p => p.CategoryVm?.CategoryName == "Lắc Tay" && p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString())).ToList();
+						var filteredProducts = Model.Where(p => p.CategoryVm?.CategoryName == "Lắc Tay" 
+						&& (p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString())
+						|| p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))).ToList();
 
 						// Sản phẩm được hiển thị ban đầu
 						var initialProducts = filteredProducts.Take(20).ToList();
