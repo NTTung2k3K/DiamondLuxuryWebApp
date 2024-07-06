@@ -1,8 +1,8 @@
-# Diamond Luxury Shop
+# 💎 Diamond Luxury Shop 💍
 
-Welcome to the Diamond Luxury Shop project! This application is designed to manage and showcase an extensive collection of diamonds and jewelry. The project includes both an admin web application for managing the products and a customer web application for browsing and purchasing.
+👋 Welcome to the Diamond Luxury Shop project! This application is designed to manage and showcase an extensive collection of diamonds and jewelry. The project includes both an admin web application for managing the products and a customer web application for browsing and purchasing.
 
-## Project Structure
+## Project Structure 📂
 
 - **DiamondLuxurySolution.Utilities**: Contains constants and enums used across the application.
 - **DiamondLuxurySolution.ViewModel**: Contains view model classes used across the application.
@@ -14,7 +14,7 @@ Welcome to the Diamond Luxury Shop project! This application is designed to mana
 - **DiamondLuxurySolution.BackgroundServiceHost**: Worker services that handle automated tasks.
 
 
-## Features
+## Features 🔑
 
 - **Product Management**: Add, edit, delete, and view detailed information about diamonds and jewelry.
 - **Order Management**: Track and manage customer orders.
@@ -22,18 +22,17 @@ Welcome to the Diamond Luxury Shop project! This application is designed to mana
 - **Product Browsing**: Customers can browse products by categories, view detailed information, and see high-quality images.
 - **Shopping Cart**: Customers can add products to their cart, adjust quantities, and proceed to checkout.
 
-## Technologies Used
+## Technologies Used 🔎
 
 - **ASP.NET MVC & ASP.NET API**: To build the web applications and backend services.
 - **Firebase**: For storing images and sending OTPs for authentication.
 - **PayPal Sandbox**: For processing payments.
-- **Facebook ![Diamond Icon](https://camo.githubusercontent.com/05bf51513179d5b864921ba868f4bf54d2d74054f8f293f4569d969409b60a69/68747470733a2f2f6564656e742e6769746875622e696f2f537570657254696e7949636f6e732f696d616765732f7376672f66616365626f6f6b2e737667)
- & Google OAuth**: For user login and authentication.
+- **Facebook & Google OAuth**: For user login and authentication.
 - **ASP.NET Identity**: For managing user accounts and authentication.
 - **Azure DB**: To create a shared database for the team.
 - **Automated Price Crawling**: To keep product prices updated automatically.
 
-## About Our Team
+## About Our Team 👥
 
 Our team consists of dedicated students from FPT University, each contributing their unique skills and expertise to this project:
 
@@ -46,7 +45,7 @@ Our team consists of dedicated students from FPT University, each contributing t
 
 We have worked collaboratively to ensure that every aspect of this project meets the highest standards of quality and performance.
 
-## Admin Web Application
+## Admin Web Application 👮
 
 ### Admin Dashboard
 ![Screenshot 2024-07-06 213318](https://github.com/NTTung2k3K/DiamondLuxuryWebApp/assets/143085090/805aec1c-7f9a-4603-9976-dec068414e2a)
@@ -61,7 +60,7 @@ We have worked collaboratively to ensure that every aspect of this project meets
 ### Order Management
 ![Screenshot 2024-07-06 213602](https://github.com/NTTung2k3K/DiamondLuxuryWebApp/assets/143085090/a6254a08-a27f-438b-a8f4-6d97693ab401)
 
-## Customer Web Application
+## Customer Web Application 🤵
 
 ### Home Page
 ![Screenshot 2024-07-06 213620](https://github.com/NTTung2k3K/DiamondLuxuryWebApp/assets/143085090/8ce6fc09-fd44-4c3d-8474-d60cd50d827e)
@@ -75,7 +74,7 @@ We have worked collaboratively to ensure that every aspect of this project meets
 ### Shopping Cart
 ![Screenshot 2024-07-06 213821](https://github.com/NTTung2k3K/DiamondLuxuryWebApp/assets/143085090/5948e4de-3cd0-4fc2-b1d7-f461273f8e3a)
 
-## Installation
+## Installation 🔨
 
 1. Clone the repository:
     ```bash
@@ -100,6 +99,6 @@ We have worked collaboratively to ensure that every aspect of this project meets
     dotnet run
     ```
 
-## Contributing
+## Contributing 👐
 
 Contributions are welcome! Please open an issue or submit a pull request.
