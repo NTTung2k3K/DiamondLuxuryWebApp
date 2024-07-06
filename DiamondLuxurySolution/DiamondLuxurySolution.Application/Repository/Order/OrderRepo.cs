@@ -770,6 +770,50 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         order.ShipperId = shipper;
                     }
 
+
+
+
+
+                    await _context.SaveChangesAsync();
+
+
+                    if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
+                    {
+                        var orderDetailSellingCount = await _context.OrderDetails.Where(x => x.OrderId == order.OrderId).ToListAsync();
+
+                        //Product Quantity
+
+                        foreach (var item in orderDetailSellingCount)
+                        {
+                            var product = await _context.Products.FindAsync(item.ProductId);
+                            if (product == null)
+                            {
+                                return new ApiErrorResult<bool>($"Không tìm thấy sản phẩm");
+                            }
+                            product.Quantity -= item.Quantity;
+                            if (product.Quantity < 0)
+                            {
+                                return new ApiErrorResult<bool>($"Sản phẩm {product.ProductId} | {product.ProductName} đã hết hàng");
+                            }
+                            if (product.Quantity == 0)
+                            {
+                                product.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.OutOfStock.ToString();
+                                product.DateModified = DateTime.Now;
+                            }
+                            product.SellingCount += item.Quantity;
+                        }
+
+                        var point = (int)order.TotalAmout / 10000;
+                        var customer = await _userMananger.FindByIdAsync(cusId.ToString());
+
+                        customer.Point = (int?)(customer?.Point + point);
+
+                    }
+
+
+
+
+
                     await _context.SaveChangesAsync();
                     await transaction.CommitAsync();
 
