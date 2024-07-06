@@ -5,9 +5,9 @@
 @model PageResult<ProductVm>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    var keyword = ViewData["Keyword"]?.ToString().ToLower();
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var keyword = ViewData["Keyword"]?.ToString().ToLower();
 }
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -88,31 +88,31 @@
 
 
 <div class="wrapper bg--shaft" style="background-color: black;">
-    <header class="header headery-style-1">
-        <div class="breadcrumb-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        Kết quả hiển thị cho từ khóa: "@keyword"
-                    </div>
-                    <div class="col-12 text-center">
-                        <h1 class="page-title">Tìm Kiếm Thông Tin</h1>
-                        <ul class="breadcrumb justify-content-center">
-                            <li><a href="trangchu.html">Trang Chủ</a></li>
-                            <li class="current"><a href="/Search/Index">Tìm kiếm</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+	<header class="header headery-style-1">
+		<div class="breadcrumb-area">
+			<div class="container">
+				<div class="row">
+					<div class="col-12 text-center">
+						Kết quả tìm kiếm: "@keyword"
+					</div>
+					<div class="col-12 text-center">
+						<h1 class="page-title">Tìm Kiếm Thông Tin</h1>
+						<ul class="breadcrumb justify-content-center">
+							<li><a href="Home/Index">Trang Chủ</a></li>
+							<li class="current"><a href="/Search/Index">Tìm kiếm</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
 </div>
 
 <!-- Main Content Wrapper Start -->
 <div class="main-content-wrapper" style="background-color:black">
 	<div class="shop-area pt--40 pb--80 pt-md--30 pb-md--60">
 		<div class="container">
-						<div class="child-cat row row-small align-equal">
+			<div class="child-cat row row-small align-equal">
 				<div class="col large-2 medium-4 small-6">
 					<div class="col-inner">
 						<div class="cat-item text-center">
@@ -270,10 +270,10 @@
 
 								#seeMoreBtn {
 									background-color: transparent;
-									border: 1px solid white; /* Border color */
+									border: 2px solid white; /* Border color */
 									color: white; /* Text color */
 									cursor: pointer;
-									border-radius: 10px;
+									border-radius: 50px;
 									transition: all 0.3s ease;
 								}
 
@@ -343,119 +343,128 @@
 						// Lọc sản phẩm theo keyword
 						if (!string.IsNullOrEmpty(keyword))
 						{
-							filteredProducts = filteredProducts.Where(p => p.ProductName.ToLower().Contains(keyword.ToLower()) || (p.CategoryVm?.CategoryName.ToLower().Contains(keyword.ToLower()) ?? false) && p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString())).ToList();
+							filteredProducts = filteredProducts.Where(p =>
+								p.ProductName.ToLower().Contains(keyword.ToLower()) ||
+								(p.CategoryVm?.CategoryName?.ToLower().Contains(keyword.ToLower()) ?? false) &&
+								p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString())
+							).ToList();
 						}
-						// Sản phẩm được hiển thị ban đầu
-						var initialProducts = filteredProducts.Take(20).ToList();
-						var hiddenProducts = filteredProducts.Skip(20).ToList();
 
-						@foreach (var product in initialProducts)
+						if (filteredProducts.Count > 0)
+						{
+							var initialProducts = filteredProducts.Take(20).ToList();
+							var hiddenProducts = filteredProducts.Skip(20).ToList();
+
+							// Hiển thị sản phẩm ban đầu
+							@foreach (var product in initialProducts)
 							{
-								<div class="item product-item col-3" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
-									<div class="item-content">
-										<a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
-											<div class="item-img">
-												<img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
-												<div style="position: absolute; top: 6%; margin-left: 8px;">
+											<div class="item product-item col-3" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
+												<div class="item-content">
+													<a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
+														<div class="item-img">
+															<img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
+															<div style="position: absolute; top: 6%; margin-left: 8px;">
 													@if (product.IsSale && product.PercentSale != 0)
 													{
-														<span class="product-label discount" style="padding: 5px 10px">
-															-@product.PercentSale%
-														</span>
+																		<span class="product-label discount" style="padding: 5px 10px">
+																			-@product.PercentSale%
+																		</span>
 													}
-												</div>
-											</div>
-										</a>
-										<div class="item-text">
-											<p class="CategoryProduct" style="margin-bottom: 4px">
-												@product.CategoryVm.CategoryName
-											</p>
-											<div class="IdProduct">
-												<h9>
-													<a href="/DiamondJewelry/Detail?ProductId=@product.ProductId" style="color: black">
-														@product.ProductName
+															</div>
+														</div>
 													</a>
-												</h9>
-											</div>
-											<div class="item-price">
-												<div class="product-price-wrapper">
-													<span class="money" style="color: #E8BE6F;">@product.SellingPrice.ToString("N0")₫</span>
+													<div class="item-text">
+														<p class="CategoryProduct" style="margin-bottom: 4px">
+												@product.CategoryVm.CategoryName
+														</p>
+														<div class="IdProduct">
+															<h9>
+																<a href="/DiamondJewelry/Detail?ProductId=@product.ProductId" style="color: black">
+														@product.ProductName
+																</a>
+															</h9>
+														</div>
+														<div class="item-price">
+															<div class="product-price-wrapper">
+																<span class="money" style="color: #E8BE6F;">@product.SellingPrice.ToString("N0")₫</span>
 													@if (product.OriginalPrice != product.SellingPrice)
 													{
-														<span class="product-price-old">
-															<span class="money">@product.OriginalPrice.ToString("N0")₫</span>
-														</span>
+																		<span class="product-price-old">
+																			<span class="money">@product.OriginalPrice.ToString("N0")₫</span>
+																		</span>
 													}
+															</div>
+														</div>
+													</div>
+
 												</div>
 											</div>
-										</div>
-
-									</div>
-								</div>
 							}
 
-						// Sản phẩm ẩn
-						@foreach (var product in hiddenProducts)
+							// Hiển thị sản phẩm ẩn
+							@foreach (var product in hiddenProducts)
 							{
-								<div class="item product-item hidden col-3" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
-									<div class="item-content">
-										<a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
-											<div class="item-img">
-												<img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
-												<div style="position: absolute; top: 6%; margin-left: 8px;">
+											<div class="item product-item hidden col-3" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
+												<div class="item-content">
+													<a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
+														<div class="item-img">
+															<img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
+															<div style="position: absolute; top: 6%; margin-left: 8px;">
 													@if (product.IsSale && product.PercentSale != 0)
 													{
-														<span class="product-label discount" style="padding: 5px 10px">
-															-@product.PercentSale%
-														</span>
+																		<span class="product-label discount" style="padding: 5px 10px">
+																			-@product.PercentSale%
+																		</span>
 													}
-												</div>
-											</div>
-										</a>
-										<div class="item-text">
-											<p class="CategoryProduct" style="margin-bottom: 4px">
-												@product.CategoryVm.CategoryName
-											</p>
-											<div class="IdProduct">
-												<h9>
-													<a href="/DiamondJewelry/Detail?ProductId=@product.ProductId" style="color: black">
-														@product.ProductName
+															</div>
+														</div>
 													</a>
-												</h9>
-											</div>
-											<div class="item-price">
-												<div class="product-price-wrapper">
-													<span class="money" style="color: #E8BE6F;">@product.SellingPrice.ToString("N0")₫</span>
+													<div class="item-text">
+														<p class="CategoryProduct" style="margin-bottom: 4px">
+												@product.CategoryVm.CategoryName
+														</p>
+														<div class="IdProduct">
+															<h9>
+																<a href="/DiamondJewelry/Detail?ProductId=@product.ProductId" style="color: black">
+														@product.ProductName
+																</a>
+															</h9>
+														</div>
+														<div class="item-price">
+															<div class="product-price-wrapper">
+																<span class="money" style="color: #E8BE6F;">@product.SellingPrice.ToString("N0")₫</span>
 													@if (product.OriginalPrice != product.SellingPrice)
 													{
-														<span class="product-price-old">
-															<span class="money">@product.OriginalPrice.ToString("N0")₫</span>
-														</span>
+																		<span class="product-price-old">
+																			<span class="money">@product.OriginalPrice.ToString("N0")₫</span>
+																		</span>
 													}
+															</div>
+														</div>
+													</div>
+
 												</div>
 											</div>
-										</div>
+							}
 
-									</div>
-								</div>
+							// Kiểm tra và hiển thị nút xem thêm
+							@if (filteredProducts.Count > 20)
+							{
+											<div class="see-more-wrapper mt-4" style="margin:auto">
+												<button id="seeMoreBtn" class="btn btn-primary">Xem thêm</button>
+											</div>
 							}
 						}
 						else
 						{
-							<h1>Không có sản phẩm nào phù hợp với từ khóa "@keyword"</h1>
+									<h1>Không tìm thấy sản phẩm nào khớp với lựa chọn của bạn.</h1>
 						}
+					}
+					else
+					{
+							<h1>Không tìm thấy sản phẩm nào khớp với lựa chọn của bạn.</h1>
+					}
 				</div>
-
-
-				<!-- Main Shop wrapper End -->
-				<!-- Pagination Start -->
-				@if (Model.Items.Where(p => p.ProductName.ToLower().Contains(keyword.ToLower()) || (p.CategoryVm?.CategoryName.ToLower().Contains(keyword.ToLower()) ?? false) && p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString())).Count() > 20)
-				{
-						<div class="see-more-wrapper text-center mt-4">
-							<button id="seeMoreBtn" class="btn btn-primary">Xem thêm</button>
-						</div>
-				}
-				<!-- Pagination End -->
 			</div>
 		</div>
 	</div>
