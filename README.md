@@ -48,9 +48,11 @@ We have worked collaboratively to ensure that every aspect of this project meets
 ## Admin Web Application
 
 ### Admin Dashboard
-![Admin Dashboard](path/to/admin-dashboard-image.jpg)
+![Screenshot 2024-07-06 213318](https://github.com/NTTung2k3K/DiamondLuxuryWebApp/assets/143085090/805aec1c-7f9a-4603-9976-dec068414e2a)
+
 
 ### Manager Dashboard
+![Screenshot 2024-07-06 213458](https://github.com/NTTung2k3K/DiamondLuxuryWebApp/assets/143085090/19b9c104-26e5-4b17-be5e-bd0d4f38b375)
 
 
 ### Product Management
