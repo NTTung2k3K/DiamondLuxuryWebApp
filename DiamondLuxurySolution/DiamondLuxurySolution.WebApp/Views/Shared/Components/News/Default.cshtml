@@ -29,15 +29,10 @@
 				width: 50rem; /* Độ rộng của ô màu trắng */
 				height: 52rem; /* Chiều cao của ô màu trắng */
 				background-color: #ffffff; /* Màu nền là màu trắng */
-				position: absolute;
-				right: 13%; /* Canh chỉnh ô màu trắng vào giữa theo chiều ngang */
-				transform: translateX(50%); /* Dịch chuyển ô màu trắng về phía phải */
-				top: 64%; /* Đẩy lên trên 50% của .background-image-container */
-				transform: translateY(-50%); /* Dịch chuyển lên trên 50% của chính nó */
 				padding: 20px; /* Thêm padding để đỡ méo */
-				display: flex; /* Sử dụng flexbox để căn giữa nội dung */
-				justify-content: center; /* Căn giữa theo chiều ngang */
-				align-items: center; /* Căn giữa theo chiều dọc */
+					margin-right: -118px;
+
+					margin-top: 6rem;
 			}
 
 				.whiteBox p, h1 {
@@ -139,36 +134,36 @@
 		</style>
 		<div class="single-slider content-v-center"
 			 style="background-image: url(https://file.hstatic.net/1000381168/file/tin_tuc_49c09cc3641e45ec8ef3a99be0693dd0.png); background-size:cover; height:63rem;">
-		</div>
-			@foreach (var news in Model.OrderByDescending(n => n.DateCreated).Take(1))
-			{
-				if (news.Status)
+				@foreach (var news in Model.OrderByDescending(n => n.DateCreated).Take(1))
 				{
+					if (news.Status)
+					{
 
 
-					<div class="container">
-						<div class="row">
-							<div class="whiteBox">
-								<div class="content-container">
-									<h2 class="tintuc">Tin Tức</h2>
-									<h1 style="display: flex; align-items: flex-start; word-break: break-all;">
-										<img href="/Promotion/Detail?id=@news.NewsId" src="@news.Image" alt="Small Image" width="150" height="150" style="margin-right: 10px;">
-										<span href="/Promotion/Detail?id=@news.NewsId" style="max-width:247px">@Html.Raw(StripHtml(news.NewName, 100))</span>
-									</h1>
-									<h5 style="word-break: break-all;">
-										<p href="/Promotion/Detail?id=@news.NewsId">@Html.Raw(StripHtml(news.Description, 100))</p>
-									</h5>
-
-									<button href="/Promotion/Detail?id=@news.NewsId" class="xemThem" style="margin-left:2rem">Xem Thêm</button>
+						<div class="container">
+							<div class="row justify-content-end">
+								<div class="whiteBox">
+									<div class="content-container">
+										<h2 class="tintuc">Tin Tức</h2>
+										<h1 style="display: flex; align-items: flex-start; word-break: break-all;">
+											<img href="/Promotion/Detail?id=@news.NewsId" src="@news.Image" alt="Small Image" width="150" height="150" style="margin-right: 10px;">
+											<span href="/Promotion/Detail?id=@news.NewsId" style="max-width:247px">@Html.Raw(StripHtml(news.NewName, 100))</span>
+										</h1>
+										<h5 style="word-break: break-all;">
+											<p href="/Promotion/Detail?id=@news.NewsId">@Html.Raw(StripHtml(news.Description, 100))</p>
+										</h5>
+										<button href="/Promotion/Detail?id=@news.NewsId" class="xemThem" style="margin-left:2rem">Xem Thêm</button>
+									</div>
 								</div>
-
 							</div>
 						</div>
-					</div>
 
+
+					}
 				}
-			}
 
+		</div>
+			
 			<!-- Navigation Menu -->
 			<!-- Main Content Area -->
 			<div >
@@ -245,6 +240,12 @@
 
 									</div>
 								}
+								@if (Model.Count > 3)
+								{
+									<div class="see-more-wrapper text-center mt-4">
+										<button id="seeMoreBtn" class="btn btn-primary">Xem thêm</button>
+									</div>
+								}
 						</div>
 						<div class="col-lg-4">
 							@await Component.InvokeAsync("PromotionInNews")
@@ -301,12 +302,7 @@
 					</div>
 
 				</div>
-			@if (Model.Count > 3)
-			{
-				<div class="see-more-wrapper text-center mt-4">
-					<button id="seeMoreBtn" class="btn btn-primary">Xem thêm</button>
-				</div>
-			}
+
 
 			</div>
 
