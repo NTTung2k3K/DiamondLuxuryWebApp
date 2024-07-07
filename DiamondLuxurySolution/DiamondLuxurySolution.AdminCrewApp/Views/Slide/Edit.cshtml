@@ -36,6 +36,10 @@
 
                 </div>
                 <div class="form-group m-2">
+                    <label asp-for="SlideUrl" class="control-label m-2">Slide URL</label>
+                    <input asp-for="SlideUrl" class="form-control" />
+                </div>
+                <div class="form-group m-2">
                     <label class="control-label m-2">Hình ảnh hiện tại</label>
                     @if (string.IsNullOrEmpty(Model.SlideImage) || Model.SlideImage.Length <= 0)
                     {

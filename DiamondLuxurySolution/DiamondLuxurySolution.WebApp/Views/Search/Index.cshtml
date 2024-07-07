@@ -5,114 +5,114 @@
 @model PageResult<ProductVm>
 
 @{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    var keyword = ViewData["Keyword"]?.ToString().ToLower();
+	ViewData["Title"] = "Index";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var keyword = ViewData["Keyword"]?.ToString().ToLower();
 }
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <style>
-	.product-item {
-		background-color: #343434;
-		border: none;
-		text-align: center;
-		border-radius: 4px;
-		height: 400px;
-		width: 280px;
-		margin: 0px 5px;
-		padding: 0px;
-		margin-bottom: 10px;
-	}
+    .product-item {
+        background-color: #343434;
+        border: none;
+        text-align: center;
+        border-radius: 4px;
+        height: 400px;
+        width: 280px;
+        margin: 0px 5px;
+        padding: 0px;
+        margin-bottom: 10px;
+    }
 
-	.item-img {
-		width: 100%;
-		height: 310px;
-		overflow: hidden;
-		padding: 10px;
-		position: relative;
-	}
+    .item-img {
+        width: 100%;
+        height: 310px;
+        overflow: hidden;
+        padding: 10px;
+        position: relative;
+    }
 
-		.item-img img {
-			width: 100%;
-			height: 100%;
-		}
+        .item-img img {
+            width: 100%;
+            height: 100%;
+        }
 
-	.product-link {
-		display: block;
-		text-decoration: none;
-		color: inherit;
-	}
+    .product-link {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+    }
 
-	.item-content {
-		transition: transform 0.3s;
-	}
+    .item-content {
+        transition: transform 0.3s;
+    }
 
-		.item-content:hover {
-			transform: scale(1.0);
-		}
-	/*NameProduct*/
-	.CategoryProduct {
-		margin-bottom: 2px;
-		font-size: 14px;
-		font-family: "Jura", cursive;
-		font-optical-sizing: auto;
-		white-space: nowrap;
-		overflow: hidden;
-	}
+        .item-content:hover {
+            transform: scale(1.0);
+        }
+    /*NameProduct*/
+    .CategoryProduct {
+        margin-bottom: 2px;
+        font-size: 14px;
+        font-family: "Jura", cursive;
+        font-optical-sizing: auto;
+        white-space: nowrap;
+        overflow: hidden;
+    }
 
-	/*Id Product*/
-	.IdProduct {
-		background: #E8BE6F
-	}
+    /*Id Product*/
+    .IdProduct {
+        background: #E8BE6F
+    }
 
-		.IdProduct h9 {
-			color: black;
-			font-size: 20px;
-			font-weight: 0;
-			font-family: "Source Code Pro", monospace;
-		}
-	/*price*/
-	.item-price {
-		font-weight: bold;
-		color: #E8BE6F;
-		font-weight: 600;
-		font-size: 18px;
-		margin-top: 6px;
-		font-family: "Jura", monospace;
-		font-weight: bold;
-		display: flex;
-		justify-content: center
-	}
+        .IdProduct h9 {
+            color: black;
+            font-size: 20px;
+            font-weight: 0;
+            font-family: "Source Code Pro", monospace;
+        }
+    /*price*/
+    .item-price {
+        font-weight: bold;
+        color: #E8BE6F;
+        font-weight: 600;
+        font-size: 18px;
+        margin-top: 6px;
+        font-family: "Jura", monospace;
+        font-weight: bold;
+        display: flex;
+        justify-content: center
+    }
 
 </style>
 
 
 <div class="wrapper bg--shaft" style="background-color: black;">
-    <header class="header headery-style-1">
-        <div class="breadcrumb-area">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        Kết quả hiển thị cho từ khóa: "@keyword"
-                    </div>
-                    <div class="col-12 text-center">
-                        <h1 class="page-title">Tìm Kiếm Thông Tin</h1>
-                        <ul class="breadcrumb justify-content-center">
-                            <li><a href="trangchu.html">Trang Chủ</a></li>
-                            <li class="current"><a href="/Search/Index">Tìm kiếm</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+	<header class="header headery-style-1">
+		<div class="breadcrumb-area">
+			<div class="container">
+				<div class="row">
+					<div class="col-12 text-center">
+						Kết quả tìm kiếm: "@keyword"
+					</div>
+					<div class="col-12 text-center">
+						<h1 class="page-title">Tìm Kiếm Thông Tin</h1>
+						<ul class="breadcrumb justify-content-center">
+							<li><a href="Home/Index">Trang Chủ</a></li>
+							<li class="current"><a href="/Search/Index">Tìm kiếm</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
 </div>
 
 <!-- Main Content Wrapper Start -->
 <div class="main-content-wrapper" style="background-color:black">
 	<div class="shop-area pt--40 pb--80 pt-md--30 pb-md--60">
 		<div class="container">
-						<div class="child-cat row row-small align-equal">
+			<div class="child-cat row row-small align-equal">
 				<div class="col large-2 medium-4 small-6">
 					<div class="col-inner">
 						<div class="cat-item text-center">
@@ -250,92 +250,93 @@
 									/* Căn giữa theo chiều dọc */
 								}
 
-								.nice-select {
-									width: 250px;
-									display: inline-block;
-									padding-top: 5px;
-								}
+                                .nice-select {
+                                    width: 250px;
+                                    display: inline-block;
+                                    padding-top: 5px;
+                                }
 
-									.nice-select option {
-										padding: 10px;
-										font-size: 16px;
-										width: 250px;
-									}
+                                    .nice-select option {
+                                        padding: 10px;
+                                        font-size: 16px;
+                                        width: 250px;
+                                    }
 
-								.pagination-wrap {
-									display: flex;
-									justify-content: center;
-									align-items: center;
-								}
+                                .pagination-wrap {
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                }
 
 								#seeMoreBtn {
 									background-color: transparent;
-									border: 1px solid white; /* Border color */
+									border: 2px solid white; /* Border color */
 									color: white; /* Text color */
 									cursor: pointer;
-									border-radius: 10px;
+									border-radius: 50px;
 									transition: all 0.3s ease;
 								}
 
-									#seeMoreBtn:hover {
-										background-color: #a8741a; /* Hover background color */
-										color: #ffffff; /* Hover text color */
-									}
 
-								.hidden {
-									display: none !important;
-								}
-							</style>
-							<div class="refine-search mb--30">
-								<ul class="cat-list mb--20">
-									<style>
-										.link-border {
-											border: 1px solid #ffffff;
-											/* Màu và độ dày của viền */
-											padding: 10px;
-											/* Khoảng cách giữa viền và nội dung liên kết */
-											text-decoration: none;
-											margin: 10px;
-											/* Loại bỏ gạch chân mặc định của liên kết */
-										}
-									</style>
-								</ul>
-							</div>
-							<!-- Refine Search End -->
-							<!-- Shop Toolbar Start -->
+                                    #seeMoreBtn:hover {
+                                        background-color: #a8741a; /* Hover background color */
+                                        color: #ffffff; /* Hover text color */
+                                    }
 
-							<div class="shop-toolbar">
-								<div class="product-short" style="width: 250px; text-align-last: center; display: flex; align-items: center; justify-content: center;">
-									<select id="gemFilter" class=" nice-select">
-										<option value="">Đá Đính Kèm</option>
-										<option value="Kim Cương">Kim Cương</option>
-										<option value="Đá CZ">Đá CZ</option>
-										<option value="Đá Ruby">Đá Ruby</option>
-										<option value="Đá Sapphire">Đá Sapphire</option>
-									</select>
-								</div>
-								<div class="product-short" style="width: 250px; text-align-last: center; display: flex; align-items: center; justify-content: center;">
-									<select id="priceFilter" class="nice-select">
-										<option value="">Giá</option>
-										<option value="10000000">Dưới 10,000,000</option>
-										<option value="10000000-30000000">10,000,000-30,000,000</option>
-										<option value="30000000-50000000">30,000,000-50,000,000</option>
-										<option value="50000000-100000000">50,000,000-100,000,000</option>
-										<option value="100000000">Trên 100,000,000</option>
-									</select>
-								</div>
-								<div class="searchBox">
-									<input class="searchInput" type="text" name="searchQuery" placeholder="Tìm Kiếm Nhanh..." id="searchInput">
-								</div>
-							</div>
-						</div>
+                                .hidden {
+                                    display: none !important;
+                                }
+                            </style>
+                            <div class="refine-search mb--30">
+                                <ul class="cat-list mb--20">
+                                    <style>
+                                        .link-border {
+                                            border: 1px solid #ffffff;
+                                            /* Màu và độ dày của viền */
+                                            padding: 10px;
+                                            /* Khoảng cách giữa viền và nội dung liên kết */
+                                            text-decoration: none;
+                                            margin: 10px;
+                                            /* Loại bỏ gạch chân mặc định của liên kết */
+                                        }
+                                    </style>
+                                </ul>
+                            </div>
+                            <!-- Refine Search End -->
+                            <!-- Shop Toolbar Start -->
 
-						<!-- Shop Toolbar End -->
-					</div>
-				</div>
+                            <div class="shop-toolbar">
+                                <div class="product-short" style="width: 250px; text-align-last: center; display: flex; align-items: center; justify-content: center;">
+                                    <select id="gemFilter" class=" nice-select">
+                                        <option value="">Đá Đính Kèm</option>
+                                        <option value="Kim Cương">Kim Cương</option>
+                                        <option value="Đá CZ">Đá CZ</option>
+                                        <option value="Đá Ruby">Đá Ruby</option>
+                                        <option value="Đá Sapphire">Đá Sapphire</option>
+                                    </select>
+                                </div>
+                                <div class="product-short" style="width: 250px; text-align-last: center; display: flex; align-items: center; justify-content: center;">
+                                    <select id="priceFilter" class="nice-select">
+                                        <option value="">Giá</option>
+                                        <option value="10000000">Dưới 10,000,000</option>
+                                        <option value="10000000-30000000">10,000,000-30,000,000</option>
+                                        <option value="30000000-50000000">30,000,000-50,000,000</option>
+                                        <option value="50000000-100000000">50,000,000-100,000,000</option>
+                                        <option value="100000000">Trên 100,000,000</option>
+                                    </select>
+                                </div>
+                                <div class="searchBox">
+                                    <input class="searchInput" type="text" name="searchQuery" placeholder="Tìm Kiếm Nhanh..." id="searchInput">
+                                </div>
+                            </div>
+                        </div>
 
-				<!-- Main Shop wrapper Start -->
-				<div class="col-12" style="display: flex; flex-wrap: wrap;">
+                        <!-- Shop Toolbar End -->
+                    </div>
+                </div>
+
+                <!-- Main Shop wrapper Start -->
+			<div class="col-12" style="display: flex; flex-wrap: wrap;">
 					@if (Model != null && Model.Items != null && Model.Items.Count > 0)
 					{
 						var filteredProducts = Model.Items;
@@ -343,119 +344,355 @@
 						// Lọc sản phẩm theo keyword
 						if (!string.IsNullOrEmpty(keyword))
 						{
-							filteredProducts = filteredProducts.Where(p => p.ProductName.ToLower().Contains(keyword.ToLower()) || (p.CategoryVm?.CategoryName.ToLower().Contains(keyword.ToLower()) ?? false) && p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString())).ToList();
+							filteredProducts = filteredProducts.Where(p =>
+								p.ProductName.ToLower().Contains(keyword.ToLower()) ||
+								(p.CategoryVm?.CategoryName?.ToLower().Contains(keyword.ToLower()) ?? false) &&
+								p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString())
+							).ToList();
 						}
-						// Sản phẩm được hiển thị ban đầu
-						var initialProducts = filteredProducts.Take(20).ToList();
-						var hiddenProducts = filteredProducts.Skip(20).ToList();
 
-						@foreach (var product in initialProducts)
+						if (filteredProducts.Count > 0)
+						{
+							var initialProducts = filteredProducts.Take(20).ToList();
+							var hiddenProducts = filteredProducts.Skip(20).ToList();
+
+                            @foreach (var product in initialProducts)
+                            {
+                                @if (product.CategoryVm.CategoryName.Equals("Kim Cương"))
+                                {
+                                                <div class="item product-item col-3" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
+                                                    <div class="item-content">
+                                                        <a href="/Diamond/Detail?ProductId=@product.ProductId">
+                                                            <div class="item-img">
+                                                                <img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
+                                                                <div style="position: absolute; top: 6%; margin-left: 8px;">
+                                                        @if (product.PercentSale != 0)
+                                                        {
+                                                                            <span class="product-label discount" style="padding: 5px 10px;">
+                                                                                -@product.PercentSale%
+                                                                            </span>
+                                                        }
+                                                                </div>
+                                                    @if (product.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))
+                                                    {
+                                                                        <div style="position: absolute; top: 6%; margin-left: 20px;">
+                                                                            <span class="product-label discount" style="padding: 5px 10px; background-color: orangered; margin-left: 160px;">
+                                                                                Coming
+                                                                            </span>
+                                                                        </div>
+                                                    }
+                                                            </div>
+                                                        </a>
+                                                        <div class="item-text">
+                                                            <p class="CategoryProduct" style="margin-bottom: 4px">
+                                                    @product.CategoryVm.CategoryName
+                                                            </p>
+                                                            <div class="IdProduct">
+                                                                <h9>
+                                                                    <a href="/DiamondJewelry/Detail?ProductId=@product.ProductId" style="color: black">
+                                                            @product.ProductName
+                                                                    </a>
+                                                                </h9>
+                                                            </div>
+                                                            <div class="item-price">
+                                                                <div class="product-price-wrapper">
+                                                                    <span class="money" style="color: #E8BE6F;">@product.SellingPrice.ToString("N0")₫</span>
+                                                        @if (product.OriginalPrice != product.SellingPrice)
+                                                        {
+                                                                            <span class="product-price-old">
+                                                                                <span class="money">@product.OriginalPrice.ToString("N0")₫</span>
+                                                                            </span>
+                                                        }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                }
+                                else if (product.CategoryVm.CategoryName.Equals("Trang Sức Cưới"))
+                                {
+                                                <div class="item product-item col-3" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
+                                                    <div class="item-content">
+                                                        <a href="/WeddingJewelry/Detail?ProductId=@product.ProductId">
+                                                            <div class="item-img">
+                                                                <img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
+                                                                <div style="position: absolute; top: 6%; margin-left: 8px;">
+                                                        @if (product.PercentSale != 0)
+                                                        {
+                                                                            <span class="product-label discount" style="padding: 5px 10px;">
+                                                                                -@product.PercentSale%
+                                                                            </span>
+                                                        }
+                                                                </div>
+                                                    @if (product.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))
+                                                    {
+                                                                        <div style="position: absolute; top: 6%; margin-left: 20px;">
+                                                                            <span class="product-label discount" style="padding: 5px 10px; background-color: orangered; margin-left: 160px;">
+                                                                                Coming
+                                                                            </span>
+                                                                        </div>
+                                                    }
+                                                            </div>
+                                                        </a>
+                                                        <div class="item-text">
+                                                            <p class="CategoryProduct" style="margin-bottom: 4px">
+                                                    @product.CategoryVm.CategoryName
+                                                            </p>
+                                                            <div class="IdProduct">
+                                                                <h9>
+                                                                    <a href="/DiamondJewelry/Detail?ProductId=@product.ProductId" style="color: black">
+                                                            @product.ProductName
+                                                                    </a>
+                                                                </h9>
+                                                            </div>
+                                                            <div class="item-price">
+                                                                <div class="product-price-wrapper">
+                                                                    <span class="money" style="color: #E8BE6F;">@product.SellingPrice.ToString("N0")₫</span>
+                                                        @if (product.OriginalPrice != product.SellingPrice)
+                                                        {
+                                                                            <span class="product-price-old">
+                                                                                <span class="money">@product.OriginalPrice.ToString("N0")₫</span>
+                                                                            </span>
+                                                        }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                }
+                                else
+                                {
+                                                <div class="item product-item col-3" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
+                                                    <div class="item-content">
+                                                        <a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
+                                                            <div class="item-img">
+                                                                <img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
+                                                                <div style="position: absolute; top: 6%; margin-left: 8px;">
+                                                        @if (product.PercentSale != 0)
+                                                        {
+                                                                            <span class="product-label discount" style="padding: 5px 10px;">
+                                                                                -@product.PercentSale%
+                                                                            </span>
+                                                        }
+                                                                </div>
+                                                    @if (product.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))
+                                                    {
+                                                                        <div style="position: absolute; top: 6%; margin-left: 20px;">
+                                                                            <span class="product-label discount" style="padding: 5px 10px; background-color: orangered; margin-left: 160px;">
+                                                                                Coming
+                                                                            </span>
+                                                                        </div>
+                                                    }
+                                                            </div>
+                                                        </a>
+                                                        <div class="item-text">
+                                                            <p class="CategoryProduct" style="margin-bottom: 4px">
+                                                    @product.CategoryVm.CategoryName
+                                                            </p>
+                                                            <div class="IdProduct">
+                                                                <h9>
+                                                                    <a href="/DiamondJewelry/Detail?ProductId=@product.ProductId" style="color: black">
+                                                            @product.ProductName
+                                                                    </a>
+                                                                </h9>
+                                                            </div>
+                                                            <div class="item-price">
+                                                                <div class="product-price-wrapper">
+                                                                    <span class="money" style="color: #E8BE6F;">@product.SellingPrice.ToString("N0")₫</span>
+                                                        @if (product.OriginalPrice != product.SellingPrice)
+                                                        {
+                                                                            <span class="product-price-old">
+                                                                                <span class="money">@product.OriginalPrice.ToString("N0")₫</span>
+                                                                            </span>
+                                                        }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                }
+                            }
+
+                        // Sản phẩm ẩn
+                        @foreach (var product in hiddenProducts)
+                        {
+                            @if (product.CategoryVm.CategoryName.Equals("Kim Cương"))
+                            {
+                                <div class="item product-item hidden col-3" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
+                                    <div class="item-content">
+                                        <a href="/Diamond/Detail?ProductId=@product.ProductId">
+                                            <div class="item-img">
+                                                <img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
+                                                <div style="position: absolute; top: 6%; margin-left: 8px;">
+                                                    @if (product.PercentSale != 0)
+                                                    {
+                                                        <span class="product-label discount" style="padding: 5px 10px;">
+                                                            -@product.PercentSale%
+                                                        </span>
+                                                    }
+                                                </div>
+                                                @if (product.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))
+                                                {
+                                                    <div style="position: absolute; top: 6%; margin-left: 20px;">
+                                                        <span class="product-label discount" style="padding: 5px 10px; background-color: orangered; margin-left: 160px;">
+                                                            Coming
+                                                        </span>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </a>
+                                        <div class="item-text">
+                                            <p class="CategoryProduct" style="margin-bottom: 4px">
+                                                @product.CategoryVm.CategoryName
+                                            </p>
+                                            <div class="IdProduct">
+                                                <h9>
+                                                    <a href="/DiamondJewelry/Detail?ProductId=@product.ProductId" style="color: black">
+                                                        @product.ProductName
+                                                    </a>
+                                                </h9>
+                                            </div>
+                                            <div class="item-price">
+                                                <div class="product-price-wrapper">
+                                                    <span class="money" style="color: #E8BE6F;">@product.SellingPrice.ToString("N0")₫</span>
+                                                    @if (product.OriginalPrice != product.SellingPrice)
+                                                    {
+                                                        <span class="product-price-old">
+                                                            <span class="money">@product.OriginalPrice.ToString("N0")₫</span>
+                                                        </span>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            }
+                            else if (product.CategoryVm.CategoryName.Equals("Trang Sức Cưới"))
+                            {
+                                <div class="item product-item hidden col-3" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
+                                    <div class="item-content">
+                                                        <a href="/WeddingJewelry/Detail?ProductId=@product.ProductId">
+                                            <div class="item-img">
+                                                <img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
+                                                <div style="position: absolute; top: 6%; margin-left: 8px;">
+                                                    @if (product.PercentSale != 0)
+                                                    {
+                                                        <span class="product-label discount" style="padding: 5px 10px;">
+                                                            -@product.PercentSale%
+                                                        </span>
+                                                    }
+                                                </div>
+                                                @if (product.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))
+                                                {
+                                                    <div style="position: absolute; top: 6%; margin-left: 20px;">
+                                                        <span class="product-label discount" style="padding: 5px 10px; background-color: orangered; margin-left: 160px;">
+                                                            Coming
+                                                        </span>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </a>
+                                        <div class="item-text">
+                                            <p class="CategoryProduct" style="margin-bottom: 4px">
+                                                @product.CategoryVm.CategoryName
+                                            </p>
+                                            <div class="IdProduct">
+                                                <h9>
+                                                    <a href="/DiamondJewelry/Detail?ProductId=@product.ProductId" style="color: black">
+                                                        @product.ProductName
+                                                    </a>
+                                                </h9>
+                                            </div>
+                                            <div class="item-price">
+                                                <div class="product-price-wrapper">
+                                                    <span class="money" style="color: #E8BE6F;">@product.SellingPrice.ToString("N0")₫</span>
+                                                    @if (product.OriginalPrice != product.SellingPrice)
+                                                    {
+                                                        <span class="product-price-old">
+                                                            <span class="money">@product.OriginalPrice.ToString("N0")₫</span>
+                                                        </span>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="item product-item hidden col-3" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
+                                    <div class="item-content">
+                                        <a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
+                                            <div class="item-img">
+                                                <img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
+                                                <div style="position: absolute; top: 6%; margin-left: 8px;">
+                                                    @if (product.PercentSale != 0)
+                                                    {
+                                                        <span class="product-label discount" style="padding: 5px 10px;">
+                                                            -@product.PercentSale%
+                                                        </span>
+                                                    }
+                                                </div>
+                                                @if (product.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))
+                                                {
+                                                    <div style="position: absolute; top: 6%; margin-left: 20px;">
+                                                        <span class="product-label discount" style="padding: 5px 10px; background-color: orangered; margin-left: 160px;">
+                                                            Coming
+                                                        </span>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </a>
+                                        <div class="item-text">
+                                            <p class="CategoryProduct" style="margin-bottom: 4px">
+                                                @product.CategoryVm.CategoryName
+                                            </p>
+                                            <div class="IdProduct">
+                                                <h9>
+                                                    <a href="/DiamondJewelry/Detail?ProductId=@product.ProductId" style="color: black">
+                                                        @product.ProductName
+                                                    </a>
+                                                </h9>
+                                            </div>
+                                            <div class="item-price">
+                                                <div class="product-price-wrapper">
+                                                    <span class="money" style="color: #E8BE6F;">@product.SellingPrice.ToString("N0")₫</span>
+                                                    @if (product.OriginalPrice != product.SellingPrice)
+                                                    {
+                                                        <span class="product-price-old">
+                                                            <span class="money">@product.OriginalPrice.ToString("N0")₫</span>
+                                                        </span>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+							// Kiểm tra và hiển thị nút xem thêm
+							@if (filteredProducts.Count > 20)
 							{
-								<div class="item product-item col-3" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
-									<div class="item-content">
-										<a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
-											<div class="item-img">
-												<img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
-												<div style="position: absolute; top: 6%; margin-left: 8px;">
-													@if (product.IsSale && product.PercentSale != 0)
-													{
-														<span class="product-label discount" style="padding: 5px 10px">
-															-@product.PercentSale%
-														</span>
-													}
-												</div>
-											</div>
-										</a>
-										<div class="item-text">
-											<p class="CategoryProduct" style="margin-bottom: 4px">
-												@product.CategoryVm.CategoryName
-											</p>
-											<div class="IdProduct">
-												<h9>
-													<a href="/DiamondJewelry/Detail?ProductId=@product.ProductId" style="color: black">
-														@product.ProductName
-													</a>
-												</h9>
-											</div>
-											<div class="item-price">
-												<div class="product-price-wrapper">
-													<span class="money" style="color: #E8BE6F;">@product.SellingPrice.ToString("N0")₫</span>
-													@if (product.OriginalPrice != product.SellingPrice)
-													{
-														<span class="product-price-old">
-															<span class="money">@product.OriginalPrice.ToString("N0")₫</span>
-														</span>
-													}
-												</div>
-											</div>
-										</div>
-
-									</div>
-								</div>
-							}
-
-						// Sản phẩm ẩn
-						@foreach (var product in hiddenProducts)
-							{
-								<div class="item product-item hidden col-3" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
-									<div class="item-content">
-										<a href="/DiamondJewelry/Detail?ProductId=@product.ProductId">
-											<div class="item-img">
-												<img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
-												<div style="position: absolute; top: 6%; margin-left: 8px;">
-													@if (product.IsSale && product.PercentSale != 0)
-													{
-														<span class="product-label discount" style="padding: 5px 10px">
-															-@product.PercentSale%
-														</span>
-													}
-												</div>
-											</div>
-										</a>
-										<div class="item-text">
-											<p class="CategoryProduct" style="margin-bottom: 4px">
-												@product.CategoryVm.CategoryName
-											</p>
-											<div class="IdProduct">
-												<h9>
-													<a href="/DiamondJewelry/Detail?ProductId=@product.ProductId" style="color: black">
-														@product.ProductName
-													</a>
-												</h9>
-											</div>
-											<div class="item-price">
-												<div class="product-price-wrapper">
-													<span class="money" style="color: #E8BE6F;">@product.SellingPrice.ToString("N0")₫</span>
-													@if (product.OriginalPrice != product.SellingPrice)
-													{
-														<span class="product-price-old">
-															<span class="money">@product.OriginalPrice.ToString("N0")₫</span>
-														</span>
-													}
-												</div>
-											</div>
-										</div>
-
-									</div>
-								</div>
+														<div class="see-more-wrapper mt-4" style="margin:auto">
+															<button id="seeMoreBtn" class="btn btn-primary">Xem thêm</button>
+														</div>
 							}
 						}
 						else
 						{
-							<h1>Không có sản phẩm nào phù hợp với từ khóa "@keyword"</h1>
+											<h1>Không tìm thấy sản phẩm nào khớp với lựa chọn của bạn.</h1>
 						}
+					}
+					else
+					{
+								<h1>Không tìm thấy sản phẩm nào khớp với lựa chọn của bạn.</h1>
+					}
 				</div>
-
-
-				<!-- Main Shop wrapper End -->
-				<!-- Pagination Start -->
-				@if (Model.Items.Where(p => p.ProductName.ToLower().Contains(keyword.ToLower()) || (p.CategoryVm?.CategoryName.ToLower().Contains(keyword.ToLower()) ?? false) && p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString())).Count() > 20)
-				{
-						<div class="see-more-wrapper text-center mt-4">
-							<button id="seeMoreBtn" class="btn btn-primary">Xem thêm</button>
-						</div>
-				}
-				<!-- Pagination End -->
 			</div>
 		</div>
 	</div>
@@ -464,77 +701,77 @@
 
 
 <script>
-	$(document).ready(function () {
-		$('#seeMoreBtn').on('click', function () {
-			$('.product-item.hidden').slice(0, 20).removeClass('hidden');
-			if ($('.product-item.hidden').length === 0) {
-				$('#seeMoreBtn').hide();
-			}
-		});
+    $(document).ready(function () {
+        $('#seeMoreBtn').on('click', function () {
+            $('.product-item.hidden').slice(0, 20).removeClass('hidden');
+            if ($('.product-item.hidden').length === 0) {
+                $('#seeMoreBtn').hide();
+            }
+        });
 
-		function filterProducts() {
-			var gem = $('#gemFilter').val().toLowerCase();
-			var price = $('#priceFilter').val();
-			var searchQuery = $('#searchInput').val().toLowerCase();
+        function filterProducts() {
+            var gem = $('#gemFilter').val().toLowerCase();
+            var price = $('#priceFilter').val();
+            var searchQuery = $('#searchInput').val().toLowerCase();
 
 
-			$('.product-item').each(function () {
-				var productGem = $(this).data('gem').toLowerCase();
-				var productPrice = parseFloat($(this).data('price'));
-				var productName = $(this).find('.product-content h4').text().toLowerCase();
+            $('.product-item').each(function () {
+                var productGem = $(this).data('gem').toLowerCase();
+                var productPrice = parseFloat($(this).data('price'));
+                var productName = $(this).find('.product-content h4').text().toLowerCase();
 
-				var showProduct = true;
+                var showProduct = true;
 
-				if (gem && !productGem.includes(gem)) {
-					showProduct = false;
-				}
+                if (gem && !productGem.includes(gem)) {
+                    showProduct = false;
+                }
 
-				if (price) {
-					if (price === '10000000') { // Dưới 10,000,000
-						if (productPrice >= 10000000) {
-							showProduct = false;
-						}
-					} else if (price === '100000000') { // Trên 100,000,000
-						if (productPrice <= 100000000) {
-							showProduct = false;
-						}
-					} else {
-						var priceRange = price.split('-');
-						if (priceRange.length === 2) {
-							var minPrice = parseFloat(priceRange[0]);
-							var maxPrice = parseFloat(priceRange[1]);
-							if (productPrice < minPrice || productPrice > maxPrice) {
-								showProduct = false;
-							}
-						}
-					}
-				}
+                if (price) {
+                    if (price === '10000000') { // Dưới 10,000,000
+                        if (productPrice >= 10000000) {
+                            showProduct = false;
+                        }
+                    } else if (price === '100000000') { // Trên 100,000,000
+                        if (productPrice <= 100000000) {
+                            showProduct = false;
+                        }
+                    } else {
+                        var priceRange = price.split('-');
+                        if (priceRange.length === 2) {
+                            var minPrice = parseFloat(priceRange[0]);
+                            var maxPrice = parseFloat(priceRange[1]);
+                            if (productPrice < minPrice || productPrice > maxPrice) {
+                                showProduct = false;
+                            }
+                        }
+                    }
+                }
 
-				if (searchQuery && !productName.includes(searchQuery)) {
-					showProduct = false;
-				}
+                if (searchQuery && !productName.includes(searchQuery)) {
+                    showProduct = false;
+                }
 
-				if (showProduct) {
-					$(this).fadeIn();
-				} else {
-					$(this).fadeOut();
-				}
-			});
-		}
+                if (showProduct) {
+                    $(this).fadeIn();
+                } else {
+                    $(this).fadeOut();
+                }
+            });
+        }
 
-		$('#gemFilter, #priceFilter').on('change', function () {
-			filterProducts();
-		});
+        $('#gemFilter, #priceFilter').on('change', function () {
+            filterProducts();
+        });
 
-		$('#searchInput').on('input', function () {
-			filterProducts();
-		});
+        $('#searchInput').on('input', function () {
+            filterProducts();
+        });
 
-		$('#searchButton').on('click', function () {
-			filterProducts();
-		});
+        $('#searchButton').on('click', function () {
+            filterProducts();
+        });
 
-		filterProducts();
+        filterProducts();
 
-	});
+    });
 </script>

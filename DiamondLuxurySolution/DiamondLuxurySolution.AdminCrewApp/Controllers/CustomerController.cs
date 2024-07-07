@@ -245,7 +245,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
         {
             try
             {
-                var status = await _staffApiService.DeleteStaff(request.CustomerId);
+                var status = await _customerApiService.DeleteCustomer(request.CustomerId);
                 if (status is ApiErrorResult<bool> errorResult)
                 {
                     List<string> listError = new List<string>();

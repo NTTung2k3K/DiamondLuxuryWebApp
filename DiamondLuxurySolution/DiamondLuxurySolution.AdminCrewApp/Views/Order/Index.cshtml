@@ -58,18 +58,16 @@
                     <label onclick="sortTable(2)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
-                    <label>Tổng tiền</label>
-                    <label onclick="sortTable(3)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
-                <th>
-                    
                     <label>Ngày đặt</label>
+                    <label onclick="sortTable(3)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
-                    
-
+                <th>
+                    <label>Tổng tiền</label>
+                    <label onclick="sortTable(4)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
                     <label>Trạng thái</label>
-                    <label onclick="sortTable(4)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
+                    <label onclick="sortTable(5)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>Cài đặt</th>
             </tr>
@@ -82,7 +80,7 @@
                     <td>@item.ShipName</td>
                     <td>@item.ShipPhoneNumber</td>
                     <td>@item.TotalAmount.ToString("N0")₫</td>
-                    <td>@item.DateCreated.Value.Date</td>
+                    <td>@item.DateCreated</td>
                     @if (item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()))
                     {
                         <td>
@@ -128,9 +126,15 @@
                     <td class="text-center">
                         @if (!staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Manager))
                         {
-                            @Html.ActionLink("Chỉnh sửa", "Edit", new { OrderId = item.OrderId }, new { @class = "btn btn-warning m-1" })
+                            if (!item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
+                            {
+                                @Html.ActionLink("Chỉnh sửa", "Edit", new { OrderId = item.OrderId }, new { @class = "btn btn-warning m-1" })
+                            }
                             @Html.ActionLink("Xem chi tiết", "Detail", new { OrderId = item.OrderId }, new { @class = "btn btn-info m-1" })
-                            @Html.ActionLink("Xóa", "Delete", new { OrderId = item.OrderId }, new { @class = "btn btn-danger m-1" })
+                            if (!item.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
+                            {
+                                @Html.ActionLink("Xóa", "Delete", new { OrderId = item.OrderId }, new { @class = "btn btn-danger m-1" })
+                            }
                         }
                         else
                         {

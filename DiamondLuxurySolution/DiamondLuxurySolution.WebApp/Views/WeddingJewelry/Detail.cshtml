@@ -237,56 +237,65 @@
 										margin-right: 20px;
 									}
 								</style>
-								<div style="display: flex;">
-									<div class="dropdown">
-										<button id="dropdown-toggle" class="dropdown-toggle">Ni (size)</button>
-										<div class="dropdown-content">
-											<input type="hidden" id="niSize" name="properties[nisize]" value="">
-											<table>
-												<tbody>
-													@for (int i = 0; i < sizes.Count; i += 5)
-													{
-														<tr>
-															@for (int j = 0; j < 5; j++)
-															{
-																if (i + j < sizes.Count)
-																{
-																	<td onclick="selectSize('@sizes[i + j]')">@sizes[i + j]</td>
-																}
-															}
-														</tr>
-													}
-												</tbody>
-											</table>
-										</div>
-									</div>
-									<a href="/InstructionsRings/Index">
-										<p class="product-details-availability" style="margin-bottom: 15px; margin-bottom: 20px; margin-top: 6px;">
-											<i class="fa fa-check-circle"></i> Hướng Dẫn Chọn Ni
-										</p>
-									</a>
-								</div>
+								
 
-								<div class="product-details-action-wrapper mb--20">
-									<div class="product-details-action-top d-flex align-items-center mb--20">
-										<div class="quantity-controls">
-											<span style="margin-right: 10px;">Chọn Số Lượng</span>
-											<div class="quantity-controls1">
-												<button type="button" class="quantity-btn1 quantity-decrease1 d-flex justify-content-center align-items-center">-</button>
-												<input type="text" class="quantity-input" value="1" size="2" readonly style="text-align: center; border-radius : 20px;width:37%;">
-												<button type="button" class="quantity-btn1 quantity-increase1 d-flex justify-content-center align-items-center">+</button>
+								@if (Model.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))
+								{
+									<h1 style="color : orangered; padding-bottom : 40px;padding-top: 20px;">Coming Soon</h1>
+								}
+								else if (Model.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()))
+								{
+									<div style="display: flex;">
+										<div class="dropdown">
+											<button id="dropdown-toggle" class="dropdown-toggle">Ni (size)</button>
+											<div class="dropdown-content">
+												<input type="hidden" id="niSize" name="properties[nisize]" value="">
+												<table>
+													<tbody>
+														@for (int i = 0; i < sizes.Count; i += 5)
+														{
+															<tr>
+																@for (int j = 0; j < 5; j++)
+																{
+																	if (i + j < sizes.Count)
+																	{
+																		<td onclick="selectSize('@sizes[i + j]')">@sizes[i + j]</td>
+																	}
+																}
+															</tr>
+														}
+													</tbody>
+												</table>
 											</div>
 										</div>
+										<a href="/InstructionsRings/Index">
+											<p class="product-details-availability" style="margin-bottom: 15px; margin-bottom: 20px; margin-top: 6px;">
+												<i class="fa fa-check-circle"></i> Hướng Dẫn Chọn Ni
+											</p>
+										</a>
 									</div>
 
-									<a href="muaNgay.html" class="khoangcach">
-										<button type="button" class="btn1 btn-border1" style="margin-right: 9px; border-radius: 5%;" data-product-price="@Model.SellingPrice" class="btn btn-style-2" id="buy-now" data-product-id="@Model.ProductId" data-product-name="@Model.ProductName" data-product-image="@Model.ProductThumbnail">Mua Ngay</button>
-									</a>
-									<a href="gioHang.html">
-										<button type="button" class="btn btn-style-2 " data-product-price="@Model.SellingPrice" class="btn btn-style-2" id="add-to-cart" data-product-id="@Model.ProductId" data-product-name="@Model.ProductName" data-product-image="@Model.ProductThumbnail">Thêm Vào Giỏ Hàng</button>
-									</a>
+									<div class="product-details-action-wrapper mb--20">
+										<div class="product-details-action-top d-flex align-items-center mb--20">
+											<div class="quantity-controls">
+												<span style="margin-right: 10px;">Chọn Số Lượng</span>
+												<div class="quantity-controls1">
+													<button type="button" class="quantity-btn1 quantity-decrease1 d-flex justify-content-center align-items-center">-</button>
+													<input type="text" class="quantity-input" value="1" size="2" readonly style="text-align: center; border-radius : 20px;width:37%;">
+													<button type="button" class="quantity-btn1 quantity-increase1 d-flex justify-content-center align-items-center">+</button>
+												</div>
+											</div>
+										</div>
 
-								</div>
+										<a href="muaNgay.html" class="khoangcach">
+											<button type="button" class="btn1 btn-border1" style="margin-right: 9px; border-radius: 5%;" data-product-price="@Model.SellingPrice" class="btn btn-style-2" id="buy-now" data-product-id="@Model.ProductId" data-product-name="@Model.ProductName" data-product-image="@Model.ProductThumbnail">Mua Ngay</button>
+										</a>
+										<a href="gioHang.html">
+											<button type="button" class="btn btn-style-2 " data-product-price="@Model.SellingPrice" class="btn btn-style-2" id="add-to-cart" data-product-id="@Model.ProductId" data-product-name="@Model.ProductName" data-product-image="@Model.ProductThumbnail">Thêm Vào Giỏ Hàng</button>
+										</a>
+
+									</div>
+								}
 								<style>
 									.disabled {
 										pointer-events: none;
@@ -349,6 +358,10 @@
 								border: 1px solid #ddd;
 								text-align: left;
 								width: 20px;
+							}
+
+							td {
+								width: 52%;
 							}
 						</style>
 						<div class="product-details-tab-content tab-content">
@@ -446,7 +459,7 @@
 									</tr>
 									<tr>
 										<th>Trọng lượng vàng</th>
-										<td>@Model.FrameVm.Weight</td>
+										<td>@Model.FrameVm.Weight chỉ</td>
 									</tr>
 								</table>
 
