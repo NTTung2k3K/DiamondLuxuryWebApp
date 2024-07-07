@@ -34,13 +34,29 @@
                 Mô Tả
             </dt>
             <dd class="col-sm-9">
-                @Html.DisplayFor(model => model.Description)
+                @if (string.IsNullOrEmpty(Model.Description))
+                {
+                    <p>Không có</p>
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.Description)
+
+                }
             </dd>
             <dt class="col-sm-3 mb-3">
                 Slide URL
             </dt>
             <dd class="col-sm-9">
-                @Html.DisplayFor(model => model.SlideUrl)
+                @if (string.IsNullOrEmpty(Model.SlideUrl))
+                {
+                    <p>Không có</p>
+                }
+                else
+                {
+                    @Html.DisplayFor(model => model.SlideUrl)
+
+                }
             </dd>
             <dt class="col-sm-3 mb-3">
                 Slide Image
