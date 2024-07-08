@@ -338,9 +338,17 @@
     @if (staffVmSession.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
     {
         <div class="row">
-            <div class="col-md-3">
-                @Html.ActionLink("Chỉnh sửa", "Edit", new { OrderId = Model.OrderId }, new { @class = "btn btn-warning" })
-            </div>
+            @if (!Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
+            {
+                <div class="col-md-3">
+                    @Html.ActionLink("Chỉnh sửa", "Edit", new { OrderId = Model.OrderId }, new { @class = "btn btn-warning" })
+                </div>
+            }
+            else
+            {
+                <div class="col-md-3"></div>
+
+                    }
             @if (Model != null && Model.RemainAmount > 0 && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
             {
                 <div class="col-md-3">
@@ -394,6 +402,8 @@ else
                 var requestData = {
                     OrderId: orderId
                 };
+                $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang cập nhật...').prop('disabled', true);
+
                 $.ajax({
                     url: "https://localhost:9000/api/Orders/UpdateShipper",
                     type: "PUT",
@@ -405,15 +415,24 @@ else
                             alert('Cập nhật thành công: ' + response.resultObj);
                             $("#shipperName").text(response.resultObj);
                             // Handle success scenario
+                            // Xóa hiệu ứng loading và kích hoạt lại nút
+                            $("#UpdateShipperBtn").html('Cập nhật nhân viên giao hàng').prop('disabled', false);
+
                         } else {
                             alert('Cập nhật thất bại: ' + response.message);
                             // Handle failure scenario
+                            // Xóa hiệu ứng loading và kích hoạt lại nút
+                            $("#UpdateShipperBtn").html('Cập nhật nhân viên giao hàng').prop('disabled', false);
+
                         }
                     },
                     error: function (xhr, status, error) {
                         console.log(error);
                         alert('Có lỗi xảy ra trong quá trình gửi yêu cầu.');
                         // Handle other errors
+                        // Xóa hiệu ứng loading và kích hoạt lại nút
+                        $("#UpdateShipperBtn").html('Cập nhật nhân viên giao hàng').prop('disabled', false);
+
                     }
                 })
             })
@@ -426,6 +445,8 @@ else
                     OrderId: orderId,
                     StaffId: staffId
                 };
+                $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang cập nhật...').prop('disabled', true);
+
                 debugger;
                 $.ajax({
                     url: "https://localhost:9000/api/Orders/AcceptProcessOrder",
@@ -438,15 +459,20 @@ else
                             alert('Phụ trách đơn hàng thành công');
                             window.location.reload();
                             // Handle success scenario
+                            $("#acceptOrder").html('Phụ trách đơn hàng').prop('disabled', false);
                         } else {
                             alert('Cập nhật thất bại: ' + response.message);
                             // Handle failure scenario
+                            $("#acceptOrder").html('Phụ trách đơn hàng').prop('disabled', false);
+
                         }
                     },
                     error: function (xhr, status, error) {
                         console.log(error);
                         alert('Có lỗi xảy ra trong quá trình gửi yêu cầu.');
                         // Handle other errors
+                        $("#acceptOrder").html('Phụ trách đơn hàng').prop('disabled', false);
+
                     }
                 })
             })
@@ -461,6 +487,8 @@ else
             $('#selectFolderButton').on('click', async function () {
                 const orderId = $(this).data('order-id'); // Retrieve the order ID from the button's data attribute
                 debugger;
+                $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang cập nhật...').prop('disabled', true);
+
                 saveFolderPath(orderId);
             });
 
@@ -481,11 +509,14 @@ else
                     success: function (response) {
                         debugger;
                         alert(`File đã lưu vào ổ C: \\DiamondInfo\\` + response.resultObj);
+                        $("#selectFolderButton").html('Xuất Phiếu Bảo Hành  <br>  & Giấy Chứng Nhận ').prop('disabled', false);
                     },
                     error: function (xhr, status, error) {
                         console.error('Lỗi:', error);
                         alert('Có lỗi xảy ra vui lòng thử lại');
+                        $("#selectFolderButton").html('Xuất Phiếu Bảo Hành  <br>  & Giấy Chứng Nhận ').prop('disabled', false);
                     }
+
                 });
             }
         });

@@ -15,5 +15,10 @@ namespace DiamondLuxurySolution.WebApp.Service.Product
             var data = await GetAsync<PageResult<ProductVm>>($"api/Products/ViewProduct?Keyword={request.Keyword}&pageIndex={request.pageIndex}");
             return data;
         }
+        public async Task<ApiResult<List<ProductVm>>> GetAll()
+        {
+            var data = await GetAsync<List<ProductVm>>("api/Products/GetAll");
+            return data;
+        }
     }
 }

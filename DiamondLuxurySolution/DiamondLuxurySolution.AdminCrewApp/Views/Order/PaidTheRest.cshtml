@@ -356,7 +356,7 @@
                     <input asp-for="OrderId" type="hidden" class="form-control" />
                     <div class="form-group m-2">
                         <label asp-for="ListPaymentId" class="control-label m-2">Hình thức thanh toán</label>
-                        <select class="h-50 " name="PaymentId">
+                        <select class="" name="PaymentId">
                             @if (ViewBag.ListPayment != null && ViewBag.ListPayment.Count > 0)
                             {
                                 @foreach (var payment in ViewBag.ListPayment)

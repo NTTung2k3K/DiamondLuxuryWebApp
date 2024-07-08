@@ -250,7 +250,6 @@ namespace DiamondLuxurySolution.WebApp.Controllers
 
             // Retrieve the order details
             var order = await _orderApiService.GetOrderById(OrderId);
-
             // Calculate the total item prices
             decimal totalItemPrice = 0;
             foreach (var item in order.ResultObj.ListOrderProduct)
@@ -507,7 +506,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Info(CreateOrderRequest request, string country, string billing_streetAddress)
+        public async Task<IActionResult> Info(CreateOrderRequest request, string country)
         {
             var listPayment = await _paymentApiService.GetAll();
             ViewBag.PaypalId = listPayment.ResultObj.Find(x => x.PaymentMethod == "Paypal").PaymentId;
@@ -540,7 +539,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
 
             var orderVm = new CreateOrderRequest()
             {
-                ShipAdress = request.ShipAdress + ",Quận " + billing_streetAddress + ", " + country,
+                ShipAdress = request.ShipAdress + ",Tp. " + country,
                 ShipEmail = request.ShipEmail,
                 ShipName = request.ShipName,
                 ShipPhoneNumber = request.ShipPhoneNumber,

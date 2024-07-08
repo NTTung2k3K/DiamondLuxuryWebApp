@@ -42,11 +42,14 @@
                     <input asp-for="PhoneNumber" readonly class="form-control" />
                     <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                 </div>
-               
-               
+
+                @{
+                    // Calculate the date that is exactly 18 years before today
+                    var maxDob = DateTime.Now.AddYears(-18).ToString("yyyy-MM-dd");
+                }
                 <div class="form-group m-2">
                     <label asp-for="Dob" class="control-label m-2">Ngày sinh</label>
-                    <input asp-for="Dob" readonly class="form-control" type="date" />
+                    <input asp-for="Dob" readonly class="form-control" type="date" max="@maxDob" />
                     <span asp-validation-for="Dob" class="text-danger"></span>
                 </div>
                

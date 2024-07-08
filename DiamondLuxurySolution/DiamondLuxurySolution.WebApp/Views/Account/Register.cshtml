@@ -64,8 +64,12 @@
                 <div class="input-group">
                     <input required="" asp-for="Email" placeholder="Email" id="username" type="text" />
                 </div>
+                @{
+                    // Calculate the date that is exactly 18 years before today
+                    var maxDob = DateTime.Now.AddYears(-18).ToString("yyyy-MM-dd");
+                }
                 <div class="input-group">
-                    <input required="" asp-for="Dob" placeholder="Ngày Sinh" id="username" lang="vi" max="2010-12-31" type="date" />
+                    <input required="" asp-for="Dob" placeholder="Ngày Sinh" id="username" lang="vi" max="@maxDob" type="date" />
                 </div>
                 <div class="input-group">
                     <input required="" asp-for="Password" placeholder="Mật Khẩu" name="password" id="password" type="password" />

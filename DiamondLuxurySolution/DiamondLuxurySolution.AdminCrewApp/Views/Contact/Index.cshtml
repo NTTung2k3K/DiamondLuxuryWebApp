@@ -39,7 +39,7 @@
     <table class="table" id="sort">
         <thead>
             <tr class="text-center">
-              
+
                 <th>
                     <label>Tên người dùng</label>
                     <label onclick="sortTable(1)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
@@ -87,9 +87,17 @@
 
                     }
                     <td class="text-center">
-                        @Html.ActionLink("Chỉnh sửa", "Edit", new { ContactId = item.ContactId }, new { @class = "btn btn-warning" })
-                        @Html.ActionLink("Xem chi tiết", "Detail", new { ContactId = item.ContactId }, new { @class = "btn btn-info" })
-                        @Html.ActionLink("Xóa", "Delete", new { ContactId = item.ContactId }, new { @class = "btn btn-danger" })
+                        @if (!item.IsResponse)
+                        {
+                            @Html.ActionLink("Chỉnh sửa", "Edit", new { ContactId = item.ContactId }, new { @class = "btn btn-warning", @style = "    margin: 0 2px;" })
+                            @Html.ActionLink("Xem chi tiết", "Detail", new { ContactId = item.ContactId }, new { @class = "btn btn-info", @style = "    margin: 0 2px;" })
+                            @Html.ActionLink("Xóa", "Delete", new { ContactId = item.ContactId }, new { @class = "btn btn-danger", @style = "    margin: 0 2px;" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Xem chi tiết", "Detail", new { ContactId = item.ContactId }, new { @class = "btn btn-info" })
+                        }
+
                     </td>
                 </tr>
             }

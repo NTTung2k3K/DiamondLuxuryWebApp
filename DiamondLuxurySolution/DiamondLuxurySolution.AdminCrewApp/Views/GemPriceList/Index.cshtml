@@ -48,7 +48,7 @@
         <thead>
             <tr class="text-center">
                 <th>
-                    <label>Mã giá kim cương</label>
+                    <label>Độ tinh khiết</label>
                     <label onclick="sortTable(0)" class="fa fa-sort text-black-50" style="cursor:pointer"></label>
                 </th>
                 <th>
@@ -74,7 +74,7 @@
             @foreach (var item in Model.Items)
             {
                 <tr class="text-center">
-                    <td>@item.GemPriceListId</td>
+                    <td>@item.Clarity</td>
                     <td>@item.CaratWeight</td>
                     <td>@item.Price.ToString("N0")₫</td>
                     <td>@item.effectDate</td>

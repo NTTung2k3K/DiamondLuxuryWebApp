@@ -100,12 +100,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="row mb--30">
-                                            <div class="form__group col-12">
-                                                <label for="billing_streetAddress" class="form__label">Quận/Huyện<span style="color:red">*</span></label>
-                                                <input type="text" name="billing_streetAddress" id="district" class="form__input form__input--2">
-                                            </div>
-                                        </div>
+                                       
                                         <div class="row mb--30">
                                             <div class="form__group col-12">
                                                 <label for="billing_streetAddress" class="form__label">Địa Chỉ<span style="color:red">*</span></label>
@@ -337,12 +332,11 @@
             $('#checkout-pay').click(function (event) {
                 var firstName = $('#first_name').val().trim();
                 var city = $('#city').val().trim();
-                var district = $('#district').val().trim();
                 var address = $('#address').val().trim();
                 var phone = $('#phone').val().trim();
                 var email = $('#email').val().trim();
 
-                if (!firstName || !city || !district || !address || !phone || !email) {
+                if (!firstName || !city || !address || !phone || !email) {
                     alert("Bạn cần điền tất cả thông tin để đặt hàng");
                 } else {
 

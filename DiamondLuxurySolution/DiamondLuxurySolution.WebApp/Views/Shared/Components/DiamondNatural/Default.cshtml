@@ -226,7 +226,7 @@
 				</div>
 
 				<!-- Main Shop wrapper Start -->
-				<div class="col-12" style="display: flex; flex-wrap: wrap;">
+				<div class="col-12" style="display: flex; flex-wrap: wrap;justify-content: center;">
 					@if (Model != null)
 					{
 						// Lọc sản phẩm có CategoryName là "Nhẫn"
@@ -246,13 +246,21 @@
 										<div class="item-img">
 											<img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
 											<div style="position: absolute; top: 6%; margin-left: 8px;">
-												@if (product.IsSale && product.PercentSale != 0)
+												@if (product.PercentSale != 0)
 												{
-													<span class="product-label discount" style="padding: 5px 10px">
+													<span class="product-label discount" style="padding: 5px 10px;">
 														-@product.PercentSale%
 													</span>
 												}
 											</div>
+											@if (product.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))
+											{
+												<div style="position: absolute; top: 6%; margin-left: 20px;">
+													<span class="product-label discount" style="padding: 5px 10px; background-color: orangered; margin-left: 160px;">
+														Coming
+													</span>
+												</div>
+											}
 										</div>
 									</a>
 									<div class="item-text">
@@ -292,13 +300,21 @@
 										<div class="item-img">
 											<img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
 											<div style="position: absolute; top: 6%; margin-left: 8px;">
-												@if (product.IsSale && product.PercentSale != 0)
+												@if (product.PercentSale != 0)
 												{
-													<span class="product-label discount" style="padding: 5px 10px">
+													<span class="product-label discount" style="padding: 5px 10px;">
 														-@product.PercentSale%
 													</span>
 												}
 											</div>
+											@if (product.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Coming.ToString()))
+											{
+												<div style="position: absolute; top: 6%; margin-left: 20px;">
+													<span class="product-label discount" style="padding: 5px 10px; background-color: orangered; margin-left: 160px;">
+														Coming
+													</span>
+												</div>
+											}
 										</div>
 									</a>
 									<div class="item-text">
@@ -348,74 +364,7 @@
 <!-- Main Content Wrapper End -->
 
 
-<script>
-	$(document).ready(function () {
-		$('#seeMoreBtn').on('click', function () {
-			$('.product-item.hidden').slice(0, 20).removeClass('hidden');
-			if ($('.product-item.hidden').length === 0) {
-				$('#seeMoreBtn').hide();
-			}
-		});
-
-		function filterProducts() {
-			var price = $('#priceFilter').val();
-			var searchQuery = $('#searchInput').val().toLowerCase();
-
-			$('.product-item').each(function () {
-				var productPrice = parseFloat($(this).data('price'));
-				var productName = $(this).find('.IdProduct h9 a').text().toLowerCase();
-
-				var showProduct = true;
-
-				if (price) {
-					if (price === '10000000') { // Dưới 10,000,000
-						if (productPrice >= 10000000) {
-							showProduct = false;
-						}
-					} else if (price === '100000000') { // Trên 100,000,000
-						if (productPrice <= 100000000) {
-							showProduct = false;
-						}
-					} else {
-						var priceRange = price.split('-');
-						if (priceRange.length === 2) {
-							var minPrice = parseFloat(priceRange[0]);
-							var maxPrice = parseFloat(priceRange[1]);
-							if (productPrice < minPrice || productPrice > maxPrice) {
-								showProduct = false;
-							}
-						}
-					}
-				}
-
-				if (searchQuery && !productName.includes(searchQuery)) {
-					showProduct = false;
-				}
-
-				if (showProduct) {
-					$(this).fadeIn();
-				} else {
-					$(this).fadeOut();
-				}
-			});
-		}
-
-		$('#priceFilter').on('change', function () {
-			filterProducts();
-		});
-
-		$('#searchInput').on('input', function () {
-			filterProducts();
-		});
-
-		$('#searchButton').on('click', function () {
-			filterProducts();
-		});
-
-		filterProducts();
-
-	});
-</script>
+<script src="/assets/js/FilterDiamond.js"></script>
 
 
 

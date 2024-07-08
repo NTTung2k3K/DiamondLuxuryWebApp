@@ -202,10 +202,12 @@ namespace DiamondLuxurySolution.Application.Repository.GemPriceList
             if (request.Keyword != null)
             {
                 listGemPriceList = listGemPriceList.Where(x => x.CaratWeight.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
-                || x.Price.ToString().Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
-                || x.effectDate.ToString().Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
-                || x.GemPriceListId.ToString().Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
-
+                                                            || x.Clarity.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                                            || x.effectDate.ToString().Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                                            || x.Price.ToString().Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                                            || x.Color.ToString().Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                                            || x.Cut.ToString().Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                                            ).ToList();
             }
             listGemPriceList = listGemPriceList.OrderByDescending(x => x.CaratWeight).ToList();
 
