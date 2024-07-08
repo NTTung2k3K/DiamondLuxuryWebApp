@@ -351,6 +351,7 @@
                                                     <select name="StatusOrderPayment[@index].Status" disabled>
                                                         @foreach (var trans in ViewBag.TransactionStatus)
                                                         {
+                                                            
                                                             if (trans.ToString().Equals(payment.Status.ToString()))
                                                             {
                                                                 <option selected value="@trans">
@@ -775,7 +776,7 @@
                                                 <div class="form-check form-switch">
                                                     <span>Trạng thái thanh toán</span>
                                                     <input type="hidden" name="StatusOrderPayment[@index].OrderPaymentId" value="@payment.OrderPaymentId" />
-                                                    <select name="StatusOrderPayment[@index].Status">
+                                                    <select name="StatusOrderPayment[@index].Status" @(payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()) ? "disabled" : "")>
                                                         @foreach (var trans in ViewBag.TransactionStatus)
                                                         {
                                                             if (trans.ToString().Equals(payment.Status.ToString()))
