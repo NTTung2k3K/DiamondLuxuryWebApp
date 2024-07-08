@@ -131,6 +131,10 @@
                                             padding-top: 5px;
                                         }
 
+                                            .nice-select.open .list {
+                                                max-height: 250px
+                                            }
+
                                             .nice-select option {
                                                 padding: 10px;
                                                 font-size: 16px;
@@ -266,7 +270,7 @@
 
                             <div class="item product-item col-3" data-gem="@product.GemVm.GemName" data-price="@product.SellingPrice">
                                 <div class="item-content">
-                                    <a href="@categoryUrl@product.ProductId">
+                                    <a href="@categoryUrl@product.ProductId" rel="">
                                         <div class="item-img">
                                             <img src="@product.ProductThumbnail" alt="@product.ProductName" class="primary-image" />
                                             <div style="position: absolute; top: 6%; margin-left: 8px;">
@@ -329,6 +333,12 @@
                                     LoadProduct(product);
                                 }
                             </div>
+                            @if (Model.ListProducts.Where(p => p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString()) && p.CategoryVm.CategoryName != "Kim Cương" && p.CategoryVm.CategoryName != "Trang Sức Cưới").Count() > 20)
+                            {
+                                <div class="see-more-wrapper text-center mt-4">
+                                    <button id="seeMoreBtn" class="btn btn-primary">Xem thêm</button>
+                                </div>
+                            }
                         }
 
                     </div>
@@ -340,6 +350,7 @@
     {
         <p>Không có sản phẩm nào để hiển thị.</p>
     }
+    <!-- "See More" Button -->
 }
 <!-- Main Content Wrapper End -->
 <!-- Include jQuery -->

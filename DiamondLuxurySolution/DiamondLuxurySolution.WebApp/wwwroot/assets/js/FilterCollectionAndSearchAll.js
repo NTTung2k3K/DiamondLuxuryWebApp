@@ -16,7 +16,6 @@
             var productGem = $(this).data('gem').toLowerCase();
             var productPrice = parseFloat($(this).data('price'));
             var productName = $(this).find('.IdProduct h9 a').text().toLowerCase();
-
             var showProduct = true;
 
             if (gem && !productGem.includes(gem)) {
@@ -45,7 +44,7 @@
             }
 
             if (searchQuery && !productName.includes(searchQuery)) {
-                productCount++;
+				showProduct = false;
             }
 
             if (showProduct) {
