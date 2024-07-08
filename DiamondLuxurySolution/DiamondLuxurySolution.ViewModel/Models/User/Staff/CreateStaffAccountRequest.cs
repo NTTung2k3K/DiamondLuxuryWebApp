@@ -26,7 +26,7 @@ namespace DiamondLuxurySolution.ViewModel.Models.User.Staff
         [Required(ErrorMessage = "Nhân viên cần có email")]
         [EmailAddress(ErrorMessage ="Địa chỉ email ko hợp lệ")]
         public string Email { get; set; }
-        [Required(ErrorMessage = "Nhân viên cần có ngày sinh")]
+        [Required(ErrorMessage = "Ngày sinh không được để trống")]
         public DateTime Dob { get; set; }
         public IFormFile? Image { get; set; }
         [Required(ErrorMessage = "Vui lòng chọn trạng thái")]

@@ -295,7 +295,7 @@
                         {
 
                             <div class="form-group m-2">
-                                <label asp-for="Deposit" class="control-label m-2"></label>
+                                <label class="control-label m-2">Trả trước</label>
                                 <span type="text" class="form-control price-input" readonly>@Model?.Deposit?.ToString("N0")₫</span>
                             </div>
                         }
@@ -303,10 +303,13 @@
                         {
 
                             <div class="form-group m-2">
-                                <label asp-for="Deposit" class="control-label m-2"></label>
+                                <label class="control-label m-2">Trả trước</label>
                                 <span type="text" class="form-control price-input" readonly>@Model?.Deposit?.ToString("N0")₫</span>
+
                             </div>
                         }
+                        <input type="hidden" asp-for="Deposit" />
+
                         <div class="form-group m-2">
                             <label>Hình thức đã chọn</label>
                             <div>
@@ -702,7 +705,7 @@
                                 </div>
                             </div>
                         </div>
-                     
+
 
                         @*Product end*@
 
@@ -731,6 +734,9 @@
                                 <span type="text" class="form-control price-input" readonly>@Model?.Deposit?.ToString("N0")₫</span>
                             </div>
                         }
+                        <input type="hidden" asp-for="Deposit" />
+
+
                         <div class="form-group m-2">
                             <label>Hình thức đã chọn</label>
                             <div>
@@ -1017,17 +1023,17 @@ else
             // Thêm dòng mới và cập nhật tên các input
             function addRow() {
                 var newRow = `<tr class="added-row">
-                                                                                            <td></td>
-                                                                                            <td>
-                                                                                                <select class="h-50 control-index" name=""></select>
-                                                                                            </td>
-                                                                                            <td><input type="number" value="1" class="form-control control-index" name="" placeholder="Số lượng" /></td>
-                                                                                                                     <td><input type="text" readonly class="form-control size-input" name="" placeholder="Chọn size" /></td>
+                                                                                                    <td></td>
+                                                                                                    <td>
+                                                                                                        <select class="h-50 control-index" name=""></select>
+                                                                                                    </td>
+                                                                                                    <td><input type="number" value="1" class="form-control control-index" name="" placeholder="Số lượng" /></td>
+                                                                                                                             <td><input type="text" readonly class="form-control size-input" name="" placeholder="Chọn size" /></td>
 
-                                                                                                    <td class="text-center">
-                                                                                                <a class="avtar avtar-s btn-link-danger btn-pc-default delete-item huhu"><i class="ti ti-trash f-20"></i></a>
-                                                                                            </td>
-                                                                                        </tr>`;
+                                                                                                            <td class="text-center">
+                                                                                                        <a class="avtar avtar-s btn-link-danger btn-pc-default delete-item huhu"><i class="ti ti-trash f-20"></i></a>
+                                                                                                    </td>
+                                                                                                </tr>`;
                 debugger;
 
                 $('#itemTable tbody').append(newRow);
