@@ -9,11 +9,11 @@
 	function filterProducts() {
 		var price = $('#priceFilter').val();
 		var searchQuery = $('#searchInput').val().toLowerCase();
+		var productCount = 0;
 
 		$('.product-item').each(function () {
 			var productPrice = parseFloat($(this).data('price'));
 			var productName = $(this).find('.IdProduct h9 a').text().toLowerCase();
-
 			var showProduct = true;
 
 			if (price) {
@@ -42,9 +42,21 @@
 			}
 
 			if (showProduct) {
+				debugger
 				$(this).fadeIn();
+				productCount++;
+				if (productCount <= 20) {
+					$(this).removeClass('hidden');
+				} else {
+					$(this).addClass('hidden');
+				}
 			} else {
 				$(this).fadeOut();
+			}
+			if (productCount > 20) {
+				$('#seeMoreBtn').show();
+			} else {
+				$('#seeMoreBtn').hide();
 			}
 		});
 	}

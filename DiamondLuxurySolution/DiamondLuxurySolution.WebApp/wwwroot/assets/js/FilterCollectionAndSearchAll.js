@@ -10,12 +10,12 @@
         var gem = $('#gemFilter').val().toLowerCase();
         var price = $('#priceFilter').val();
         var searchQuery = $('#searchInput').val().toLowerCase();
+        var productCount = 0;
 
         $('.product-item').each(function () {
             var productGem = $(this).data('gem').toLowerCase();
             var productPrice = parseFloat($(this).data('price'));
             var productName = $(this).find('.IdProduct h9 a').text().toLowerCase();
-
             var showProduct = true;
 
             if (gem && !productGem.includes(gem)) {
@@ -44,13 +44,25 @@
             }
 
             if (searchQuery && !productName.includes(searchQuery)) {
-                showProduct = false;
+				showProduct = false;
             }
 
             if (showProduct) {
+                debugger
                 $(this).fadeIn();
+                productCount++;
+                if (productCount <= 20) {
+                    $(this).removeClass('hidden');
+                } else {
+                    $(this).addClass('hidden');
+                }
             } else {
                 $(this).fadeOut();
+            }
+            if (productCount > 20) {
+                $('#seeMoreBtn').show();
+            } else {
+                $('#seeMoreBtn').hide();
             }
         });
     }

@@ -11,6 +11,7 @@
 		var price = $('#priceFilter').val();
 		var searchQuery = $('#searchInput').val().toLowerCase();
 		var material = $('#materialFilter').val().toLowerCase();
+		var productCount = 0;
 
 		$('.product-item').each(function () {
 			var productGem = $(this).data('gem').toLowerCase();
@@ -51,12 +52,25 @@
 
 			if (searchQuery && !productName.includes(searchQuery)) {
 				showProduct = false;
+
 			}
 
 			if (showProduct) {
+				debugger
 				$(this).fadeIn();
+				productCount++;
+				if (productCount <= 20) {
+					$(this).removeClass('hidden');
+				} else {
+					$(this).addClass('hidden');
+				}
 			} else {
 				$(this).fadeOut();
+			}
+			if (productCount > 20) {
+				$('#seeMoreBtn').show();
+			} else {
+				$('#seeMoreBtn').hide();
 			}
 		});
 	}
