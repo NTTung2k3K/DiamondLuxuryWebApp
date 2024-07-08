@@ -365,23 +365,25 @@ namespace DiamondLuxurySolution.WebApp.Controllers
                 items = new List<Item>()
             };
 
-            // Adding Item Details like name, currency, price etc  
+            // Retrieve the order details
             var order = await _orderApiService.GetOrderById(OrderId);
-            decimal subtotal = 0;
-            foreach (var item in order.ResultObj.ListOrderProduct)
+            if (order == null || order.ResultObj == null)
             {
-                var itemPrice = Math.Round(item.UnitPrice / 25000, 2);
-                subtotal += itemPrice * item.Quantity;
-
-                itemList.items.Add(new Item()
-                {
-                    name = item.ProductName,
-                    currency = "USD",
-                    price = itemPrice.ToString("F2"),
-                    quantity = item.Quantity.ToString(),
-                    sku = item.ProductId
-                });
+                throw new Exception("Order not found");
             }
+
+            // Calculate the order total amount in USD
+            decimal orderTotalUSD = Math.Round(order.ResultObj.TotalAmount / 25000, 2);
+
+            // Add a single item reflecting the order total amount
+            itemList.items.Add(new Item()
+            {
+                name = "Order Total for Order " + OrderId,
+                currency = "USD",
+                price = orderTotalUSD.ToString("F2"),
+                quantity = "1",
+                sku = "ORDER_TOTAL"
+            });
 
             var payer = new Payer()
             {
@@ -395,19 +397,19 @@ namespace DiamondLuxurySolution.WebApp.Controllers
                 return_url = $"{redirectUrl}&OrderId={OrderId}"
             };
 
-            // Adding Tax, shipping and Subtotal details  
+            // Adding Tax, shipping, and Subtotal details  
             var details = new Details()
             {
                 tax = "0.00",
                 shipping = "0.00",
-                subtotal = subtotal.ToString("F2")
+                subtotal = orderTotalUSD.ToString("F2")
             };
 
             // Final amount with details  
             var amount = new Amount()
             {
                 currency = "USD",
-                total = subtotal.ToString("F2"), // Total must be equal to sum of tax, shipping and subtotal.  
+                total = orderTotalUSD.ToString("F2"), // Total must be equal to the sum of tax, shipping, and subtotal.  
                 details = details
             };
 
@@ -416,7 +418,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
             var paypalOrderId = DateTime.Now.Ticks;
             transactionList.Add(new Transaction()
             {
-                description = $"Hóa đơn #{order.ResultObj.OrderId}",
+                description = $"Order Total for Order #{order.ResultObj.OrderId}",
                 invoice_number = paypalOrderId.ToString(), // Generate an Invoice No    
                 amount = amount,
                 item_list = itemList
@@ -433,7 +435,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
             // Create a payment using an APIContext  
             try
             {
-                TempData["TotalAmount"] = subtotal.ToString("F2");
+                TempData["TotalAmount"] = orderTotalUSD.ToString("F2");
                 var createdPayment = this.payment.Create(apiContext);
 
                 // Log the request and response

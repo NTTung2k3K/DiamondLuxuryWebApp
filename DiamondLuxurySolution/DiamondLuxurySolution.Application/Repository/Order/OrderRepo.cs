@@ -182,7 +182,8 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 OrderDate = DateTime.Now,
                 Deposit = request.Deposit == null ? 0 : (decimal)request.Deposit,
                 Datemodified = DateTime.Now,
-                isShip = request.ShipAdress != null ? true : false
+                isShip = request.ShipAdress != null ? true : false,
+                
             };
 
             using (var transaction = await _context.Database.BeginTransactionAsync())
@@ -2190,7 +2191,15 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             var CusAddress = order.ShipAdress;
             warrantyCustomer = warrantyCustomer.Replace("{{CusAddress}}", string.IsNullOrEmpty(CusAddress) ? "Không có" : CusAddress?.ToString());
 
-            var CusDob = order.Customer.Dob.Value.ToString("dd/MM/yyyy");
+            string CusDob;
+            if (order.Customer.Dob.HasValue)
+            {
+                CusDob = order.Customer.Dob.Value.ToString("dd/MM/yyyy");
+            }
+            else
+            {
+                CusDob = "N/A";
+            }
 
             warrantyCustomer = warrantyCustomer.Replace("{{CusDob}}", CusDob != null ? CusDob: "Không có ");
 

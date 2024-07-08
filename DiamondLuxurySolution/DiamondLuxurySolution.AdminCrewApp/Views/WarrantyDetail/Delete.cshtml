@@ -285,47 +285,7 @@
                         @Html.DisplayFor(model => model.CustomerVm.PhoneNumber)
                     }
                 </dd>
-                <dt class="col-sm-2">
-                    Vai trò
-                </dt>
-                <dd class="col-sm-10">
-                    Khách hàng
-                </dd>
-                <dt class="col-sm-2">
-                    Trạng thái
-                </dt>
-
-                @if (Model.CustomerVm.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Suspended.ToString()))
-                {
-                    <dd class="col-md-10">
-                        Tạm khóa
-                    </dd>
-                }
-                @if (Model.CustomerVm.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Active.ToString()))
-                {
-                    <dd class="col-md-10">
-                        Hoạt động
-                    </dd>
-                }
-                @if (Model.CustomerVm.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.ChangePasswordRequest.ToString()))
-                {
-                    <dd class="col-md-10">
-                        Yêu cầu thay đổi mật khẩu
-                    </dd>
-                }
-                @if (Model.CustomerVm.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.Inactive.ToString()))
-                {
-                    <dd class="col-md-10">
-                        Không hoạt động
-                    </dd>
-                }
-                @if (Model.CustomerVm.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.CustomerStatus.New.ToString()))
-                {
-                    <dd class="col-md-10">
-                        K/H mới
-                    </dd>
-                }
-
+               
                 <dt class="col-sm-2">
                     Ngày sinh
                 </dt>
