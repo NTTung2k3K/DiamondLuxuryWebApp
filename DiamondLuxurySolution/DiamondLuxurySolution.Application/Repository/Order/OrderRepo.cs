@@ -90,14 +90,13 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             {
                 return new ApiErrorResult<bool>("Số tiền không hợp lệ");
             }
-            order.RemainAmount = Math.Ceiling((decimal)order.RemainAmount - (decimal)request.PaidTheRest);
             if (order.RemainAmount < 0)
             {
                 return new ApiErrorResult<bool>("Thanh toán bị dư " + Math.Ceiling(Math.Abs(order.RemainAmount)));
             }
             if (order.RemainAmount == 0 && request.TransactionStatus.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success))
             {
-                order.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString();
+                order.RemainAmount = Math.Ceiling((decimal)order.RemainAmount - (decimal)request.PaidTheRest);
             }
 
             var paymentDetail = new OrdersPayment()
@@ -1399,11 +1398,6 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 }
             }
 
-            if (request.ShipAdress != null && !request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()) && !request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()))
-            {
-                order.isShip = true;
-                order.ShipperId = await AssignShipper();
-            }
 
             if (order.StaffId == null)
             {
@@ -1416,6 +1410,15 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
             {
                 var orderDetailSellingCount = await _context.OrderDetails.Where(x => x.OrderId == order.OrderId).ToListAsync();
+
+                order.RemainAmount = 0;
+
+
+                var listPayment = _context.OrdersPayments.Where(x => x.OrderId == order.OrderId).ToList();
+                foreach (var item in listPayment)
+                {
+                    item.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString();
+                }
 
                 //Product Quantity
 

@@ -300,11 +300,22 @@
             <dt class="col-sm-3">
                 Giao hàng
             </dt>
-            <dd class="col-sm-9">
-                <div class="form-check form-switch ">
-                    <input class="form-check-input f-18 ml-3" type="checkbox" value="@Model.IsShip" disabled />
-                </div>
-            </dd>
+            @if (Model.IsShip ?? false)
+            {
+                <dd class="col-sm-9">
+                    <div class="form-check form-switch ">
+                        <input class="form-check-input f-18 ml-3" type="checkbox" value="@Model.IsShip" checked disabled />
+                    </div>
+                </dd>
+            }
+            else
+            {
+                <dd class="col-sm-9">
+                    <div class="form-check form-switch ">
+                        <input class="form-check-input f-18 ml-3" type="checkbox" value="@Model.IsShip" disabled />
+                    </div>
+                </dd>
+            }
             <dt class="col-sm-3">
                 Nhân viên giao hàng
             </dt>
