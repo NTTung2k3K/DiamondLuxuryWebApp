@@ -236,7 +236,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 Status = request.Status.Trim(),
                 CitizenIDCard = request.CitizenIDCard,
                 Address = request.Address.Trim(),
-                DateCreated = DateTime.Now
+                DateCreated = DateTime.Now,
             };
             if (request.Image != null)
             {
@@ -268,7 +268,6 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                     user.ShipStatus = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Waiting.ToString();
                     await _userManager.UpdateAsync(user);
                 }
-
             }
 
 
@@ -358,6 +357,11 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                     var role = await _roleManager.FindByIdAsync(roleAdd.ToString());
                     if (role == null) return new ApiErrorResult<bool>("Role is not exited!");
                     await _userManager.AddToRoleAsync(user, role.Name);
+                    if (role.Name == DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.DeliveryStaff)
+                    {
+                        user.ShipStatus = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Working.ToString();
+                        await _userManager.UpdateAsync(user);
+                    }
                 }
             }
             else

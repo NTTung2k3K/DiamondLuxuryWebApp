@@ -9,8 +9,14 @@
     var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
 }
 <div class="row">
-    <h1 class="col-md-9">Chi tiết đơn hàng</h1>
-    <div class="col-md-3 ">
+    <h1 class="col-md-6">Chi tiết đơn hàng</h1>
+    @if (Model != null && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()) && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()))
+    {
+        <div class="col-md-4" style="text-align:right;">
+            <button id="selectFolderButton" data-order-id="@Model.OrderId" class="btn btn-secondary">Xuất Phiếu Bảo Hành <br /> & Giấy Chứng Nhận</button>
+        </div>
+    }
+    <div class="col-md-2 ">
         @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
         {
             if (!Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
@@ -281,11 +287,16 @@
             <dt class="col-sm-3">
                 Số lần thanh toán
             </dt>
+            @{
+                decimal CheckIsContinuePayment = 0;
+            }
+
             <dd class="col-sm-9">
                 @if (Model.OrdersPaymentVm != null)
                 {
                     foreach (var payment in Model.OrdersPaymentVm)
                     {
+                        CheckIsContinuePayment += (decimal) payment.PaymentAmount;
                         <p style="font-weight:bold">Thời gian: @payment.PaymentTime</p>
                         <p>
                             &nbsp;&nbsp; &nbsp;&nbsp; - Phương thức: @payment.PaymentMethod &nbsp;  &nbsp; Số tiền: @payment.PaymentAmount.ToString("N0")₫ &nbsp; Lời nhắn: @(string.IsNullOrWhiteSpace(payment.Message) ? payment.Message : "Không có")  &nbsp; Trạng thái: @if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
@@ -312,11 +323,23 @@
             <dt class="col-sm-3">
                 Giao hàng
             </dt>
-            <dd class="col-sm-9">
-                <div class="form-check form-switch ">
-                    <input class="form-check-input f-18 ml-3" type="checkbox" value="@Model.IsShip" disabled />
-                </div>
-            </dd>
+            @if (Model.IsShip ?? false)
+            {
+                <dd class="col-sm-9">
+                    <div class="form-check form-switch ">
+                        <input class="form-check-input f-18 ml-3" type="checkbox" value="@Model.IsShip" checked disabled />
+                    </div>
+                </dd>
+            }
+            else
+            {
+                <dd class="col-sm-9">
+                    <div class="form-check form-switch ">
+                        <input class="form-check-input f-18 ml-3" type="checkbox" value="@Model.IsShip"  disabled />
+                    </div>
+                </dd>
+            }
+
             <dt class="col-sm-3">
                 Nhân viên giao hàng
             </dt>
@@ -349,7 +372,7 @@
                 <div class="col-md-3"></div>
 
                     }
-            @if (Model != null && Model.RemainAmount > 0 && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
+            @if (Model != null && Model.RemainAmount > 0 && CheckIsContinuePayment < Model.TotalAmount && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
             {
                 <div class="col-md-3">
                     @Html.ActionLink("Tiếp tục thanh toán", "PaidTheRest", new { OrderId = Model.OrderId }, new { @class = "btn btn-info" })
@@ -361,12 +384,7 @@
                     <button class="btn btn-primary" id="UpdateShipperBtn">Cập nhật nhân viên giao hàng</button>
                 </div>
             }
-            @if (Model != null && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()) && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()))
-            {
-                <div class="col-md-3">
-                    <button id="selectFolderButton" data-order-id="@Model.OrderId" class="btn btn-secondary">Xuất Phiếu Bảo Hành <br /> & Giấy Chứng Nhận</button>
-                </div>
-            }
+          
 
             <div class="col-md-3">
                 <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
