@@ -26,12 +26,12 @@
                 <input asp-for="ProductId" readonly class="form-control" />
             </div>
             <div class="form-group m-2">
-                <label asp-for="ProductName" class="control-label m-2"></label>
+                <label asp-for="ProductName" class="control-label m-2">Tên Sản Phẩm</label>
                 <input asp-for="ProductName" class="form-control" />
                 <span asp-validation-for="ProductName" class="text-danger"></span>
             </div>
             <div class="form-group m-2">
-                <label asp-for="Description" class="control-label m-2"></label>
+                <label asp-for="Description" class="control-label m-2">Mô Tả Sản Phẩm</label>
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
@@ -40,7 +40,7 @@
                 <input asp-for="DateModify" class="form-control" readonly />
             </div>
             <div class="form-group m-2">
-                <label asp-for="QuantitySold" class="control-label m-2">Số lương đã mua</label>
+                <label asp-for="QuantitySold" class="control-label m-2">Số lượng đã mua</label>
                 <input asp-for="QuantitySold" class="form-control" readonly />
             </div>
             <div class="form-group m-2">
@@ -65,7 +65,7 @@
                 <input class="form-check-input f-18" type="checkbox" asp-for="IsHome">
             </div>
             <div class="form-check form-switch m-4">
-                <label asp-for="IsSale" class="control-label m-2"></label>
+                <label asp-for="IsSale" class="control-label m-2">Hiển thị ở dạng giảm giá</label>
                 <input class="form-check-input f-18" type="checkbox" asp-for="IsSale">
             </div>
 
@@ -364,7 +364,7 @@
 
 
             <div class="form-group m-2">
-                <label asp-for="Quantity" class="control-label m-2"></label>
+                <label asp-for="Quantity" class="control-label m-2">Số lượng</label>
                 <input asp-for="Quantity" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
