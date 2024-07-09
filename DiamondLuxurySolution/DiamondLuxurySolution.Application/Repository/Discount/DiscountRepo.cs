@@ -235,7 +235,7 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
                 listDiscount = listDiscount.Where(x => x.DiscountName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
-            listDiscount = listDiscount.Where(x => x.Status).OrderByDescending(x => x.DiscountName).ToList();
+            listDiscount = listDiscount.Where(x => x.Status).OrderBy(x => x.PercentSale).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 
@@ -269,7 +269,7 @@ namespace DiamondLuxurySolution.Application.Repository.Discount
                 listDiscount = listDiscount.Where(x => x.DiscountName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
-            listDiscount = listDiscount.OrderByDescending(x => x.DiscountName).ToList();
+            listDiscount = listDiscount.OrderBy(x => x.PercentSale).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 

@@ -90,14 +90,13 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             {
                 return new ApiErrorResult<bool>("Số tiền không hợp lệ");
             }
-            order.RemainAmount = (decimal)order.RemainAmount - (decimal)request.PaidTheRest;
             if (order.RemainAmount < 0)
             {
-                return new ApiErrorResult<bool>("Thanh toán bị dư " + Math.Abs(order.RemainAmount));
+                return new ApiErrorResult<bool>("Thanh toán bị dư " + Math.Ceiling(Math.Abs(order.RemainAmount)));
             }
             if (order.RemainAmount == 0 && request.TransactionStatus.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success))
             {
-                order.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString();
+                order.RemainAmount = Math.Ceiling((decimal)order.RemainAmount - (decimal)request.PaidTheRest);
             }
 
             var paymentDetail = new OrdersPayment()
@@ -108,6 +107,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 PaymentTime = DateTime.Now,
                 Status = request.TransactionStatus.ToString(),
                 PaymentId = request.PaymentId,
+                OpenPaymentTime = DateTime.Now,
                 Message = request.Message,
             };
             await _context.OrdersPayments.AddAsync(paymentDetail);
@@ -182,7 +182,8 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 OrderDate = DateTime.Now,
                 Deposit = request.Deposit == null ? 0 : (decimal)request.Deposit,
                 Datemodified = DateTime.Now,
-                isShip = request.ShipAdress != null ? true : false
+                isShip = request.ShipAdress != null ? true : false,
+                
             };
 
             using (var transaction = await _context.Database.BeginTransactionAsync())
@@ -216,20 +217,20 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                             ProductId = orderProduct.ProductId,
                             Quantity = orderProduct.Quantity,
                             UnitPrice = product.SellingPrice,
-                            TotalPrice = orderProduct.Quantity * product.SellingPrice,
+                            TotalPrice = Math.Ceiling(orderProduct.Quantity * product.SellingPrice),
                             WarrantyId = warranty.WarrantyId,
                             Size = orderProduct.Size,
 
                         };
 
-                        totalPrice += orderDetail.TotalPrice;
+                        totalPrice += Math.Ceiling(orderDetail.TotalPrice);
 
                         _context.Warrantys.Add(warranty);
                         _context.OrderDetails.Add(orderDetail);
                     }
 
                     decimal total = await CalculateTotalPrice(request, totalPrice);
-                    order.TotalAmout = total;
+                    order.TotalAmout = Math.Ceiling(total);
 
 
 
@@ -253,21 +254,21 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         order.PromotionId = promotion.PromotionId;
                     }
 
-                    order.TotalSale = totalPrice - total;
+                    order.TotalSale = Math.Ceiling(totalPrice - total);
 
                     if (request.Deposit != null && request.Deposit > 0)
                     {
-                        decimal maxDeposit = total * 0.1M;
+                        decimal maxDeposit = Math.Ceiling(total * 0.1M);
                         if (request.Deposit < maxDeposit)
                         {
-                            return new ApiErrorResult<string>($"Số tiền đặt cọc phải lớn hơn hoặc bằng {maxDeposit}");
+                            return new ApiErrorResult<string>($"Số tiền đặt cọc phải lớn hơn hoặc bằng {maxDeposit.ToString("N0")}₫");
                         }
-                        if(request.Deposit <=0 || request.Deposit>total) 
-                        { 
+                        if (request.Deposit <= 0 || request.Deposit > total)
+                        {
                             return new ApiErrorResult<string>($"Số tiền đặt cọc không hợp lệ");
                         }
 
-                        order.RemainAmount = total - (decimal)request.Deposit;
+                        order.RemainAmount = Math.Ceiling(total - (decimal)request.Deposit);
                     }
                     else
                     {
@@ -287,7 +288,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                             Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Waiting.ToString(),
                             OrdersPaymentId = Guid.NewGuid(),
                             PaymentId = paymentId,
-                            PaymentAmount = (decimal)order.RemainAmount > 0 ? (decimal)request.Deposit : total,
+                            PaymentAmount = (decimal)order.RemainAmount > 0 ? Math.Ceiling((decimal)request.Deposit) : total,
                             OpenPaymentTime = DateTime.Now
                         };
                         _context.OrdersPayments.Add(orderPayment);
@@ -382,7 +383,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 }
             }
         }
-        public void SendEmailOrder(string code, string toEmail,string filePath)
+        public void SendEmailOrder(string code, string toEmail, string filePath)
         {
             // Correct relative path from current directory to the HTML file
             string relativePath = @"..\..\DiamondLuxurySolution\DiamondLuxurySolution.Utilities\FormSendEmail\CustomerForm.html";
@@ -434,11 +435,11 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 }
             }
 
-            return total;
+            return Math.Ceiling(total);
         }
         private async Task<decimal> CalculateTotalPriceByStaff(CreateOrderByStaffRequest request, decimal totalPrice, Guid cusId)
         {
-            decimal total = totalPrice;
+            decimal total = Math.Ceiling(totalPrice);
             if (request.PromotionId != null)
             {
                 var promotion = await _context.Promotions.FindAsync(request.PromotionId);
@@ -468,7 +469,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 }
             }
 
-            return total;
+            return Math.Ceiling(total);
         }
         private async Task<decimal> CalculateUpdateTotalPriceByStaff(UpdateOrderRequest request, decimal totalPrice, Guid cusId)
         {
@@ -502,7 +503,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 }
             }
 
-            return total;
+            return Math.Ceiling(total);
         }
         private async Task<Guid?> AssignShipper()
         {
@@ -649,7 +650,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         Description = request.Description,
                         Status = request.Status,
                         OrderDate = DateTime.Now,
-                        Deposit = (decimal)request.Deposit,
+                        Deposit = Math.Ceiling((decimal)request.Deposit),
                         CustomerId = cusId,
                         isShip = request.isShip,
                         StaffId = request.StaffId,
@@ -691,7 +692,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                             Size = orderProduct.Size,
                         };
 
-                        totalPrice += orderDetail.TotalPrice;
+                        totalPrice += Math.Ceiling(orderDetail.TotalPrice);
                         _context.Warrantys.Add(warranty);
                         _context.OrderDetails.Add(orderDetail);
                     }
@@ -718,20 +719,20 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     {
                         order.PromotionId = promotion.PromotionId;
                     }
-                    order.TotalSale = totalPrice - total;
+                    order.TotalSale = Math.Ceiling(totalPrice - total);
 
                     if (request.Deposit != null && request.Deposit > 0)
                     {
-                        decimal maxDeposit = total * 0.1M;
+                        decimal maxDeposit = Math.Ceiling(total * 0.1M);
                         if (request.Deposit < maxDeposit)
                         {
-                            return new ApiErrorResult<bool>($"Số tiền đặt cọc phải lớn hơn hoặc bằng {maxDeposit}");
+                            return new ApiErrorResult<bool>($"Số tiền đặt cọc phải lớn hơn hoặc bằng {maxDeposit.ToString("N0")}₫");
                         }
                         if (request.Deposit <= 0 || request.Deposit > total)
                         {
                             return new ApiErrorResult<bool>($"Số tiền đặt cọc không hợp lệ");
                         }
-                        order.RemainAmount = total - (decimal)request.Deposit;
+                        order.RemainAmount = Math.Ceiling(total - (decimal)request.Deposit);
                     }
                     else
                     {
@@ -755,7 +756,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                             Status = orderPaymentStatusSuccess == true ? DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString() : request.TransactionStatus.ToString(),
                             OrdersPaymentId = Guid.NewGuid(),
                             PaymentId = paymentId,
-                            PaymentAmount = (decimal)order.RemainAmount > 0 ? (decimal)request.Deposit : total
+                            PaymentAmount = (decimal)order.RemainAmount > 0 ? Math.Ceiling((decimal)request.Deposit) : total
                         };
                         _context.OrdersPayments.Add(orderPayment);
                     }
@@ -1248,7 +1249,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                             Quantity = orderDetail.Quantity,
                             OrderId = order.OrderId,
                             UnitPrice = product.SellingPrice,
-                            TotalPrice = orderDetail.Quantity * product.SellingPrice,
+                            TotalPrice = Math.Ceiling(orderDetail.Quantity * product.SellingPrice),
                             WarrantyId = warranty.WarrantyId,
                             Size = orderDetail.Size,
 
@@ -1328,13 +1329,13 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 {
                     var productEntity = await _context.Products.FindAsync(orderDetail.ProductId);
                     if (productEntity == null) continue;
-                    totalPrice += ((decimal)productEntity.SellingPrice * orderDetail.Quantity);
+                    totalPrice += Math.Ceiling(((decimal)productEntity.SellingPrice * orderDetail.Quantity));
                 }
             }
 
 
             decimal total = await CalculateUpdateTotalPriceByStaff(request, totalPrice, cusId);
-            order.TotalAmout = total;
+            order.TotalAmout = Math.Ceiling(total);
 
             var userCheckPoint = await _userMananger.FindByIdAsync(cusId.ToString());
             if (userCheckPoint != null)
@@ -1350,7 +1351,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     }
                 }
             }
-            order.TotalSale = totalPrice - total;
+            order.TotalSale = Math.Ceiling(totalPrice - total);
 
             if (request.Deposit != null && request.Deposit > 0)
             {
@@ -1359,7 +1360,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 {
                     return new ApiErrorResult<bool>($"Số tiền đặt cọc phải lớn hơn hoặc bằng {maxDeposit}");
                 }
-                order.RemainAmount = total - (decimal)request.Deposit;
+                order.RemainAmount = Math.Ceiling(total - (decimal)request.Deposit);
             }
             else
             {
@@ -1392,17 +1393,12 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             {
                 orderPaymentStatusSuccess = true;
                 var listPayment = _context.OrdersPayments.Where(x => x.OrderId == order.OrderId).ToList();
-                foreach(var item in listPayment)
+                foreach (var item in listPayment)
                 {
                     item.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString();
                 }
             }
 
-            if (request.ShipAdress != null && !request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()) && !request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()))
-            {
-                order.isShip = true;
-                order.ShipperId = await AssignShipper();
-            }
 
             if (order.StaffId == null)
             {
@@ -1415,7 +1411,16 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
             {
                 var orderDetailSellingCount = await _context.OrderDetails.Where(x => x.OrderId == order.OrderId).ToListAsync();
-               
+
+                order.RemainAmount = 0;
+
+
+                var listPayment = _context.OrdersPayments.Where(x => x.OrderId == order.OrderId).ToList();
+                foreach (var item in listPayment)
+                {
+                    item.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString();
+                }
+
                 //Product Quantity
 
                 foreach (var item in orderDetailSellingCount)
@@ -1515,7 +1520,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                  x.ShipPhoneNumber.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase) ||
                  x.OrderId.Equals(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
             }
-            listOrder = listOrder.OrderBy(x => x.Datemodified).ToList();
+            listOrder = listOrder.OrderByDescending(x => x.Datemodified).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 
@@ -2150,9 +2155,12 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                         Directory.CreateDirectory(directoryPathWarranty);
                     }
 
+                    string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+
+                    // Create the filename using the formatted timestamp
+                    string filename = $"GCN_{inspectionCertificate}_{timestamp}.pdf";
 
 
-                    string filename = "GCN_" + inspectionCertificate + ".pdf";
                     var pdfFile = HtmlConverter.FromHtmlString(contentCustomer, 220, 500);
                     string filePath = Path.Combine(@"C:\DiamondInfo\" + order.CustomerId + @"\", filename);
                     FileSystem.WriteAllBytes(filePath, pdfFile, true);
@@ -2177,19 +2185,28 @@ namespace DiamondLuxurySolution.Application.Repository.Order
 
             warrantyCustomer = warrantyCustomer.Replace("{{DateTime}}", DateTime.Now.ToString());
 
-            var CusName = order.Customer.Fullname;
+            var CusName = order.ShipName;
             warrantyCustomer = warrantyCustomer.Replace("{{CusName}}", string.IsNullOrEmpty(CusName) ? "Không có" : CusName.ToString());
 
-            var CusAddress = order.Customer.Address;
+            var CusAddress = order.ShipAdress;
             warrantyCustomer = warrantyCustomer.Replace("{{CusAddress}}", string.IsNullOrEmpty(CusAddress) ? "Không có" : CusAddress?.ToString());
 
-            var CusDob = order.Customer.Dob;
-            warrantyCustomer = warrantyCustomer.Replace("{{CusDob}}", CusDob != null ? CusDob.Value.Date.ToString() : "Không có ");
+            string CusDob;
+            if (order.Customer.Dob.HasValue)
+            {
+                CusDob = order.Customer.Dob.Value.ToString("dd/MM/yyyy");
+            }
+            else
+            {
+                CusDob = "N/A";
+            }
 
-            var CusPhone = order.Customer.PhoneNumber;
+            warrantyCustomer = warrantyCustomer.Replace("{{CusDob}}", CusDob != null ? CusDob: "Không có ");
+
+            var CusPhone = order.ShipPhoneNumber;
             warrantyCustomer = warrantyCustomer.Replace("{{CusPhone}}", string.IsNullOrEmpty(CusPhone) ? "Không có" : CusPhone.ToString());
 
-            var CusEmail = order.Customer.Email;
+            var CusEmail = order.ShipEmail;
             warrantyCustomer = warrantyCustomer.Replace("{{CusEmail}}", string.IsNullOrEmpty(CusEmail) ? "Không có" : CusEmail.ToString());
             try
             {
@@ -2206,9 +2223,12 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                     Directory.CreateDirectory(directoryPathWarranty);
                 }
 
+                string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+
+                // Create the filename using the formatted timestamp
+                string filename = $"PBH_{CusName}_{timestamp}.pdf";
 
 
-                string filename = "PBH_" + CusName + ".pdf";
                 var pdfFile = HtmlConverter.FromHtmlString(warrantyCustomer, 220, 900);
                 string filePath = Path.Combine(@"C:\DiamondInfo\" + order.CustomerId + @"\", filename);
                 FileSystem.WriteAllBytes(filePath, pdfFile, true);

@@ -123,7 +123,11 @@ namespace DiamondLuxurySolution.Application.Repository.About
             var listAbout = await _context.Abouts.ToListAsync();
             if (request.Keyword != null)
             {
-                listAbout = listAbout.Where(x => x.AboutName.Contains(request.Keyword,StringComparison.OrdinalIgnoreCase)).ToList();
+                listAbout = listAbout.Where(x => x.AboutName.Contains(request.Keyword,StringComparison.OrdinalIgnoreCase) ||
+                                                     (x.Description ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase) ||
+                                                     (x.AboutAddress ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase) ||
+                                                     (x.AboutPhoneNumber ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase) ||
+                                                     (x.AboutEmail ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listAbout = listAbout.Where(x => x.Status).OrderByDescending(x => x.AboutName).ToList();
@@ -158,8 +162,11 @@ namespace DiamondLuxurySolution.Application.Repository.About
             var listAbout = await _context.Abouts.ToListAsync();
             if (request.Keyword != null)
             {
-                listAbout = listAbout.Where(x => x.AboutName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
-
+                listAbout = listAbout.Where(x => x.AboutName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase) ||
+                                                     (x.Description ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase) ||
+                                                     (x.AboutAddress ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase) ||
+                                                     (x.AboutPhoneNumber ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase) ||
+                                                     (x.AboutEmail ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
             }
             listAbout = listAbout.OrderByDescending(x => x.AboutName).ToList();
 

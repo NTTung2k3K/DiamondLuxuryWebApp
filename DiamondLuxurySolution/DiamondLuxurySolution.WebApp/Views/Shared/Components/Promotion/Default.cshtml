@@ -23,10 +23,10 @@
 
 
     .custom-col {
-        flex: 0 0 calc(25% - 1rem); /* Đảm bảo kích thước của cột */
-        max-width: calc(25% - 1rem); /* Đảm bảo kích thước tối đa của cột */
+        flex: 0 0 calc(25% - 1rem); 
+        max-width: calc(25% - 1rem); 
         display: flex;
-        justify-content: center; /* Căn giữa nội dung theo chiều ngang */
+        justify-content: center; 
     }
 
         .custom-col img {
@@ -37,31 +37,19 @@
     .ZomImg:hover {
         transform: scale(1.1);
         transition: transform 0.3s ease;
-        /* Điều chỉnh giá trị này để hình ảnh không vượt quá kích thước tối đa */
+
     }
 </style>
 
 @if (Model != null && Model.Count() > 0)
 {
-    var BigBanner = Model.Where(p => p.Status && p.Description == "Banner").Take(1).ToList();
-    var Banner = Model.Where(p => p.Status && p.Description != "Banner").Take(4).ToList();
-
-
+    var Banner = Model.Where(p => p.Status).OrderByDescending(p => p.StartDate).Take(4).ToList();
     <div class="single-slider content-v-center"
          style="background-image: url(https://file.hstatic.net/1000381168/file/slide_km_830459aeb35f4801a46dcc4a48739d78_master.png); background-size:cover; height:80rem;">
     </div>
 
     <h1 class="a" style="text-align: center;">Khuyến Mãi Trong Tháng</h1>
       <div class="main">
-
-        @foreach (var promotion in BigBanner)
-            {
-                    <div class="row" style="display: flex; justify-content: center;">
-                        <div class="col-12" style="max-width: 74%;">
-                            <img class="ZomImg" src="@promotion.BannerImage" />
-                        </div>
-                    </div>
-            }
         <div class="row" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 1rem; max-width: 75.5%;  margin-top:25px">
             @foreach (var promotions in Banner)
             {

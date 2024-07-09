@@ -160,7 +160,7 @@
                             }
                             else if (Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Shipping.ToString()))
                             {
-                                <p style="margin-top:0; color:dimgrey" value="@Model.Status">
+                                <p style="margin-top:0; color:peru" value="@Model.Status">
                                     Đang vận chuyển
                                 </p>
                             }
@@ -190,6 +190,10 @@
                     @if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString()) || payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
                     {
                         canPay = false;
+                    }
+                    else
+                    {
+                        canPay = true;
                     }
                     <div class="payment-group m-2">
                         <div class="">
