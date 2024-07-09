@@ -196,7 +196,9 @@ namespace DiamondLuxurySolution.Application.Repository.Frame
             var listFrame = await _context.Frames.ToListAsync();
             if (request.Keyword != null)
             {
-                listFrame = listFrame.Where(x => x.FrameName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+                listFrame = listFrame.Where(x => x.FrameName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase) 
+                || x.Weight.ToString().Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                || x.Material.MaterialName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
 
             }
             listFrame = listFrame.OrderByDescending(x => x.FrameName).ToList();

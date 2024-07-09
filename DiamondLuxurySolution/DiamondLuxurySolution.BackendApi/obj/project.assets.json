@@ -8519,7 +8519,6 @@
       "path": "microsoft.netcore.jit/1.0.2",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "microsoft.netcore.jit.1.0.2.nupkg.sha512",
@@ -8551,7 +8550,6 @@
       "path": "microsoft.netcore.portable.compatibility/1.0.1",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/net45/_._",
@@ -8635,7 +8633,6 @@
       "path": "microsoft.netcore.runtime.coreclr/1.0.2",
       "files": [
         ".nupkg.metadata",
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "microsoft.netcore.runtime.coreclr.1.0.2.nupkg.sha512",
@@ -14245,11 +14242,16 @@
     ]
   },
   "packageFolders": {
+<<<<<<< HEAD
     "C:\\Users\\Admin\\.nuget\\packages\\": {}
+=======
+    "C:\\Users\\tungk\\.nuget\\packages\\": {}
+>>>>>>> 8b37d9092e798395addc8984d3e434803ead500c
   },
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "E:\\clone\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj",
       "projectName": "DiamondLuxurySolution.BackendApi",
       "projectPath": "E:\\clone\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj",
@@ -14258,6 +14260,16 @@
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+=======
+      "projectUniqueName": "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj",
+      "projectName": "DiamondLuxurySolution.BackendApi",
+      "projectPath": "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\DiamondLuxurySolution.BackendApi.csproj",
+      "packagesPath": "C:\\Users\\tungk\\.nuget\\packages\\",
+      "outputPath": "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\tungk\\AppData\\Roaming\\NuGet\\NuGet.Config",
+>>>>>>> 8b37d9092e798395addc8984d3e434803ead500c
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -14271,6 +14283,7 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
+<<<<<<< HEAD
             "E:\\clone\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj": {
               "projectPath": "E:\\clone\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj"
             },
@@ -14279,6 +14292,16 @@
             },
             "E:\\clone\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj": {
               "projectPath": "E:\\clone\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj"
+=======
+            "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj": {
+              "projectPath": "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Application\\DiamondLuxurySolution.Application.csproj"
+            },
+            "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj": {
+              "projectPath": "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.Data\\DiamondLuxurySolution.Data.csproj"
+            },
+            "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj": {
+              "projectPath": "D:\\DiamondLuxuryWebAppProject\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.ViewModel\\DiamondLuxurySolution.ViewModel.csproj"
+>>>>>>> 8b37d9092e798395addc8984d3e434803ead500c
             }
           }
         }
@@ -14368,12 +14391,15 @@
   },
   "logs": [
     {
+<<<<<<< HEAD
       "code": "Undefined",
       "level": "Warning",
       "warningLevel": 1,
       "message": "Problem reading the cache file E:\\clone\\DiamondLuxuryWebApp\\DiamondLuxurySolution\\DiamondLuxurySolution.BackendApi\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
     },
     {
+=======
+>>>>>>> 8b37d9092e798395addc8984d3e434803ead500c
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,

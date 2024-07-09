@@ -9,8 +9,14 @@
     var staffVm = StaffSessionHelper.GetObjectFromJson<StaffVm>("Staff");
 }
 <div class="row">
-    <h1 class="col-md-9">Chi tiết đơn hàng</h1>
-    <div class="col-md-3 ">
+    <h1 class="col-md-6">Chi tiết đơn hàng</h1>
+    @if (Model != null && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()) && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()))
+    {
+        <div class="col-md-4" style="text-align:right;">
+            <button id="selectFolderButton" data-order-id="@Model.OrderId" class="btn btn-secondary">Xuất Phiếu Bảo Hành <br /> & Giấy Chứng Nhận</button>
+        </div>
+    }
+    <div class="col-md-2 ">
         @if (staffVm.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
         {
             if (!Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
@@ -281,11 +287,16 @@
             <dt class="col-sm-3">
                 Số lần thanh toán
             </dt>
+            @{
+                decimal CheckIsContinuePayment = 0;
+            }
+
             <dd class="col-sm-9">
                 @if (Model.OrdersPaymentVm != null)
                 {
                     foreach (var payment in Model.OrdersPaymentVm)
                     {
+                        CheckIsContinuePayment += (decimal) payment.PaymentAmount;
                         <p style="font-weight:bold">Thời gian: @payment.PaymentTime</p>
                         <p>
                             &nbsp;&nbsp; &nbsp;&nbsp; - Phương thức: @payment.PaymentMethod &nbsp;  &nbsp; Số tiền: @payment.PaymentAmount.ToString("N0")₫ &nbsp; Lời nhắn: @(string.IsNullOrWhiteSpace(payment.Message) ? payment.Message : "Không có")  &nbsp; Trạng thái: @if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
@@ -312,11 +323,23 @@
             <dt class="col-sm-3">
                 Giao hàng
             </dt>
-            <dd class="col-sm-9">
-                <div class="form-check form-switch ">
-                    <input class="form-check-input f-18 ml-3" type="checkbox" value="@Model.IsShip" disabled />
-                </div>
-            </dd>
+            @if (Model.IsShip ?? false)
+            {
+                <dd class="col-sm-9">
+                    <div class="form-check form-switch ">
+                        <input class="form-check-input f-18 ml-3" type="checkbox" value="@Model.IsShip" checked disabled />
+                    </div>
+                </dd>
+            }
+            else
+            {
+                <dd class="col-sm-9">
+                    <div class="form-check form-switch ">
+                        <input class="form-check-input f-18 ml-3" type="checkbox" value="@Model.IsShip"  disabled />
+                    </div>
+                </dd>
+            }
+
             <dt class="col-sm-3">
                 Nhân viên giao hàng
             </dt>
@@ -338,10 +361,18 @@
     @if (staffVmSession.ListRoleName.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.SalesStaff))
     {
         <div class="row">
-            <div class="col-md-3">
-                @Html.ActionLink("Chỉnh sửa", "Edit", new { OrderId = Model.OrderId }, new { @class = "btn btn-warning" })
-            </div>
-            @if (Model != null && Model.RemainAmount > 0 && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
+            @if (!Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
+            {
+                <div class="col-md-3">
+                    @Html.ActionLink("Chỉnh sửa", "Edit", new { OrderId = Model.OrderId }, new { @class = "btn btn-warning" })
+                </div>
+            }
+            else
+            {
+                <div class="col-md-3"></div>
+
+                    }
+            @if (Model != null && Model.RemainAmount > 0 && CheckIsContinuePayment < Model.TotalAmount && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Success.ToString()))
             {
                 <div class="col-md-3">
                     @Html.ActionLink("Tiếp tục thanh toán", "PaidTheRest", new { OrderId = Model.OrderId }, new { @class = "btn btn-info" })
@@ -353,12 +384,7 @@
                     <button class="btn btn-primary" id="UpdateShipperBtn">Cập nhật nhân viên giao hàng</button>
                 </div>
             }
-            @if (Model != null && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()) && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()))
-            {
-                <div class="col-md-3">
-                    <button id="selectFolderButton" data-order-id="@Model.OrderId" class="btn btn-secondary">Xuất Phiếu Bảo Hành <br /> & Giấy Chứng Nhận</button>
-                </div>
-            }
+          
 
             <div class="col-md-3">
                 <a class="m-6 btn btn-secondary" asp-action="Index" asp-controller="Order">Về trang quản lí đơn hàng</a>
@@ -394,6 +420,8 @@ else
                 var requestData = {
                     OrderId: orderId
                 };
+                $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang cập nhật...').prop('disabled', true);
+
                 $.ajax({
                     url: "https://localhost:9000/api/Orders/UpdateShipper",
                     type: "PUT",
@@ -405,15 +433,24 @@ else
                             alert('Cập nhật thành công: ' + response.resultObj);
                             $("#shipperName").text(response.resultObj);
                             // Handle success scenario
+                            // Xóa hiệu ứng loading và kích hoạt lại nút
+                            $("#UpdateShipperBtn").html('Cập nhật nhân viên giao hàng').prop('disabled', false);
+
                         } else {
                             alert('Cập nhật thất bại: ' + response.message);
                             // Handle failure scenario
+                            // Xóa hiệu ứng loading và kích hoạt lại nút
+                            $("#UpdateShipperBtn").html('Cập nhật nhân viên giao hàng').prop('disabled', false);
+
                         }
                     },
                     error: function (xhr, status, error) {
                         console.log(error);
                         alert('Có lỗi xảy ra trong quá trình gửi yêu cầu.');
                         // Handle other errors
+                        // Xóa hiệu ứng loading và kích hoạt lại nút
+                        $("#UpdateShipperBtn").html('Cập nhật nhân viên giao hàng').prop('disabled', false);
+
                     }
                 })
             })
@@ -426,6 +463,8 @@ else
                     OrderId: orderId,
                     StaffId: staffId
                 };
+                $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang cập nhật...').prop('disabled', true);
+
                 debugger;
                 $.ajax({
                     url: "https://localhost:9000/api/Orders/AcceptProcessOrder",
@@ -438,15 +477,20 @@ else
                             alert('Phụ trách đơn hàng thành công');
                             window.location.reload();
                             // Handle success scenario
+                            $("#acceptOrder").html('Phụ trách đơn hàng').prop('disabled', false);
                         } else {
                             alert('Cập nhật thất bại: ' + response.message);
                             // Handle failure scenario
+                            $("#acceptOrder").html('Phụ trách đơn hàng').prop('disabled', false);
+
                         }
                     },
                     error: function (xhr, status, error) {
                         console.log(error);
                         alert('Có lỗi xảy ra trong quá trình gửi yêu cầu.');
                         // Handle other errors
+                        $("#acceptOrder").html('Phụ trách đơn hàng').prop('disabled', false);
+
                     }
                 })
             })
@@ -461,6 +505,8 @@ else
             $('#selectFolderButton').on('click', async function () {
                 const orderId = $(this).data('order-id'); // Retrieve the order ID from the button's data attribute
                 debugger;
+                $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang cập nhật...').prop('disabled', true);
+
                 saveFolderPath(orderId);
             });
 
@@ -481,11 +527,14 @@ else
                     success: function (response) {
                         debugger;
                         alert(`File đã lưu vào ổ C: \\DiamondInfo\\` + response.resultObj);
+                        $("#selectFolderButton").html('Xuất Phiếu Bảo Hành  <br>  & Giấy Chứng Nhận ').prop('disabled', false);
                     },
                     error: function (xhr, status, error) {
                         console.error('Lỗi:', error);
                         alert('Có lỗi xảy ra vui lòng thử lại');
+                        $("#selectFolderButton").html('Xuất Phiếu Bảo Hành  <br>  & Giấy Chứng Nhận ').prop('disabled', false);
                     }
+
                 });
             }
         });

@@ -193,6 +193,20 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             {
                 errorList.Add("Số điện thoại không hợp lệ");
             }
+            if (request.CitizenIDCard.Length != 12 || !request.CitizenIDCard.All(char.IsDigit))
+            {
+                errorList.Add("Số CCCD phải có chiều dài là 12 và chỉ chứa số");
+            }
+
+            if(request.Username.Length <= 4)
+            {
+                errorList.Add("Tài khoản phải có chiều dài lơn hơn 4");
+            }
+            if (request.Address.Length <= 7)
+            {
+                errorList.Add("Địa chỉ phải có chiều dài lơn hơn 7");
+            }
+
             if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Không hợp lệ", errorList);
@@ -222,7 +236,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                 Status = request.Status.Trim(),
                 CitizenIDCard = request.CitizenIDCard,
                 Address = request.Address.Trim(),
-                DateCreated = DateTime.Now
+                DateCreated = DateTime.Now,
             };
             if (request.Image != null)
             {
@@ -254,7 +268,6 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                     user.ShipStatus = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Waiting.ToString();
                     await _userManager.UpdateAsync(user);
                 }
-
             }
 
 
@@ -282,7 +295,18 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             {
                 errorList.Add("Số điện thoại không hợp lệ");
             }*/
-
+            if (request.CitizenIDCard.Length != 12 || !request.CitizenIDCard.All(char.IsDigit))
+            {
+                errorList.Add("Số CCCD phải có chiều dài là 12 và chỉ chứa số");
+            }
+            if (request.Username.Length <= 4)
+            {
+                errorList.Add("Tài khoản phải có chiều dài lơn hơn 4");
+            }
+            if (request.Address.Length <= 7)
+            {
+                errorList.Add("Địa chỉ phải có chiều dài lơn hơn 7");
+            }
             #region Check lỗi phoneNumbers
             if (string.IsNullOrWhiteSpace(request.PhoneNumber))
             {
@@ -333,6 +357,11 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                     var role = await _roleManager.FindByIdAsync(roleAdd.ToString());
                     if (role == null) return new ApiErrorResult<bool>("Role is not exited!");
                     await _userManager.AddToRoleAsync(user, role.Name);
+                    if (role.Name == DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.DeliveryStaff)
+                    {
+                        user.ShipStatus = DiamondLuxurySolution.Utilities.Constants.Systemconstant.ShiperStatus.Working.ToString();
+                        await _userManager.UpdateAsync(user);
+                    }
                 }
             }
             else
@@ -369,10 +398,10 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
 
             if (!string.IsNullOrWhiteSpace(request.Keyword))
             {
-                customers = customers.Where(x => x.Fullname.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
-                                              || x.Email.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
-                                              || x.PhoneNumber.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
-                                              || x.CitizenIDCard.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+                customers = customers.Where(x => (x.Fullname ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              || (x.Email ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              || (x.PhoneNumber ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              || (x.CitizenIDCard ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
             customers = customers.OrderByDescending(x => x.DateCreated).ToList();
@@ -441,10 +470,10 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
 
             if (!string.IsNullOrWhiteSpace(request.Keyword))
             {
-                customers = customers.Where(x => x.Fullname.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
-                                              || x.Email.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
-                                              || x.PhoneNumber.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
-                                              || x.CitizenIDCard.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+                customers = customers.Where(x => (x.Fullname ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                            || (x.Email ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                            || (x.PhoneNumber ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                            || (x.CitizenIDCard ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
             customers = customers.OrderByDescending(x => x.DateCreated).ToList();
@@ -510,10 +539,10 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
 
             if (!string.IsNullOrWhiteSpace(request.Keyword))
             {
-                customers = customers.Where(x => x.Fullname.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
-                                              || x.Email.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
-                                              || x.PhoneNumber.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
-                                              || x.CitizenIDCard.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+                customers = customers.Where(x => (x.Fullname ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                             || (x.Email ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                             || (x.PhoneNumber ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                             || (x.CitizenIDCard ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
             customers = customers.OrderByDescending(x => x.DateCreated).ToList();
@@ -579,10 +608,10 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
 
             if (!string.IsNullOrWhiteSpace(request.Keyword))
             {
-                customers = customers.Where(x => x.Fullname.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
-                                              || x.Email.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
-                                              || x.PhoneNumber.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
-                                              || x.CitizenIDCard.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+                customers = customers.Where(x => (x.Fullname ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                            || (x.Email ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                            || (x.PhoneNumber ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                            || (x.CitizenIDCard ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
             }
 
             customers = customers.OrderByDescending(x => x.DateCreated).ToList();
@@ -645,13 +674,13 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                     customers.Add(user);
                 }
             }
-
             if (!string.IsNullOrWhiteSpace(request.Keyword))
             {
-                customers = customers.Where(x => x.Fullname.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
-                                              || x.Email.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
-                                              || x.PhoneNumber.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
-                                              || x.CitizenIDCard.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+                customers = customers.Where(x => (x.Fullname ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              || (x.Email ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              || (x.PhoneNumber ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              || (x.CitizenIDCard ?? string.Empty).Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)
+                                              ).ToList();
             }
 
             customers = customers.OrderByDescending(x => x.DateCreated).ToList();
@@ -910,12 +939,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                                                 .Include(x => x.Shipper)
                                                 .Include(x => x.OrderDetails).ToListAsync();
 
-            /*            var listOrder = await _context.Orders.Include(x => x.Customer)
-                                                          .Include(x => x.Discount).Include(x => x.Promotion)
-                                                          .Include(x => x.OrdersPayment).ThenInclude(x => x.Payment)
-                                                          .Include(x => x.Shipper).Include(x => x.Promotion)
-                                                          .Include(x => x.OrderDetails).ThenInclude(x => x.Warranty).ToListAsync();*/
-
+           
             if (request.Keyword != null)
             {
                 listOrder = listOrder.Where(x =>
@@ -924,7 +948,7 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
                  x.ShipPhoneNumber.Contains(request.Keyword) ||
                  x.OrderId.Equals(request.Keyword)).ToList();
             }
-            listOrder = listOrder.OrderBy(x => x.ShipName).ToList();
+            listOrder = listOrder.OrderByDescending(x => x.Datemodified).ToList();
 
             int pageIndex = request.pageIndex ?? 1;
 

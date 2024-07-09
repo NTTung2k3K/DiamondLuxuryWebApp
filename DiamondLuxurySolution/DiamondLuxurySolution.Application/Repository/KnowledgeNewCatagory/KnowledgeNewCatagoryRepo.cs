@@ -100,7 +100,9 @@ namespace DiamondLuxurySolution.Application.Repository.KnowledgeNewCatagory
             var listKnowledgeNewsCategory = await _context.KnowledgeNewCatagories.ToListAsync();
             if (!string.IsNullOrEmpty(request.KeyWord))
             {
-                listKnowledgeNewsCategory = listKnowledgeNewsCategory.Where(x => x.KnowledgeNewCatagoriesName.Contains(request.KeyWord, StringComparison.OrdinalIgnoreCase)).ToList();
+                listKnowledgeNewsCategory = listKnowledgeNewsCategory.Where(x => x.KnowledgeNewCatagoriesName.Contains(request.KeyWord, StringComparison.OrdinalIgnoreCase)
+                || x.Description.Contains(request.KeyWord, StringComparison.OrdinalIgnoreCase)).ToList();
+                
 
             }
             listKnowledgeNewsCategory = listKnowledgeNewsCategory.OrderByDescending(x => x.KnowledgeNewCatagoriesName).ToList();

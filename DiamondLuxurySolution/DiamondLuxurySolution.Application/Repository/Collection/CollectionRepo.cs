@@ -382,7 +382,6 @@ namespace DiamondLuxurySolution.Application.Repository.Collection
             if (request.Keyword != null)
             {
                 listCollection = listCollection.Where(x => x.CollectionName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
-
             }
             listCollection = listCollection.OrderByDescending(x => x.CollectionName).ToList();
 

@@ -217,7 +217,8 @@ namespace DiamondLuxurySolution.Application.Repository.Material
             var listMaterial = await _context.Materials.ToListAsync();
             if (request.Keyword != null)
             {
-                listMaterial = listMaterial.Where(x => x.MaterialName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+                listMaterial = listMaterial.Where(x => x.MaterialName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase) 
+                || x.Price.ToString().Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
             }
             listMaterial = listMaterial.OrderByDescending(x => x.MaterialName).ToList();
 
