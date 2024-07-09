@@ -45,11 +45,23 @@ namespace DiamondLuxurySolution.WebApp.Controllers
                 }
 
                 var results = new PageResult<ProductVm>();
+                var filteredProducts = new List<ProductVm>();
 
                 if (apiResult != null && apiResult.IsSuccessed && apiResult.ResultObj != null)
                 {
-                    results.Items = apiResult.ResultObj;
-                    results.TotalRecords = apiResult.ResultObj.Count;
+                    filteredProducts = apiResult.ResultObj;
+
+                    if (!string.IsNullOrEmpty(request.Keyword))
+                    {
+                        var keyword = request.Keyword.ToLower();
+                        filteredProducts = filteredProducts
+                            .Where(p => p.ProductName.ToLower().Contains(keyword) ||
+                                        (p.CategoryVm?.CategoryName?.ToLower().Contains(keyword) ?? false))
+                            .ToList();
+                    }
+
+                    results.Items = filteredProducts;
+                    results.TotalRecords = filteredProducts.Count;
                 }
                 else
                 {
@@ -58,6 +70,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
                 }
 
                 ViewData["Keyword"] = request.Keyword;
+                ViewData["SearchResultCount"] = results.TotalRecords;
                 return View(results);
             }
             catch
