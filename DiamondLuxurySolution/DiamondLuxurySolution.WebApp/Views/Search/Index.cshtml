@@ -8,6 +8,7 @@
 	ViewData["Title"] = "Index";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 	var keyword = ViewData["Keyword"]?.ToString().ToLower();
+    var searchResultCount = ViewData["SearchResultCount"] ?? 0;
 }
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -315,6 +316,7 @@
                                         <option value="Đá Sapphire">Đá Sapphire</option>
                                     </select>
                                 </div>
+                                <span class="product-pages" style="font-size: 2rem; border-right: 0px;">Hiển thị @searchResultCount sản phẩm khớp với tìm kiếm</span>
                                 <div class="product-short" style="width: 250px; text-align-last: center; display: flex; align-items: center; justify-content: center;">
                                     <select id="priceFilter" class="nice-select">
                                         <option value="">Giá</option>
@@ -325,8 +327,10 @@
                                         <option value="100000000">Trên 100,000,000</option>
                                     </select>
                                 </div>
-                                <div class="searchBox">
-                                    <input class="searchInput" type="text" name="searchQuery" placeholder="Tìm Kiếm Nhanh..." id="searchInput">
+                                <div class="searchBox" style="display:none">
+                                    <input class="searchInput" type="text" name="searchQuery" placeholder="Tìm Kiếm..." id="searchInput">
+                                    <button class="searchButton" id="searchButton">
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -674,25 +678,15 @@
                                 </div>
                             }
                         }
-
-							// Kiểm tra và hiển thị nút xem thêm
-							@if (filteredProducts.Count > 20)
-							{
-														<div class="see-more-wrapper mt-4" style="margin:auto">
-															<button id="seeMoreBtn" class="btn btn-primary">Xem thêm</button>
-														</div>
-							}
-						}
-						else
-						{
-											<h1>Không tìm thấy sản phẩm nào khớp với lựa chọn của bạn.</h1>
-						}
 					}
-					else
-					{
-								<h1>Không tìm thấy sản phẩm nào khớp với lựa chọn của bạn.</h1>
-					}
+				}
 				</div>
+                @if (Model.Items.Where(p => p.Status.Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.ProductStatus.Selling.ToString())).Count() > 20)
+					{
+						<div class="see-more-wrapper text-center mt-4" style="margin:auto">
+						    <button id="seeMoreBtn" class="btn btn-primary">Xem thêm</button>
+						</div>
+					}
 			</div>
 		</div>
 	</div>
@@ -700,4 +694,89 @@
 <!-- Main Content Wrapper End -->
 
 
+<<<<<<< HEAD
+<script>
+    $(document).ready(function () {
+        $('#seeMoreBtn').on('click', function () {
+            $('.product-item.hidden').slice(0, 20).removeClass('hidden');
+            if ($('.product-item.hidden').length === 0) {
+                $('#seeMoreBtn').hide();
+            }
+        });
+
+        function filterProducts() {
+            var gem = $('#gemFilter').val().toLowerCase();  
+            var price = $('#priceFilter').val();
+            var searchQuery = $('#searchInput').val().toLowerCase();
+            var visibleCount = 0; // Biến đếm số lượng sản phẩm hiển thị
+
+            $('.product-item').each(function () {
+                var productGem = $(this).data('gem').toLowerCase();
+                var productPrice = parseFloat($(this).data('price'));
+                var productName = $(this).find('.product-content h4').text().toLowerCase();
+
+                var showProduct = true;
+
+                if (gem && !productGem.includes(gem)) {
+                    showProduct = false;
+                }
+
+                if (price) {
+                    if (price === '10000000') { // Dưới 10,000,000
+                        if (productPrice >= 10000000) {
+                            showProduct = false;
+                        }
+                    } else if (price === '100000000') { // Trên 100,000,000
+                        if (productPrice <= 100000000) {
+                            showProduct = false;
+                        }
+                    } else {
+                        var priceRange = price.split('-');
+                        if (priceRange.length === 2) {
+                            var minPrice = parseFloat(priceRange[0]);
+                            var maxPrice = parseFloat(priceRange[1]);
+                            if (productPrice < minPrice || productPrice > maxPrice) {
+                                showProduct = false;
+                            }
+                        }
+                    }
+                }
+
+                if (searchQuery && !productName.includes(searchQuery)) {
+                    showProduct = false;
+                }
+
+                if (showProduct) {
+                    $(this).fadeIn();
+                    visibleCount++; // Tăng biến đếm nếu sản phẩm được hiển thị
+                } else {
+                    $(this).fadeOut();
+                }
+            });
+
+            // Kiểm tra số lượng sản phẩm hiển thị và ẩn nút "Xem Thêm" nếu ít hơn 20
+            if (visibleCount <= 10) {
+                $('#seeMoreBtn').hide();
+            } else {
+                $('#seeMoreBtn').show();
+            }
+        }
+
+        $('#gemFilter, #priceFilter').on('change', function () {
+            filterProducts();
+        });
+
+        $('#searchInput').on('input', function () {
+            filterProducts();
+        });
+
+        $('#searchButton').on('click', function () {
+            filterProducts();
+        });
+
+        filterProducts();
+    });
+</script>
+=======
 <script src="/assets/js/FilterCollectionAndSearchAll.js"></script>
+>>>>>>> 5ebfe868be3957b34d32166db6b52c4c41e3df32

@@ -46,6 +46,11 @@
 	  border: 1px rgb(239 68 68) solid;
 	  margin: 20px 0px;
 	}
+
+	.text-danger-1 {
+		--bs-text-opacity: 1;
+		color: red;
+	}
 </style>
 
 
@@ -123,7 +128,7 @@
                         </div>
                         <div class="col-md-10">
                             <input asp-for="ContactNameUser" class="form-control form__input form__input--3" />
-                            <span asp-validation-for="ContactNameUser" class="text-danger"></span>
+                            <span asp-validation-for="ContactNameUser" class="text-danger-1"></span>
                         </div>
                     </div>
 
@@ -133,7 +138,7 @@
                         </div>
                         <div class="col-md-10">
                             <input asp-for="ContactEmailUser" class="form-control form__input form__input--3" />
-                            <span asp-validation-for="ContactEmailUser" class="text-danger"></span>
+                            <span asp-validation-for="ContactEmailUser" class="text-danger-1"></span>
                         </div>
                     </div>
 
@@ -143,7 +148,7 @@
                         </div>
                         <div class="col-md-10">
                             <input asp-for="ContactPhoneUser" class="form-control form__input form__input--3" />
-                            <span asp-validation-for="ContactPhoneUser" class="text-danger"></span>
+							<span asp-validation-for="ContactPhoneUser" class="text-danger-1"></span>
                         </div>
                     </div>
 
@@ -153,7 +158,7 @@
                         </div>
                         <div class="col-md-10">
                             <textarea asp-for="Content" class="form-control form__input form__input--3 form__input--textarea"></textarea>
-                            <span asp-validation-for="Content" class="text-danger"></span>
+                            <span asp-validation-for="Content" class="text-danger-1"></span>
                         </div>
                     </div>
 
