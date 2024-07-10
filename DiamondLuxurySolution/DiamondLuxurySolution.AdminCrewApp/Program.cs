@@ -33,6 +33,7 @@ using DiamondLuxurySolution.AdminCrewApp.Models;
 using DinkToPdf.Contracts;
 using DinkToPdf;
 using DiamondLuxurySolution.AdminCrewApp.Service.WarrantyDetail;
+using PdfSharp.Charting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -112,6 +113,21 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true; // Make the session cookie HTTP only
     options.Cookie.IsEssential = true; // Make the session cookie essential
 });
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowCustomerDomain",
+        builder =>
+        {
+            builder.WithOrigins("https://localhost:9001")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .AllowCredentials();
+        });
+});
+
+
+builder.Services.AddSignalR();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -130,7 +146,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
 StaffSessionHelper.Configure(app.Services.GetRequiredService<IHttpContextAccessor>());
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<AdminChatHub>("/adminChatHub");
+});
 app.UseStatusCodePages(async context =>
 {
     if (context.HttpContext.Response.StatusCode == 404)
@@ -146,6 +165,7 @@ app.UseStatusCodePages(async context =>
         context.HttpContext.Response.Redirect("/Error/Unauthorized");
     }
 });
+app.UseCors("AllowCustomerDomain");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=Index}/{id?}");

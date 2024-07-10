@@ -169,6 +169,108 @@
                 color: black; /* Màu chữ là đen khi hover vào option */
             }
     </style>
+    <style>
+        .custom-chat-widget {
+            position: fixed;
+            bottom: 140px;
+            right: 20px;
+            width: 300px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            display: none; /* Initially hidden */
+            z-index: 1000;
+        }
+
+        .custom-chat-header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .custom-chat-title {
+            font-size: 16px;
+        }
+
+        .custom-chat-close {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .custom-chat-body {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .custom-chat-messages {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .custom-chat-footer {
+            padding: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .custom-chat-input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        .custom-chat-send {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .chat-icon {
+            position: fixed;
+            bottom: 140px;
+            right: 20px;
+            background-color: #333;
+            color: #fff;
+            width: 83px;
+            height: 69px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+
+        .message-box {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            padding: 5px;
+            display: block;
+            z-index: 999;
+            border-radius: 10px;
+        }
+
+        .chat-icon:hover .message-box {
+            display: block;
+        }
+    </style>
 
 </head>
 
@@ -490,7 +592,9 @@
 
     </div>
     <!-- Main Wrapper End -->
-
+ 
+    <!--Chat-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
         // Function to add 'active' class to the current page link
@@ -534,6 +638,7 @@
         document.addEventListener('DOMContentLoaded', setActiveMenuItem);
     </script>
    
+
 
     <!-- Google Map -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxvP66_Xk1ts77oL2Z7EpDxhDD_jMg-D0"></script>

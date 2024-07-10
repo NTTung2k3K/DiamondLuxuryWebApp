@@ -91,6 +91,7 @@ builder.Services.AddAuthentication().AddGoogle(options =>
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
 
+builder.Services.AddSignalR();
 
 
 
@@ -110,7 +111,10 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseSession();
 CartSessionHelper.Configure(app.Services.GetRequiredService<IHttpContextAccessor>());
-
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<CustomerChatHub>("/customerChatHub");
+});
 
 
 app.UseStatusCodePages(async context =>
