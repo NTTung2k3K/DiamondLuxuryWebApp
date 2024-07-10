@@ -89,6 +89,42 @@
             cursor: auto;
         }
     </style>
+    <style>
+        .t-custom-popup {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            right: 15px;
+            border: 1px solid #888;
+            z-index: 9;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .t-custom-popup-content {
+            background-color: #fefefe;
+            padding: 20px;
+            border: 1px solid #888;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+        }
+
+        .t-custom-popup-close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+            .t-custom-popup-close:hover,
+            .t-custom-popup-close:focus {
+                color: #000;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+    </style>
 
 </head>
 <!-- [Head] end -->
@@ -395,6 +431,7 @@
                                 <li class="pc-item">
                                     <a class="pc-link" href="/Contact/Index">Quản Lý Yêu Cầu Hỗ Trợ</a>
                                 </li>
+                               
                             </ul>
                         </li>
                     }
@@ -734,11 +771,76 @@
                             </div>
                         </div>
                     </li>
-
+                    <li class="list-group-item">
+                        <h6 class="mb-1">Chat chung</h6>
+                        <p class="text-muted text-sm">Chat nếu cần sự giúp đỡ</p>
+                        <div class="row theme-contrast">
+                            <div class="col-12">
+                                <div class="d-grid">
+                                    <button class="preset-btn btn" data-value="true" onclick="toggleChatPopup()" data-bs-toggle="tooltip" title="Chat" id="chatPopUpOn">
+                                        
+                                        <svg class="pc-icon">
+                                            <use xlink:href="#custom-message-2"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
     </div>
+    <div class="t-custom-popup" id="chatPopup">
+        <div class="t-custom-popup-content">
+            <span class="t-custom-popup-close" onclick="toggleChatPopup()">&times;</span>
+            <!-- Chat Content -->
+            <div class="chat-wrapper">
+                <div class="chat-content">
+                    <div class="card mb-0">
+                        <!-- Chat header and message container as provided earlier -->
+                        <div class="card-header p-3">
+                            <div class="d-flex align-items-center">
+                                <ul class="list-inline me-auto mb-0">
+                                    
+                                    <li class="list-inline-item">
+                                        <div class="d-flex align-items-center">
+                                            <div class="chat-avtar">
+                                                <img class="rounded-circle img-fluid wid-40 preventImageModal preventCursorImageModal" src="@staffVm.Image" alt="User image" />
+                                                <i class="chat-badge bg-success"></i>
+                                            </div>
+                                            <div class="flex-grow-1 mx-3 d-none d-sm-inline-block">
+                                                <h6 class="mb-0">@staffVm.FullName</h6>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="scroll-block chat-message">
+                            <div class="card-body" id="chatMessages" style="overflow-y:scroll; height:317px;">
+                            </div>
+                        </div>
+                        <div class="card-footer py-2 px-3">
+                            <textarea id="messageInput" class="form-control border-0 shadow-none" placeholder="Type a Message" rows="2"></textarea>
+                            <hr class="my-2" />
+                            <div class="d-sm-flex align-items-center">
+                                <ul class="list-inline ms-auto mb-0">
+                                    <li class="list-inline-item">
+                                        <button class="avtar avtar-s btn-link-primary" id="sendMessage">
+                                            <i class="ti ti-send f-18"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
     @RenderSection("Scripts", required: false)
@@ -808,6 +910,118 @@
             </div>
         </div>
     }
+    @{
+        var staffUsername = staffVm?.Username ?? "Anonymous";
+    }
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
+    <script>
+        function toggleChatPopup() {
+            var chatPopup = document.getElementById("chatPopup");
+            if (chatPopup.style.display === "block") {
+                chatPopup.style.display = "none";
+            } else {
+                chatPopup.style.display = "block";
+            }
+        }
+
+        // Other chat related scripts
+        var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:9002/adminChatHub").build();
+
+        document.getElementById("sendMessage").disable = true;
+
+        // Lấy tin nhắn từ localStorage khi tải lại trang
+        document.addEventListener("DOMContentLoaded", function () {
+            var storedMessages = localStorage.getItem("chatMessages");
+            if (storedMessages) {
+                document.getElementById("chatMessages").innerHTML = storedMessages;
+            }
+        });
+
+        connection.on("ReceiveMessage", function (user, message) {
+            // Tạo các phần tử HTML cần thiết
+            var now = new Date();
+            var day = now.getDate();
+            var month = now.getMonth() + 1; // Tháng bắt đầu từ 0
+            var year = now.getFullYear();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+            var formattedTime = day + "/" + month + "/" + year + " " + hours + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds);
+
+            var messageOutDiv = document.createElement("div");
+            messageOutDiv.classList.add("message-out");
+
+            var flexColumnDiv = document.createElement("div");
+            flexColumnDiv.classList.add("d-flex", "align-items-end", "flex-column");
+
+            var timeParagraph = document.createElement("p");
+            timeParagraph.classList.add("mb-1", "text-muted");
+            var timeSmall = document.createElement("small");
+            timeSmall.textContent = user + " " + formattedTime;
+            timeParagraph.appendChild(timeSmall);
+
+            var messageDiv = document.createElement("div");
+            messageDiv.classList.add("message", "d-flex", "align-items-end", "flex-column");
+
+            var flexAlignCenterDiv = document.createElement("div");
+            flexAlignCenterDiv.classList.add("d-flex", "align-items-center", "mb-1", "chat-msg");
+
+            var flexGrowDiv = document.createElement("div");
+            flexGrowDiv.classList.add("flex-grow-1", "ms-3");
+
+            var msgContentDiv = document.createElement("div");
+            msgContentDiv.classList.add("msg-content", "bg-primary");
+            var pMessage = document.createElement("p");
+            pMessage.classList.add("mb-0");
+            pMessage.textContent = message;
+            msgContentDiv.appendChild(pMessage);
+
+            flexGrowDiv.appendChild(msgContentDiv);
+
+            flexAlignCenterDiv.appendChild(flexGrowDiv);
+
+            messageDiv.appendChild(flexAlignCenterDiv);
+
+            flexColumnDiv.appendChild(timeParagraph);
+            flexColumnDiv.appendChild(messageDiv);
+
+            messageOutDiv.appendChild(flexColumnDiv);
+
+            // Đưa messageOutDiv vào chatMessages
+            document.getElementById("chatMessages").appendChild(messageOutDiv);
+            document.getElementById("messageInput").value = "";
+
+            // Lưu lại tin nhắn vào localStorage
+            localStorage.setItem("chatMessages", document.getElementById("chatMessages").innerHTML);
+        });
+
+        connection.start().then(function () {
+            document.getElementById("sendMessage").disable = false;
+        }).catch(function (err) {
+            return console.error(err.toString());
+        });
+
+        document.getElementById("sendMessage").addEventListener("click", sendMessage);
+        document.getElementById("messageInput").addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                sendMessage(event);
+            }
+        });
+
+        function sendMessage(event) {
+            var user = document.getElementById("messageInput").value;
+            if (user.trim() !== "") {
+                var staffUsername = "@staffUsername";
+                connection.invoke("SendMessage", staffUsername, user).catch(function (err) {
+                    debugger;
+                    return console.error(err.toString());
+                });
+            }
+            event.preventDefault();
+        }
+    </script>
+
 
     <!-- END Error notification -->
     <!-- #endregion -->
@@ -822,6 +1036,9 @@
     <script src="../assets/js/MyFormatNumberPrice.js"></script>
     <script src="../assets/js/MySelecteOption.js"></script>
     <script src="../assets/js/pcoded.js"></script>
+
+
+
 
     <style>
         img:hover {
