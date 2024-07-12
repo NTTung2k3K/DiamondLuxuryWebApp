@@ -63,14 +63,21 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 return new ApiErrorResult<string>("Không tìm thấy đơn hàng");
             }
 
-
-
             var listOrderPayment = _context.OrdersPayments.Where(x => x.OrderId == request.OrderId).OrderByDescending(x => x.OpenPaymentTime).FirstOrDefault();
             if (listOrderPayment == null)
             {
                 return new ApiErrorResult<string>("Không tìm thấy thông tin thanh toán");
             }
             listOrderPayment.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString();
+            order.RemainAmount = Math.Floor(order.RemainAmount - ((decimal)request.PaymentAmount*25000));
+            if(order.RemainAmount < 0)
+            {
+                order.RemainAmount = 0;
+            }
+            if(order.RemainAmount < 1000)
+            {
+                order.RemainAmount = 0;
+            }
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<string>(order.OrderId, "Success");
         }
@@ -268,7 +275,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                             return new ApiErrorResult<string>($"Số tiền đặt cọc không hợp lệ");
                         }
 
-                        order.RemainAmount = Math.Ceiling(total - (decimal)request.Deposit);
+                        order.RemainAmount = Math.Ceiling(total);
                     }
                     else
                     {
@@ -1352,17 +1359,24 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 }
             }
             order.TotalSale = Math.Ceiling(totalPrice - total);
-
-            if (request.Deposit != null && request.Deposit > 0)
+            if(order.RemainAmount > 0)
             {
-                decimal maxDeposit = total * 0.1M;
-                if (request.Deposit < maxDeposit)
+                if (request.Deposit != null && request.Deposit > 0)
                 {
-                    return new ApiErrorResult<bool>($"Số tiền đặt cọc phải lớn hơn hoặc bằng {maxDeposit}");
+                    decimal maxDeposit = total * 0.1M;
+                    if (request.Deposit < maxDeposit)
+                    {
+                        return new ApiErrorResult<bool>($"Số tiền đặt cọc phải lớn hơn hoặc bằng {maxDeposit}");
+                    }
+                    order.RemainAmount = Math.Ceiling(total);
                 }
-                order.RemainAmount = Math.Ceiling(total - (decimal)request.Deposit);
+                else
+                {
+                    order.RemainAmount = 0;
+                }
+                
             }
-            else
+            if (order.RemainAmount < 1000)
             {
                 order.RemainAmount = 0;
             }
