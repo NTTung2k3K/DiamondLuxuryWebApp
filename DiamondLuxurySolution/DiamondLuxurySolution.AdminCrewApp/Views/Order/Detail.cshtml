@@ -167,62 +167,19 @@
                 }
 
             </dd>
-
-            <dt class="col-sm-3">
-                Chương trình khuyến mãi
-            </dt>
-            <dd class="col-sm-9">
-                @if (Model.PromotionVm != null)
-                {
-                    <div>
-                        <span style="color:forestgreen">
-                            @Html.DisplayFor(model => model.PromotionVm.PromotionName)
-                        </span>
-
-                        <span>
-                            <span>Từ ngày</span>
-                            @Html.DisplayFor(model => model.PromotionVm.StartDate)
-                        </span>
-
-                        <span>
-                            <span>Đến ngày</span>
-                            @Html.DisplayFor(model => model.PromotionVm.EndDate)
-                        </span>
-                    </div>
-                }
-                else
-                {
-                    <p>Không có</p>
-                }
-            </dd>
-
-
-
-            <dt class="col-sm-3">
-                Mã giảm giá
-            </dt>
-            <dd class="col-sm-9">
-                @if (Model.DiscountVm != null)
-                {
-                    <div>
-                        <p>
-                            @Html.DisplayFor(model => model.DiscountVm.DiscountName)
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <p>Không có</p>
-                }
-            </dd>
             <dt class="col-sm-3">
                 Sản phẩm
             </dt>
             <dd class="col-sm-9">
+                @{
+                    decimal total = 0;
+                }
                 @if (Model.ListOrderProduct != null)
                 {
+                    
                     foreach (var product in Model.ListOrderProduct)
                     {
+                        total = Math.Floor(product.Quantity * product.UnitPrice);
                         <p>
                             @product.ProductName &nbsp; Giá: @product.UnitPrice.ToString("N0")₫ &nbsp; Số lượng @product.Quantity &nbsp; Ni: @(product.Size != null ? product.Size : "Không có")
                         </p>
@@ -242,9 +199,74 @@
             </dd>
 
             <dt class="col-sm-3">
-                Số tiền giảm
+                Chương trình khuyến mãi
             </dt>
             <dd class="col-sm-9">
+                @{
+                    decimal totalAfterPromotion = 0;
+                }
+                @if (Model.PromotionVm != null)
+                {
+                    <div>
+                        <span style="color:forestgreen">
+                            @Html.DisplayFor(model => model.PromotionVm.PromotionName)
+                        </span>
+
+                        <span>
+                            <span>Từ ngày</span>
+                            @Html.DisplayFor(model => model.PromotionVm.StartDate)
+                        </span>
+
+                        <span>
+                            <span>Đến ngày</span>
+                            @Html.DisplayFor(model => model.PromotionVm.EndDate)
+                        </span>
+                        <span>
+                            <span>Giảm</span>
+                            @Html.DisplayFor(model => model.PromotionVm.DiscountPercent)%
+                        </span>
+                        <span>
+                            @{
+                                totalAfterPromotion = total - Math.Floor((decimal)total * (decimal)(Model.PromotionVm.DiscountPercent / 100));
+                            }
+                            <span>Số tiền giảm</span>
+                            <span style="color: blue">
+                                @((Math.Floor((decimal)total * (decimal)(Model.PromotionVm.DiscountPercent / 100)).ToString("N0"))) ₫
+                            </span>
+
+                        </span>
+                    </div>
+                }
+                else
+                {
+                    <p>Không có</p>
+                }
+            </dd>
+
+
+
+            <dt class="col-sm-3">
+                Mã giảm giá
+            </dt>
+            <dd class="col-sm-9">
+                @if (Model.DiscountVm != null)
+                {
+                    <div>
+                        <p>
+                            @Html.DisplayFor(model => model.DiscountVm.DiscountName) &nbsp; giảm: @Html.DisplayFor(model => model.DiscountVm.PercentSale)% &nbsp; Số tiền: <span style="color: blue">@((Math.Floor((decimal)totalAfterPromotion * (decimal)(Model.DiscountVm.PercentSale / 100)).ToString("N0")))₫</span>
+                        </p>
+                    </div>
+                }
+                else
+                {
+                    <p>Không có</p>
+                }
+            </dd>
+
+            <dt class="col-sm-3">
+                Số tiền giảm
+            </dt>
+            <dd class="col-sm-9" style="color: chocolate">
                 @if (Model.TotalSale != null && Model.TotalSale != 0)
                 {
                     <p>
@@ -276,7 +298,7 @@
             </dd>
 
             <dt class="col-sm-3">
-                Còn lại
+                Số tiền cần trả
             </dt>
             <dd class="col-sm-9">
                 <p>
