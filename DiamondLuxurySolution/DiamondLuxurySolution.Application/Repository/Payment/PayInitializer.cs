@@ -42,6 +42,30 @@ namespace DiamondLuxurySolution.Application.Repository.Payment
                 };
                 _context.Payments.Add(paypal);
             }
+            var VnPAYCount = await _context.Payments.Where(x => x.PaymentMethod == "VNPAY").ToListAsync();
+            if (VnPAYCount.Count == 0)
+            {
+                var paypal = new DiamondLuxurySolution.Data.Entities.Payment
+                {
+                    PaymentMethod = "VNPAY",
+                    Description = "Thanh toán bằng VNPAY",
+                    Status = true,
+
+                };
+                _context.Payments.Add(paypal);
+            }
+            var livePayCount = await _context.Payments.Where(x => x.PaymentMethod == "Thanh Toán Trực Tuyến").ToListAsync();
+            if (livePayCount.Count == 0)
+            {
+                var paypal = new DiamondLuxurySolution.Data.Entities.Payment
+                {
+                    PaymentMethod = "Thanh Toán Trực Tuyến",
+                    Description = "Thanh Toán Trực Tuyến Cho Tất Cả Nền Tảng",
+                    Status = true,
+
+                };
+                _context.Payments.Add(paypal);
+            }
             var cashierCount = await _context.Payments.Where(x => x.PaymentMethod == "Thanh toán tại quầy").ToListAsync();
             if (paypalCount.Count == 0)
             {

@@ -313,6 +313,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 var Order = await _OrderApiService.GetOrderById(OrderId);
                 ViewBag.Total = Order.ResultObj.TotalAmount;
                 ViewBag.TotalSale = Order.ResultObj.TotalSale;
+                ViewBag.RemainAmount = Order.ResultObj.RemainAmount;
+
                 ViewBag.TransStatus = "";
 
 
@@ -406,6 +408,8 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
                 ViewBag.PaidTheRest = request.PaidTheRest;
                 ViewBag.Message = request.Message;
                 ViewBag.TransStatus = request.TransactionStatus;
+                var OrderRemainAmount = await _OrderApiService.GetOrderById(request.OrderId);
+                ViewBag.RemainAmount = OrderRemainAmount.ResultObj.RemainAmount;
 
 
                 string userIdString = HttpContext.Session.GetString(DiamondLuxurySolution.Utilities.Constants.Systemconstant.AppSettings.USER_ID);
@@ -413,6 +417,7 @@ namespace DiamondLuxurySolution.AdminCrewApp.Controllers
 
                 Guid.TryParse(userIdString, out userId);
                 var status = await _OrderApiService.ContinuePayment(request);
+
                 if (status is ApiErrorResult<bool> errorResult)
                 {
                     List<string> listError = new List<string>();

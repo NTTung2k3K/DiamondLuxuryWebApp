@@ -314,8 +314,11 @@
                                             <span>Thất bại</span>
                                         }
                                     </p>
+                                    if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                                    {
+                                        remain += payment.PaymentAmount;
 
-                                    remain += payment.PaymentAmount;
+                                    }
 
                                 }
                             }
@@ -335,7 +338,7 @@
                     remain = ViewBag.total - remain;
                 }
                 <div class="m-2">
-                    <p style="font-weight:bold">Số tiền còn lại: &nbsp; <span style="color:orange">@remain.ToString("N0")₫</span></p>
+                    <p style="font-weight:bold">Số tiền còn lại: &nbsp; <span style="color:orange">@ViewBag.RemainAmount.ToString("N0")₫</span></p>
                 </div>
                 <div class="form-group m-2">
                     <label asp-for="Description" class="control-label m-2"></label>

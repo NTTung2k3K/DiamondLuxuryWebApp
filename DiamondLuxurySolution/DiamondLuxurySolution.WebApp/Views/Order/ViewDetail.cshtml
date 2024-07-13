@@ -10,6 +10,102 @@
             color: white !important;
         }
     </style>
+    <style>
+        /* CSS cho modal */
+        .tk-modal {
+            display: none;
+            position: fixed;
+            z-index: 1050;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .tk-modal-dialog {
+            position: relative;
+            margin: auto;
+            margin-top: 10%;
+            max-width: 500px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .tk-modal-content {
+            padding: 20px;
+        }
+
+        .tk-modal-header,
+        .tk-modal-footer {
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .tk-modal-body {
+            padding: 15px;
+        }
+
+        .tk-modal-title {
+            margin: 0;
+        }
+
+        .tk-modal-header .close {
+            margin: -15px -15px 0 0;
+            padding: 15px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .tk-modal-footer {
+            text-align: right;
+        }
+
+            .tk-modal-footer button {
+                margin-left: 10px;
+            }
+
+        .tk-modal-body h5 {
+            margin-top: 0;
+        }
+
+        .tk-modal-title {
+            color: #a8741a;
+            font-size: 20px;
+        }
+
+        .tk-modal-body h5 {
+            color: #a8741a;
+            font-size: 16px;
+        }
+
+        .tk-modal-footer .btn-primary {
+            background-color: #a8741a;
+            border-color: #a8741a;
+        }
+
+            .tk-modal-footer .btn-primary:hover {
+                background-color: #7b5e16;
+                border-color: #7b5e16;
+            }
+
+        .tk-modal-footer .btn-secondary {
+            color: #a8741a;
+            border-color: #a8741a;
+        }
+
+            .tk-modal-footer .btn-secondary:hover {
+                background-color: #f0f0f0;
+                border-color: #a8741a;
+                color: #000;
+            }
+
+    </style>
+
 }
 @model DiamondLuxurySolution.ViewModel.Models.Order.OrderVm
 
@@ -81,7 +177,7 @@
                 {
                     <p>
                         <span style="font-weight:bold">Số tiền cần trả: &nbsp;</span>
-                        <span>@(Model.RemainAmount != 0 ? Model.RemainAmount.ToString("N0") + "₫" : "Không có")</span>
+                        <span>@(Model.RemainAmount != 0 ? Model.RemainAmount.ToString("N0") + "₫" : "Không còn")</span>
                     </p>
                 }
             </div>
@@ -183,7 +279,9 @@
                 </table>
             </div>
             <div class="checkout-payment">
-                @{bool canPay = true; }
+                @{
+                    bool canPay = true;
+                }
                 @foreach (var payment in Model.OrdersPaymentVm)
                 {
                     <h4 style="color: #a8741a; font-weight:bold" class="mb--10"> Ngày: @payment.PaymentTime</h4>
@@ -232,37 +330,150 @@
                     <div class="text-center mt--20 col-md-6">
                         @if (!Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()) && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()) && canPay)
                         {
-                            if(Model.RemainAmount > 0)
+                            if (Model.RemainAmount > 0)
                             {
                                 <a href="/Pay/PaymentWithPaypalAndDeposit?OrderId=@Model.OrderId" class="btn  btn-success">Thanh toán bằng Paypal</a>
+                                <div class="text-center mt--30">
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-primary" id="openVnPayModal" style="border: solid 1px #0b5ed7" data-toggle="modal" data-target="#vnPayModal">
+                                            Thanh toán bằng VNPay
+                                        </button>
+                                    </div>
+                                </div>
+
                             }
                             else
                             {
                                 <a href="/Pay/PaymentWithPayPal?OrderId=@Model.OrderId" class="btn  btn-success">Thanh toán bằng Paypal</a>
+
+                                <div class="text-center mt--30">
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-primary" id="openVnPayModal" style="border: solid 1px #0b5ed7" data-toggle="modal" data-target="#vnPayModal">
+                                            Thanh toán bằng VNPay
+                                        </button>
+                                    </div>
+                                </div>
                             }
                         }
-                        
-                    </div>
 
+                    </div>
                     <div class="payment-btn-group text-center mt--20 col-md-6">
                         <a href="/Order/ViewAll?CustomerId=@Model.CustomerVm.CustomerId" class="btn" id="backTo" style="background-color:#a8741a">Xem tất cả đơn hàng</a>
                     </div>
                 </div>
 
 
+
+
+            </div>
+        </div>
+
+    </div>
+    <div class="modal tk-modal fade" id="vnPayModal" tabindex="-1" role="dialog" aria-labelledby="vnPayModalLabel" aria-hidden="true">
+        <div class="modal-dialog tk-modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header tk-modal-header">
+                    <h5 class="modal-title tk-modal-title" id="vnPayModalLabel" style="font-weight:bold">Chọn phương thức thanh toán VNPay</h5>
+                    <button type="button" class="close" id="modalDismissBtn" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                @if (!Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.InProgress.ToString()) && !Model.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.OrderStatus.Canceled.ToString()) && canPay)
+                {
+                    if (Model.RemainAmount > 0)
+                    {
+                        <form asp-action="PaymentVnPayWithDeposit" asp-controller="Pay" method="post">
+                            <div class="modal-body tk-modal-body">
+
+                                <input type="hidden" name="orderId" value="@Model.OrderId" />
+                                <h5 style="color: #a8741a; font-size: 16px;">Cách 1: Chuyển hướng sang VNPAY và chọn phương thức thanh toán</h5>
+                                <label><input type="radio" name="TypePaymentVN" value="0" checked> Cổng thanh toán VNPAYQR </label><br>
+                                <h5 style="color: #a8741a; font-size: 16px;">Cách 2: Chọn phương thức thanh toán</h5>
+                                <label><input type="radio" name="TypePaymentVN" value="2"> ATM-Tài khoản ngân hàng nội địa </label><br>
+                                <label><input type="radio" name="TypePaymentVN" value="3"> Thanh toán qua thẻ quốc tế </label><br>
+                            </div>
+                            <div class="modal-footer tk-modal-footer">
+                                <button type="button" class="btn btn-secondary" id="modalCloseBtn" data-dismiss="modal">Đóng</button>
+                                <button type="submit" class="btn btn-primary" id="confirmVnPayPayment">Xác nhận</button>
+                            </div>
+                        </form>
+                    }
+                    else
+                    {
+                <form asp-action="PaymentVnPay" asp-controller="Pay" method="post">
+                            <div class="modal-body tk-modal-body">
+
+                                <input type="hidden" name="orderId" value="@Model.OrderId" />
+                                <h5 style="color: #a8741a; font-size: 16px;">Cách 1: Chuyển hướng sang VNPAY và chọn phương thức thanh toán</h5>
+                                <label><input type="radio" name="TypePaymentVN" value="0" checked> Cổng thanh toán VNPAYQR </label><br>
+                                <h5 style="color: #a8741a; font-size: 16px;">Cách 2: Chọn phương thức thanh toán</h5>
+                                <label><input type="radio" name="TypePaymentVN" value="2"> ATM-Tài khoản ngân hàng nội địa </label><br>
+                                <label><input type="radio" name="TypePaymentVN" value="3"> Thanh toán qua thẻ quốc tế </label><br>
+                            </div>
+                            <div class="modal-footer tk-modal-footer">
+                                <button type="button" class="btn btn-secondary" id="modalCloseBtn" data-dismiss="modal">Đóng</button>
+                                <button type="submit" class="btn btn-primary" id="confirmVnPayPayment">Xác nhận</button>
+                            </div>
+                        </form>
+                    }
+                }
+               
+
             </div>
         </div>
     </div>
 
-</div>
-@section Scripts {
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $("#back_btn").click(function () {
-                window.history.back();
-            });
-        });
-    </script>
 
-}
+
+
+    @section Scripts {
+
+        <!-- Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Lấy tham chiếu đến modal và các nút
+                var modal = document.getElementById('vnPayModal');
+                var closeModalBtn = document.getElementById('modalCloseBtn');
+                var dismissModalBtn = document.getElementById('modalDismissBtn');
+                var openModalBtn = document.getElementById('openModalBtn');
+
+                // Xử lý sự kiện khi nhấn vào nút đóng
+                closeModalBtn.addEventListener('click', function () {
+                    modal.style.display = 'none';
+                });
+
+                // Xử lý sự kiện khi nhấn vào nút đóng trong footer
+                dismissModalBtn.addEventListener('click', function () {
+                    modal.style.display = 'none';
+                });
+
+                // Xử lý sự kiện khi nhấn vào nút mở modal
+                openModalBtn.addEventListener('click', function () {
+                    modal.style.display = 'block';
+                });
+            });
+        </script>
+        <script>
+            // Lắng nghe sự kiện click vào button để mở modal
+            document.getElementById('openVnPayModal').addEventListener('click', function () {
+                // Hiển thị modal bằng cách thêm lớp 'show' vào phần tử '.tk-modal'
+                var modal = document.getElementById('vnPayModal');
+                modal.classList.add('show');
+                modal.style.display = 'block';
+                modal.setAttribute('aria-modal', true);
+                modal.setAttribute('aria-hidden', false);
+            });
+
+        </script>
+        <script>
+            $(document).ready(function () {
+                $("#back_btn").click(function () {
+                    window.history.back();
+                });
+            });
+        </script>
+
+
+    }
