@@ -26,6 +26,7 @@
 
 - **ASP.NET MVC & ASP.NET API**: To build the web applications and backend services.
 - **Firebase**: For storing images and sending OTPs for authentication.
+- **VNPAY Sandbox**: For processing payments.
 - **PayPal Sandbox**: For processing payments.
 - **Facebook & Google OAuth**: For user login and authentication.
 - **ASP.NET Identity**: For managing user accounts and authentication.
