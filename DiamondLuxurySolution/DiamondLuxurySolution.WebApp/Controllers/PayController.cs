@@ -9,6 +9,7 @@ using DiamondLuxurySolution.WebApp.Service.Payment;
 using DiamondLuxurySolution.WebApp.Service.Promotion;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using PayPal;
 using PayPal.Api;
 using System.Text.Json;
@@ -22,14 +23,18 @@ namespace DiamondLuxurySolution.WebApp.Controllers
         private readonly IPaymentApiService _paymentApiService;
         private readonly IPromotionApiService _promotionApiService;
         private readonly IOrderApiService _orderApiService;
+        private readonly VnPaySettings _vnPaySettings;
 
-        public PayController(ICustomerApiService customerApiService, IPaymentApiService paymentApiService, IPromotionApiService promotionApiService, IOrderApiService orderApiService)
+        public PayController(IOptions<VnPaySettings> vnPaySettings, ICustomerApiService customerApiService, IPaymentApiService paymentApiService, IPromotionApiService promotionApiService, IOrderApiService orderApiService)
         {
             _customerApiService = customerApiService;
             _paymentApiService = paymentApiService;
             _promotionApiService = promotionApiService;
             _orderApiService = orderApiService;
+            _vnPaySettings = vnPaySettings.Value;
+
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Info()
@@ -47,7 +52,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
             // Chuyển đổi thành công
 
             var listPayment = await _paymentApiService.GetAll();
-            ViewBag.PaypalId = listPayment.ResultObj.Find(x => x.PaymentMethod == "Paypal").PaymentId;
+            ViewBag.OnlinePaymentId = listPayment.ResultObj.Find(x => x.PaymentMethod == "Thanh Toán Trực Tuyến").PaymentId;
             ViewBag.CodID = listPayment.ResultObj.Find(x => x.PaymentMethod == "COD").PaymentId;
 
             var listPromotion = await _promotionApiService.GetAllOnTime();
@@ -71,6 +76,8 @@ namespace DiamondLuxurySolution.WebApp.Controllers
             return View(orderVm);
         }
 
+
+        #region paypal payment
         //Paypal start
 
         public async Task<ActionResult> PaymentWithPaypalAndDeposit(string OrderId, string Cancel = null)
@@ -461,7 +468,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
 
 
 
-       
+
 
         [HttpGet]
         public async Task<IActionResult> PaySuccess(ChangeOrderStatusRequest request)
@@ -477,7 +484,7 @@ namespace DiamondLuxurySolution.WebApp.Controllers
                 request.OrderId = orderId?.ToString();
                 request.PaymentAmount = paymentAmount;
             }
-            var status = await _orderApiService.ChangeStatusOrder(request);
+            var status = await _orderApiService.ChangeStatusOrderPaypal(request);
 
             if (status is ApiErrorResult<string> errorResult)
             {
@@ -504,6 +511,8 @@ namespace DiamondLuxurySolution.WebApp.Controllers
 
 
         //Paypal End
+        #endregion
+
 
 
 
@@ -586,5 +595,236 @@ namespace DiamondLuxurySolution.WebApp.Controllers
             return RedirectToAction("ViewDetail", "Order", new { OrderId = status.ResultObj });
 
         }
+
+
+
+
+
+
+
+
+
+
+
+        #region Thanh toán vnpay
+
+        [HttpPost]
+
+        public async Task<IActionResult> PaymentVnPay(string orderId, int TypePaymentVN)
+        {
+
+            var url = await UrlPaymentAsync(TypePaymentVN, orderId);
+
+            return Redirect(url);
+
+        }
+        [HttpPost]
+
+        public async Task<IActionResult> PaymentVnPayWithDeposit(string orderId, int TypePaymentVN)
+        {
+
+            var url = await UrlPaymentAsyncWithDeposit(TypePaymentVN, orderId);
+
+            return Redirect(url);
+
+        }
+
+        public async Task<string> UrlPaymentAsyncWithDeposit(int TypePaymentVN, string orderCode)
+        {
+            var urlPayment = "";
+            var order = await _orderApiService.GetOrderById(orderCode);
+            if (order == null || order.ResultObj == null)
+            {
+                throw new Exception("Order not found");
+            }
+            var listOrderPayment = order.ResultObj.OrdersPaymentVm
+               .OrderByDescending(x => x.OpenPaymentTime).FirstOrDefault();
+            decimal depositAmount = Math.Round((decimal)listOrderPayment.PaymentAmount, 2);
+
+            // Calculate the order total amount in USD
+
+            //Get Config Info
+
+            string vnp_Returnurl = _vnPaySettings.ReturnUrl;
+            string vnp_Url = _vnPaySettings.Url;
+            string vnp_TmnCode = _vnPaySettings.TmnCode;
+            string vnp_HashSecret = _vnPaySettings.HashSecret;
+
+            //Build URL for VNPAY
+            VnPayLibrary vnpay = new VnPayLibrary();
+            var Price = (long)depositAmount * 100;
+            vnpay.AddRequestData("vnp_Version", VnPayLibrary.VERSION);
+            vnpay.AddRequestData("vnp_Command", "pay");
+            vnpay.AddRequestData("vnp_TmnCode", vnp_TmnCode);
+            vnpay.AddRequestData("vnp_Amount", Price.ToString()); //Số tiền thanh toán. Số tiền không mang các ký tự phân tách thập phân, phần nghìn, ký tự tiền tệ. Để gửi số tiền thanh toán là 100,000 VND (một trăm nghìn VNĐ) thì merchant cần nhân thêm 100 lần (khử phần thập phân), sau đó gửi sang VNPAY là: 10000000
+            if (TypePaymentVN == 1)
+            {
+                vnpay.AddRequestData("vnp_BankCode", "VNPAYQR");
+            }
+            else if (TypePaymentVN == 2)
+            {
+                vnpay.AddRequestData("vnp_BankCode", "VNBANK");
+            }
+            else if (TypePaymentVN == 3)
+            {
+                vnpay.AddRequestData("vnp_BankCode", "INTCARD");
+            }
+
+            vnpay.AddRequestData("vnp_CreateDate", DateTime.Now.AddHours(1).ToString("yyyyMMddHHmmss"));
+            vnpay.AddRequestData("vnp_CurrCode", "VND");
+            vnpay.AddRequestData("vnp_IpAddr", Utils.GetIpAddress());
+            vnpay.AddRequestData("vnp_Locale", "vn");
+            vnpay.AddRequestData("vnp_OrderInfo", "Thanh toán đơn hàng :" + order.ResultObj.OrderId);
+            vnpay.AddRequestData("vnp_OrderType", "other"); //default value: other
+
+            vnpay.AddRequestData("vnp_ReturnUrl", vnp_Returnurl);
+            vnpay.AddRequestData("vnp_TxnRef", order.ResultObj.OrderId + "_" + Guid.NewGuid().ToString()); // Tạo mã tham chiếu duy nhất
+
+            //Add Params of 2.1.0 Version
+            //Billing
+
+            urlPayment = vnpay.CreateRequestUrl(vnp_Url, vnp_HashSecret);
+            //log.InfoFormat("VNPAY URL: {0}", paymentUrl);
+            return urlPayment;
+        }
+
+
+        #region Vnpay 100%
+        public async Task<string> UrlPaymentAsync(int TypePaymentVN, string orderCode)
+        {
+            var urlPayment = "";
+            var order = await _orderApiService.GetOrderById(orderCode);
+            if (order == null || order.ResultObj == null)
+            {
+                throw new Exception("Order not found");
+            }
+
+            // Calculate the order total amount in USD
+
+            //Get Config Info
+
+            string vnp_Returnurl = _vnPaySettings.ReturnUrl;
+            string vnp_Url = _vnPaySettings.Url;
+            string vnp_TmnCode = _vnPaySettings.TmnCode;
+            string vnp_HashSecret = _vnPaySettings.HashSecret;
+
+            //Build URL for VNPAY
+            VnPayLibrary vnpay = new VnPayLibrary();
+            var Price = (long)order.ResultObj.TotalAmount * 100;
+            vnpay.AddRequestData("vnp_Version", VnPayLibrary.VERSION);
+            vnpay.AddRequestData("vnp_Command", "pay");
+            vnpay.AddRequestData("vnp_TmnCode", vnp_TmnCode);
+            vnpay.AddRequestData("vnp_Amount", Price.ToString()); //Số tiền thanh toán. Số tiền không mang các ký tự phân tách thập phân, phần nghìn, ký tự tiền tệ. Để gửi số tiền thanh toán là 100,000 VND (một trăm nghìn VNĐ) thì merchant cần nhân thêm 100 lần (khử phần thập phân), sau đó gửi sang VNPAY là: 10000000
+            if (TypePaymentVN == 1)
+            {
+                vnpay.AddRequestData("vnp_BankCode", "VNPAYQR");
+            }
+            else if (TypePaymentVN == 2)
+            {
+                vnpay.AddRequestData("vnp_BankCode", "VNBANK");
+            }
+            else if (TypePaymentVN == 3)
+            {
+                vnpay.AddRequestData("vnp_BankCode", "INTCARD");
+            }
+
+            vnpay.AddRequestData("vnp_CreateDate", DateTime.Now.AddHours(1).ToString("yyyyMMddHHmmss"));
+            vnpay.AddRequestData("vnp_CurrCode", "VND");
+            vnpay.AddRequestData("vnp_IpAddr", Utils.GetIpAddress());
+            vnpay.AddRequestData("vnp_Locale", "vn");
+            vnpay.AddRequestData("vnp_OrderInfo", "Thanh toán đơn hàng :" + order.ResultObj.OrderId);
+            vnpay.AddRequestData("vnp_OrderType", "other"); //default value: other
+
+            vnpay.AddRequestData("vnp_ReturnUrl", vnp_Returnurl);
+            vnpay.AddRequestData("vnp_TxnRef", order.ResultObj.OrderId); // Mã tham chiếu của giao dịch tại hệ thống của merchant. Mã này là duy nhất dùng để phân biệt các đơn hàng gửi sang VNPAY. Không được trùng lặp trong ngày
+
+            //Add Params of 2.1.0 Version
+            //Billing
+
+            urlPayment = vnpay.CreateRequestUrl(vnp_Url, vnp_HashSecret);
+            //log.InfoFormat("VNPAY URL: {0}", paymentUrl);
+            return urlPayment;
+        }
+
+        public async Task<IActionResult> VnpayReturn()
+        {
+            if (Request.Query.Count > 0)
+            {
+                string vnp_HashSecret = _vnPaySettings.HashSecret; // Retrieve from appsettings.json
+                var vnpayData = Request.Query;
+                VnPayLibrary vnpay = new VnPayLibrary();
+
+                foreach (var pair in vnpayData)
+                {
+                    //get all querystring data
+                    if (!string.IsNullOrEmpty(pair.Key) && pair.Key.StartsWith("vnp_"))
+                    {
+                        vnpay.AddResponseData(pair.Key, pair.Value);
+                    }
+                }
+
+                string orderCode = Convert.ToString(vnpay.GetResponseData("vnp_TxnRef"));
+                if (orderCode.Length > 11)
+                {
+                    // Tách chuỗi theo dấu _
+                    var parts = orderCode.Split('_');
+                    if (parts.Length > 1)
+                    {
+                        orderCode = parts[0];
+                    }
+                    else
+                    {
+                        throw new Exception("Invalid transaction reference format");
+                    }
+                }
+               
+
+                long vnpayTranId = Convert.ToInt64(vnpay.GetResponseData("vnp_TransactionNo"));
+                string vnp_ResponseCode = vnpay.GetResponseData("vnp_ResponseCode");
+                string vnp_TransactionStatus = vnpay.GetResponseData("vnp_TransactionStatus");
+                String vnp_SecureHash = Request.Query["vnp_SecureHash"];
+                String TerminalID = Request.Query["vnp_TmnCode"];
+                long vnp_Amount = Convert.ToInt64(vnpay.GetResponseData("vnp_Amount")) / 100;
+                String bankCode = Request.Query["vnp_BankCode"];
+
+                bool checkSignature = vnpay.ValidateSignature(vnp_SecureHash, vnp_HashSecret);
+                if (checkSignature)
+                {
+                    if (vnp_ResponseCode == "00" && vnp_TransactionStatus == "00")
+                    {
+
+                        var request = new ChangeOrderStatusRequest();
+                        request.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString();
+                        request.OrderId = orderCode.ToString();
+                        request.PaymentAmount = vnp_Amount;
+                        var status = await _orderApiService.ChangeStatusOrder(request);
+
+                        ViewBag.InnerText = "Giao dịch được thực hiện thành công. Cảm ơn quý khách đã sử dụng dịch vụ";
+                        return RedirectToAction("ViewDetail", "Order", new { OrderId = status.ResultObj });
+                    }
+                    else
+                    {
+                        var request = new ChangeOrderStatusRequest();
+                        request.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString();
+                        request.OrderId = orderCode.ToString();
+
+                        request.PaymentAmount = vnp_Amount;
+                        var status = await _orderApiService.ChangeStatusOrder(request);
+
+                        ViewBag.InnerText = "Có lỗi xảy ra trong quá trình xử lý. Mã lỗi: " + vnp_ResponseCode;
+                        return RedirectToAction("ViewDetail", "Order", new { OrderId = status.ResultObj });
+
+                    }
+                }
+            }
+            return View();
+        }
+
+        #endregion
+        #endregion
+
+
+
+
     }
 }

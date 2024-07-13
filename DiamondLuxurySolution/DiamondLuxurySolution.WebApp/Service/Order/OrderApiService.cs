@@ -34,5 +34,10 @@ namespace DiamondLuxurySolution.WebApp.Service.Order
             return data;
         }
 
+        public async Task<ApiResult<string>> ChangeStatusOrderPaypal(ChangeOrderStatusRequest request)
+        {
+            var data = await PutAsync<string>("api/Orders/ChangeStatusOrderPaypal", request);
+            return data;
+        }
     }
 }

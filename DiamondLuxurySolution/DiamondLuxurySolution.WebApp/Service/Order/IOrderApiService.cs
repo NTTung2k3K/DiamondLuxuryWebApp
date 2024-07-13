@@ -11,6 +11,8 @@ namespace DiamondLuxurySolution.WebApp.Service.Order
         public Task<ApiResult<string>> CreateOrder(CreateOrderRequest request);
 
         public Task<ApiResult<string>> ChangeStatusOrder(ChangeOrderStatusRequest request);
+        public Task<ApiResult<string>> ChangeStatusOrderPaypal(ChangeOrderStatusRequest request);
+
 
     }
 }

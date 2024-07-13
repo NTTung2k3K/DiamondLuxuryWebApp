@@ -60,7 +60,7 @@ builder.Services.AddTransient<IPlatformApiService, PlatformApiService>();
 
 builder.Services.AddTransient<INewsApiService, NewsApiService>();
 builder.Services.AddTransient<IPromotionApiService, PromotionApiService>();
-
+builder.Services.AddHttpContextAccessor();
 
 
 builder.Services.AddIdentity<AppUser, AppRole>()
@@ -92,10 +92,13 @@ builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
 
 builder.Services.AddSignalR();
+builder.Services.AddSingleton<VnPayLibrary>();
+builder.Services.Configure<VnPaySettings>(builder.Configuration.GetSection("VnPay"));
 
 
 
 var app = builder.Build();
+Utils.HttpContextAccessor = app.Services.GetRequiredService<IHttpContextAccessor>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

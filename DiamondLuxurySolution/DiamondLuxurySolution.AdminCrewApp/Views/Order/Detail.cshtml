@@ -298,7 +298,7 @@
             </dd>
 
             <dt class="col-sm-3">
-                Số tiền cần trả
+                Số tiền cần trả (cho trả trước)
             </dt>
             <dd class="col-sm-9">
                 <p>
@@ -548,7 +548,7 @@ else
                     data: JSON.stringify(requestData),
                     success: function (response) {
                         debugger;
-                        alert(`File đã lưu vào ổ C: \\DiamondInfo\\` + response.resultObj);
+                        alert(`File đã lưu vào địa chỉ C: \\DiamondInfo\\` + response.resultObj);
                         $("#selectFolderButton").html('Xuất Phiếu Bảo Hành  <br>  & Giấy Chứng Nhận ').prop('disabled', false);
                     },
                     error: function (xhr, status, error) {

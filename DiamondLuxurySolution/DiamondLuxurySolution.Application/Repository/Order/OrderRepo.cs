@@ -55,6 +55,41 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             _roleManager = roleManager;
             _converter = converter;
         }
+        public async Task<ApiResult<string>> ChangeStatusOrderPaypal(ChangeOrderStatusRequest request)
+        {
+            var order = await _context.Orders.FindAsync(request.OrderId);
+            if (order == null)
+            {
+                return new ApiErrorResult<string>("Không tìm thấy đơn hàng");
+            }
+            var listOrderPayment = _context.OrdersPayments.Where(x => x.OrderId == request.OrderId).OrderByDescending(x => x.OpenPaymentTime).FirstOrDefault();
+            if (listOrderPayment == null)
+            {
+                return new ApiErrorResult<string>("Không tìm thấy thông tin thanh toán");
+            }
+            if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                {
+                listOrderPayment.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString();
+                order.RemainAmount = Math.Floor(order.RemainAmount - ((decimal)request.PaymentAmount * 25000));
+                if (order.RemainAmount < 0)
+                {
+                    order.RemainAmount = 0;
+                }
+                if (order.RemainAmount < 1000)
+                {
+                    order.RemainAmount = 0;
+                }
+            }
+            else
+            {
+                listOrderPayment.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString();
+
+            }
+            await _context.SaveChangesAsync();
+            return new ApiSuccessResult<string>(order.OrderId, "Success");
+        }
+
+
         public async Task<ApiResult<string>> ChangeStatusOrder(ChangeOrderStatusRequest request)
         {
             var order = await _context.Orders.FindAsync(request.OrderId);
@@ -62,21 +97,30 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             {
                 return new ApiErrorResult<string>("Không tìm thấy đơn hàng");
             }
-
             var listOrderPayment = _context.OrdersPayments.Where(x => x.OrderId == request.OrderId).OrderByDescending(x => x.OpenPaymentTime).FirstOrDefault();
             if (listOrderPayment == null)
             {
                 return new ApiErrorResult<string>("Không tìm thấy thông tin thanh toán");
             }
-            listOrderPayment.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString();
-            order.RemainAmount = Math.Floor(order.RemainAmount - ((decimal)request.PaymentAmount*25000));
-            if(order.RemainAmount < 0)
+            if (request.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
             {
-                order.RemainAmount = 0;
+
+               
+                listOrderPayment.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString();
+                order.RemainAmount = Math.Floor(order.RemainAmount - ((decimal)request.PaymentAmount));
+                if (order.RemainAmount < 0)
+                {
+                    order.RemainAmount = 0;
+                }
+                if (order.RemainAmount < 1000)
+                {
+                    order.RemainAmount = 0;
+                }
             }
-            if(order.RemainAmount < 1000)
+            else
             {
-                order.RemainAmount = 0;
+                listOrderPayment.Status = DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Failed.ToString();
+
             }
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<string>(order.OrderId, "Success");
@@ -190,7 +234,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 Deposit = request.Deposit == null ? 0 : (decimal)request.Deposit,
                 Datemodified = DateTime.Now,
                 isShip = request.ShipAdress != null ? true : false,
-                
+
             };
 
             using (var transaction = await _context.Database.BeginTransactionAsync())
@@ -1359,7 +1403,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 }
             }
             order.TotalSale = Math.Ceiling(totalPrice - total);
-            if(order.RemainAmount > 0)
+            if (order.RemainAmount > 0)
             {
                 if (request.Deposit != null && request.Deposit > 0)
                 {
@@ -1374,7 +1418,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 {
                     order.RemainAmount = 0;
                 }
-                
+
             }
             if (order.RemainAmount < 1000)
             {
@@ -2215,7 +2259,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
                 CusDob = "N/A";
             }
 
-            warrantyCustomer = warrantyCustomer.Replace("{{CusDob}}", CusDob != null ? CusDob: "Không có ");
+            warrantyCustomer = warrantyCustomer.Replace("{{CusDob}}", CusDob != null ? CusDob : "Không có ");
 
             var CusPhone = order.ShipPhoneNumber;
             warrantyCustomer = warrantyCustomer.Replace("{{CusPhone}}", string.IsNullOrEmpty(CusPhone) ? "Không có" : CusPhone.ToString());
@@ -2285,6 +2329,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             // Return the results
             return new ApiSuccessResult<List<decimal>>(dailyIncomes, "Success");
         }
+
 
     }
 }

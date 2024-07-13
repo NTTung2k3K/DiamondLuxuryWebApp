@@ -91,7 +91,24 @@ namespace DiamondLuxurySolution.BackendApi.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpPut("ChangeStatusOrderPaypal")]
+        public async Task<ActionResult> ChangeStatusOrderVnPay([FromBody] ChangeOrderStatusRequest request)
+        {
+            try
+            {
 
+                var status = await _order.ChangeStatusOrderPaypal(request);
+                if (status.IsSuccessed)
+                {
+                    return Ok(status);
+                }
+                return BadRequest(status);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         [HttpPut("AcceptProcessOrder")]
         public async Task<ActionResult> AcceptProcessOrder([FromBody] AcceptProcessOrder request)
         {

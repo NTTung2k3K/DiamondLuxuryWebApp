@@ -39,6 +39,7 @@ namespace DiamondLuxurySolution.Application.Repository.Order
         public Task<ApiResult<bool>> ContinuePayment(ContinuePaymentRequest request);
 
         public Task<ApiResult<string>> ChangeStatusOrder(ChangeOrderStatusRequest request);
+        public Task<ApiResult<string>> ChangeStatusOrderPaypal(ChangeOrderStatusRequest request);
         public Task<ApiResult<OrderVm>> GetOrderById(string OrderId);
         public Task<ApiResult<PageResult<OrderVm>>> ViewOrder(ViewOrderRequest request);
         public Task<ApiResult<string>> ExportFileInspecertificateAndWarranty(ExportFileRequest request);
