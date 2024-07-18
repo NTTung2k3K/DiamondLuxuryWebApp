@@ -592,6 +592,14 @@ namespace DiamondLuxurySolution.Application.Repository.Order
 
             // Validate request
             if (string.IsNullOrEmpty(request.Fullname)) errorList.Add("Vui lòng nhập tên người nhận hàng");
+            else if (Regex.IsMatch(request.Fullname, @"\d")) // Check for any digit
+            {
+                errorList.Add("Tên người nhận hàng không được chứa số");
+            }
+            else if (Regex.IsMatch(request.Fullname, "[!@#$%^&*(),.?\":{}|<>]")) // Check for specific characters
+            {
+                errorList.Add("Tên người nhận hàng không được chứa ký tự đặc biệt");
+            }
             if (string.IsNullOrEmpty(request.Email)) errorList.Add("Vui lòng nhập email nhận hàng");
             if (string.IsNullOrWhiteSpace(request.PhoneNumber))
             {
@@ -1101,6 +1109,14 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             {
                 errorList.Add("Vui lòng nhập tên người nhận hàng");
             }
+            else if (Regex.IsMatch(request.Fullname, @"\d")) // Check for any digit
+            {
+                errorList.Add("Tên người nhận hàng không được chứa số");
+            }
+            else if (Regex.IsMatch(request.Fullname, "[!@#$%^&*(),.?\":{}|<>]")) // Check for specific characters
+            {
+                errorList.Add("Tên người nhận hàng không được chứa ký tự đặc biệt");
+            }
             if (string.IsNullOrEmpty(request.Email))
             {
                 errorList.Add("Vui lòng nhập email nhận hàng");
@@ -1109,7 +1125,10 @@ namespace DiamondLuxurySolution.Application.Repository.Order
             {
                 errorList.Add("Vui lòng nhập số điện thoại người nhận hàng");
             }
-
+            else
+            {
+                if (!Regex.IsMatch(request.PhoneNumber, "^(09|03|07|08|05)[0-9]{8,9}$")) errorList.Add("Số điện thoại không hợp lệ");
+            }
             if (errorList.Any())
             {
                 return new ApiErrorResult<bool>("Lỗi thông tin", errorList);

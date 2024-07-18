@@ -5,13 +5,34 @@ using System.Net.Mail;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using static DiamondLuxurySolution.Utilities.Helper.Settings;
+using Microsoft.Extensions.Configuration;
 
 namespace DiamondLuxurySolution.Utilities.Helper
 {
     public class DoingMail
     {
-        private static string password = "ooqx vzjj egcg txyr";
-        private static string Email = "diamondluxuryservice@gmail.com";
+        private static readonly string _email;
+        private static readonly string _password;
+
+        static DoingMail()
+        {
+            var basePath = AppDomain.CurrentDomain.BaseDirectory;
+            var configPath = Path.Combine(basePath, @"..\..\..\appsettings.json");
+
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Path.GetDirectoryName(configPath))
+                .AddJsonFile(Path.GetFileName(configPath), optional: false, reloadOnChange: true);
+
+            var config = builder.Build();
+
+            _email = config["Settings:EmailSettings:Email"];
+            _password = config["Settings:EmailSettings:Password"];
+        }
+
+
+
         public static bool SendMail(string name, string subject, string content, string toMail)
         {
             bool rs = false;
@@ -27,13 +48,13 @@ namespace DiamondLuxurySolution.Utilities.Helper
                     smtp.UseDefaultCredentials = false;
                     smtp.Credentials = new NetworkCredential()
                     {
-                        UserName = Email,
-                        Password = password
+                        UserName = _email,
+                        Password = _password
                     };
 
                 }
 
-                MailAddress fromAddress = new MailAddress(Email, name);
+                MailAddress fromAddress = new MailAddress(_email, name);
                 message.From = fromAddress;
                 message.To.Add(toMail);
                 message.Subject = subject;
