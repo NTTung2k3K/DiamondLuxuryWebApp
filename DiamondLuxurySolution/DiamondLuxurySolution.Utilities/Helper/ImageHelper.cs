@@ -14,13 +14,36 @@ namespace DiamondLuxurySolution.Utilities.Helper
 {
     public class ImageHelper
     {
-        private readonly IConfiguration _configuration;
-
-        public ImageHelper(IConfiguration configuration)
+        private static readonly string _firebaseAuthApiKey;
+        private static readonly string _firebaseEmail;
+        private static readonly string _firebasePassword;
+        private static readonly string _firebaseBucket;
+        static ImageHelper()
         {
-            _configuration = configuration;
+            // Calculate the correct relative path to the configuration file
+            var basePath = AppDomain.CurrentDomain.BaseDirectory;
+            var relativePath = @"..\..\..\appsettings.json";
+            var configPath = Path.GetFullPath(Path.Combine(basePath, relativePath));
+
+            if (!File.Exists(configPath))
+            {
+                throw new FileNotFoundException($"Configuration file not found: {configPath}");
+            }
+
+            // Load the configuration
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile(configPath, optional: false, reloadOnChange: true);
+
+            var config = builder.Build();
+
+
+            _firebaseAuthApiKey = config["Settings:FirebaseSettings:AuthApiKey"];
+            _firebaseEmail = config["Settings:FirebaseSettings:Email"];
+            _firebasePassword = config["Settings:FirebaseSettings:Password"];
+            _firebaseBucket = config["Settings:FirebaseSettings:Bucket"];
         }
-        
+
+
         public static async Task<string> Upload(IFormFile file)
         {
             if (file != null && file.Length > 0)
@@ -43,12 +66,12 @@ namespace DiamondLuxurySolution.Utilities.Helper
 
 		private static async Task<string> UploadToFirebase(Stream stream, string fileName)
 		{
-			var auth = new FirebaseAuthProvider(new FirebaseConfig("AIzaSyDf-QdQ7AYvJhbKBCjdDv_mDQa1mJEm7p8"));
-			var a = await auth.SignInWithEmailAndPasswordAsync("DiamondLuxuryDeveloper@gmail.com", "Hello123@");
+			var auth = new FirebaseAuthProvider(new FirebaseConfig(_firebaseAuthApiKey));
+			var a = await auth.SignInWithEmailAndPasswordAsync(_firebaseEmail, _firebasePassword);
 			var cancellation = new CancellationTokenSource();
 
 			var task = new FirebaseStorage(
-				"diamondluxuryshop-980cd.appspot.com",
+				_firebaseBucket,
 				new FirebaseStorageOptions
 				{
 					AuthTokenAsyncFactory = () => Task.FromResult(a.FirebaseToken),

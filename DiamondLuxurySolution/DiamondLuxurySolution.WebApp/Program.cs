@@ -26,6 +26,9 @@ using DiamondLuxurySolution.WebApp.Service.Collection;
 
 using DiamondLuxurySolution.WebApp.Service.About;
 using DiamondLuxurySolution.WebApp.Service.Platform;
+using PdfSharp.Charting;
+using System.Configuration;
+using DiamondLuxurySolution.Utilities.Helper;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -94,6 +97,9 @@ builder.Services.AddRazorPages()
 builder.Services.AddSignalR();
 builder.Services.AddSingleton<VnPayLibrary>();
 builder.Services.Configure<VnPaySettings>(builder.Configuration.GetSection("VnPay"));
+builder.Services.Configure<Settings.FirebaseSettings>(builder.Configuration.GetSection("Settings:FirebaseSettings"));
+builder.Services.Configure<Settings.EmailSettings>(builder.Configuration.GetSection("Settings:EmailSettings"));
+
 
 
 
