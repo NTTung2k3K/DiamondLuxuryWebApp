@@ -2,6 +2,7 @@
 using DiamondLuxurySolution.ViewModel.Common;
 using DiamondLuxurySolution.ViewModel.Models.Gem;
 using DiamondLuxurySolution.ViewModel.Models.News;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,8 @@ namespace DiamondLuxurySolution.Application.Repository.News
         public Task<ApiResult<NewsVm>> GetNewsById(int NewsId);
         public Task<ApiResult<PageResult<NewsVm>>> ViewNews(ViewNewsRequest request);
         public Task<ApiResult<int>> CountAllNews();
+        public Task<ApiResult<string>> UploadImageHandler(IFormFile file);
+        
 
 
 

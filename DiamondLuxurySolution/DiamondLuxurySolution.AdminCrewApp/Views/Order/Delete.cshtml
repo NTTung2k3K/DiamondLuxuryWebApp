@@ -162,7 +162,14 @@
                     {
                         total = Math.Floor(product.Quantity * product.UnitPrice);
                         <p>
-                            @product.ProductName &nbsp; Giá: @product.UnitPrice.ToString("N0")₫ &nbsp; Số lượng @product.Quantity &nbsp; Ni: @(product.Size != null ? product.Size : "Không có")
+                            @product.ProductName
+                            <span>&nbsp |&nbsp </span>
+
+
+                            Giá: @product.UnitPrice.ToString("N0")₫
+                            <span>&nbsp |&nbsp </span>
+
+                            Số lượng @product.Quantity &nbsp; Ni: @(product.Size != null ? product.Size : "Không có")
                         </p>
                     }
                 }
@@ -193,20 +200,26 @@
                         <span style="color:forestgreen">
                             @Html.DisplayFor(model => model.PromotionVm.PromotionName)
                         </span>
+                        <span>&nbsp |&nbsp </span>
 
                         <span>
                             <span>Từ ngày</span>
                             @Html.DisplayFor(model => model.PromotionVm.StartDate)
                         </span>
+                        <span>&nbsp |&nbsp </span>
 
                         <span>
                             <span>Đến ngày</span>
                             @Html.DisplayFor(model => model.PromotionVm.EndDate)
                         </span>
+                        <span>&nbsp |&nbsp </span>
+
                         <span>
                             <span>Giảm</span>
                             @Html.DisplayFor(model => model.PromotionVm.DiscountPercent)%
                         </span>
+                        <span>&nbsp |&nbsp </span>
+
                         <span>
                             @{
                                 totalAfterPromotion = total - Math.Floor((decimal)total * (decimal)(Model.PromotionVm.DiscountPercent / 100));
@@ -234,7 +247,14 @@
                 {
                     <div>
                         <p>
-                            @Html.DisplayFor(model => model.DiscountVm.DiscountName) &nbsp; giảm: @Html.DisplayFor(model => model.DiscountVm.PercentSale)% &nbsp; Số tiền: <span style="color: blue">@((Math.Floor((decimal)totalAfterPromotion * (decimal)(Model.DiscountVm.PercentSale / 100)).ToString("N0")))₫</span>
+                            @Html.DisplayFor(model => model.DiscountVm.DiscountName)
+
+                            <span>&nbsp |&nbsp </span>
+
+                            Giảm: @Html.DisplayFor(model => model.DiscountVm.PercentSale)%
+                            <span>&nbsp |&nbsp </span>
+
+                            Số tiền: <span style="color: blue">@((Math.Floor((decimal)totalAfterPromotion * (decimal)(Model.DiscountVm.PercentSale / 100)).ToString("N0")))₫</span>
                         </p>
                     </div>
                 }
@@ -299,7 +319,16 @@
                     {
                         <p style="font-weight:bold">Thời gian: @payment.PaymentTime</p>
                         <p>
-                            &nbsp;&nbsp; &nbsp;&nbsp; - Phương thức: @payment.PaymentMethod &nbsp;  &nbsp; Số tiền: @payment.PaymentAmount.ToString("N0")₫ &nbsp; Lời nhắn: @(string.IsNullOrWhiteSpace(payment.Message) ? payment.Message : "Không có")  &nbsp; Trạng thái: @if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
+                            &nbsp;&nbsp; &nbsp;&nbsp; - Phương thức: @payment.PaymentMethod
+                            <span>&nbsp |&nbsp </span>
+
+                            Số tiền: @payment.PaymentAmount.ToString("N0")₫
+                            <span>&nbsp |&nbsp </span>
+
+                            Lời nhắn: @(string.IsNullOrWhiteSpace(payment.Message) ? payment.Message : "Không có")
+                            <span>&nbsp |&nbsp </span>
+
+                            Trạng thái: @if (payment.Status.ToString().Equals(DiamondLuxurySolution.Utilities.Constants.Systemconstant.TransactionStatus.Success.ToString()))
                             {
                                 <span style="color:green">Thành công</span>
                             }

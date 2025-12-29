@@ -157,7 +157,11 @@
                 {
                     foreach (var subgem in Model.ListSubGems)
                     {
-                        <p>@subgem.SubGemName &nbsp <span>Số lượng: </span><span>@subgem.Quantity</span> <span>Giá trị: @((((decimal)subgem.UnitPrice * (decimal)subgem.Quantity).ToString("N0")))₫ </span></p>
+                        <p>
+                            @subgem.SubGemName &nbsp |&nbsp  <span>Đơn giá: @(((decimal)subgem.UnitPrice).ToString("N0"))₫</span> &nbsp |&nbsp
+                            <span>Số lượng: </span><span>@subgem.Quantity</span> &nbsp |&nbsp  <span>Giá trị: @((((decimal)subgem.UnitPrice * (decimal)subgem.Quantity).ToString("N0")))₫ </span>
+                        </p>
+
                     }
                 }
                 else
@@ -177,7 +181,7 @@
             <dd class="col-sm-8">
                 @if (Model.FrameVm != null)
                 {
-                    @Html.DisplayFor(model => model.FrameVm.NameFrame) <span>Giá trị: @(((decimal)Model.FrameVm.Weight * (decimal)Model.FrameVm.MaterialVm.Price).ToString("N0"))₫ </span>
+                    @Html.DisplayFor(model => model.FrameVm.NameFrame) <span>&nbsp |&nbsp </span> <span>Giá trị: @(((decimal)Model.FrameVm.Weight * (decimal)Model.FrameVm.MaterialVm.Price).ToString("N0"))₫ </span>
                 }
                 else
                 {

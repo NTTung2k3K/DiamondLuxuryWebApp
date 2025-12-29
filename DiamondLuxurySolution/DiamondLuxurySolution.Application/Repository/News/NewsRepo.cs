@@ -9,6 +9,7 @@ using DiamondLuxurySolution.ViewModel.Models.KnowledgeNewsCategory;
 using DiamondLuxurySolution.ViewModel.Models.News;
 using DiamondLuxurySolution.ViewModel.Models.Slide;
 using DiamondLuxurySolution.ViewModel.Models.User.Staff;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PagedList;
@@ -101,7 +102,7 @@ namespace DiamondLuxurySolution.Application.Repository.News
             news.Title = request.Title;
             news.NewName = request.NewName;
             news.DateModified = DateTime.Now;
-            if(request.Image != null && request.Image.Length > 0)
+            if (request.Image != null && request.Image.Length > 0)
             {
                 var firebaseUrl = await DiamondLuxurySolution.Utilities.Helper.ImageHelper.Upload(request.Image);
                 news.Image = firebaseUrl;
@@ -173,12 +174,12 @@ namespace DiamondLuxurySolution.Application.Repository.News
         public async Task<ApiResult<PageResult<NewsVm>>> ViewNews(ViewNewsRequest request)
         {
 
-            var listNews = _context.News.AsQueryable();
+            var listNews = _context.News.ToList();
             if (request.Keyword != null)
             {
-                listNews = listNews.Where(x => x.NewName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase) || x.Title.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase));
+                listNews = listNews.Where(x => x.NewName.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase) || x.Title.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
             }
-            listNews = listNews.OrderByDescending(x => x.NewName);
+            listNews = listNews.OrderByDescending(x => x.NewName).ToList();
 
 
             int pageIndex = request.pageIndex ?? 1;
@@ -275,19 +276,39 @@ namespace DiamondLuxurySolution.Application.Repository.News
 
                 var NewsVm = new NewsVm()
                 {
-                   NewName=x.NewName,
-                   Description=x.Description,
-                   DateModified=x.DateModified,
-                   DateCreated=x.DateCreated,
-                   Image=x.Image,
-                   NewsId=x.NewsId,
-                   Status=x.Status,
-                   Title=x.Title,
+                    NewName = x.NewName,
+                    Description = x.Description,
+                    DateModified = x.DateModified,
+                    DateCreated = x.DateCreated,
+                    Image = x.Image,
+                    NewsId = x.NewsId,
+                    Status = x.Status,
+                    Title = x.Title,
                     Writer = writer
                 };
                 listKNewslVm.Add(NewsVm);
             }
             return new ApiSuccessResult<List<NewsVm>>(listKNewslVm);
+        }
+
+        public async Task<ApiResult<string>> UploadImageHandler(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return new ApiErrorResult<string>("No file uploaded.");
+            }
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/editor");
+            if (!Directory.Exists(uploadsFolder))
+            {
+                Directory.CreateDirectory(uploadsFolder);
+            }
+            var filePath = Path.Combine(uploadsFolder,Guid.NewGuid() + Path.GetFileName(file.FileName));
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            };
+            var url = $"http://localhost:9000/images/editor/{Path.GetFileName(filePath)}";
+            return new ApiSuccessResult<string>(url,"Success");
         }
     }
 }
