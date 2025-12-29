@@ -1101,6 +1101,61 @@ namespace DiamondLuxurySolution.Application.Repository.User.Staff
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>(true, "Cập nhật đơn hàng thành công");
         }
+
+        public async Task<ApiResult<StaffLoginResponse>> LoginStaffWithResponse(LoginStaffRequest request)
+        {
+            if (string.IsNullOrEmpty(request.UserName.Trim()) || string.IsNullOrEmpty(request.Password.Trim()))
+            {
+                return new ApiErrorResult<StaffLoginResponse>("Tải khoản hoặc mật khẩu không đúng");
+            }
+
+            var user = await _userManager.FindByNameAsync(request.UserName.Trim());
+            if (user == null)
+            {
+                return new ApiErrorResult<StaffLoginResponse>("Tải khoản hoặc mật khẩu không đúng");
+            }
+            var role = await _userManager.GetRolesAsync(user);
+            if (role.Contains(DiamondLuxurySolution.Utilities.Constants.Systemconstant.UserRoleDefault.Customer.ToString()))
+            {
+                return new ApiErrorResult<StaffLoginResponse>("Tải khoản hoặc mật khẩu không đúng");
+            }
+            var userPasswordConfirm = await _userManager.CheckPasswordAsync(user, request.Password.Trim());
+            if (userPasswordConfirm == false)
+            {
+                return new ApiErrorResult<StaffLoginResponse>("Tải khoản hoặc mật khẩu không đúng");
+            }
+            var authClaim = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Name, user.Fullname),
+                new Claim(ClaimTypes.Email,user.Email),
+            };
+            var roles = await _userManager.GetRolesAsync(user);
+            foreach (var item in roles)
+            {
+                authClaim.Add(new Claim(ClaimTypes.Role, item.ToString()));
+            }
+            var authKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuarion["Jwt:Key"]));
+            var token = new JwtSecurityToken(
+                    issuer: _configuarion["Jwt:Issuer"],
+                    audience: _configuarion["Jwt:Audience"],
+                    claims: authClaim,
+                    expires: DateTime.Now.AddHours(1),
+                    signingCredentials: new SigningCredentials(authKey, SecurityAlgorithms.HmacSha512Signature)
+                );
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+            var response = new StaffLoginResponse()
+            {
+                Access_Token = tokenString,
+                Email = user.Email,
+                FullName = user.Fullname,
+                Image = user.Image,
+                StaffId = user.Id
+            };
+
+            var ApiSuccess = new ApiSuccessResult<StaffLoginResponse>(response, "Success");
+
+            return ApiSuccess;
+        }
     }
 
 }

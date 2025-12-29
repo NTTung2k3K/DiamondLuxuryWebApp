@@ -713,7 +713,6 @@
         // Lặp qua các ngày và sản phẩm để tính toán số lượng
         viewProductSale12Days.forEach(function (sale) {
             var formattedDate = new Date(sale.DateSale).toLocaleDateString(); // Format date to locale string
-
             // Khởi tạo mảng số lượng cho ngày nếu chưa tồn tại
             if (!productQuantities[formattedDate]) {
                 productQuantities[formattedDate] = {};
@@ -746,10 +745,14 @@
                 }
             });
         });
-        var categoriesA = Object.keys(productQuantities).map(date => new Date(date).toLocaleDateString());
-
+        var categoriesA = Object.keys(productQuantities).map(date => {
+            var parts = date.split('/');
+            // Đảo ngược các phần tử để chuyển đổi từ DD/MM/YYYY sang MM/DD/YYYY
+            var newDate = `${parts[1]}/${parts[0]}/${parts[2]}`;
+            return new Date(newDate).toLocaleDateString();
+        });
         // End last
-
+        debugger;
 
 
         function formatCurrency(value) {
